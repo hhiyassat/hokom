@@ -1,0 +1,15 @@
+{
+  "package_name": "taaqqul_slot_geometry",
+  "package_version": "0.1.0.dev0",
+  "repository_url": "https://github.com/sonaiso/Taaqol-GPT.git",
+  "commit_sha": "ee56e369fb1e7eb402998c1f73e83642134a0f34",
+  "integration_mode": "git-submodule",
+  "local_patch_count": 0,
+  "license": "Apache-2.0",
+  "python_requirement": ">=3.11",
+  "verified_runtime": "3.12.4",
+  "StrEnum_provider": "enum",
+  "native_taaqol_import": true,
+  "compatibility_gap": null,
+  "recorded_at": "2026-07-18"
+}

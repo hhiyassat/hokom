@@ -12,3 +12,5 @@ build/
 !README.md
 !CONSTITUTION.md
 !REFACTORING_ARCHITECTURE.md
+
+.venv-py312/

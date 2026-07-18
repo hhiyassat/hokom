@@ -1,0 +1,3 @@
+[submodule "vendor/Taaqol-GPT"]
+	path = vendor/Taaqol-GPT
+	url = https://github.com/sonaiso/Taaqol-GPT.git
