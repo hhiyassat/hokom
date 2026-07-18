@@ -1,0 +1,52 @@
+[
+  {
+    "surface": "الْأَطْفَالُ",
+    "directive": "OPEN",
+    "kind": "ROOT_ELIGIBLE"
+  },
+  {
+    "surface": "الشَّجَرَةِ",
+    "directive": "OPEN",
+    "kind": "ROOT_ELIGIBLE"
+  },
+  {
+    "surface": "ضَرَبَ",
+    "directive": "OPEN",
+    "kind": "ROOT_ELIGIBLE"
+  },
+  {
+    "surface": "تَرَكَتْ",
+    "directive": "OPEN",
+    "kind": "ROOT_ELIGIBLE"
+  },
+  {
+    "surface": "يَسْتَطِيعُ",
+    "directive": "OPEN",
+    "kind": "ROOT_ELIGIBLE"
+  },
+  {
+    "surface": "مِنْ",
+    "directive": "BLOCK",
+    "kind": "CLOSED_FUNCTION_WORD"
+  },
+  {
+    "surface": "تَقِي",
+    "directive": "DEFER",
+    "kind": "AMBIGUOUS"
+  },
+  {
+    "surface": "أَنَّهُمْ",
+    "directive": "OPEN",
+    "kind": "ROOT_ELIGIBLE"
+  },
+  {
+    "surface": "فَقَدُوهُ",
+    "directive": "OPEN",
+    "kind": "ROOT_ELIGIBLE"
+  },
+  {
+    "surface": "رَجُلٌ",
+    "directive": "OPEN",
+    "kind": "ROOT_ELIGIBLE"
+  }
+]

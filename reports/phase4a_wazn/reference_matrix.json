@@ -1,0 +1,331 @@
+[
+  {
+    "surface": "ضَرَبَ",
+    "analyzed_host": "ضَرَبَ",
+    "canonical_root": [
+      "ض",
+      "ر",
+      "ب"
+    ],
+    "root_directive": "ACCEPT",
+    "candidate_awzan": [
+      "فَعَلَ"
+    ],
+    "selected_wazn": "فَعَلَ",
+    "wazn_directive": "ACCEPT",
+    "stage_state": "COMPLETED",
+    "inflectional_suffixes": [],
+    "weak_operations": [],
+    "residual_codes": []
+  },
+  {
+    "surface": "قَرَأَ",
+    "analyzed_host": "قَرَأَ",
+    "canonical_root": [
+      "ق",
+      "ر",
+      "ء"
+    ],
+    "root_directive": "ACCEPT",
+    "candidate_awzan": [
+      "فَعَلَ"
+    ],
+    "selected_wazn": "فَعَلَ",
+    "wazn_directive": "ACCEPT",
+    "stage_state": "COMPLETED",
+    "inflectional_suffixes": [],
+    "weak_operations": [],
+    "residual_codes": []
+  },
+  {
+    "surface": "مَدَّ",
+    "analyzed_host": "مَدَّ",
+    "canonical_root": [
+      "م",
+      "د",
+      "د"
+    ],
+    "root_directive": "ACCEPT",
+    "candidate_awzan": [
+      "فَعَلَ"
+    ],
+    "selected_wazn": "فَعَلَ",
+    "wazn_directive": "ACCEPT",
+    "stage_state": "COMPLETED",
+    "inflectional_suffixes": [],
+    "weak_operations": [
+      "op:weak:mudaaf_gemination_idghaam"
+    ],
+    "residual_codes": []
+  },
+  {
+    "surface": "كَتَبَ",
+    "analyzed_host": "كَتَبَ",
+    "canonical_root": [
+      "ك",
+      "ت",
+      "ب"
+    ],
+    "root_directive": "ACCEPT",
+    "candidate_awzan": [
+      "فَعَلَ"
+    ],
+    "selected_wazn": "فَعَلَ",
+    "wazn_directive": "ACCEPT",
+    "stage_state": "COMPLETED",
+    "inflectional_suffixes": [],
+    "weak_operations": [],
+    "residual_codes": []
+  },
+  {
+    "surface": "عَطْفِ",
+    "analyzed_host": "عَطْفِ",
+    "canonical_root": [
+      "ع",
+      "ط",
+      "ف"
+    ],
+    "root_directive": "ACCEPT",
+    "candidate_awzan": [
+      "فَعْل"
+    ],
+    "selected_wazn": "فَعْل",
+    "wazn_directive": "ACCEPT",
+    "stage_state": "COMPLETED",
+    "inflectional_suffixes": [],
+    "weak_operations": [],
+    "residual_codes": []
+  },
+  {
+    "surface": "شِدَّةِ",
+    "analyzed_host": "شِدَّةِ",
+    "canonical_root": [
+      "ش",
+      "د",
+      "د"
+    ],
+    "root_directive": "ACCEPT",
+    "candidate_awzan": [],
+    "selected_wazn": null,
+    "wazn_directive": "DEFER",
+    "stage_state": "DEFERRED",
+    "inflectional_suffixes": [],
+    "weak_operations": [],
+    "residual_codes": [
+      "defer:wazn:unlicensed_but_structural_augment"
+    ]
+  },
+  {
+    "surface": "مَحَبَّةِ",
+    "analyzed_host": "مَحَبَّةِ",
+    "canonical_root": [
+      "ح",
+      "ب",
+      "ب"
+    ],
+    "root_directive": "ACCEPT",
+    "candidate_awzan": [],
+    "selected_wazn": null,
+    "wazn_directive": "DEFER",
+    "stage_state": "DEFERRED",
+    "inflectional_suffixes": [],
+    "weak_operations": [],
+    "residual_codes": [
+      "defer:wazn:unlicensed_but_structural_augment"
+    ]
+  },
+  {
+    "surface": "مَسْرُورَةٌ",
+    "analyzed_host": "مَسْرُورَةٌ",
+    "canonical_root": [
+      "س",
+      "ر",
+      "ر"
+    ],
+    "root_directive": "ACCEPT",
+    "candidate_awzan": [
+      "مَفْعُول"
+    ],
+    "selected_wazn": null,
+    "wazn_directive": "DEFER",
+    "stage_state": "DEFERRED",
+    "inflectional_suffixes": [],
+    "weak_operations": [],
+    "residual_codes": [
+      "defer:wazn:nominal_feminine_requires_licensed_wazn"
+    ]
+  },
+  {
+    "surface": "نَائِمِينَ",
+    "analyzed_host": "نَائِم",
+    "canonical_root": null,
+    "root_directive": "DEFER",
+    "candidate_awzan": [],
+    "selected_wazn": null,
+    "wazn_directive": "DEFER",
+    "stage_state": "NOT_OPENED",
+    "inflectional_suffixes": [],
+    "weak_operations": [],
+    "residual_codes": [
+      "defer:root:x",
+      "defer:wazn:root_candidate_not_resolved"
+    ]
+  },
+  {
+    "surface": "الْأَطْفَالُ",
+    "analyzed_host": "أَطْفَالُ",
+    "canonical_root": [
+      "ط",
+      "ف",
+      "ل"
+    ],
+    "root_directive": "ACCEPT",
+    "candidate_awzan": [],
+    "selected_wazn": null,
+    "wazn_directive": "DEFER",
+    "stage_state": "DEFERRED",
+    "inflectional_suffixes": [],
+    "weak_operations": [],
+    "residual_codes": [
+      "defer:wazn:unlicensed_but_structural_augment"
+    ]
+  },
+  {
+    "surface": "الشَّجَرَةِ",
+    "analyzed_host": "شَجَرَةِ",
+    "canonical_root": [
+      "ش",
+      "ج",
+      "ر"
+    ],
+    "root_directive": "ACCEPT",
+    "candidate_awzan": [
+      "فَعَلَ"
+    ],
+    "selected_wazn": null,
+    "wazn_directive": "DEFER",
+    "stage_state": "DEFERRED",
+    "inflectional_suffixes": [],
+    "weak_operations": [],
+    "residual_codes": [
+      "defer:wazn:nominal_feminine_requires_licensed_wazn"
+    ]
+  },
+  {
+    "surface": "تَرَكَتْهُمْ",
+    "analyzed_host": "تَرَكَتْ",
+    "canonical_root": [
+      "ت",
+      "ر",
+      "ك"
+    ],
+    "root_directive": "ACCEPT",
+    "candidate_awzan": [
+      "فَعَلَ"
+    ],
+    "selected_wazn": "فَعَلَ",
+    "wazn_directive": "ACCEPT",
+    "stage_state": "COMPLETED",
+    "inflectional_suffixes": [
+      "تْ"
+    ],
+    "weak_operations": [],
+    "residual_codes": []
+  },
+  {
+    "surface": "قَالَ",
+    "analyzed_host": "قَالَ",
+    "canonical_root": null,
+    "root_directive": "DEFER",
+    "candidate_awzan": [],
+    "selected_wazn": null,
+    "wazn_directive": "DEFER",
+    "stage_state": "NOT_OPENED",
+    "inflectional_suffixes": [],
+    "weak_operations": [],
+    "residual_codes": [
+      "defer:root:x",
+      "defer:wazn:root_candidate_not_resolved"
+    ]
+  },
+  {
+    "surface": "دَعَا",
+    "analyzed_host": "دَعَا",
+    "canonical_root": null,
+    "root_directive": "DEFER",
+    "candidate_awzan": [],
+    "selected_wazn": null,
+    "wazn_directive": "DEFER",
+    "stage_state": "NOT_OPENED",
+    "inflectional_suffixes": [],
+    "weak_operations": [],
+    "residual_codes": [
+      "defer:root:x",
+      "defer:wazn:root_candidate_not_resolved"
+    ]
+  },
+  {
+    "surface": "وَقَى",
+    "analyzed_host": "وَقَى",
+    "canonical_root": null,
+    "root_directive": "DEFER",
+    "candidate_awzan": [],
+    "selected_wazn": null,
+    "wazn_directive": "DEFER",
+    "stage_state": "NOT_OPENED",
+    "inflectional_suffixes": [],
+    "weak_operations": [],
+    "residual_codes": [
+      "defer:root:x",
+      "defer:wazn:root_candidate_not_resolved"
+    ]
+  },
+  {
+    "surface": "قُلْ",
+    "analyzed_host": "قُلْ",
+    "canonical_root": null,
+    "root_directive": "DEFER",
+    "candidate_awzan": [],
+    "selected_wazn": null,
+    "wazn_directive": "DEFER",
+    "stage_state": "NOT_OPENED",
+    "inflectional_suffixes": [],
+    "weak_operations": [],
+    "residual_codes": [
+      "defer:root:x",
+      "defer:wazn:root_candidate_not_resolved"
+    ]
+  },
+  {
+    "surface": "مِنْ",
+    "analyzed_host": "مِنْ",
+    "canonical_root": null,
+    "root_directive": "BLOCK",
+    "candidate_awzan": [],
+    "selected_wazn": null,
+    "wazn_directive": "BLOCK",
+    "stage_state": "NOT_OPENED",
+    "inflectional_suffixes": [],
+    "weak_operations": [],
+    "residual_codes": [
+      "block:root:x",
+      "block:wazn:root_candidate_blocked"
+    ]
+  },
+  {
+    "surface": "أَنَّهُمْ",
+    "analyzed_host": "أَنَّ",
+    "canonical_root": null,
+    "root_directive": "BLOCK",
+    "candidate_awzan": [],
+    "selected_wazn": null,
+    "wazn_directive": "BLOCK",
+    "stage_state": "NOT_OPENED",
+    "inflectional_suffixes": [],
+    "weak_operations": [],
+    "residual_codes": [
+      "block:root:x",
+      "block:wazn:root_candidate_blocked"
+    ]
+  }
+]

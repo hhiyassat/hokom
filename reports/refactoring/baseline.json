@@ -1,0 +1,27 @@
+{
+  "command": "python3 -m pytest -q tests/ --ignore=tests/integration",
+  "timestamp": "2026-07-15",
+  "collected": 446,
+  "passed": 446,
+  "failed": 0,
+  "skipped": 0,
+  "subtests_passed": 52,
+  "node_ids_file": "reports/refactoring/baseline_ids.txt",
+  "logical_ids_file": "reports/refactoring/baseline_logical_ids.txt",
+  "history": [
+    {
+      "label": "R-0 (PR 3.4+3.5)",
+      "passed": 272,
+      "subtests_passed": 52,
+      "timestamp": "2026-07-15"
+    },
+    {
+      "label": "R-0B (PR 3.7-A+B+fix)",
+      "passed": 446,
+      "subtests_passed": 52,
+      "timestamp": "2026-07-15",
+      "prs_closed": ["PR 3.7-A", "PR 3.7-B", "PR 3.7-fix (AMBIGUOUS→DEFER)"]
+    }
+  ],
+  "note": "node IDs مرتبة أبجديًا في baseline_ids.txt — شرط الإغلاق لكل مرحلة هو diff فارغ مع هذا الملف. baseline_logical_ids.txt للمرحلة R-13T (نقل ملفات الاختبار)."
+}

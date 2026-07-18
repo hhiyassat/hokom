@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+.env
+*.log
+*.csv
+*.txt
+!README.md
+!CONSTITUTION.md
+!REFACTORING_ARCHITECTURE.md

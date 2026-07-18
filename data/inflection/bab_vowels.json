@@ -1,0 +1,18 @@
+{
+  "_comment": "Maps bab_id to (C2 vowel in past, C2 vowel in imperfect)",
+  "BAB_I_NASARA":   {"past": "َ", "imperfect": "ُ", "example_past": "نَصَرَ", "example_imperfect": "يَنْصُرُ"},
+  "BAB_II_DARABA":  {"past": "َ", "imperfect": "ِ", "example_past": "ضَرَبَ", "example_imperfect": "يَضْرِبُ"},
+  "BAB_III_FATAHA": {"past": "َ", "imperfect": "َ", "example_past": "فَتَحَ", "example_imperfect": "يَفْتَحُ"},
+  "BAB_IV_SAMIA":   {"past": "ِ", "imperfect": "َ", "example_past": "سَمِعَ", "example_imperfect": "يَسْمَعُ"},
+  "BAB_V_KARUMA":   {"past": "ُ", "imperfect": "ُ", "example_past": "كَرُمَ", "example_imperfect": "يَكْرُمُ"},
+  "BAB_VI_HASIBA":  {"past": "ِ", "imperfect": "ِ", "example_past": "حَسِبَ", "example_imperfect": "يَحْسِبُ"},
+  "BAB_FORM_II":    {"past": null, "imperfect": null, "note": "wazn template"},
+  "BAB_FORM_III":   {"past": null, "imperfect": null, "note": "wazn template"},
+  "BAB_FORM_IV":    {"past": null, "imperfect": null, "note": "wazn template"},
+  "BAB_FORM_V":     {"past": null, "imperfect": null, "note": "wazn template"},
+  "BAB_FORM_VI":    {"past": null, "imperfect": null, "note": "wazn template"},
+  "BAB_FORM_VII":   {"past": null, "imperfect": null, "note": "wazn template"},
+  "BAB_FORM_VIII":  {"past": null, "imperfect": null, "note": "wazn template"},
+  "BAB_FORM_IX":    {"past": null, "imperfect": null, "note": "wazn template"},
+  "BAB_FORM_X":     {"past": null, "imperfect": null, "note": "wazn template"}
+}

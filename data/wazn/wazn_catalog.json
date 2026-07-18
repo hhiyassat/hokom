@@ -1,0 +1,390 @@
+{
+  "schema": "phase4a-wazn-catalog",
+  "version": "phase4a-1",
+  "note": "Starter, licensed subset of awzan for Phase 4A structural-contract proof. Not an exhaustive Arabic catalog. Do NOT add a wazn solely to make a test pass. Each `template` cell is either a root marker (FA/AIN/LAM/FOURTH) or a licensed ziyadah literal. Vowel tokens: FATHA|DAMMA|KASRA|SUKUN|FINAL(i'rab, ignored)|MATER(long-vowel letter, no short vowel).",
+  "awzan": [
+    {
+      "wazn_id": "FA_A_LA",
+      "pattern": "فَعَلَ",
+      "root_arity": 3,
+      "family": "triliteral_bare_verb",
+      "applicable_surface_classes": ["verb"],
+      "root_slots": ["FA", "AIN", "LAM"],
+      "licensed_ziyadah_slots": [],
+      "licensed_shadda_behavior": ["geminate_root_idghaam"],
+      "licensed_weak_operations": ["mudaaf_gemination"],
+      "evidence_rank": 10,
+      "source": "phase4a_starter",
+      "template": [
+        {"role": "FA",  "vowel": "FATHA"},
+        {"role": "AIN", "vowel": "FATHA"},
+        {"role": "LAM", "vowel": "FINAL"}
+      ]
+    },
+    {
+      "wazn_id": "FA_I_LA",
+      "pattern": "فَعِلَ",
+      "root_arity": 3,
+      "family": "triliteral_bare_verb",
+      "applicable_surface_classes": ["verb"],
+      "root_slots": ["FA", "AIN", "LAM"],
+      "licensed_ziyadah_slots": [],
+      "licensed_shadda_behavior": [],
+      "licensed_weak_operations": [],
+      "evidence_rank": 12,
+      "source": "phase4a_starter",
+      "template": [
+        {"role": "FA",  "vowel": "FATHA"},
+        {"role": "AIN", "vowel": "KASRA"},
+        {"role": "LAM", "vowel": "FINAL"}
+      ]
+    },
+    {
+      "wazn_id": "FA_U_LA",
+      "pattern": "فَعُلَ",
+      "root_arity": 3,
+      "family": "triliteral_bare_verb",
+      "applicable_surface_classes": ["verb"],
+      "root_slots": ["FA", "AIN", "LAM"],
+      "licensed_ziyadah_slots": [],
+      "licensed_shadda_behavior": [],
+      "licensed_weak_operations": [],
+      "evidence_rank": 14,
+      "source": "phase4a_starter",
+      "template": [
+        {"role": "FA",  "vowel": "FATHA"},
+        {"role": "AIN", "vowel": "DAMMA"},
+        {"role": "LAM", "vowel": "FINAL"}
+      ]
+    },
+    {
+      "wazn_id": "FA3L",
+      "pattern": "فَعْل",
+      "root_arity": 3,
+      "family": "triliteral_noun",
+      "applicable_surface_classes": ["noun"],
+      "root_slots": ["FA", "AIN", "LAM"],
+      "licensed_ziyadah_slots": [],
+      "licensed_shadda_behavior": [],
+      "licensed_weak_operations": [],
+      "evidence_rank": 20,
+      "source": "phase4a_starter",
+      "template": [
+        {"role": "FA",  "vowel": "FATHA"},
+        {"role": "AIN", "vowel": "SUKUN"},
+        {"role": "LAM", "vowel": "FINAL"}
+      ]
+    },
+    {
+      "wazn_id": "FI3L",
+      "pattern": "فِعْل",
+      "root_arity": 3,
+      "family": "triliteral_noun",
+      "applicable_surface_classes": ["noun"],
+      "root_slots": ["FA", "AIN", "LAM"],
+      "licensed_ziyadah_slots": [],
+      "licensed_shadda_behavior": [],
+      "licensed_weak_operations": [],
+      "evidence_rank": 21,
+      "source": "phase4a_starter",
+      "template": [
+        {"role": "FA",  "vowel": "KASRA"},
+        {"role": "AIN", "vowel": "SUKUN"},
+        {"role": "LAM", "vowel": "FINAL"}
+      ]
+    },
+    {
+      "wazn_id": "FU3L",
+      "pattern": "فُعْل",
+      "root_arity": 3,
+      "family": "triliteral_noun",
+      "applicable_surface_classes": ["noun"],
+      "root_slots": ["FA", "AIN", "LAM"],
+      "licensed_ziyadah_slots": [],
+      "licensed_shadda_behavior": [],
+      "licensed_weak_operations": [],
+      "evidence_rank": 22,
+      "source": "phase4a_starter",
+      "template": [
+        {"role": "FA",  "vowel": "DAMMA"},
+        {"role": "AIN", "vowel": "SUKUN"},
+        {"role": "LAM", "vowel": "FINAL"}
+      ]
+    },
+    {
+      "wazn_id": "FA3IL",
+      "pattern": "فَاعِل",
+      "root_arity": 3,
+      "family": "active_participle",
+      "applicable_surface_classes": ["noun"],
+      "root_slots": ["FA", "AIN", "LAM"],
+      "licensed_ziyadah_slots": ["alif_after_fa"],
+      "licensed_shadda_behavior": [],
+      "licensed_weak_operations": [],
+      "evidence_rank": 25,
+      "source": "phase4a_starter",
+      "template": [
+        {"role": "FA",      "vowel": "FATHA"},
+        {"role": "ZIYADAH", "letter": "ا", "vowel": "MATER"},
+        {"role": "AIN",     "vowel": "KASRA"},
+        {"role": "LAM",     "vowel": "FINAL"}
+      ]
+    },
+    {
+      "wazn_id": "MAF3UL",
+      "pattern": "مَفْعُول",
+      "root_arity": 3,
+      "family": "passive_participle",
+      "applicable_surface_classes": ["noun"],
+      "root_slots": ["FA", "AIN", "LAM"],
+      "licensed_ziyadah_slots": ["mim_prefix", "waw_before_lam"],
+      "licensed_shadda_behavior": [],
+      "licensed_weak_operations": [],
+      "evidence_rank": 26,
+      "source": "phase4a_starter",
+      "template": [
+        {"role": "ZIYADAH", "letter": "م", "vowel": "FATHA"},
+        {"role": "FA",      "vowel": "SUKUN"},
+        {"role": "AIN",     "vowel": "DAMMA"},
+        {"role": "ZIYADAH", "letter": "و", "vowel": "MATER"},
+        {"role": "LAM",     "vowel": "FINAL"}
+      ]
+    },
+    {
+      "wazn_id": "FA33AL",
+      "pattern": "فَعَّال",
+      "root_arity": 3,
+      "family": "intensive_noun",
+      "applicable_surface_classes": ["noun"],
+      "root_slots": ["FA", "AIN", "LAM"],
+      "licensed_ziyadah_slots": ["ain_gemination", "alif_before_lam"],
+      "licensed_shadda_behavior": ["ziyadah_gemination"],
+      "licensed_weak_operations": [],
+      "evidence_rank": 30,
+      "source": "phase4a_starter",
+      "template": [
+        {"role": "FA",      "vowel": "FATHA"},
+        {"role": "AIN",     "vowel": "SUKUN"},
+        {"role": "ZIYADAH", "geminate_of": "AIN", "vowel": "FATHA"},
+        {"role": "ZIYADAH", "letter": "ا", "vowel": "MATER"},
+        {"role": "LAM",     "vowel": "FINAL"}
+      ]
+    },
+    {
+      "wazn_id": "AF3AL",
+      "pattern": "أَفْعَل",
+      "root_arity": 3,
+      "family": "form_IV_verb",
+      "applicable_surface_classes": ["verb"],
+      "root_slots": ["FA", "AIN", "LAM"],
+      "licensed_ziyadah_slots": ["hamza_prefix"],
+      "licensed_shadda_behavior": [],
+      "licensed_weak_operations": [],
+      "evidence_rank": 32,
+      "source": "phase4a_starter",
+      "template": [
+        {"role": "ZIYADAH", "letter": "ء", "vowel": "FATHA"},
+        {"role": "FA",      "vowel": "SUKUN"},
+        {"role": "AIN",     "vowel": "FATHA"},
+        {"role": "LAM",     "vowel": "FINAL"}
+      ]
+    },
+    {
+      "wazn_id": "FA33ALA",
+      "pattern": "فَعَّل",
+      "root_arity": 3,
+      "family": "form_II_verb",
+      "applicable_surface_classes": ["verb"],
+      "root_slots": ["FA", "AIN", "LAM"],
+      "licensed_ziyadah_slots": ["ain_gemination"],
+      "licensed_shadda_behavior": ["ziyadah_gemination"],
+      "licensed_weak_operations": [],
+      "evidence_rank": 31,
+      "source": "phase4a_starter",
+      "template": [
+        {"role": "FA",      "vowel": "FATHA"},
+        {"role": "AIN",     "vowel": "SUKUN"},
+        {"role": "ZIYADAH", "geminate_of": "AIN", "vowel": "FATHA"},
+        {"role": "LAM",     "vowel": "FINAL"}
+      ]
+    },
+    {
+      "wazn_id": "FA3ALA",
+      "pattern": "فَاعَل",
+      "root_arity": 3,
+      "family": "form_III_verb",
+      "applicable_surface_classes": ["verb"],
+      "root_slots": ["FA", "AIN", "LAM"],
+      "licensed_ziyadah_slots": ["alif_after_fa"],
+      "licensed_shadda_behavior": [],
+      "licensed_weak_operations": [],
+      "evidence_rank": 33,
+      "source": "phase4a_starter",
+      "template": [
+        {"role": "FA",      "vowel": "FATHA"},
+        {"role": "ZIYADAH", "letter": "ا", "vowel": "MATER"},
+        {"role": "AIN",     "vowel": "FATHA"},
+        {"role": "LAM",     "vowel": "FINAL"}
+      ]
+    },
+    {
+      "wazn_id": "INFA3ALA",
+      "pattern": "اِنْفَعَل",
+      "root_arity": 3,
+      "family": "form_VII_verb",
+      "applicable_surface_classes": ["verb"],
+      "root_slots": ["FA", "AIN", "LAM"],
+      "licensed_ziyadah_slots": ["wasl_alif_prefix", "nun_prefix"],
+      "licensed_shadda_behavior": [],
+      "licensed_weak_operations": [],
+      "evidence_rank": 40,
+      "source": "phase4a_starter",
+      "template": [
+        {"role": "ZIYADAH", "letter": "ا", "vowel": "KASRA"},
+        {"role": "ZIYADAH", "letter": "ن", "vowel": "SUKUN"},
+        {"role": "FA",      "vowel": "FATHA"},
+        {"role": "AIN",     "vowel": "FATHA"},
+        {"role": "LAM",     "vowel": "FINAL"}
+      ]
+    },
+    {
+      "wazn_id": "IFTA3ALA",
+      "pattern": "اِفْتَعَل",
+      "root_arity": 3,
+      "family": "form_VIII_verb",
+      "applicable_surface_classes": ["verb"],
+      "root_slots": ["FA", "AIN", "LAM"],
+      "licensed_ziyadah_slots": ["wasl_alif_prefix", "ta_infix"],
+      "licensed_shadda_behavior": [],
+      "licensed_weak_operations": [],
+      "evidence_rank": 41,
+      "source": "phase4a_starter",
+      "template": [
+        {"role": "ZIYADAH", "letter": "ا", "vowel": "KASRA"},
+        {"role": "FA",      "vowel": "SUKUN"},
+        {"role": "ZIYADAH", "letter": "ت", "vowel": "FATHA"},
+        {"role": "AIN",     "vowel": "FATHA"},
+        {"role": "LAM",     "vowel": "FINAL"}
+      ]
+    },
+    {
+      "wazn_id": "ISTAF3ALA",
+      "pattern": "اِسْتَفْعَل",
+      "root_arity": 3,
+      "family": "form_X_verb",
+      "applicable_surface_classes": ["verb"],
+      "root_slots": ["FA", "AIN", "LAM"],
+      "licensed_ziyadah_slots": ["wasl_alif_prefix", "sin_prefix", "ta_prefix"],
+      "licensed_shadda_behavior": [],
+      "licensed_weak_operations": [],
+      "evidence_rank": 42,
+      "source": "phase4a_starter",
+      "template": [
+        {"role": "ZIYADAH", "letter": "ا", "vowel": "KASRA"},
+        {"role": "ZIYADAH", "letter": "س", "vowel": "SUKUN"},
+        {"role": "ZIYADAH", "letter": "ت", "vowel": "FATHA"},
+        {"role": "FA",      "vowel": "SUKUN"},
+        {"role": "AIN",     "vowel": "FATHA"},
+        {"role": "LAM",     "vowel": "FINAL"}
+      ]
+    },
+    {
+      "wazn_id": "TAFA33ALA",
+      "pattern": "تَفَعَّل",
+      "root_arity": 3,
+      "family": "form_V_verb",
+      "applicable_surface_classes": ["verb"],
+      "root_slots": ["FA", "AIN", "LAM"],
+      "licensed_ziyadah_slots": ["ta_prefix", "ain_gemination"],
+      "licensed_shadda_behavior": ["ziyadah_gemination"],
+      "licensed_weak_operations": [],
+      "evidence_rank": 43,
+      "source": "phase4a_starter",
+      "template": [
+        {"role": "ZIYADAH", "letter": "ت", "vowel": "FATHA"},
+        {"role": "FA",      "vowel": "FATHA"},
+        {"role": "AIN",     "vowel": "SUKUN"},
+        {"role": "ZIYADAH", "geminate_of": "AIN", "vowel": "FATHA"},
+        {"role": "LAM",     "vowel": "FINAL"}
+      ]
+    },
+    {
+      "wazn_id": "TAFA3ALA",
+      "pattern": "تَفَاعَل",
+      "root_arity": 3,
+      "family": "form_VI_verb",
+      "applicable_surface_classes": ["verb"],
+      "root_slots": ["FA", "AIN", "LAM"],
+      "licensed_ziyadah_slots": ["ta_prefix", "alif_after_fa"],
+      "licensed_shadda_behavior": [],
+      "licensed_weak_operations": [],
+      "evidence_rank": 44,
+      "source": "phase4a_starter",
+      "template": [
+        {"role": "ZIYADAH", "letter": "ت", "vowel": "FATHA"},
+        {"role": "FA",      "vowel": "FATHA"},
+        {"role": "ZIYADAH", "letter": "ا", "vowel": "MATER"},
+        {"role": "AIN",     "vowel": "FATHA"},
+        {"role": "LAM",     "vowel": "FINAL"}
+      ]
+    },
+    {
+      "wazn_id": "MAF3AL",
+      "pattern": "مَفْعَل",
+      "root_arity": 3,
+      "family": "noun_of_place_or_masdar",
+      "applicable_surface_classes": ["noun"],
+      "root_slots": ["FA", "AIN", "LAM"],
+      "licensed_ziyadah_slots": ["mim_prefix"],
+      "licensed_shadda_behavior": [],
+      "licensed_weak_operations": [],
+      "evidence_rank": 34,
+      "source": "phase4a_starter",
+      "template": [
+        {"role": "ZIYADAH", "letter": "م", "vowel": "FATHA"},
+        {"role": "FA",      "vowel": "SUKUN"},
+        {"role": "AIN",     "vowel": "FATHA"},
+        {"role": "LAM",     "vowel": "FINAL"}
+      ]
+    },
+    {
+      "wazn_id": "MAF3IL",
+      "pattern": "مَفْعِل",
+      "root_arity": 3,
+      "family": "noun_of_place_or_masdar",
+      "applicable_surface_classes": ["noun"],
+      "root_slots": ["FA", "AIN", "LAM"],
+      "licensed_ziyadah_slots": ["mim_prefix"],
+      "licensed_shadda_behavior": [],
+      "licensed_weak_operations": [],
+      "evidence_rank": 35,
+      "source": "phase4a_starter",
+      "template": [
+        {"role": "ZIYADAH", "letter": "م", "vowel": "FATHA"},
+        {"role": "FA",      "vowel": "SUKUN"},
+        {"role": "AIN",     "vowel": "KASRA"},
+        {"role": "LAM",     "vowel": "FINAL"}
+      ]
+    },
+    {
+      "wazn_id": "MIF3AL",
+      "pattern": "مِفْعَال",
+      "root_arity": 3,
+      "family": "instrument_noun",
+      "applicable_surface_classes": ["noun"],
+      "root_slots": ["FA", "AIN", "LAM"],
+      "licensed_ziyadah_slots": ["mim_prefix", "alif_before_lam"],
+      "licensed_shadda_behavior": [],
+      "licensed_weak_operations": [],
+      "evidence_rank": 36,
+      "source": "phase4a_starter",
+      "template": [
+        {"role": "ZIYADAH", "letter": "م", "vowel": "KASRA"},
+        {"role": "FA",      "vowel": "SUKUN"},
+        {"role": "AIN",     "vowel": "FATHA"},
+        {"role": "ZIYADAH", "letter": "ا", "vowel": "MATER"},
+        {"role": "LAM",     "vowel": "FINAL"}
+      ]
+    }
+  ]
+}

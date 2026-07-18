@@ -1,0 +1,510 @@
+{
+"status": "success",
+"data": [
+{
+"id": 1,
+"preposition": "بِ",
+"meaning": "*الإلصاق حقيقياً",
+"example": "أَمْسَكْتُ بِيَدِكَ",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 2,
+"preposition": "بِ",
+"meaning": "* الإلصاق مجازياً",
+"example": "مَرَرْتُ بِدَارِكَ",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 3,
+"preposition": "بِ",
+"meaning": "* الاستعانة",
+"example": "أَكَلْتُ بِالْمِلْعَقَةِ",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 4,
+"preposition": "بِ",
+"meaning": "* السببية والتعليل",
+"example": "بِظُلْمِكَ قُوطِعْتُ",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 5,
+"preposition": "بِ",
+"meaning": "* التعدية",
+"example": "ذَهَبْتَ بِسِحْرِكَ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 6,
+"preposition": "بِ",
+"meaning": "* العوض أو المقابلة",
+"example": "خُذِ الْكِتَابَ بِالدَّفْتَرِ أَوْ بِدِينَارٍ",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 7,
+"preposition": "بِ",
+"meaning": "* البدل \"أي بلا مقابلة\"",
+"example": "لَيْتَ لَهُ بِمَالِهِ عَافِيَةً.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 8,
+"preposition": "بِ",
+"meaning": "* الظرفية",
+"example": "مَرَرْتُ بِدِمَشْقَ بِاللَّيْلِ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 9,
+"preposition": "بِ",
+"meaning": "* المصاحبة",
+"example": "اِذْهَبْ بِسَلَامٍ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 10,
+"preposition": "بِ",
+"meaning": "* القسم",
+"example": "أَقْسَمْتُ بِاللَّهِ، بِاللَّهِ لَأُسَافِرَنَّ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 11,
+"preposition": "تَ",
+"meaning": "تختص التاء ( تَاءُ الْقَسَمِ ) بثلاث كلمات هي: \"تالله، تربَ الكعبة، تربيِّ\" فهي أقل حروف الجر استعمالاً.",
+"example": "قوله تعالى:{ تَاللَّهِ لَتُسْأَلُنَّ عَمَّا كُنتُمْ تَفْتَرُونَ }.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 12,
+"preposition": "وَ",
+"meaning": "*أما الواو ( وَاوُ الْقَسَمِ) فتدخل على مقسم به ظاهر مثل: \"والله وفي القرآن مثل:﴿وَالشَّمْسِ وَضُحَاهَا﴾",
+"example": "﴿وَالشَّمْسِ وَضُحَاهَا﴾",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 13,
+"preposition": "كَ",
+"meaning": "* غالباً تأتي بمعنى (التشبيه)",
+"example": "صَرَخَ كَالْأَسَدِ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 14,
+"preposition": "كَ",
+"meaning": "* تأتي أحياناً بمعنى (على)",
+"example": "كُنْ كَمَا أَنْتَ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 15,
+"preposition": "كَ",
+"meaning": "* تأتي للتعليل",
+"example": "قوله تعالى: (وَاذْكُرُوهُ كَما هَداكُمْ).",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 16,
+"preposition": "عَنْ",
+"meaning": "المجاوزة والبعد",
+"example": "سِرْتُ عَنْ قَرْيَتِي رَاغِبًا عَنْهَا.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 17,
+"preposition": "عَنْ",
+"meaning": "* تأتي بمعنى بعد",
+"example": "سَأَصِلُ عَمَّا قَلِيلٍ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 18,
+"preposition": "عَنْ",
+"meaning": "* للبدلية",
+"example": "أَجِبْ عَنِّي.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 19,
+"preposition": "عن",
+"meaning": "",
+"example": "",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 20,
+"preposition": "فِي ْ",
+"meaning": "الظرفية حقيقة",
+"example": "أَقَمْتُ فِي الْعِيدِ فِي دِمَشْقَ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 21,
+"preposition": "فِي ْ",
+"meaning": "* الظرفية المجازية",
+"example": "(وَلَكُمْ فِي الْقِصَاصِ حَيَاةٌ).",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 22,
+"preposition": "فِيْ",
+"meaning": "* للتعليل",
+"example": "دَخَلَتِ النَّارَ امْرَأَةٌ فِي هِرَّةٍ حَبَسَتْهَا.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 23,
+"preposition": "مُذْ وَ مُنْذُ",
+"meaning": "* تكونان حرفي جر تفيدان ابتداء الغاية إن كان الزمان ماضياً",
+"example": "لَمْ أُكَلِّمْهُ مُنْذُ ثَلَاثَةِ أَيَّامٍ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 24,
+"preposition": "مُذْ وَ مُنْذُ",
+"meaning": "* تكونان بمعنى \"في\" إن كان الزمان حاضراً",
+"example": "مَا سَمِعْتُ صَوْتَكَ مُذْ يَوْمِي هَذَا.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 25,
+"preposition": "لِ",
+"meaning": "* الاختصاص",
+"example": "اَلْحَمْدُ لِلَّهِ، اَلْكِتَابُ لِي، اَلسَّرْجُ لِلْفَرَسِ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 26,
+"preposition": "لِ",
+"meaning": "* التعليل",
+"example": "سَافَرْتُ لِلِاسْتِجْمَامِ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 27,
+"preposition": "لِ",
+"meaning": "* انتهاء الغاية",
+"example": "عُدْتُ لِدَارِي، أُخِّرْتُ لِأَجَلٍ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 28,
+"preposition": "لِ",
+"meaning": "* الصيرورة",
+"example": "لِدُوا لِلْمَوْتِ وَابْنُوا لِلْخَرَابِ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 29,
+"preposition": "لِ",
+"meaning": "* الظرفية",
+"example": "صوموا لرؤيته (أي وقت رؤيته)، مضى لسبيله.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 30,
+"preposition": "لَ",
+"meaning": "* الاستغاثة",
+"example": "يَا لَلْأَغْنِيَاءِ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 31,
+"preposition": "لَ",
+"meaning": "* التعجب",
+"example": "يَا لَلرَّوْعَةِ!",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 32,
+"preposition": "مِنَ",
+"meaning": "* معناها العام: ابتداء الغاية",
+"example": "سِرْتُ مِنَ الدَّارِ إِلَى الْمَدْرَسَةِ وَغِبْتُ مِنَ الضُّحَى إِلَى الظُّهْرِ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 33,
+"preposition": "مِنَ",
+"meaning": "* التبعيض",
+"example": "خُذْ مِنَ الطَّعَامِ لِبَيْتِكَ، أَنْفِقُوا مِمَّا تُحِبُّونَ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 34,
+"preposition": "مِنْ",
+"meaning": "* البيان لجنس ما قبلها",
+"example": "مَا عِنْدَكَ مِنْ مَالٍ فَأَحْضِرْهُ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 35,
+"preposition": "مِنَ",
+"meaning": "* البدلية",
+"example": "لَا يُغْنِيكَ الْجَدَلُ مِنَ الصِّدْقِ شَيْئًا.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 36,
+"preposition": "مِنْ",
+"meaning": "* التعليل",
+"example": "مِنْ تَقْصِيرِكَ خَسِرْتَ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 37,
+"preposition": "إِلَى",
+"meaning": "* انتهاء الغاية الزمانية أو المكانية",
+"example": "سَهِرْتُ إِلَى الْفَجْرِ، سِرْتُ إِلَى الْقَرْيَةِ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 38,
+"preposition": "إِلَى",
+"meaning": "* تأتي بمعنى (مع)",
+"example": "اَلذَّوْدُ إِلَى الذَّوْدِ إِبِلٌ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 39,
+"preposition": "إِلَى",
+"meaning": "* تأتي بمعنى (عند)",
+"example": "﴿ مَنْ أَنْصَارِي إِلَى اللَّهِ ﴾.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 40,
+"preposition": "رُبَّ",
+"meaning": "* التكثير",
+"example": "رُبَّ رَمْيَةٍ مِنْ غَيْرِ رَامٍ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 41,
+"preposition": "رُبَّ",
+"meaning": "* التقليل",
+"example": "رُبَّ طَالِبٍ مُهْمِلٍ يَنْجَحُ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 42,
+"preposition": "عَلَى",
+"meaning": "* معناها العام الاستعلاء حقيقياً",
+"example": "اَلْكِتَابُ عَلَى الرَّفِّ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 43,
+"preposition": "عَلَى",
+"meaning": "* الاستعلاء مجازيّاً",
+"example": "لَكَ عَلَيَّ فَضْلٌ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 44,
+"preposition": "عَلَى",
+"meaning": "* التعليل",
+"example": "أَكْرِمْنِي عَلَى نَفْعِي لَهُ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 45,
+"preposition": "عَلَى",
+"meaning": "* بمعنى (في)",
+"example": "قَوْلُهُ تَعَالَى: (وَدَخَلَ الْمَدِينَةَ عَلَى حِينِ غَفْلَةٍ مِنْ أَهْلِهَا).",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 46,
+"preposition": "عَلَى",
+"meaning": "* بمعنى (مع)",
+"example": "أُحِبُّهُ عَلَى كَسَلِهِ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 47,
+"preposition": "عَلَى",
+"meaning": "* الاستدراك",
+"example": "خَسِرْتُ الصَّفْقَةَ عَلَى أَنِّي غَيْرُ يَائِسٍ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 48,
+"preposition": "حَتَّى",
+"meaning": "* انتهاء الغاية ( الزمانية والمكانية )",
+"example": "سَهِرْتُ حَتَّى الصَّبَاحِ، سَأَمْشِي حَتَّى الْبَيْتِ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 49,
+"preposition": "حَتَّى",
+"meaning": "* تأتي للتعليل (مرادفة اللام)",
+"example": "اِجْتَهِدْ حَتَّى تَفُوزَ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 50,
+"preposition": "خَلَا",
+"meaning": "تعني الاستثناء",
+"example": "جَاءَ الطُّلَّابُ خَلَا أَحْمَدَ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 51,
+"preposition": "كَيْ",
+"meaning": "التعليل",
+"example": "جِئْتُ كَيْ أَتَعَلَّمَ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 52,
+"preposition": "لَعَلَّ",
+"meaning": "التّرجّي ، حرف جر زائد",
+"example": "لَعَلَّ اللَّهِ فَضَّلَكُمْ عَلَيْنَا.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 53,
+"preposition": "مَتَى",
+"meaning": "الابتداء (بمعنى \"من\")وجع الاستشهاد: استعمال \"متى\" حرف جر بمعنى \"من\" على لغة هذيل.",
+"example": "أَخْرِجْهَا مَتَى كُمِّهِ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 54,
+"preposition": "لَوْلَا",
+"meaning": "حرف امتناع لوجود ، أي: لو لم يكن هذا الشيء لحدث هذا الشيء. يرى بعض النحاة، مثل سيبويه، أن \"لولا\" حرف جر إذا اتصلت بضمير، مثل: مِثْلُ \"لَوْلَايَ\" وَ \"لَوْلَاهُ\"، \"لَوْلَاكَ\".",
+"example": "لَوْلَاكَ لَمْ يَعْرِضْ لِأَحْسَابِنَا حُسْنٌ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 55,
+"preposition": "عَدَا",
+"meaning": "تعني الاستثناء",
+"example": "جَاءَ الطُّلَّابُ عَدَا أَحْمَدَ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+},
+{
+"id": 56,
+"preposition": "حَاشَا",
+"meaning": "تعني الاستثناء",
+"example": "جَاءَ الطُّلَّابُ حَاشَا أَحْمَدَ.",
+"syntactic_effect": null,
+"semantic_logical": null,
+"al_bab_althani_id": "الباب الثانب - المبنيات"
+}
+],
+"total": 56
+}

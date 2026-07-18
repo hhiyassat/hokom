@@ -1,0 +1,64 @@
+[
+  {
+    "surface": "الْأَطْفَالُ",
+    "change": "article_stripped",
+    "before_host": "الْأَطْفَالُ",
+    "after_host": "أَطْفَالُ"
+  },
+  {
+    "surface": "الْأَطْفَالُ",
+    "new_field": "morphology_path",
+    "value": "verbal_root_path"
+  },
+  {
+    "surface": "الشَّجَرَةِ",
+    "change": "article_stripped",
+    "before_host": "الشَّجَرَةِ",
+    "after_host": "شَّجَرَةِ"
+  },
+  {
+    "surface": "الشَّجَرَةِ",
+    "new_field": "morphology_path",
+    "value": "nominal_morphology_path"
+  },
+  {
+    "surface": "ضَرَبَ",
+    "new_field": "morphology_path",
+    "value": "verbal_root_path"
+  },
+  {
+    "surface": "تَرَكَتْ",
+    "new_field": "morphology_path",
+    "value": "verbal_root_path"
+  },
+  {
+    "surface": "يَسْتَطِيعُ",
+    "new_field": "morphology_path",
+    "value": "verbal_root_path"
+  },
+  {
+    "surface": "مِنْ",
+    "new_field": "morphology_path",
+    "value": "functional_path"
+  },
+  {
+    "surface": "تَقِي",
+    "new_field": "morphology_path",
+    "value": "ambiguous_morphology_path"
+  },
+  {
+    "surface": "أَنَّهُمْ",
+    "new_field": "morphology_path",
+    "value": "verbal_root_path"
+  },
+  {
+    "surface": "فَقَدُوهُ",
+    "new_field": "morphology_path",
+    "value": "verbal_root_path"
+  },
+  {
+    "surface": "رَجُلٌ",
+    "new_field": "morphology_path",
+    "value": "nominal_morphology_path"
+  }
+]

@@ -1,0 +1,831 @@
+[
+  {
+    "surface": "ضَرَبَ",
+    "candidates": [
+      {
+        "wazn_id": "FA_A_LA",
+        "wazn_pattern": "فَعَلَ",
+        "wazn_family": "triliteral_bare_verb",
+        "alignment": [
+          {
+            "surface_segment": "ضَ",
+            "normalized_segment": "ضَ",
+            "surface_index": 0,
+            "root_slot": "ف",
+            "root_identity": "ض",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          },
+          {
+            "surface_segment": "رَ",
+            "normalized_segment": "رَ",
+            "surface_index": 2,
+            "root_slot": "ع",
+            "root_identity": "ر",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          },
+          {
+            "surface_segment": "بَ",
+            "normalized_segment": "بَ",
+            "surface_index": 4,
+            "root_slot": "ل",
+            "root_identity": "ب",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          }
+        ],
+        "root_slots_complete": true,
+        "ziyadah_slots": [],
+        "deleted_root_slots": [],
+        "weak_operations": [],
+        "confidence_rank": 10,
+        "evidence_ids": [
+          "wazn:FA_A_LA:aligned"
+        ],
+        "residual_codes": []
+      }
+    ],
+    "selected": {
+      "wazn_id": "FA_A_LA",
+      "wazn_pattern": "فَعَلَ",
+      "wazn_family": "triliteral_bare_verb",
+      "alignment": [
+        {
+          "surface_segment": "ضَ",
+          "normalized_segment": "ضَ",
+          "surface_index": 0,
+          "root_slot": "ف",
+          "root_identity": "ض",
+          "alignment_kind": "root_radical",
+          "operation_id": null,
+          "evidence_ids": [],
+          "trace_ids": []
+        },
+        {
+          "surface_segment": "رَ",
+          "normalized_segment": "رَ",
+          "surface_index": 2,
+          "root_slot": "ع",
+          "root_identity": "ر",
+          "alignment_kind": "root_radical",
+          "operation_id": null,
+          "evidence_ids": [],
+          "trace_ids": []
+        },
+        {
+          "surface_segment": "بَ",
+          "normalized_segment": "بَ",
+          "surface_index": 4,
+          "root_slot": "ل",
+          "root_identity": "ب",
+          "alignment_kind": "root_radical",
+          "operation_id": null,
+          "evidence_ids": [],
+          "trace_ids": []
+        }
+      ],
+      "root_slots_complete": true,
+      "ziyadah_slots": [],
+      "deleted_root_slots": [],
+      "weak_operations": [],
+      "confidence_rank": 10,
+      "evidence_ids": [
+        "wazn:FA_A_LA:aligned"
+      ],
+      "residual_codes": []
+    }
+  },
+  {
+    "surface": "قَرَأَ",
+    "candidates": [
+      {
+        "wazn_id": "FA_A_LA",
+        "wazn_pattern": "فَعَلَ",
+        "wazn_family": "triliteral_bare_verb",
+        "alignment": [
+          {
+            "surface_segment": "قَ",
+            "normalized_segment": "قَ",
+            "surface_index": 0,
+            "root_slot": "ف",
+            "root_identity": "ق",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          },
+          {
+            "surface_segment": "رَ",
+            "normalized_segment": "رَ",
+            "surface_index": 2,
+            "root_slot": "ع",
+            "root_identity": "ر",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          },
+          {
+            "surface_segment": "ءَ",
+            "normalized_segment": "ءَ",
+            "surface_index": 4,
+            "root_slot": "ل",
+            "root_identity": "ء",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          }
+        ],
+        "root_slots_complete": true,
+        "ziyadah_slots": [],
+        "deleted_root_slots": [],
+        "weak_operations": [],
+        "confidence_rank": 10,
+        "evidence_ids": [
+          "wazn:FA_A_LA:aligned"
+        ],
+        "residual_codes": []
+      }
+    ],
+    "selected": {
+      "wazn_id": "FA_A_LA",
+      "wazn_pattern": "فَعَلَ",
+      "wazn_family": "triliteral_bare_verb",
+      "alignment": [
+        {
+          "surface_segment": "قَ",
+          "normalized_segment": "قَ",
+          "surface_index": 0,
+          "root_slot": "ف",
+          "root_identity": "ق",
+          "alignment_kind": "root_radical",
+          "operation_id": null,
+          "evidence_ids": [],
+          "trace_ids": []
+        },
+        {
+          "surface_segment": "رَ",
+          "normalized_segment": "رَ",
+          "surface_index": 2,
+          "root_slot": "ع",
+          "root_identity": "ر",
+          "alignment_kind": "root_radical",
+          "operation_id": null,
+          "evidence_ids": [],
+          "trace_ids": []
+        },
+        {
+          "surface_segment": "ءَ",
+          "normalized_segment": "ءَ",
+          "surface_index": 4,
+          "root_slot": "ل",
+          "root_identity": "ء",
+          "alignment_kind": "root_radical",
+          "operation_id": null,
+          "evidence_ids": [],
+          "trace_ids": []
+        }
+      ],
+      "root_slots_complete": true,
+      "ziyadah_slots": [],
+      "deleted_root_slots": [],
+      "weak_operations": [],
+      "confidence_rank": 10,
+      "evidence_ids": [
+        "wazn:FA_A_LA:aligned"
+      ],
+      "residual_codes": []
+    }
+  },
+  {
+    "surface": "مَدَّ",
+    "candidates": [
+      {
+        "wazn_id": "FA_A_LA",
+        "wazn_pattern": "فَعَلَ",
+        "wazn_family": "triliteral_bare_verb",
+        "alignment": [
+          {
+            "surface_segment": "مَ",
+            "normalized_segment": "مَ",
+            "surface_index": 0,
+            "root_slot": "ف",
+            "root_identity": "م",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          },
+          {
+            "surface_segment": "دْ",
+            "normalized_segment": "دْ",
+            "surface_index": 2,
+            "root_slot": "ع",
+            "root_identity": "د",
+            "alignment_kind": "root_radical",
+            "operation_id": "op:weak:mudaaf_gemination_idghaam",
+            "evidence_ids": [],
+            "trace_ids": []
+          },
+          {
+            "surface_segment": "دَ",
+            "normalized_segment": "دَ",
+            "surface_index": 4,
+            "root_slot": "ل",
+            "root_identity": "د",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          }
+        ],
+        "root_slots_complete": true,
+        "ziyadah_slots": [],
+        "deleted_root_slots": [],
+        "weak_operations": [
+          "op:weak:mudaaf_gemination_idghaam"
+        ],
+        "confidence_rank": 10,
+        "evidence_ids": [
+          "wazn:FA_A_LA:aligned"
+        ],
+        "residual_codes": []
+      }
+    ],
+    "selected": {
+      "wazn_id": "FA_A_LA",
+      "wazn_pattern": "فَعَلَ",
+      "wazn_family": "triliteral_bare_verb",
+      "alignment": [
+        {
+          "surface_segment": "مَ",
+          "normalized_segment": "مَ",
+          "surface_index": 0,
+          "root_slot": "ف",
+          "root_identity": "م",
+          "alignment_kind": "root_radical",
+          "operation_id": null,
+          "evidence_ids": [],
+          "trace_ids": []
+        },
+        {
+          "surface_segment": "دْ",
+          "normalized_segment": "دْ",
+          "surface_index": 2,
+          "root_slot": "ع",
+          "root_identity": "د",
+          "alignment_kind": "root_radical",
+          "operation_id": "op:weak:mudaaf_gemination_idghaam",
+          "evidence_ids": [],
+          "trace_ids": []
+        },
+        {
+          "surface_segment": "دَ",
+          "normalized_segment": "دَ",
+          "surface_index": 4,
+          "root_slot": "ل",
+          "root_identity": "د",
+          "alignment_kind": "root_radical",
+          "operation_id": null,
+          "evidence_ids": [],
+          "trace_ids": []
+        }
+      ],
+      "root_slots_complete": true,
+      "ziyadah_slots": [],
+      "deleted_root_slots": [],
+      "weak_operations": [
+        "op:weak:mudaaf_gemination_idghaam"
+      ],
+      "confidence_rank": 10,
+      "evidence_ids": [
+        "wazn:FA_A_LA:aligned"
+      ],
+      "residual_codes": []
+    }
+  },
+  {
+    "surface": "كَتَبَ",
+    "candidates": [
+      {
+        "wazn_id": "FA_A_LA",
+        "wazn_pattern": "فَعَلَ",
+        "wazn_family": "triliteral_bare_verb",
+        "alignment": [
+          {
+            "surface_segment": "كَ",
+            "normalized_segment": "كَ",
+            "surface_index": 0,
+            "root_slot": "ف",
+            "root_identity": "ك",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          },
+          {
+            "surface_segment": "تَ",
+            "normalized_segment": "تَ",
+            "surface_index": 2,
+            "root_slot": "ع",
+            "root_identity": "ت",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          },
+          {
+            "surface_segment": "بَ",
+            "normalized_segment": "بَ",
+            "surface_index": 4,
+            "root_slot": "ل",
+            "root_identity": "ب",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          }
+        ],
+        "root_slots_complete": true,
+        "ziyadah_slots": [],
+        "deleted_root_slots": [],
+        "weak_operations": [],
+        "confidence_rank": 10,
+        "evidence_ids": [
+          "wazn:FA_A_LA:aligned"
+        ],
+        "residual_codes": []
+      }
+    ],
+    "selected": {
+      "wazn_id": "FA_A_LA",
+      "wazn_pattern": "فَعَلَ",
+      "wazn_family": "triliteral_bare_verb",
+      "alignment": [
+        {
+          "surface_segment": "كَ",
+          "normalized_segment": "كَ",
+          "surface_index": 0,
+          "root_slot": "ف",
+          "root_identity": "ك",
+          "alignment_kind": "root_radical",
+          "operation_id": null,
+          "evidence_ids": [],
+          "trace_ids": []
+        },
+        {
+          "surface_segment": "تَ",
+          "normalized_segment": "تَ",
+          "surface_index": 2,
+          "root_slot": "ع",
+          "root_identity": "ت",
+          "alignment_kind": "root_radical",
+          "operation_id": null,
+          "evidence_ids": [],
+          "trace_ids": []
+        },
+        {
+          "surface_segment": "بَ",
+          "normalized_segment": "بَ",
+          "surface_index": 4,
+          "root_slot": "ل",
+          "root_identity": "ب",
+          "alignment_kind": "root_radical",
+          "operation_id": null,
+          "evidence_ids": [],
+          "trace_ids": []
+        }
+      ],
+      "root_slots_complete": true,
+      "ziyadah_slots": [],
+      "deleted_root_slots": [],
+      "weak_operations": [],
+      "confidence_rank": 10,
+      "evidence_ids": [
+        "wazn:FA_A_LA:aligned"
+      ],
+      "residual_codes": []
+    }
+  },
+  {
+    "surface": "عَطْفِ",
+    "candidates": [
+      {
+        "wazn_id": "FA3L",
+        "wazn_pattern": "فَعْل",
+        "wazn_family": "triliteral_noun",
+        "alignment": [
+          {
+            "surface_segment": "عَ",
+            "normalized_segment": "عَ",
+            "surface_index": 0,
+            "root_slot": "ف",
+            "root_identity": "ع",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          },
+          {
+            "surface_segment": "طْ",
+            "normalized_segment": "طْ",
+            "surface_index": 2,
+            "root_slot": "ع",
+            "root_identity": "ط",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          },
+          {
+            "surface_segment": "فِ",
+            "normalized_segment": "فِ",
+            "surface_index": 4,
+            "root_slot": "ل",
+            "root_identity": "ف",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          }
+        ],
+        "root_slots_complete": true,
+        "ziyadah_slots": [],
+        "deleted_root_slots": [],
+        "weak_operations": [],
+        "confidence_rank": 20,
+        "evidence_ids": [
+          "wazn:FA3L:aligned"
+        ],
+        "residual_codes": []
+      }
+    ],
+    "selected": {
+      "wazn_id": "FA3L",
+      "wazn_pattern": "فَعْل",
+      "wazn_family": "triliteral_noun",
+      "alignment": [
+        {
+          "surface_segment": "عَ",
+          "normalized_segment": "عَ",
+          "surface_index": 0,
+          "root_slot": "ف",
+          "root_identity": "ع",
+          "alignment_kind": "root_radical",
+          "operation_id": null,
+          "evidence_ids": [],
+          "trace_ids": []
+        },
+        {
+          "surface_segment": "طْ",
+          "normalized_segment": "طْ",
+          "surface_index": 2,
+          "root_slot": "ع",
+          "root_identity": "ط",
+          "alignment_kind": "root_radical",
+          "operation_id": null,
+          "evidence_ids": [],
+          "trace_ids": []
+        },
+        {
+          "surface_segment": "فِ",
+          "normalized_segment": "فِ",
+          "surface_index": 4,
+          "root_slot": "ل",
+          "root_identity": "ف",
+          "alignment_kind": "root_radical",
+          "operation_id": null,
+          "evidence_ids": [],
+          "trace_ids": []
+        }
+      ],
+      "root_slots_complete": true,
+      "ziyadah_slots": [],
+      "deleted_root_slots": [],
+      "weak_operations": [],
+      "confidence_rank": 20,
+      "evidence_ids": [
+        "wazn:FA3L:aligned"
+      ],
+      "residual_codes": []
+    }
+  },
+  {
+    "surface": "شِدَّةِ",
+    "candidates": [],
+    "selected": null
+  },
+  {
+    "surface": "مَحَبَّةِ",
+    "candidates": [],
+    "selected": null
+  },
+  {
+    "surface": "مَسْرُورَةٌ",
+    "candidates": [
+      {
+        "wazn_id": "MAF3UL",
+        "wazn_pattern": "مَفْعُول",
+        "wazn_family": "passive_participle",
+        "alignment": [
+          {
+            "surface_segment": "مَ",
+            "normalized_segment": "مَ",
+            "surface_index": 0,
+            "root_slot": null,
+            "root_identity": null,
+            "alignment_kind": "ziyadah",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          },
+          {
+            "surface_segment": "سْ",
+            "normalized_segment": "سْ",
+            "surface_index": 2,
+            "root_slot": "ف",
+            "root_identity": "س",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          },
+          {
+            "surface_segment": "رُ",
+            "normalized_segment": "رُ",
+            "surface_index": 4,
+            "root_slot": "ع",
+            "root_identity": "ر",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          },
+          {
+            "surface_segment": "و",
+            "normalized_segment": "و",
+            "surface_index": 6,
+            "root_slot": null,
+            "root_identity": null,
+            "alignment_kind": "ziyadah",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          },
+          {
+            "surface_segment": "رَ",
+            "normalized_segment": "رَ",
+            "surface_index": 7,
+            "root_slot": "ل",
+            "root_identity": "ر",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          }
+        ],
+        "root_slots_complete": true,
+        "ziyadah_slots": [
+          "ziyadah:م@0",
+          "ziyadah:و@3"
+        ],
+        "deleted_root_slots": [],
+        "weak_operations": [],
+        "confidence_rank": 26,
+        "evidence_ids": [
+          "wazn:MAF3UL:aligned"
+        ],
+        "residual_codes": []
+      }
+    ],
+    "selected": null
+  },
+  {
+    "surface": "نَائِمِينَ",
+    "candidates": [],
+    "selected": null
+  },
+  {
+    "surface": "الْأَطْفَالُ",
+    "candidates": [],
+    "selected": null
+  },
+  {
+    "surface": "الشَّجَرَةِ",
+    "candidates": [
+      {
+        "wazn_id": "FA_A_LA",
+        "wazn_pattern": "فَعَلَ",
+        "wazn_family": "triliteral_bare_verb",
+        "alignment": [
+          {
+            "surface_segment": "شَ",
+            "normalized_segment": "شَ",
+            "surface_index": 0,
+            "root_slot": "ف",
+            "root_identity": "ش",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          },
+          {
+            "surface_segment": "جَ",
+            "normalized_segment": "جَ",
+            "surface_index": 2,
+            "root_slot": "ع",
+            "root_identity": "ج",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          },
+          {
+            "surface_segment": "رَ",
+            "normalized_segment": "رَ",
+            "surface_index": 4,
+            "root_slot": "ل",
+            "root_identity": "ر",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          }
+        ],
+        "root_slots_complete": true,
+        "ziyadah_slots": [],
+        "deleted_root_slots": [],
+        "weak_operations": [],
+        "confidence_rank": 10,
+        "evidence_ids": [
+          "wazn:FA_A_LA:aligned"
+        ],
+        "residual_codes": []
+      }
+    ],
+    "selected": null
+  },
+  {
+    "surface": "تَرَكَتْهُمْ",
+    "candidates": [
+      {
+        "wazn_id": "FA_A_LA",
+        "wazn_pattern": "فَعَلَ",
+        "wazn_family": "triliteral_bare_verb",
+        "alignment": [
+          {
+            "surface_segment": "تَ",
+            "normalized_segment": "تَ",
+            "surface_index": 0,
+            "root_slot": "ف",
+            "root_identity": "ت",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          },
+          {
+            "surface_segment": "رَ",
+            "normalized_segment": "رَ",
+            "surface_index": 2,
+            "root_slot": "ع",
+            "root_identity": "ر",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          },
+          {
+            "surface_segment": "كَ",
+            "normalized_segment": "كَ",
+            "surface_index": 4,
+            "root_slot": "ل",
+            "root_identity": "ك",
+            "alignment_kind": "root_radical",
+            "operation_id": null,
+            "evidence_ids": [],
+            "trace_ids": []
+          },
+          {
+            "surface_segment": "تْ",
+            "normalized_segment": "تْ",
+            "surface_index": 6,
+            "root_slot": null,
+            "root_identity": null,
+            "alignment_kind": "inflectional",
+            "operation_id": "op:inflection:taa_taanith_sakina",
+            "evidence_ids": [],
+            "trace_ids": []
+          }
+        ],
+        "root_slots_complete": true,
+        "ziyadah_slots": [],
+        "deleted_root_slots": [],
+        "weak_operations": [],
+        "confidence_rank": 10,
+        "evidence_ids": [
+          "wazn:FA_A_LA:aligned"
+        ],
+        "residual_codes": []
+      }
+    ],
+    "selected": {
+      "wazn_id": "FA_A_LA",
+      "wazn_pattern": "فَعَلَ",
+      "wazn_family": "triliteral_bare_verb",
+      "alignment": [
+        {
+          "surface_segment": "تَ",
+          "normalized_segment": "تَ",
+          "surface_index": 0,
+          "root_slot": "ف",
+          "root_identity": "ت",
+          "alignment_kind": "root_radical",
+          "operation_id": null,
+          "evidence_ids": [],
+          "trace_ids": []
+        },
+        {
+          "surface_segment": "رَ",
+          "normalized_segment": "رَ",
+          "surface_index": 2,
+          "root_slot": "ع",
+          "root_identity": "ر",
+          "alignment_kind": "root_radical",
+          "operation_id": null,
+          "evidence_ids": [],
+          "trace_ids": []
+        },
+        {
+          "surface_segment": "كَ",
+          "normalized_segment": "كَ",
+          "surface_index": 4,
+          "root_slot": "ل",
+          "root_identity": "ك",
+          "alignment_kind": "root_radical",
+          "operation_id": null,
+          "evidence_ids": [],
+          "trace_ids": []
+        },
+        {
+          "surface_segment": "تْ",
+          "normalized_segment": "تْ",
+          "surface_index": 6,
+          "root_slot": null,
+          "root_identity": null,
+          "alignment_kind": "inflectional",
+          "operation_id": "op:inflection:taa_taanith_sakina",
+          "evidence_ids": [],
+          "trace_ids": []
+        }
+      ],
+      "root_slots_complete": true,
+      "ziyadah_slots": [],
+      "deleted_root_slots": [],
+      "weak_operations": [],
+      "confidence_rank": 10,
+      "evidence_ids": [
+        "wazn:FA_A_LA:aligned"
+      ],
+      "residual_codes": []
+    }
+  },
+  {
+    "surface": "قَالَ",
+    "candidates": [],
+    "selected": null
+  },
+  {
+    "surface": "دَعَا",
+    "candidates": [],
+    "selected": null
+  },
+  {
+    "surface": "وَقَى",
+    "candidates": [],
+    "selected": null
+  },
+  {
+    "surface": "قُلْ",
+    "candidates": [],
+    "selected": null
+  },
+  {
+    "surface": "مِنْ",
+    "candidates": [],
+    "selected": null
+  },
+  {
+    "surface": "أَنَّهُمْ",
+    "candidates": [],
+    "selected": null
+  }
+]

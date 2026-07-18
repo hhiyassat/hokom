@@ -1,0 +1,1123 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+hokom_pipeline.py — خط أنابيب الحكم الكامل
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+المراحل:
+  1. tokenizer           → تجزئة النص، فصل الـ clitics، تنظيف الترقيم
+  2. normalizer          → ال التعريف + الشدة
+  3. Unicode Candidate   → هل الحرف من الـ 25 أو حروف العلة؟
+  4. Character Licensing → دور الحرف: C أو VL
+  5. Diacritic Licensing → هل الحركات مرخصة؟
+  6. Cell Construction   → ترميز الخلية: C | CV | V
+  7. Slot Engineering    → توزيع على الأنماط الستة → ACCEPT | DEFER | BLOCK
+
+الاستخدام:
+  python hokom_pipeline.py
+  python hokom_pipeline.py "وَالْمُلُوكُ إِذَا دَخَلُوا"
+"""
+
+import sys
+from tokenizer    import tokenize, words_only
+from normalizer   import normalize
+from syllabifier  import parse_phones, syllabify, word_gate, GATE_ICON
+from licensing    import license_phone
+from mabni_layer         import process_mabni, MabniBoundary, MabniOpen, MabniBlocked
+from mabniyat_attachment import recognize_token
+
+W = 80
+
+STAGE_WIDTH = 22
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# الحكم الكامل على كلمة واحدة
+# ══════════════════════════════════════════════════════════════════════════════
+
+def hokom(word: str) -> dict:
+    """
+    أجرِ جميع المراحل على كلمة واحدة.
+    أعِد dict شامل بنتيجة كل مرحلة.
+
+    نموذج التمثيل الرباعي:
+      input_surface      — الرمز كما وصل (ثابت)
+      canonical_surface  — الهوية المعجمية (= input_surface حاليًا)
+      normalized_surface — الشكل الداخلي (بعد normalize(): شدة + همزة)
+      structural_encoding — أنماط الـ slots (CVC | CV | …)
+    """
+    # ── التمثيل الرباعي ───────────────────────────────────────────────────────
+    input_surface      = word
+    canonical_surface  = word                  # سياسة محافظة: لا تعديل على الهوية
+    normalized_surface = normalize(word)
+
+    # ── 2. Parse → phones ────────────────────────────────────────────────────
+    phones      = parse_phones(normalized_surface)
+    real_phones = [p for p in phones if p.char != ' ']
+
+    # ── 3-6. Licensing (بوابات الترخيص) ──────────────────────────────────────
+    licensing_results = []
+    licensing_blocked = []
+
+    for p in real_phones:
+        r = license_phone(p.char, p.diacritics)
+        licensing_results.append(r)
+        if not r['passed']:
+            licensing_blocked.append(r['note'])
+
+    # ── 7. Slot Engineering ───────────────────────────────────────────────────
+    if licensing_blocked:
+        return {
+            'original':          word,
+            'input_surface':     input_surface,
+            'canonical_surface': canonical_surface,
+            'normalized_surface': normalized_surface,
+            'normalized':        normalized_surface,   # backward compat
+            'stage':             'licensing',
+            'licensing':         licensing_results,
+            'slots':             [],
+            'verdict':           'BLOCK',
+            'violations':        licensing_blocked,
+        }
+
+    slots   = syllabify(phones)
+    verdict, word_viols = word_gate(slots)
+
+    # ── P5: Mabni Lookup ─────────────────────────────────────────────────────
+    mabni = process_mabni(input_surface, normalized_surface, slots, verdict, word_viols)
+
+    # ── P5.2: Attached Mabniyat Detection ────────────────────────────────────
+    attachment = recognize_token(normalized_surface, verdict,
+                                original_surface=input_surface) if isinstance(mabni, MabniOpen) else None
+
+    # ── Pre-Root Decision (طبقة ما قبل الجذر) ────────────────────────────────
+    # تُشغَّل بعد P5 فقط عند MabniOpen — تُقرِّر ما إذا كان مسار الجذر مفتوحًا.
+    # تُعيد PreRootDecision أو None عند الفشل.
+    pre_root = None
+    if isinstance(mabni, MabniOpen):
+        _seg_v   = attachment.segmentation_verdict if attachment else None
+        _route_v = attachment.host_route           if attachment else None
+
+        # وضع MABNI_BOUNDARY المستقل (هِيَ، هُوَ، ...): المضيف نفسه مبني —
+        # التحليل ذهب إلى DAL، لا حاجة لطبقة ما قبل الجذر.
+        if _seg_v == 'NOT_SEGMENTED' and _route_v == 'MABNI_BOUNDARY':
+            pre_root = None
+        else:
+            # P5 المُجزَّأ: أرسل المضيف المتبقي (لا السطح الأصلي الكامل) إلى Pre-Root.
+            # تَرَكَتْهُمْ: P5 يُعطي host='تَرَكَتْ' → Pre-Root يحلل 'تَرَكَتْ'.
+            # بدون هذا: Pre-Root يحلل 'تَرَكَتْهُمْ' (خطأ — الهاء+الميم ليست جذرًا).
+            _p5_host = (
+                attachment.host_surface
+                if attachment and _seg_v == 'SEGMENTED' and attachment.host_surface
+                else input_surface
+            )
+            # Fix 4: Restore lemma vowel after WAW_AL_JAMAA stripping.
+            # When واو الجماعة is stripped from a past-tense verb (فَقَدُوهُ → فَقَدُ),
+            # the host retains the damma from the plural paradigm. Restore to fatha
+            # so the morphology classifier recognises the verbal form, not nominal.
+            if (attachment and _seg_v == 'SEGMENTED' and _p5_host
+                    and _p5_host.endswith('ُ')):   # ends in damma (ُ)
+                _waw_stripped = any(
+                    sp.mabni_id == 'ATTACHED_PRONOUN_WAW_AL_JAMAA'
+                    for sp in attachment.attached_mabniyat
+                )
+                if _waw_stripped:
+                    _p5_host = _p5_host[:-1] + 'َ'   # replace damma → fatha
+            try:
+                from pipeline.pre_root.pre_root_decision import assess_pre_root
+                pre_root = assess_pre_root(_p5_host, p4_verdict=verdict)
+            except Exception:
+                pre_root = None
+
+    # ── Root Host Refinement (تنقية المضيف الطرفية) ──────────────────────────
+    # تُشغَّل بين PreRoot والمحرك المحلي عند OPEN/DEFER — تُزيل اللواحق الطرفية
+    # اليقينية (تاء التأنيث الماضية، التاء المربوطة).
+    # لا ترفع DEFER، ولا تعمل عند BLOCK.
+    root_refinement = None
+    if pre_root is not None and pre_root.root_path_directive in ('OPEN', 'DEFER'):
+        try:
+            from pipeline.p2_projection.root_host_refinement import refine_root_host
+            root_refinement = refine_root_host(
+                pre_root.host_surface,
+                morphology_path    = pre_root.morphology_path.value,
+                pre_root_directive = pre_root.root_path_directive,
+            )
+        except Exception:
+            root_refinement = None
+
+    # ── P3 RootCandidate — المحرك المحلي (HOKOM_ROOT_ENGINE) ─────────────────
+    # يستبدل HR2S بالكامل. يُستدعى عند OPEN فقط بالمضيف المنقَّح.
+    # BLOCK/DEFER من PreRoot → not_opened مباشرة بلا استدعاء المحرك.
+    root_projection   = None
+    root_candidate    = None
+    augmented_analysis = None   # AugmentedRootAnalysis | None
+    if pre_root is not None:
+        try:
+            from pipeline.p2_projection.root_projection import RootProjection
+            from pipeline.p3_candidate.root_candidate import RootCandidate
+            from pipeline.p3_candidate.root_resolution_orchestrator import resolve_root_pipeline
+            from pipeline.p2_augmented.augmented_host_refinement import analyze_augmented_host
+
+            _directive = pre_root.root_path_directive
+
+            if _directive == 'OPEN':
+                # المضيف المنقَّح (بعد إزالة اللواحق الطرفية) هو المدخل للمحرك.
+                _resolved_host = (
+                    root_refinement.refined_host
+                    if root_refinement is not None and root_refinement.directive == 'OPEN'
+                    else pre_root.host_surface
+                )
+
+                # ── محاولة AugmentedHostRefinement أولاً ──────────────────────
+                # يكتشف أفعال المزيد (Form II–X) ويستخلص الجذر الثلاثي مباشرةً.
+                # إذا نجح → نتجاوز المحرك الثلاثي. وإلا → المسار الثلاثي كالمعتاد.
+                augmented_analysis = analyze_augmented_host(
+                    refined_host    = _resolved_host,
+                    original_host   = pre_root.host_surface,
+                    morphology_path = pre_root.morphology_path.value,
+                    evidence_ids    = pre_root.evidence_ids,
+                    trace_ids       = pre_root.trace_ids,
+                )
+
+                if augmented_analysis is not None:
+                    # ── مسار فعل مزيد: بناء RootCandidate مباشرةً ──────────
+                    import types as _types
+                    _aug_profile = {
+                        'source_engine': 'HOKOM_AUGMENTED_ENGINE',
+                        'form_family':   augmented_analysis.form_family,
+                        'trilateral_root': list(augmented_analysis.trilateral_root),
+                        'confidence':    augmented_analysis.confidence,
+                    }
+                    _resolution_ns = _types.SimpleNamespace(
+                        analyzed_host  = _resolved_host,
+                        directive      = 'ACCEPT',
+                        canonical_root = augmented_analysis.trilateral_root,
+                        root_profile   = _aug_profile,
+                        evidence_ids   = augmented_analysis.evidence_ids,
+                        trace_ids      = augmented_analysis.trace_ids,
+                        residual_codes = augmented_analysis.residual_codes,
+                    )
+                    root_projection = RootProjection.from_root_resolution(
+                        _resolution_ns,
+                        input_surface = pre_root.input_surface,
+                    )
+                    root_candidate = RootCandidate.from_projection(root_projection)
+
+                else:
+                    # ── المسار الثلاثي الأصلي ─────────────────────────────────
+                    _rc_local = resolve_root_pipeline(
+                        original_host      = pre_root.host_surface,
+                        refined_host       = _resolved_host,
+                        pre_root_directive = 'OPEN',
+                        morphology_path    = pre_root.morphology_path.value,
+                        evidence_ids       = pre_root.evidence_ids,
+                        trace_ids          = pre_root.trace_ids,
+                    )
+                    # from_root_resolution يتوقع .analyzed_host (duck-typed).
+                    # RootCandidate يحمل نفس المعلومات بـ host_surface.
+                    import types as _types
+                    _resolution_ns = _types.SimpleNamespace(
+                        analyzed_host  = _resolved_host,
+                        directive      = _rc_local.directive,
+                        canonical_root = _rc_local.canonical_root,
+                        root_profile   = _rc_local.root_profile,
+                        evidence_ids   = _rc_local.evidence_ids,
+                        trace_ids      = _rc_local.trace_ids,
+                        residual_codes = _rc_local.residual_codes,
+                    )
+                    root_projection = RootProjection.from_root_resolution(
+                        _resolution_ns,
+                        input_surface = pre_root.input_surface,
+                    )
+                    root_candidate = RootCandidate.from_projection(root_projection)
+
+            elif _directive in ('BLOCK', 'DEFER'):
+                root_projection = RootProjection.not_opened(
+                    input_surface = pre_root.input_surface,
+                    analyzed_host = pre_root.host_surface,
+                    directive     = _directive,
+                    evidence_ids  = pre_root.evidence_ids,
+                    trace_ids     = pre_root.trace_ids,
+                )
+                root_candidate = RootCandidate.from_projection(root_projection)
+
+        except Exception:
+            root_projection   = None
+            root_candidate    = None
+            augmented_analysis = None
+
+    # ── Phase 4A — WaznProjection عبر الأوركسترا ─────────────────────────────
+    # يُستدعى دائمًا إن وُجد root_candidate — حتى BLOCK/DEFER (تُنتج NOT_OPENED).
+    #
+    # مسار قصير للأفعال المزيدة (Form II–X):
+    #   إذا كان augmented_analysis موجودًا، فالوزن معروف مباشرة من عائلة الصيغة.
+    #   نتجاوز WaznHypothesis ونبني Phase4AResult مباشرةً.
+    phase4a_result = None
+    if root_candidate is not None:
+        try:
+            if augmented_analysis is not None:
+                # ── مسار فعل مزيد: الوزن معروف مباشرة ──────────────────────
+                from pipeline.p4_wazn.augmented_wazn import build_augmented_phase4a
+                phase4a_result = build_augmented_phase4a(
+                    augmented_analysis,
+                    root_candidate,
+                    root_refinement=root_refinement,
+                )
+            else:
+                # ── المسار الثلاثي الأصلي ────────────────────────────────────
+                from pipeline.p4_wazn.phase4a_orchestrator import project_wazn_with_relicensing
+                phase4a_result = project_wazn_with_relicensing(
+                    root_candidate,
+                    root_refinement=root_refinement,
+                )
+        except Exception:
+            phase4a_result = None
+
+    # ── Phase 4B — BabProjection ──────────────────────────────────────────────
+    # Fix 5/6: Pass morphology_path so nominal words get NOT_APPLICABLE in Bab.
+    phase4b_result = None
+    if phase4a_result is not None and phase4a_result.final_directive == 'ACCEPT':
+        try:
+            from pipeline.p4_bab.phase4b_orchestrator import project_bab_with_licensing
+            _morphology_path = (
+                pre_root.morphology_path.value if pre_root is not None else None
+            )
+            phase4b_result = project_bab_with_licensing(
+                phase4a_result,
+                root_refinement=root_refinement,
+                morphology_path=_morphology_path,
+            )
+        except Exception:
+            phase4b_result = None
+
+    # ── Phase 4C — MasdarProjection ───────────────────────────────────────────
+    phase4c_result = None
+    if phase4a_result is not None and phase4a_result.final_directive == 'ACCEPT':
+        try:
+            from pipeline.p4_masdar.phase4c_orchestrator import project_masdar_with_licensing
+            phase4c_result = project_masdar_with_licensing(
+                phase4a_result,
+                phase4b_result=phase4b_result,
+                root_refinement=root_refinement,
+            )
+        except Exception:
+            phase4c_result = None
+
+    # ── Phase 4D — MushtaqProjection ─────────────────────────────────────────
+    phase4d_result = None
+    if phase4a_result is not None and phase4a_result.final_directive == 'ACCEPT':
+        try:
+            from pipeline.p4_mushtaqat.phase4d_orchestrator import project_mushtaqat_with_licensing
+            phase4d_result = project_mushtaqat_with_licensing(
+                phase4a_result,
+                phase4b_result=phase4b_result,
+                phase4c_result=phase4c_result,
+                root_refinement=root_refinement,
+            )
+        except Exception:
+            phase4d_result = None
+
+    # ── حقول الملخص ─────────────────────────────────────────────────────────
+    # final_root: الجذر النهائي المُرخَّص
+    _prc = getattr(phase4a_result, 'promoted_root_candidate', None) if phase4a_result else None
+    _rc  = root_candidate
+    if _prc is not None:
+        _final_root = getattr(_prc, 'canonical_root', None)
+    elif _rc is not None:
+        _final_root = getattr(_rc, 'canonical_root', None)
+    else:
+        _final_root = None
+
+    # final_wazn, final_form, final_masdar
+    _final_wazn    = getattr(phase4a_result, 'final_wazn', None) if phase4a_result else None
+    _final_form    = getattr(phase4b_result, 'final_bab',  None) if phase4b_result else None
+    _final_masdar  = getattr(phase4c_result, 'final_masdar', None) if phase4c_result else None
+    _final_masdar_pattern = getattr(phase4c_result, 'final_masdar_pattern', None) if phase4c_result else None
+
+    # accepted_mushtaqat: tuple of (type, pattern) or {}
+    _accepted_mushtaqat = getattr(phase4d_result, 'accepted_mushtaqat', ()) if phase4d_result else ()
+
+    # active and resolved residuals
+    _active_residuals   = _collect_active_residuals(phase4a_result, phase4b_result, phase4c_result, phase4d_result)
+    _resolved_residuals = _collect_resolved_residuals(phase4a_result, phase4b_result)
+
+    # ── Phase 5 — Paradigm/Inflection ────────────────────────────────────────
+    # يُشغَّل دائمًا (حتى عند غياب الجذر) لاستخراج السمات التصريفية من السطح.
+    phase5_result    = None
+    inflectional_form = None
+    try:
+        from pipeline.p5_inflection.phase5_orchestrator import project_inflection_with_licensing
+        # Phase 5 always analyses the full normalized surface for tense/PNG features.
+        # Attached pronouns are detected separately inside the orchestrator via `attachment`.
+        _p5_surface = normalized_surface
+        _p5_morphpath = (
+            pre_root.morphology_path.value if pre_root is not None else None
+        )
+        phase5_result = project_inflection_with_licensing(
+            surface       = _p5_surface,
+            root          = _final_root,
+            bab_id        = _final_form,
+            form_family   = getattr(augmented_analysis, 'form_family', None) if augmented_analysis else None,
+            wazn_id       = _final_wazn,
+            morphology_path = _p5_morphpath,
+            phase4a_result  = phase4a_result,
+            phase4b_result  = phase4b_result,
+            attachment      = attachment,
+        )
+        inflectional_form = phase5_result.inflectional_form if phase5_result else None
+    except Exception:
+        phase5_result     = None
+        inflectional_form = None
+
+    # ── حقول الملخص Phase 5 ───────────────────────────────────────────────────
+    _paradigm_id  = (phase5_result.paradigm_candidate.paradigm_id
+                     if phase5_result and phase5_result.paradigm_candidate else None)
+    _tense_aspect = inflectional_form.tense_aspect if inflectional_form else None
+    _mood         = inflectional_form.mood         if inflectional_form else None
+    _voice        = inflectional_form.voice        if inflectional_form else None
+    _person       = inflectional_form.person       if inflectional_form else None
+    _number       = inflectional_form.number       if inflectional_form else None
+    _gender       = inflectional_form.gender       if inflectional_form else None
+    _lemma_surface = inflectional_form.lemma_surface if inflectional_form else None
+
+    return {
+        'original':            word,
+        'input_surface':       input_surface,
+        'canonical_surface':   canonical_surface,
+        'normalized_surface':  normalized_surface,
+        'normalized':          normalized_surface,   # backward compat
+        'stage':               'slot_engineering',
+        'licensing':           licensing_results,
+        'slots':               slots,
+        'verdict':             verdict,
+        'violations':          word_viols,
+        'mabni':               mabni,
+        'attachment':          attachment,
+        'pre_root':            pre_root,
+        'root_refinement':     root_refinement,
+        'augmented_analysis':  augmented_analysis,
+        'root_projection':     root_projection,
+        'root_candidate':      root_candidate,
+        'phase4a_result':      phase4a_result,
+        'phase4b_result':      phase4b_result,
+        'phase4c_result':      phase4c_result,
+        'phase4d_result':      phase4d_result,
+        'phase5_result':       phase5_result,
+        'inflectional_form':   inflectional_form,
+        # ── حقول الملخص ──────────────────────────────────────────────────
+        'final_root':              _final_root,
+        'final_wazn':              _final_wazn,
+        'final_form':              _final_form,
+        'final_masdar':            _final_masdar,
+        'final_masdar_pattern':    _final_masdar_pattern,
+        'accepted_mushtaqat':      _accepted_mushtaqat,
+        'active_residuals':        _active_residuals,
+        'resolved_residuals':      _resolved_residuals,
+        # ── حقول Phase 5 ──────────────────────────────────────────────────
+        'paradigm_id':   _paradigm_id,
+        'tense_aspect':  _tense_aspect,
+        'mood':          _mood,
+        'voice':         _voice,
+        'person':        _person,
+        'number':        _number,
+        'gender':        _gender,
+        'lemma_surface': _lemma_surface,
+    }
+
+
+def _collect_active_residuals(
+    phase4a_result=None,
+    phase4b_result=None,
+    phase4c_result=None,
+    phase4d_result=None,
+) -> tuple:
+    """
+    اجمع الرموز التحفظية النشطة (غير المحلولة) من جميع مراحل Phase 4.
+
+    الرموز المحلولة (resolved) تُستبعَد:
+      - defer:root:quadriliteral_beyond_scope → يُحلَّل عند relicensing ACCEPT.
+    """
+    all_res: list = []
+
+    for result in (phase4a_result, phase4b_result, phase4c_result, phase4d_result):
+        if result is None:
+            continue
+        res = tuple(getattr(result, 'residual_codes', ()) or ())
+        all_res.extend(res)
+
+    # ازِل المكررات مع حفظ الترتيب
+    seen: dict = {}
+    for r in all_res:
+        seen[r] = None
+
+    return tuple(seen.keys())
+
+
+def _collect_resolved_residuals(
+    phase4a_result=None,
+    phase4b_result=None,
+) -> tuple:
+    """
+    اجمع الرموز التحفظية المحلولة — تلك التي أُنتِجت ثم حُلَّت بواسطة
+    آليات لاحقة (مثل relicensing ACCEPT).
+
+    حاليًا: defer:root:quadriliteral_beyond_scope يُعدّ محلولًا عند
+    source_path='hypothesis_relicensed' و final_directive='ACCEPT'.
+    """
+    if phase4a_result is None:
+        return ()
+
+    source_path    = str(getattr(phase4a_result, 'source_path', '') or '')
+    final_dir      = str(getattr(phase4a_result, 'final_directive', '') or '').upper()
+
+    if source_path == 'hypothesis_relicensed' and final_dir == 'ACCEPT':
+        return ('defer:root:quadriliteral_beyond_scope',)
+
+    return ()
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# العرض
+# ══════════════════════════════════════════════════════════════════════════════
+
+def _display_pre_root_section(
+    pre_root,
+    root_projection=None,
+    root_candidate=None,
+    root_refinement=None,
+    phase4a_result=None,
+    phase4b_result=None,
+    phase4c_result=None,
+    phase4d_result=None,
+    phase5_result=None,
+    *,
+    indent: str = '  ',
+):
+    """
+    اعرض طبقة ما قبل الجذر (Pre-Root Decision) والمحرك المحلي،
+    ثم P2 RootProjection وP3 RootCandidate وPhase4A/B/C/D.
+
+    يُستدعى بعد عرض P5 في كل من display() و display_verbose().
+    """
+    p = pre_root
+    i = indent
+
+    # ── رأس الطبقة ─────────────────────────────────────────────────────────
+    print(f"\n{i}[Pre-Root Decision]")
+
+    # أداة التعريف
+    if p.prefixes:
+        for pref in p.prefixes:
+            pref_type = 'شمسية' if 'solar' in pref.notes else 'قمرية'
+            print(f"{i}  prefix              : {pref.surface!r} → {pref.role.value}  ({pref_type})")
+    else:
+        print(f"{i}  prefix              : (none)")
+
+    print(f"{i}  host                : {p.host_surface!r}")
+    print(f"{i}  boundary            : {p.lexical_boundary}")
+    print(f"{i}  morphology_path     : {p.morphology_path.value}")
+    print(f"{i}  structural_verdict  : {p.structural_verdict}")
+
+    # اللواحق (المشغّل المركب)
+    if p.suffixes:
+        for suf in p.suffixes:
+            print(f"{i}  suffix              : {suf.surface!r} → {suf.role.value}")
+
+    # التوجيه
+    directive_icon = {'OPEN': '→', 'DEFER': '◌', 'BLOCK': '✗'}.get(p.root_path_directive, '?')
+    print(f"{i}  route               : {p.routing.route}")
+    print(f"{i}  root_path_directive : {directive_icon} {p.root_path_directive}")
+    print(f"{i}  next_stage          : {p.next_stage}")
+
+    # رموز التحفظ
+    if p.residual_codes:
+        for rc in p.residual_codes:
+            print(f"{i}  residual            : {rc}")
+
+    # ── Root Host Refinement ────────────────────────────────────────────────
+    if root_refinement is not None:
+        rr = root_refinement
+        print(f"\n{i}[Root Host Refinement]")
+        print(f"{i}  input_host       : {rr.input_host!r}")
+        if rr.removed_suffixes and rr.refined_host != rr.input_host:
+            removed_surface = rr.input_host[len(rr.refined_host):]
+            print(f"{i}  refined_host     : {rr.refined_host!r}")
+            for suf in rr.removed_suffixes:
+                print(f"{i}  removed_suffix   : {suf}  ({removed_surface})")
+            for ev in rr.evidence_ids:
+                if ev not in ('no_terminal_suffix_to_refine',):
+                    print(f"{i}  evidence         : {ev}")
+        else:
+            print(f"{i}  refined_host     : {rr.refined_host!r}  ← (no change)")
+        for rc in rr.residual_codes:
+            print(f"{i}  residual         : {rc}")
+
+    # ── P2 RootProjection (initial) ─────────────────────────────────────────
+    # Fix 12: P2/P3 displayed BEFORE Phase4A (correct architectural order).
+    # Add '(initial — superseded by relicensing)' note when Phase4A promotes.
+    _has_promoted = (
+        phase4a_result is not None
+        and getattr(phase4a_result, 'promoted_root_candidate', None) is not None
+    )
+    if root_projection is not None:
+        rp = root_projection
+        dir_icon = {'ACCEPT': '✓', 'DEFER': '◌', 'BLOCK': '✗'}.get(rp.directive, '?')
+        _initial_note = '  (initial — superseded by relicensing)' if _has_promoted else ''
+        print(f"\n{i}[P2 RootProjection]{_initial_note}")
+        print(f"{i}  analyzed_host       : {rp.analyzed_host!r}")
+        print(f"{i}  directive           : {dir_icon} {rp.directive}")
+        print(f"{i}  stage_state         : {rp.stage_state}")
+        if rp.canonical_root:
+            root_str = '، '.join(str(r) for r in rp.canonical_root)
+            print(f"{i}  canonical_root      : ({root_str})")
+        else:
+            print(f"{i}  canonical_root      : None")
+        if rp.unresolved_positions:
+            print(f"{i}  unresolved          : {', '.join(rp.unresolved_positions)}")
+        if rp.root_profile:
+            for k, v in list(rp.root_profile.items())[:3]:   # أهم 3 حقول فقط
+                print(f"{i}  profile.{k:<12}: {v}")
+        if rp.residual_codes:
+            for rc in rp.residual_codes:
+                print(f"{i}  residual            : {rc}")
+        # Fix 1: Translate legacy source_engine name for display.
+        _se = rp.source_engine
+        if _se == 'hr2s_morphology':
+            _se = 'HOKOM_BOUNDARY'
+        print(f"{i}  source_engine       : {_se}")
+
+    # ── P3 RootCandidate (initial) ──────────────────────────────────────────
+    if root_candidate is not None:
+        rc = root_candidate
+        dir_icon = {'ACCEPT': '✓', 'DEFER': '◌', 'BLOCK': '✗'}.get(rc.directive, '?')
+        _initial_note = '  (initial — superseded by relicensing)' if _has_promoted else ''
+        print(f"\n{i}[P3 RootCandidate]{_initial_note}")
+        print(f"{i}  directive           : {dir_icon} {rc.directive}")
+        if rc.canonical_root:
+            root_str = '، '.join(str(r) for r in rc.canonical_root)
+            print(f"{i}  canonical_root      : ({root_str})")
+        else:
+            print(f"{i}  canonical_root      : None")
+        if rc.residual_codes:
+            for code in rc.residual_codes:
+                print(f"{i}  residual            : {code}")
+
+    # ── Phase 4A WaznProjection ─────────────────────────────────────────────
+    if phase4a_result is not None:
+        p4 = phase4a_result
+        dir_icon = {'ACCEPT': '✓', 'DEFER': '◌', 'BLOCK': '✗'}.get(p4.final_directive, '?')
+        print(f"\n{i}[Phase 4A — WaznProjection & Relicensing]")
+        print(f"{i}  final_directive     : {dir_icon} {p4.final_directive}")
+        print(f"{i}  source_path         : {p4.source_path}")
+        if p4.final_wazn:
+            print(f"{i}  wazn                : {p4.final_wazn}")
+        wp = p4.wazn_projection
+        if wp is not None and wp.selected_wazn is not None:
+            print(f"{i}  wazn_pattern        : {wp.selected_wazn.wazn_pattern}")
+            root_str = '، '.join(str(r) for r in (wp.canonical_root or ()))
+            if root_str:
+                print(f"{i}  canonical_root      : ({root_str})")
+        if wp is not None and wp.residual_codes:
+            for code in wp.residual_codes:
+                print(f"{i}  residual            : {code}")
+        # Fix 7: Display final promoted root after relicensing.
+        if p4.promoted_root_candidate is not None:
+            prc = p4.promoted_root_candidate
+            print(f"\n{i}[Final Root — After Relicensing]")
+            if prc.canonical_root:
+                root_str = '، '.join(str(r) for r in prc.canonical_root)
+                print(f"{i}  canonical_root      : ({root_str})")
+            print(f"{i}  source              : ROOT_RELICENSING")
+            print(f"{i}  directive           : ACCEPT")
+
+    # ── Phase 4B BabProjection ──────────────────────────────────────────────
+    if phase4b_result is not None:
+        p4b = phase4b_result
+        dir_icon = {
+            'ACCEPT': '✓', 'DEFER': '◌', 'BLOCK': '✗',
+            'NOT_OPENED': '—', 'NOT_APPLICABLE': '∅',
+        }.get(p4b.final_directive, '?')
+        print(f"\n{i}[Phase 4B — BabProjection]")
+        print(f"{i}  final_directive     : {dir_icon} {p4b.final_directive}")
+        if p4b.final_bab:
+            print(f"{i}  selected_bab        : {p4b.final_bab}")
+        print(f"{i}  source_path         : {p4b.source_path}")
+        bp = p4b.bab_projection
+        if bp is not None and bp.residual_codes:
+            for code in bp.residual_codes:
+                print(f"{i}  residual            : {code}")
+
+    # ── Phase 4C MasdarProjection ───────────────────────────────────────────
+    if phase4c_result is not None:
+        p4c = phase4c_result
+        dir_icon = {
+            'ACCEPT': '✓', 'DEFER': '◌', 'BLOCK': '✗',
+            'NOT_OPENED': '—', 'NOT_APPLICABLE': '∅',
+        }.get(p4c.final_directive, '?')
+        print(f"\n{i}[Phase 4C — MasdarProjection]")
+        print(f"{i}  final_directive     : {dir_icon} {p4c.final_directive}")
+        print(f"{i}  source_path         : {p4c.source_path}")
+        if p4c.final_masdar:
+            print(f"{i}  selected_masdar     : {p4c.final_masdar}")
+        if p4c.final_masdar_pattern:
+            print(f"{i}  masdar_pattern      : {p4c.final_masdar_pattern}")
+        mp = p4c.masdar_projection
+        if mp is not None and mp.source_type:
+            print(f"{i}  source_type         : {mp.source_type}")
+        if p4c.residual_codes:
+            for code in p4c.residual_codes:
+                print(f"{i}  residual            : {code}")
+
+    # ── Phase 4D MushtaqProjection ──────────────────────────────────────────
+    if phase4d_result is not None:
+        p4d = phase4d_result
+        _DIR_ICONS = {
+            'ACCEPT': '✓', 'PARTIAL_ACCEPT': '◑',
+            'DEFER': '◌', 'BLOCK': '✗',
+            'NOT_OPENED': '—', 'NOT_APPLICABLE': '∅',
+        }
+        dir_icon = _DIR_ICONS.get(p4d.final_directive, '?')
+        print(f"\n{i}[Phase 4D — MushtaqProjection]")
+        print(f"{i}  final_directive  : {dir_icon} {p4d.final_directive}")
+        mp4d = p4d.mushtaq_projection
+        if mp4d is not None:
+            accepted_dict = dict(mp4d.accepted_mushtaqat)
+            type_order = [
+                'ISM_FA3IL', 'ISM_MAF3UL', 'SIFA_MUSHABBAHA',
+                'SIYAG_MUBALAGHAH', 'ISM_ZAMAN', 'ISM_MAKAN',
+                'ISM_ALA', 'TAFDHIL',
+            ]
+            for mtype in type_order:
+                if mtype in accepted_dict:
+                    print(f"{i}  {mtype:<20}: ✓ {accepted_dict[mtype]}")
+                elif mtype in mp4d.deferred_mushtaqat:
+                    print(f"{i}  {mtype:<20}: ◌ DEFER")
+                elif mtype in mp4d.blocked_mushtaqat:
+                    print(f"{i}  {mtype:<20}: ✗ BLOCK")
+                # NOT_APPLICABLE → silent (not printed)
+            if mp4d.residual_codes:
+                for code in mp4d.residual_codes:
+                    print(f"{i}  residual         : {code}")
+
+    # ── Phase 5 — Paradigm/Inflection ──────────────────────────────────────────
+    if phase5_result is not None:
+        p5 = phase5_result
+        _dir5 = p5.final_directive
+        _dir5_icon = {'ACCEPT': '✓', 'DEFER': '◌', 'BLOCK': '✗',
+                      'NOT_APPLICABLE': '∅'}.get(_dir5, '?')
+        print(f"\n{i}[Phase 5 — Inflection]")
+        print(f"{i}  directive       : {_dir5_icon} {_dir5}")
+        if p5.paradigm_candidate is not None:
+            pc = p5.paradigm_candidate
+            print(f"{i}  paradigm        : {pc.paradigm_id}")
+        if p5.inflectional_form is not None:
+            _if = p5.inflectional_form
+            if _if.tense_aspect:
+                print(f"{i}  tense           : {_if.tense_aspect}")
+            if _if.mood:
+                print(f"{i}  mood            : {_if.mood}")
+            if _if.voice:
+                print(f"{i}  voice           : {_if.voice}")
+            if _if.person:
+                print(f"{i}  person          : {_if.person}")
+            if _if.number:
+                print(f"{i}  number          : {_if.number}")
+            if _if.gender:
+                print(f"{i}  gender          : {_if.gender}")
+            if _if.lemma_surface:
+                print(f"{i}  lemma           : {_if.lemma_surface}")
+        if p5.residual_codes:
+            for code in p5.residual_codes:
+                print(f"{i}  residual        : {code}")
+
+    # ── ملخص نهائي (يُعرض فقط عند Phase4A ACCEPT) ───────────────────────────
+    if (phase4a_result is not None
+            and getattr(phase4a_result, 'final_directive', None) == 'ACCEPT'):
+        print(f"\n{i}[Summary]")
+        # الجذر النهائي
+        _prc = getattr(phase4a_result, 'promoted_root_candidate', None)
+        if _prc is not None:
+            _root = getattr(_prc, 'canonical_root', None)
+        elif root_candidate is not None:
+            _root = getattr(root_candidate, 'canonical_root', None)
+        else:
+            _root = None
+        if _root:
+            root_str = ' '.join(str(c) for c in _root)
+            print(f"{i}  final_root    : {root_str}")
+        # الوزن
+        _fwazn = getattr(phase4a_result, 'final_wazn', None)
+        if _fwazn:
+            wp = getattr(phase4a_result, 'wazn_projection', None)
+            _wpat = None
+            if wp is not None and getattr(wp, 'selected_wazn', None) is not None:
+                _wpat = getattr(wp.selected_wazn, 'wazn_pattern', None)
+            if _wpat:
+                print(f"{i}  final_wazn    : {_fwazn}  ({_wpat})")
+            else:
+                print(f"{i}  final_wazn    : {_fwazn}")
+        # الباب
+        if phase4b_result is not None:
+            _fbab = getattr(phase4b_result, 'final_bab', None)
+            if _fbab:
+                print(f"{i}  final_form    : {_fbab}")
+        # المصدر
+        if phase4c_result is not None:
+            _fmasdar = getattr(phase4c_result, 'final_masdar', None)
+            _fmpat   = getattr(phase4c_result, 'final_masdar_pattern', None)
+            if _fmasdar:
+                print(f"{i}  final_masdar  : {_fmasdar}")
+            elif _fmpat:
+                print(f"{i}  masdar_pattern: {_fmpat}")
+        # المشتقات
+        if phase4d_result is not None:
+            _accepted = getattr(phase4d_result, 'accepted_mushtaqat', ())
+            _adict    = dict(_accepted) if _accepted else {}
+            for mtype in ('ISM_FA3IL', 'ISM_MAF3UL'):
+                if mtype in _adict:
+                    print(f"{i}  {mtype:<14}: {_adict[mtype]}")
+
+
+def display(r: dict):
+    input_surface      = r.get('input_surface',      r['original'])
+    canonical_surface  = r.get('canonical_surface',  r['original'])
+    normalized_surface = r.get('normalized_surface', r['normalized'])
+
+    real_slots = [s for s in r.get('slots', []) if s['surface'] != ' ']
+    syl_str    = ' | '.join(s['surface']  for s in real_slots)
+    pat_str    = ' | '.join(s['pattern']  for s in real_slots)
+    struct_enc = '.'.join(s['pattern']    for s in real_slots)
+
+    cells   = ' '.join(lr['cell'] for lr in r.get('licensing', []))
+    verdict = r['verdict']
+    viols   = r.get('violations', [])
+    mabni   = r.get('mabni')
+
+    print()
+    print('─' * W)
+    # ── نموذج التمثيل الرباعي ─────────────────────────────────────────────────
+    print(f"  Input Surface       : {input_surface}")
+    print(f"  Canonical Surface   : {canonical_surface}")
+    print(f"  Normalized Surface  : {normalized_surface}")
+    if struct_enc:
+        print(f"  Structural Encoding : {struct_enc}")
+    if cells:
+        print(f"  الخلايا (C/V) : {cells}")
+    if syl_str:
+        print(f"  التقطيع       : {syl_str}")
+
+    # P4 — الحكم الهيكلي
+    print(f"  [P4] Slot     : {GATE_ICON.get(verdict,'')} {verdict}")
+
+    # P5 — بحسب نوع الحد
+    if isinstance(mabni, MabniBoundary):
+        rc = mabni.relation_contract
+        sv_icon = '✓' if mabni.structural_verdict == 'ACCEPT' else '◌'
+        print(f"  [P5] Operator Lookup:")
+        print(f"       {mabni.verdict}")
+        print(f"       operator_id         : {mabni.operator_id}")
+        print(f"       lexical_family      : {mabni.lexical_family}")
+        print(f"       structural_verdict  : {sv_icon} {mabni.structural_verdict}")
+        print(f"       input_surface       : {mabni.input_surface}")
+        print(f"       canonical_surface   : {mabni.canonical_surface}")
+        print(f"       normalized_surface  : {mabni.normalized_surface}")
+        print(f"       matched_surface     : {mabni.matched_surface}")
+        print(f"       lexical_class       : {mabni.lexical_class}")
+        print(f"       inventory_status    : {mabni.inventory_status}")
+        print(f"       blocks_root_path    : {mabni.blocks_root_path}")
+        print(f"       opens_relation      : {mabni.opens_relation}")
+        print(f"       source              : {mabni.source}")
+        print(f"  Relation Contract")
+        print(f"       contract_id         : {rc.contract_id}")
+        print(f"       contract_state      : {rc.contract_state}")
+        print(f"  Structural Verdict  : {sv_icon} {mabni.structural_verdict}")
+        lv_icon = '◈' if mabni.verdict == 'OPERATOR_BOUNDARY' else '◌'
+        print(f"  Lexical Verdict     : {lv_icon} {mabni.verdict}")
+        final = 'PENDING' if mabni.structural_verdict == 'ACCEPT' else 'DEFERRED'
+        print(f"  Final Verdict       : {final}")
+    elif isinstance(mabni, MabniOpen):
+        attachment = r.get('attachment')
+        _seg  = attachment.segmentation_verdict if attachment else None
+        _route = attachment.host_route          if attachment else None
+        if _seg == 'SEGMENTED':
+            print(f"  [P5] Lexical  : COMPOSITE_BOUNDARY")
+            print(f"  [P5.ATTACH]  segmentation=SEGMENTED  host={attachment.host_surface!r}  route={_route}")
+            for sp in attachment.prefix_operators:
+                print(f"  [P5.PREFIX]  {sp.surface_matched!r} → {sp.mabni_id}")
+            for sp in attachment.attached_mabniyat:
+                allomorph_note = f"  allomorph_of={sp.allomorph_of!r}" if sp.is_allomorph else ""
+                print(f"  [P5.SUFFIX]  {sp.surface_matched!r} → {sp.mabni_id}{allomorph_note}")
+        elif _seg == 'AMBIGUOUS':
+            print(f"  [P5] Lexical  : → OPEN_TO_ROOT_ENGINE")
+            print(f"  [P5.ATTACH]  segmentation=AMBIGUOUS  candidates={len(attachment.candidate_segmentations)}")
+        elif _seg == 'NOT_SEGMENTED' and _route == 'MABNI_BOUNDARY':
+            print(f"  [P5] Lexical  : MABNI_BOUNDARY (standalone — mabniyat catalog)")
+            print(f"  [P5.ATTACH]  segmentation=NOT_SEGMENTED  host_route=MABNI_BOUNDARY")
+        else:
+            print(f"  [P5] Lexical  : → OPEN_TO_ROOT_ENGINE")
+            print(f"  [P5.ATTACH]  segmentation=NOT_SEGMENTED")
+        # ── طبقة ما قبل الجذر (الحكم الاعتمادي) ────────────────────────────
+        pre_root = r.get('pre_root')
+        if pre_root is not None:
+            _display_pre_root_section(
+                pre_root,
+                r.get('root_projection'), r.get('root_candidate'),
+                r.get('root_refinement'), r.get('phase4a_result'),
+                r.get('phase4b_result'),
+                r.get('phase4c_result'),
+                r.get('phase4d_result'),
+                r.get('phase5_result'),
+            )
+        else:
+            # احتياط: لا Pre-Root — عرض المسار القديم
+            if _seg == 'SEGMENTED':
+                if _route == 'EMPTY':
+                    print(f"  Next Stage          : NONE (token fully consumed by prefix+suffix)")
+                    print(f"  Final Verdict       : COMPOSITE_CLOSED")
+                else:
+                    print(f"  Next Stage          : HOKOM_ROOT_ENGINE (residual_host={attachment.host_surface!r})")
+                    print(f"  Final Verdict       : COMPOSITE_PENDING_HOKOM_ROOT_ENGINE")
+            elif _seg == 'NOT_SEGMENTED' and _route == 'MABNI_BOUNDARY':
+                print(f"  Next Stage          : DAL")
+                print(f"  Final Verdict       : PENDING")
+            else:
+                print(f"  Next Stage          : HOKOM_ROOT_ENGINE")
+                print(f"  Final Verdict       : PENDING_HOKOM_ROOT_ENGINE")
+    elif isinstance(mabni, MabniBlocked):
+        print(f"  [P5] Mabni    : ✗ BLOCK  {mabni.reason}")
+        print(f"  Final Verdict       : BLOCK")
+
+    if viols:
+        print(f"  ⚠ تفاصيل:")
+        for v in viols:
+            print(f"     • {v}")
+    print('─' * W)
+
+
+def display_verbose(r: dict):
+    """عرض تفصيلي يظهر كل بوابة على حدة."""
+    input_surface      = r.get('input_surface',      r['original'])
+    canonical_surface  = r.get('canonical_surface',  r['original'])
+    normalized_surface = r.get('normalized_surface', r['normalized'])
+
+    print()
+    print('═' * W)
+    print(f"  Input Surface       : {input_surface}")
+    print(f"  Canonical Surface   : {canonical_surface}")
+    print(f"  Normalized Surface  : {normalized_surface}")
+    print('═' * W)
+
+    if normalized_surface != input_surface:
+        print(f"\n  [Normalization] {input_surface} → {normalized_surface}")
+
+    # عرض الطبقات بأسمائها P0→P3
+    for layer_id, layer_name in [('P0','Unicode Candidate'),
+                                  ('P1','Character Licensing'),
+                                  ('P2','Diacritic Licensing'),
+                                  ('P3','Cell Construction')]:
+        print(f"\n  [{layer_id}] {layer_name}:")
+        for lr in r.get('licensing', []):
+            gate = next((g for g in lr['gates'] if g.layer == layer_id), None)
+            if gate is None: continue
+            icon = '✓' if gate.passed else '✗'
+            print(f"    {icon}  {lr['char']:3}  {gate.note}")
+
+    real_slots = [s for s in r.get('slots', []) if s['surface'] != ' ']
+    if real_slots:
+        print(f"\n  [P4] Syllable Slot Engineering:")
+        for i, s in enumerate(real_slots, 1):
+            icon        = GATE_ICON.get(s['gate'], '')
+            close_r     = s.get('close_reason', '')
+            status      = s.get('status_at_close', '')
+            sat_reason  = s.get('saturation_reason', '')
+            print(f"    Slot{i}: {s['surface']:8} → {s['pattern']:6}  {icon} {s['gate']}")
+            if close_r:
+                print(f"             status  : {status}")
+                if close_r == 'SATURATED':
+                    print(f"             ↓ SATURATED")
+                    if sat_reason:
+                        print(f"             (reason: {sat_reason})")
+                elif close_r == 'WORD_END':
+                    print(f"             ↓ WORD_END")
+                else:
+                    print(f"             ↓ {close_r}")
+
+    mabni = r.get('mabni')
+    print(f"\n  [P5] Operator Lookup:")
+    if isinstance(mabni, MabniBoundary):
+        # function_candidates محفوظة داخليًا — P5 لا يُصدر حكمًا وظيفيًا
+        rc = mabni.relation_contract
+        sv_icon = '✓' if mabni.structural_verdict == 'ACCEPT' else '◌'
+        lv_icon = '◈' if mabni.verdict == 'OPERATOR_BOUNDARY' else '◌'
+        print(f"    {lv_icon} {mabni.verdict}")
+        print(f"      operator_id         : {mabni.operator_id}")
+        print(f"      lexical_family      : {mabni.lexical_family}")
+        print(f"      structural_verdict  : {sv_icon} {mabni.structural_verdict}")
+        print(f"      input_surface       : {mabni.input_surface}")
+        print(f"      canonical_surface   : {mabni.canonical_surface}")
+        print(f"      normalized_surface  : {mabni.normalized_surface}")
+        print(f"      matched_surface     : {mabni.matched_surface}")
+        print(f"      lexical_class       : {mabni.lexical_class}")
+        print(f"      inventory_status    : {mabni.inventory_status}")
+        print(f"      blocks_root_path    : {mabni.blocks_root_path}")
+        print(f"      opens_relation      : {mabni.opens_relation}")
+        print(f"      source              : {mabni.source}")
+        print(f"    Relation Contract")
+        print(f"      contract_id         : {rc.contract_id}")
+        print(f"      contract_state      : {rc.contract_state}")
+    elif isinstance(mabni, MabniOpen):
+        attachment = r.get('attachment')
+        _seg   = attachment.segmentation_verdict if attachment else None
+        _route = attachment.host_route           if attachment else None
+        print(f"      input_surface       : {mabni.input_surface}")
+        print(f"      canonical_surface   : {mabni.canonical_surface}")
+        print(f"      normalized_surface  : {mabni.normalized_surface}")
+        if _seg == 'SEGMENTED':
+            print(f"    → COMPOSITE_BOUNDARY  — attached mabni detected")
+            print(f"    [P5.ATTACH]  segmentation=SEGMENTED  host={attachment.host_surface!r}  route={_route}")
+            for sp in attachment.prefix_operators:
+                print(f"    [P5.PREFIX]  {sp.surface_matched!r} → {sp.mabni_id}")
+            for sp in attachment.attached_mabniyat:
+                allomorph_note = f"  allomorph_of={sp.allomorph_of!r}" if sp.is_allomorph else ""
+                print(f"    [P5.SUFFIX]  {sp.surface_matched!r} → {sp.mabni_id}{allomorph_note}")
+        elif _seg == 'AMBIGUOUS':
+            print(f"    → OPEN  — valid slots, not mabni → HOKOM_ROOT_ENGINE")
+            print(f"    [P5.ATTACH]  segmentation=AMBIGUOUS  candidates={len(attachment.candidate_segmentations)}")
+        elif _seg == 'NOT_SEGMENTED' and _route == 'MABNI_BOUNDARY':
+            print(f"    → MABNI_BOUNDARY  — standalone mabni (mabniyat catalog)")
+            print(f"    [P5.ATTACH]  segmentation=NOT_SEGMENTED  host_route=MABNI_BOUNDARY")
+        else:
+            print(f"    → OPEN  — valid slots, not mabni → HOKOM_ROOT_ENGINE")
+            print(f"    [P5.ATTACH]  segmentation=NOT_SEGMENTED")
+    elif isinstance(mabni, MabniBlocked):
+        print(f"    ✗ BLOCK — {mabni.reason}")
+
+    verdict = r['verdict']
+    viols   = r.get('violations', [])
+
+    # الحكم النهائي — بحسب نوع الحد
+    print()
+    if isinstance(mabni, MabniBoundary):
+        sv_icon = '✓' if mabni.structural_verdict == 'ACCEPT' else '◌'
+        lv_icon = '◈' if mabni.verdict == 'OPERATOR_BOUNDARY' else '◌'
+        print(f"  Structural Verdict : {sv_icon} {mabni.structural_verdict}")
+        print(f"  Lexical Verdict    : {lv_icon} {mabni.verdict}")
+        final = 'PENDING' if mabni.structural_verdict == 'ACCEPT' else 'DEFERRED'
+        print(f"  Final Verdict      : {final}")
+    elif isinstance(mabni, MabniOpen):
+        attachment = r.get('attachment')
+        _seg   = attachment.segmentation_verdict if attachment else None
+        _route = attachment.host_route           if attachment else None
+        print(f"  Structural Verdict : ✓ ACCEPT")
+        if _seg == 'SEGMENTED':
+            print(f"  Lexical Verdict    : COMPOSITE_BOUNDARY")
+            print(f"  Attachment Verdict : MABNI_ATTACHED")
+        elif _seg == 'NOT_SEGMENTED' and _route == 'MABNI_BOUNDARY':
+            print(f"  Lexical Verdict    : MABNI_BOUNDARY")
+        else:
+            print(f"  Lexical Verdict    : → OPEN_TO_ROOT_ENGINE")
+        # ── طبقة ما قبل الجذر (الحكم الاعتمادي) ────────────────────────────
+        pre_root = r.get('pre_root')
+        if pre_root is not None:
+            _display_pre_root_section(
+                pre_root,
+                r.get('root_projection'), r.get('root_candidate'),
+                r.get('root_refinement'), r.get('phase4a_result'),
+                r.get('phase4b_result'),
+                r.get('phase4c_result'),
+                r.get('phase4d_result'),
+                r.get('phase5_result'),
+                indent='  ',
+            )
+        else:
+            # احتياط
+            if _seg == 'SEGMENTED':
+                if _route == 'EMPTY':
+                    print(f"  Next Stage         : NONE (token fully consumed by prefix+suffix)")
+                    print(f"  Final Verdict      : COMPOSITE_CLOSED")
+                else:
+                    print(f"  Next Stage         : HOKOM_ROOT_ENGINE  (residual_host={attachment.host_surface!r})")
+                    print(f"  Final Verdict      : COMPOSITE_PENDING_HOKOM_ROOT_ENGINE")
+            elif _seg == 'NOT_SEGMENTED' and _route == 'MABNI_BOUNDARY':
+                print(f"  Next Stage         : DAL")
+                print(f"  Final Verdict      : PENDING")
+            else:
+                print(f"  Next Stage         : HOKOM_ROOT_ENGINE  (surface={normalized_surface!r})")
+                print(f"  Final Verdict      : PENDING_HOKOM_ROOT_ENGINE")
+    elif isinstance(mabni, MabniBlocked):
+        print(f"  Final Verdict      : BLOCK")
+    else:
+        print(f"  الحكم النهائي: {GATE_ICON.get(verdict,'')} {verdict}")
+    if viols:
+        for v in viols:
+            print(f"    • {v}")
+    print('═' * W)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Pipeline
+# ══════════════════════════════════════════════════════════════════════════════
+
+def run(text: str, verbose: bool = False):
+    tokens = words_only(tokenize(text))
+    for token in tokens:
+        r = hokom(token.surface)
+        if verbose:
+            display_verbose(r)
+        else:
+            display(r)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# تشغيل
+# ══════════════════════════════════════════════════════════════════════════════
+
+def main():
+    verbose = '-v' in sys.argv
+    args    = [a for a in sys.argv[1:] if a != '-v']
+
+    print('\n' + '═' * W)
+    print('  Hokom Pipeline  |  خط أنابيب الحكم')
+    print('  token → normalize → license → cell → slot → gate')
+    print('═' * W)
+
+    # ── ملف نصي: python hokom_pipeline.py -f path/to/file.txt ────────────────
+    if '-f' in sys.argv:
+        idx = sys.argv.index('-f')
+        if idx + 1 >= len(sys.argv):
+            print('  ⚠ خطأ: يجب تحديد مسار الملف بعد -f')
+            sys.exit(1)
+        filepath = sys.argv[idx + 1]
+        try:
+            with open(filepath, encoding='utf-8') as fh:
+                lines = [l.strip() for l in fh if l.strip()]
+        except FileNotFoundError:
+            print(f'  ⚠ الملف غير موجود: {filepath}')
+            sys.exit(1)
+        for i, line in enumerate(lines, 1):
+            print(f'\n  ── سطر {i}/{len(lines)}: {line}')
+            run(line, verbose=verbose)
+        return
+
+    # ── نص مباشر: python hokom_pipeline.py "النص هنا" ───────────────────────
+    if args:
+        run(' '.join(args), verbose=verbose)
+        return
+
+    # ── وضع تفاعلي ────────────────────────────────────────────────────────────
+    while True:
+        try:
+            text = input('\n  أدخل نصًا (q للخروج): ').strip()
+        except (EOFError, KeyboardInterrupt):
+            print('\n  وداعًا.')
+            break
+        if not text or text.lower() == 'q':
+            break
+        parts   = text.split()
+        verbose = '-v' in parts
+        words   = [p for p in parts if p != '-v']
+        run(' '.join(words), verbose=verbose)
+
+
+if __name__ == '__main__':
+    main()

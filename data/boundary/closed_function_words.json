@@ -1,0 +1,86 @@
+{
+  "version": "1.0",
+  "description": "Inventory of Arabic function words and particles for boundary eligibility gating. Entries are keyed by normalized surface (after normalize_hamza). Do NOT add word-specific exceptions here — only grammatical function words whose root-path eligibility is structurally determinate.",
+  "entries": [
+    {
+      "normalized": "مِنْ",
+      "surface_canonical": "مِنْ",
+      "word_class": "preposition",
+      "kind": "CLOSED_FUNCTION_WORD",
+      "root_eligible": false,
+      "note": "حرف جر"
+    },
+    {
+      "normalized": "هَلْ",
+      "surface_canonical": "هَلْ",
+      "word_class": "interrogative_particle",
+      "kind": "CLOSED_FUNCTION_WORD",
+      "root_eligible": false,
+      "note": "حرف استفهام"
+    },
+    {
+      "normalized": "لَمْ",
+      "surface_canonical": "لَمْ",
+      "word_class": "negation_particle",
+      "kind": "CLOSED_FUNCTION_WORD",
+      "root_eligible": false,
+      "note": "حرف نفي جازم"
+    },
+    {
+      "normalized": "لَنْ",
+      "surface_canonical": "لَنْ",
+      "word_class": "negation_particle",
+      "kind": "CLOSED_FUNCTION_WORD",
+      "root_eligible": false,
+      "note": "حرف نفي ونصب"
+    },
+    {
+      "normalized": "فِي",
+      "surface_canonical": "فِي",
+      "word_class": "preposition",
+      "kind": "CLOSED_FUNCTION_WORD",
+      "root_eligible": false,
+      "note": "حرف جر"
+    },
+    {
+      "normalized": "هُوَ",
+      "surface_canonical": "هُوَ",
+      "word_class": "pronoun",
+      "kind": "CLOSED_FUNCTION_WORD",
+      "root_eligible": false,
+      "note": "ضمير منفصل مرفوع للغائب المذكر"
+    },
+    {
+      "normalized": "هِيَ",
+      "surface_canonical": "هِيَ",
+      "word_class": "pronoun",
+      "kind": "CLOSED_FUNCTION_WORD",
+      "root_eligible": false,
+      "note": "ضمير منفصل مرفوع للغائب المؤنث"
+    },
+    {
+      "normalized": "عَلَى",
+      "surface_canonical": "عَلَى",
+      "word_class": "ambiguous_preposition",
+      "kind": "POSSIBLE_FUNCTION_WORD",
+      "root_eligible": false,
+      "note": "حرف جر — قد تكون من جذر علو/علي لكن السطح المشكول POSSIBLE لا CLOSED"
+    },
+    {
+      "normalized": "ءِلَى",
+      "surface_canonical": "إِلَى",
+      "word_class": "ambiguous_preposition",
+      "kind": "POSSIBLE_FUNCTION_WORD",
+      "root_eligible": false,
+      "note": "حرف جر — normalized form after normalize_hamza: إ→ء"
+    },
+    {
+      "normalized": "مَتَى",
+      "surface_canonical": "مَتَى",
+      "word_class": "ambiguous_particle",
+      "kind": "POSSIBLE_FUNCTION_WORD",
+      "root_eligible": false,
+      "note": "اسم استفهام — السطح يطابق نمط الماضي الناقص لكن الجذر غير محسوم"
+    }
+  ]
+}

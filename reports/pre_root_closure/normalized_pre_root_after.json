@@ -1,0 +1,383 @@
+[
+  {
+    "input_surface": "الْأَطْفَالُ",
+    "normalized_surface": "الْءَطْفَالُ",
+    "prefixes": [
+      {
+        "surface": "الْ",
+        "role": "definite_article",
+        "span_start": 0,
+        "span_end": 3,
+        "notes": "article:lunar:lam_sukun"
+      }
+    ],
+    "host_surface": "أَطْفَالُ",
+    "suffixes": [],
+    "structural_verdict": "ACCEPT",
+    "lexical_boundary": "ROOT_ELIGIBLE",
+    "morphology_path": "verbal_root_path",
+    "root_path_directive": "OPEN",
+    "next_stage": "HR2S",
+    "routing": {
+      "route": "MORPHOLOGY_PATH",
+      "root_path_directive": "OPEN",
+      "next_stage": "HR2S",
+      "operator_id": null,
+      "mabni_id": null,
+      "evidence_id": "routing:morphology_path_open",
+      "notes": "مضيف مرشح للتحليل الصرفي"
+    },
+    "evidence_ids": [
+      "article:lunar:lam_sukun_detected",
+      "structural:phone_count",
+      "structural:root_eligible_structure",
+      "routing:morphology_path_open"
+    ],
+    "residual_codes": [],
+    "trace_ids": [
+      "step:hamza_normalization",
+      "step:article_projection",
+      "step:boundary_assessment",
+      "step:morphology_path_classification",
+      "step:structural_aggregation",
+      "step:host_routing"
+    ]
+  },
+  {
+    "input_surface": "الشَّجَرَةِ",
+    "normalized_surface": "الشَّجَرَةِ",
+    "prefixes": [
+      {
+        "surface": "ال",
+        "role": "definite_article",
+        "span_start": 0,
+        "span_end": 2,
+        "notes": "article:solar:assimilation_into_ش"
+      }
+    ],
+    "host_surface": "شَّجَرَةِ",
+    "suffixes": [],
+    "structural_verdict": "ACCEPT",
+    "lexical_boundary": "ROOT_ELIGIBLE",
+    "morphology_path": "nominal_morphology_path",
+    "root_path_directive": "OPEN",
+    "next_stage": "HR2S",
+    "routing": {
+      "route": "MORPHOLOGY_PATH",
+      "root_path_directive": "OPEN",
+      "next_stage": "HR2S",
+      "operator_id": null,
+      "mabni_id": null,
+      "evidence_id": "routing:morphology_path_open",
+      "notes": "مضيف مرشح للتحليل الصرفي"
+    },
+    "evidence_ids": [
+      "article:solar:lam_assimilation_detected",
+      "structural:phone_count",
+      "structural:root_eligible_structure",
+      "routing:morphology_path_open"
+    ],
+    "residual_codes": [],
+    "trace_ids": [
+      "step:hamza_normalization",
+      "step:article_projection",
+      "step:boundary_assessment",
+      "step:morphology_path_classification",
+      "step:structural_aggregation",
+      "step:host_routing"
+    ]
+  },
+  {
+    "input_surface": "ضَرَبَ",
+    "normalized_surface": "ضَرَبَ",
+    "prefixes": [],
+    "host_surface": "ضَرَبَ",
+    "suffixes": [],
+    "structural_verdict": "ACCEPT",
+    "lexical_boundary": "ROOT_ELIGIBLE",
+    "morphology_path": "verbal_root_path",
+    "root_path_directive": "OPEN",
+    "next_stage": "HR2S",
+    "routing": {
+      "route": "MORPHOLOGY_PATH",
+      "root_path_directive": "OPEN",
+      "next_stage": "HR2S",
+      "operator_id": null,
+      "mabni_id": null,
+      "evidence_id": "routing:morphology_path_open",
+      "notes": "مضيف مرشح للتحليل الصرفي"
+    },
+    "evidence_ids": [
+      "article:none",
+      "structural:phone_count",
+      "structural:root_eligible_structure",
+      "routing:morphology_path_open"
+    ],
+    "residual_codes": [],
+    "trace_ids": [
+      "step:hamza_normalization",
+      "step:article_projection",
+      "step:boundary_assessment",
+      "step:morphology_path_classification",
+      "step:structural_aggregation",
+      "step:host_routing"
+    ]
+  },
+  {
+    "input_surface": "تَرَكَتْ",
+    "normalized_surface": "تَرَكَتْ",
+    "prefixes": [],
+    "host_surface": "تَرَكَتْ",
+    "suffixes": [],
+    "structural_verdict": "ACCEPT",
+    "lexical_boundary": "ROOT_ELIGIBLE",
+    "morphology_path": "verbal_root_path",
+    "root_path_directive": "OPEN",
+    "next_stage": "HR2S",
+    "routing": {
+      "route": "MORPHOLOGY_PATH",
+      "root_path_directive": "OPEN",
+      "next_stage": "HR2S",
+      "operator_id": null,
+      "mabni_id": null,
+      "evidence_id": "routing:morphology_path_open",
+      "notes": "مضيف مرشح للتحليل الصرفي"
+    },
+    "evidence_ids": [
+      "article:none",
+      "structural:phone_count",
+      "structural:root_eligible_structure",
+      "routing:morphology_path_open"
+    ],
+    "residual_codes": [],
+    "trace_ids": [
+      "step:hamza_normalization",
+      "step:article_projection",
+      "step:boundary_assessment",
+      "step:morphology_path_classification",
+      "step:structural_aggregation",
+      "step:host_routing"
+    ]
+  },
+  {
+    "input_surface": "يَسْتَطِيعُ",
+    "normalized_surface": "يَسْتَطِيعُ",
+    "prefixes": [],
+    "host_surface": "يَسْتَطِيعُ",
+    "suffixes": [],
+    "structural_verdict": "ACCEPT",
+    "lexical_boundary": "ROOT_ELIGIBLE",
+    "morphology_path": "verbal_root_path",
+    "root_path_directive": "OPEN",
+    "next_stage": "HR2S",
+    "routing": {
+      "route": "MORPHOLOGY_PATH",
+      "root_path_directive": "OPEN",
+      "next_stage": "HR2S",
+      "operator_id": null,
+      "mabni_id": null,
+      "evidence_id": "routing:morphology_path_open",
+      "notes": "مضيف مرشح للتحليل الصرفي"
+    },
+    "evidence_ids": [
+      "article:none",
+      "structural:phone_count",
+      "structural:root_eligible_structure",
+      "routing:morphology_path_open"
+    ],
+    "residual_codes": [],
+    "trace_ids": [
+      "step:hamza_normalization",
+      "step:article_projection",
+      "step:boundary_assessment",
+      "step:morphology_path_classification",
+      "step:structural_aggregation",
+      "step:host_routing"
+    ]
+  },
+  {
+    "input_surface": "مِنْ",
+    "normalized_surface": "مِنْ",
+    "prefixes": [],
+    "host_surface": "مِنْ",
+    "suffixes": [],
+    "structural_verdict": "BLOCK",
+    "lexical_boundary": "CLOSED_FUNCTION_WORD",
+    "morphology_path": "functional_path",
+    "root_path_directive": "BLOCK",
+    "next_stage": "BLOCKED",
+    "routing": {
+      "route": "MORPHOLOGY_PATH",
+      "root_path_directive": "BLOCK",
+      "next_stage": "BLOCKED",
+      "operator_id": null,
+      "mabni_id": null,
+      "evidence_id": "routing:structural_block",
+      "notes": "BLOCK من البنية: CLOSED_FUNCTION_WORD"
+    },
+    "evidence_ids": [
+      "article:none",
+      "inventory",
+      "routing:structural_block"
+    ],
+    "residual_codes": [
+      "block:pre_root:structural_impossibility"
+    ],
+    "trace_ids": [
+      "step:hamza_normalization",
+      "step:article_projection",
+      "step:boundary_assessment",
+      "step:morphology_path_classification",
+      "step:structural_aggregation",
+      "step:host_routing"
+    ]
+  },
+  {
+    "input_surface": "تَقِي",
+    "normalized_surface": "تَقِي",
+    "prefixes": [],
+    "host_surface": "تَقِي",
+    "suffixes": [],
+    "structural_verdict": "DEFER",
+    "lexical_boundary": "AMBIGUOUS",
+    "morphology_path": "ambiguous_morphology_path",
+    "root_path_directive": "DEFER",
+    "next_stage": "BLOCKED",
+    "routing": {
+      "route": "MORPHOLOGY_PATH",
+      "root_path_directive": "DEFER",
+      "next_stage": "BLOCKED",
+      "operator_id": null,
+      "mabni_id": null,
+      "evidence_id": "routing:structural_defer",
+      "notes": "DEFER من البنية: AMBIGUOUS"
+    },
+    "evidence_ids": [
+      "article:none",
+      "structural:phone_count",
+      "structural:prefix_ambiguity",
+      "routing:structural_defer"
+    ],
+    "residual_codes": [
+      "defer:pre_root:structural_prerequisite_not_closed"
+    ],
+    "trace_ids": [
+      "step:hamza_normalization",
+      "step:article_projection",
+      "step:boundary_assessment",
+      "step:morphology_path_classification",
+      "step:structural_aggregation",
+      "step:host_routing"
+    ]
+  },
+  {
+    "input_surface": "أَنَّهُمْ",
+    "normalized_surface": "ءَنَّهُمْ",
+    "prefixes": [],
+    "host_surface": "أَنَّهُمْ",
+    "suffixes": [],
+    "structural_verdict": "ACCEPT",
+    "lexical_boundary": "ROOT_ELIGIBLE",
+    "morphology_path": "verbal_root_path",
+    "root_path_directive": "BLOCK",
+    "next_stage": "OPERATOR",
+    "routing": {
+      "route": "CLOSED_OPERATOR_HOST",
+      "root_path_directive": "BLOCK",
+      "next_stage": "OPERATOR",
+      "operator_id": "ANNA",
+      "mabni_id": null,
+      "evidence_id": "routing:operator_boundary_from_recognize_token",
+      "notes": "مضيف مشغّل: 'أَنَّ'"
+    },
+    "evidence_ids": [
+      "article:none",
+      "structural:phone_count",
+      "structural:root_eligible_structure",
+      "routing:operator_boundary_from_recognize_token"
+    ],
+    "residual_codes": [
+      "block:pre_root:host_routed_to_closed_operator_host"
+    ],
+    "trace_ids": [
+      "step:hamza_normalization",
+      "step:article_projection",
+      "step:boundary_assessment",
+      "step:morphology_path_classification",
+      "step:structural_aggregation",
+      "step:host_routing"
+    ]
+  },
+  {
+    "input_surface": "فَقَدُوهُ",
+    "normalized_surface": "فَقَدُوهُ",
+    "prefixes": [],
+    "host_surface": "فَقَدُوهُ",
+    "suffixes": [],
+    "structural_verdict": "ACCEPT",
+    "lexical_boundary": "ROOT_ELIGIBLE",
+    "morphology_path": "verbal_root_path",
+    "root_path_directive": "OPEN",
+    "next_stage": "HR2S",
+    "routing": {
+      "route": "MORPHOLOGY_PATH",
+      "root_path_directive": "OPEN",
+      "next_stage": "HR2S",
+      "operator_id": null,
+      "mabni_id": null,
+      "evidence_id": "routing:morphology_path_open",
+      "notes": "مضيف مرشح للتحليل الصرفي"
+    },
+    "evidence_ids": [
+      "article:none",
+      "structural:phone_count",
+      "structural:root_eligible_structure",
+      "routing:morphology_path_open"
+    ],
+    "residual_codes": [],
+    "trace_ids": [
+      "step:hamza_normalization",
+      "step:article_projection",
+      "step:boundary_assessment",
+      "step:morphology_path_classification",
+      "step:structural_aggregation",
+      "step:host_routing"
+    ]
+  },
+  {
+    "input_surface": "رَجُلٌ",
+    "normalized_surface": "رَجُلٌ",
+    "prefixes": [],
+    "host_surface": "رَجُلٌ",
+    "suffixes": [],
+    "structural_verdict": "ACCEPT",
+    "lexical_boundary": "ROOT_ELIGIBLE",
+    "morphology_path": "nominal_morphology_path",
+    "root_path_directive": "OPEN",
+    "next_stage": "HR2S",
+    "routing": {
+      "route": "MORPHOLOGY_PATH",
+      "root_path_directive": "OPEN",
+      "next_stage": "HR2S",
+      "operator_id": null,
+      "mabni_id": null,
+      "evidence_id": "routing:morphology_path_open",
+      "notes": "مضيف مرشح للتحليل الصرفي"
+    },
+    "evidence_ids": [
+      "article:none",
+      "structural:phone_count",
+      "structural:root_eligible_structure",
+      "routing:morphology_path_open"
+    ],
+    "residual_codes": [],
+    "trace_ids": [
+      "step:hamza_normalization",
+      "step:article_projection",
+      "step:boundary_assessment",
+      "step:morphology_path_classification",
+      "step:structural_aggregation",
+      "step:host_routing"
+    ]
+  }
+]

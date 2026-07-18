@@ -1,0 +1,93 @@
+{
+  "_comment": "Verb paradigm catalog — root class to paradigm templates",
+  "paradigms": [
+    {
+      "paradigm_id": "SOUND_MUJARRAD",
+      "root_class": "SOUND",
+      "form_id": null,
+      "license_status": "ACCEPT",
+      "evidence_rank": 1,
+      "notes": "Sound trilateral — bab determines vowels"
+    },
+    {
+      "paradigm_id": "HOLLOW_WAW",
+      "root_class": "HOLLOW_WAW",
+      "form_id": null,
+      "license_status": "ACCEPT",
+      "evidence_rank": 1,
+      "notes": "C2=و, e.g. قَالَ/يَقُولُ"
+    },
+    {
+      "paradigm_id": "HOLLOW_YAA",
+      "root_class": "HOLLOW_YAA",
+      "form_id": null,
+      "license_status": "ACCEPT",
+      "evidence_rank": 1,
+      "notes": "C2=ي, e.g. بَاعَ/يَبِيعُ"
+    },
+    {
+      "paradigm_id": "DEFECTIVE_WAW",
+      "root_class": "DEFECTIVE_WAW",
+      "form_id": null,
+      "license_status": "ACCEPT",
+      "evidence_rank": 1,
+      "notes": "C3=و, e.g. دَعَا/يَدْعُو"
+    },
+    {
+      "paradigm_id": "DEFECTIVE_YAA",
+      "root_class": "DEFECTIVE_YAA",
+      "form_id": null,
+      "license_status": "ACCEPT",
+      "evidence_rank": 1,
+      "notes": "C3=ي (surface ى), e.g. رَمَى/يَرْمِي"
+    },
+    {
+      "paradigm_id": "ASSIMILATED_WAW",
+      "root_class": "ASSIMILATED_WAW",
+      "form_id": null,
+      "license_status": "ACCEPT",
+      "evidence_rank": 1,
+      "notes": "C1=و, e.g. وَعَدَ/يَعِدُ — C1 drops in imperfect"
+    },
+    {
+      "paradigm_id": "GEMINATED",
+      "root_class": "GEMINATED",
+      "form_id": null,
+      "license_status": "ACCEPT",
+      "evidence_rank": 1,
+      "notes": "C2=C3, e.g. مَدَّ/يَمُدُّ"
+    },
+    {
+      "paradigm_id": "HAMZATED_C1",
+      "root_class": "HAMZATED_C1",
+      "form_id": null,
+      "license_status": "ACCEPT",
+      "evidence_rank": 1,
+      "notes": "C1=ء, e.g. أَكَلَ/يَأْكُلُ"
+    },
+    {
+      "paradigm_id": "HAMZATED_C2",
+      "root_class": "HAMZATED_C2",
+      "form_id": null,
+      "license_status": "ACCEPT",
+      "evidence_rank": 1,
+      "notes": "C2=ء"
+    },
+    {
+      "paradigm_id": "HAMZATED_C3",
+      "root_class": "HAMZATED_C3",
+      "form_id": null,
+      "license_status": "ACCEPT",
+      "evidence_rank": 1,
+      "notes": "C3=ء, e.g. قَرَأَ/يَقْرَأُ"
+    },
+    {
+      "paradigm_id": "AUGMENTED_II_X",
+      "root_class": "AUGMENTED",
+      "form_id": "FORM_II_TO_X",
+      "license_status": "ACCEPT",
+      "evidence_rank": 1,
+      "notes": "Forms II-X — uses wazn templates"
+    }
+  ]
+}
