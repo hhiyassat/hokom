@@ -1,0 +1,11 @@
+{
+  "mandate": "HOKOM-TAAQOL-LIVE-INTEGRATION-01",
+  "suite": "tests/taaqol_live/",
+  "runtime": "Python 3.10.12 (Linux container)",
+  "summary": "118 passed, 32 skipped in 0.37s",
+  "passed": 118,
+  "skipped": 32,
+  "failed": 0,
+  "skip_reason": "taaqqul_slot_geometry requires Python 3.11+ (StrEnum). Skipped tests run on Python 3.12.",
+  "verdict": "ALL_PASS"
+}

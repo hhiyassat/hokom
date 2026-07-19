@@ -1,0 +1,18 @@
+{
+  "mandate": "HOKOM-TAAQOL-LIVE-INTEGRATION-01",
+  "constraint": "NEVER modify vendor/Taaqol-GPT",
+  "taaqol_commit": "ee56e369fb1e7eb402998c1f73e83642134a0f34",
+  "git_status_clean": true,
+  "git_status_output": "",
+  "required_files_present": true,
+  "required_files": [
+    "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/__init__.py",
+    "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/core/slot_graph.py",
+    "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/core/gamma.py",
+    "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/core/transition_gate.py",
+    "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/core/rank_lattice.py",
+    "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/core/residual_policy.py",
+    "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/core/evidence_contract.py"
+  ],
+  "verdict": "INTACT"
+}

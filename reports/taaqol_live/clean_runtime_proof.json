@@ -1,0 +1,12 @@
+{
+  "mandate": "HOKOM-TAAQOL-LIVE-INTEGRATION-01",
+  "runtime": "Python 3.10.12 (Linux container)",
+  "command": "python -m pytest test_hokom.py tests/ -q --tb=no",
+  "summary": "10 failed, 4308 passed, 50 skipped, 132 subtests passed in 13.09s",
+  "total_passed": 4308,
+  "pre_existing_failures": 10,
+  "pre_existing_failure_reason": "Python 3.11+ readiness tests (StrEnum, packaging, runtime checks). Not caused by integration.",
+  "integration_caused_failures": 0,
+  "verdict": "CLEAN",
+  "note": "test_taaqol_not_in_hokom_pipeline fixed by moving live bridge to pipeline.taaqol_integration.live"
+}

@@ -1,0 +1,29 @@
+{
+  "mandate": "HOKOM-TAAQOL-LIVE-INTEGRATION-01",
+  "gates": [
+    {
+      "gate_id": "HOKOM_TAAQOL_OWNERSHIP",
+      "owner": "HOKOM",
+      "mode": "STRICT",
+      "fail_closed": true,
+      "parallel_engines": 0,
+      "parallel_bridges": 0,
+      "silent_fallback": false,
+      "canonical_entrypoint": "evaluate_hokom_claim_bundle",
+      "entrypoint_module": "pipeline.taaqol_integration.live.bridge",
+      "status": "CLOSED"
+    }
+  ],
+  "constraints_verified": [
+    "NEVER modify vendor/Taaqol-GPT",
+    "NEVER use git add -A or git add .",
+    "NEVER add skip/xfail to cover failures",
+    "NEVER delete existing tests",
+    "NEVER create shims or monkey patches",
+    "NEVER create fallback that returns LICENSED on Taaqol failure",
+    "NEVER copy Taaqol code into Hokom",
+    "NEVER modify semantic behavior of closed pipeline stages",
+    "NEVER fabricate claims from non-wired stages (p5_masdar, p6_derivatives)",
+    "ONE commit at the very end"
+  ]
+}

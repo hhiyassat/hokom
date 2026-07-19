@@ -1,0 +1,23 @@
+{
+  "mandate": "HOKOM-TAAQOL-LIVE-INTEGRATION-01",
+  "rule": "Upstream Hokom verdicts CANNOT be upgraded by Taaqol (monotonic composition)",
+  "matrix": [
+    {"upstream": "BLOCKED", "taaqol": "*", "effective": "BLOCKED", "case": 1},
+    {"upstream": "BLOCK",   "taaqol": "*", "effective": "BLOCKED", "case": 1},
+    {"upstream": "DEFERRED","taaqol": "BLOCKED",  "effective": "BLOCKED",  "case": 2},
+    {"upstream": "DEFERRED","taaqol": "OTHER",    "effective": "DEFERRED", "case": 3},
+    {"upstream": "DEFER",   "taaqol": "BLOCKED",  "effective": "BLOCKED",  "case": 2},
+    {"upstream": "DEFER",   "taaqol": "OTHER",    "effective": "DEFERRED", "case": 3},
+    {"upstream": "RESIDUAL","taaqol": "BLOCKED",  "effective": "BLOCKED",  "case": 4},
+    {"upstream": "RESIDUAL","taaqol": "OTHER",    "effective": "RESIDUAL", "case": 5},
+    {"upstream": "ACCEPTED","taaqol": "APPROVED→LICENSED", "effective": "LICENSED",  "case": 6},
+    {"upstream": "ACCEPTED","taaqol": "DEFERRED", "effective": "DEFERRED", "case": 6},
+    {"upstream": "ACCEPTED","taaqol": "BLOCKED",  "effective": "BLOCKED",  "case": 6},
+    {"upstream": "LICENSED","taaqol": "APPROVED→LICENSED", "effective": "LICENSED",  "case": 6},
+    {"upstream": "COMPLETE","taaqol": "APPROVED→LICENSED", "effective": "LICENSED",  "case": 6},
+    {"upstream": "UNKNOWN", "taaqol": "BLOCKED",  "effective": "BLOCKED",  "case": 7},
+    {"upstream": "UNKNOWN", "taaqol": "OTHER",    "effective": "DEFERRED", "case": 7},
+    {"upstream": "REJECTED (Taaqol)", "taaqol": "REJECTED", "effective": "BLOCKED", "note": "REJECTED→BLOCKED"},
+    {"upstream": "FORBIDDEN_LEAP (Taaqol)", "taaqol": "FORBIDDEN_LEAP", "effective": "BLOCKED", "note": "FORBIDDEN_LEAP→BLOCKED"}
+  ]
+}

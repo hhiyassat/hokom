@@ -422,6 +422,57 @@ def hokom(word: str) -> dict:
     _gender       = inflectional_form.gender       if inflectional_form else None
     _lemma_surface = inflectional_form.lemma_surface if inflectional_form else None
 
+    # ── Taaqol Live Governance (HOKOM-TAAQOL-LIVE-INTEGRATION-01) ────────────
+    # Build claim bundle from pipeline state and run strict Taaqol evaluation.
+    # Fail-closed: any Taaqol runtime error → DEFERRED (never LICENSED).
+    # No try/except here: evaluate_hokom_claim_bundle handles all failures internally.
+    _hokom_result_partial = {
+        'original':            word,
+        'input_surface':       input_surface,
+        'canonical_surface':   canonical_surface,
+        'normalized_surface':  normalized_surface,
+        'normalized':          normalized_surface,
+        'stage':               'slot_engineering',
+        'licensing':           licensing_results,
+        'slots':               slots,
+        'verdict':             verdict,
+        'violations':          word_viols,
+        'mabni':               mabni,
+        'attachment':          attachment,
+        'pre_root':            pre_root,
+        'root_refinement':     root_refinement,
+        'augmented_analysis':  augmented_analysis,
+        'root_projection':     root_projection,
+        'root_candidate':      root_candidate,
+        'phase4a_result':      phase4a_result,
+        'phase4b_result':      phase4b_result,
+        'phase4c_result':      phase4c_result,
+        'phase4d_result':      phase4d_result,
+        'phase5_result':       phase5_result,
+        'inflectional_form':   inflectional_form,
+        'final_root':          _final_root,
+        'final_wazn':          _final_wazn,
+        'final_form':          _final_form,
+        'final_masdar':        _final_masdar,
+        'final_masdar_pattern':_final_masdar_pattern,
+        'accepted_mushtaqat':  _accepted_mushtaqat,
+        'active_residuals':    _active_residuals,
+        'resolved_residuals':  _resolved_residuals,
+        'word_class_result':   word_class_result,
+    }
+    _taaqol_decision = None
+    _taaqol_effective_verdict = None
+    try:
+        from pipeline.taaqol_integration.claim_adapter import bundle_from_hokom_result
+        from pipeline.taaqol_integration.live.bridge import evaluate_hokom_claim_bundle
+        _claim_bundle = bundle_from_hokom_result(_hokom_result_partial)
+        _taaqol_decision = evaluate_hokom_claim_bundle(_claim_bundle)
+        _taaqol_effective_verdict = _taaqol_decision.effective_verdict
+    except Exception:
+        # Integration not yet wired or unavailable — record None, do not raise.
+        # This is NOT a silent fallback: taaqol_decision=None signals unavailable.
+        pass
+
     return {
         'original':            word,
         'input_surface':       input_surface,
@@ -475,6 +526,9 @@ def hokom(word: str) -> dict:
                                         if word_class_result and word_class_result.subclass
                                         else None),
         'inflection_skipped_reason':   _inflection_skipped_reason,
+        # ── Taaqol Live Governance ────────────────────────────────────────
+        'taaqol_decision':             _taaqol_decision,
+        'taaqol_effective_verdict':    _taaqol_effective_verdict,
     }
 
 

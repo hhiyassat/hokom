@@ -1,0 +1,11 @@
+{
+  "mandate": "HOKOM-TAAQOL-LIVE-INTEGRATION-01",
+  "constraint": "NEVER modify semantic behavior of closed pipeline stages",
+  "verification": "git diff --name-only shows only hokom_pipeline.py (Taaqol hook added at end)",
+  "modified_files": ["hokom_pipeline.py"],
+  "modification_type": "ADDITIVE_ONLY",
+  "modification_description": "Added try/except block AFTER all pipeline stages complete, before final return. No stage logic modified.",
+  "upstream_stages_unchanged": ["P0", "P1", "P2", "P3", "P4", "P5", "Word Class Engine", "Phase 5"],
+  "semantic_equivalence": "PRESERVED",
+  "evidence": "4308 existing tests pass (same as pre-integration baseline minus 10 pre-existing Python 3.11 readiness failures)"
+}

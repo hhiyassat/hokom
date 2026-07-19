@@ -1,0 +1,38 @@
+{
+  "mandate": "HOKOM-TAAQOL-LIVE-INTEGRATION-01",
+  "canonical_entrypoint": "evaluate_hokom_claim_bundle",
+  "entrypoint_module": "pipeline.taaqol_integration.live.bridge",
+  "claim_path": [
+    {
+      "step": 1,
+      "name": "hokom() pipeline",
+      "module": "hokom_pipeline",
+      "output": "dict with all morphology fields",
+      "stages": ["P0", "P1", "P2", "P3", "P4", "P5", "Word Class Engine", "Phase 5"]
+    },
+    {
+      "step": 2,
+      "name": "bundle_from_hokom_result()",
+      "module": "pipeline.taaqol_integration.claim_adapter",
+      "output": "HokomLinguisticClaimBundle",
+      "note": "Converts hokom() dict to typed claim bundle"
+    },
+    {
+      "step": 3,
+      "name": "evaluate_hokom_claim_bundle()",
+      "module": "pipeline.taaqol_integration.live.bridge",
+      "output": "HokomTaaqolDecision",
+      "substeps": [
+        "Import taaqqul_slot_geometry (fail-closed)",
+        "_build_slot_graph(bundle) → SlotGraph",
+        "gamma(slot_graph) → GammaResult",
+        "_build_evidence_contract(bundle) → EvidenceContract",
+        "TransitionGate.decide(graph, Layer.CANDIDATE, evidence) → TransitionVerdict",
+        "Map TransitionState → taaqol_verdict",
+        "compose_effective_verdict(upstream, taaqol) → effective_verdict"
+      ]
+    }
+  ],
+  "non_wired_stages": ["p5_masdar", "p6_derivatives"],
+  "non_wired_note": "Claims from non-wired stages are never fabricated (constitutional constraint)"
+}
