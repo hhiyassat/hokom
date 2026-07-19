@@ -140,9 +140,20 @@ def _load_mabniyat_dir(directory: str) -> list[MabniEntry]:
     حمِّل ملفات CSV من مجلد 02_mabniyat.
     كل ملف = صنف من المبنيات (ضمائر، أسماء إشارة، موصولات...).
     يتوقع: عمود surface_vocalized وعمود category على الأقل.
+
+    CWD guard (RC1):
+    إذا كان directory فارغًا أو يُحيل إلى CWD، لا تُحمَّل أي ملفات.
+    يمنع هذا تلوث الفهرس بملفات CSV عشوائية من الجذر (مثل
+    mabniyat_catalog_split_vocalized.csv و operators_catalog_split_vocalized.csv).
     """
     entries: list[MabniEntry] = []
+    # ── CWD guard ──────────────────────────────────────────────────────────────
+    if not directory:
+        return entries   # مسار فارغ → تخطِّ (لا تُحمِّل من CWD)
     dirpath = Path(directory)
+    # منع تحميل CWD نفسه حتى لو صودف أنه صريح في الوسيطة
+    if dirpath.resolve() == Path.cwd().resolve():
+        return entries   # مسار صريح لـ CWD → تخطِّ
     if not dirpath.exists():
         return entries   # المجلد غير متاح في هذه الجلسة
 

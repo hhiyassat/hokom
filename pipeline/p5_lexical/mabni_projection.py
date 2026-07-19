@@ -159,7 +159,9 @@ def _lexical_class(entries: list[MabniEntry]) -> str:
         return 'Verbal Operator'
 
     # أدوات العدد والتمييز (المجموعة 8)
-    if groups and groups.issubset({_NUMERICAL_GROUP}):
+    # ملاحظة: نستخدم any() لا issubset() لدعم الترخيص المزدوج (مثل كَذَا)
+    # حيث قد تحمل إدخالات من مجموعتين (8: عامل كمي، و0: كناية عامة غير عامل)
+    if any(e.group_number == _NUMERICAL_GROUP and e.is_operator for e in entries):
         return 'Numerical Operator'
 
     # حروف المعاني والأدوات المغلقة (مجموعات 1–7، 9)
@@ -172,29 +174,24 @@ def _lexical_class(entries: list[MabniEntry]) -> str:
 def _verdict_from(entries: list[MabniEntry], structural_verdict: str,
                   canonical: str = '') -> str:
     """
-    الحكم المعجمي من P5 — مقيَّد بالحكم الهيكلي من P4 (قانون الرتابة).
+    الحكم المعجمي من P5 — مقيَّد بالحكم الهيكلي من P4 (قانون الرتابة الصارم).
 
       structural_verdict = 'ACCEPT' + is_operator → OPERATOR_BOUNDARY
       structural_verdict = 'ACCEPT' + not operator → MABNI_BOUNDARY
-      structural_verdict = 'DEFER'  + مُدخَل أجرد → يُعامَل كـ ACCEPT (راجع أدناه)
-      structural_verdict = 'DEFER'  + مُدخَل مشكول → OPERATOR_DEFERRED
+      structural_verdict = 'DEFER'  + is_operator → OPERATOR_DEFERRED
+      structural_verdict = 'DEFER'  + not operator → MABNI_DEFERRED
 
-    قانون الرتابة:
+    قانون الرتابة (مطلق — RC5):
       P4 ACCEPT → P5 يجوز له أن يُعلن OPERATOR_BOUNDARY
-      P4 DEFER  → P5 لا يجوز له تحويل DEFER إلى ACCEPT — يُعلن OPERATOR_DEFERRED
+      P4 DEFER  → P5 لا يجوز له تحويل DEFER إلى ACCEPT أبدًا
+                  حتى المُدخَل الأجرد يبقى مؤجَّلاً — لا ترقية تلقائية
 
-    استثناء المُدخَل الأجرد:
-      حين يكون المُدخَل بلا تشكيل كليًا (مثل: عن، من، هل)، يُعطي P4 DEFER
-      لأنه لا يستطيع التحقق من البنية المقطعية بلا حركات.
-      في هذه الحالة، وجود الأداة في الكتالوج كافٍ للحكم المعجمي،
-      لأن الأداة الأجرد معروفة الهوية بلا التباس.
+    ملاحظة: canonical محفوظ في التوقيع للتوافق مع الاستدعاءات القائمة.
     """
     if structural_verdict == 'DEFER':
-        # المُدخَل الأجرد: canonical بلا تشكيل → يُسقَط حارس DEFER
-        if canonical and canonical == _strip_diacritics(canonical):
-            pass   # أجرد → استمر للحكم المعجمي العادي
-        else:
+        if any(e.is_operator for e in entries):
             return 'OPERATOR_DEFERRED'
+        return 'MABNI_DEFERRED'
     if any(e.is_operator for e in entries):
         return 'OPERATOR_BOUNDARY'
     return 'MABNI_BOUNDARY'
@@ -311,6 +308,7 @@ VERDICT_ICON: dict[str, str] = {
     'OPERATOR_BOUNDARY':  '◈',
     'OPERATOR_DEFERRED':  '◌',
     'MABNI_BOUNDARY':    '◈',
+    'MABNI_DEFERRED':    '◌',
     'OPEN':              '→',
     'BLOCK':             '✗',
 }

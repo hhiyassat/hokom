@@ -1,0 +1,225 @@
+diff --git a/data/generated/02_mabniyat/mabniyat_examples_manifest.jsonl b/data/generated/02_mabniyat/mabniyat_examples_manifest.jsonl
+index f4d45f8..f286d2b 100644
+--- a/data/generated/02_mabniyat/mabniyat_examples_manifest.jsonl
++++ b/data/generated/02_mabniyat/mabniyat_examples_manifest.jsonl
+@@ -21,7 +21,7 @@
+ {"case_id": "built_in_adverbs_017", "source_file": "built_in_adverbs.json", "source_record_id": 17, "source_field": "adverb", "raw_example": "أَيْنَ يَسْكُنُ عَلِيٌّ؟", "expected_mabni_id": "AYNA_SHART", "expected_surface": "أَيَّْنَ", "expected_surface_kind": "STANDALONE", "expected_position": "WHOLE_TOKEN", "expected_route": "MABNI_BOUNDARY", "evidence_mode": "DIRECT_FORM", "expectation_status": "APPROVED_DEFER", "expectation_reason": "APPROVED_DEFER — شكل تشكيل مستحيل في حقل adverb (شدة+سكون على ياء واحدة)؛ الصواب أَيْنَ"}
+ {"case_id": "built_in_adverbs_018", "source_file": "built_in_adverbs.json", "source_record_id": 18, "source_field": "adverb", "raw_example": "مَتَى تَأْتِ أُكْرِمْكَ", "expected_mabni_id": "MATA_ZARF", "expected_surface": "مَتَى", "expected_surface_kind": "STANDALONE", "expected_position": "WHOLE_TOKEN", "expected_route": "MABNI_BOUNDARY", "evidence_mode": "DIRECT_FORM", "expectation_status": "APPROVED_DEFER", "expectation_reason": "APPROVED_DEFER — SOURCE_CONTRADICTION: مَتَى ظرف في built_in_adverbs لكنها أداة شرط جازم في كتالوج العوامل"}
+ {"case_id": "built_in_adverbs_019", "source_file": "built_in_adverbs.json", "source_record_id": 19, "source_field": "adverb", "raw_example": "اجْلِسْ هُنَا.", "expected_mabni_id": "HUNA", "expected_surface": "هُنَا", "expected_surface_kind": "STANDALONE", "expected_position": "WHOLE_TOKEN", "expected_route": "MABNI_BOUNDARY", "evidence_mode": "DIRECT_FORM", "expectation_status": "TESTABLE", "expectation_reason": ""}
+-{"case_id": "built_in_adverbs_020", "source_file": "built_in_adverbs.json", "source_record_id": 20, "source_field": "adverb", "raw_example": "أَنَّى لَكِ هَٰذَا؟", "expected_mabni_id": "ANNA_ZARF", "expected_surface": "أَنَّى", "expected_surface_kind": "STANDALONE", "expected_position": "WHOLE_TOKEN", "expected_route": "MABNI_BOUNDARY", "evidence_mode": "DIRECT_FORM", "expectation_status": "TESTABLE", "expectation_reason": ""}
++{"case_id": "built_in_adverbs_020", "source_file": "built_in_adverbs.json", "source_record_id": 20, "source_field": "adverb", "raw_example": "أَنَّى لَكِ هَٰذَا؟", "expected_mabni_id": "ANNA_ZARF", "expected_surface": "أَنَّى", "expected_surface_kind": "STANDALONE", "expected_position": "WHOLE_TOKEN", "expected_route": "MABNI_BOUNDARY", "evidence_mode": "DIRECT_FORM", "expectation_status": "TESTABLE", "expectation_reason": "SOURCE_CONTRADICTION: أَنَّى حرف شرط جازم (المجموعة 7، is_operator=True) في كتالوج العوامل → OPERATOR_BOUNDARY، لكن مصدر الظروف يتوقع MABNI_BOUNDARY — تعارض بين المصدرين"}
+ {"case_id": "built_in_adverbs_021", "source_file": "built_in_adverbs.json", "source_record_id": 21, "source_field": "adverb", "raw_example": "إِذَا دَرَسْتَ نَجَحْتَ.", "expected_mabni_id": "IDHA_ZARF", "expected_surface": "إِذَا", "expected_surface_kind": "STANDALONE", "expected_position": "WHOLE_TOKEN", "expected_route": "MABNI_BOUNDARY", "evidence_mode": "DIRECT_FORM", "expectation_status": "APPROVED_DEFER", "expectation_reason": "APPROVED_DEFER — SOURCE_CONTRADICTION: إِذَا ظرف في built_in_adverbs لكنها أداة شرط في كتالوج العوامل"}
+ {"case_id": "compound_number_details_001", "source_file": "compound_number_details.json", "source_record_id": 1, "source_field": "example", "raw_example": "حضرَ خمسةَ عشرَ ضيفًا. = فاعل\nاستقبلنا خمسةَ عشرَ ضيفًا. = مفعول به\nسلمْتُ على خمسةَ عشرَ ضيفًا. = اسم مجرور", "expected_mabni_id": null, "expected_surface": null, "expected_surface_kind": "UNDERLICENSED", "expected_position": "N/A", "expected_route": "N/A", "evidence_mode": "DIRECT_FORM", "expectation_status": "UNDERLICENSED", "expectation_reason": "UNDERLICENSED: ملف قاعدة/جملة، لا سطح مفرد قابل للاختبار"}
+ {"case_id": "compound_number_details_002", "source_file": "compound_number_details.json", "source_record_id": 2, "source_field": "example", "raw_example": "جاءتْ اثنتا عشرةَ امرأةً. = اثنتا: فاعل\nرأيْتُ اثنتي عشرةَ امرأةً. = اثنتي: مفعول به\nمررْتُ باثنتي عشرةَ امرأةً. = باثنتي: مجرور\nوالعدد (10) بُنيَ على الفتح في كل الأحوال", "expected_mabni_id": null, "expected_surface": null, "expected_surface_kind": "UNDERLICENSED", "expected_position": "N/A", "expected_route": "N/A", "evidence_mode": "DIRECT_FORM", "expectation_status": "UNDERLICENSED", "expectation_reason": "UNDERLICENSED: ملف قاعدة/جملة، لا سطح مفرد قابل للاختبار"}
+@@ -562,4 +562,4 @@
+ {"case_id": "vocative_particles_006", "source_file": "vocative_particles.json", "source_record_id": 6, "source_field": "particle", "raw_example": "أَيُّهَا التَّارِيخُ، عُدْنَا. (للتفخيم)", "expected_mabni_id": "AYYUHA", "expected_surface": "أَيُّهَا", "expected_surface_kind": "STANDALONE", "expected_position": "WHOLE_TOKEN", "expected_route": "OPERATOR_BOUNDARY", "evidence_mode": "DIRECT_FORM", "expectation_status": "TESTABLE", "expectation_reason": ""}
+ {"case_id": "vocative_particles_007", "source_file": "vocative_particles.json", "source_record_id": 7, "source_field": "particle", "raw_example": "وَا حَسْرَتَاهُ عَلَى مَا فَاتَ.(للتفجع)", "expected_mabni_id": "WA_NIDA", "expected_surface": "وَا", "expected_surface_kind": "STANDALONE", "expected_position": "WHOLE_TOKEN", "expected_route": "OPERATOR_BOUNDARY", "evidence_mode": "DIRECT_FORM", "expectation_status": "TESTABLE", "expectation_reason": ""}
+ {"case_id": "vocative_particles_008", "source_file": "vocative_particles.json", "source_record_id": 8, "source_field": "particle", "raw_example": "آ، وَافَرَجَهُ اللهُ. (للندبة الحزينة)", "expected_mabni_id": "AA_NIDA", "expected_surface": "آ", "expected_surface_kind": "STANDALONE", "expected_position": "WHOLE_TOKEN", "expected_route": "OPERATOR_BOUNDARY", "evidence_mode": "DIRECT_FORM", "expectation_status": "TESTABLE", "expectation_reason": ""}
+-{"case_id": "vocative_particles_009", "source_file": "vocative_particles.json", "source_record_id": 9, "source_field": "particle", "raw_example": "أَفَاطِمُ، مَهْلًا!(نداء لقريب منتبه)", "expected_mabni_id": "A_NIDA", "expected_surface": "أَ", "expected_surface_kind": "STANDALONE", "expected_position": "WHOLE_TOKEN", "expected_route": "OPERATOR_BOUNDARY", "evidence_mode": "DIRECT_FORM", "expectation_status": "TESTABLE", "expectation_reason": ""}
++{"case_id": "vocative_particles_009", "source_file": "vocative_particles.json", "source_record_id": 9, "source_field": "particle", "raw_example": "أَفَاطِمُ، مَهْلًا!(نداء لقريب منتبه)", "expected_mabni_id": "A_NIDA", "expected_surface": "أَ", "expected_surface_kind": "STANDALONE", "expected_position": "WHOLE_TOKEN", "expected_route": "OPERATOR_BOUNDARY", "evidence_mode": "DIRECT_FORM", "expectation_status": "TESTABLE", "expectation_reason": ""}
+\ No newline at end of file
+diff --git a/data/operators_catalog_split_vocalized_corrected.csv b/data/operators_catalog_split_vocalized_corrected.csv
+index 91f6030..575bb3e 100644
+--- a/data/operators_catalog_split_vocalized_corrected.csv
++++ b/data/operators_catalog_split_vocalized_corrected.csv
+@@ -157,3 +157,4 @@
+ 14,حروف العطف,Coordinating Conjunctions,لَكِنْ,للاستدراك,جاء زيدٌ لَكِنْ عمرٌ لم يَجِئْ,لكن الخفيفة: حرف عطف,جَاءَ زَيْدٌ لَكِنْ عَمْرٌو لَمْ يَجِئْ,True
+ 1,الجر فقط الدلالية,Prepositions Only (Semantic),لَ,لام التعليل,جئت لَ أتعلَّمَ,لام الفتح: حرف جر للتعليل,جِئْتُ لَ أَتَعَلَّمَ,True
+ 7,الشرط الجازمة فقط,Conditional (Jussive Only),أَيَّانَ,للشرط الزماني,أَيَّانَ تَسْأَلْنِي أُجِبْكَ,أَيَّانَ: اسم شرط جازم لزمان المستقبل,أَيَّانَ تَسْأَلْنِي أُجِبْكَ,True
++0,المبنيات غير العوامل,Non-Operator Mabniyas,هَلْ,حرف استفهام,هَلْ حَضَرْتَ أَمْسِ؟,هل: حرف استفهام مبني,هَلْ حَضَرْتَ أَمْسِ؟,False
+diff --git a/pipeline/p5_lexical/mabni_inventory.py b/pipeline/p5_lexical/mabni_inventory.py
+index 66fca1f..7099f0f 100644
+--- a/pipeline/p5_lexical/mabni_inventory.py
++++ b/pipeline/p5_lexical/mabni_inventory.py
+@@ -140,8 +140,13 @@ def _load_mabniyat_dir(directory: str) -> list[MabniEntry]:
+     حمِّل ملفات CSV من مجلد 02_mabniyat.
+     كل ملف = صنف من المبنيات (ضمائر، أسماء إشارة، موصولات...).
+     يتوقع: عمود surface_vocalized وعمود category على الأقل.
++
++    القيد: إذا كان directory فارغاً ('' أو مسافات) أو None، لا يُحمَّل شيء.
++    يمنع هذا تحميل CSV عشوائية من مجلد العمل الحالي (CWD-pollution guard).
+     """
+     entries: list[MabniEntry] = []
++    if not directory or not directory.strip():
++        return entries   # لا مجلد مُحدَّد — لا تحميل (CWD-pollution guard)
+     dirpath = Path(directory)
+     if not dirpath.exists():
+         return entries   # المجلد غير متاح في هذه الجلسة
+diff --git a/pipeline/p5_lexical/mabni_projection.py b/pipeline/p5_lexical/mabni_projection.py
+index bf8868d..04d0d54 100644
+--- a/pipeline/p5_lexical/mabni_projection.py
++++ b/pipeline/p5_lexical/mabni_projection.py
+@@ -176,23 +176,36 @@ def _verdict_from(entries: list[MabniEntry], structural_verdict: str,
+ 
+       structural_verdict = 'ACCEPT' + is_operator → OPERATOR_BOUNDARY
+       structural_verdict = 'ACCEPT' + not operator → MABNI_BOUNDARY
+-      structural_verdict = 'DEFER'  + مُدخَل أجرد → يُعامَل كـ ACCEPT (راجع أدناه)
+-      structural_verdict = 'DEFER'  + مُدخَل مشكول → OPERATOR_DEFERRED
++      structural_verdict = 'DEFER'  + استثناء الجار الأجرد → OPERATOR_BOUNDARY
++      structural_verdict = 'DEFER'  + استثناء المبني غير العامل الأجرد → MABNI_BOUNDARY
++      structural_verdict = 'DEFER'  + باقي الحالات → OPERATOR_DEFERRED
+ 
+     قانون الرتابة:
+-      P4 ACCEPT → P5 يجوز له أن يُعلن OPERATOR_BOUNDARY
+-      P4 DEFER  → P5 لا يجوز له تحويل DEFER إلى ACCEPT — يُعلن OPERATOR_DEFERRED
+-
+-    استثناء المُدخَل الأجرد:
+-      حين يكون المُدخَل بلا تشكيل كليًا (مثل: عن، من، هل)، يُعطي P4 DEFER
+-      لأنه لا يستطيع التحقق من البنية المقطعية بلا حركات.
+-      في هذه الحالة، وجود الأداة في الكتالوج كافٍ للحكم المعجمي،
+-      لأن الأداة الأجرد معروفة الهوية بلا التباس.
++      P4 DEFER → P5 لا يُحوِّل DEFER إلى ACCEPT بوجه عام.
++      استثناءان فقط للمدخل الأجرد (canonical == _strip_diacritics(canonical)):
++
++      استثناء 1 — حروف الجر (Group 1):
++        حروف الجر المشكولة تشكيلًا ناقصًا (مثل: عن، من) معروفة الهوية
++        حتى بلا تشكيل → يُسقَط حارس DEFER → OPERATOR_BOUNDARY.
++        الشرط: جميع المداخل group_number=1 وis_operator=True.
++
++      استثناء 2 — المبنيات غير العاملة (غير المجموعة 8):
++        المبنيات غير العاملة كـ(هل) معروفة دائمًا حتى بلا تشكيل
++        → يُسقَط حارس DEFER → MABNI_BOUNDARY.
++        الشرط: جميع المداخل is_operator=False وgroup_number ≠ 8.
++        (المجموعة 8 تبقى OPERATOR_DEFERRED لأن مداخلها اسمية وليست حروفًا خالصة.)
+     """
+     if structural_verdict == 'DEFER':
+-        # المُدخَل الأجرد: canonical بلا تشكيل → يُسقَط حارس DEFER
+-        if canonical and canonical == _strip_diacritics(canonical):
+-            pass   # أجرد → استمر للحكم المعجمي العادي
++        if canonical and canonical == _strip_diacritics(canonical) and entries:
++            # استثناء 1: حروف الجر الأجرد (Group 1, is_operator=True)
++            if all(e.group_number == 1 and e.is_operator for e in entries):
++                pass   # → حكم معجمي عادي → OPERATOR_BOUNDARY
++            # استثناء 2: مبنيات غير عاملة أجرد (is_operator=False, group ≠ 8)
++            elif all(not e.is_operator and e.group_number != _NUMERICAL_GROUP
++                     for e in entries):
++                pass   # → حكم معجمي عادي → MABNI_BOUNDARY
++            else:
++                return 'OPERATOR_DEFERRED'
+         else:
+             return 'OPERATOR_DEFERRED'
+     if any(e.is_operator for e in entries):
+diff --git a/test_hokom.py b/test_hokom.py
+index 66796be..ee0b7f2 100644
+--- a/test_hokom.py
++++ b/test_hokom.py
+@@ -831,11 +831,14 @@ class TestMonotonicity(unittest.TestCase):
+         self.assertEqual(r.verdict, 'OPERATOR_DEFERRED')
+         self.assertEqual(r.structural_verdict, 'DEFER')
+ 
+-    def test_kam_vocalized_operator_boundary(self):
+-        """كَمْ (مشكول) → P4=ACCEPT → OPERATOR_BOUNDARY"""
++    def test_kam_vocalized_mabni_boundary(self):
++        """كَمْ (مشكول) → P4=ACCEPT → MABNI_BOUNDARY
++        كَمْ اسم مبني (المجموعة 8، is_operator=False) وليست حرف معنى عامل.
++        قرار إغلاق P5: المجموعة 8 = أسماء مبنية → MABNI_BOUNDARY.
++        """
+         r = _mabni('كَمْ')
+         self.assertIsInstance(r, MabniBoundary)
+-        self.assertEqual(r.verdict, 'OPERATOR_BOUNDARY')
++        self.assertEqual(r.verdict, 'MABNI_BOUNDARY')
+         self.assertEqual(r.structural_verdict, 'ACCEPT')
+ 
+     # ── ACCEPT: جميع الأدوات المشكولة ────────────────────────────────────────────
+@@ -844,7 +847,7 @@ class TestMonotonicity(unittest.TestCase):
+         """جميع الأدوات المشكولة التي تنتج OPERATOR_BOUNDARY لها structural_verdict=ACCEPT"""
+         ops = ['إِنَّ', 'أَنَّ', 'كَأَنَّ', 'لَكِنَّ', 'لَيْتَ', 'لَعَلَّ',
+                'لَمْ', 'لَمَّا', 'إِنْ', 'لَنْ', 'أَنْ', 'كَيْ',
+-               'إِلَّا', 'يَا', 'وَ', 'مَنْ', 'مَا', 'لَا', 'كَمْ',
++               'إِلَّا', 'يَا', 'وَ', 'مَنْ', 'مَا', 'لَا',
+                'بِ', 'مِنْ', 'إِلَى', 'فِي', 'عَنْ', 'حَتَّى', 'لِ', 'كَ']
+         for op in ops:
+             with self.subTest(op=op):
+@@ -860,7 +863,7 @@ class TestMonotonicity(unittest.TestCase):
+ 
+     def test_operator_boundary_implies_structural_accept(self):
+         """OPERATOR_BOUNDARY يستلزم structural_verdict=ACCEPT (الاتجاه الأول)"""
+-        ops = ['إِنَّ', 'لَمْ', 'أَنْ', 'كَيْ', 'وَ', 'مَا', 'لَا', 'كَمْ']
++        ops = ['إِنَّ', 'لَمْ', 'أَنْ', 'كَيْ', 'وَ', 'مَا', 'لَا']
+         for op in ops:
+             with self.subTest(op=op):
+                 r = _mabni(op)
+@@ -923,14 +926,23 @@ class TestMonotonicity(unittest.TestCase):
+         self.assertNotEqual(r.lexical_class, 'Closed Function Word')
+ 
+     def test_numerical_operators_remain_operator_boundary(self):
+-        """جميع أدوات المجموعة 8 تُنتج OPERATOR_BOUNDARY مع opens_relation=True"""
+-        for word in ['كَمْ', 'كَأَيِّنْ', 'كَذَا', 'مِائَةَ', 'أَلْفَ',
+-                     'أُلُوفَ', 'مَلَايِينَ', 'عَشَرَةَ']:
++        """المجموعة 8: is_operator=True → OPERATOR_BOUNDARY، is_operator=False → MABNI_BOUNDARY"""
++        expected_verdicts = {
++            'كَمْ':      'MABNI_BOUNDARY',
++            'كَأَيِّنْ': 'MABNI_BOUNDARY',
++            'كَذَا':     'MABNI_BOUNDARY',
++            'مِائَةَ':   'OPERATOR_BOUNDARY',
++            'أَلْفَ':    'OPERATOR_BOUNDARY',
++            'أُلُوفَ':   'OPERATOR_BOUNDARY',
++            'مَلَايِينَ': 'OPERATOR_BOUNDARY',
++            'عَشَرَةَ':  'OPERATOR_BOUNDARY',
++        }
++        for word, expected in expected_verdicts.items():
+             r = _mabni(word)
+             self.assertIsInstance(r, MabniBoundary,
+                                   f"{word}: يجب أن تُنتج MabniBoundary")
+-            self.assertIn(r.verdict, ('OPERATOR_BOUNDARY', 'OPERATOR_DEFERRED'),
+-                          f"{word}: يجب أن يبقى في مسار OPERATOR_BOUNDARY")
++            self.assertEqual(r.verdict, expected,
++                             f"{word}: المجموعة 8 — is_operator يحدد المسار")
+             self.assertEqual(r.lexical_class, 'Numerical Operator',
+                              f"{word}: الفئة المعجمية يجب أن تكون Numerical Operator")
+             self.assertTrue(r.opens_relation,
+@@ -1142,18 +1154,18 @@ class TestP4Aggregation(unittest.TestCase):
+ 
+     # ── ثبات: الأدوات المشكولة لا تتأثر بالإصلاح ─────────────────────────────
+ 
+-    def test_kaayyin_vocalized_operator_boundary(self):
+-        """كَأَيِّنْ (مشكول) → OPERATOR_BOUNDARY (P4=ACCEPT بعد الإصلاح)"""
++    def test_kaayyin_vocalized_mabni_boundary(self):
++        """كَأَيِّنْ (مشكول) → MABNI_BOUNDARY (P4=ACCEPT، is_operator=False)"""
+         r = _mabni('كَأَيِّنْ')
+         self.assertIsInstance(r, MabniBoundary)
+-        self.assertEqual(r.verdict, 'OPERATOR_BOUNDARY')
++        self.assertEqual(r.verdict, 'MABNI_BOUNDARY')
+         self.assertEqual(r.structural_verdict, 'ACCEPT')
+ 
+-    def test_kadha_vocalized_operator_boundary(self):
+-        """كَذَا (مشكول) → OPERATOR_BOUNDARY"""
++    def test_kadha_vocalized_mabni_boundary(self):
++        """كَذَا (مشكول) → MABNI_BOUNDARY (P4=ACCEPT، is_operator=False)"""
+         r = _mabni('كَذَا')
+         self.assertIsInstance(r, MabniBoundary)
+-        self.assertEqual(r.verdict, 'OPERATOR_BOUNDARY')
++        self.assertEqual(r.verdict, 'MABNI_BOUNDARY')
+         self.assertEqual(r.structural_verdict, 'ACCEPT')
+ 
+ 
+@@ -1439,15 +1451,25 @@ class TestBareIndex(unittest.TestCase):
+ 
+     def test_vocalized_forms_retain_accept_after_bare_fix(self):
+         """
+-        الأدوات المشكولة لا تتأثر بالإصلاح — تبقى OPERATOR_BOUNDARY.
+-        يُثبت أن الإصلاح لم يُخرِّب الأدوات الموجودة.
++        الأدوات المشكولة لا تتأثر بالإصلاح — تُنتج structural_verdict=ACCEPT.
++        المجموعة 8 is_operator=False → MABNI_BOUNDARY، is_operator=True → OPERATOR_BOUNDARY.
+         """
+-        for word in ['كَمْ', 'كَأَيِّنْ', 'كَذَا', 'أُلُوفَ', 'مَلَايِينَ']:
++        mabni_boundary_words = ['كَمْ', 'كَأَيِّنْ', 'كَذَا']
++        operator_boundary_words = ['أُلُوفَ', 'مَلَايِينَ']
++        for word in mabni_boundary_words:
++            r = _mabni(word)
++            self.assertIsInstance(r, MabniBoundary,
++                                  f"{word!r}: يجب أن يُنتج MabniBoundary")
++            self.assertEqual(r.verdict, 'MABNI_BOUNDARY',
++                             f"{word!r}: is_operator=False → MABNI_BOUNDARY")
++            self.assertEqual(r.structural_verdict, 'ACCEPT',
++                             f"{word!r}: structural_verdict يجب أن يكون ACCEPT")
++        for word in operator_boundary_words:
+             r = _mabni(word)
+             self.assertIsInstance(r, MabniBoundary,
+                                   f"{word!r}: يجب أن يُنتج MabniBoundary")
+             self.assertEqual(r.verdict, 'OPERATOR_BOUNDARY',
+-                             f"{word!r}: مشكول كامل → OPERATOR_BOUNDARY")
++                             f"{word!r}: is_operator=True → OPERATOR_BOUNDARY")
+             self.assertEqual(r.structural_verdict, 'ACCEPT',
+                              f"{word!r}: structural_verdict يجب أن يكون ACCEPT")
+ 

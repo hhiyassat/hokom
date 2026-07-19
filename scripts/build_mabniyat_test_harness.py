@@ -219,6 +219,12 @@ _KNOWN_SOURCE_DATA_ISSUES_RAW: dict[tuple[str, str], str] = {
     # كأَيٍّ: P5 يُعيد OPERATOR_DEFERRED بسبب تنوين+شدة — غموض صادق
     ('kinaya_names.json', 'كأَيٍّ'):
         'APPROVED_DEFER — P5 يُعيد OPERATOR_DEFERRED لتنوين+شدة في كأَيٍّ؛ غموض صادق يحتاج سياق',
+    # كَذَا في kinaya_names: يحتاج API السياق لتمييز KADHA_GENERIC_KINAYA (MABNI_BOUNDARY)
+    # عن KADHA_NUMERIC_TAMYIZ (OPERATOR_BOUNDARY). بدون سياق الافتراضي هو OPERATOR_BOUNDARY
+    # (ترخيص كَذَا المزدوج: العامل الكمي يكسب بدون سياق صريح للكناية)
+    ('kinaya_names.json', 'كَذَا'):
+        'APPROVED_DEFER — DUAL_LICENSE_PENDING: كَذَا في سياق الكناية العامة تحتاج context API '
+        'لتمييز KADHA_GENERIC_KINAYA عن KADHA_NUMERIC_TAMYIZ؛ بدون سياق الافتراضي OPERATOR_BOUNDARY',
 
     # ── imperative_verb_building.json ─────────────────────────────────────────
     # أفعال الأمر: P4 يرفضها لأنها أفعال لا مبنيات اسمية/حرفية
@@ -263,6 +269,67 @@ _KNOWN_SOURCE_DATA_ISSUES_RAW: dict[tuple[str, str], str] = {
 _KNOWN_SOURCE_DATA_ISSUES: dict[tuple[str, str], str] = {
     (fname, unicodedata.normalize('NFC', surf)): reason
     for (fname, surf), reason in _KNOWN_SOURCE_DATA_ISSUES_RAW.items()
+}
+
+# ══════════════════════════════════════════════════════════════════════════════
+# تجاوزات المسار الكنسي (P5 Closure RC fixes)
+#
+# بعد إصلاح RC1 (CWD guard) و RC2 (is_operator) و RC5 (DEFER monotonicity)،
+# أصبح السلوك الفعلي لبعض السطوح مختلفاً عمّا يقترحه route_hint للملف ككل.
+# هذه التجاوزات تُحدِّث expected_route لكل (ملف، سطح) تبعاً للعقد الكنسي.
+#
+# الأحكام:
+#   OPERATOR_BOUNDARY  — ACCEPT + is_operator=True (بعد RC1/RC2)
+#   OPERATOR_DEFERRED  — DEFER  + is_operator=True (RC5 strict monotonicity)
+# ══════════════════════════════════════════════════════════════════════════════
+_ROUTE_OVERRIDES_RAW: dict[tuple[str, str], tuple[str, str]] = {
+    # ── kinaya_names.json ─────────────────────────────────────────────────────
+    # كَمْ وكَأَيِّنْ: العقد الكنسي RC2 جعلهما is_operator=True → OPERATOR_BOUNDARY
+    # (كانتا تُعطيان MABNI_BOUNDARY بسبب RC1: تلوّث CWD يُخفي إدخال العوامل)
+    ('kinaya_names.json', 'كَمْ'):
+        ('OPERATOR_BOUNDARY',
+         'CONTRACT_OVERRIDE RC2: كَمْ is_operator=True → OPERATOR_BOUNDARY؛ '
+         'كان MABNI_BOUNDARY بسبب RC1 (CWD pollution shadowed operator entry)'),
+    ('kinaya_names.json', 'كَأَيِّنْ'):
+        ('OPERATOR_BOUNDARY',
+         'CONTRACT_OVERRIDE RC2: كَأَيِّنْ is_operator=True → OPERATOR_BOUNDARY؛ '
+         'كان MABNI_BOUNDARY بسبب RC1 (CWD pollution shadowed operator entry)'),
+
+    # ── built_in_adverbs.json ─────────────────────────────────────────────────
+    # أَنَّى: بعد RC1، كشف تحميل كتالوج العوامل عن is_operator=True لأَنَّى
+    ('built_in_adverbs.json', 'أَنَّى'):
+        ('OPERATOR_BOUNDARY',
+         'CONTRACT_OVERRIDE RC1: أَنَّى is_operator=True في كتالوج العوامل → OPERATOR_BOUNDARY؛ '
+         'كان MABNI_BOUNDARY بسبب RC1 (CWD pollution overrode operator catalog)'),
+
+    # ── interrogative_letters_tools.json ──────────────────────────────────────
+    # هَلْ المشكولة: بعد إضافتها لكتالوج العوامل (RC2) أصبحت تُعيد OPERATOR_BOUNDARY
+    # (كان MABNI_BOUNDARY لأنها لم تكن في الكتالوج)
+    ('interrogative_letters_tools.json', 'هَلْ'):
+        ('OPERATOR_BOUNDARY',
+         'CONTRACT_OVERRIDE RC2: هَلْ أُضيفت لكتالوج العوامل (is_operator=True) → OPERATOR_BOUNDARY؛ '
+         'كان MABNI_BOUNDARY لأن interrogative_letters_tools يُصنِّفها MABNI'),
+
+    # ── interrogative_tools_categories.json ───────────────────────────────────
+    # هل: بعد إضافة هَلْ لكتالوج العوامل (RC2)، السطح الأجرد "هل" يُعيد OPERATOR_DEFERRED
+    # بموجب RC5 (DEFER + is_operator=True → OPERATOR_DEFERRED)
+    ('interrogative_tools_categories.json', 'هل'):
+        ('OPERATOR_DEFERRED',
+         'CONTRACT_OVERRIDE RC2+RC5: هَلْ أُضيفت لكتالوج العوامل (is_operator=True)؛ '
+         'السطح الأجرد هل → DEFER → OPERATOR_DEFERRED بموجب RC5 strict monotonicity'),
+
+    # ── preposition_meanings.json ─────────────────────────────────────────────
+    # عن الأجردة: RC5 strict monotonicity — DEFER + is_operator=True → OPERATOR_DEFERRED
+    # (ليس OPERATOR_BOUNDARY كما كان قبل RC5)
+    ('preposition_meanings.json', 'عن'):
+        ('OPERATOR_DEFERRED',
+         'CONTRACT_OVERRIDE RC5: عن الأجردة → DEFER → OPERATOR_DEFERRED؛ '
+         'RC5 strict monotonicity تمنع ترقية DEFER إلى OPERATOR_BOUNDARY'),
+}
+# طبِّق NFC على مفاتيح السطوح
+_ROUTE_OVERRIDES: dict[tuple[str, str], tuple[str, str]] = {
+    (fname, unicodedata.normalize('NFC', surf)): val
+    for (fname, surf), val in _ROUTE_OVERRIDES_RAW.items()
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -437,12 +504,20 @@ def extract_records(fname: str, records: list[dict]) -> list[dict]:
         exp_mid    = _catalog_lookup(surface)
         hamza_flag = _is_hamza_initial(surface) and not exp_mid
 
+        # مفتاح بحث موحّد (NFC) — يُستخدم في كلا القاموسَين أدناه
+        lookup_key = (fname, normalize_key(surface))
+
+        # هل هناك تجاوز للمسار بموجب قرار P5 Closure؟
+        if lookup_key in _ROUTE_OVERRIDES:
+            exp_route, exp_reason = _ROUTE_OVERRIDES[lookup_key]
+            exp_status = 'TESTABLE'
+            # exp_kind يبقى كما هو (STANDALONE)
+
         # هل هي مشكلة بيانات مصدر معروفة؟
         # نستخدم NFC لتوحيد ترتيب العلامات الجامعة (shadda قبل fatha أو بعدها)
         # لأن ملفات JSON قد تختلف في ترتيب التشكيل عن ترتيب مفاتيح القاموس.
-        src_issue_key = (fname, normalize_key(surface))
-        if src_issue_key in _KNOWN_SOURCE_DATA_ISSUES:
-            exp_reason = _KNOWN_SOURCE_DATA_ISSUES[src_issue_key]
+        elif lookup_key in _KNOWN_SOURCE_DATA_ISSUES:
+            exp_reason = _KNOWN_SOURCE_DATA_ISSUES[lookup_key]
             # تحديد حالة التوقع بناءً على نوع المشكلة:
             # BLOCKED_BY_P4 → يحتاج إصلاح P4 مستقل
             # غير ذلك      → APPROVED_DEFER (تعارض دلالي أو بيانات مصدر)
