@@ -19,12 +19,16 @@ hokom_pipeline.py — خط أنابيب الحكم الكامل
 """
 
 import sys
+import uuid as _uuid
 from tokenizer    import tokenize, words_only
 from normalizer   import normalize
 from syllabifier  import parse_phones, syllabify, word_gate, GATE_ICON
 from licensing    import license_phone
 from mabni_layer         import process_mabni, MabniBoundary, MabniOpen, MabniBlocked
 from mabniyat_attachment import recognize_token
+from pipeline.word_class import classify_word_class, WordClassRequest
+from pipeline.word_class.models import WordClass, WordClassVerdict
+from pipeline.word_class.catalog import extract_mabni_id_from_notes
 
 W = 80
 
@@ -341,33 +345,71 @@ def hokom(word: str) -> dict:
     _active_residuals   = _collect_active_residuals(phase4a_result, phase4b_result, phase4c_result, phase4d_result)
     _resolved_residuals = _collect_resolved_residuals(phase4a_result, phase4b_result)
 
+    # ── Word Class Engine ─────────────────────────────────────────────────────
+    # Canonical ISM / FI3L / HARF classification.
+    # Must run BEFORE Phase 5 inflection so the gate can block non-FI3L tokens.
+    word_class_result = None
+    try:
+        word_class_result = _run_word_class_engine(
+            input_surface      = input_surface,
+            normalized_surface = normalized_surface,
+            mabni              = mabni,
+            attachment         = attachment,
+            pre_root           = pre_root,
+            phase4a_result     = phase4a_result,
+            phase4b_result     = phase4b_result,
+            phase4c_result     = phase4c_result,
+            phase4d_result     = phase4d_result,
+            _final_form        = _final_form,
+            _final_masdar      = _final_masdar,
+            augmented_analysis = augmented_analysis,
+        )
+    except Exception:
+        word_class_result = None
+
     # ── Phase 5 — Paradigm/Inflection ────────────────────────────────────────
-    # يُشغَّل دائمًا (حتى عند غياب الجذر) لاستخراج السمات التصريفية من السطح.
+    # B-01 fix: gate verbal inflection on confirmed FI3L word class.
+    # Non-FI3L tokens (HARF, ISM, DEFERRED) do NOT open verbal inflection.
     phase5_result    = None
     inflectional_form = None
-    try:
-        from pipeline.p5_inflection.phase5_orchestrator import project_inflection_with_licensing
-        # Phase 5 always analyses the full normalized surface for tense/PNG features.
-        # Attached pronouns are detected separately inside the orchestrator via `attachment`.
-        _p5_surface = normalized_surface
-        _p5_morphpath = (
-            pre_root.morphology_path.value if pre_root is not None else None
+    _inflection_skipped_reason = None
+
+    _is_confirmed_fi3l = (
+        word_class_result is not None
+        and word_class_result.verdict == WordClassVerdict.ACCEPTED
+        and word_class_result.word_class == WordClass.FI3L
+    )
+
+    if not _is_confirmed_fi3l:
+        _inflection_skipped_reason = (
+            word_class_result.verdict.value
+            if word_class_result is not None
+            else 'WORD_CLASS_NOT_AVAILABLE'
         )
-        phase5_result = project_inflection_with_licensing(
-            surface       = _p5_surface,
-            root          = _final_root,
-            bab_id        = _final_form,
-            form_family   = getattr(augmented_analysis, 'form_family', None) if augmented_analysis else None,
-            wazn_id       = _final_wazn,
-            morphology_path = _p5_morphpath,
-            phase4a_result  = phase4a_result,
-            phase4b_result  = phase4b_result,
-            attachment      = attachment,
-        )
-        inflectional_form = phase5_result.inflectional_form if phase5_result else None
-    except Exception:
-        phase5_result     = None
-        inflectional_form = None
+    else:
+        try:
+            from pipeline.p5_inflection.phase5_orchestrator import project_inflection_with_licensing
+            # Phase 5 always analyses the full normalized surface for tense/PNG features.
+            # Attached pronouns are detected separately inside the orchestrator via `attachment`.
+            _p5_surface = normalized_surface
+            _p5_morphpath = (
+                pre_root.morphology_path.value if pre_root is not None else None
+            )
+            phase5_result = project_inflection_with_licensing(
+                surface       = _p5_surface,
+                root          = _final_root,
+                bab_id        = _final_form,
+                form_family   = getattr(augmented_analysis, 'form_family', None) if augmented_analysis else None,
+                wazn_id       = _final_wazn,
+                morphology_path = _p5_morphpath,
+                phase4a_result  = phase4a_result,
+                phase4b_result  = phase4b_result,
+                attachment      = attachment,
+            )
+            inflectional_form = phase5_result.inflectional_form if phase5_result else None
+        except Exception:
+            phase5_result     = None
+            inflectional_form = None
 
     # ── حقول الملخص Phase 5 ───────────────────────────────────────────────────
     _paradigm_id  = (phase5_result.paradigm_candidate.paradigm_id
@@ -422,7 +464,147 @@ def hokom(word: str) -> dict:
         'number':        _number,
         'gender':        _gender,
         'lemma_surface': _lemma_surface,
+        # ── Word Class Engine (canonical ISM/FI3L/HARF) ───────────────────
+        'word_class_result':           word_class_result,
+        'word_class_verdict':          (word_class_result.verdict.value
+                                        if word_class_result else None),
+        'word_class':                  (word_class_result.word_class.value
+                                        if word_class_result and word_class_result.word_class
+                                        else None),
+        'word_class_subclass':         (word_class_result.subclass.value
+                                        if word_class_result and word_class_result.subclass
+                                        else None),
+        'inflection_skipped_reason':   _inflection_skipped_reason,
     }
+
+
+def _run_word_class_engine(
+    input_surface,
+    normalized_surface,
+    mabni,
+    attachment,
+    pre_root,
+    phase4a_result,
+    phase4b_result,
+    phase4c_result,
+    phase4d_result,
+    _final_form,
+    _final_masdar,
+    augmented_analysis,
+):
+    """
+    Build WordClassRequest from pipeline state and call classify_word_class().
+
+    This is the single wiring point for the word class engine.
+    It translates the hokom_pipeline internal state into the DTO contract.
+    """
+    # ── p5 fields ─────────────────────────────────────────────────────────────
+    if isinstance(mabni, MabniBoundary):
+        p5_verdict      = mabni.verdict          # OPERATOR_BOUNDARY | MABNI_BOUNDARY | OPERATOR_DEFERRED
+        p5_lexical_class = mabni.lexical_class   # 'Closed Function Word' | 'Verbal Operator' | ...
+        operator_status = any(getattr(e, 'is_operator', False) for e in (mabni.entries or []))
+        mabni_status    = 'boundary'
+    elif isinstance(mabni, MabniBlocked):
+        p5_verdict       = 'BLOCK'
+        p5_lexical_class = ''
+        operator_status  = False
+        mabni_status     = 'blocked'
+    else:  # MabniOpen
+        p5_verdict       = mabni.verdict  # 'OPEN'
+        p5_lexical_class = ''
+        operator_status  = False
+        mabni_status     = 'open'
+
+    # ── morphology path ────────────────────────────────────────────────────────
+    morphology_path = ''
+    if pre_root is not None:
+        try:
+            morphology_path = pre_root.morphology_path.value
+        except AttributeError:
+            morphology_path = str(getattr(pre_root, 'morphology_path', ''))
+
+    # ── masdar evidence ────────────────────────────────────────────────────────
+    masdar_accepted = False
+    masdar_surface  = ''
+    if phase4c_result is not None:
+        _dir = getattr(phase4c_result, 'final_directive', '')
+        if str(_dir).upper() == 'ACCEPT':
+            masdar_accepted = True
+            masdar_surface  = str(_final_masdar or '')
+
+    # ── derivative evidence ────────────────────────────────────────────────────
+    derivative_accepted = False
+    derivative_type     = ''
+    if phase4d_result is not None:
+        _dir4d = str(getattr(phase4d_result, 'final_directive', '')).upper()
+        if _dir4d in ('ACCEPT', 'PARTIAL_ACCEPT'):
+            _accepted_mushtaqat = getattr(phase4d_result, 'accepted_mushtaqat', ()) or ()
+            if _accepted_mushtaqat:
+                derivative_accepted = True
+                # first accepted type
+                derivative_type = list(dict(_accepted_mushtaqat).keys())[0] if _accepted_mushtaqat else ''
+
+    # ── verbal host evidence ───────────────────────────────────────────────────
+    licensed_verbal_host = False
+    bab_id               = ''
+    form_family_val      = ''
+    if phase4b_result is not None:
+        _dir4b = str(getattr(phase4b_result, 'final_directive', '')).upper()
+        if _dir4b == 'ACCEPT':
+            licensed_verbal_host = True
+            bab_id               = str(_final_form or '')
+    if augmented_analysis is not None:
+        form_family_val = str(getattr(augmented_analysis, 'form_family', '') or '')
+        if form_family_val:
+            licensed_verbal_host = True
+
+    # ── attachment evidence ────────────────────────────────────────────────────
+    attachment_route   = ''
+    attachment_notes   = ''
+    attachment_mabni_id = ''
+    if attachment is not None:
+        attachment_route = str(getattr(attachment, 'host_route', '') or '')
+        attachment_notes = str(getattr(attachment, 'notes', '') or '')
+        attachment_mabni_id = extract_mabni_id_from_notes(attachment_notes)
+
+    # ── available evidence summary (includes phase4a) ─────────────────────────
+    avail = []
+    # Include phase4a acceptance: needed for FI3L on ambiguous_morphology_path
+    if phase4a_result is not None:
+        _dir4a = str(getattr(phase4a_result, 'final_directive', '')).upper()
+        if _dir4a == 'ACCEPT':
+            _wazn4a = str(getattr(phase4a_result, 'final_wazn', '') or '')
+            avail.append(f'p4a:accept:{_wazn4a}' if _wazn4a else 'p4a:accept')
+    if licensed_verbal_host:
+        avail.append('bab:accept')
+    upstream_verdicts = tuple(avail)
+
+    # ── Build request ──────────────────────────────────────────────────────────
+    request = WordClassRequest(
+        request_id           = _uuid.uuid4().hex[:12],
+        original_surface     = input_surface,
+        normalized_surface   = normalized_surface,
+        p5_verdict           = p5_verdict,
+        p5_lexical_class     = p5_lexical_class,
+        operator_status      = operator_status,
+        mabni_status         = mabni_status,
+        morphology_path      = morphology_path,
+        masdar_accepted      = masdar_accepted,
+        masdar_surface       = masdar_surface,
+        derivative_accepted  = derivative_accepted,
+        derivative_type      = derivative_type,
+        licensed_verbal_host = licensed_verbal_host,
+        bab_id               = bab_id,
+        form_family          = form_family_val,
+        attachment_route     = attachment_route,
+        attachment_notes     = attachment_notes,
+        attachment_mabni_id  = attachment_mabni_id,
+        available_evidence   = tuple(avail),
+        upstream_verdicts    = upstream_verdicts,
+        upstream_trace       = (),
+    )
+
+    return classify_word_class(request)
 
 
 def _collect_active_residuals(

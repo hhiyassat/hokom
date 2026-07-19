@@ -109,15 +109,33 @@ def bundle_from_hokom_result(result: dict, token_id: str | None = None) -> Hokom
     else:
         domain_directive = 'DEFER'
 
-    # Pre-root
-    pre_root = result.get('pre_root')
+    # B-02 / B-03 fix: lexical_class and part_of_speech must come from the
+    # canonical word class engine result, not from pre_root.morphology_path.
+    # pre_root.morphology_path is a PIPELINE ROUTING value (verbal_root_path,
+    # nominal_morphology_path, …), not a linguistic word class label.
     lexical_class = None
     part_of_speech = None
-    if pre_root:
-        if hasattr(pre_root, 'morphology_path'):
-            lexical_class = str(pre_root.morphology_path.value) if hasattr(pre_root.morphology_path, 'value') else str(pre_root.morphology_path)
-        if hasattr(pre_root, 'pos'):
-            part_of_speech = str(pre_root.pos) if pre_root.pos else None
+    word_class_result = result.get('word_class_result')
+    if word_class_result is not None:
+        # B-02: lexical_class = ISM_subclass or top-level word class
+        _wc_subclass = getattr(word_class_result, 'subclass', None)
+        _wc_class = getattr(word_class_result, 'word_class', None)
+        if _wc_subclass is not None:
+            lexical_class = str(_wc_subclass.value) if hasattr(_wc_subclass, 'value') else str(_wc_subclass)
+        elif _wc_class is not None:
+            lexical_class = str(_wc_class.value) if hasattr(_wc_class, 'value') else str(_wc_class)
+        # B-03: part_of_speech = canonical top-level ISM / FI3L / HARF
+        if _wc_class is not None:
+            part_of_speech = str(_wc_class.value) if hasattr(_wc_class, 'value') else str(_wc_class)
+    else:
+        # Fallback to pre_root when word class engine did not run (should not
+        # happen for normal tokens but keeps old behaviour for edge cases).
+        pre_root = result.get('pre_root')
+        if pre_root:
+            if hasattr(pre_root, 'morphology_path'):
+                lexical_class = str(pre_root.morphology_path.value) if hasattr(pre_root.morphology_path, 'value') else str(pre_root.morphology_path)
+            if hasattr(pre_root, 'pos'):
+                part_of_speech = str(pre_root.pos) if pre_root.pos else None
 
     # Source engine
     source_engine = 'HOKOM_ROOT_ENGINE'
