@@ -1,0 +1,236 @@
+{
+  "audit_id": "HOKOM-WORD-CLASS-OWNERSHIP-AUDIT-01",
+  "HEAD": "3cd85cf",
+  "date": "2026-07-19",
+  "BASELINE_TEST_RESULT": "3938 passed / 0 failed / 18 skipped",
+  "python_version": "3.10.12",
+  "pytest_version": "9.1.1",
+  "baseline_valid": true,
+  "tracked_dirty": 0,
+  "taaqol_submodule_dirty": 0,
+
+  "WORD_CLASS_IMPLEMENTATIONS_FOUND": 0,
+  "SHADOW_CLASSIFIER_COUNT": 4,
+
+  "LIVE_WORD_CLASS_PRODUCERS": [],
+
+  "SHADOW_CLASSIFIERS": [
+    {
+      "id": "SC-01",
+      "file": "pipeline/p5_lexical/mabni_projection.py",
+      "field": "MabniBoundary.lexical_class",
+      "vocabulary": ["Closed Function Word", "Numerical Operator", "Verbal Operator", "Phrase Operator", "Cognition Verb", "Bound Nominal"],
+      "scope": "mabni_boundary_tokens_only",
+      "ism_fil_harf": false,
+      "canonical": false
+    },
+    {
+      "id": "SC-02",
+      "file": "pipeline/pre_root/morphology_path.py",
+      "field": "MorphologyPath (enum)",
+      "vocabulary": ["verbal_root_path", "nominal_morphology_path", "derived_nominal_path", "functional_path", "ambiguous_morphology_path", "no_morphology_path"],
+      "scope": "morphologically_open_tokens_only",
+      "ism_fil_harf": false,
+      "canonical": false
+    },
+    {
+      "id": "SC-03",
+      "file": "pipeline/p5_inflection/models.py",
+      "field": "InflectionalForm.part_of_speech",
+      "vocabulary": ["VERB", "VERBAL_NOUN", "PARTICIPLE"],
+      "scope": "all_tokens_including_operators_bug",
+      "ism_fil_harf": false,
+      "canonical": false,
+      "bugs": ["B-01: runs on OPERATOR_BOUNDARY tokens, produces false VERB"]
+    },
+    {
+      "id": "SC-04",
+      "file": "pipeline/taaqol_integration/claim_adapter.py",
+      "field": "HokomLinguisticClaimBundle.lexical_class",
+      "vocabulary": ["nominal_morphology_path", "verbal_root_path", "ambiguous_morphology_path", "functional_path", null],
+      "scope": "tokens_with_pre_root_only",
+      "ism_fil_harf": false,
+      "canonical": false,
+      "bugs": ["B-02: uses morphology_path value instead of mabni.lexical_class", "B-03: part_of_speech always None"]
+    }
+  ],
+
+  "PARALLEL_WORD_CLASS_ENGINES": 0,
+
+  "CURRENT_TOP_LEVEL_CLASSES": [],
+
+  "CURRENT_SUBCLASSES": [
+    "Closed Function Word",
+    "Numerical Operator",
+    "Verbal Operator",
+    "Phrase Operator",
+    "Cognition Verb",
+    "Bound Nominal",
+    "verbal_root_path",
+    "nominal_morphology_path",
+    "derived_nominal_path",
+    "functional_path",
+    "ambiguous_morphology_path",
+    "no_morphology_path",
+    "VERB",
+    "VERBAL_NOUN",
+    "PARTICIPLE",
+    "ISM_FA3IL",
+    "ISM_MAF3UL",
+    "ISM_ZAMAN",
+    "ISM_MAKAN",
+    "ISM_ALA",
+    "SIFA_MUSHABBAHA",
+    "SIYAG_MUBALAGHAH",
+    "MASDAR_ASLI",
+    "ISM_MASDAR",
+    "FA3IL_PARTICIPLE"
+  ],
+
+  "CONFLICTING_TERMS": [
+    {
+      "conflict": "lexical_class field used with two different vocabularies",
+      "locations": ["MabniBoundary.lexical_class (Closed Function Word, etc.)", "HokomLinguisticClaimBundle.lexical_class (morphology_path values)"],
+      "impact": "Taaqol claim bundle cannot use lexical_class reliably"
+    },
+    {
+      "conflict": "part_of_speech=VERB assigned to HARF tokens",
+      "locations": ["InflectionalForm.part_of_speech for هَلْ=VERB, مِنْ=VERB, كَمْ=VERB"],
+      "impact": "False verbal classification for closed function words"
+    },
+    {
+      "conflict": "verbal_root_path vs VERBAL_ROOT_PATH vs verbal vs FI3L",
+      "locations": ["MorphologyPath enum values use snake_case strings, inflection uses VERB, Taaqol uses FI3L"],
+      "impact": "No interoperability without translation layer"
+    }
+  ],
+
+  "LIVE_ROUTING_EFFECT": "MorphologyPath gates root and inflection analysis but no canonical word-class verdict is ever synthesized. Bug B-01 causes false VERB/tense assignment for all OPERATOR_BOUNDARY tokens. 0 of 16 tested tokens receive ISM/FI3L/HARF.",
+
+  "OWNERSHIP_STATUS": "UNOWNED — no canonical word-class engine exists; 4 shadow classifiers compete without coordination",
+
+  "MISSING_CONTRACTS": [
+    "WordClassOwnershipGate dataclass",
+    "WORD_CLASS_CANONICAL_OWNER constant",
+    "WORD_CLASS_CANONICAL_ENTRYPOINT constant",
+    "word_class key in hokom() return dict",
+    "word_class field in HokomLinguisticClaimBundle",
+    "mabni-boundary guard in project_inflection_with_licensing()",
+    "ISM/FI3L/HARF vocabulary in HokomLinguisticClaimBundle"
+  ],
+
+  "MISSING_TESTS": [
+    "tests/word_class/ (directory does not exist)",
+    "Test that OPERATOR_BOUNDARY tokens do not receive inf_pos=VERB",
+    "Test that ISM tokens receive word_class=ISM",
+    "Test that FI3L tokens receive word_class=FI3L",
+    "Test that HARF tokens receive word_class=HARF",
+    "Test masdar→ISM projection",
+    "Test derivative→ISM projection",
+    "Test mabni independence from word class",
+    "Test word_class in hokom() return dict",
+    "Test word_class in HokomLinguisticClaimBundle"
+  ],
+
+  "MISSING_DATA": [
+    "هُوَ not producing MABNI_BOUNDARY — pronoun not matched in catalog",
+    "هَذَا not producing MABNI_BOUNDARY — demonstrative not matched in catalog",
+    "Pronoun catalog coverage needs verification against p5_lexical lookup",
+    "No word_class→Taaqol WordKindCandidate mapping table"
+  ],
+
+  "BUGS_FOUND": [
+    {
+      "id": "B-01",
+      "severity": "HIGH",
+      "description": "Inflection engine runs on OPERATOR_BOUNDARY tokens producing false VERB/PAST for هَلْ، مِنْ، مَنْ، كَمْ، كَذَا",
+      "file": "hokom_pipeline.py + pipeline/p5_inflection/phase5_orchestrator.py",
+      "fix": "Add guard: if isinstance(mabni, MabniBoundary) and mabni.blocks_root_path: skip inflection"
+    },
+    {
+      "id": "B-02",
+      "severity": "MEDIUM",
+      "description": "Taaqol claim adapter reads lexical_class from pre_root.morphology_path, ignoring mabni.lexical_class",
+      "file": "pipeline/taaqol_integration/claim_adapter.py lines 114-120",
+      "fix": "Read from result.get('mabni') and check isinstance(mabni, MabniBoundary) for lexical_class"
+    },
+    {
+      "id": "B-03",
+      "severity": "MEDIUM",
+      "description": "HokomLinguisticClaimBundle.part_of_speech always None — pre_root.pos does not exist",
+      "file": "pipeline/taaqol_integration/claim_adapter.py line 120",
+      "fix": "Read from result.get('inflectional_form') and use .part_of_speech with mabni guard"
+    },
+    {
+      "id": "B-04",
+      "severity": "MEDIUM",
+      "description": "هُوَ and هَذَا return verdict=OPEN — not recognized as mabni tokens",
+      "file": "data/operators_catalog_split_vocalized_corrected.csv or data/02_mabniyat/",
+      "fix": "Verify pronoun and demonstrative catalog coverage and surface matching"
+    }
+  ],
+
+  "TRUTH_PRINCIPLES": [
+    {"id": "T-01", "principle": "Every token receives exactly one of ISM, FI3L, or HARF", "status": "NOT_IMPLEMENTED"},
+    {"id": "T-02", "principle": "Word class determined by morphological structure, not meaning", "status": "PARTIALLY_SUPPORTED"},
+    {"id": "T-03", "principle": "Classification is deterministic and reproducible", "status": "NOT_IMPLEMENTED"},
+    {"id": "T-04", "principle": "Mabni status is independent of word class", "status": "PARTIALLY_SUPPORTED"},
+    {"id": "T-05", "principle": "Operator status is functional attribute, not word class", "status": "SUPPORTED"},
+    {"id": "T-06", "principle": "Masdar is always ISM regardless of verbal origin", "status": "NOT_IMPLEMENTED"},
+    {"id": "T-07", "principle": "Derivatives (ISM_FA3IL etc.) are always ISM", "status": "NOT_IMPLEMENTED"},
+    {"id": "T-08", "principle": "Verbal subclasses apply only within FI3L", "status": "VIOLATED"},
+    {"id": "T-09", "principle": "Ambiguous surfaces governed by residuals, not guessed", "status": "PARTIALLY_SUPPORTED"},
+    {"id": "T-10", "principle": "Word class is serializable and round-trippable", "status": "NOT_IMPLEMENTED"},
+    {"id": "T-11", "principle": "No parallel word-class engines (single canonical owner)", "status": "VIOLATED"},
+    {"id": "T-12", "principle": "Word class gates downstream analysis", "status": "PARTIALLY_SUPPORTED"},
+    {"id": "T-13", "principle": "Canonical entrypoint documented and enforced", "status": "NOT_IMPLEMENTED"},
+    {"id": "T-14", "principle": "All word-class decisions carry evidence_ids", "status": "NOT_IMPLEMENTED"},
+    {"id": "T-15", "principle": "Taaqol integration receives word class via defined contract", "status": "NOT_IMPLEMENTED"}
+  ],
+
+  "TRUTH_PRINCIPLES_SUMMARY": {
+    "SUPPORTED": 1,
+    "PARTIALLY_SUPPORTED": 4,
+    "VIOLATED": 2,
+    "NOT_IMPLEMENTED": 8
+  },
+
+  "GAP_MATRIX_SUMMARY": {
+    "PRESENT": 1,
+    "PARTIAL": 9,
+    "ABSENT": 7
+  },
+
+  "TAAQOL_STATUS": "NOT_STARTED",
+  "PYTHON_BLOCKER": "3.10_vs_3.11+",
+
+  "SELECTED_CASE": "CASE_C",
+  "CASE_NAME": "WORD_CLASS_SHADOW_ONLY",
+  "CASE_EVIDENCE": "4 shadow classifiers with incompatible vocabularies and scopes. Zero canonical ISM/FI3L/HARF produced for any token. Taaqol vendor has complete ISM/FI3L/HARF but Python 3.10 blocks import.",
+
+  "NEXT_STAGE": "HOKOM-WORD-CLASS-OWNERSHIP-01",
+
+  "FILES_ALLOWED_TO_CHANGE_NEXT": [
+    "pipeline/p5_lexical/word_class_engine.py (new)",
+    "pipeline/p5_lexical/word_class_models.py (new)",
+    "pipeline/word_class/ (new package if needed)",
+    "hokom_pipeline.py (add word_class key + Bug B-01 guard)",
+    "pipeline/taaqol_integration/claim_adapter.py (Bug B-02, B-03 fixes)",
+    "tests/word_class/ (new test package)",
+    "reports/word_class/ (already open)"
+  ],
+
+  "FILES_FORBIDDEN_TO_CHANGE_NEXT": [
+    "pipeline/p5_inflection/ (ownership closed)",
+    "pipeline/p5_masdar/ (ownership closed)",
+    "pipeline/p6_derivatives/ (ownership closed)",
+    "pipeline/p3_candidate/ (root ownership closed)",
+    "pipeline/p4_wazn/ (pattern ownership closed)",
+    "pipeline/p4_masdar/ (masdar pattern closed)",
+    "pipeline/p4_mushtaqat/ (mushtaqat closed)",
+    "vendor/Taaqol-GPT/ (never modify vendor)",
+    "test_hokom.py (root-level test file)"
+  ],
+
+  "HOKOM_WORD_CLASS_OWNERSHIP_AUDIT_01": "CLOSED"
+}

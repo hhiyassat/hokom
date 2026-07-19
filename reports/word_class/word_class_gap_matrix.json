@@ -1,0 +1,174 @@
+{
+  "audit_id": "HOKOM-WORD-CLASS-OWNERSHIP-AUDIT-01",
+  "HEAD": "3cd85cf",
+  "date": "2026-07-19",
+  "capabilities": [
+    {
+      "id": 1,
+      "name": "top_level_ISM_FI3L_HARF",
+      "status": "ABSENT",
+      "evidence": "No module in pipeline/ produces ISM/FI3L/HARF for any token",
+      "files_affected": [],
+      "gap": "No canonical three-way classifier exists"
+    },
+    {
+      "id": 2,
+      "name": "lexical_subclass",
+      "status": "PARTIAL",
+      "evidence": "P5 lexical: 6 mabni subclasses. p6_derivatives: ISM_FA3IL, ISM_MAF3UL, ISM_ZAMAN, ISM_MAKAN, ISM_ALA, SIFA_MUSHABBAHA",
+      "files_affected": ["pipeline/p5_lexical/mabni_projection.py", "pipeline/p6_derivatives/engine.py"],
+      "gap": "Derivative subtypes not projected to top-level ISM"
+    },
+    {
+      "id": 3,
+      "name": "operator_non_operator_separation",
+      "status": "PRESENT",
+      "evidence": "MabniEntry.is_operator + _lexical_class() in mabni_projection.py correctly separates OPERATOR_BOUNDARY from MABNI_BOUNDARY",
+      "files_affected": ["pipeline/p5_lexical/mabni_projection.py", "pipeline/p5_lexical/mabni_inventory.py"],
+      "gap": null
+    },
+    {
+      "id": 4,
+      "name": "mabni_independence",
+      "status": "PARTIAL",
+      "evidence": "lexical_class in MabniBoundary is independent of grammatical function. Mabni tokens are not labelled ISM/FI3L/HARF.",
+      "files_affected": ["pipeline/p5_lexical/mabni_projection.py"],
+      "gap": "Mabni independence principle satisfied at P5 subclass level; not at ISM/HARF level"
+    },
+    {
+      "id": 5,
+      "name": "verbhood_evidence",
+      "status": "PARTIAL",
+      "evidence": "morphology_path=verbal_root_path for يَكْتُبُ. كَتَبَ=ambiguous (past tense without clear marker).",
+      "files_affected": ["pipeline/pre_root/morphology_path.py"],
+      "gap": "Ambiguous past-tense surfaces not resolved to verbal. No verbhood_evidence field in output."
+    },
+    {
+      "id": 6,
+      "name": "masdar_to_ISM_projection",
+      "status": "ABSENT",
+      "evidence": "كِتَابَةٌ gets morph_path=nominal_morphology_path but no word_class=ISM. Masdar engine outputs masdar_type but does not set word_class.",
+      "files_affected": ["pipeline/p5_masdar/engine.py", "pipeline/p5_masdar/models.py"],
+      "gap": "Masdar→ISM projection not implemented"
+    },
+    {
+      "id": 7,
+      "name": "derivative_to_ISM_projection",
+      "status": "ABSENT",
+      "evidence": "كَاتِبٌ has form_family=FA3IL_PARTICIPLE, wazn=FA3IL, but no word_class=ISM in any output field.",
+      "files_affected": ["pipeline/p6_derivatives/engine.py", "pipeline/p2_augmented/models.py"],
+      "gap": "Derivative→ISM projection not implemented"
+    },
+    {
+      "id": 8,
+      "name": "tense_based_verb_subclass",
+      "status": "PARTIAL",
+      "evidence": "InflectionalForm.tense_aspect works correctly for يَكْتُبُ=IMPERFECT, كَتَبَ=PAST. Bug: same features assigned to هَلْ=PAST (operator).",
+      "files_affected": ["pipeline/p5_inflection/phase5_orchestrator.py", "pipeline/p5_inflection/models.py"],
+      "gap": "Missing mabni-boundary guard in inflection orchestrator causes false VERB assignments"
+    },
+    {
+      "id": 9,
+      "name": "ambiguous_surface_handling",
+      "status": "PARTIAL",
+      "evidence": "ambiguous_morphology_path exists and is assigned. No resolution engine — tokens stay DEFER.",
+      "files_affected": ["pipeline/pre_root/morphology_path.py"],
+      "gap": "No upgrade path from AMBIGUOUS to definite word class"
+    },
+    {
+      "id": 10,
+      "name": "serialization",
+      "status": "PARTIAL",
+      "evidence": "InflectionOwnershipGate.SERIALIZATION_ROUNDTRIP=PASS for inflection. No word-class key in hokom() dict.",
+      "files_affected": ["hokom_pipeline.py", "pipeline/p5_inflection/models.py"],
+      "gap": "No word_class field in hokom() return dict; no serialization contract for ISM/FI3L/HARF"
+    },
+    {
+      "id": 11,
+      "name": "deterministic_ordering",
+      "status": "PARTIAL",
+      "evidence": "InflectionOwnershipGate.DETERMINISM=VERIFIED for inflection layer only.",
+      "files_affected": ["pipeline/p5_inflection/models.py"],
+      "gap": "No determinism contract for word-class classification; shadow classifiers can disagree"
+    },
+    {
+      "id": 12,
+      "name": "residual_governance",
+      "status": "PARTIAL",
+      "evidence": "residual_codes governed for masdar (NON_VERBAL_ORIGIN), derivatives, inflection. No word-class-specific residuals defined.",
+      "files_affected": ["pipeline/p5_masdar/models.py", "pipeline/p6_derivatives/models.py"],
+      "gap": "No WORD_CLASS_AMBIGUOUS, WORD_CLASS_GAP, or WORD_CLASS_CONFLICT residual codes"
+    },
+    {
+      "id": 13,
+      "name": "canonical_entrypoint",
+      "status": "ABSENT",
+      "evidence": "No single function accepts a surface and returns a word-class verdict.",
+      "files_affected": [],
+      "gap": "Four subsystems produce partial word-class information; no synthesis entrypoint"
+    },
+    {
+      "id": 14,
+      "name": "ownership_gate",
+      "status": "ABSENT",
+      "evidence": "InflectionOwnershipGate exists for inflection. No WordClassOwnershipGate or equivalent.",
+      "files_affected": ["pipeline/p5_inflection/models.py"],
+      "gap": "WordClassOwnershipGate not implemented"
+    },
+    {
+      "id": 15,
+      "name": "pipeline_integration",
+      "status": "PARTIAL",
+      "evidence": "hokom() collects mabni.lexical_class, pre_root.morphology_path, phase5_result. No word_class key in return dict.",
+      "files_affected": ["hokom_pipeline.py"],
+      "gap": "No top-level word_class synthesis in hokom() output"
+    },
+    {
+      "id": 16,
+      "name": "demo_display",
+      "status": "PARTIAL",
+      "evidence": "hokom_pipeline.py prints lexical_class for mabni tokens. hokom_demo.jsonl has P5_lexical_class field.",
+      "files_affected": ["hokom_pipeline.py"],
+      "gap": "Morphologically-open tokens display no word class; no ISM/FI3L/HARF in demo output"
+    },
+    {
+      "id": 17,
+      "name": "taaqol_handoff_readiness",
+      "status": "ABSENT",
+      "evidence": "HokomLinguisticClaimBundle has lexical_class/part_of_speech fields. lexical_class=morphology_path value (mismatch). part_of_speech always None.",
+      "files_affected": ["pipeline/taaqol_integration/provider_models.py", "pipeline/taaqol_integration/claim_adapter.py"],
+      "gap": "ISM/FI3L/HARF not provided in Taaqol handoff; existing fields carry wrong values"
+    }
+  ],
+  "summary": {
+    "PRESENT": 1,
+    "PARTIAL": 9,
+    "ABSENT": 7
+  },
+  "bugs_found": [
+    {
+      "id": "B-01",
+      "severity": "HIGH",
+      "description": "Inflection engine runs on OPERATOR_BOUNDARY tokens, producing false VERB/PAST for هَلْ، مِنْ، كَمْ",
+      "file": "hokom_pipeline.py + pipeline/p5_inflection/phase5_orchestrator.py"
+    },
+    {
+      "id": "B-02",
+      "severity": "MEDIUM",
+      "description": "Taaqol claim adapter ignores mabni.lexical_class; sets lexical_class from morphology_path instead",
+      "file": "pipeline/taaqol_integration/claim_adapter.py"
+    },
+    {
+      "id": "B-03",
+      "severity": "MEDIUM",
+      "description": "HokomLinguisticClaimBundle.part_of_speech always None — pre_root.pos field does not exist",
+      "file": "pipeline/taaqol_integration/claim_adapter.py"
+    },
+    {
+      "id": "B-04",
+      "severity": "MEDIUM",
+      "description": "هُوَ and هَذَا classified as MORPHOLOGICALLY_OPEN — not recognized as mabni pronouns/demonstratives",
+      "file": "data/operators_catalog_split_vocalized_corrected.csv"
+    }
+  ]
+}
