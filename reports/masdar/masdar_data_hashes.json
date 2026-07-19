@@ -1,0 +1,6 @@
+{
+  "data/masdar/masdar_lexical_inventory.jsonl": "d07a688f3d7e3b294cb39e712627f7fe657aaa326b6364692ffe160eb4e6a723",
+  "data/masdar/masdar_pattern_definitions.jsonl": "7448ef96721d602db29e160c0fcfa6592ce00bf6174b9e509b0f88b140560191",
+  "data/masdar/masdar_residual_registry.jsonl": "3ddd21b67c609f16cf527d52b9e59690f11dcab003d39cc0a5b4a7bc3c0aab44",
+  "data/masdar/masdar_rule_registry.jsonl": "d2532bae675eaadfae14a790c3e626dd9ab116d206851c136daff3bdc3dded75"
+}

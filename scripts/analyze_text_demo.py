@@ -596,7 +596,124 @@ def _build_parser() -> argparse.ArgumentParser:
                    help='أوقف عند الجذر — الوضع الافتراضي دائمًا')
     p.add_argument('--max-tokens', type=int, default=0, metavar='N',
                    help='حلّل أول N token فقط (0 = لا حد)')
+    # ── masdar flags ──────────────────────────────────────────────────────────
+    p.add_argument('--stop-at-masdar', action='store_true', default=False,
+                   help='بعد عرض حقول الجذر/الوزن، أضف تحليل المصدر عبر HOKOM_MASDAR_ENGINE')
+    p.add_argument('--masdar-mode', choices=['generate', 'recognize'], default='generate',
+                   dest='masdar_mode',
+                   help='وضع محرك المصدر: generate=إنتاج | recognize=تحقق (default: generate)')
+    p.add_argument('--masdar-type',
+                   choices=['asli', 'mimi', 'marra', 'hayaa', 'ism_masdar', 'auto'],
+                   default='auto', dest='masdar_type',
+                   help='نوع المصدر المطلوب (default: auto)')
     return p
+
+
+def _print_masdar_section(r: dict, masdar_mode: str, masdar_type: str, out: io.TextIOBase):
+    """
+    Print masdar analysis for a single token result using HOKOM_MASDAR_ENGINE.
+    Called only when --stop-at-masdar is set and the root gate is OPENED with ACCEPT.
+    """
+    try:
+        from pipeline.p5_masdar.engine import analyze_masdar
+        from pipeline.p5_masdar.models import MasdarRequest
+    except ImportError as e:
+        out.write(f'  masdar_gate     : CLOSED (import error: {e})\n')
+        return
+
+    rc  = r.get('root_candidate')
+    p4a = r.get('phase4a_result')
+    aug = r.get('augmented_analysis')
+
+    # Determine licensed root
+    prc = getattr(p4a, 'promoted_root_candidate', None) if p4a else None
+    if prc is not None:
+        licensed_root = tuple(getattr(prc, 'canonical_root', ()) or ())
+    elif rc is not None:
+        licensed_root = tuple(getattr(rc, 'canonical_root', ()) or ())
+    else:
+        out.write('  masdar_gate     : CLOSED (no licensed root)\n')
+        return
+
+    if not licensed_root:
+        out.write('  masdar_gate     : CLOSED (empty root)\n')
+        return
+
+    # Determine form_family and pattern
+    form_family  = getattr(aug, 'form_family', None) if aug else None
+    final_wazn   = getattr(p4a, 'final_wazn', None) if p4a else None
+    verbal_host  = r.get('normalized_surface') or r.get('original')
+
+    # Map CLI masdar_type to MASDAR_TYPE
+    _TYPE_MAP = {
+        'asli'      : 'MASDAR_ASLI',
+        'mimi'      : 'MASDAR_MIMI',
+        'marra'     : 'MASDAR_MARRA',
+        'hayaa'     : 'MASDAR_HAYAA',
+        'ism_masdar': 'ISM_MASDAR',
+        'auto'      : None,
+    }
+    req_masdar_type = _TYPE_MAP.get(masdar_type)
+
+    # Map CLI masdar_mode to engine mode
+    _MODE_MAP = {
+        'generate'  : 'GENERATE_FROM_VERB',
+        'recognize' : 'VALIDATE_SUPPLIED_MASDAR',
+    }
+    engine_mode = _MODE_MAP.get(masdar_mode, 'GENERATE_FROM_VERB')
+
+    masdar_req = MasdarRequest(
+        request_id=f'DEMO-{verbal_host}',
+        mode=engine_mode,
+        original_surface=verbal_host or '',
+        normalized_surface=verbal_host or '',
+        verbal_host=verbal_host,
+        verbal_lemma=None,
+        licensed_root=licensed_root,
+        licensed_root_class=None,
+        licensed_pattern=final_wazn,
+        verb_form_family=form_family,
+        voice=None,
+        available_context=(),
+        requested_masdar_type=req_masdar_type,
+        supplied_masdar_surface=None,
+        evidence=(),
+        upstream_trace=(),
+    )
+
+    try:
+        masdar_result = analyze_masdar(masdar_req)
+    except Exception as exc:
+        out.write(f'  masdar_gate     : ERROR ({exc})\n')
+        return
+
+    verdict   = masdar_result.verdict
+    n_cands   = len(masdar_result.licensed_masdars)
+    surfaces  = [lm.candidate.surface for lm in masdar_result.licensed_masdars
+                 if lm.candidate.surface]
+    patterns  = list(dict.fromkeys(
+        lm.candidate.canonical_pattern for lm in masdar_result.licensed_masdars
+    ))
+    reasons   = []
+    if masdar_result.deferred:
+        reasons.append(masdar_result.deferred.reason)
+    if masdar_result.blocked:
+        reasons.append(masdar_result.blocked.reason)
+    for res in masdar_result.residuals:
+        reasons.append(res.residual_code)
+
+    out.write('  ── masdar ─────────────────────────────────────────────────\n')
+    out.write(f'  masdar_gate     : OPEN\n')
+    out.write(f'  masdar_mode     : {masdar_mode}\n')
+    out.write(f'  masdar_verdict  : {verdict}\n')
+    out.write(f'  masdar_candidates: {n_cands}\n')
+    if surfaces:
+        out.write(f'  licensed_masdars: {surfaces}\n')
+    if patterns:
+        out.write(f'  masdar_patterns : {patterns}\n')
+    if reasons:
+        out.write(f'  masdar_reason_codes: {reasons}\n')
+    out.write(f'  source_engine   : {masdar_result.source_engine}\n')
 
 
 def main():
@@ -621,14 +738,51 @@ def main():
     else:
         out_f = sys.stdout
 
+    stop_at_masdar = getattr(args, 'stop_at_masdar', False)
+    masdar_mode    = getattr(args, 'masdar_mode', 'generate')
+    masdar_type    = getattr(args, 'masdar_type', 'auto')
+
     try:
-        run_demo(
-            text       = text,
-            fmt        = args.fmt,
-            show_trace = args.show_trace,
-            max_tokens = args.max_tokens,
-            out        = out_f,
-        )
+        if stop_at_masdar:
+            # Run pipeline and inject masdar output after each accepted token
+            all_tokens  = tokenize_with_lines(text)
+            word_tokens = [t for t in all_tokens if t['kind'] in ('word', 'clitic')]
+            if args.max_tokens:
+                word_tokens = word_tokens[:args.max_tokens]
+            for meta in word_tokens:
+                try:
+                    r   = hokom(meta['surface'])
+                    rec = _build_record(meta, r, args.show_trace)
+                except Exception as exc:
+                    out_f.write(f'\n  ERROR [{meta["surface"]!r}]: {exc}\n')
+                    continue
+                if args.fmt == 'pretty':
+                    _pretty_record(rec, args.show_trace, out_f)
+                    gate = rec.get('P5_root_gate', 'CLOSED')
+                    rd   = rec.get('root_directive') or rec.get('root_root_directive')
+                    if gate == 'OPENED' and rd == 'ACCEPT':
+                        _print_masdar_section(r, masdar_mode, masdar_type, out_f)
+                else:
+                    gate = rec.get('P5_root_gate', 'CLOSED')
+                    rd   = rec.get('root_directive') or rec.get('root_root_directive')
+                    if gate == 'OPENED' and rd == 'ACCEPT':
+                        from pipeline.p5_masdar.engine import analyze_masdar
+                        from pipeline.p5_masdar.models import MasdarRequest
+                        # inject masdar fields into JSONL record inline
+                        import io as _io
+                        _buf = _io.StringIO()
+                        _print_masdar_section(r, masdar_mode, masdar_type, _buf)
+                        rec['masdar_section'] = _buf.getvalue()
+                    import json as _json
+                    out_f.write(_json.dumps(rec, ensure_ascii=False) + '\n')
+        else:
+            run_demo(
+                text       = text,
+                fmt        = args.fmt,
+                show_trace = args.show_trace,
+                max_tokens = args.max_tokens,
+                out        = out_f,
+            )
     finally:
         if args.output:
             out_f.close()

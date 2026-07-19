@@ -1,0 +1,9 @@
+{"file":"pipeline/p4_masdar/__init__.py","role":"phase4c_public_api","parallel_engine":false}
+{"file":"pipeline/p4_masdar/models.py","role":"Phase4CResult_MasdarCandidate_MasdarProjection","parallel_engine":false}
+{"file":"pipeline/p4_masdar/masdar_catalog.py","role":"pattern_catalog_lookup","parallel_engine":false}
+{"file":"pipeline/p4_masdar/masdar_hypothesis.py","role":"hypothesis_builder","parallel_engine":false}
+{"file":"pipeline/p4_masdar/masdar_projection.py","role":"projection_assembler","parallel_engine":false}
+{"file":"pipeline/p4_masdar/masdar_rules.py","role":"rule_application","parallel_engine":false}
+{"file":"pipeline/p4_masdar/phase4c_orchestrator.py","role":"phase4c_orchestrator","parallel_engine":false}
+{"file":"pipeline/p4_wazn/augmented_wazn.py","role":"augmented_wazn_with_masdar_refs","parallel_engine":false}
+{"summary":"parallel_masdar_engines_found","count":0}
