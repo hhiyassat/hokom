@@ -44,20 +44,18 @@ def _make_minimal_bundle(**kwargs):
 # ── Fail-closed on ImportError ────────────────────────────────────────────────
 
 def test_fail_closed_on_import_error():
-    """When Taaqol cannot be imported, result is DEFERRED, not LICENSED."""
+    """When Taaqol cannot be imported, result is DEFERRED, not LICENSED.
+
+    Setting sys.modules[name] = None is Python's documented sentinel for
+    "this module is intentionally absent". Any `import taaqqul_slot_geometry`
+    inside the block raises ImportError without touching the filesystem.
+    The pop-then-reimport pattern does NOT work because the vendor src path
+    is already on sys.path and the real import would succeed.
+    """
     bundle = _make_minimal_bundle()
 
-    with patch.dict('sys.modules', {'taaqqul_slot_geometry': None}):
-        # Remove it from sys.modules to force re-import attempt
-        import sys as _sys
-        saved = _sys.modules.pop('taaqqul_slot_geometry', 'NOT_PRESENT')
-        try:
-            result = evaluate_hokom_claim_bundle(bundle)
-        finally:
-            if saved != 'NOT_PRESENT':
-                _sys.modules['taaqqul_slot_geometry'] = saved
-            else:
-                _sys.modules.pop('taaqqul_slot_geometry', None)
+    with patch.dict(sys.modules, {'taaqqul_slot_geometry': None}):
+        result = evaluate_hokom_claim_bundle(bundle)
 
     # The result must NEVER be LICENSED on failure
     assert isinstance(result, HokomTaaqolDecision)
@@ -142,18 +140,14 @@ def test_no_silent_fallback_trace_recorded():
 
 
 def test_fail_closed_reason_codes_non_empty():
-    """Reason codes must be non-empty when Taaqol fails."""
+    """Reason codes must be non-empty when Taaqol import fails.
+
+    Uses sys.modules None-sentinel to block import without touching sys.path.
+    """
     bundle = _make_minimal_bundle()
 
-    import sys as _sys
-    saved = _sys.modules.pop('taaqqul_slot_geometry', 'NOT_PRESENT')
-    try:
+    with patch.dict(sys.modules, {'taaqqul_slot_geometry': None}):
         result = evaluate_hokom_claim_bundle(bundle)
-    finally:
-        if saved != 'NOT_PRESENT':
-            _sys.modules['taaqqul_slot_geometry'] = saved
-        else:
-            _sys.modules.pop('taaqqul_slot_geometry', None)
 
     assert len(result.reason_codes) > 0, "reason_codes is empty — error was not documented"
 
