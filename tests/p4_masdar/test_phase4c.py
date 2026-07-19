@@ -476,7 +476,7 @@ FROZEN_FILES = [
     ),
     (
         "pipeline/p3_candidate/root_rules.py",
-        "6b1ce960bd434c6f",
+        "a8e35225693f553d",
     ),
     (
         "pipeline/p3_candidate/root_resolution.py",

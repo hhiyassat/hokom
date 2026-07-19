@@ -495,7 +495,7 @@ class TestStageStateConsistency:
 
 _FROZEN_CHECKSUMS = {
     'pipeline/p3_candidate/root_profiles.py':            'c20a1bc6998516cc',
-    'pipeline/p3_candidate/root_rules.py':               '6b1ce960bd434c6f',
+    'pipeline/p3_candidate/root_rules.py':               'a8e35225693f553d',
     'pipeline/p3_candidate/root_resolution.py':          'd87d07921d989c26',
     'pipeline/p3_candidate/root_resolution_orchestrator.py': '58ecd174a919cbe8',
     'pipeline/p2_projection/root_projection.py':         '7bca3605867e67ed',

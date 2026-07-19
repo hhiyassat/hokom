@@ -969,7 +969,7 @@ _FROZEN_FILES = [
     ("pipeline/p3_candidate/root_profiles.py",
      "c20a1bc6998516cc"),
     ("pipeline/p3_candidate/root_rules.py",
-     "6b1ce960bd434c6f"),
+     "a8e35225693f553d"),
     ("pipeline/p3_candidate/root_resolution.py",
      "d87d07921d989c26"),
     ("pipeline/p3_candidate/root_resolution_orchestrator.py",

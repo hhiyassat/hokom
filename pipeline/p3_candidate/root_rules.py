@@ -61,13 +61,15 @@ _WEAK_LAM   = frozenset({_WEAK_ALIF, _ALIF_MAQSURA, _WEAK_YAA})  # في اللا
 _WEAK_FA    = frozenset({_WEAK_WAW, _WEAK_YAA})     # في الفاء → مثال (مؤجَّل)
 
 # رموز التحفظ
-_RESIDUAL_HOLLOW   = 'defer:root:hollow_underlying_radical_unresolved'
-_RESIDUAL_DEFECT   = 'defer:root:defective_lam_unresolved'
-_RESIDUAL_ASSIMIL  = 'defer:root:assimilated_fa_unresolved'
-_RESIDUAL_COMPRESS = 'defer:root:two_consonant_form_unresolved'
-_RESIDUAL_QUAD     = 'defer:root:quadriliteral_beyond_scope'
-_RESIDUAL_NONSTAND = 'defer:root:non_standard_consonant_count'
-_RESIDUAL_INSUFFIC = 'block:root:insufficient_consonants'
+_RESIDUAL_HOLLOW         = 'defer:root:hollow_underlying_radical_unresolved'
+_RESIDUAL_DEFECT         = 'defer:root:defective_lam_unresolved'
+_RESIDUAL_ASSIMIL        = 'defer:root:assimilated_fa_unresolved'
+_RESIDUAL_LAFIF_MAFRUQ   = 'defer:root:lafif_mafruq_unresolved'
+_RESIDUAL_LAFIF_MAQRUN   = 'defer:root:lafif_maqrun_unresolved'
+_RESIDUAL_COMPRESS       = 'defer:root:two_consonant_form_unresolved'
+_RESIDUAL_QUAD           = 'defer:root:quadriliteral_beyond_scope'
+_RESIDUAL_NONSTAND       = 'defer:root:non_standard_consonant_count'
+_RESIDUAL_INSUFFIC       = 'block:root:insufficient_consonants'
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -136,22 +138,37 @@ def analyze_host_consonants(refined_host: str) -> _Result:
 
 
 def _analyze_trilateral(consonants: tuple) -> _Result:
-    """حلِّل ثلاثية الحروف وصنِّف: سالم / مضعَّف / أجوف / ناقص / مثال / مهموز."""
+    """حلِّل ثلاثية الحروف وصنِّف: سالم / مضعَّف / أجوف / ناقص / مثال / مهموز / لفيف."""
     fa, ayn, lam = consonants
 
-    # ── أجوف: ألف أو واو في العين ────────────────────────────────────────────
+    # ── كشف اللفيف أولًا: موضعان ضعيفان أو أكثر ──────────────────────────────
+    # اللفيف المفروق: فاء ضعيفة + لام ضعيفة (العين صحيحة) — وَقَى، وَفَى، وَعَى
+    # اللفيف المقرون: عين ضعيفة + لام ضعيفة — طَوَى، نَوَى، حَوَى، رَوَى
+    fa_weak  = fa  in _WEAK_FA
+    ayn_weak = ayn in _WEAK_AYN
+    lam_weak = lam in _WEAK_LAM
+
+    if fa_weak and lam_weak and not ayn_weak:
+        # لفيف مفروق: الفاء والّلام ضعيفتان، العين صحيحة
+        return 'DEFER', None, _RESIDUAL_LAFIF_MAFRUQ, {}
+
+    if ayn_weak and lam_weak:
+        # لفيف مقرون: العين والّلام ضعيفتان (سواء كانت الفاء ضعيفة أم لا)
+        return 'DEFER', None, _RESIDUAL_LAFIF_MAQRUN, {}
+
+    # ── أجوف: ألف أو واو في العين (بعد استبعاد اللفيف) ─────────────────────
     # قَالَ (ق،ا،ل) / نَامَ (ن،ا،م) / بَاعَ (ب،ا،ع)
-    if ayn in _WEAK_AYN:
+    if ayn_weak:
         return 'DEFER', None, _RESIDUAL_HOLLOW, {}
 
-    # ── ناقص: ألف/ياء/ألف مقصورة في اللام ───────────────────────────────────
-    # دَعَا (د،ع،ا) / وَقَى (و،ق،ى)
-    if lam in _WEAK_LAM:
+    # ── ناقص: ألف/ياء/ألف مقصورة في اللام (بعد استبعاد اللفيف) ─────────────
+    # دَعَا (د،ع،ا) / رَمَى (ر،م،ى)
+    if lam_weak:
         return 'DEFER', None, _RESIDUAL_DEFECT, {}
 
     # ── مثال: واو أو ياء في الفاء (مؤجَّل للمرحلة التالية) ─────────────────
     # وَجَدَ (و،ج،د) / يَسَرَ (ي،س،ر) — صحيح ومعروف لكن خارج نطاق هذه الدفعة
-    if fa in _WEAK_FA:
+    if fa_weak:
         return 'DEFER', None, _RESIDUAL_ASSIMIL, {}
 
     # ── تحقق نهائي: لا هويات ممنوعة (لا ينبغي وصول ا/ى هنا بعد التطبيع) ────
