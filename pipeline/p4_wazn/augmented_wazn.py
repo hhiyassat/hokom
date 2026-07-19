@@ -31,15 +31,17 @@ from pipeline.p4_wazn.phase4a_orchestrator import Phase4AResult
 # wazn_id values MUST match entries in data/wazn/wazn_catalog.json
 # and the _MAZID_WAZN_TO_BAB map in pipeline/p4_bab/bab_rules.py.
 AUGMENTED_WAZN_MAP: dict[str, tuple[str, str, str]] = {
-    'FORM_II':   ('FA33ALA',   'فَعَّلَ',       'form_II_verb'),
-    'FORM_III':  ('FA3ALA',    'فَاعَلَ',      'form_III_verb'),
-    'FORM_IV':   ('AF3AL',     'أَفْعَلَ',      'form_IV_verb'),
-    'FORM_V':    ('TAFA33ALA', 'تَفَعَّلَ',     'form_V_verb'),
-    'FORM_VI':   ('TAFA3ALA',  'تَفَاعَلَ',    'form_VI_verb'),
-    'FORM_VII':  ('INFA3ALA',  'اِنْفَعَلَ',   'form_VII_verb'),
-    'FORM_VIII': ('IFTA3ALA',  'اِفْتَعَلَ',   'form_VIII_verb'),
-    'FORM_IX':   ('IF3ALLA',   'اِفْعَلَّ',    'form_IX_verb'),
-    'FORM_X':    ('ISTAF3ALA', 'اِسْتَفْعَلَ', 'form_X_verb'),
+    'FORM_II':          ('FA33ALA',   'فَعَّلَ',       'form_II_verb'),
+    'FORM_III':         ('FA3ALA',    'فَاعَلَ',      'form_III_verb'),
+    'FORM_IV':          ('AF3AL',     'أَفْعَلَ',      'form_IV_verb'),
+    'FORM_V':           ('TAFA33ALA', 'تَفَعَّلَ',     'form_V_verb'),
+    'FORM_VI':          ('TAFA3ALA',  'تَفَاعَلَ',    'form_VI_verb'),
+    'FORM_VII':         ('INFA3ALA',  'اِنْفَعَلَ',   'form_VII_verb'),
+    'FORM_VIII':        ('IFTA3ALA',  'اِفْتَعَلَ',   'form_VIII_verb'),
+    'FORM_IX':          ('IF3ALLA',   'اِفْعَلَّ',    'form_IX_verb'),
+    'FORM_X':           ('ISTAF3ALA', 'اِسْتَفْعَلَ', 'form_X_verb'),
+    # اسم فاعل Form I — فَاعِل (ليس فعلاً مزيدًا؛ C2 كسرة تُمَيِّزه عن فَاعَلَ)
+    'FA3IL_PARTICIPLE': ('FA3IL',     'فَاعِل',       'active_participle_form_i'),
 }
 
 

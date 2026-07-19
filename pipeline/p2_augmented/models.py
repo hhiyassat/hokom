@@ -14,9 +14,13 @@ from typing import Optional
 
 
 # ── عائلات الأوزان المدعومة ─────────────────────────────────────────────────
+# FORM_II–FORM_X: أفعال مزيدة
+# FA3IL_PARTICIPLE: اسم الفاعل من الثلاثي المجرد (فَاعِل) — يُعالَج هنا لأن
+#   الهيكل العظمي C1-ا-C2-C3 يتداخل مع FORM_III في _match_skeleton.
 FORM_FAMILIES = frozenset({
     'FORM_II', 'FORM_III', 'FORM_IV', 'FORM_V', 'FORM_VI',
     'FORM_VII', 'FORM_VIII', 'FORM_IX', 'FORM_X',
+    'FA3IL_PARTICIPLE',   # فَاعِل — اسم فاعل ثلاثي مجرد (Form I derivative)
 })
 
 # ── مستويات الثقة ────────────────────────────────────────────────────────────

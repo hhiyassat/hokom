@@ -487,8 +487,9 @@ class TestAugmentedWaznMap:
         self.wazn_map = AUGMENTED_WAZN_MAP
 
     def test_map_covers_all_forms(self):
-        """الخريطة تغطي FORM_II حتى FORM_X."""
+        """الخريطة تغطي FORM_II–FORM_X + FA3IL_PARTICIPLE (اسم فاعل Form I)."""
         expected = {f'FORM_{r}' for r in ['II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X']}
+        expected.add('FA3IL_PARTICIPLE')
         assert expected == set(self.wazn_map.keys())
 
     def test_map_entries_are_3_tuples(self):
@@ -503,8 +504,15 @@ class TestAugmentedWaznMap:
             assert wazn_id, f'{form}: wazn_id must not be empty'
 
     def test_map_families_verbal(self):
-        """جميع عائلات الأوزان من العائلات الفعلية المزيدة."""
+        """
+        الصيغ المزيدة FORM_II–FORM_X تحمل عائلة فعلية (تحتوي 'verb').
+        FA3IL_PARTICIPLE مشتق من الثلاثي المجرد — عائلته 'active_participle_form_i'.
+        """
+        # عائلات مشتقات Form I المسموح بها (غير فعلية بطبيعتها)
+        _FORM_I_DERIVATIVE_FAMILIES = frozenset({'active_participle_form_i'})
         for form, (_, _, family) in self.wazn_map.items():
+            if family in _FORM_I_DERIVATIVE_FAMILIES:
+                continue   # مشتق ثلاثي مجرد — ليس فعلاً مزيدًا
             assert 'verb' in family, (
                 f'{form}: expected verbal family, got {family!r}'
             )

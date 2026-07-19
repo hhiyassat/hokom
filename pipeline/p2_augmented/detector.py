@@ -17,6 +17,7 @@ pipeline/p2_augmented/detector.py — augmented form pattern detection
 
 from __future__ import annotations
 
+import re
 from typing import Optional
 
 from pipeline.p2_augmented.skeleton import (
@@ -30,6 +31,17 @@ from pipeline.p2_augmented.skeleton import (
     ALIF_WASLA,
 )
 from pipeline.p2_augmented.pattern_tables import WEAK_ROOT_LETTERS
+
+# ── حارس FA3IL: اسم الفاعل من الثلاثي المجرد (فَاعِل) ──────────────────────
+# C1(fatha) + ا + C2(kasra) + C3  — الكسرة على C2 تُمَيِّزه عن فَاعَلَ (Form III فتحة)
+# Unicode: حروف عربية U+0621–U+064A U+0671–U+06B7، فتحة U+064E، كسرة U+0650
+_FA3IL_RE = re.compile(
+    r'[ء-يٱ-ڷ]'   # C1
+    r'َ'                           # فتحة على C1
+    r'ا'                           # ا (ألف)
+    r'[ء-يٱ-ڷ]'   # C2
+    r'ِ'                           # كسرة على C2 ← التمييز الجوهري
+)
 
 # ── أشكال الألف المقبولة كزيادة في بداية الكلمة ──────────────────────────────
 _ALIF_FORMS = frozenset({ALIF, ALIF_HAMZA_ABOVE, ALIF_HAMZA_BELOW, ALIF_MADDA, ALIF_WASLA, 'ٱ'})
@@ -301,6 +313,23 @@ def detect_augmented(refined_host: str) -> Optional[DetectionResult]:
     result = _check_form_v_vi(refined_host, imp_prefix=None)
     if result is not None:
         return result
+
+    # ── حارس FA3IL: اسم الفاعل C1(فتحة)ا C2(كسرة)C3 — فَاعِل ─────────────────
+    # _match_skeleton يُصنِّف C1-ا-C2-C3 (n=4) كـ FORM_III لأنه يعتمد الهيكل
+    # العظمي (بدون حركات). الكسرة على C2 تُثبت أنه فَاعِل (Form I active participle)
+    # لا فَاعَلَ (Form III verb) التي تحمل فتحة على C2.
+    # نُعيد DetectionResult خاصًا ('FA3IL_PARTICIPLE') ليسلك مسار HOKOM_AUGMENTED_ENGINE
+    # مع خريطة وزن FA3IL الصحيحة بدل FA3ALA الخاطئة.
+    if _FA3IL_RE.search(refined_host):
+        fa3il_skel = extract_skeleton(refined_host)
+        if len(fa3il_skel) >= 4 and fa3il_skel[1][0] == ALIF:
+            root = (
+                _clean(fa3il_skel[0][0]),  # C1
+                _clean(fa3il_skel[2][0]),  # C2
+                _clean(fa3il_skel[3][0]),  # C3
+            )
+            conf = _root_confidence(root)
+            return DetectionResult('FA3IL_PARTICIPLE', root, None, conf)
 
     # ── الخطوة 2: مطابقة الهيكل العظمي للسطح الأصلي ────────────────────────
     # تُعالج Form IV (أَفْعَلَ) قبل أن يُجرَّد أَ كبادئة مضارع.
