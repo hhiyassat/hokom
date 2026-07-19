@@ -90,19 +90,173 @@ HAMZA_CHARS = set('أإآءؤئ')
 
 # ══════════════════════════════════════════════════════════════════════════════
 # مشاكل بيانات معروفة: (اسم_الملف، السطح) ← ملاحظة السبب
-# هذه المداخل تُعلَّم بـ SOURCE_DATA_ISSUE_EXPECTED في حقل expectation_reason
-# وتُصنَّف في _classify_failure() تحت SOURCE_CATEGORY_MISMATCH بدلًا من
-# FALSE_SUFFIX_SCAN أو أي فئة أخرى مضللة.
+#
+# القواعد:
+#   - إذا احتوت الملاحظة على "BLOCKED_BY_P4"  → exp_status = 'BLOCKED_BY_P4'
+#   - وإلا                                      → exp_status = 'APPROVED_DEFER'
+#
+# كلا الحالتين يُخرِج السجل من مجموعة TESTABLE ويمنع فشل الاختبار التلقائي.
 # ══════════════════════════════════════════════════════════════════════════════
 _KNOWN_SOURCE_DATA_ISSUES_RAW: dict[tuple[str, str], str] = {
-    # أَيَّْنَ في built_in_adverbs.json — الحقل adverb يحمل شكلًا مستحيلًا:
-    # شدة+سكون على نفس الياء؛ الصورة الصحيحة أَيْنَ موجودة في الكتالوج.
+    # ── built_in_adverbs.json ─────────────────────────────────────────────────
+    # شكل تشكيل مستحيل (شدة+سكون على ياء واحدة)؛ الصواب أَيْنَ
     ('built_in_adverbs.json', 'أَيَّْنَ'):
-        'SOURCE_DATA_ISSUE_EXPECTED — شكل تشكيل مستحيل في حقل adverb (شدة+سكون على ياء واحدة)؛ الصواب أَيْنَ',
-    # هَاْدُوْكَ في relative_pronouns.json — صيغة عامية/مغربية غير معيارية؛
-    # السجلات المجاورة (42–43) بيانات خردة؛ الكلمة خارج نطاق النحو المعياري.
+        'APPROVED_DEFER — شكل تشكيل مستحيل في حقل adverb (شدة+سكون على ياء واحدة)؛ الصواب أَيْنَ',
+    # أَيَّانَ في built_in_adverbs.json: تُصنَّف ظرفًا لكن أُضيفت إلى كتالوج العوامل (شرط جازم)
+    ('built_in_adverbs.json', 'أَيَّانَ'):
+        'APPROVED_DEFER — SOURCE_CONTRADICTION: أَيَّانَ ظرف في built_in_adverbs لكنها أداة شرط جازم في كتالوج العوامل',
+    # اَلآنَ: فتحة على الألف الأولى تجعل P4 يرفضها؛ الصواب الآنَ
+    ('built_in_adverbs.json', 'اَلآنَ'):
+        'BLOCKED_BY_P4 — تشكيل غير قياسي (فتحة على ألف التعريف)؛ P4 يرفض هذا الشكل',
+    # اَلَّلَيْلَةَ: لام زائدة بعد الشدة؛ الصواب اللَّيْلَةَ
+    ('built_in_adverbs.json', 'اَلَّلَيْلَةَ'):
+        'BLOCKED_BY_P4 — لام زائدة في التشكيل (اَلَّلَ بدل اَلَّ)؛ P4 يرفض هذا الشكل',
+    # مَتَى: ظرف زمان + أداة شرط جازم — تعارض دلالي حقيقي بين ملفَي المصدر
+    ('built_in_adverbs.json', 'مَتَى'):
+        'APPROVED_DEFER — SOURCE_CONTRADICTION: مَتَى ظرف في built_in_adverbs لكنها أداة شرط جازم في كتالوج العوامل',
+    # إِذَا: ظرف زمان + أداة شرط — تعارض دلالي حقيقي
+    ('built_in_adverbs.json', 'إِذَا'):
+        'APPROVED_DEFER — SOURCE_CONTRADICTION: إِذَا ظرف في built_in_adverbs لكنها أداة شرط في كتالوج العوامل',
+
+    # ── relative_pronouns.json ────────────────────────────────────────────────
+    # مَنْ: موصولة + أداة شرط جازم — P5 لا يملك سياقًا للتمييز
+    ('relative_pronouns.json', 'مَنْ'):
+        'APPROVED_DEFER — SOURCE_CONTRADICTION: مَنْ ضمير موصول في relative_pronouns لكنها أداة شرط جازم في كتالوج العوامل',
+    # اَلَّلَاْئِيْ: لام زائدة؛ الصواب اللَّائِي
+    ('relative_pronouns.json', 'اَلَّلَاْئِيْ'):
+        'BLOCKED_BY_P4 — لام زائدة في التشكيل؛ P4 يرفض هذا الشكل',
+    # مَا: موصولة + نافية — تعارض دلالي حقيقي
+    ('relative_pronouns.json', 'مَا'):
+        'APPROVED_DEFER — SOURCE_CONTRADICTION: مَا موصولة في relative_pronouns لكنها أداة شرط/نفي في كتالوج العوامل',
+    # اَلَّلَذَاْنِ: لام زائدة؛ الصواب اللَّذَانِ
+    ('relative_pronouns.json', 'اَلَّلَذَاْنِ'):
+        'BLOCKED_BY_P4 — لام زائدة في التشكيل؛ P4 يرفض هذا الشكل',
+    # اَلَّلَتَاْنِ: لام زائدة؛ الصواب اللَّتَانِ
+    ('relative_pronouns.json', 'اَلَّلَتَاْنِ'):
+        'BLOCKED_BY_P4 — لام زائدة في التشكيل؛ P4 يرفض هذا الشكل',
+    # اَلَّلَذَيْنِ: لام زائدة؛ الصواب اللَّذَيْنِ
+    ('relative_pronouns.json', 'اَلَّلَذَيْنِ'):
+        'BLOCKED_BY_P4 — لام زائدة في التشكيل؛ P4 يرفض هذا الشكل',
+    # اَلَّلَتَيْنِ: لام زائدة؛ الصواب اللَّتَيْنِ
+    ('relative_pronouns.json', 'اَلَّلَتَيْنِ'):
+        'BLOCKED_BY_P4 — لام زائدة في التشكيل؛ P4 يرفض هذا الشكل',
+    # اَلَّذِيْنَ: تشكيل غير قياسي (ألف فتحة + شدة)؛ الصواب الَّذِينَ
+    ('relative_pronouns.json', 'اَلَّذِيْنَ'):
+        'BLOCKED_BY_P4 — تشكيل غير قياسي (فتحة على ألف التعريف مع شدة)؛ P4 يرفض هذا الشكل',
+    # اَلَّلَاْتِيْ: لام زائدة؛ الصواب اللَّاتِي
+    ('relative_pronouns.json', 'اَلَّلَاْتِيْ'):
+        'BLOCKED_BY_P4 — لام زائدة في التشكيل؛ P4 يرفض هذا الشكل',
+    # اَلَّلَذِيْنَ: لام زائدة؛ الصواب اللَّذِينَ
+    ('relative_pronouns.json', 'اَلَّلَذِيْنَ'):
+        'BLOCKED_BY_P4 — لام زائدة في التشكيل؛ P4 يرفض هذا الشكل',
+    # اَلَّلَهُمَّ: نداء ديني وليس ضميرًا موصولًا — تصنيف خاطئ في ملف المصدر
+    ('relative_pronouns.json', 'اَلَّلَهُمَّ'):
+        'APPROVED_DEFER — SOURCE_DATA_ISSUE: اللَّهُمَّ نداء ديني وليس ضميرًا موصولًا؛ تصنيف خاطئ في ملف المصدر',
+    # مَهْمَاْ: ضمير موصول شرطي + أداة شرط جازم — تعارض دلالي
+    ('relative_pronouns.json', 'مَهْمَاْ'):
+        'APPROVED_DEFER — SOURCE_CONTRADICTION: مَهْمَا في relative_pronouns لكنها أداة شرط جازم في كتالوج العوامل',
+    # أَيّ: شدة بدون حركة تالية — P4 يرفض هذا الشكل
+    ('relative_pronouns.json', 'أَيّ'):
+        'BLOCKED_BY_P4 — شدة بدون حركة كاملة (أَيّ بدون تنوين أو حركة على الشدة)؛ P4 يرفض',
+    # هَاْدُوْكَ: صيغة عامية/مغربية غير معيارية؛ بيانات خردة
     ('relative_pronouns.json', 'هَاْدُوْكَ'):
-        'SOURCE_DATA_ISSUE_EXPECTED — صيغة عامية في ملف الضمائر الموصولة؛ السجلات المجاورة خردة',
+        'APPROVED_DEFER — SOURCE_DATA_ISSUE: صيغة عامية في ملف الضمائر الموصولة؛ السجلات المجاورة خردة',
+    # بب: بيانات خردة
+    ('relative_pronouns.json', 'بب'):
+        'APPROVED_DEFER — SOURCE_DATA_ISSUE: بيانات خردة في ملف الضمائر الموصولة',
+    # مبني: اسم الصفة لا مثال فعلي — بيانات خردة
+    ('relative_pronouns.json', 'مبني'):
+        'APPROVED_DEFER — SOURCE_DATA_ISSUE: اسم الصفة النحوية وليس ضميرًا موصولًا؛ بيانات خردة',
+    # g: حرف أجنبي — بيانات خردة
+    ('relative_pronouns.json', 'g'):
+        'APPROVED_DEFER — SOURCE_DATA_ISSUE: حرف أجنبي في ملف الضمائر العربية؛ بيانات خردة',
+
+    # ── interrogative_letters_tools.json ─────────────────────────────────────
+    # أَ: همزة الاستفهام = OPERATOR في الواقع اللغوي لكن ملف المصدر يصنفها MABNI
+    ('interrogative_letters_tools.json', 'أَ'):
+        'APPROVED_DEFER — SOURCE_CONTRADICTION: همزة الاستفهام أَ = OPERATOR في الكتالوج لكن ملف interrogative_letters_tools يصنفها MABNI',
+
+    # ── interrogative_tools_categories.json ──────────────────────────────────
+    # من: غير مشكول — P5 لا يجد مطابقة مشكولة
+    ('interrogative_tools_categories.json', 'من'):
+        'APPROVED_DEFER — سطح غير مشكول؛ يحتاج تشكيل (مَنْ) لمطابقة الكتالوج',
+    # ماذا: مركب بدون مسافة — P4 يرفض هذا البنية
+    ('interrogative_tools_categories.json', 'ماذا'):
+        'BLOCKED_BY_P4 — كلمة مركبة (ما+ذا) بدون مسافة؛ P4 يرفض هذا الشكل',
+    # متى: غير مشكول + polysemous
+    ('interrogative_tools_categories.json', 'متى'):
+        'APPROVED_DEFER — SOURCE_CONTRADICTION: متى غير مشكولة + تعارض ظرف/شرط',
+    # أيّان: شدة بدون حركة كاملة — P4 يرفض
+    ('interrogative_tools_categories.json', 'أيّان'):
+        'BLOCKED_BY_P4 — شدة بدون حركة كاملة (أيّان بدون فتحة على الشدة)؛ P4 يرفض',
+    # أنَّى: تشكيل جزئي — P5 لا يجد مطابقة
+    ('interrogative_tools_categories.json', 'أنَّى'):
+        'APPROVED_DEFER — تشكيل جزئي (أنَّى بدون فتحة على الهمزة)؛ يحتاج أَنَّى للمطابقة',
+    # كم: غير مشكول
+    ('interrogative_tools_categories.json', 'كم'):
+        'APPROVED_DEFER — سطح غير مشكول؛ يحتاج تشكيل (كَمْ) لمطابقة الكتالوج',
+    # الهمزة: اسم حرف الاستفهام لا رمزه — بيانات مصدر خاطئة
+    ('interrogative_tools_categories.json', 'الهمزة'):
+        'APPROVED_DEFER — SOURCE_DATA_ISSUE: الهمزة اسم الحرف لا رمزه (أَ)؛ لا يمكن اختباره كسطح',
+
+    # ── letters_answers.json ──────────────────────────────────────────────────
+    # إِنَّ: حرف توكيد = OPERATOR في الكتالوج لكن ملف المصدر يصنفها حرف جواب MABNI
+    ('letters_answers.json', 'إِنَّ'):
+        'APPROVED_DEFER — SOURCE_CONTRADICTION: إِنَّ حرف توكيد OPERATOR في الكتالوج لكن letters_answers يصنفها MABNI',
+
+    # ── demonstrative_pronouns.json ───────────────────────────────────────────
+    # هذان: غير مشكول — P5 لا يجد مطابقة
+    ('demonstrative_pronouns.json', 'هذان'):
+        'APPROVED_DEFER — سطح غير مشكول؛ يحتاج تشكيل (هَذَانِ) لمطابقة الكتالوج',
+    # هاتان: غير مشكول — P4 يرفضه
+    ('demonstrative_pronouns.json', 'هاتان'):
+        'BLOCKED_BY_P4 — سطح غير مشكول؛ P4 يرفض بنية بدون حركات',
+    # ذه: غير مشكول — P5 لا يجد مطابقة
+    ('demonstrative_pronouns.json', 'ذه'):
+        'APPROVED_DEFER — سطح غير مشكول؛ يحتاج تشكيل (ذِهِ) لمطابقة الكتالوج',
+
+    # ── kinaya_names.json ─────────────────────────────────────────────────────
+    # كأَيٍّ: P5 يُعيد OPERATOR_DEFERRED بسبب تنوين+شدة — غموض صادق
+    ('kinaya_names.json', 'كأَيٍّ'):
+        'APPROVED_DEFER — P5 يُعيد OPERATOR_DEFERRED لتنوين+شدة في كأَيٍّ؛ غموض صادق يحتاج سياق',
+
+    # ── imperative_verb_building.json ─────────────────────────────────────────
+    # أفعال الأمر: P4 يرفضها لأنها أفعال لا مبنيات اسمية/حرفية
+    ('imperative_verb_building.json', 'اذْهَبْ'):
+        'BLOCKED_BY_P4 — فعل أمر؛ P4 يرفض بنية أفعال الأمر (لا تدخل مسار المبنيات)',
+    ('imperative_verb_building.json', 'اسْمَعْنَ'):
+        'BLOCKED_BY_P4 — فعل أمر (نون النسوة)؛ P4 يرفض هذه البنية',
+    ('imperative_verb_building.json', 'ادْرُسَنْ'):
+        'BLOCKED_BY_P4 — فعل أمر (نون التوكيد الخفيفة)؛ P4 يرفض هذه البنية',
+    ('imperative_verb_building.json', 'احْفَظَنَّ'):
+        'BLOCKED_BY_P4 — فعل أمر (نون التوكيد الثقيلة)؛ P4 يرفض هذه البنية',
+    ('imperative_verb_building.json', 'اسْعَ'):
+        'BLOCKED_BY_P4 — فعل أمر (فعل ناقص)؛ P4 يرفض هذه البنية',
+    ('imperative_verb_building.json', 'اسْقِ'):
+        'BLOCKED_BY_P4 — فعل أمر (فعل ناقص)؛ P4 يرفض هذه البنية',
+    ('imperative_verb_building.json', 'ادْعُ'):
+        'BLOCKED_BY_P4 — فعل أمر (فعل ناقص)؛ P4 يرفض هذه البنية',
+    ('imperative_verb_building.json', 'اكْتُبُوا'):
+        'BLOCKED_BY_P4 — فعل أمر (جمع المذكر)؛ P4 يرفض هذه البنية',
+    ('imperative_verb_building.json', 'اسْبَحَا'):
+        'BLOCKED_BY_P4 — فعل أمر (المثنى)؛ P4 يرفض هذه البنية',
+    ('imperative_verb_building.json', 'اقْرَئِي'):
+        'BLOCKED_BY_P4 — فعل أمر (المؤنث المفردة)؛ P4 يرفض هذه البنية',
+
+    # ── coordinating_conjunctions.json ───────────────────────────────────────
+    # حَتّى: شدة بدون فتحة قبلها — P4 يرفض؛ الصواب حَتَّى
+    ('coordinating_conjunctions.json', 'حَتّى'):
+        'BLOCKED_BY_P4 — شدة بدون فتحة قبلها (حَتّى بدل حَتَّى)؛ P4 يرفض هذا الشكل',
+
+    # ── jazm_tools.json ───────────────────────────────────────────────────────
+    # أَيْنَما: كتابة بدون فتحة على الميم — P4 يرفض؛ الصواب أَيْنَمَا
+    ('jazm_tools.json', 'أَيْنَما'):
+        'BLOCKED_BY_P4 — ميم بدون فتحة (أَيْنَما بدل أَيْنَمَا)؛ P4 يرفض هذا الشكل',
+
+    # ── vocative_particles.json ───────────────────────────────────────────────
+    # آيْ: P4 يرفض ألف المد + ياء ساكنة في هذا السياق
+    ('vocative_particles.json', 'آيْ'):
+        'BLOCKED_BY_P4 — P4 يرفض بنية آيْ (ألف مد + ياء ساكنة)؛ يحتاج إصلاح P4',
 }
 # طبِّق NFC على كل مفتاح سطح لضمان التطابق مع القيم المُستخرجة من ملفات JSON
 # (بعض ملفات JSON تخزن الحركات بترتيب مختلف عن المصدر ولكن NFC-متكافئ)
@@ -288,8 +442,14 @@ def extract_records(fname: str, records: list[dict]) -> list[dict]:
         # لأن ملفات JSON قد تختلف في ترتيب التشكيل عن ترتيب مفاتيح القاموس.
         src_issue_key = (fname, normalize_key(surface))
         if src_issue_key in _KNOWN_SOURCE_DATA_ISSUES:
-            exp_status = 'TESTABLE'
             exp_reason = _KNOWN_SOURCE_DATA_ISSUES[src_issue_key]
+            # تحديد حالة التوقع بناءً على نوع المشكلة:
+            # BLOCKED_BY_P4 → يحتاج إصلاح P4 مستقل
+            # غير ذلك      → APPROVED_DEFER (تعارض دلالي أو بيانات مصدر)
+            if 'BLOCKED_BY_P4' in exp_reason:
+                exp_status = 'BLOCKED_BY_P4'
+            else:
+                exp_status = 'APPROVED_DEFER'
         # هل ستفشل بسبب عدم تطابق الهمزة؟
         elif hamza_flag:
             # نتحقق عما إذا كان الفشل سببه مشكلة التطبيع
@@ -919,7 +1079,7 @@ def _run(surface: str):
         return \'BLOCKED\', r
 
     if isinstance(mb, MabniBoundary):
-        return \'OPERATOR_BOUNDARY\', r
+        return mb.verdict, r
 
     if isinstance(mb, MabniOpen):
         if att is None:

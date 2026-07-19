@@ -62,7 +62,7 @@ def _run(surface: str):
         return 'BLOCKED', r
 
     if isinstance(mb, MabniBoundary):
-        return 'OPERATOR_BOUNDARY', r
+        return mb.verdict, r
 
     if isinstance(mb, MabniOpen):
         if att is None:

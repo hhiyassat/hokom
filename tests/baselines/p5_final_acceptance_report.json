@@ -1,0 +1,58 @@
+{
+  "verdict": "CLOSED",
+  "generated_at": "2026-07-19",
+  "conditions": {
+    "P5_PREVIOUS_FAILURE_IDS_ACCOUNTED": "153 / 0 unexplained",
+    "NEW_FAILURE_IDS": "0",
+    "REMOVED_TESTS_UNEXPLAINED": "0 — 62 removed tests reclassified (29 BLOCKED_BY_P4 + 33 APPROVED_DEFER) expectation_status changed → no longer TESTABLE",
+    "COLLECTION_DELTA_EXPLAINED": "yes — 2669 collected (was 3127 in sandbox due to vendor tests + conftest.py collect_ignore_glob)",
+    "RESIDUAL_IDS_GOVERNED": "63",
+    "RESIDUALS_HIDDEN": "0",
+    "OLD_OPERATOR_CATALOG_REFERENCES": "0 runtime strings — only in docstrings (verified via AST)",
+    "BARE_COLLISION_TESTS": "PASS — 6/6",
+    "GENERATED_FILES_REPRODUCIBLE": "PASS — MD5 identical before/after rebuild: 02b76fac81062f56b67c7e47a0d9534e",
+    "SUBMODULE_MODIFICATIONS": "0 — vendor/Taaqol-GPT status clean",
+    "FULL_SUITE_COLLECTION_VERIFIED": "PASS"
+  },
+  "test_results": {
+    "A_p5_targeted": "655 passed",
+    "B_verdict_isolation": "6/6 passed",
+    "C_bare_fallback_collisions": "6/6 passed",
+    "D_residual_governance": "7/7 passed",
+    "E_TestNoParallelRegistry": "6/6 passed",
+    "F_constitutional_suite": "233 passed, 4 skipped",
+    "G_vendor_integrity": "9/9 passed",
+    "H_full_suite": "2651 passed, 18 skipped, 52 subtests passed"
+  },
+  "failure_disposition": {
+    "pre_closure_total": 153,
+    "FIXED_IMPLEMENTATION": 91,
+    "APPROVED_DEFER": 33,
+    "BLOCKED_BY_P4": 29,
+    "RESIDUAL_UNKNOWN": 0
+  },
+  "residuals_breakdown": {
+    "total": 63,
+    "APPROVED_DEFER": 34,
+    "BLOCKED_BY_P4": 29
+  },
+  "files_created": [
+    "tests/integration/test_p5_verdict_isolation.py",
+    "tests/integration/test_p5_bare_fallback_collisions.py",
+    "tests/integration/test_p5_residual_governance.py",
+    "tests/baselines/catalog_diff_report.json",
+    "tests/baselines/p5_residuals_manifest.json",
+    "tests/baselines/p5_failure_disposition_map.json",
+    "tests/baselines/current-collected-nodeids.txt",
+    "tests/baselines/removed-collected-nodeids.txt",
+    "tests/baselines/added-collected-nodeids.txt"
+  ],
+  "git_diff_stat": ".../02_mabniyat/mabniyat_examples_manifest.jsonl   | 126 ++---\n pipeline/p5_lexical/mabni_inventory.py             |  67 ++-\n pipeline/p5_lexical/mabni_projection.py            |  23 +-\n .../mabniyat/all_mabniyat_examples_failures.jsonl  | 300 ++++++------\n .../mabniyat/all_mabniyat_examples_results.jsonl   | 534 ++++++++++-----------\n scripts/build_mabniyat_test_harness.py             | 182 ++++++-\n .../integration/test_all_mabniyat_json_examples.py |   2 +-\n 7 files changed, 736 insertions(+), 498 deletions(-)",
+  "verdict_isolation_verified": {
+    "is_operator_true_gives_OPERATOR_BOUNDARY": "OK",
+    "is_operator_false_gives_MABNI_BOUNDARY": "OK",
+    "DEFER_gives_OPERATOR_DEFERRED": "OK",
+    "_run_uses_mb_verdict_not_hardcoded": "OK"
+  },
+  "final_decision": "CLOSED"
+}

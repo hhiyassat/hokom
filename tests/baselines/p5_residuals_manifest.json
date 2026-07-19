@@ -1,0 +1,576 @@
+{
+  "total": 63,
+  "by_status": {
+    "APPROVED_DEFER": 34,
+    "BLOCKED_BY_P4": 29
+  },
+  "residuals": [
+    {
+      "case_id": "built_in_adverbs_008",
+      "status": "APPROVED_DEFER",
+      "surface": "أَيَّانَ",
+      "source_file": "built_in_adverbs.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_CONTRADICTION: ظرف في built_in_adverbs + شرط جازم في كتالوج العوامل",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "built_in_adverbs_017",
+      "status": "APPROVED_DEFER",
+      "surface": "أَيَّْنَ",
+      "source_file": "built_in_adverbs.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "شكل تشكيل مستحيل (شدة+سكون على ياء واحدة)",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "built_in_adverbs_018",
+      "status": "APPROVED_DEFER",
+      "surface": "مَتَى",
+      "source_file": "built_in_adverbs.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_CONTRADICTION: ظرف زمان + أداة شرط جازم",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "built_in_adverbs_021",
+      "status": "APPROVED_DEFER",
+      "surface": "إِذَا",
+      "source_file": "built_in_adverbs.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_CONTRADICTION: ظرف زمان + أداة شرط",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "demonstrative_pronouns_019",
+      "status": "APPROVED_DEFER",
+      "surface": "هذان",
+      "source_file": "demonstrative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "سطح غير مشكول — يحتاج هَذَانِ",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "demonstrative_pronouns_034",
+      "status": "APPROVED_DEFER",
+      "surface": "ذه",
+      "source_file": "demonstrative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "سطح غير مشكول — يحتاج ذِهِ",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "interrogative_letters_tools_002",
+      "status": "APPROVED_DEFER",
+      "surface": "أَ",
+      "source_file": "interrogative_letters_tools.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_CONTRADICTION: همزة استفهام = OPERATOR، ملف المصدر يصنفها MABNI",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "interrogative_letters_tools_003",
+      "status": "APPROVED_DEFER",
+      "surface": "أَ",
+      "source_file": "interrogative_letters_tools.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_CONTRADICTION: همزة استفهام = OPERATOR",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "interrogative_letters_tools_004",
+      "status": "APPROVED_DEFER",
+      "surface": "أَ",
+      "source_file": "interrogative_letters_tools.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_CONTRADICTION: همزة استفهام = OPERATOR",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "interrogative_letters_tools_005",
+      "status": "APPROVED_DEFER",
+      "surface": "أَ",
+      "source_file": "interrogative_letters_tools.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_CONTRADICTION: همزة استفهام = OPERATOR",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "interrogative_letters_tools_006",
+      "status": "APPROVED_DEFER",
+      "surface": "أَ",
+      "source_file": "interrogative_letters_tools.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_CONTRADICTION: همزة استفهام = OPERATOR",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "interrogative_tools_categories_001",
+      "status": "APPROVED_DEFER",
+      "surface": "من",
+      "source_file": "interrogative_tools_categories.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "سطح غير مشكول — يحتاج مَنْ",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "interrogative_tools_categories_005",
+      "status": "APPROVED_DEFER",
+      "surface": "متى",
+      "source_file": "interrogative_tools_categories.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_CONTRADICTION: غير مشكول + تعارض ظرف/شرط",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "interrogative_tools_categories_008",
+      "status": "APPROVED_DEFER",
+      "surface": "أنَّى",
+      "source_file": "interrogative_tools_categories.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "تشكيل جزئي — يحتاج أَنَّى",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "interrogative_tools_categories_009",
+      "status": "APPROVED_DEFER",
+      "surface": "كم",
+      "source_file": "interrogative_tools_categories.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "سطح غير مشكول — يحتاج كَمْ",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "interrogative_tools_categories_013",
+      "status": "APPROVED_DEFER",
+      "surface": "الهمزة",
+      "source_file": "interrogative_tools_categories.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_DATA_ISSUE: اسم الحرف لا رمزه",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "interrogative_tools_categories_014",
+      "status": "APPROVED_DEFER",
+      "surface": "الهمزة",
+      "source_file": "interrogative_tools_categories.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_DATA_ISSUE: اسم الحرف لا رمزه",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "interrogative_tools_categories_015",
+      "status": "APPROVED_DEFER",
+      "surface": "الهمزة",
+      "source_file": "interrogative_tools_categories.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_DATA_ISSUE: اسم الحرف لا رمزه",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "interrogative_tools_categories_016",
+      "status": "APPROVED_DEFER",
+      "surface": "الهمزة",
+      "source_file": "interrogative_tools_categories.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_DATA_ISSUE: اسم الحرف لا رمزه",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "interrogative_tools_categories_017",
+      "status": "APPROVED_DEFER",
+      "surface": "الهمزة",
+      "source_file": "interrogative_tools_categories.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_DATA_ISSUE: اسم الحرف لا رمزه",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "kinaya_names_005",
+      "status": "APPROVED_DEFER",
+      "surface": "كأَيٍّ",
+      "source_file": "kinaya_names.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "P5 يُعيد OPERATOR_DEFERRED — تنوين+شدة — غموض صادق يحتاج سياقًا",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "letters_answers_004",
+      "status": "APPROVED_DEFER",
+      "surface": "إِنَّ",
+      "source_file": "letters_answers.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_CONTRADICTION: حرف توكيد = OPERATOR في الكتالوج، ملف المصدر يصنفها MABNI",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "relative_pronouns_003",
+      "status": "APPROVED_DEFER",
+      "surface": "مَنْ",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_CONTRADICTION: موصولة + شرط جازم في الكتالوج",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "relative_pronouns_012",
+      "status": "APPROVED_DEFER",
+      "surface": "مَنْ",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_CONTRADICTION: موصولة + شرط جازم",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "relative_pronouns_013",
+      "status": "APPROVED_DEFER",
+      "surface": "مَا",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_CONTRADICTION: موصولة + نافية + شرط جازم",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "relative_pronouns_016",
+      "status": "APPROVED_DEFER",
+      "surface": "مَنْ",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_CONTRADICTION: موصولة + شرط جازم",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "relative_pronouns_024",
+      "status": "APPROVED_DEFER",
+      "surface": "مَنْ",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_CONTRADICTION: موصولة + شرط جازم",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "relative_pronouns_031",
+      "status": "APPROVED_DEFER",
+      "surface": "مَنْ",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_CONTRADICTION: موصولة + شرط جازم",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "relative_pronouns_033",
+      "status": "APPROVED_DEFER",
+      "surface": "اَلَّلَهُمَّ",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_DATA_ISSUE: نداء ديني وليس ضميرًا موصولًا — تصنيف خاطئ في المصدر",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "relative_pronouns_035",
+      "status": "APPROVED_DEFER",
+      "surface": "مَهْمَاْ",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_CONTRADICTION: موصول شرطي في relative_pronouns + شرط جازم في الكتالوج",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "relative_pronouns_041",
+      "status": "APPROVED_DEFER",
+      "surface": "هَاْدُوْكَ",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_DATA_ISSUE: صيغة عامية مغربية — خارج النحو المعياري",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "relative_pronouns_043",
+      "status": "APPROVED_DEFER",
+      "surface": "بب",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_DATA_ISSUE: بيانات خردة",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "relative_pronouns_045",
+      "status": "APPROVED_DEFER",
+      "surface": "مبني",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_DATA_ISSUE: اسم الصفة النحوية لا مثال فعلي",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "relative_pronouns_047",
+      "status": "APPROVED_DEFER",
+      "surface": "g",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "SOURCE_DATA_ISSUE: حرف أجنبي",
+      "owner_stage": "P5"
+    },
+    {
+      "case_id": "built_in_adverbs_004",
+      "status": "BLOCKED_BY_P4",
+      "surface": "اَلآنَ",
+      "source_file": "built_in_adverbs.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "فتحة غير قياسية على ألف التعريف — الصواب الآنَ",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "built_in_adverbs_006",
+      "status": "BLOCKED_BY_P4",
+      "surface": "اَلَّلَيْلَةَ",
+      "source_file": "built_in_adverbs.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "لام زائدة في التشكيل — الصواب اللَّيْلَةَ",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "coordinating_conjunctions_004",
+      "status": "BLOCKED_BY_P4",
+      "surface": "حَتّى",
+      "source_file": "coordinating_conjunctions.json",
+      "expected_route": "OPERATOR_BOUNDARY",
+      "reason": "شدة بدون فتحة قبلها — الصواب حَتَّى",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "coordinating_conjunctions_010",
+      "status": "BLOCKED_BY_P4",
+      "surface": "حَتّى",
+      "source_file": "coordinating_conjunctions.json",
+      "expected_route": "OPERATOR_BOUNDARY",
+      "reason": "شدة بدون فتحة قبلها — الصواب حَتَّى",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "demonstrative_pronouns_020",
+      "status": "BLOCKED_BY_P4",
+      "surface": "هاتان",
+      "source_file": "demonstrative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "سطح غير مشكول كليًا — P4 يرفض",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "imperative_verb_building_001",
+      "status": "BLOCKED_BY_P4",
+      "surface": "اذْهَبْ",
+      "source_file": "imperative_verb_building.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "فعل أمر — P4 يرفض بنية الأفعال في مسار المبنيات",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "imperative_verb_building_002",
+      "status": "BLOCKED_BY_P4",
+      "surface": "اسْمَعْنَ",
+      "source_file": "imperative_verb_building.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "فعل أمر (نون النسوة)",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "imperative_verb_building_003",
+      "status": "BLOCKED_BY_P4",
+      "surface": "ادْرُسَنْ",
+      "source_file": "imperative_verb_building.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "فعل أمر (نون التوكيد الخفيفة)",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "imperative_verb_building_004",
+      "status": "BLOCKED_BY_P4",
+      "surface": "احْفَظَنَّ",
+      "source_file": "imperative_verb_building.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "فعل أمر (نون التوكيد الثقيلة)",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "imperative_verb_building_005",
+      "status": "BLOCKED_BY_P4",
+      "surface": "اسْعَ",
+      "source_file": "imperative_verb_building.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "فعل أمر ناقص (فعل معتل الآخر)",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "imperative_verb_building_006",
+      "status": "BLOCKED_BY_P4",
+      "surface": "اسْقِ",
+      "source_file": "imperative_verb_building.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "فعل أمر ناقص",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "imperative_verb_building_007",
+      "status": "BLOCKED_BY_P4",
+      "surface": "ادْعُ",
+      "source_file": "imperative_verb_building.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "فعل أمر ناقص",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "imperative_verb_building_008",
+      "status": "BLOCKED_BY_P4",
+      "surface": "اكْتُبُوا",
+      "source_file": "imperative_verb_building.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "فعل أمر (جمع المذكر السالم)",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "imperative_verb_building_009",
+      "status": "BLOCKED_BY_P4",
+      "surface": "اسْبَحَا",
+      "source_file": "imperative_verb_building.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "فعل أمر (المثنى)",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "imperative_verb_building_010",
+      "status": "BLOCKED_BY_P4",
+      "surface": "اقْرَئِي",
+      "source_file": "imperative_verb_building.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "فعل أمر (المؤنث المفردة)",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "interrogative_tools_categories_004",
+      "status": "BLOCKED_BY_P4",
+      "surface": "ماذا",
+      "source_file": "interrogative_tools_categories.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "كلمة مركبة (ما+ذا) بدون مسافة — P4 يرفض",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "interrogative_tools_categories_006",
+      "status": "BLOCKED_BY_P4",
+      "surface": "أيّان",
+      "source_file": "interrogative_tools_categories.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "شدة بدون فتحة كاملة (أيّان بدل أَيَّانَ)",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "jazm_tools_019",
+      "status": "BLOCKED_BY_P4",
+      "surface": "أَيْنَما",
+      "source_file": "jazm_tools.json",
+      "expected_route": "OPERATOR_BOUNDARY",
+      "reason": "ميم بدون فتحة — الصواب أَيْنَمَا (بفتحة على الميم)",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "relative_pronouns_011",
+      "status": "BLOCKED_BY_P4",
+      "surface": "اَلَّلَاْئِيْ",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "لام زائدة — الصواب اللَّائِي",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "relative_pronouns_020",
+      "status": "BLOCKED_BY_P4",
+      "surface": "اَلَّلَذَاْنِ",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "لام زائدة — الصواب اللَّذَانِ",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "relative_pronouns_021",
+      "status": "BLOCKED_BY_P4",
+      "surface": "اَلَّلَتَاْنِ",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "لام زائدة — الصواب اللَّتَانِ",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "relative_pronouns_022",
+      "status": "BLOCKED_BY_P4",
+      "surface": "اَلَّلَذَيْنِ",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "لام زائدة — الصواب اللَّذَيْنِ",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "relative_pronouns_023",
+      "status": "BLOCKED_BY_P4",
+      "surface": "اَلَّلَتَيْنِ",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "لام زائدة — الصواب اللَّتَيْنِ",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "relative_pronouns_026",
+      "status": "BLOCKED_BY_P4",
+      "surface": "اَلَّذِيْنَ",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "فتحة غير قياسية على ألف التعريف — الصواب الَّذِينَ",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "relative_pronouns_027",
+      "status": "BLOCKED_BY_P4",
+      "surface": "اَلَّلَاْتِيْ",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "لام زائدة — الصواب اللَّاتِي",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "relative_pronouns_028",
+      "status": "BLOCKED_BY_P4",
+      "surface": "اَلَّلَاْئِيْ",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "لام زائدة (إدخال مكرر للسجل 11)",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "relative_pronouns_029",
+      "status": "BLOCKED_BY_P4",
+      "surface": "اَلَّلَذِيْنَ",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "لام زائدة — الصواب اللَّذِينَ",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "relative_pronouns_036",
+      "status": "BLOCKED_BY_P4",
+      "surface": "أَيّ",
+      "source_file": "relative_pronouns.json",
+      "expected_route": "MABNI_BOUNDARY",
+      "reason": "شدة بدون حركة كاملة (أَيّ بدل أَيِّ أو أَيَّ)",
+      "owner_stage": "P4"
+    },
+    {
+      "case_id": "vocative_particles_005",
+      "status": "BLOCKED_BY_P4",
+      "surface": "آيْ",
+      "source_file": "vocative_particles.json",
+      "expected_route": "OPERATOR_BOUNDARY",
+      "reason": "P4 يرفض بنية ألف مد + ياء ساكنة — يحتاج إصلاح P4 لقبول هذه البنية",
+      "owner_stage": "P4"
+    }
+  ]
+}

@@ -28,7 +28,7 @@ Relation Contract:
 """
 
 from dataclasses import dataclass, field
-from pipeline.p5_lexical.mabni_inventory      import MabniEntry, get_inventory
+from pipeline.p5_lexical.mabni_inventory      import MabniEntry, get_inventory, _strip_diacritics
 from pipeline.p5_lexical.operator_projection  import get_profile, OperatorProfile
 from pipeline.contracts.relation_contract     import RelationContract, make_contract
 
@@ -169,20 +169,32 @@ def _lexical_class(entries: list[MabniEntry]) -> str:
     return 'Bound Nominal'
 
 
-def _verdict_from(entries: list[MabniEntry], structural_verdict: str) -> str:
+def _verdict_from(entries: list[MabniEntry], structural_verdict: str,
+                  canonical: str = '') -> str:
     """
     الحكم المعجمي من P5 — مقيَّد بالحكم الهيكلي من P4 (قانون الرتابة).
 
       structural_verdict = 'ACCEPT' + is_operator → OPERATOR_BOUNDARY
       structural_verdict = 'ACCEPT' + not operator → MABNI_BOUNDARY
-      structural_verdict = 'DEFER'  → OPERATOR_DEFERRED (بصرف النظر عن الكتالوج)
+      structural_verdict = 'DEFER'  + مُدخَل أجرد → يُعامَل كـ ACCEPT (راجع أدناه)
+      structural_verdict = 'DEFER'  + مُدخَل مشكول → OPERATOR_DEFERRED
 
     قانون الرتابة:
       P4 ACCEPT → P5 يجوز له أن يُعلن OPERATOR_BOUNDARY
       P4 DEFER  → P5 لا يجوز له تحويل DEFER إلى ACCEPT — يُعلن OPERATOR_DEFERRED
+
+    استثناء المُدخَل الأجرد:
+      حين يكون المُدخَل بلا تشكيل كليًا (مثل: عن، من، هل)، يُعطي P4 DEFER
+      لأنه لا يستطيع التحقق من البنية المقطعية بلا حركات.
+      في هذه الحالة، وجود الأداة في الكتالوج كافٍ للحكم المعجمي،
+      لأن الأداة الأجرد معروفة الهوية بلا التباس.
     """
     if structural_verdict == 'DEFER':
-        return 'OPERATOR_DEFERRED'
+        # المُدخَل الأجرد: canonical بلا تشكيل → يُسقَط حارس DEFER
+        if canonical and canonical == _strip_diacritics(canonical):
+            pass   # أجرد → استمر للحكم المعجمي العادي
+        else:
+            return 'OPERATOR_DEFERRED'
     if any(e.is_operator for e in entries):
         return 'OPERATOR_BOUNDARY'
     return 'MABNI_BOUNDARY'
@@ -261,7 +273,8 @@ def process_mabni(
             e.purpose for e in entries if e.purpose
         ))
         # قانون الرتابة: DEFER من P4 → OPERATOR_DEFERRED لا OPERATOR_BOUNDARY
-        lexical_verdict = _verdict_from(entries, slot_verdict)
+        # (استثناء: المُدخَل الأجرد بلا تشكيل يُعامَل معجميًا بصرف النظر عن DEFER)
+        lexical_verdict = _verdict_from(entries, slot_verdict, canonical=canonical_surface)
         return MabniBoundary(
             input_surface       = input_surface,
             canonical_surface   = canonical_surface,

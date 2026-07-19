@@ -33,6 +33,37 @@ def _strip_diacritics(s: str) -> str:
     """أزِل جميع حروف التشكيل العربية من السلسلة (شاملةً الشدة)."""
     return ''.join(c for c in s if c not in _ARABIC_DIACRITICS)
 
+
+def _diacritics_compatible(input_s: str, catalog_s: str) -> bool:
+    """
+    حارس التشكيل: تحقَّق أن كل حركة مُقيِّدة في المُدخَل موجودة في مدخل الكتالوج.
+
+    يمنع هذا مطابقة هُوِ (بكسرة على الواو) بـ هُوَ (بفتحة على الواو)
+    في المرحلة 3ب (bare fallback).
+
+    القاعدة:
+      السكون (ْ) في المُدخَل لا يُعدّ تعارضًا إن غاب عن الكتالوج.
+      السكون على حروف المد (ا، و، ي) ترميز بديل شائع، وليس حركة فارقة.
+      الحركات الفارقة فقط (فتحة، كسرة، ضمة، تنوين، شدة) تُفرز التعارض.
+
+    أمثلة:
+      هُوِ   vs هُوَ   → {ُ:1,ِ:1} vs {ُ:1,َ:1} → ِ غائبة في الكتالوج → False (REJECT)
+      مَهمَا vs مَهْمَا → {َ:2}    vs {َ:2,ْ:1} → كل حركات المدخل موجودة → True (ACCEPT)
+      عن    vs عَنْ   → {}        vs {َ:1,ْ:1} → مدخل أجرد              → True (ACCEPT)
+      فِيْ  vs فِي    → {ِ:1} (بعد تجاهل ْ) vs {ِ:1} → True (ACCEPT)
+    """
+    from collections import Counter
+    # السكون لا يُعدّ حركة فارقة حين يُكتب على حروف المد
+    # نُزيله من المقارنة لتجنب الرفض الخاطئ (فِيْ ≈ فِي)
+    _SUKUN = 'ْ'
+    input_diacs = Counter(c for c in input_s
+                          if c in _ARABIC_DIACRITICS and c != _SUKUN)
+    if not input_diacs:
+        return True  # مُدخَل أجرد (أو سكون فقط) → دائمًا مقبول
+    catalog_diacs = Counter(c for c in catalog_s
+                            if c in _ARABIC_DIACRITICS and c != _SUKUN)
+    return all(catalog_diacs[d] >= count for d, count in input_diacs.items())
+
 def _bare_preserve_shadda(s: str) -> str:
     """
     أزِل التشكيل باستثناء الشدة.
@@ -72,8 +103,12 @@ class MabniEntry:
 
 def _load_operators_csv(path: str) -> list[MabniEntry]:
     """
-    حمِّل operators_catalog_split_vocalized.csv.
+    حمِّل operators_catalog_split_vocalized_corrected.csv.
     مفتاح البحث: عمود Operator (المشكول مباشرةً).
+
+    عمود is_operator (اختياري): True/False — إذا غاب فالقيمة الافتراضية True.
+    يُتيح هذا العمود تحديد المبنيات غير العوامل (is_operator=False) التي تعطي
+    MABNI_BOUNDARY بدلاً من OPERATOR_BOUNDARY.
     """
     entries: list[MabniEntry] = []
     with open(path, encoding='utf-8-sig', newline='') as f:
@@ -83,6 +118,9 @@ def _load_operators_csv(path: str) -> list[MabniEntry]:
             if not surface:
                 continue
             norm = normalize(surface)
+            # قراءة is_operator من العمود إن وُجد، وإلا القيمة الافتراضية True
+            is_op_col = (row.get('is_operator') or 'True').strip()
+            is_op = is_op_col.lower() not in ('false', '0', 'no')
             entries.append(MabniEntry(
                 surface_vocalized  = surface,
                 surface_normalized = norm,
@@ -91,7 +129,7 @@ def _load_operators_csv(path: str) -> list[MabniEntry]:
                 group_number       = int(row['Group Number']) if row['Group Number'].strip().isdigit() else 0,
                 purpose            = row['Purpose/Usage'].strip(),
                 source             = Path(path).name,
-                is_operator        = True,
+                is_operator        = is_op,
                 allows_root_path   = False,
             ))
     return entries
@@ -241,29 +279,34 @@ class MabniInventory:
             entries = self._by_norm[bare_norm]
             return entries, entries[0].surface_vocalized
 
-        # المرحلة 3ب: مدخل غير مشكول ↔ كتالوج مشكول
+        # المرحلة 3ب: مدخل غير مشكول (أو جزئي التشكيل) ↔ كتالوج مشكول
         #   يعمل حين يصل المُدخَل بلا تشكيل (أ، كم، كأين...)
-        #   بينما السطح في الكتالوج مشكول (أَ، كَمْ، كَأَيِّنْ...)
-        #   bare = _strip_diacritics(canonical) — يُطابَق ضد _by_bare
+        #   أو بتشكيل جزئي (مَهمَا بلا سكون على الهاء) يُطابَق ضد _by_bare
         #
         #   حارس unique-surface:
         #   إذا أعاد الفهرس مداخل تنتمي لأكثر من surface_vocalized مستقل
         #   (مثال: من → مِنْ MIN + مَنْ MAN تحت المفتاح 'من')
-        #   أو (مثال: إن → إِنَّ INNA + إِنْ IN_SHART تحت المفتاح 'إن')
         #   فلا يمكن تحديد الأداة بلا تشكيل → يُعاد ([], '') لتمرير الكلمة
-        #   إلى HR2S بدلاً من الإعلان عن هوية خاطئة.
+        #
+        #   حارس التشكيل (_diacritics_compatible):
+        #   يمنع مطابقة مُدخَل ذي حركات متعارضة مع الكتالوج
+        #   (مثال: هُوِ لا يُطابَق هُوَ لأن الكسرة تعارض الفتحة)
         if bare and bare in self._by_bare:
             entries = self._by_bare[bare]
             unique_surfaces = {e.surface_vocalized for e in entries}
             if len(unique_surfaces) == 1:
-                return entries, entries[0].surface_vocalized
-            # تصادم — أكثر من surface_vocalized تحت نفس المفتاح → غامض
+                matched = entries[0].surface_vocalized
+                if _diacritics_compatible(canonical, matched):
+                    return entries, matched
+            # تصادم أو تعارض تشكيل → غامض
 
         if bare_norm and bare_norm != bare and bare_norm in self._by_bare:
             entries = self._by_bare[bare_norm]
             unique_surfaces = {e.surface_vocalized for e in entries}
             if len(unique_surfaces) == 1:
-                return entries, entries[0].surface_vocalized
+                matched = entries[0].surface_vocalized
+                if _diacritics_compatible(canonical, matched):
+                    return entries, matched
 
         return [], ''
 
@@ -288,8 +331,8 @@ class MabniInventory:
 _INVENTORY: MabniInventory | None = None
 
 def get_inventory(
-    operators_csv: str  = 'data/operators_catalog_split_vocalized.csv',
-    mabniyat_dir:  str  = '/Users/husseinhiyassat/fractal/new_arabic_analyzer/data/02_mabniyat',
+    operators_csv: str  = 'data/operators_catalog_split_vocalized_corrected.csv',
+    mabniyat_dir:  str  = '',
 ) -> MabniInventory:
     global _INVENTORY
     if _INVENTORY is None:

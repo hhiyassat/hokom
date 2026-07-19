@@ -1,0 +1,1458 @@
+[
+  {
+    "surface": "بِ",
+    "category_ar": "الجر فقط الدلالية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "مِنْ",
+    "category_ar": "الجر فقط الدلالية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "إِلَى",
+    "category_ar": "الجر فقط الدلالية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "فِي",
+    "category_ar": "الجر فقط الدلالية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "عَنْ",
+    "category_ar": "الجر فقط الدلالية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "وَ",
+    "category_ar": "واو المصاحبة (المعيّة)",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "تَ",
+    "category_ar": "الجر فقط الدلالية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "لِ",
+    "category_ar": "الجزم فقط النافية والشرطية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "رُبَّ",
+    "category_ar": "الجر فقط الدلالية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "عَلَى",
+    "category_ar": "الجر فقط الدلالية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "كَ",
+    "category_ar": "الجر فقط الدلالية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "مُذْ",
+    "category_ar": "الجر فقط الدلالية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "مُنْذُ",
+    "category_ar": "الجر فقط الدلالية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "حَتَّى",
+    "category_ar": "الجر فقط الدلالية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "حَاشَا",
+    "category_ar": "الجر فقط الدلالية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "عَدَا",
+    "category_ar": "الجر فقط الدلالية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "خَلَا",
+    "category_ar": "الجر فقط الدلالية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "إِنَّ",
+    "category_ar": "التوكيد ",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَنَّ",
+    "category_ar": "التوكيد",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "كَأَنَّ",
+    "category_ar": "التوكيد والتشبيه",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "لَكِنَّ",
+    "category_ar": "التوكيد والاستدراك",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "لَيْتَ",
+    "category_ar": "التوكيد والتمني ",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "لَعَلَّ",
+    "category_ar": "التوكيد والترجي",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "مَا",
+    "category_ar": "الشرط الجازمة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "لَا",
+    "category_ar": "الجزم فقط النافية والشرطية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "إِلَّا",
+    "category_ar": "أداة الاستثناء الأم",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "يَا",
+    "category_ar": "أداة نداء الأم",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَيَا",
+    "category_ar": "أداة نداء للبعيد",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "هَيَا",
+    "category_ar": "أداة نداء للبعيد",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَيْ",
+    "category_ar": "أداة نداء للقريب",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَ",
+    "category_ar": "أداة نداء للقريب",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَنْ",
+    "category_ar": "أداة نصب ومصدر",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "لَنْ",
+    "category_ar": "النصب فقط الغرضية والنافية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "كَيْ",
+    "category_ar": "النصب فقط الغرضية والنافية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "إِذًا",
+    "category_ar": "النصب فقط الغرضية والنافية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "لَمْ",
+    "category_ar": "الجزم فقط النافية والشرطية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "لَمَّا",
+    "category_ar": "الجزم فقط النافية والشرطية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "إِنْ",
+    "category_ar": "الجزم فقط النافية والشرطية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "مَنْ",
+    "category_ar": "الشرط الجازمة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَيّ",
+    "category_ar": "الشرط الجازمة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "مَتَى",
+    "category_ar": "الشرط الجازمة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "مَهْمَا",
+    "category_ar": "الشرط الجازمة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَيْنَمَا",
+    "category_ar": "الشرط الجازمة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَنَّى",
+    "category_ar": "الشرط الجازمة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "حَيْثُمَا",
+    "category_ar": "الشرط الجازمة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "إِذْمَا",
+    "category_ar": "الشرط الجازمة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "لَوْ",
+    "category_ar": "الشرط الجازمة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "إِذَا",
+    "category_ar": "الشرط الجازمة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "عَشَرَةَ",
+    "category_ar": "التمييز الناصبة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "كَمْ",
+    "category_ar": "التمييز الناصبة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "كَأَيِّنْ",
+    "category_ar": "التمييز الناصبة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "كَذَا",
+    "category_ar": "التمييز الناصبة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "مِائَةَ",
+    "category_ar": "التمييز الناصبة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَلْفَ",
+    "category_ar": "التمييز الناصبة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أُلُوفَ",
+    "category_ar": "التمييز الناصبة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "مَلَايِينَ",
+    "category_ar": "التمييز الناصبة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَيَّةَ",
+    "category_ar": "التمييز الناصبة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "كَيْتَ",
+    "category_ar": "التمييز الناصبة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "ذُو",
+    "category_ar": "التمييز الناصبة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "رُوَيْدَ",
+    "category_ar": "الأوامر والتعجب الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "بَلْهَ",
+    "category_ar": "الأوامر والتعجب الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "دُونَكَ",
+    "category_ar": "الأوامر والتعجب الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "عَلَيْكَ",
+    "category_ar": "الأوامر والتعجب الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "هَاءَ",
+    "category_ar": "الأوامر والتعجب الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "حَيَّهَلَ",
+    "category_ar": "الأوامر والتعجب الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "هَيْهَاتَ",
+    "category_ar": "الأوامر والتعجب الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "شَتَّانَ",
+    "category_ar": "الأوامر والتعجب الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "سُرْعَانَ",
+    "category_ar": "الأوامر والتعجب الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "كَانَ",
+    "category_ar": "الزمن والنفي الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "صَارَ",
+    "category_ar": "الزمن والنفي الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَصْبَحَ",
+    "category_ar": "الزمن والنفي الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَمْسَى",
+    "category_ar": "الزمن والنفي الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَضْحَى",
+    "category_ar": "الزمن والنفي الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "ظَلَّ",
+    "category_ar": "الزمن والنفي الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "بَاتَ",
+    "category_ar": "الزمن والنفي الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "مَا زَالَ",
+    "category_ar": "الزمن والنفي الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "مَا بَرِحَ",
+    "category_ar": "الزمن والنفي الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "مَا فَتِئَ",
+    "category_ar": "الزمن والنفي الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "مَا انْفَكَّ",
+    "category_ar": "الزمن والنفي الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "مَا دَامَ",
+    "category_ar": "الزمن والنفي الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "لَيْسَ",
+    "category_ar": "الزمن والنفي الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "عَسَى",
+    "category_ar": "القرب الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "كَادَ",
+    "category_ar": "القرب الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "كَرَبَ",
+    "category_ar": "القرب الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَوْشَكَ",
+    "category_ar": "القرب الإعرابية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "نِعْمَ",
+    "category_ar": "التقييم الرافعة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "بِئْسَ",
+    "category_ar": "التقييم الرافعة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "سَاءَ",
+    "category_ar": "التقييم الرافعة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "حَبَّذَا",
+    "category_ar": "التقييم الرافعة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "حَسِبْتُ",
+    "category_ar": "التفكير الناصبة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "خِلْتُ",
+    "category_ar": "التفكير الناصبة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "ظَنَنْتُ",
+    "category_ar": "التفكير الناصبة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "رَأَيْتُ",
+    "category_ar": "التفكير الناصبة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "عَلِمْتُ",
+    "category_ar": "التفكير الناصبة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "وَجَدْتُ",
+    "category_ar": "التفكير الناصبة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "زَعَمْتُ",
+    "category_ar": "التفكير الناصبة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "لَوْلَا",
+    "category_ar": "الشرط الجازم",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "لَوْمَا",
+    "category_ar": "الشرط الجازم",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "لَومَا",
+    "category_ar": "الشرط الجازم",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَمَّا",
+    "category_ar": "الشرط الجازم",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَيْنَ",
+    "category_ar": "الشرط الجازم",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "كَيْفَمَا",
+    "category_ar": "الشرط الجازم",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "كُلَّمَا",
+    "category_ar": "الشرط الجازم",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَيَّ",
+    "category_ar": "الشرط الجازم",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَيُّ",
+    "category_ar": "الشرط الجازم",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "فَ",
+    "category_ar": "حروف العطف",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "ثُمَ",
+    "category_ar": "حروف العطف",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَوْ",
+    "category_ar": "حروف العطف",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَو",
+    "category_ar": "حروف العطف",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَمْ",
+    "category_ar": "حروف العطف",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "بَلْ",
+    "category_ar": "حروف العطف",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "إِمَّا",
+    "category_ar": "حروف العطف",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "مِنَ",
+    "category_ar": "الجر فقط الدلالية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَيُّهَا",
+    "category_ar": "النداء والاستثناء",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "وَا",
+    "category_ar": "النداء والاستثناء",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "آ",
+    "category_ar": "النداء والاستثناء",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "إِذَنْ",
+    "category_ar": "النصب فقط الغائي والنافي",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أََنْ",
+    "category_ar": "النصب فقط الغائي والنافي",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "نَعَمْ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "هَيَّا",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "هِيهَاتَ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "ذَو",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "مَاْ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "ما",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "الَّلَتَيْنِ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "ذَيْنِ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "هَاذُوْلَاْ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "الَلَّذَيْنِ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "أيّ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "أُوْلَاْءِ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "ذَاْتِ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "كَمَاْ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "الَّلَذَانِ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "ثَم",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "ثَمََّتَ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "الَّلَاْتِيْ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "ذَاهَ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "تِه",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "الَّلَتَانِ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "هات",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "ذَاْ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "أَيَّْنَ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "ثَمََّ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "هُوْمَاْ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "هِيْمَاْ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "كََائِنْ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "تِلْكُمُ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "هُنَاكَة",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "ثََمََّةَ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "لَكِنْ",
+    "category_ar": "حروف العطف",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "لَ",
+    "category_ar": "الجر فقط الدلالية",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَيَّانَ",
+    "category_ar": "الشرط الجازمة فقط",
+    "old_is_operator": "MISSING",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "لَوْلَا",
+    "category_ar": "الشرط الجازم",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "لَوْمَا",
+    "category_ar": "الشرط الجازم",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "لَومَا",
+    "category_ar": "الشرط الجازم",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَمَّا",
+    "category_ar": "الشرط الجازم",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَيْنَ",
+    "category_ar": "الشرط الجازم",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "كَيْفَمَا",
+    "category_ar": "الشرط الجازم",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "كُلَّمَا",
+    "category_ar": "الشرط الجازم",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَيَّ",
+    "category_ar": "الشرط الجازم",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَيُّ",
+    "category_ar": "الشرط الجازم",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "فَ",
+    "category_ar": "حروف العطف",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "ثُمَ",
+    "category_ar": "حروف العطف",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَوْ",
+    "category_ar": "حروف العطف",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَو",
+    "category_ar": "حروف العطف",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَمْ",
+    "category_ar": "حروف العطف",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "بَلْ",
+    "category_ar": "حروف العطف",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "إِمَّا",
+    "category_ar": "حروف العطف",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "مِنَ",
+    "category_ar": "الجر فقط الدلالية",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَيُّهَا",
+    "category_ar": "النداء والاستثناء",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "وَا",
+    "category_ar": "النداء والاستثناء",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "آ",
+    "category_ar": "النداء والاستثناء",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "إِذَنْ",
+    "category_ar": "النصب فقط الغائي والنافي",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أََنْ",
+    "category_ar": "النصب فقط الغائي والنافي",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "نَعَمْ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "هَيَّا",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "هِيهَاتَ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "ذَو",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "مَاْ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "ما",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "الَّلَتَيْنِ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "ذَيْنِ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "هَاذُوْلَاْ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "الَلَّذَيْنِ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "أيّ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "أُوْلَاْءِ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "ذَاْتِ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "كَمَاْ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "الَّلَذَانِ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "ثَم",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "ثَمََّتَ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "الَّلَاْتِيْ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "ذَاهَ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "تِه",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "الَّلَتَانِ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "هات",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "ذَاْ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "أَيَّْنَ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "ثَمََّ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "هُوْمَاْ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "هِيْمَاْ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "كََائِنْ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "تِلْكُمُ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "هُنَاكَة",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "ثََمََّةَ",
+    "category_ar": "المبنيات غير العوامل",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "False",
+    "expected_verdict": "MABNI_BOUNDARY"
+  },
+  {
+    "surface": "لَكِنْ",
+    "category_ar": "حروف العطف",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "لَ",
+    "category_ar": "الجر فقط الدلالية",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  },
+  {
+    "surface": "أَيَّانَ",
+    "category_ar": "الشرط الجازمة فقط",
+    "old_is_operator": "ADDED",
+    "new_is_operator": "True",
+    "expected_verdict": "OPERATOR_BOUNDARY"
+  }
+]
