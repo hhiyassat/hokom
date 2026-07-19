@@ -1,0 +1,37 @@
+{
+  "mandate": "HOKOM-MORPHOLOGY-DERIVATIVES-OWNERSHIP-01",
+  "date": "2026-07-19",
+  "derivative_suite": {
+    "total": 259,
+    "passed": 259,
+    "failed": 0,
+    "skipped": 0,
+    "breakdown": {
+      "test_derivative_constitutional.py": 15,
+      "test_derivative_data_reproducibility.py": 55,
+      "test_derivative_engine_ism_fa3il.py": 32,
+      "test_derivative_engine_ism_maf3ul.py": 28,
+      "test_derivative_engine_other_types.py": 27,
+      "test_derivative_false_positives.py": 23,
+      "test_derivative_models.py": 31,
+      "test_derivative_properties.py": 22,
+      "test_derivative_rule_registry.py": 21,
+      "test_derivative_serialization.py": 21,
+      "test_derivative_serialization_subtypes": 2
+    }
+  },
+  "canonical_suite_run1": {
+    "passed": 3775,
+    "skipped": 18,
+    "subtests_passed": 132,
+    "failed": 0
+  },
+  "canonical_suite_run2": {
+    "passed": 3775,
+    "skipped": 18,
+    "subtests_passed": 132,
+    "failed": 0
+  },
+  "run1_eq_run2": true,
+  "determinism": "CONFIRMED"
+}

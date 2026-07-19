@@ -1,0 +1,10 @@
+{
+  "mandate": "HOKOM-MORPHOLOGY-DERIVATIVES-OWNERSHIP-01",
+  "date": "2026-07-19",
+  "algorithm": "sha256",
+  "files": {
+    "derivative_lexical_inventory.jsonl": "cb6bc0bef6a7e82d225d0061c2c0a40e4688804e7ac64eca27eb92441e07e22d",
+    "derivative_pattern_definitions.jsonl": "94e355f01795d1c0daa7f42ab0394a11ee08e5b4ff7964274cd354ba1eae9211",
+    "derivative_rule_registry.jsonl": "8de416579f5e2661d55265babe0b08d3ec2924f364e3b3986cf0c37b150418ff"
+  }
+}

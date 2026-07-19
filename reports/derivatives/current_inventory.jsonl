@@ -1,0 +1,10 @@
+{"module":"pipeline/p4_mushtaqat/mushtaq_hypothesis.py","derivative_type":"PARTIAL_MUSHTAQAT","ownership_status":"UNOWNED","notes":"partial mushtaqat routing without canonical contract"}
+{"module":"pipeline/p2_augmented/models.py","derivative_type":"FA3IL_PARTICIPLE_ROUTING_TAG","ownership_status":"ROUTING_TAG_ONLY","notes":"FA3IL_PARTICIPLE is a form_family routing tag, not a derivative verdict"}
+{"module":"pipeline/p5_masdar/engine.py","derivative_type":"FA3IL_PARTICIPLE_BLOCK","ownership_status":"MASDAR_BLOCK_ONLY","notes":"blocks masdar for FA3IL_PARTICIPLE — not derivative ownership"}
+{"module":"pipeline/p6_derivatives/engine.py","derivative_type":"ISM_FA3IL","ownership_status":"CANONICAL_OWNER_ESTABLISHED","notes":"HOKOM_DERIVATIVES_ENGINE — this mandate"}
+{"module":"pipeline/p6_derivatives/engine.py","derivative_type":"ISM_MAF3UL","ownership_status":"CANONICAL_OWNER_ESTABLISHED","notes":"HOKOM_DERIVATIVES_ENGINE — this mandate"}
+{"module":"pipeline/p6_derivatives/engine.py","derivative_type":"SIFA_MUSHABBAHA","ownership_status":"CANONICAL_OWNER_ESTABLISHED","notes":"governed deferral — lexical evidence required"}
+{"module":"pipeline/p6_derivatives/engine.py","derivative_type":"MUBALGHA","ownership_status":"CANONICAL_OWNER_ESTABLISHED","notes":"governed deferral — lexical evidence required"}
+{"module":"pipeline/p6_derivatives/engine.py","derivative_type":"ISM_ZAMAN","ownership_status":"CANONICAL_OWNER_ESTABLISHED","notes":"governed deferral — ISM_ZAMAN_MAKAN_MIMI_AMBIGUITY by default"}
+{"module":"pipeline/p6_derivatives/engine.py","derivative_type":"ISM_MAKAN","ownership_status":"CANONICAL_OWNER_ESTABLISHED","notes":"governed deferral — ISM_ZAMAN_MAKAN_MIMI_AMBIGUITY by default"}
+{"module":"pipeline/p6_derivatives/engine.py","derivative_type":"ISM_ALA","ownership_status":"CANONICAL_OWNER_ESTABLISHED","notes":"residual — ISM_ALA_LEXICON_GAP without attestation"}

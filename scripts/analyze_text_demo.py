@@ -606,6 +606,14 @@ def _build_parser() -> argparse.ArgumentParser:
                    choices=['asli', 'mimi', 'marra', 'hayaa', 'ism_masdar', 'auto'],
                    default='auto', dest='masdar_type',
                    help='نوع المصدر المطلوب (default: auto)')
+    # ── derivatives flags ─────────────────────────────────────────────────────
+    p.add_argument('--stop-at-derivatives', action='store_true', default=False,
+                   help='بعد عرض حقول الجذر/الوزن/المصدر، أضف تحليل المشتقات عبر HOKOM_DERIVATIVES_ENGINE')
+    p.add_argument('--derivative-type',
+                   choices=['ism_fa3il', 'ism_maf3ul', 'sifa', 'mubalgha',
+                            'ism_zaman', 'ism_makan', 'ism_ala', 'auto'],
+                   default='auto', dest='derivative_type',
+                   help='نوع المشتق المطلوب (default: auto)')
     return p
 
 
@@ -716,6 +724,113 @@ def _print_masdar_section(r: dict, masdar_mode: str, masdar_type: str, out: io.T
     out.write(f'  source_engine   : {masdar_result.source_engine}\n')
 
 
+def _print_derivatives_section(r: dict, derivative_type: str, out: io.TextIOBase):
+    """
+    Print derivatives analysis for a single token result using HOKOM_DERIVATIVES_ENGINE.
+    Called only when --stop-at-derivatives is set and the root gate is OPENED with ACCEPT.
+    """
+    try:
+        from pipeline.p6_derivatives.engine import analyze_derivative
+        from pipeline.p6_derivatives.models import DerivativeRequest
+    except ImportError as e:
+        out.write(f'  derivative_gate : CLOSED (import error: {e})\n')
+        return
+
+    rc  = r.get('root_candidate')
+    p4a = r.get('phase4a_result')
+    aug = r.get('augmented_analysis')
+
+    # Determine licensed root
+    prc = getattr(p4a, 'promoted_root_candidate', None) if p4a else None
+    if prc is not None:
+        licensed_root = tuple(getattr(prc, 'canonical_root', ()) or ())
+    elif rc is not None:
+        licensed_root = tuple(getattr(rc, 'canonical_root', ()) or ())
+    else:
+        out.write('  derivative_gate : CLOSED (no licensed root)\n')
+        return
+
+    if not licensed_root:
+        out.write('  derivative_gate : CLOSED (empty root)\n')
+        return
+
+    # Determine form_family and pattern
+    form_family  = getattr(aug, 'form_family', None) if aug else None
+    final_wazn   = getattr(p4a, 'final_wazn', None) if p4a else None
+    verbal_host  = r.get('normalized_surface') or r.get('original')
+
+    # Map CLI derivative_type to DERIVATIVE_TYPE
+    _DTYPE_MAP = {
+        'ism_fa3il'  : 'ISM_FA3IL',
+        'ism_maf3ul' : 'ISM_MAF3UL',
+        'sifa'       : 'SIFA_MUSHABBAHA',
+        'mubalgha'   : 'MUBALGHA',
+        'ism_zaman'  : 'ISM_ZAMAN',
+        'ism_makan'  : 'ISM_MAKAN',
+        'ism_ala'    : 'ISM_ALA',
+        'auto'       : None,
+    }
+    req_derivative_type = _DTYPE_MAP.get(derivative_type)
+
+    deriv_req = DerivativeRequest(
+        request_id=f'DEMO-DERIV-{verbal_host}',
+        mode='GENERATE_FROM_VERB',
+        original_surface=verbal_host or '',
+        normalized_surface=verbal_host or '',
+        verbal_host=verbal_host,
+        verbal_lemma=None,
+        licensed_root=licensed_root,
+        licensed_root_class=None,
+        licensed_pattern=final_wazn,
+        verb_form_family=form_family,
+        voice=None,
+        available_context=(),
+        derivative_type=req_derivative_type,
+        supplied_derivative_surface=None,
+        evidence=(),
+        upstream_trace=(),
+    )
+
+    try:
+        deriv_result = analyze_derivative(deriv_req)
+    except Exception as exc:
+        out.write(f'  derivative_gate : ERROR ({exc})\n')
+        return
+
+    verdict   = deriv_result.verdict
+    n_cands   = len(deriv_result.licensed_derivatives)
+    surfaces  = [ld.candidate.surface for ld in deriv_result.licensed_derivatives
+                 if ld.candidate.surface]
+    patterns  = list(dict.fromkeys(
+        ld.candidate.canonical_pattern for ld in deriv_result.licensed_derivatives
+    ))
+    dtypes    = list(dict.fromkeys(
+        ld.candidate.derivative_type for ld in deriv_result.licensed_derivatives
+    ))
+    reasons   = []
+    if deriv_result.deferred:
+        reasons.append(deriv_result.deferred.reason)
+    if deriv_result.blocked:
+        reasons.append(deriv_result.blocked.reason)
+    for res in deriv_result.residuals:
+        reasons.append(res.residual_code)
+
+    out.write('  ── derivatives ────────────────────────────────────────────\n')
+    out.write(f'  derivative_gate      : OPEN\n')
+    out.write(f'  derivative_type_req  : {derivative_type}\n')
+    out.write(f'  derivative_verdict   : {verdict}\n')
+    out.write(f'  derivative_candidates: {n_cands}\n')
+    if dtypes:
+        out.write(f'  derivative_types     : {dtypes}\n')
+    if surfaces:
+        out.write(f'  licensed_derivatives : {surfaces}\n')
+    if patterns:
+        out.write(f'  derivative_patterns  : {patterns}\n')
+    if reasons:
+        out.write(f'  derivative_reason_codes: {reasons}\n')
+    out.write(f'  source_engine        : {deriv_result.source_engine}\n')
+
+
 def main():
     parser = _build_parser()
     args   = parser.parse_args()
@@ -738,12 +853,43 @@ def main():
     else:
         out_f = sys.stdout
 
-    stop_at_masdar = getattr(args, 'stop_at_masdar', False)
-    masdar_mode    = getattr(args, 'masdar_mode', 'generate')
-    masdar_type    = getattr(args, 'masdar_type', 'auto')
+    stop_at_masdar       = getattr(args, 'stop_at_masdar', False)
+    masdar_mode          = getattr(args, 'masdar_mode', 'generate')
+    masdar_type          = getattr(args, 'masdar_type', 'auto')
+    stop_at_derivatives  = getattr(args, 'stop_at_derivatives', False)
+    derivative_type      = getattr(args, 'derivative_type', 'auto')
 
     try:
-        if stop_at_masdar:
+        if stop_at_derivatives:
+            # Run pipeline and inject derivative output after each accepted token
+            all_tokens  = tokenize_with_lines(text)
+            word_tokens = [t for t in all_tokens if t['kind'] in ('word', 'clitic')]
+            if args.max_tokens:
+                word_tokens = word_tokens[:args.max_tokens]
+            for meta in word_tokens:
+                try:
+                    r   = hokom(meta['surface'])
+                    rec = _build_record(meta, r, args.show_trace)
+                except Exception as exc:
+                    out_f.write(f'\n  ERROR [{meta["surface"]!r}]: {exc}\n')
+                    continue
+                if args.fmt == 'pretty':
+                    _pretty_record(rec, args.show_trace, out_f)
+                    gate = rec.get('P5_root_gate', 'CLOSED')
+                    rd   = rec.get('root_directive') or rec.get('root_root_directive')
+                    if gate == 'OPENED' and rd == 'ACCEPT':
+                        _print_derivatives_section(r, derivative_type, out_f)
+                else:
+                    gate = rec.get('P5_root_gate', 'CLOSED')
+                    rd   = rec.get('root_directive') or rec.get('root_root_directive')
+                    if gate == 'OPENED' and rd == 'ACCEPT':
+                        import io as _io
+                        _buf = _io.StringIO()
+                        _print_derivatives_section(r, derivative_type, _buf)
+                        rec['derivatives_section'] = _buf.getvalue()
+                    import json as _json
+                    out_f.write(_json.dumps(rec, ensure_ascii=False) + '\n')
+        elif stop_at_masdar:
             # Run pipeline and inject masdar output after each accepted token
             all_tokens  = tokenize_with_lines(text)
             word_tokens = [t for t in all_tokens if t['kind'] in ('word', 'clitic')]
