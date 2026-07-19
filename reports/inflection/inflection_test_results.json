@@ -1,0 +1,39 @@
+{
+  "mandate": "HOKOM-INFLECTION-PARADIGM-OWNERSHIP-01",
+  "baseline": {
+    "head": "f3c4724f07076193f90447510cf4c9338b6955fc",
+    "passed": 3808,
+    "failed": 0,
+    "skipped": 18
+  },
+  "run_1": {
+    "passed": 3938,
+    "failed": 0,
+    "skipped": 18,
+    "subtests_passed": 132
+  },
+  "run_2": {
+    "passed": 3938,
+    "failed": 0,
+    "skipped": 18,
+    "subtests_passed": 132
+  },
+  "deterministic": true,
+  "new_tests_added": 130,
+  "p5_inflection_before": 120,
+  "p5_inflection_after": 250,
+  "new_test_files": [
+    "tests/p5_inflection/test_inflection_ownership_models.py",
+    "tests/p5_inflection/test_inflection_entrypoint.py",
+    "tests/p5_inflection/test_inflection_properties.py",
+    "tests/p5_inflection/test_inflection_serialization.py"
+  ],
+  "per_file_counts": {
+    "test_inflection_constitutional.py": 33,
+    "test_inflection_ownership_models.py": 47,
+    "test_inflection_entrypoint.py": 21,
+    "test_inflection_properties.py": 35,
+    "test_inflection_serialization.py": 27,
+    "test_phase5_reference_matrix.py": 87
+  }
+}

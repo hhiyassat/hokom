@@ -31,6 +31,10 @@ from .verb_classifier import classify_root
 from .inflection_analysis import analyze_surface, PARADIGM_FOR_ROOT_CLASS
 from .feature_system import extract_all_features
 
+# ── Canonical entrypoint declaration ─────────────────────────────────────────
+INFLECTION_CANONICAL_ENTRYPOINT        = 'project_inflection_with_licensing'
+INFLECTION_CANONICAL_ENTRYPOINT_MODULE = 'pipeline.p5_inflection.phase5_orchestrator'
+
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Morphology paths that admit verbal inflection

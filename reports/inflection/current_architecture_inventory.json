@@ -1,0 +1,33 @@
+{
+  "mandate": "HOKOM-INFLECTION-PARADIGM-OWNERSHIP-01",
+  "files_in_p5_inflection": [
+    "__init__.py",
+    "models.py",
+    "phase5_orchestrator.py",
+    "api.py",
+    "feature_system.py",
+    "inflection_analysis.py",
+    "surface_realization.py",
+    "verb_classifier.py"
+  ],
+  "module_constants": {
+    "INFLECTION_CANONICAL_OWNER": "HOKOM",
+    "INFLECTION_ENGINE_ID": "HOKOM_INFLECTION_ENGINE",
+    "INFLECTION_OWNERSHIP_VERSION": "1.0.0"
+  },
+  "public_classes": [
+    "Tense", "Mood", "Voice", "Person", "Number", "Gender",
+    "Directive", "RootClass",
+    "InflectionalForm", "ParadigmCandidate", "InflectionalAnalysis",
+    "Phase5Result", "InflectionOwnershipGate"
+  ],
+  "canonical_entrypoint": "project_inflection_with_licensing",
+  "canonical_entrypoint_module": "pipeline.p5_inflection.phase5_orchestrator",
+  "canonical_result_type": "Phase5Result",
+  "callers": ["hokom_pipeline.py:356"],
+  "tests_before_mandate": 120,
+  "tests_after_mandate": 250,
+  "new_tests_added": 130,
+  "PARALLEL_INFLECTION_IMPLEMENTATIONS": 0,
+  "DEAD_OR_LEGACY_INFLECTION_CODE": []
+}
