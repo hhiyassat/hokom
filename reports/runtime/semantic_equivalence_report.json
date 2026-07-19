@@ -1,0 +1,23 @@
+{
+  "mandate": "HOKOM-RUNTIME-PYTHON-3.11+-MIGRATION-01",
+  "date": "2026-07-19",
+  "MORPHOLOGICAL_VERDICTS_CHANGED": 0,
+  "WORD_CLASS_VERDICTS_CHANGED": 0,
+  "tokens_tested": 12,
+  "results": {
+    "هَلْ": {"word_class": "HARF"},
+    "مِنْ": {"word_class": "HARF"},
+    "مَنْ": {"word_class": "HARF"},
+    "هُوَ": {"word_class": "ISM"},
+    "هَذَا": {"word_class": "ISM"},
+    "كَتَبَ": {"word_class": "FI3L"},
+    "يَكْتُبُ": {"word_class": "FI3L"},
+    "كَاتِبٌ": {"word_class": "ISM"},
+    "مَكْتُوبٌ": {"word_class": "ISM"},
+    "كِتَابَةٌ": {"word_class": "ISM"},
+    "كَمْ": {"word_class": "HARF"},
+    "كَذَا": {"word_class": "HARF"}
+  },
+  "semantic_files_modified": 0,
+  "verdict": "PASS — zero semantic changes"
+}

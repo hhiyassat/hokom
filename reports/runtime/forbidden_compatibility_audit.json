@@ -1,0 +1,53 @@
+{
+  "audit_date": "2026-07-19",
+  "mandate": "HOKOM-RUNTIME-PYTHON-3.11+-MIGRATION-01",
+  "STR_ENUM_SHIMS": 0,
+  "ENUM_MONKEY_PATCHES": 0,
+  "SITECUSTOMIZE_SHIMS": 0,
+  "USERCUSTOMIZE_SHIMS": 0,
+  "SYS_MODULES_INJECTIONS": 0,
+  "CONFTEST_COMPAT_INJECTIONS": 0,
+  "STRENUM_BACKPORT_IMPORTS": 0,
+  "findings": {
+    "conftest_files": [
+      {
+        "path": "./conftest.py",
+        "content": "vendor exclusion + sys.path setup only",
+        "verdict": "CLEAN"
+      },
+      {
+        "path": "./tests/scripts/conftest.py",
+        "content": "sys.path setup only",
+        "verdict": "CLEAN"
+      }
+    ],
+    "strenum_references": [
+      {
+        "path": "pipeline/taaqol_integration/shadow_mode.py",
+        "context": "Version check comment: strEnum_backport key in dict (informational, not a shim)",
+        "verdict": "INFORMATIONAL_ONLY"
+      },
+      {
+        "path": "pipeline/taaqol_integration/native_stage_registry.py",
+        "context": "Comment about strenum backport requirement (not code)",
+        "verdict": "COMMENT_ONLY"
+      },
+      {
+        "path": "pipeline/taaqol_integration/admission_gate.py",
+        "context": "Guards that check hasattr(enum, 'StrEnum') to block Taaqol until Python 3.11+",
+        "verdict": "CORRECT_GUARD_NO_SHIM"
+      }
+    ],
+    "sitecustomize_check": {
+      "in_sys_modules": true,
+      "path": "/usr/lib/python3.10/sitecustomize.py",
+      "content": "Ubuntu apport crash reporter hook (system Python, not project-created)",
+      "verdict": "SYSTEM_NOT_PROJECT_SHIM"
+    },
+    "compat_files_found": ["pipeline/taaqol_integration/admission_gate.py"],
+    "compat_verdict": "Not a shim — it is a GATE that PREVENTS Taaqol activation until Python 3.11+",
+    "vendor_conftest": "NONE",
+    "monkey_patches": "NONE"
+  },
+  "overall_verdict": "CLEAN — no shims, no backports, no monkey patches"
+}

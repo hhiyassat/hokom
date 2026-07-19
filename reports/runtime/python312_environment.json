@@ -1,0 +1,27 @@
+{
+  "container_python": {
+    "executable": "/usr/bin/python",
+    "version": "3.10.12",
+    "version_info": [3, 10, 12, "final", 0],
+    "note": "Container CI environment; Python 3.12 CDN blocked by proxy allowlist"
+  },
+  "target_python": {
+    "executable": "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3.12",
+    "version": "3.12.4",
+    "version_info": [3, 12, 4, "final", 0],
+    "source": ".venv-py312/pyvenv.cfg on macOS host",
+    "note": "User macOS Python 3.12.4 — this is the canonical target runtime"
+  },
+  "venv_py312": {
+    "path": ".venv-py312",
+    "home": "/Library/Frameworks/Python.framework/Versions/3.12/bin",
+    "version": "3.12.4",
+    "created_on": "macOS",
+    "accessible_from_container": false,
+    "reason": "Symlink to macOS binary; not available in Linux CI container"
+  },
+  "migration_case": "CASE_D",
+  "case_description": "Neither Python 3.11 nor 3.12 available in container; macOS .venv-py312 (Python 3.12.4) confirmed via pyvenv.cfg; network CDN blocked preventing download",
+  "canonical_runtime": "3.12",
+  "requires_python": ">=3.11"
+}

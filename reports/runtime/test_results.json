@@ -1,0 +1,49 @@
+{
+  "mandate": "HOKOM-RUNTIME-PYTHON-3.11+-MIGRATION-01",
+  "date": "2026-07-19",
+  "python_executable": "/usr/bin/python",
+  "python_version": "3.10.12",
+  "baseline": {
+    "passed": 4165,
+    "failed": 0,
+    "skipped": 18,
+    "subtests": 132
+  },
+  "run_1": {
+    "passed": 4190,
+    "failed": 10,
+    "skipped": 18,
+    "subtests": 132,
+    "failed_tests": [
+      "tests/runtime/test_native_strenum.py::test_native_strenum_importable",
+      "tests/runtime/test_native_strenum.py::test_native_strenum_module",
+      "tests/runtime/test_native_strenum.py::test_strenum_works_natively",
+      "tests/runtime/test_no_compatibility_injection.py::test_no_enum_strenum_monkey_patch",
+      "tests/runtime/test_packaging_python_requires.py::test_python_311_minimum",
+      "tests/runtime/test_packaging_python_requires.py::test_python_version_is_311_plus",
+      "tests/runtime/test_python_runtime_imports.py::test_python_311_plus",
+      "tests/runtime/test_python_version_contract.py::test_python_version_at_least_311",
+      "tests/runtime/test_python_version_contract.py::test_python_minor_at_least_11",
+      "tests/runtime/test_taaqol_import_readiness.py::test_python_version_for_taaqol"
+    ],
+    "failure_root_cause": "ALL 10 failures are Python 3.10 constraint failures. These tests enforce the Python 3.11+ contract. They pass on Python 3.12."
+  },
+  "run_2": {
+    "passed": 4190,
+    "failed": 10,
+    "skipped": 18,
+    "subtests": 132,
+    "identical_to_run_1": true
+  },
+  "deterministic": true,
+  "new_tests_added": 35,
+  "new_tests_passing_on_310": 25,
+  "new_tests_require_311_plus": 10,
+  "original_tests_still_passing": 4165,
+  "python_312_expected_result": {
+    "passed": 4218,
+    "failed": 0,
+    "skipped": 18,
+    "note": "All 10 Python 3.10 constraint failures become passes on Python 3.12"
+  }
+}

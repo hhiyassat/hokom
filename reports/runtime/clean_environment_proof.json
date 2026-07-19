@@ -1,0 +1,16 @@
+{
+  "mandate": "HOKOM-RUNTIME-PYTHON-3.11+-MIGRATION-01",
+  "date": "2026-07-19",
+  "WORD_CLASS_ENGINE_ID": "HOKOM_WORD_CLASS_ENGINE",
+  "WORD_CLASS_CANONICAL_OWNER": "HOKOM",
+  "INFLECTION_ENGINE_ID": "HOKOM_INFLECTION_ENGINE",
+  "INFLECTION_CANONICAL_OWNER": "HOKOM",
+  "engine_ids_unchanged": true,
+  "pipeline_importable_without_pythonpath": true,
+  "sys_path_readable": true,
+  "deterministic_imports": true,
+  "no_shim_modules_in_sys_modules": true,
+  "no_hidden_dependency_on_env_vars": true,
+  "pytest_ini_pythonpath": ".",
+  "tests_pass_from_repo_root": true
+}

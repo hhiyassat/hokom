@@ -1,0 +1,32 @@
+{
+  "mandate": "HOKOM-RUNTIME-PYTHON-3.11+-MIGRATION-01",
+  "date": "2026-07-19",
+  "taaqol_vendor_path": "vendor/Taaqol-GPT",
+  "taaqol_package_name": "taaqqul_slot_geometry",
+  "taaqol_requires_python": ">=3.11",
+  "taaqol_uses_strenum": true,
+  "strenum_classes_found": [
+    "taaqqul_slot_geometry.weight.mufrad_semantic_slot_geometry.SemanticCategory",
+    "taaqqul_slot_geometry.weight.mufrad_semantic_slot_geometry.WadOriginDomain",
+    "taaqqul_slot_geometry.weight.mufrad_semantic_slot_geometry.WadEvidenceType",
+    "taaqqul_slot_geometry.weight.mufrad_semantic_slot_geometry.KulliJuziiAxis",
+    "taaqqul_slot_geometry.weight.mufrad_semantic_slot_geometry.ParticularitySource",
+    "taaqqul_slot_geometry.weight.mufrad_semantic_slot_geometry.MufradSemanticState",
+    "taaqqul_slot_geometry.weight.dal_a5_runtime_gates.DalA5SyllableShape",
+    "taaqqul_slot_geometry.weight.dal_a5_runtime_gates.DalA5TransitionKind",
+    "taaqqul_slot_geometry.weight.dal_a5_runtime_gates.DalA5AdjacencyVerdict",
+    "taaqqul_slot_geometry.weight.dal_a5_runtime_gates.DalA5RuntimeStatus",
+    "taaqqul_slot_geometry.weight.weight_fit.WeightFitState",
+    "enriched_simulation_agent.sim_agent.model.Verdict"
+  ],
+  "importable_on_python_310": false,
+  "importable_on_python_310_error": "ImportError: cannot import name 'StrEnum' from 'enum'",
+  "importable_on_python_311": true,
+  "importable_on_python_312": true,
+  "live_integration_status": "NOT_STARTED",
+  "hokom_pipeline_imports_taaqol_vendor": false,
+  "taaqol_loaded_during_hokom_call": false,
+  "TAAQOL_LIVE_CALLS": 0,
+  "activation_blocked_by": "pipeline/taaqol_integration/admission_gate.py (StrEnum guard)",
+  "readiness_on_python_312": "READY — StrEnum available, all vendor imports will succeed"
+}

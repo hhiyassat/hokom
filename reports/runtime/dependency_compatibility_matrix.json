@@ -1,0 +1,27 @@
+{
+  "checked": "2026-07-19",
+  "hokom_requires_python": ">=3.11",
+  "dependencies": [
+    {"name": "pytest", "version": "9.1.1", "python311_compat": true, "python312_compat": true},
+    {"name": "pluggy", "version": "1.6.0", "python311_compat": true, "python312_compat": true}
+  ],
+  "stdlib_features_used": {
+    "enum.StrEnum": {"introduced": "3.11", "required": true, "used_by": "taaqqul_slot_geometry vendor"},
+    "tomllib": {"introduced": "3.11", "required_by_tests": true, "used_by": "test_packaging_python_requires.py"},
+    "dataclasses": {"introduced": "3.7", "required": false},
+    "pathlib": {"introduced": "3.4", "required": false}
+  },
+  "taaqqul_slot_geometry": {
+    "requires_python": ">=3.11",
+    "uses_strenum": true,
+    "importable_on_310": false,
+    "importable_on_311": true,
+    "importable_on_312": true
+  },
+  "hokom_pipeline": {
+    "importable_on_310": true,
+    "importable_on_311": true,
+    "importable_on_312": true,
+    "note": "hokom_pipeline itself does not use StrEnum; pipeline.taaqol_integration guards are inactive"
+  }
+}

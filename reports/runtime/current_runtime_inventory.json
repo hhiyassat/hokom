@@ -1,0 +1,35 @@
+{
+  "baseline": {
+    "git_head": "37561f41cda4b5e1b19cb20f1525395d12a065db",
+    "git_head_short": "37561f4",
+    "python_executable": "/usr/bin/python",
+    "python_version": "3.10.12",
+    "python_version_info": [3, 10, 12, "final", 0],
+    "baseline_passed": 4165,
+    "baseline_failed": 0,
+    "baseline_skipped": 18,
+    "baseline_subtests": 132
+  },
+  "packaging_files_found": ["requirements.txt", "pytest.ini"],
+  "packaging_files_created": ["pyproject.toml", ".python-version"],
+  "pyproject_toml": {
+    "requires-python": ">=3.11",
+    "name": "hokom",
+    "version": "0.1.0"
+  },
+  "python_version_file": "3.12",
+  "available_interpreters": {
+    "python3.10": "/usr/bin/python3.10",
+    "python3.11": "NOT_FOUND",
+    "python3.12": "NOT_FOUND",
+    "python3.13": "NOT_FOUND"
+  },
+  "venv_py312_present": true,
+  "venv_py312_python": "3.12.4 (macOS, symlink broken in Linux container)",
+  "uv_available": true,
+  "uv_version": "0.11.19",
+  "uv_python_install_blocked": true,
+  "uv_block_reason": "GitHub/astral.sh CDN blocked by proxy allowlist (HTTP 403)",
+  "case": "CASE_D",
+  "case_note": "Neither Python 3.11 nor 3.12 downloadable in container; macOS .venv-py312 (Python 3.12.4) is the target runtime confirmed via pyvenv.cfg"
+}
