@@ -354,6 +354,16 @@ def _build_record(meta: dict, r: dict, show_trace: bool) -> dict:
             'source_engine_canonical': True,
         }
 
+    # ── canonical SegmentBundle fields ─────────────────────────────────────────
+    seg_bundle = r.get('segment_bundle')
+    seg_def_art = getattr(seg_bundle, 'definite_article', None) if seg_bundle else None
+
+    # ── canonical Taaqol fields ──────────────────────────────────────────────
+    taaqol_decision = r.get('taaqol_decision')
+    taaqol_reason_codes = list(
+        getattr(taaqol_decision, 'reason_codes', ()) or ()
+    ) if taaqol_decision else []
+
     rec: dict[str, Any] = {
         'line_number'            : meta['line_number'],
         'token_number'           : meta['token_number'],
@@ -372,6 +382,21 @@ def _build_record(meta: dict, r: dict, show_trace: bool) -> dict:
         'P5_attachment_segmentation': att_seg,
         'P5_root_gate'           : gate,
         'P5_root_gate_reason'    : gate_reason,
+        # ── SegmentBundle / canonical segmentation ──────────────────────────
+        'segment_proclitics'      : list(r.get('segment_proclitics') or ()),
+        'segment_definite_article': seg_def_art,
+        'segment_host'            : r.get('segment_host'),
+        'segment_enclitics'       : list(r.get('segment_enclitics') or ()),
+        'segment_clitic_only'     : r.get('segment_clitic_only', False),
+        'morphology_surface'      : r.get('morphology_surface'),
+        'morphology_blocked'      : r.get('morphology_blocked', False),
+        'morphology_block_reason' : r.get('morphology_block_reason'),
+        # ── Taaqol integration ───────────────────────────────────────────────
+        'taaqol_center_scope'     : r.get('taaqol_center_scope'),
+        'taaqol_verdict'          : getattr(taaqol_decision, 'taaqol_verdict', None)
+                                    if taaqol_decision else None,
+        'taaqol_effective_verdict': r.get('taaqol_effective_verdict'),
+        'taaqol_reason_codes'     : taaqol_reason_codes,
         **{f'root_{k}' if not k.startswith('root_') else k: v
            for k, v in rf.items()},
     }
@@ -409,11 +434,51 @@ def _pretty_record(rec: dict, show_trace: bool, out: io.TextIOBase):
     p(f"  P5_verdict      : {rec['P5_lexical_verdict']}")
     p(f"  P5_class        : {rec['P5_lexical_class']}")
 
+    # ── [Segmentation] ───────────────────────────────────────────────────────
+    p(f"  ── [Segmentation] ─────────────────────────────────────────────────")
+    proc_display = '(' + ', '.join(rec['segment_proclitics']) + ')' \
+                   if rec['segment_proclitics'] else '—'
+    enc_display  = '(' + ', '.join(rec['segment_enclitics']) + ')' \
+                   if rec['segment_enclitics'] else '—'
+    art_display  = rec['segment_definite_article'] or '—'
+    host_display = rec['segment_host'] if rec['segment_host'] is not None else 'None  ← clitic-only'
+    p(f"  original_surface   : {rec['input_surface']}")
+    p(f"  proclitics         : {proc_display}")
+    p(f"  definite_article   : {art_display}")
+    p(f"  host               : {host_display}")
+    p(f"  enclitics          : {enc_display}")
+    p(f"  clitic_only        : {rec['segment_clitic_only']}")
+    p(f"  morphology_surface : {rec['morphology_surface']!r}")
+    p(f"  morphology_blocked : {rec['morphology_blocked']}")
+    if rec['morphology_block_reason']:
+        p(f"  block_reason       : {rec['morphology_block_reason']}")
+
+    # ── [Taaqol Integration] ─────────────────────────────────────────────────
+    p(f"  ── [Taaqol Integration] ────────────────────────────────────────────")
+    p(f"  center_scope       : {rec['taaqol_center_scope']!r}")
+    taaqol_v   = rec['taaqol_verdict'] or '—'
+    effective_v = rec['taaqol_effective_verdict'] or '—'
+    reason_str  = ', '.join(rec['taaqol_reason_codes']) if rec['taaqol_reason_codes'] else ''
+    taaqol_v_display = f"{taaqol_v} ({reason_str})" if reason_str else taaqol_v
+    p(f"  verdict            : {taaqol_v_display}")
+    p(f"  effective_verdict  : {effective_v}")
+
+    # ── P5 attachment (legacy — operates on morphology_surface) ──────────────
     att = rec['P5_attachment_segmentation']
+    seg_host    = rec['segment_host']
+    input_surf  = rec['input_surface']
+    morph_surf  = rec['morphology_surface']
     if att:
-        p(f"  P5_host         : {att.get('host_surface')!r}  route={att.get('host_route')}")
+        morph_note = morph_surf or '—'
+        p(f"  ── [Morphology — operates on: {morph_note}] ─────────────────────")
+        att_host = att.get('host_surface')
+        # Gate: suppress P5_host when it echoes the full token but segment_host differs
+        _host_is_full_token = (att_host == input_surf and seg_host and seg_host != input_surf)
+        if not _host_is_full_token and att_host:
+            p(f"  P5_host         : {att_host!r}  route={att.get('host_route')}")
         if att.get('prefix_operators'):
-            for pfx in att['prefix_operators']:
+            pfxs = [pfx for pfx in att['prefix_operators'] if pfx.get('surface')]
+            for pfx in pfxs:
                 p(f"  P5_prefix       : {pfx['surface']!r}  id={pfx.get('operator_id')}")
         if att.get('inflectional_tail'):
             p(f"  P5_tail         : {att['inflectional_tail']!r}")
@@ -422,12 +487,17 @@ def _pretty_record(rec: dict, show_trace: bool, out: io.TextIOBase):
         p(f"  ROOT_NOT_OPENED : {rec['P5_root_gate_reason']}")
         return
 
-    # Root opened
+    # Root opened — all morphological stages operate on morphology_surface
     direc = rec.get('root_directive') or rec.get('root_root_directive')
     stage = rec.get('root_stage_state') or rec.get('root_root_stage_state')
     host  = rec.get('root_input_host') or rec.get('root_root_input_host')
     icon  = _DIR_ICON.get(direc, '?')
-    p(f"  root_host       : {host!r}")
+    morph_surface = morph_surf or '—'
+    p(f"  ── [Root — operates on: {morph_surface}] ────────────────────────────")
+    # Gate: suppress root_host when it echoes the full token but segment_host differs
+    _root_host_is_full_token = (host == input_surf and seg_host and seg_host != input_surf)
+    if not _root_host_is_full_token:
+        p(f"  root_host       : {host!r}")
     p(f"  root_stage      : {stage}")
     p(f"  root_directive  : {icon} {direc}")
 
