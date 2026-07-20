@@ -296,13 +296,126 @@ def run_corpus_contracts() -> dict:
     }
 
 
+
+# ── Routing contracts (HOKOM-POST-SEGMENTATION-MORPHOLOGY-ROUTING-OWNERSHIP-01) ──
+
+def run_routing_contracts() -> dict:
+    """
+    Check post-segmentation routing invariants across Ayat al-Dayn (129 tokens).
+    Checks four violation categories:
+      - ROOT_AFTER_CLOSED_BOUNDARY: root opened after operator/mabni/blocked boundary
+      - SURFACE_PROVENANCE_VIOLATIONS: root_host equals input_surface when clitics stripped
+      - ARTICLE_REATTACHMENT_VIOLATIONS: root_candidate.host_surface starts with definite article
+      - POST_SEGMENTATION_ROUTING_VIOLATIONS: total count
+    """
+    import unicodedata as _ud
+    sys.path.insert(0, str(REPO_ROOT))
+    try:
+        from hokom_pipeline import hokom
+        from mabni_layer import MabniBoundary, MabniOpen, MabniBlocked
+    except ImportError as e:
+        return {
+            'error': str(e), 'ok': False,
+            'POST_SEGMENTATION_ROUTING_VIOLATIONS': 999,
+            'ROOT_AFTER_CLOSED_BOUNDARY': 999,
+            'SURFACE_PROVENANCE_VIOLATIONS': 999,
+            'ARTICLE_REATTACHMENT_VIOLATIONS': 999,
+        }
+
+    ayat = (
+        'يَا أَيُّهَا الَّذِينَ آمَنُوا إِذَا تَدَايَنْتُمْ بِدَيْنٍ إِلَى أَجَلٍ مُسَمًّى '
+        'فَاكْتُبُوهُ وَلْيَكْتُبْ بَيْنَكُمْ كَاتِبٌ بِالْعَدْلِ وَلَا يَأْبَ كَاتِبٌ '
+        'أَنْ يَكْتُبَ كَمَا عَلَّمَهُ اللَّهُ فَلْيَكْتُبْ وَلْيُمْلِلِ الَّذِي عَلَيْهِ '
+        'الْحَقُّ وَلْيَتَّقِ اللَّهَ رَبَّهُ وَلَا يَبْخَسْ مِنْهُ شَيْئًا فَإِنْ كَانَ '
+        'الَّذِي عَلَيْهِ الْحَقُّ سَفِيهًا أَوْ ضَعِيفًا أَوْ لَا يَسْتَطِيعُ أَنْ يُمِلَّ '
+        'هُوَ فَلْيُمْلِلْ وَلِيُّهُ بِالْعَدْلِ وَاسْتَشْهِدُوا شَهِيدَيْنِ مِنْ رِجَالِكُمْ '
+        'فَإِنْ لَمْ يَكُونَا رَجُلَيْنِ فَرَجُلٌ وَامْرَأَتَانِ مِمَّنْ تَرْضَوْنَ مِنَ '
+        'الشُّهَدَاءِ أَنْ تَضِلَّ إِحْدَاهُمَا فَتُذَكِّرَ إِحْدَاهُمَا الْأُخْرَى وَلَا '
+        'يَأْبَ الشُّهَدَاءُ إِذَا مَا دُعُوا وَلَا تَسْأَمُوا أَنْ تَكْتُبُوهُ صَغِيرًا '
+        'أَوْ كَبِيرًا إِلَى أَجَلِهِ ذَلِكُمْ أَقْسَطُ عِنْدَ اللَّهِ وَأَقْوَمُ '
+        'لِلشَّهَادَةِ وَأَدْنَى أَلَّا تَرْتَابُوا إِلَّا أَنْ تَكُونَ تِجَارَةً '
+        'حَاضِرَةً تُدِيرُونَهَا بَيْنَكُمْ فَلَيْسَ عَلَيْكُمْ جُنَاحٌ أَلَّا تَكْتُبُوهَا '
+        'وَأَشْهِدُوا إِذَا تَبَايَعْتُمْ وَلَا يُضَارَّ كَاتِبٌ وَلَا شَهِيدٌ وَإِنْ '
+        'تَفْعَلُوا فَإِنَّهُ فُسُوقٌ بِكُمْ وَاتَّقُوا اللَّهَ وَيُعَلِّمُكُمُ اللَّهُ '
+        'وَاللَّهُ بِكُلِّ شَيْءٍ عَلِيمٌ'
+    )
+    tokens = ayat.split()
+
+    def _bare(s):
+        if s is None:
+            return None
+        return ''.join(c for c in s if _ud.category(c) not in ('Mn', 'Cf'))
+
+    root_after_boundary   = []
+    provenance_violations = []
+    article_reattachment  = []
+    exceptions            = []
+
+    for tok in tokens:
+        try:
+            r = hokom(tok)
+            mabni        = r.get('mabni')
+            att          = r.get('attachment')
+            rc           = r.get('root_candidate')
+            morph_blocked = r.get('morphology_blocked', False)
+            seg_host     = r.get('segment_host')
+            input_surf   = r.get('input_surface', tok)
+
+            attach_route = getattr(att, 'host_route', None) if att else None
+            root_dir     = getattr(rc, 'directive', None) if rc else None
+            root_canon   = getattr(rc, 'canonical_root', None) if rc else None
+            root_host    = getattr(rc, 'host_surface', None) if rc else None
+
+            # ROOT_AFTER_CLOSED_BOUNDARY
+            if isinstance(mabni, MabniBoundary) and rc is not None:
+                root_after_boundary.append({'token': tok, 'type': 'STANDALONE_OP_BOUNDARY'})
+            if isinstance(mabni, MabniOpen) and attach_route == 'MABNI_BOUNDARY' and rc is not None:
+                root_after_boundary.append({'token': tok, 'type': 'MABNI_BOUNDARY'})
+            if isinstance(mabni, MabniOpen) and attach_route == 'OPERATOR_BOUNDARY' and root_dir == 'ACCEPT':
+                root_after_boundary.append({'token': tok, 'type': 'OP_BOUNDARY_COMPOSITE_ACCEPT'})
+            if morph_blocked and rc is not None:
+                root_after_boundary.append({'token': tok, 'type': 'MORPHOLOGY_BLOCKED'})
+
+            # SURFACE_PROVENANCE_VIOLATIONS
+            if root_dir == 'ACCEPT' and root_canon is not None:
+                if seg_host is not None and seg_host != input_surf:
+                    if root_host == input_surf:
+                        provenance_violations.append({'token': tok, 'root_host': root_host})
+
+            # ARTICLE_REATTACHMENT_VIOLATIONS
+            if root_host:
+                bare = _bare(root_host) or ''
+                if bare.startswith('ال'):
+                    article_reattachment.append({'token': tok, 'root_host': root_host})
+
+        except Exception as e:
+            exceptions.append({'token': tok, 'error': str(e)})
+
+    total = (len(root_after_boundary) + len(provenance_violations)
+             + len(article_reattachment) + len(exceptions))
+
+    return {
+        'total_tokens':                      len(tokens),
+        'POST_SEGMENTATION_ROUTING_VIOLATIONS': total,
+        'ROOT_AFTER_CLOSED_BOUNDARY':        len(root_after_boundary),
+        'SURFACE_PROVENANCE_VIOLATIONS':     len(provenance_violations),
+        'ARTICLE_REATTACHMENT_VIOLATIONS':   len(article_reattachment),
+        'exceptions':                        exceptions,
+        'root_after_boundary':               root_after_boundary,
+        'provenance_violations':             provenance_violations,
+        'article_reattachment':              article_reattachment,
+        'ok': total == 0,
+    }
+
+
 # ── Closure manifest ──────────────────────────────────────────────────────────
 
 def generate_closure_manifest(stage_id, git, env_result, python, plt,
-                               probes, run1, run2, comparison, corpus) -> dict:
+                               probes, run1, run2, comparison, corpus, routing) -> dict:
     eligible = (
         git['ok'] and python['ok'] and env_result['ok'] and plt['ok'] and
         probes['ok'] and run1['ok'] and run2['ok'] and comparison['ok'] and corpus['ok'] and
+        routing['ok'] and
         run1.get('failures', 999) == 0 and run2.get('failures', 999) == 0 and
         run1.get('skips', 999) == 0 and run2.get('skips', 999) == 0
     )
@@ -341,6 +454,13 @@ def generate_closure_manifest(stage_id, git, env_result, python, plt,
             "total_tokens": corpus['total_tokens'],
             "failures":     corpus['failures'],
             "violations":   corpus['violations'],
+        },
+        "routing_contracts": {
+            "total_tokens":                        routing['total_tokens'],
+            "POST_SEGMENTATION_ROUTING_VIOLATIONS": routing['POST_SEGMENTATION_ROUTING_VIOLATIONS'],
+            "ROOT_AFTER_CLOSED_BOUNDARY":          routing['ROOT_AFTER_CLOSED_BOUNDARY'],
+            "SURFACE_PROVENANCE_VIOLATIONS":       routing['SURFACE_PROVENANCE_VIOLATIONS'],
+            "ARTICLE_REATTACHMENT_VIOLATIONS":     routing['ARTICLE_REATTACHMENT_VIOLATIONS'],
         },
         "artifacts": {"commit_bound": True, "stale_artifacts": 0},
         "closure_eligible": eligible,
@@ -406,9 +526,18 @@ def main():
     for v in corpus.get('violations', [])[:10]:
         print(f"  VIOLATION: {v}")
 
+    print("\n[8/8] Routing contracts (post-segmentation morphology)...")
+    routing = run_routing_contracts()
+    print(f"  POST_SEGMENTATION_ROUTING_VIOLATIONS: {routing['POST_SEGMENTATION_ROUTING_VIOLATIONS']}")
+    print(f"  ROOT_AFTER_CLOSED_BOUNDARY:          {routing['ROOT_AFTER_CLOSED_BOUNDARY']}")
+    print(f"  SURFACE_PROVENANCE_VIOLATIONS:       {routing['SURFACE_PROVENANCE_VIOLATIONS']}")
+    print(f"  ARTICLE_REATTACHMENT_VIOLATIONS:     {routing['ARTICLE_REATTACHMENT_VIOLATIONS']}")
+    for v in routing.get('root_after_boundary', [])[:5]:
+        print(f"  BOUNDARY_VIOLATION: {v}")
+
     print("\n" + "=" * 70)
     manifest = generate_closure_manifest(
-        args.stage, git, env_result, python, plt, probes, run1, run2, comparison, corpus
+        args.stage, git, env_result, python, plt, probes, run1, run2, comparison, corpus, routing
     )
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     mpath = REPORTS_DIR / f"closure_manifest.{git['head_short']}.json"
@@ -429,6 +558,8 @@ def main():
         s1 = run1.get('skips', 0)
         if s1:                   reasons.append(f"skips={s1}")
         if corpus['failures']:   reasons.append(f"{corpus['failures']} corpus violations")
+        rv = routing.get('POST_SEGMENTATION_ROUTING_VIOLATIONS', 0)
+        if rv:                   reasons.append(f"{rv} routing violations")
         print(f"REASONS: {'; '.join(reasons)}")
     print("=" * 70)
     return 0 if eligible else 1

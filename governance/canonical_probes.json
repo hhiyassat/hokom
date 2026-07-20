@@ -9,111 +9,271 @@
       "id": "probe:آمَنُوا",
       "token": "آمَنُوا",
       "contracts": [
-        {"field": "original_surface", "op": "eq", "value": "آمَنُوا"},
-        {"field": "segment_host", "op": "not_contains_str", "value": "آ", "note": "madda must be expanded"},
-        {"field": "morphology_surface", "op": "not_contains_str", "value": "آ"},
-        {"field": "segment_host", "op": "not_eq", "value": "آمَنُوا", "note": "host must differ — madda expanded"},
-        {"field": "segment_proclitics", "op": "eq", "value": []}
+        {
+          "field": "original_surface",
+          "op": "eq",
+          "value": "آمَنُوا"
+        },
+        {
+          "field": "segment_host",
+          "op": "not_contains_str",
+          "value": "آ",
+          "note": "madda must be expanded"
+        },
+        {
+          "field": "morphology_surface",
+          "op": "not_contains_str",
+          "value": "آ"
+        },
+        {
+          "field": "segment_host",
+          "op": "not_eq",
+          "value": "آمَنُوا",
+          "note": "host must differ — madda expanded"
+        },
+        {
+          "field": "segment_proclitics",
+          "op": "eq",
+          "value": []
+        }
       ]
     },
     {
       "id": "probe:بِدَيْنٍ",
       "token": "بِدَيْنٍ",
       "contracts": [
-        {"field": "original_surface", "op": "eq", "value": "بِدَيْنٍ"},
-        {"field": "segment_host_bare", "op": "eq", "value": "دين"},
-        {"field": "segment_proclitics_bare", "op": "contains", "value": "ب"},
-        {"field": "morphology_blocked", "op": "eq", "value": false}
+        {
+          "field": "original_surface",
+          "op": "eq",
+          "value": "بِدَيْنٍ"
+        },
+        {
+          "field": "segment_host_bare",
+          "op": "eq",
+          "value": "دين"
+        },
+        {
+          "field": "segment_proclitics_bare",
+          "op": "contains",
+          "value": "ب"
+        },
+        {
+          "field": "morphology_blocked",
+          "op": "eq",
+          "value": false
+        }
       ]
     },
     {
       "id": "probe:بِالْعَدْلِ",
       "token": "بِالْعَدْلِ",
       "contracts": [
-        {"field": "segment_host_bare", "op": "eq", "value": "عدل"},
-        {"field": "segment_proclitics_bare", "op": "contains", "value": "ب"}
+        {
+          "field": "segment_host_bare",
+          "op": "eq",
+          "value": "عدل"
+        },
+        {
+          "field": "segment_proclitics_bare",
+          "op": "contains",
+          "value": "ب"
+        }
       ]
     },
     {
       "id": "probe:وَلِيُّهُ",
       "token": "وَلِيُّهُ",
       "contracts": [
-        {"field": "segment_proclitics", "op": "eq", "value": []},
-        {"field": "segment_enclitics_bare", "op": "contains", "value": "ه"},
-        {"field": "segment_host_bare", "op": "starts_with", "value": "ولي"}
+        {
+          "field": "segment_proclitics",
+          "op": "eq",
+          "value": []
+        },
+        {
+          "field": "segment_enclitics_bare",
+          "op": "contains",
+          "value": "ه"
+        },
+        {
+          "field": "segment_host_bare",
+          "op": "starts_with",
+          "value": "ولي"
+        }
       ]
     },
     {
       "id": "probe:لِلشَّهَادَةِ",
       "token": "لِلشَّهَادَةِ",
       "contracts": [
-        {"field": "segment_proclitics_bare", "op": "contains", "value": "ل"},
-        {"field": "segment_host_bare", "op": "eq", "value": "شهادة"}
+        {
+          "field": "segment_proclitics_bare",
+          "op": "contains",
+          "value": "ل"
+        },
+        {
+          "field": "segment_host_bare",
+          "op": "eq",
+          "value": "شهادة"
+        }
       ]
     },
     {
       "id": "probe:أَيُّهَا",
       "token": "أَيُّهَا",
       "contracts": [
-        {"field": "segment_enclitics", "op": "eq", "value": []}
+        {
+          "field": "segment_enclitics",
+          "op": "eq",
+          "value": []
+        }
       ]
     },
     {
       "id": "probe:الَّذِي",
       "token": "الَّذِي",
       "contracts": [
-        {"field": "segment_enclitics", "op": "eq", "value": []}
+        {
+          "field": "segment_enclitics",
+          "op": "eq",
+          "value": []
+        }
       ]
     },
     {
       "id": "probe:اللَّهُ",
       "token": "اللَّهُ",
       "contracts": [
-        {"field": "segment_enclitics", "op": "eq", "value": []}
+        {
+          "field": "segment_enclitics",
+          "op": "eq",
+          "value": []
+        }
       ]
     },
     {
       "id": "probe:اللَّهَ",
       "token": "اللَّهَ",
       "contracts": [
-        {"field": "segment_enclitics", "op": "eq", "value": []}
+        {
+          "field": "segment_enclitics",
+          "op": "eq",
+          "value": []
+        }
       ]
     },
     {
       "id": "probe:اللَّهِ",
       "token": "اللَّهِ",
       "contracts": [
-        {"field": "segment_enclitics", "op": "eq", "value": []}
+        {
+          "field": "segment_enclitics",
+          "op": "eq",
+          "value": []
+        }
       ]
     },
     {
       "id": "probe:بِكُمْ",
       "token": "بِكُمْ",
       "contracts": [
-        {"field": "morphology_blocked", "op": "eq", "value": true},
-        {"field": "segment_host", "op": "is_none"}
+        {
+          "field": "morphology_blocked",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "field": "segment_host",
+          "op": "is_none"
+        }
       ]
     },
     {
       "id": "probe:يَكُونَا",
       "token": "يَكُونَا",
       "contracts": [
-        {"field": "segment_enclitics", "op": "eq", "value": []}
+        {
+          "field": "segment_enclitics",
+          "op": "eq",
+          "value": []
+        }
       ]
     },
     {
       "id": "probe:سَفِيهًا",
       "token": "سَفِيهًا",
       "contracts": [
-        {"field": "segment_proclitics", "op": "eq", "value": []}
+        {
+          "field": "segment_proclitics",
+          "op": "eq",
+          "value": []
+        }
       ]
     },
     {
       "id": "probe:وَلْيَكْتُبْ",
       "token": "وَلْيَكْتُبْ",
       "contracts": [
-        {"field": "segment_proclitics_bare", "op": "contains", "value": "و"},
-        {"field": "segment_proclitics_bare", "op": "contains", "value": "ل"}
+        {
+          "field": "segment_proclitics_bare",
+          "op": "contains",
+          "value": "و"
+        },
+        {
+          "field": "segment_proclitics_bare",
+          "op": "contains",
+          "value": "ل"
+        }
+      ]
+    },
+    {
+      "id": "probe:routing:فَلَيْسَ",
+      "token": "فَلَيْسَ",
+      "description": "Composite operator: فَ + لَيْسَ. host_route must be OPERATOR_BOUNDARY. root_candidate must be None.",
+      "contracts": [
+        {
+          "field": "segment_host",
+          "op": "not_eq",
+          "value": null,
+          "note": "segment_host must not be None (morphology not blocked)"
+        },
+        {
+          "field": "morphology_blocked",
+          "op": "eq",
+          "value": false,
+          "note": "morphology is not blocked — only the root path is closed"
+        }
+      ]
+    },
+    {
+      "id": "probe:routing:هُوَ",
+      "token": "هُوَ",
+      "description": "Standalone mabni pronoun. Must have MABNI_BOUNDARY attach route. No root.",
+      "contracts": [
+        {
+          "field": "segment_enclitics",
+          "op": "eq",
+          "value": [],
+          "note": "هُوَ must have no enclitics"
+        }
+      ]
+    },
+    {
+      "id": "probe:routing:بِكُمْ_root_none",
+      "token": "بِكُمْ",
+      "description": "Clitic-only: morphology_blocked=True and root_candidate=None (regression fix).",
+      "contracts": [
+        {
+          "field": "morphology_blocked",
+          "op": "eq",
+          "value": true,
+          "note": "clitic-only token must have morphology_blocked=True"
+        },
+        {
+          "field": "segment_host",
+          "op": "is_none",
+          "value": null,
+          "note": "clitic-only token must have segment_host=None"
+        }
       ]
     }
   ]

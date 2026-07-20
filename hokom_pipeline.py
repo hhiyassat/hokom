@@ -171,13 +171,18 @@ def hokom(word: str) -> dict:
     # تُشغَّل بعد P5 فقط عند MabniOpen — تُقرِّر ما إذا كان مسار الجذر مفتوحًا.
     # تُعيد PreRootDecision أو None عند الفشل.
     pre_root = None
-    if isinstance(mabni, MabniOpen):
+    if not morphology_blocked and isinstance(mabni, MabniOpen):
         _seg_v   = attachment.segmentation_verdict if attachment else None
         _route_v = attachment.host_route           if attachment else None
 
         # وضع MABNI_BOUNDARY المستقل (هِيَ، هُوَ، ...): المضيف نفسه مبني —
         # التحليل ذهب إلى DAL، لا حاجة لطبقة ما قبل الجذر.
         if _seg_v == 'NOT_SEGMENTED' and _route_v == 'MABNI_BOUNDARY':
+            pre_root = None
+        elif _route_v == 'OPERATOR_BOUNDARY':
+            # Operator host: root admission is closed. The host after proclitic
+            # stripping is itself a mabni operator (e.g. لَيْسَ after فَ).
+            # Opening root analysis here would be a routing violation.
             pre_root = None
         else:
             # P5 المُجزَّأ: أرسل المضيف المتبقي (لا السطح الأصلي الكامل) إلى Pre-Root.
