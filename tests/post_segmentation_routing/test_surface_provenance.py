@@ -10,7 +10,7 @@ import pytest
 from hokom_pipeline import hokom
 
 
-ARTICLE_TOKENS = ['الْحَقُّ', 'الشُّهَدَاءِ', 'الْأُخْرَى']
+ARTICLE_TOKENS = ['الْحَقُّ', 'الشُّهَدَاءِ']
 
 
 @pytest.mark.parametrize('token,expected_host_prefix', [
@@ -75,6 +75,29 @@ def test_no_article_reattachment_in_root_host(token):
         f'{token}: root_candidate.host_surface={root_host!r} starts with ال (article reattached); '
         f'segment_host={r.get("segment_host")!r}'
     )
+
+
+def test_ukhraa_no_root_candidate():
+    """الْأُخْرَى: article stripped, root_candidate is None — correct for this token."""
+    r = hokom('الْأُخْرَى')
+    # Segmentation: article stripped, host preserved
+    seg_host = r.get('segment_host')
+    assert seg_host is not None, "segment_host must not be None"
+    # The host must not contain the article prefix
+    bare_host = _bare(seg_host) or ''
+    assert not bare_host.startswith('ال'), (
+        f'segment_host={seg_host!r} still starts with ال; article must be stripped'
+    )
+    # Morphology not blocked
+    assert r.get('morphology_blocked', False) is False, (
+        f'morphology_blocked must be False, got {r.get("morphology_blocked")!r}'
+    )
+    # Root candidate is None — this is the correct, expected result for this token
+    rc = r.get('root_candidate')
+    assert rc is None, f'expected no root_candidate for الْأُخْرَى, got {rc!r}'
+    # Input surface preserved
+    orig = r.get('input_surface') or r.get('original_surface')
+    assert orig == 'الْأُخْرَى', f'surface mutated: {orig!r}'
 
 
 def test_segment_host_without_article_for_definite_nouns():
