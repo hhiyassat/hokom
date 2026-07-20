@@ -1,0 +1,75 @@
+{
+  "mandate": "HOKOM-CLITIC-SEGMENTATION-OWNERSHIP-01",
+  "engine_id": "HOKOM_CLITIC_SEGMENTER",
+  "canonical_owner": "HOKOM",
+  "canonical_entrypoint": "segment_token",
+  "contract_version": "1",
+  "status": "CLOSED",
+  "gates": {
+    "runtime_dependencies": 0,
+    "hr2s_runtime_dependencies": 0,
+    "parallel_engines": 0,
+    "live_wired_after_tokenizer": true,
+    "runs_before_p1": true,
+    "host_contract_verified": true,
+    "clitic_only_supported": true,
+    "ambiguity_governed": true,
+    "lexical_precedence_verified": true,
+    "inflection_separation_verified": true,
+    "serialization_verified": true,
+    "property_tests_verified": true,
+    "ayat_al_dayn_cases_verified": true,
+    "full_suite_verified": true
+  },
+  "corrective_closure_pass": {
+    "mandate": "HOKOM-CLITIC-SEGMENTATION-OWNERSHIP-01 CORRECTIVE_CLOSURE_PASS",
+    "date": "2026-07-20",
+    "critical_failures_before": 4,
+    "critical_failures_after": 0,
+    "fixes": [
+      "Fix A: _sa_future_guard — FUTURE_PARTICLE سَ requires mudaraa' prefix letter",
+      "Fix B: conjunction host guard — وَ/فَ require ≥3 consonants in host after enclitic removal",
+      "Fix C: _na_is_likely_inflectional + tanwin guard — نَا blocked on ...ونا pattern; tanwin blocks case-ending splits",
+      "Fix D: Step 2.5 contracted لِل handler — bare starts-with لل (len≥4) → proclitic=لِ + article=لْ/لـ + host"
+    ],
+    "new_test_files": [
+      "tests/p0_segmentation/test_future_sa_guard.py",
+      "tests/p0_segmentation/test_initial_waw_guard.py",
+      "tests/p0_segmentation/test_na_inflection_ambiguity.py",
+      "tests/p0_segmentation/test_contracted_li_al.py",
+      "tests/p0_segmentation/test_ayat_al_dayn_corrective_cases.py"
+    ],
+    "new_tests_added": 39
+  },
+  "test_results": {
+    "new_tests": 548,
+    "full_suite_passed": 4919,
+    "full_suite_failed": 10,
+    "failed_reason": "Python version tests (3.10 container vs 3.11+ requirement) — pre-existing, unchanged",
+    "regressions": 0
+  },
+  "ayat_al_dayn_targeted_cases": [
+    {"surface": "بِدَيْنٍ",      "proclitics": ["بِ"],       "art": null,  "host": "دَيْنٍ",     "enclitics": []},
+    {"surface": "بِالْعَدْلِ",   "proclitics": ["بِ"],       "art": "الْ", "host": "عَدْلِ",     "enclitics": []},
+    {"surface": "وَلْيَكْتُبْ",  "proclitics": ["وَ", "لْ"], "art": null,  "host": "يَكْتُبْ",   "enclitics": []},
+    {"surface": "فَلْيَكْتُبْ",  "proclitics": ["فَ", "لْ"], "art": null,  "host": "يَكْتُبْ",   "enclitics": []},
+    {"surface": "مِنْهُ",        "proclitics": [],            "art": null,  "host": "مِنْ",       "enclitics": ["هُ"]},
+    {"surface": "بِكُمْ",        "proclitics": ["بِ"],        "art": null,  "host": null,         "enclitics": ["كُمْ"], "clitic_only": true},
+    {"surface": "وَاللَّهُ",     "proclitics": ["وَ"],        "art": null,  "host": "اللَّهُ",    "enclitics": [], "note": "protected"},
+    {"surface": "فَإِنْ",        "proclitics": ["فَ"],        "art": null,  "host": "إِنْ",       "enclitics": []},
+    {"surface": "وَإِنْ",        "proclitics": ["وَ"],        "art": null,  "host": "إِنْ",       "enclitics": []},
+    {"surface": "وَلَا",         "proclitics": ["وَ"],        "art": null,  "host": "لَا",        "enclitics": []},
+    {"surface": "كَاتِبٌ",       "proclitics": [],            "art": null,  "host": "كَاتِبٌ",   "enclitics": [], "note": "no split — root-initial ك"},
+    {"surface": "وَعَدَ",        "proclitics": [],            "art": null,  "host": "وَعَدَ",     "enclitics": [], "note": "no split — root-initial و"},
+    {"surface": "فُسُوقٌ",       "proclitics": [],            "art": null,  "host": "فُسُوقٌ",   "enclitics": [], "note": "no split — diacritic mismatch (damma ≠ fatha)"},
+    {"surface": "فَعَلَ",        "proclitics": [],            "art": null,  "host": "فَعَلَ",     "enclitics": [], "note": "no split — only 2 consonants remain"},
+    {"surface": "فَقِيرٌ",       "proclitics": [],            "art": null,  "host": "فَقِيرٌ",   "enclitics": [], "note": "no split — NON_SEPARABLE_INITIALS guard"},
+    {"surface": "سَأَلَ",        "proclitics": [],            "art": null,  "host": "سَأَلَ",     "enclitics": [], "note": "no split — future min 3 consonants"},
+    {"surface": "سَفِيهًا",      "proclitics": [],            "art": null,  "host": "سَفِيهًا",  "enclitics": [], "note": "CORRECTIVE: no split — فِ not mudaraa' prefix; هًا has tanwin"},
+    {"surface": "وَلِيُّهُ",     "proclitics": [],            "art": null,  "host": "وَلِيُّ",   "enclitics": ["هُ"], "note": "CORRECTIVE: وَ not extracted — host after هُ removal has only 2 consonants"},
+    {"surface": "يَكُونَا",      "proclitics": [],            "art": null,  "host": "يَكُونَا",  "enclitics": [], "note": "CORRECTIVE: نَا not extracted — bare ends with ونا (dual alef)"},
+    {"surface": "لِلشَّهَادَةِ","proclitics": ["لِ"],         "art": "ل",   "host": "شَّهَادَةِ","enclitics": [], "note": "CORRECTIVE: contracted لِل recognised via Step 2.5"},
+    {"surface": "هُوَ",          "proclitics": [],            "art": null,  "host": "هُوَ",       "enclitics": [], "note": "protected whole token"},
+    {"surface": "الَّذِي",       "proclitics": [],            "art": null,  "host": "الَّذِي",    "enclitics": [], "note": "protected whole token"}
+  ]
+}

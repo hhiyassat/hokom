@@ -55,8 +55,57 @@ def hokom(word: str) -> dict:
     canonical_surface  = word                  # سياسة محافظة: لا تعديل على الهوية
     normalized_surface = normalize(word)
 
+    # ── P0: Clitic Segmentation (HOKOM-CLITIC-SEGMENTATION-OWNERSHIP-01) ────
+    # Runs immediately after normalization, before all downstream stages.
+    # Produces SegmentBundle; segment_host is passed where the full token
+    # was previously used for root/word-class input.
+    segment_bundle = None
+    segment_host   = None   # None until set by segmenter; NEVER defaults to full token
+    segment_proclitics = ()
+    segment_enclitics  = ()
+    segment_clitic_only = False
+    _seg_failure_reason = None
+    try:
+        from pipeline.p0_segmentation import segment_token, SegmentationRequest
+        _seg_req = SegmentationRequest(
+            request_id=f'hokom:{input_surface}',
+            original_surface=input_surface,
+            normalized_surface=normalized_surface,
+        )
+        segment_bundle = segment_token(_seg_req)
+        segment_host        = segment_bundle.host  # None for clitic-only; NEVER falls back to full token
+        segment_proclitics  = segment_bundle.proclitics
+        segment_enclitics   = segment_bundle.enclitics
+        segment_clitic_only = segment_bundle.clitic_only
+    except Exception as _seg_exc:
+        # Segmentation failure: fail-closed — morphology is not opened
+        segment_bundle      = None
+        segment_host        = None
+        _seg_failure_reason = f'SEGMENTATION_ENGINE_FAILED:{type(_seg_exc).__name__}:{_seg_exc}'
+        segment_proclitics  = ()
+        segment_enclitics   = ()
+        segment_clitic_only = False
+
+    # ── Morphology Surface Gate ───────────────────────────────────────────────
+    # segment_host is None for clitic-only constructions (بِكُمْ) or segmentation
+    # failure. In either case morphology is NOT opened.
+    if segment_host is None:
+        morphology_surface = None
+        morphology_blocked = True
+        morphology_block_reason = (
+            'SEGMENTATION_NO_LEXICAL_HOST'
+            if (segment_bundle is not None and segment_bundle.clitic_only)
+            else 'SEGMENTATION_FAILED'
+        )
+    else:
+        morphology_surface = segment_host
+        morphology_blocked = False
+        morphology_block_reason = None
+
     # ── 2. Parse → phones ────────────────────────────────────────────────────
-    phones      = parse_phones(normalized_surface)
+    # Phonological analysis runs on the morphological host (segment_host), not
+    # the full token. When morphology is blocked, there is no host to analyse.
+    phones      = parse_phones(morphology_surface) if morphology_surface else []
     real_phones = [p for p in phones if p.char != ' ']
 
     # ── 3-6. Licensing (بوابات الترخيص) ──────────────────────────────────────
@@ -82,6 +131,15 @@ def hokom(word: str) -> dict:
             'slots':             [],
             'verdict':           'BLOCK',
             'violations':        licensing_blocked,
+            # ── P0 Clitic Segmentation ───────────────────────────────────
+            'segment_bundle':         segment_bundle,
+            'segment_host':           segment_host,
+            'segment_proclitics':     segment_proclitics,
+            'segment_enclitics':      segment_enclitics,
+            'segment_clitic_only':    segment_clitic_only,
+            'morphology_surface':     morphology_surface,
+            'morphology_blocked':     morphology_blocked,
+            'morphology_block_reason': morphology_block_reason,
         }
 
     slots   = syllabify(phones)
@@ -348,24 +406,27 @@ def hokom(word: str) -> dict:
     # ── Word Class Engine ─────────────────────────────────────────────────────
     # Canonical ISM / FI3L / HARF classification.
     # Must run BEFORE Phase 5 inflection so the gate can block non-FI3L tokens.
+    # Word class uses morphology_surface (segment_host), not the full token.
+    # When morphology is blocked (clitic-only or segmentation failure), skip.
     word_class_result = None
-    try:
-        word_class_result = _run_word_class_engine(
-            input_surface      = input_surface,
-            normalized_surface = normalized_surface,
-            mabni              = mabni,
-            attachment         = attachment,
-            pre_root           = pre_root,
-            phase4a_result     = phase4a_result,
-            phase4b_result     = phase4b_result,
-            phase4c_result     = phase4c_result,
-            phase4d_result     = phase4d_result,
-            _final_form        = _final_form,
-            _final_masdar      = _final_masdar,
-            augmented_analysis = augmented_analysis,
-        )
-    except Exception:
-        word_class_result = None
+    if not morphology_blocked and morphology_surface:
+        try:
+            word_class_result = _run_word_class_engine(
+                input_surface      = input_surface,
+                normalized_surface = morphology_surface,
+                mabni              = mabni,
+                attachment         = attachment,
+                pre_root           = pre_root,
+                phase4a_result     = phase4a_result,
+                phase4b_result     = phase4b_result,
+                phase4c_result     = phase4c_result,
+                phase4d_result     = phase4d_result,
+                _final_form        = _final_form,
+                _final_masdar      = _final_masdar,
+                augmented_analysis = augmented_analysis,
+            )
+        except Exception:
+            word_class_result = None
 
     # ── Phase 5 — Paradigm/Inflection ────────────────────────────────────────
     # B-01 fix: gate verbal inflection on confirmed FI3L word class.
@@ -375,16 +436,21 @@ def hokom(word: str) -> dict:
     _inflection_skipped_reason = None
 
     _is_confirmed_fi3l = (
-        word_class_result is not None
+        not morphology_blocked
+        and word_class_result is not None
         and word_class_result.verdict == WordClassVerdict.ACCEPTED
         and word_class_result.word_class == WordClass.FI3L
     )
 
     if not _is_confirmed_fi3l:
         _inflection_skipped_reason = (
-            word_class_result.verdict.value
-            if word_class_result is not None
-            else 'WORD_CLASS_NOT_AVAILABLE'
+            morphology_block_reason
+            if morphology_blocked
+            else (
+                word_class_result.verdict.value
+                if word_class_result is not None
+                else 'WORD_CLASS_NOT_AVAILABLE'
+            )
         )
     else:
         try:
@@ -529,6 +595,16 @@ def hokom(word: str) -> dict:
         # ── Taaqol Live Governance ────────────────────────────────────────
         'taaqol_decision':             _taaqol_decision,
         'taaqol_effective_verdict':    _taaqol_effective_verdict,
+        # ── P0 Clitic Segmentation (HOKOM-CLITIC-SEGMENTATION-OWNERSHIP-01) ─
+        'segment_bundle':              segment_bundle,
+        'segment_host':                segment_host,
+        'segment_proclitics':          segment_proclitics,
+        'segment_enclitics':           segment_enclitics,
+        'segment_clitic_only':         segment_clitic_only,
+        # ── Morphology Surface (what actually entered morphology) ─────────
+        'morphology_surface':          morphology_surface,
+        'morphology_blocked':          morphology_blocked,
+        'morphology_block_reason':     morphology_block_reason,
     }
 
 

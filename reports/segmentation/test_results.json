@@ -1,0 +1,55 @@
+{
+  "mandate": "HOKOM-CLITIC-SEGMENTATION-OWNERSHIP-01",
+  "baseline": {
+    "head": "38669398f3ecf6258ed29ddc6440c58fddd0e1fc",
+    "python_container": "3.10.12",
+    "python_canonical": "3.12.4",
+    "baseline_passed": 4308,
+    "baseline_failed": 10,
+    "baseline_skipped": 50,
+    "baseline_subtests": 132
+  },
+  "after": {
+    "passed": 4817,
+    "failed": 10,
+    "skipped": 50,
+    "subtests": 132,
+    "new_tests": 509,
+    "regressions": 0
+  },
+  "corrective_closure_pass": {
+    "passed": 4919,
+    "failed": 10,
+    "skipped": 50,
+    "subtests": 132,
+    "new_tests_added": 39,
+    "regressions": 0,
+    "critical_failures_resolved": 4,
+    "critical_failures_remaining": 0
+  },
+  "failed_tests": [
+    "tests/runtime/test_native_strenum.py - Python 3.10 StrEnum",
+    "tests/runtime/test_no_compatibility_injection.py - Python version",
+    "tests/runtime/test_packaging_python_requires.py - Python 3.11+ requirement",
+    "tests/runtime/test_python_runtime_imports.py - Python 3.11+",
+    "tests/runtime/test_python_version_contract.py - Python 3.11+",
+    "tests/runtime/test_taaqol_import_readiness.py - Python version"
+  ],
+  "failed_reason": "All failures are pre-existing Python version requirement tests (container is 3.10, canonical is 3.12). Zero new failures introduced.",
+  "new_test_files": [
+    "tests/p0_segmentation/__init__.py",
+    "tests/p0_segmentation/test_models.py",
+    "tests/p0_segmentation/test_ayat_al_dayn_cases.py",
+    "tests/p0_segmentation/test_segmentation_negative.py",
+    "tests/p0_segmentation/test_ownership_gate.py",
+    "tests/p0_segmentation/test_normalization.py",
+    "tests/p0_segmentation/test_inventory.py",
+    "tests/p0_segmentation/test_property_tests.py"
+  ],
+  "run_1_passed": 4817,
+  "run_2_passed": 4817,
+  "stable": true,
+  "corrective_run_1_passed": 4919,
+  "corrective_run_2_passed": 4919,
+  "corrective_stable": true
+}

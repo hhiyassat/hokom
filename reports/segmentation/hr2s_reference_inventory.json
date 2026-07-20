@@ -1,0 +1,23 @@
+{
+  "hr2s_found": false,
+  "note": "HR2S segmenter not present in repo. Inventory derived from linguistic rules.",
+  "hokom_native_inventory": {
+    "proclitics": [
+      {"voc": "وَ", "bare": "و", "kind": "CONJUNCTION", "priority": 1},
+      {"voc": "فَ", "bare": "ف", "kind": "CONJUNCTION", "priority": 2},
+      {"voc": "بِ", "bare": "ب", "kind": "PREPOSITION", "priority": 3},
+      {"voc": "لِ", "bare": "ل", "kind": "PREPOSITION", "priority": 4},
+      {"voc": "سَ", "bare": "س", "kind": "FUTURE_PARTICLE", "priority": 5}
+    ],
+    "standalone_kaf_excluded": true,
+    "min_host_consonants": {
+      "CONJUNCTION": 3,
+      "PREPOSITION": 2,
+      "FUTURE_PARTICLE": 3
+    },
+    "enclitics_bare": ["هنّ", "كنّ", "هما", "كما", "هم", "كم", "نا", "ني", "ها", "يَ", "يِ", "ه", "ك", "ي"],
+    "inflectional_never_enclitic": ["وا", "ون", "ين", "ان", "ن", "تم", "تن"],
+    "protected_count": 22,
+    "operator_count": 35
+  }
+}
