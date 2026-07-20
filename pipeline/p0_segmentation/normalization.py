@@ -19,8 +19,30 @@ _SUPERSCRIPT_ALEF      = 'ٰ'
 
 
 def canonical_normalize(surface: str) -> str:
-    """Apply NFC normalization to Arabic surface. Preserves diacritics."""
-    return unicodedata.normalize('NFC', surface)
+    """Apply NFC normalization to Arabic surface. Preserves diacritics.
+
+    Also expands alef-with-madda (U+0622) to hamza + fatha (U+0621 + U+064E).
+
+    Contract (Hokom internal):
+        آ (U+0622) → ءَ (U+0621 + U+064E)
+        NOT: آ → ءَا  (no bare alef is inserted)
+
+    Rationale: U+0622 is a precomposed Unicode character that conflates hamza
+    identity with the madda diacritic. Expanding it separates the consonant
+    (ء) from the diacritic (fatha stands in for the madda vowel length), making
+    the canonical form uniform with all other hamza representations.
+
+    Idempotent: if the input already has ءَ the output is unchanged.
+    original_surface is NOT touched — this runs on analysis surface only.
+    """
+    # Step 1: Unicode NFC — canonicalizes combining mark order (shadda+vowel
+    # and vowel+shadda both become the same canonical sequence).
+    text = unicodedata.normalize('NFC', surface)
+    # Step 2: Expand alef-madda (U+0622) → hamza (U+0621) + fatha (U+064E).
+    # Uses str.replace which is O(n) and idempotent (U+0622 not produced by
+    # the replacement, so re-application leaves the string unchanged).
+    text = text.replace('آ', 'ءَ')
+    return text
 
 
 def strip_diacritics(surface: str) -> str:
