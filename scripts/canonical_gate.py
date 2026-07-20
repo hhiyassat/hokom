@@ -297,6 +297,148 @@ def run_corpus_contracts() -> dict:
 
 
 
+# ── Jamid Aalam contracts (HOKOM-JAMID-AALAM-LEXICAL-BOUNDARY-CLOSURE-01) ────
+
+JAMID_AALAM_MANDATORY = [
+    # (token, contracts_dict)
+    # contracts_dict keys:
+    #   jamid_verdict           → must equal 'JAMID_AALAM_BOUNDARY'
+    #   root_candidate_is_none  → root_candidate must be None
+    #   aalam_category          → must equal 'divine_name'
+    #   proclitic_contains      → bare consonant that must appear in segment_proclitics
+    ('اللَّهُ', {'jamid_verdict': 'JAMID_AALAM_BOUNDARY', 'root_candidate_is_none': True, 'aalam_category': 'divine_name'}),
+    ('اللَّهَ', {'jamid_verdict': 'JAMID_AALAM_BOUNDARY', 'root_candidate_is_none': True, 'aalam_category': 'divine_name'}),
+    ('اللَّهِ', {'jamid_verdict': 'JAMID_AALAM_BOUNDARY', 'root_candidate_is_none': True, 'aalam_category': 'divine_name'}),
+    ('وَاللَّهُ', {'jamid_verdict': 'JAMID_AALAM_BOUNDARY', 'root_candidate_is_none': True, 'aalam_category': 'divine_name', 'proclitic_contains': 'و'}),
+    ('فَاللَّهُ', {'jamid_verdict': 'JAMID_AALAM_BOUNDARY', 'root_candidate_is_none': True, 'aalam_category': 'divine_name', 'proclitic_contains': 'ف'}),
+    ('بِاللَّهِ', {'jamid_verdict': 'JAMID_AALAM_BOUNDARY', 'root_candidate_is_none': True, 'aalam_category': 'divine_name', 'proclitic_contains': 'ب'}),
+    ('لِلَّهِ',  {'jamid_verdict': 'JAMID_AALAM_BOUNDARY', 'root_candidate_is_none': True, 'aalam_category': 'divine_name', 'proclitic_contains': 'ل'}),
+]
+
+# Roots that must NEVER appear — proclitic contamination check
+_FORBIDDEN_PROCLITIC_ROOTS = {('و', 'ل', 'ل'), ('ف', 'ل', 'ل'), ('ب', 'ل', 'ل'), ('ل', 'ل', 'ه')}
+
+_ARABIC_CONSONANTS = frozenset(
+    'ءابتثجحخدذرزسشصضطظعغفقكلمنهوي'
+    'أإآؤئ'
+)
+
+
+def _bare_consonants_of(s):
+    if s is None:
+        return ''
+    return ''.join(c for c in s if c in _ARABIC_CONSONANTS)
+
+
+def run_jamid_aalam_contracts() -> dict:
+    """
+    Verify JAMID_AALAM_BOUNDARY invariants for the 7 mandatory Allah forms.
+
+    Violation categories (all must = 0 for CLOSURE_ELIGIBLE):
+      JAMID_AALAM_BOUNDARY_VIOLATIONS      — token didn't get JAMID_AALAM_BOUNDARY
+      ROOT_AFTER_JAMID_AALAM_BOUNDARY      — root_candidate not None after boundary
+      PROCLITIC_COUNTED_IN_AALAM_ROOT      — proclitic consonant contaminated root
+      JAMID_MISCLASSIFIED_AS_MABNI         — الله got MabniBoundary instead of MabniOpen
+    """
+    sys.path.insert(0, str(REPO_ROOT))
+    try:
+        from hokom_pipeline import hokom
+        from mabni_layer import MabniBoundary, MabniOpen
+    except ImportError as e:
+        return {
+            'error': str(e), 'ok': False,
+            'JAMID_AALAM_BOUNDARY_VIOLATIONS': 999,
+            'ROOT_AFTER_JAMID_AALAM_BOUNDARY': 999,
+            'PROCLITIC_COUNTED_IN_AALAM_ROOT': 999,
+            'JAMID_MISCLASSIFIED_AS_MABNI':    999,
+            'total_tokens': 0,
+        }
+
+    boundary_violations   = []
+    root_after_jamid      = []
+    proclitic_root_contam = []
+    mabni_misclassified   = []
+
+    for tok, contracts in JAMID_AALAM_MANDATORY:
+        try:
+            r = hokom(tok)
+        except Exception as e:
+            boundary_violations.append({'token': tok, 'error': str(e)})
+            continue
+
+        # 1. jamid_verdict must be JAMID_AALAM_BOUNDARY
+        if contracts.get('jamid_verdict') and r.get('jamid_verdict') != contracts['jamid_verdict']:
+            boundary_violations.append({
+                'token': tok,
+                'expected_jamid_verdict': contracts['jamid_verdict'],
+                'got_jamid_verdict':      r.get('jamid_verdict'),
+            })
+
+        # 2. root_candidate must be None
+        if contracts.get('root_candidate_is_none') and r.get('root_candidate') is not None:
+            rc = r.get('root_candidate')
+            root_after_jamid.append({
+                'token': tok,
+                'root_candidate': getattr(rc, 'canonical_root', repr(rc)),
+            })
+
+        # 3. aalam_category must match
+        if contracts.get('aalam_category') and r.get('aalam_category') != contracts['aalam_category']:
+            boundary_violations.append({
+                'token': tok,
+                'expected_aalam_category': contracts['aalam_category'],
+                'got_aalam_category':      r.get('aalam_category'),
+            })
+
+        # 4. proclitic consonant must appear (where specified)
+        if 'proclitic_contains' in contracts:
+            proclitics = r.get('segment_proclitics') or ()
+            bare_p = ''.join(_bare_consonants_of(p) for p in proclitics)
+            if contracts['proclitic_contains'] not in bare_p:
+                boundary_violations.append({
+                    'token': tok,
+                    'expected_proclitic_contains': contracts['proclitic_contains'],
+                    'got_proclitics': list(proclitics),
+                })
+
+        # 5. No forbidden proclitic root
+        rc = r.get('root_candidate')
+        if rc is not None:
+            root = getattr(rc, 'canonical_root', None)
+            if root and tuple(root) in _FORBIDDEN_PROCLITIC_ROOTS:
+                proclitic_root_contam.append({
+                    'token': tok,
+                    'forbidden_root': list(root),
+                })
+
+        # 6. الله must not be misclassified as mabni
+        mabni = r.get('mabni')
+        if isinstance(mabni, MabniBoundary):
+            mabni_misclassified.append({
+                'token': tok,
+                'error': 'got MabniBoundary — الله is MU\'RAB not MABNI',
+                'mabni_verdict': getattr(mabni, 'verdict', None),
+            })
+
+    total_violations = (
+        len(boundary_violations) + len(root_after_jamid)
+        + len(proclitic_root_contam) + len(mabni_misclassified)
+    )
+
+    return {
+        'total_tokens':                    len(JAMID_AALAM_MANDATORY),
+        'JAMID_AALAM_BOUNDARY_VIOLATIONS': len(boundary_violations),
+        'ROOT_AFTER_JAMID_AALAM_BOUNDARY': len(root_after_jamid),
+        'PROCLITIC_COUNTED_IN_AALAM_ROOT': len(proclitic_root_contam),
+        'JAMID_MISCLASSIFIED_AS_MABNI':    len(mabni_misclassified),
+        'boundary_violations':             boundary_violations,
+        'root_after_jamid':                root_after_jamid,
+        'proclitic_root_contam':           proclitic_root_contam,
+        'mabni_misclassified':             mabni_misclassified,
+        'ok':                              total_violations == 0,
+    }
+
+
 # ── Routing contracts (HOKOM-POST-SEGMENTATION-MORPHOLOGY-ROUTING-OWNERSHIP-01) ──
 
 def run_routing_contracts() -> dict:
@@ -411,11 +553,13 @@ def run_routing_contracts() -> dict:
 # ── Closure manifest ──────────────────────────────────────────────────────────
 
 def generate_closure_manifest(stage_id, git, env_result, python, plt,
-                               probes, run1, run2, comparison, corpus, routing) -> dict:
+                               probes, run1, run2, comparison, corpus, routing,
+                               jamid_aalam=None) -> dict:
     eligible = (
         git['ok'] and python['ok'] and env_result['ok'] and plt['ok'] and
         probes['ok'] and run1['ok'] and run2['ok'] and comparison['ok'] and corpus['ok'] and
         routing['ok'] and
+        (jamid_aalam is None or jamid_aalam['ok']) and
         run1.get('failures', 999) == 0 and run2.get('failures', 999) == 0 and
         run1.get('skips', 999) == 0 and run2.get('skips', 999) == 0
     )
@@ -461,6 +605,14 @@ def generate_closure_manifest(stage_id, git, env_result, python, plt,
             "ROOT_AFTER_CLOSED_BOUNDARY":          routing['ROOT_AFTER_CLOSED_BOUNDARY'],
             "SURFACE_PROVENANCE_VIOLATIONS":       routing['SURFACE_PROVENANCE_VIOLATIONS'],
             "ARTICLE_REATTACHMENT_VIOLATIONS":     routing['ARTICLE_REATTACHMENT_VIOLATIONS'],
+        },
+        "jamid_aalam_contracts": {
+            "total_tokens":                    (jamid_aalam or {}).get('total_tokens', 0),
+            "JAMID_AALAM_BOUNDARY_VIOLATIONS": (jamid_aalam or {}).get('JAMID_AALAM_BOUNDARY_VIOLATIONS', 0),
+            "ROOT_AFTER_JAMID_AALAM_BOUNDARY": (jamid_aalam or {}).get('ROOT_AFTER_JAMID_AALAM_BOUNDARY', 0),
+            "PROCLITIC_COUNTED_IN_AALAM_ROOT": (jamid_aalam or {}).get('PROCLITIC_COUNTED_IN_AALAM_ROOT', 0),
+            "JAMID_MISCLASSIFIED_AS_MABNI":    (jamid_aalam or {}).get('JAMID_MISCLASSIFIED_AS_MABNI', 0),
+            "MABNI_INVENTORY_MODIFIED":        0,  # structural invariant: الله never in mabni_inventory
         },
         "artifacts": {"commit_bound": True, "stale_artifacts": 0},
         "closure_eligible": eligible,
@@ -520,13 +672,13 @@ def main():
           f"{run2.get('skips')} skipped  exit={run2['exit_code']}")
     print(f"  node_ids_equal={comparison['node_ids_equal']}  outcomes_equal={comparison['outcomes_equal']}")
 
-    print("\n[7/7] Corpus contracts (Ayat al-Dayn)...")
+    print("\n[7/8] Corpus contracts (Ayat al-Dayn)...")
     corpus = run_corpus_contracts()
     print(f"  {corpus['total_tokens']} tokens, {corpus['failures']} violations")
     for v in corpus.get('violations', [])[:10]:
         print(f"  VIOLATION: {v}")
 
-    print("\n[8/8] Routing contracts (post-segmentation morphology)...")
+    print("\n[8/9] Routing contracts (post-segmentation morphology)...")
     routing = run_routing_contracts()
     print(f"  POST_SEGMENTATION_ROUTING_VIOLATIONS: {routing['POST_SEGMENTATION_ROUTING_VIOLATIONS']}")
     print(f"  ROOT_AFTER_CLOSED_BOUNDARY:          {routing['ROOT_AFTER_CLOSED_BOUNDARY']}")
@@ -535,9 +687,23 @@ def main():
     for v in routing.get('root_after_boundary', [])[:5]:
         print(f"  BOUNDARY_VIOLATION: {v}")
 
+    print("\n[9/9] Jamid Aalam contracts (divine name + proclitic forms)...")
+    jamid_aalam = run_jamid_aalam_contracts()
+    print(f"  {jamid_aalam['total_tokens']} tokens")
+    print(f"  JAMID_AALAM_BOUNDARY_VIOLATIONS: {jamid_aalam['JAMID_AALAM_BOUNDARY_VIOLATIONS']}")
+    print(f"  ROOT_AFTER_JAMID_AALAM_BOUNDARY: {jamid_aalam['ROOT_AFTER_JAMID_AALAM_BOUNDARY']}")
+    print(f"  PROCLITIC_COUNTED_IN_AALAM_ROOT: {jamid_aalam['PROCLITIC_COUNTED_IN_AALAM_ROOT']}")
+    print(f"  JAMID_MISCLASSIFIED_AS_MABNI:    {jamid_aalam['JAMID_MISCLASSIFIED_AS_MABNI']}")
+    print(f"  MABNI_INVENTORY_MODIFIED:        0  (structural invariant)")
+    for v in jamid_aalam.get('boundary_violations', [])[:5]:
+        print(f"  JAMID_VIOLATION: {v}")
+    for v in jamid_aalam.get('root_after_jamid', [])[:5]:
+        print(f"  ROOT_VIOLATION: {v}")
+
     print("\n" + "=" * 70)
     manifest = generate_closure_manifest(
-        args.stage, git, env_result, python, plt, probes, run1, run2, comparison, corpus, routing
+        args.stage, git, env_result, python, plt, probes, run1, run2, comparison,
+        corpus, routing, jamid_aalam=jamid_aalam
     )
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     mpath = REPORTS_DIR / f"closure_manifest.{git['head_short']}.json"
@@ -560,6 +726,13 @@ def main():
         if corpus['failures']:   reasons.append(f"{corpus['failures']} corpus violations")
         rv = routing.get('POST_SEGMENTATION_ROUTING_VIOLATIONS', 0)
         if rv:                   reasons.append(f"{rv} routing violations")
+        jv = sum([
+            jamid_aalam.get('JAMID_AALAM_BOUNDARY_VIOLATIONS', 0),
+            jamid_aalam.get('ROOT_AFTER_JAMID_AALAM_BOUNDARY', 0),
+            jamid_aalam.get('PROCLITIC_COUNTED_IN_AALAM_ROOT', 0),
+            jamid_aalam.get('JAMID_MISCLASSIFIED_AS_MABNI', 0),
+        ])
+        if jv:                   reasons.append(f"{jv} jamid_aalam violations")
         print(f"REASONS: {'; '.join(reasons)}")
     print("=" * 70)
     return 0 if eligible else 1

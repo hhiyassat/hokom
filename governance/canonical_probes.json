@@ -142,33 +142,203 @@
     {
       "id": "probe:اللَّهُ",
       "token": "اللَّهُ",
+      "description": "اسم الجلالة — nominative. MU'RAB (not mabni). JAMID_AALAM_BOUNDARY closes root.",
       "contracts": [
         {
           "field": "segment_enclitics",
           "op": "eq",
           "value": []
+        },
+        {
+          "field": "jamid_verdict",
+          "op": "eq",
+          "value": "JAMID_AALAM_BOUNDARY"
+        },
+        {
+          "field": "aalam_category",
+          "op": "eq",
+          "value": "divine_name"
+        },
+        {
+          "field": "root_candidate",
+          "op": "is_none"
+        },
+        {
+          "field": "morphology_blocked",
+          "op": "eq",
+          "value": false,
+          "note": "الله is MU'RAB — phonological structure is valid, jamid is lexical decision only"
         }
       ]
     },
     {
       "id": "probe:اللَّهَ",
       "token": "اللَّهَ",
+      "description": "اسم الجلالة — accusative. MU'RAB. JAMID_AALAM_BOUNDARY closes root.",
       "contracts": [
         {
           "field": "segment_enclitics",
           "op": "eq",
           "value": []
+        },
+        {
+          "field": "jamid_verdict",
+          "op": "eq",
+          "value": "JAMID_AALAM_BOUNDARY"
+        },
+        {
+          "field": "aalam_category",
+          "op": "eq",
+          "value": "divine_name"
+        },
+        {
+          "field": "root_candidate",
+          "op": "is_none"
+        },
+        {
+          "field": "morphology_blocked",
+          "op": "eq",
+          "value": false
         }
       ]
     },
     {
       "id": "probe:اللَّهِ",
       "token": "اللَّهِ",
+      "description": "اسم الجلالة — genitive. MU'RAB. JAMID_AALAM_BOUNDARY closes root.",
       "contracts": [
         {
           "field": "segment_enclitics",
           "op": "eq",
           "value": []
+        },
+        {
+          "field": "jamid_verdict",
+          "op": "eq",
+          "value": "JAMID_AALAM_BOUNDARY"
+        },
+        {
+          "field": "aalam_category",
+          "op": "eq",
+          "value": "divine_name"
+        },
+        {
+          "field": "root_candidate",
+          "op": "is_none"
+        },
+        {
+          "field": "morphology_blocked",
+          "op": "eq",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "probe:jamid:وَاللَّهُ",
+      "token": "وَاللَّهُ",
+      "description": "اسم الجلالة with waw proclitic. segment_host=اللَّهُ. JAMID_AALAM_BOUNDARY.",
+      "contracts": [
+        {
+          "field": "jamid_verdict",
+          "op": "eq",
+          "value": "JAMID_AALAM_BOUNDARY"
+        },
+        {
+          "field": "aalam_category",
+          "op": "eq",
+          "value": "divine_name"
+        },
+        {
+          "field": "root_candidate",
+          "op": "is_none"
+        },
+        {
+          "field": "segment_proclitics_bare",
+          "op": "contains",
+          "value": "و"
+        },
+        {
+          "field": "morphology_blocked",
+          "op": "eq",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "probe:jamid:فَاللَّهُ",
+      "token": "فَاللَّهُ",
+      "description": "اسم الجلالة with fa proclitic. segment_host=اللَّهُ. JAMID_AALAM_BOUNDARY.",
+      "contracts": [
+        {
+          "field": "jamid_verdict",
+          "op": "eq",
+          "value": "JAMID_AALAM_BOUNDARY"
+        },
+        {
+          "field": "aalam_category",
+          "op": "eq",
+          "value": "divine_name"
+        },
+        {
+          "field": "root_candidate",
+          "op": "is_none"
+        },
+        {
+          "field": "segment_proclitics_bare",
+          "op": "contains",
+          "value": "ف"
+        }
+      ]
+    },
+    {
+      "id": "probe:jamid:بِاللَّهِ",
+      "token": "بِاللَّهِ",
+      "description": "اسم الجلالة with ba (jar) proclitic. segment_host=اللَّهِ. JAMID_AALAM_BOUNDARY.",
+      "contracts": [
+        {
+          "field": "jamid_verdict",
+          "op": "eq",
+          "value": "JAMID_AALAM_BOUNDARY"
+        },
+        {
+          "field": "aalam_category",
+          "op": "eq",
+          "value": "divine_name"
+        },
+        {
+          "field": "root_candidate",
+          "op": "is_none"
+        },
+        {
+          "field": "segment_proclitics_bare",
+          "op": "contains",
+          "value": "ب"
+        }
+      ]
+    },
+    {
+      "id": "probe:jamid:لِلَّهِ",
+      "token": "لِلَّهِ",
+      "description": "اسم الجلالة with lam (jar) proclitic. segment_host=لَّهِ (shadda on lam after ل+ال merger). JAMID_AALAM_BOUNDARY.",
+      "contracts": [
+        {
+          "field": "jamid_verdict",
+          "op": "eq",
+          "value": "JAMID_AALAM_BOUNDARY"
+        },
+        {
+          "field": "aalam_category",
+          "op": "eq",
+          "value": "divine_name"
+        },
+        {
+          "field": "root_candidate",
+          "op": "is_none"
+        },
+        {
+          "field": "segment_proclitics_bare",
+          "op": "contains",
+          "value": "ل"
         }
       ]
     },

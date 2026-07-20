@@ -167,11 +167,32 @@ def hokom(word: str) -> dict:
     attachment = recognize_token(normalized_surface, verdict,
                                 original_surface=input_surface) if isinstance(mabni, MabniOpen) else None
 
+    # ── P5.3: Jamid Aalam Boundary (HOKOM-JAMID-AALAM-LEXICAL-BOUNDARY-CLOSURE-01) ─
+    # Classify segment_host as JAMID_AALAM_BOUNDARY before root admission.
+    # الله and its declined forms are MU'RAB (not mabni) — they MUST NOT enter
+    # mabni_inventory. They are jawamid (اسم علم/اسم ذات) with no licensed root.
+    # Lookup is on segment_host ONLY (after clitic stripping) — never original_surface.
+    # If JAMID_AALAM_BOUNDARY: pre_root and root_candidate remain None.
+    jamid_boundary  = None
+    _is_jamid_aalam = False
+    if isinstance(mabni, MabniOpen) and segment_host is not None:
+        try:
+            from pipeline.p5_lexical.jamid_aalam_boundary import (
+                process_jamid_aalam,
+                JamidAalamBoundary as _JamidAalamBoundary,
+            )
+            jamid_boundary  = process_jamid_aalam(segment_host)
+            _is_jamid_aalam = isinstance(jamid_boundary, _JamidAalamBoundary)
+        except Exception:
+            jamid_boundary  = None
+            _is_jamid_aalam = False
+
     # ── Pre-Root Decision (طبقة ما قبل الجذر) ────────────────────────────────
     # تُشغَّل بعد P5 فقط عند MabniOpen — تُقرِّر ما إذا كان مسار الجذر مفتوحًا.
     # تُعيد PreRootDecision أو None عند الفشل.
+    # JAMID_AALAM_BOUNDARY: root admission is closed — skip pre_root entirely.
     pre_root = None
-    if not morphology_blocked and isinstance(mabni, MabniOpen):
+    if not morphology_blocked and isinstance(mabni, MabniOpen) and not _is_jamid_aalam:
         _seg_v   = attachment.segmentation_verdict if attachment else None
         _route_v = attachment.host_route           if attachment else None
 
@@ -512,6 +533,11 @@ def hokom(word: str) -> dict:
     # Build claim bundle from pipeline state and run strict Taaqol evaluation.
     # Fail-closed: any Taaqol runtime error → DEFERRED (never LICENSED).
     # No try/except here: evaluate_hokom_claim_bundle handles all failures internally.
+    # ── Jamid Aalam summary fields ────────────────────────────────────────────
+    _jamid_verdict   = getattr(jamid_boundary, 'verdict',        None) if _is_jamid_aalam else None
+    _jamid_category  = getattr(jamid_boundary, 'jamid_category', None) if _is_jamid_aalam else None
+    _aalam_category  = getattr(jamid_boundary, 'aalam_category', None) if _is_jamid_aalam else None
+
     _hokom_result_partial = {
         'original':            word,
         'input_surface':       input_surface,
@@ -525,6 +551,11 @@ def hokom(word: str) -> dict:
         'violations':          word_viols,
         'mabni':               mabni,
         'attachment':          attachment,
+        # ── Jamid Aalam Boundary ─────────────────────────────────────────
+        'jamid_boundary':      jamid_boundary,
+        'jamid_verdict':       _jamid_verdict,
+        'jamid_category':      _jamid_category,
+        'aalam_category':      _aalam_category,
         'pre_root':            pre_root,
         'root_refinement':     root_refinement,
         'augmented_analysis':  augmented_analysis,
@@ -585,6 +616,11 @@ def hokom(word: str) -> dict:
         'violations':          word_viols,
         'mabni':               mabni,
         'attachment':          attachment,
+        # ── Jamid Aalam Boundary (HOKOM-JAMID-AALAM-LEXICAL-BOUNDARY-CLOSURE-01) ─
+        'jamid_boundary':      jamid_boundary,
+        'jamid_verdict':       _jamid_verdict,
+        'jamid_category':      _jamid_category,
+        'aalam_category':      _aalam_category,
         'pre_root':            pre_root,
         'root_refinement':     root_refinement,
         'augmented_analysis':  augmented_analysis,
