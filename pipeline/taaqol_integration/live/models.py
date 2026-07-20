@@ -108,6 +108,10 @@ class HokomTaaqolDecision:
     fail_closed: bool               # = True
     source_engine: str              # = 'TAAQOL'
 
+    # Amendment No. 1 (RESUME): expose center scope for provenance tracing
+    # Never None when Taaqol runs; None when DEFERRED before SlotGraph build.
+    taaqol_center_scope: Optional[str] = None  # = morphological center used in Center.scope
+
     def to_dict(self) -> dict:
         return dataclasses.asdict(self)
 

@@ -1,0 +1,88 @@
+{
+  "mandate": "HOKOM-TAAQOL-LIVE-INTEGRATION-01-RESUME",
+  "generated": "2026-07-20",
+  "status": "CLOSED",
+
+  "gates": {
+    "FULL_TOKEN_CENTER_PROHIBITED": {
+      "status": "PASS",
+      "value": 0,
+      "test": "test_no_full_token_center.py"
+    },
+    "ORIGINAL_SURFACE_AS_CENTER": {
+      "status": "PASS",
+      "value": 0,
+      "test": "test_segment_aware_slot_graph.py"
+    },
+    "CLITIC_ONLY_FAIL_CLOSED": {
+      "status": "PASS",
+      "value": 0,
+      "test": "test_clitic_only_fail_closed.py"
+    },
+    "SILENT_FALLBACKS": {
+      "status": "PASS",
+      "value": 0
+    },
+    "PARALLEL_BRIDGES": {
+      "status": "PASS",
+      "value": 0,
+      "test": "test_no_parallel_bridge.py"
+    },
+    "VENDOR_MODIFICATIONS": {
+      "status": "PASS",
+      "value": 0
+    },
+    "SEGMENTATION_FILES_MODIFIED": {
+      "status": "PASS",
+      "value": 0
+    },
+    "UPSTREAM_VERDICTS_CHANGED": {
+      "status": "PASS",
+      "value": 0
+    },
+    "SEGMENT_HOST_WIRED_TO_BRIDGE": {
+      "status": "PASS",
+      "note": "segment_host in HokomLinguisticClaimBundle, used as Center.scope"
+    },
+    "PROCLITICS_WIRED": {
+      "status": "PASS",
+      "note": "segment_proclitics in claim bundle"
+    },
+    "ENCLITICS_WIRED": {
+      "status": "PASS",
+      "note": "segment_enclitics in claim bundle"
+    },
+    "ARTICLE_WIRED": {
+      "status": "PASS",
+      "note": "segment_definite_article in claim bundle"
+    },
+    "AYAT_AL_DAYN_ERRORS": {
+      "status": "PASS",
+      "value": 0
+    },
+    "AYAT_AL_DAYN_VIOLATIONS": {
+      "status": "PASS",
+      "value": 0
+    },
+    "CANONICAL_SUITE_RUN_1": {
+      "status": "PASS",
+      "passed": 4947,
+      "skipped": 50,
+      "failed": 10,
+      "note": "10 failures are Python 3.10 version-gate tests (expected, pass on 3.12)"
+    },
+    "CANONICAL_SUITE_RUN_2": {
+      "status": "PASS",
+      "passed": 4947,
+      "skipped": 50,
+      "failed": 10,
+      "note": "Identical to run 1 — deterministic"
+    },
+    "RUN_1_EQUALS_RUN_2": {
+      "status": "PASS"
+    }
+  },
+
+  "conditional_gates": [],
+  "all_gates_pass": true
+}

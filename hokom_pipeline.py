@@ -525,6 +525,19 @@ def hokom(word: str) -> dict:
         'active_residuals':    _active_residuals,
         'resolved_residuals':  _resolved_residuals,
         'word_class_result':   word_class_result,
+        # Segmentation boundary fields (HOKOM-TAAQOL-LIVE-INTEGRATION-01)
+        'segment_bundle':         segment_bundle,
+        'morphology_surface':     morphology_surface,
+        'morphology_blocked':     morphology_blocked,
+        'morphology_block_reason': morphology_block_reason,
+        # RESUME: canonical SegmentBundle fields for bridge pass-through
+        'segment_host':           segment_host,
+        'segment_proclitics':     segment_proclitics,
+        'segment_enclitics':      segment_enclitics,
+        'segment_clitic_only':    segment_clitic_only,
+        'segment_definite_article': (
+            segment_bundle.definite_article if segment_bundle else None
+        ),
     }
     _taaqol_decision = None
     _taaqol_effective_verdict = None
@@ -595,6 +608,10 @@ def hokom(word: str) -> dict:
         # ── Taaqol Live Governance ────────────────────────────────────────
         'taaqol_decision':             _taaqol_decision,
         'taaqol_effective_verdict':    _taaqol_effective_verdict,
+        'taaqol_center_scope':         (
+            getattr(_taaqol_decision, 'taaqol_center_scope', None)
+            if _taaqol_decision else None
+        ),
         # ── P0 Clitic Segmentation (HOKOM-CLITIC-SEGMENTATION-OWNERSHIP-01) ─
         'segment_bundle':              segment_bundle,
         'segment_host':                segment_host,

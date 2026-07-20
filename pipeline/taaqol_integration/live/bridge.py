@@ -20,6 +20,7 @@ from __future__ import annotations
 import hashlib
 import subprocess
 from pathlib import Path
+from typing import Optional
 
 from .models import (
     HOKOM_TAAQOL_BRIDGE_ID,
@@ -79,6 +80,7 @@ def _deferred_decision(
     reason_codes: tuple,
     residuals: tuple,
     trace: tuple,
+    taaqol_center_scope: 'Optional[str]' = None,
 ) -> HokomTaaqolDecision:
     """
     Build a DEFERRED decision for fail-closed scenarios.
@@ -102,6 +104,7 @@ def _deferred_decision(
         effective_verdict=effective,
         fail_closed=True,
         source_engine='TAAQOL',
+        taaqol_center_scope=taaqol_center_scope,
     )
 
 
@@ -137,18 +140,29 @@ def _build_slot_graph(bundle, taaqol):
     ResidualKind     = taaqol.ResidualKind
     FailureCode      = taaqol.FailureCode
 
-    surface         = getattr(bundle, 'original_surface', '') or 'unknown'
-    claim_id        = getattr(bundle, 'claim_id', '') or f'hokom:{surface}'
-    domain_directive = getattr(bundle, 'domain_directive', 'DEFER') or 'DEFER'
-    active_residuals = tuple(getattr(bundle, 'active_residuals', ()) or ())
+    original_surface  = getattr(bundle, 'original_surface', '') or 'unknown'
+    claim_id          = getattr(bundle, 'claim_id', '') or f'hokom:{original_surface}'
+    domain_directive  = getattr(bundle, 'domain_directive', 'DEFER') or 'DEFER'
+    active_residuals  = tuple(getattr(bundle, 'active_residuals', ()) or ())
+
+    # ── Morphological center (HOKOM-TAAQOL-LIVE-INTEGRATION-01-RESUME) ───────
+    # INVARIANT: Center.scope MUST be the segment_host (lexical host after clitic
+    # segmentation), NOT original_surface.
+    # original_surface is provenance only — it encodes full token with clitics.
+    # segment_host is the canonical morphological identity stripped of clitics.
+    morphological_center = (
+        getattr(bundle, 'segment_host', None)
+        or getattr(bundle, 'morphology_surface', None)
+        or original_surface  # last-resort fallback: no segmentation data
+    )
 
     # ── Center ───────────────────────────────────────────────────────────────
-    anchor = claim_id or f'hokom:{surface}'
+    anchor = claim_id or f'hokom:{original_surface}'
     trace_ref = TraceRef(anchor=anchor, kind='hokom_claim')
     center = Center(
         identity_claim=anchor,
         domain='hokom_morphology',
-        scope=surface,
+        scope=morphological_center,
         trace_ref=trace_ref,
     )
 
@@ -363,6 +377,25 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
     upstream_verdict = str(getattr(bundle, 'domain_directive', 'DEFER') or 'DEFER')
     trace: list = []
 
+    # ── Compute morphological center (before import so all paths can use it) ──
+    # INVARIANT: Center.scope = segment_host, NOT original_surface.
+    # original_surface is provenance only.
+    # Clitic-only tokens have no lexical host → center is None (never original_surface).
+    _original_surface    = getattr(bundle, 'original_surface', '') or 'unknown'
+    _morphology_blocked  = bool(getattr(bundle, 'morphology_blocked', False))
+    _segment_clitic_only = bool(getattr(bundle, 'segment_clitic_only', False))
+
+    if _morphology_blocked or _segment_clitic_only:
+        # No morphological center — clitic-only or segmentation failure.
+        # NEVER use original_surface as center for these cases.
+        _morphological_center = None
+    else:
+        _morphological_center = (
+            getattr(bundle, 'segment_host', None)
+            or getattr(bundle, 'morphology_surface', None)
+            or _original_surface  # last-resort: no segmentation data at all
+        )
+
     # ── Import Taaqol (FAIL-CLOSED on ImportError) ────────────────────────────
     # taaqqul_slot_geometry requires Python 3.11+ (StrEnum).
     # On Python 3.10 this ImportError is expected and handled here.
@@ -386,6 +419,34 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             reason_codes=('TAAQOL_RUNTIME_UNAVAILABLE', f'ImportError:{e}'),
             residuals=('defer:taaqol:runtime_unavailable',),
             trace=tuple(trace),
+            taaqol_center_scope=_morphological_center,
+        )
+
+    # ── Clitic-only gate ─────────────────────────────────────────────────────
+    # If the segmenter found no lexical host (pure clitic construction, e.g. بِكُمْ),
+    # there is no morphological center — SlotGraph cannot be built.
+    # Return DEFERRED immediately rather than silently using the full token as center.
+    # (_morphology_blocked and _segment_clitic_only computed above, before import)
+    if _morphology_blocked or _segment_clitic_only:
+        _block_reason = (
+            getattr(bundle, 'morphology_block_reason', None)
+            or 'SEGMENTATION_NO_LEXICAL_HOST'
+        )
+        trace.append(HokomTaaqolTraceEvent(
+            step='clitic_only_gate',
+            component='SlotGraph',
+            input_digest='',
+            output=f'DEFERRED:no_lexical_host:{_block_reason}:surface={_original_surface!r}',
+            strict_mode=True,
+        ))
+        return _deferred_decision(
+            taaqol_commit=taaqol_commit,
+            hokom_commit=hokom_commit,
+            upstream_verdict=upstream_verdict,
+            reason_codes=('SEGMENTATION_NO_LEXICAL_HOST', _block_reason),
+            residuals=('defer:taaqol:clitic_only_no_center',),
+            trace=tuple(trace),
+            taaqol_center_scope=None,
         )
 
     # ── Step 1: Build SlotGraph ───────────────────────────────────────────────
@@ -400,7 +461,11 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             step='slot_graph_construction',
             component='SlotGraph',
             input_digest=_digest(str(getattr(bundle, 'claim_id', ''))),
-            output=f'SlotGraph(center={getattr(bundle, "claim_id", "")},rank={slot_graph.rank})',
+            output=(
+                f'SlotGraph(center={_morphological_center!r},'
+                f'rank={slot_graph.rank},'
+                f'original={_original_surface!r})'
+            ),
             strict_mode=True,
         ))
     except Exception as e:
@@ -418,6 +483,7 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             reason_codes=('SLOT_GRAPH_CONSTRUCTION_FAILED', f'{type(e).__name__}:{e}'),
             residuals=('defer:taaqol:slot_graph_construction_failed',),
             trace=tuple(trace),
+            taaqol_center_scope=_morphological_center,
         )
 
     # ── Step 2: Run Gamma ─────────────────────────────────────────────────────
@@ -447,6 +513,7 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             reason_codes=('GAMMA_EVALUATION_FAILED', f'{type(e).__name__}:{e}'),
             residuals=('defer:taaqol:gamma_failed',),
             trace=tuple(trace),
+            taaqol_center_scope=_morphological_center,
         )
 
     # ── Step 3: Build EvidenceContract ────────────────────────────────────────
@@ -474,6 +541,7 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             reason_codes=('EVIDENCE_CONTRACT_FAILED', f'{type(e).__name__}:{e}'),
             residuals=('defer:taaqol:evidence_failed',),
             trace=tuple(trace),
+            taaqol_center_scope=_morphological_center,
         )
 
     # ── Step 4: Run TransitionGate ────────────────────────────────────────────
@@ -514,6 +582,7 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             reason_codes=('TRANSITION_GATE_FAILED', f'{type(e).__name__}:{e}'),
             residuals=('defer:taaqol:gate_failed',),
             trace=tuple(trace),
+            taaqol_center_scope=_morphological_center,
         )
 
     # ── Step 5: Compose decision ──────────────────────────────────────────────
@@ -549,6 +618,7 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
         effective_verdict=effective_verdict,
         fail_closed=True,
         source_engine='TAAQOL',
+        taaqol_center_scope=_morphological_center,
     )
 
 

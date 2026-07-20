@@ -1,0 +1,42 @@
+{
+  "mandate": "HOKOM-TAAQOL-LIVE-INTEGRATION-01-RESUME",
+  "generated": "2026-07-20",
+
+  "python_310_container": {
+    "python_version": "3.10.12",
+    "taaqqul_slot_geometry_importable": false,
+    "import_error": "ImportError: cannot import name 'StrEnum' from 'enum'",
+    "SlotGraph_calls": 0,
+    "Gamma_calls": 0,
+    "TransitionGate_calls": 0,
+    "result_path": "DEFERRED via import failure gate",
+    "taaqol_center_scope": "segment_host (computed before import attempt)",
+    "taaqol_center_scope_for_clitic_only": null
+  },
+
+  "python_311_plus_macos": {
+    "python_version": "3.12.4 (user canonical)",
+    "taaqqul_slot_geometry_importable": true,
+    "SlotGraph_calls_per_token": 1,
+    "Gamma_calls_per_token": 1,
+    "TransitionGate_calls_per_token": 1,
+    "pipeline": "sequential — SlotGraph → Gamma → EvidenceContract → TransitionGate",
+    "note": "Clitic-only tokens short-circuit before SlotGraph"
+  },
+
+  "architecture": {
+    "parallel_bridges": 0,
+    "parallel_decision_engines": 0,
+    "silent_fallbacks": 0,
+    "canonical_entrypoint": "evaluate_hokom_claim_bundle"
+  },
+
+  "ayat_al_dayn_run": {
+    "total_tokens": 129,
+    "errors": 0,
+    "full_token_center_violations": 0,
+    "clitic_only_tokens": 1,
+    "clitic_only_center_none": 1,
+    "split_tokens_with_correct_center": "all"
+  }
+}

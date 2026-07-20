@@ -1,0 +1,29 @@
+{
+  "mandate": "HOKOM-TAAQOL-LIVE-INTEGRATION-01-RESUME",
+  "generated": "2026-07-20",
+  "verse": "2:282 Ayat al-Dayn",
+  "total_tokens": 129,
+  "errors": 0,
+  "full_token_center_violations": 0,
+  "clitic_only_violations": 0,
+  "clitic_only_tokens": 1,
+  "clitic_only_correct_deferred": 1,
+  "split_tokens": 50,
+  "unsplit_tokens": 78,
+  "all_centers_correct": true,
+
+  "sample_split_cases": [
+    {"surface": "بِدَيْنٍ", "host": "دَيْنٍ", "center": "دَيْنٍ", "ok": true},
+    {"surface": "بِالْعَدْلِ", "host": "عَدْلِ", "center": "عَدْلِ", "ok": true},
+    {"surface": "وَلْيَكْتُبْ", "host": "يَكْتُبْ", "center": "يَكْتُبْ", "ok": true},
+    {"surface": "فَلْيَكْتُبْ", "host": "يَكْتُبْ", "center": "يَكْتُبْ", "ok": true},
+    {"surface": "مِنْهُ", "host": "مِنْ", "center": "مِنْ", "ok": true},
+    {"surface": "لِلشَّهَادَةِ", "host": "شْشَهَادَةِ", "center": "شْشَهَادَةِ", "ok": true},
+    {"surface": "بِكُمْ", "host": null, "center": null, "clitic_only": true, "ok": true},
+    {"surface": "وَلَا", "host": "لَا", "center": "لَا", "ok": true}
+  ],
+
+  "python_version_in_container": "3.10.12",
+  "taaqol_live_calls": "DEFERRED on Python 3.10 (expected)",
+  "note": "On Python 3.12 (macOS canonical), SlotGraph/Gamma/TransitionGate execute live."
+}

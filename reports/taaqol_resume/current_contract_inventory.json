@@ -1,0 +1,73 @@
+{
+  "generated": "2026-07-20",
+  "starting_head": "b992d7e",
+  "mandate": "HOKOM-TAAQOL-LIVE-INTEGRATION-01-RESUME",
+
+  "claim_bundle_construction": {
+    "file": "pipeline/taaqol_integration/claim_adapter.py",
+    "function": "bundle_from_hokom_result",
+    "line_approx": 37,
+    "called_from": "hokom_pipeline.py:539"
+  },
+
+  "claim_adapter_call_site": "hokom_pipeline.py:537-540",
+  "evaluate_hokom_claim_bundle_call_site": "hokom_pipeline.py:540",
+
+  "center_scope": {
+    "file": "pipeline/taaqol_integration/live/bridge.py",
+    "function": "_build_slot_graph",
+    "field_before_fix": "original_surface",
+    "field_after_fix": "segment_host or morphology_surface or original_surface",
+    "invariant": "ORIGINAL_SURFACE_AS_CENTER_SCOPE=FORBIDDEN"
+  },
+
+  "segment_bundle_in_claim_bundle": true,
+  "segment_host_in_claim_bundle": true,
+  "segment_proclitics_in_claim_bundle": true,
+  "segment_definite_article_in_claim_bundle": true,
+  "segment_enclitics_in_claim_bundle": true,
+  "segment_clitic_only_in_claim_bundle": true,
+
+  "proclitics_reach_bridge": true,
+  "article_reaches_bridge": true,
+  "enclitics_reach_bridge": true,
+
+  "host_none_handling": {
+    "gate": "clitic_only_gate in evaluate_hokom_claim_bundle",
+    "location": "bridge.py before Step 1 (SlotGraph)",
+    "condition": "morphology_blocked=True OR segment_clitic_only=True",
+    "result": "DEFERRED with reason_codes=['SEGMENTATION_NO_LEXICAL_HOST', ...]",
+    "center_scope_on_blocked": null,
+    "licensed_possible": false
+  },
+
+  "original_surface_uses": [
+    "local variable _original_surface (provenance)",
+    "HokomTaaqolTraceEvent.output (traceability)",
+    "TraceRef anchor: f'hokom:{original_surface}'"
+  ],
+  "original_surface_as_center_scope": false,
+
+  "effective_verdict_composition": "compose_effective_verdict(upstream_verdict, taaqol_verdict)",
+  "composition_module": "pipeline/taaqol_integration/live/decision_composition.py",
+
+  "live_calls_python_310": {
+    "SlotGraph": 0,
+    "Gamma": 0,
+    "TransitionGate": 0,
+    "reason": "ImportError on Python 3.10 — DEFERRED before evaluation"
+  },
+  "live_calls_python_311_plus": {
+    "SlotGraph": 1,
+    "Gamma": 1,
+    "TransitionGate": 1,
+    "note": "sequential, one bridge, no parallelism"
+  },
+
+  "full_token_center_uses": 0,
+  "original_surface_as_center_count": 0,
+  "clitic_only_violations": 0,
+  "silent_fallbacks": 0,
+  "parallel_bridges": 0,
+  "vendor_modifications": 0
+}

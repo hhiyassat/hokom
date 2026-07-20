@@ -146,6 +146,40 @@ def bundle_from_hokom_result(result: dict, token_id: str | None = None) -> Hokom
     # Refined host
     refined_host = result.get('canonical_surface') or result.get('normalized_surface')
 
+    # Segmentation boundary fields (HOKOM-TAAQOL-LIVE-INTEGRATION-01)
+    morphology_surface = result.get('morphology_surface')
+    morphology_blocked = bool(result.get('morphology_blocked', False))
+    morphology_block_reason = result.get('morphology_block_reason')
+    segment_bundle = result.get('segment_bundle')
+
+    # RESUME fields: canonical SegmentBundle pass-through
+    # Read from result dict (added to _hokom_result_partial by pipeline)
+    # and fall back to segment_bundle attributes if not directly present.
+    _sb = segment_bundle
+    segment_host = (
+        result.get('segment_host')
+        or (getattr(_sb, 'host', None) if _sb else None)
+    )
+    segment_proclitics = tuple(
+        result.get('segment_proclitics')
+        or (getattr(_sb, 'proclitics', ()) if _sb else ())
+    )
+    segment_definite_article = (
+        result.get('segment_definite_article')
+        or (getattr(_sb, 'definite_article', None) if _sb else None)
+    )
+    segment_enclitics = tuple(
+        result.get('segment_enclitics')
+        or (getattr(_sb, 'enclitics', ()) if _sb else ())
+    )
+    segment_clitic_only = bool(
+        result.get('segment_clitic_only')
+        if result.get('segment_clitic_only') is not None
+        else (getattr(_sb, 'clitic_only', False) if _sb else False)
+    )
+    _raw_verdict = getattr(_sb, 'verdict', None) if _sb else None
+    segment_verdict = str(_raw_verdict) if _raw_verdict is not None else None
+
     provenance = _build_provenance(result, surface, source_engine)
     return HokomLinguisticClaimBundle(
         claim_id=f'hokom:{token_id or uuid.uuid4().hex[:12]}:{surface}',
@@ -171,4 +205,14 @@ def bundle_from_hokom_result(result: dict, token_id: str | None = None) -> Hokom
         catalog_versions=(),
         engine_version=HOKOM_ENGINE_VERSION,
         provenance=provenance,
+        morphology_surface=morphology_surface,
+        morphology_blocked=morphology_blocked,
+        morphology_block_reason=morphology_block_reason,
+        segment_bundle=segment_bundle,
+        segment_host=segment_host,
+        segment_proclitics=segment_proclitics,
+        segment_definite_article=segment_definite_article,
+        segment_enclitics=segment_enclitics,
+        segment_clitic_only=segment_clitic_only,
+        segment_verdict=segment_verdict,
     )

@@ -1,0 +1,47 @@
+{
+  "mandate": "HOKOM-TAAQOL-LIVE-INTEGRATION-01-RESUME",
+  "generated": "2026-07-20",
+  "python_version_in_container": "3.10.12",
+  "canonical_python_version": "3.12.4 (macOS)",
+
+  "new_tests": {
+    "test_segment_aware_slot_graph.py": 8,
+    "test_clitic_only_fail_closed.py": 7,
+    "test_no_full_token_center.py": 16,
+    "test_no_parallel_bridge.py": 6,
+    "test_ayat_al_dayn_segment_aware.py": 30,
+    "total": 67
+  },
+
+  "run_1": {
+    "passed": 4947,
+    "skipped": 50,
+    "failed": 10,
+    "subtests_passed": 132,
+    "failures": [
+      "tests/runtime/test_native_strenum.py::test_native_strenum_importable",
+      "tests/runtime/test_native_strenum.py::test_native_strenum_module",
+      "tests/runtime/test_native_strenum.py::test_strenum_works_natively",
+      "tests/runtime/test_no_compatibility_injection.py::test_no_enum_strenum_monkey_patch",
+      "tests/runtime/test_packaging_python_requires.py::test_python_311_minimum",
+      "tests/runtime/test_packaging_python_requires.py::test_python_version_is_311_plus",
+      "tests/runtime/test_python_runtime_imports.py::test_python_311_plus",
+      "tests/runtime/test_python_version_contract.py::test_python_version_at_least_311",
+      "tests/runtime/test_python_version_contract.py::test_python_minor_at_least_11",
+      "tests/runtime/test_taaqol_import_readiness.py::test_python_version_for_taaqol"
+    ],
+    "failure_reason": "Python 3.10 in container vs 3.11+ requirement (expected)"
+  },
+
+  "run_2": {
+    "passed": 4947,
+    "skipped": 50,
+    "failed": 10,
+    "subtests_passed": 132
+  },
+
+  "deterministic": true,
+  "run_1_equals_run_2": true,
+  "new_failures_introduced": 0,
+  "all_new_tests_pass": true
+}

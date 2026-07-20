@@ -49,6 +49,24 @@ class HokomLinguisticClaimBundle:
     # Amendment No. 1: optional provenance field (backward-compatible)
     provenance: Optional[object] = field(default=None)  # ClaimProvenance | None
 
+    # Amendment No. 2: segmentation boundary fields (HOKOM-TAAQOL-LIVE-INTEGRATION-01)
+    # morphology_surface is the lexical host extracted by the clitic segmenter.
+    # original_surface is provenance only — NEVER used for morphological analysis.
+    morphology_surface: Optional[str] = field(default=None)      # segment_bundle.host
+    morphology_blocked: bool = field(default=False)               # True for clitic-only tokens
+    morphology_block_reason: Optional[str] = field(default=None)  # e.g. 'SEGMENTATION_NO_LEXICAL_HOST'
+    segment_bundle: Optional[object] = field(default=None)        # SegmentBundle | None
+
+    # Amendment No. 3: canonical SegmentBundle field pass-through
+    # (HOKOM-TAAQOL-LIVE-INTEGRATION-01-RESUME)
+    # These fields mirror SegmentBundle for direct use by bridge without bundle inspection.
+    segment_host: Optional[str] = field(default=None)             # canonical morphological host
+    segment_proclitics: tuple = field(default=())                 # proclitic surfaces
+    segment_definite_article: Optional[str] = field(default=None) # article boundary surface
+    segment_enclitics: tuple = field(default=())                  # enclitic surfaces
+    segment_clitic_only: bool = field(default=False)              # True when host is None
+    segment_verdict: Optional[str] = field(default=None)          # SegmentationVerdict string
+
     def to_dict(self) -> dict:
         return {
             'claim_id': self.claim_id,
