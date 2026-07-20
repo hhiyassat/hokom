@@ -1,0 +1,19 @@
+{
+  "_schema_version": "1",
+  "_mandate": "HOKOM-CONSTITUTIONAL-AMENDMENT-02",
+  "platform": "macOS",
+  "python_version": "3.12.4",
+  "python_version_tuple": [3, 12, 4],
+  "virtual_environment": ".venv-py312",
+  "python_executable_suffix": ".venv-py312/bin/python",
+  "canonical_entrypoint_module": "hokom_pipeline",
+  "canonical_entrypoint_function": "hokom",
+  "canonical_test_runs": 2,
+  "python_hash_seed": "0",
+  "pytest_plugin_autoload": false,
+  "compatibility_runtimes": [
+    {"platform": "linux", "python_version": "3.10", "note": "CI only, not closure-eligible"}
+  ],
+  "closure_runtime_is_unique": true,
+  "note": "Only macOS Python 3.12.4 .venv-py312 is closure-eligible. All other runtimes are COMPATIBILITY_RUNTIME only."
+}

@@ -1,0 +1,120 @@
+{
+  "_schema_version": "1",
+  "_mandate": "HOKOM-CONSTITUTIONAL-AMENDMENT-02",
+  "_description": "Canonical entrypoint probes. Each probe is verified via hokom(token). Results observed from Phase 0 on Linux/Python 3.10 with WIRING BUG PRESENT. After wiring fix (canonical_normalize for segmenter), expected values reflect correct segmentation.",
+  "_wiring_bug_note": "hokom_pipeline.py passed normalize(word) to SegmentationRequest.normalized_surface. normalize() expands shadda (شَّ→شْشَ) and madda (آ→ءَا), corrupting segmenter input. Fix: use canonical_normalize(word) for segmenter only.",
+  "entrypoint": "hokom_pipeline.hokom",
+  "probes": [
+    {
+      "id": "probe:آمَنُوا",
+      "token": "آمَنُوا",
+      "contracts": [
+        {"field": "original_surface", "op": "eq", "value": "آمَنُوا"},
+        {"field": "segment_host", "op": "not_contains_str", "value": "آ", "note": "madda must be expanded"},
+        {"field": "morphology_surface", "op": "not_contains_str", "value": "آ"},
+        {"field": "segment_host", "op": "not_eq", "value": "آمَنُوا", "note": "host must differ — madda expanded"},
+        {"field": "segment_proclitics", "op": "eq", "value": []}
+      ]
+    },
+    {
+      "id": "probe:بِدَيْنٍ",
+      "token": "بِدَيْنٍ",
+      "contracts": [
+        {"field": "original_surface", "op": "eq", "value": "بِدَيْنٍ"},
+        {"field": "segment_host_bare", "op": "eq", "value": "دين"},
+        {"field": "segment_proclitics_bare", "op": "contains", "value": "ب"},
+        {"field": "morphology_blocked", "op": "eq", "value": false}
+      ]
+    },
+    {
+      "id": "probe:بِالْعَدْلِ",
+      "token": "بِالْعَدْلِ",
+      "contracts": [
+        {"field": "segment_host_bare", "op": "eq", "value": "عدل"},
+        {"field": "segment_proclitics_bare", "op": "contains", "value": "ب"}
+      ]
+    },
+    {
+      "id": "probe:وَلِيُّهُ",
+      "token": "وَلِيُّهُ",
+      "contracts": [
+        {"field": "segment_proclitics", "op": "eq", "value": []},
+        {"field": "segment_enclitics_bare", "op": "contains", "value": "ه"},
+        {"field": "segment_host_bare", "op": "starts_with", "value": "ولي"}
+      ]
+    },
+    {
+      "id": "probe:لِلشَّهَادَةِ",
+      "token": "لِلشَّهَادَةِ",
+      "contracts": [
+        {"field": "segment_proclitics_bare", "op": "contains", "value": "ل"},
+        {"field": "segment_host_bare", "op": "eq", "value": "شهادة"}
+      ]
+    },
+    {
+      "id": "probe:أَيُّهَا",
+      "token": "أَيُّهَا",
+      "contracts": [
+        {"field": "segment_enclitics", "op": "eq", "value": []}
+      ]
+    },
+    {
+      "id": "probe:الَّذِي",
+      "token": "الَّذِي",
+      "contracts": [
+        {"field": "segment_enclitics", "op": "eq", "value": []}
+      ]
+    },
+    {
+      "id": "probe:اللَّهُ",
+      "token": "اللَّهُ",
+      "contracts": [
+        {"field": "segment_enclitics", "op": "eq", "value": []}
+      ]
+    },
+    {
+      "id": "probe:اللَّهَ",
+      "token": "اللَّهَ",
+      "contracts": [
+        {"field": "segment_enclitics", "op": "eq", "value": []}
+      ]
+    },
+    {
+      "id": "probe:اللَّهِ",
+      "token": "اللَّهِ",
+      "contracts": [
+        {"field": "segment_enclitics", "op": "eq", "value": []}
+      ]
+    },
+    {
+      "id": "probe:بِكُمْ",
+      "token": "بِكُمْ",
+      "contracts": [
+        {"field": "morphology_blocked", "op": "eq", "value": true},
+        {"field": "segment_host", "op": "is_none"}
+      ]
+    },
+    {
+      "id": "probe:يَكُونَا",
+      "token": "يَكُونَا",
+      "contracts": [
+        {"field": "segment_enclitics", "op": "eq", "value": []}
+      ]
+    },
+    {
+      "id": "probe:سَفِيهًا",
+      "token": "سَفِيهًا",
+      "contracts": [
+        {"field": "segment_proclitics", "op": "eq", "value": []}
+      ]
+    },
+    {
+      "id": "probe:وَلْيَكْتُبْ",
+      "token": "وَلْيَكْتُبْ",
+      "contracts": [
+        {"field": "segment_proclitics_bare", "op": "contains", "value": "و"},
+        {"field": "segment_proclitics_bare", "op": "contains", "value": "ل"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "_schema_version": "1",
+  "_mandate": "HOKOM-CONSTITUTIONAL-AMENDMENT-02",
+  "obligations": [
+    {
+      "obligation_id": "OBL-01",
+      "owner": "HOKOM",
+      "reason": "hokom_pipeline.py passed normalize(word) to SegmentationRequest.normalized_surface. normalize() expands shadda (شَّ→شْشَ, يُّ→يْيُ) and alef-madda (آ→ءَا), corrupting segmenter input. canonical_normalize() must be used instead for the segmenter only.",
+      "affected_tokens": ["وَلِيُّهُ", "لِلشَّهَادَةِ", "اللَّهُ", "الَّذِي", "أَيُّهَا", "آمَنُوا"],
+      "affected_contract": "SEGMENTER_RECEIVES_CANONICAL_NORMALIZED_SURFACE",
+      "introduced_commit": "pre-70bee7e",
+      "discovered_commit": "70bee7e",
+      "target_stage": "HOKOM-NORMALIZATION-SEGMENTATION-POST-CLOSURE-DEFECT-01",
+      "status": "FIXED",
+      "fix_description": "In hokom_pipeline.py: added import of canonical_normalize; created _seg_normalized_surface = canonical_normalize(word); passed _seg_normalized_surface to SegmentationRequest.normalized_surface while keeping normalize(word) for phonological pipeline.",
+      "note": "Phase 0 probes confirmed: with old normalize(), وَلِيُّهُ → segment_host='يْيُ' (shadda expansion corrupted segmenter). After fix, correct segmentation expected."
+    },
+    {
+      "obligation_id": "OBL-02",
+      "owner": "HOKOM",
+      "reason": "Canonical probes must be verified on macOS Python 3.12.4 canonical runtime after wiring fix.",
+      "affected_contract": "CANONICAL_PROBES_ALL_PASS",
+      "introduced_commit": "70bee7e",
+      "target_stage": "HOKOM-CONSTITUTIONAL-AMENDMENT-02",
+      "status": "OPEN",
+      "note": "Linux/Python 3.10 is a COMPATIBILITY_RUNTIME only. Full canonical gate must run on macOS 3.12.4."
+    }
+  ]
+}

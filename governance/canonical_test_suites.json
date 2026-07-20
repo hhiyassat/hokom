@@ -1,0 +1,29 @@
+{
+  "_schema_version": "1",
+  "_mandate": "HOKOM-CONSTITUTIONAL-AMENDMENT-02",
+  "suites": {
+    "CANONICAL_CORE": {
+      "description": "Core correctness. Runs on canonical runtime only. FAILURES=0, SKIPS=0, XFAILS=0.",
+      "marker": "not compatibility and not external_oracle",
+      "paths": ["tests/"],
+      "excludes": ["tests/compatibility/", "tests/external_oracle/"],
+      "closure_requirements": {"failures": 0, "skips": 0, "xfails": 0, "xpasses": 0, "errors": 0}
+    },
+    "COMPATIBILITY": {
+      "description": "Python version gates, Linux-specific behavior. NOT closure-eligible.",
+      "marker": "compatibility",
+      "paths": ["tests/compatibility/"],
+      "closure_requirements": null
+    },
+    "EXTERNAL_ORACLE": {
+      "description": "HR2S and other external engines. HR2S_NOT_INSTALLED skips live here.",
+      "marker": "external_oracle",
+      "paths": ["tests/external_oracle/"],
+      "closure_requirements": null
+    }
+  },
+  "migration_required": {
+    "python_version_gate_tests": "move to tests/compatibility/",
+    "hr2s_skip_tests": "move to tests/external_oracle/"
+  }
+}

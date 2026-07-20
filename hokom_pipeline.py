@@ -22,6 +22,7 @@ import sys
 import uuid as _uuid
 from tokenizer    import tokenize, words_only
 from normalizer   import normalize
+from pipeline.p0_segmentation.normalization import canonical_normalize
 from syllabifier  import parse_phones, syllabify, word_gate, GATE_ICON
 from licensing    import license_phone
 from mabni_layer         import process_mabni, MabniBoundary, MabniOpen, MabniBlocked
@@ -53,12 +54,20 @@ def hokom(word: str) -> dict:
     # ── التمثيل الرباعي ───────────────────────────────────────────────────────
     input_surface      = word
     canonical_surface  = word                  # سياسة محافظة: لا تعديل على الهوية
-    normalized_surface = normalize(word)
+    normalized_surface = normalize(word)       # for phonological pipeline (syllabifier, phones)
 
     # ── P0: Clitic Segmentation (HOKOM-CLITIC-SEGMENTATION-OWNERSHIP-01) ────
     # Runs immediately after normalization, before all downstream stages.
     # Produces SegmentBundle; segment_host is passed where the full token
     # was previously used for root/word-class input.
+    #
+    # WIRING FIX (HOKOM-CONSTITUTIONAL-AMENDMENT-02):
+    #   The segmenter requires canonical_normalize() — NOT normalize().
+    #   normalize() expands shadda (شَّ→شْشَ) and madda (آ→ءَا), corrupting
+    #   segmenter input. canonical_normalize() preserves shadda and applies
+    #   only hamza/alef normalizations the segmenter expects.
+    _seg_normalized_surface = canonical_normalize(word)   # segmenter input only
+
     segment_bundle = None
     segment_host   = None   # None until set by segmenter; NEVER defaults to full token
     segment_proclitics = ()
@@ -70,7 +79,7 @@ def hokom(word: str) -> dict:
         _seg_req = SegmentationRequest(
             request_id=f'hokom:{input_surface}',
             original_surface=input_surface,
-            normalized_surface=normalized_surface,
+            normalized_surface=_seg_normalized_surface,  # canonical form for segmenter
         )
         segment_bundle = segment_token(_seg_req)
         segment_host        = segment_bundle.host  # None for clitic-only; NEVER falls back to full token
@@ -98,7 +107,13 @@ def hokom(word: str) -> dict:
             else 'SEGMENTATION_FAILED'
         )
     else:
-        morphology_surface = segment_host
+        # WIRING FIX (HOKOM-CONSTITUTIONAL-AMENDMENT-02):
+        # segment_host is in canonical form (from canonical_normalize-based segmenter).
+        # parse_phones() requires the expanded form: bare hamza (ء not أ/إ) and
+        # expanded shadda (كَّ → كْكَ). Apply normalize() to the canonical host so
+        # the phonological pipeline receives the form it expects.
+        # segment_host (canonical) is returned in the result dict for callers.
+        morphology_surface = normalize(segment_host)
         morphology_blocked = False
         morphology_block_reason = None
 

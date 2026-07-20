@@ -1,0 +1,5 @@
+{
+  "_schema_version": "1",
+  "approved_plugins": [],
+  "note": "No third-party plugins are approved. pytest runs with PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 except for built-in plugins."
+}

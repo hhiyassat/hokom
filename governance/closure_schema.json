@@ -1,0 +1,24 @@
+{
+  "_schema_version": "1",
+  "required_fields": [
+    "stage_id", "commit", "runtime", "worktree",
+    "canonical_core", "canonical_probes", "corpus_contracts",
+    "artifacts", "closure_eligible"
+  ],
+  "runtime_required": ["platform", "python", "executable"],
+  "worktree_required": ["tracked_clean", "vendor_clean"],
+  "canonical_core_required": ["run_1_exit", "run_2_exit", "failures", "skips", "node_ids_equal", "outcomes_equal"],
+  "closure_conditions": {
+    "commit_exists": true,
+    "tracked_worktree_clean": true,
+    "canonical_runtime_verified": true,
+    "canonical_core_failures": 0,
+    "canonical_core_skips": 0,
+    "canonical_probes_failures": 0,
+    "corpus_contract_failures": 0,
+    "run_1_equals_run_2": true,
+    "public_entrypoint_verified": true,
+    "artifact_commit_equals_head": true,
+    "vendor_modifications": 0
+  }
+}
