@@ -1,0 +1,67 @@
+{
+  "_schema_version": "1",
+  "_mandate": "HOKOM-DATA-BUNDLE-IMPORT",
+  "_generated_at": "2026-07-20",
+  "_commit_at_import": "4e0886a",
+  "files": [
+    {
+      "path": "data/jawamid/jawamid.xlsx",
+      "status": "INSTALLED",
+      "loader_status": "READY_EXISTING_FILE",
+      "pipeline_status": "DATA_PRESENT_NO_LOADER",
+      "notes": "Taxonomy reference. Match rule: segment_host (not original_surface). الله added to اسم الذات and اسم علم. إبراهيم، يعقوب، جبل added. No operational loader yet — ALLAH_UNPROTECTED defect requires a dedicated stage.",
+      "requires": [
+        "canonical owner (jawamid_layer.py or extension of mabni_inventory)",
+        "loader reading Jawamid_Classification sheet",
+        "match on segment_host contract",
+        "ALLAH_UNPROTECTED fix stage"
+      ]
+    },
+    {
+      "path": "data/golden_name_base.csv",
+      "status": "PENDING_UPLOAD",
+      "loader_status": "NO_LOADER",
+      "pipeline_status": "NOT_INSTALLED",
+      "expected_columns": ["Word_Clean", "Status", "Count", "Source_Line"],
+      "notes": "Cleaned from tab-delimited. Not yet uploaded to repository."
+    },
+    {
+      "path": "data/source/golden_name_base.raw.csv",
+      "status": "PENDING_UPLOAD",
+      "loader_status": "NO_LOADER",
+      "pipeline_status": "NOT_INSTALLED",
+      "notes": "Raw source preserved without modification. Not yet uploaded."
+    },
+    {
+      "path": "data/Huruf_Maani_Five_Scholars_With_Ibn_Hisham.xlsx",
+      "status": "PENDING_UPLOAD",
+      "loader_status": "NO_LOADER",
+      "pipeline_status": "NOT_INSTALLED",
+      "notes": "Five-scholar huruf al-maani reference including Ibn Hisham. Not yet uploaded."
+    },
+    {
+      "path": "data/huruf_muqattaa.csv",
+      "status": "PENDING_UPLOAD",
+      "loader_status": "NO_LOADER",
+      "pipeline_status": "NOT_INSTALLED",
+      "notes": "Quranic disconnected letters catalog. Not yet uploaded."
+    }
+  ],
+  "open_defects": [
+    {
+      "defect_id": "ALLAH_UNPROTECTED",
+      "severity": "CRITICAL",
+      "description": "لفظ الجلالة (الله/اللَّهَ/اللَّهِ) routed as MabniOpen instead of MabniBoundary. Root engine produces (ء,ل,ل) or (و,ل,ل) for وَاللَّهُ.",
+      "found_in_audit": "HOKOM-AYAT-AL-DAYN-POST-ROUTING-SEMANTIC-AUDIT-01",
+      "root_cause": "لفظ الجلالة absent from mabni_inventory catalog. PROTECTED_WHOLE_TOKENS in segmenter is not forwarded to mabni boundary decision.",
+      "fix_owner": "pipeline/p5_lexical/mabni_inventory.py OR new jawamid_loader with boundary mapping",
+      "fix_stage": "HOKOM-ALLAH-LEXICAL-PROTECTION-CLOSURE-01 (pending)"
+    }
+  ],
+  "next_actions": [
+    "Upload missing files: golden_name_base.csv, Huruf_Maani_Five_Scholars_With_Ibn_Hisham.xlsx, huruf_muqattaa.csv",
+    "Implement ALLAH_UNPROTECTED fix (add لفظ الجلالة forms to mabni catalog as BOUNDARY entries)",
+    "Build jawamid_loader.py reading jawamid.xlsx with segment_host matching contract",
+    "Assign canonical owner for each data file"
+  ]
+}
