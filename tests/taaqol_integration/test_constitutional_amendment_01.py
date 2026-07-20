@@ -649,15 +649,27 @@ class TestProvenanceIntegration:
 
 
 class TestStep6Status:
-    """Step 6 is IMPLEMENTED_DEFERRED_ACTIVATION until Python 3.11 confirmed."""
+    """Step 6 implementation contract: native path or DEFERRED, no skip allowed."""
 
-    def test_step6_defers_on_python_310(self):
-        """On Python 3.10, admission gate must report DEFERRED for native path."""
-        if sys.version_info >= (3, 11):
-            pytest.skip("Python 3.11+ -- native path may be APPROVED, not testing deferral")
-        from pipeline.taaqol_integration.admission_gate import _NATIVE_AVAILABLE
-        assert not _NATIVE_AVAILABLE, \
-            "On Python 3.10, native taaqqul_slot_geometry must not be available without backport"
+    def test_step6_native_availability_is_consistent(self):
+        """Admission gate native-availability flags are internally consistent.
+
+        This is the positive canonical contract. The version-specific assertion
+        (not _NATIVE_AVAILABLE on Python 3.10) lives in
+        tests/compatibility/test_constitutional_amendment_01_pre311.py.
+        """
+        from pipeline.taaqol_integration.admission_gate import _NATIVE_AVAILABLE, _NATIVE_ERROR
+        assert isinstance(_NATIVE_AVAILABLE, bool), (
+            f"_NATIVE_AVAILABLE must be bool, got {type(_NATIVE_AVAILABLE)}"
+        )
+        if not _NATIVE_AVAILABLE:
+            assert _NATIVE_ERROR is not None, (
+                "_NATIVE_ERROR must record the import failure when native path is unavailable"
+            )
+        else:
+            assert _NATIVE_ERROR is None, (
+                "_NATIVE_ERROR must be None when native path is available"
+            )
 
     def test_step6_implementation_code_present(self):
         """Step 6 implementation code must exist in admission_gate.py."""
