@@ -1,0 +1,1063 @@
+{
+  "_meta": {
+    "task": "HOKOM-PRE-ROOT-CANONICAL-RADICAL-ACCOUNTING-OWNERSHIP-01",
+    "verse": "Al-Baqarah 2:282",
+    "date": "2026-07-21"
+  },
+  "summary": {
+    "total_tokens": 129,
+    "ACCEPT": 36,
+    "DEFER": 43,
+    "BLOCK": 0,
+    "None": 50
+  },
+  "tokens": [
+    {
+      "token": "يَا",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "أَيُّهَا",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "الَّذِينَ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "آمَنُوا",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ء",
+        "م",
+        "ن"
+      ],
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "إِذَا",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "تَدَايَنْتُمْ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": "FORM_VI"
+    },
+    {
+      "token": "بِدَيْنٍ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "د",
+        "ي",
+        "ن"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I"
+    },
+    {
+      "token": "إِلَى",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "أَجَلٍ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ء",
+        "ج",
+        "ل"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I"
+    },
+    {
+      "token": "مُسَمًّى",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "فَاكْتُبُوهُ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": "FORM_VIII"
+    },
+    {
+      "token": "وَلْيَكْتُبْ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "بَيْنَكُمْ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ب",
+        "ي",
+        "ن"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I"
+    },
+    {
+      "token": "كَاتِبٌ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ك",
+        "ت",
+        "ب"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FA3IL_PARTICIPLE"
+    },
+    {
+      "token": "بِالْعَدْلِ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ع",
+        "د",
+        "ل"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I"
+    },
+    {
+      "token": "وَلَا",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "يَأْبَ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": "FORM_I_IMPERFECT"
+    },
+    {
+      "token": "كَاتِبٌ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ك",
+        "ت",
+        "ب"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FA3IL_PARTICIPLE"
+    },
+    {
+      "token": "أَنْ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "يَكْتُبَ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ك",
+        "ت",
+        "ب"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I_IMPERFECT"
+    },
+    {
+      "token": "كَمَا",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "عَلَّمَهُ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ع",
+        "ل",
+        "م"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_II"
+    },
+    {
+      "token": "اللَّهُ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "فَلْيَكْتُبْ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "وَلْيُمْلِلِ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "الَّذِي",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "عَلَيْهِ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "الْحَقُّ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ح",
+        "ق",
+        "ق"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I"
+    },
+    {
+      "token": "وَلْيَتَّقِ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": "FORM_II"
+    },
+    {
+      "token": "اللَّهَ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "رَبَّهُ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ر",
+        "ب",
+        "ب"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I"
+    },
+    {
+      "token": "وَلَا",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "يَبْخَسْ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ب",
+        "خ",
+        "س"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I_IMPERFECT"
+    },
+    {
+      "token": "مِنْهُ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "شَيْئًا",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ش",
+        "ي",
+        "ء"
+      ],
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "فَإِنْ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "كَانَ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "الَّذِي",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "عَلَيْهِ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "الْحَقُّ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ح",
+        "ق",
+        "ق"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I"
+    },
+    {
+      "token": "سَفِيهًا",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "أَوْ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "ضَعِيفًا",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "أَوْ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "لَا",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "يَسْتَطِيعُ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ط",
+        "ي",
+        "ع"
+      ],
+      "cra_directive": "DEFER",
+      "form_family": "FORM_X"
+    },
+    {
+      "token": "أَنْ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "يُمِلَّ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "م",
+        "ل",
+        "ل"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I_IMPERFECT"
+    },
+    {
+      "token": "هُوَ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "فَلْيُمْلِلْ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "وَلِيُّهُ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "بِالْعَدْلِ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ع",
+        "د",
+        "ل"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I"
+    },
+    {
+      "token": "وَاسْتَشْهِدُوا",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ش",
+        "ه",
+        "د"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_X"
+    },
+    {
+      "token": "شَهِيدَيْنِ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "مِنْ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "رِجَالِكُمْ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "فَإِنْ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "لَمْ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "يَكُونَا",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "رَجُلَيْنِ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "فَرَجُلٌ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ر",
+        "ج",
+        "ل"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I"
+    },
+    {
+      "token": "وَامْرَأَتَانِ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "مِمَّنْ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "تَرْضَوْنَ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": "FORM_I_IMPERFECT"
+    },
+    {
+      "token": "مِنَ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "الشُّهَدَاءِ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "أَنْ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "تَضِلَّ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ض",
+        "ل",
+        "ل"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I_IMPERFECT"
+    },
+    {
+      "token": "إِحْدَاهُمَا",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": "FORM_IV"
+    },
+    {
+      "token": "فَتُذَكِّرَ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ذ",
+        "ك",
+        "ر"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_V"
+    },
+    {
+      "token": "إِحْدَاهُمَا",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": "FORM_IV"
+    },
+    {
+      "token": "الْأُخْرَى",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": "FORM_IV"
+    },
+    {
+      "token": "وَلَا",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "يَأْبَ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": "FORM_I_IMPERFECT"
+    },
+    {
+      "token": "الشُّهَدَاءُ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "إِذَا",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "مَا",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "دُعُوا",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "وَلَا",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "تَسْأَمُوا",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "س",
+        "ء",
+        "م"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I_IMPERFECT"
+    },
+    {
+      "token": "أَنْ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "تَكْتُبُوهُ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ك",
+        "ت",
+        "ب"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I_IMPERFECT"
+    },
+    {
+      "token": "صَغِيرًا",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "أَوْ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "كَبِيرًا",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "إِلَى",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "أَجَلِهِ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ء",
+        "ج",
+        "ل"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I"
+    },
+    {
+      "token": "ذَلِكُمْ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "أَقْسَطُ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ق",
+        "س",
+        "ط"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_IV"
+    },
+    {
+      "token": "عِنْدَ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ع",
+        "ن",
+        "د"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I"
+    },
+    {
+      "token": "اللَّهِ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "وَأَقْوَمُ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": "FORM_IV"
+    },
+    {
+      "token": "لِلشَّهَادَةِ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "وَأَدْنَى",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": "FORM_IV"
+    },
+    {
+      "token": "أَلَّا",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": "FORM_II"
+    },
+    {
+      "token": "تَرْتَابُوا",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": "FORM_VIII"
+    },
+    {
+      "token": "إِلَّا",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "أَنْ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "تَكُونَ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "تِجَارَةً",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ج",
+        "ر",
+        "ة"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_VI"
+    },
+    {
+      "token": "حَاضِرَةً",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ح",
+        "ض",
+        "ر"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FA3IL_PARTICIPLE"
+    },
+    {
+      "token": "تُدِيرُونَهَا",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "بَيْنَكُمْ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ب",
+        "ي",
+        "ن"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I"
+    },
+    {
+      "token": "فَلَيْسَ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "عَلَيْكُمْ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "جُنَاحٌ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "أَلَّا",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": "FORM_II"
+    },
+    {
+      "token": "تَكْتُبُوهَا",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ك",
+        "ت",
+        "ب"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I_IMPERFECT"
+    },
+    {
+      "token": "وَأَشْهِدُوا",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ش",
+        "ه",
+        "د"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_IV"
+    },
+    {
+      "token": "إِذَا",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "تَبَايَعْتُمْ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": "FORM_VI"
+    },
+    {
+      "token": "وَلَا",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "يُضَارَّ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": "FORM_I_IMPERFECT"
+    },
+    {
+      "token": "كَاتِبٌ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ك",
+        "ت",
+        "ب"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FA3IL_PARTICIPLE"
+    },
+    {
+      "token": "وَلَا",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "شَهِيدٌ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "وَإِنْ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "تَفْعَلُوا",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ف",
+        "ع",
+        "ل"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I_IMPERFECT"
+    },
+    {
+      "token": "فَإِنَّهُ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "فُسُوقٌ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    },
+    {
+      "token": "بِكُمْ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "وَاتَّقُوا",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": "FORM_II"
+    },
+    {
+      "token": "اللَّهَ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "وَيُعَلِّمُكُمُ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ع",
+        "ل",
+        "م"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_II"
+    },
+    {
+      "token": "اللَّهُ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "وَاللَّهُ",
+      "rc_directive": null,
+      "root": null,
+      "cra_directive": null,
+      "form_family": null
+    },
+    {
+      "token": "بِكُلِّ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ك",
+        "ل",
+        "ل"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I"
+    },
+    {
+      "token": "شَيْءٍ",
+      "rc_directive": "ACCEPT",
+      "root": [
+        "ش",
+        "ي",
+        "ء"
+      ],
+      "cra_directive": "ACCEPT",
+      "form_family": "FORM_I"
+    },
+    {
+      "token": "عَلِيمٌ",
+      "rc_directive": "DEFER",
+      "root": null,
+      "cra_directive": "DEFER",
+      "form_family": null
+    }
+  ]
+}

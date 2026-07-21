@@ -1,0 +1,268 @@
+{
+  "_meta": {
+    "task": "HOKOM-PRE-ROOT-CANONICAL-RADICAL-ACCOUNTING-OWNERSHIP-01",
+    "description": "حالات اختبار المحاسبة الكنسية للجذر — آية الدين وضوابط سالبة",
+    "date": "2026-07-21",
+    "clusters": {
+      "VERB_PREFIX_NOT_STRIPPED": "بادئة المضارع يَ/تَ/نَ/أَ لم تُجرَّد",
+      "GEMINATE_DEDUP_GAP": "الشدة مُعدودة حرفين بدل واحد",
+      "PATTERN_EXTENSION_COUNTED_AS_RADICAL": "زيادات Form II–X مُحسوبة كجذر",
+      "WEAK_VERB_PRE_ROOT_GAP": "الفعل المعتل لم يُؤجَّل"
+    }
+  },
+  "positive_cases": [
+    {
+      "id": "PC-01",
+      "cluster": "VERB_PREFIX_NOT_STRIPPED",
+      "token": "يَكْتُبُ",
+      "expected_cra_directive": "ACCEPT",
+      "expected_prefix_stripped": "يَ",
+      "expected_suffix_stripped": null,
+      "expected_root": ["ك", "ت", "ب"],
+      "expected_form_family": "FORM_I_IMPERFECT",
+      "note": "يَ مضارع ثلاثي مجرد"
+    },
+    {
+      "id": "PC-02",
+      "cluster": "VERB_PREFIX_NOT_STRIPPED",
+      "token": "تَكْتُبُ",
+      "expected_cra_directive": "ACCEPT",
+      "expected_prefix_stripped": "تَ",
+      "expected_suffix_stripped": null,
+      "expected_root": ["ك", "ت", "ب"],
+      "expected_form_family": "FORM_I_IMPERFECT",
+      "note": "تَ مضارع مؤنث/غائب"
+    },
+    {
+      "id": "PC-03",
+      "cluster": "VERB_PREFIX_NOT_STRIPPED",
+      "token": "تَكْتُبُوهُ",
+      "expected_cra_directive": "ACCEPT",
+      "expected_prefix_stripped": "تَ",
+      "expected_suffix_stripped": "و",
+      "expected_suffix_rule": "INFLECTIONAL_SUFFIX_WAW_JAMAA_BARE",
+      "expected_root": ["ك", "ت", "ب"],
+      "expected_form_family": "FORM_I_IMPERFECT",
+      "note": "واو مفردة بعد تجريد هُ enclitic"
+    },
+    {
+      "id": "PC-04",
+      "cluster": "VERB_PREFIX_NOT_STRIPPED",
+      "token": "تَسْأَمُوا",
+      "expected_cra_directive": "ACCEPT",
+      "expected_prefix_stripped": "تَ",
+      "expected_suffix_stripped": "وا",
+      "expected_root": ["س", "ء", "م"],
+      "expected_form_family": "FORM_I_IMPERFECT",
+      "note": "تَ مضارع + واو الجماعة + همزة جذر محفوظة"
+    },
+    {
+      "id": "PC-05",
+      "cluster": "VERB_PREFIX_NOT_STRIPPED",
+      "token": "تَفْعَلُوا",
+      "expected_cra_directive": "ACCEPT",
+      "expected_prefix_stripped": "تَ",
+      "expected_suffix_stripped": "وا",
+      "expected_root": ["ف", "ع", "ل"],
+      "expected_form_family": "FORM_I_IMPERFECT",
+      "note": "الوزن القياسي للمضارع الجمع"
+    },
+    {
+      "id": "PC-06",
+      "cluster": "VERB_PREFIX_NOT_STRIPPED",
+      "token": "يَذْهَبُ",
+      "expected_cra_directive": "ACCEPT",
+      "expected_root_contains": ["ذ", "ه", "ب"],
+      "note": "يَ مضارع ثلاثي مجرد"
+    },
+    {
+      "id": "PC-07",
+      "cluster": "GEMINATE_DEDUP_GAP",
+      "token": "يَشُدُّ",
+      "expected_cra_directive": "ACCEPT",
+      "expected_prefix_stripped": "يَ",
+      "expected_root": ["ش", "د", "د"],
+      "expected_root_length": 3,
+      "expected_form_family": "FORM_I_IMPERFECT",
+      "note": "الشدة = حرف جذر واحد (ليس حرفين)"
+    },
+    {
+      "id": "PC-08",
+      "cluster": "GEMINATE_DEDUP_GAP",
+      "token": "يَمُدُّ",
+      "expected_cra_directive": "ACCEPT",
+      "expected_root": ["م", "د", "د"],
+      "expected_root_length": 3,
+      "note": "مضعَّف: م-د-د"
+    },
+    {
+      "id": "PC-09",
+      "cluster": "GEMINATE_DEDUP_GAP",
+      "token": "تَشُكُّوا",
+      "expected_cra_directive": "ACCEPT",
+      "expected_root": ["ش", "ك", "ك"],
+      "expected_root_length": 3,
+      "note": "مضعَّف + واو الجماعة"
+    },
+    {
+      "id": "PC-10",
+      "cluster": "GEMINATE_DEDUP_GAP",
+      "token": "يُعَرِّفُ",
+      "expected_cra_directive": "ACCEPT",
+      "expected_form_family": "FORM_II",
+      "expected_root_contains": ["ع", "ر", "ف"],
+      "note": "Form II مضعَّف (عرّف)"
+    },
+    {
+      "id": "PC-11",
+      "cluster": "PATTERN_EXTENSION_COUNTED_AS_RADICAL",
+      "token": "وَاسْتَشْهِدُوا",
+      "expected_cra_directive": "ACCEPT",
+      "expected_form_family": "FORM_X",
+      "expected_suffix_stripped": "وا",
+      "expected_root": ["ش", "ه", "د"],
+      "note": "Form X: اسْتَـ زيادة اشتقاقية + واو العطف proclitic"
+    },
+    {
+      "id": "PC-12",
+      "cluster": "PATTERN_EXTENSION_COUNTED_AS_RADICAL",
+      "token": "وَأَشْهِدُوا",
+      "expected_cra_directive": "ACCEPT",
+      "expected_form_family": "FORM_IV",
+      "expected_suffix_stripped": "وا",
+      "expected_root": ["ش", "ه", "د"],
+      "note": "Form IV: أَـ زيادة اشتقاقية"
+    }
+  ],
+  "defer_cases": [
+    {
+      "id": "DC-01",
+      "cluster": "WEAK_VERB_PRE_ROOT_GAP",
+      "token": "يَقُولُ",
+      "expected_cra_directive": "DEFER",
+      "reason": "أجوف: و في موضع العين"
+    },
+    {
+      "id": "DC-02",
+      "cluster": "WEAK_VERB_PRE_ROOT_GAP",
+      "token": "يَخَافُ",
+      "expected_cra_directive": "DEFER",
+      "reason": "أجوف: ا في موضع العين"
+    },
+    {
+      "id": "DC-03",
+      "cluster": "WEAK_VERB_PRE_ROOT_GAP",
+      "token": "تَكُونُوا",
+      "expected_cra_directive": "DEFER",
+      "reason": "أجوف + جمع"
+    },
+    {
+      "id": "DC-04",
+      "cluster": "WEAK_VERB_PRE_ROOT_GAP",
+      "token": "يَدْعُو",
+      "expected_cra_directive": "DEFER",
+      "reason": "ناقص: واو الجذع"
+    },
+    {
+      "id": "DC-05",
+      "cluster": "WEAK_VERB_PRE_ROOT_GAP",
+      "token": "يَسْعَى",
+      "expected_cra_directive": "DEFER",
+      "reason": "ناقص: ألف مقصورة"
+    },
+    {
+      "id": "DC-06",
+      "cluster": "WEAK_VERB_PRE_ROOT_GAP",
+      "token": "نُور",
+      "expected_cra_directive": "DEFER",
+      "reason": "اسم أجوف: و في موضع العين"
+    }
+  ],
+  "closed_boundary_cases": [
+    {
+      "id": "CB-01",
+      "token": "اللَّهُ",
+      "expected_jamid": "JAMID_AALAM_BOUNDARY",
+      "expected_cra": null,
+      "expected_root": null
+    },
+    {
+      "id": "CB-02",
+      "token": "اللَّهَ",
+      "expected_jamid": "JAMID_AALAM_BOUNDARY",
+      "expected_cra": null,
+      "expected_root": null
+    },
+    {
+      "id": "CB-03",
+      "token": "اللَّهِ",
+      "expected_jamid": "JAMID_AALAM_BOUNDARY",
+      "expected_cra": null,
+      "expected_root": null
+    },
+    {
+      "id": "CB-04",
+      "token": "وَاللَّهُ",
+      "expected_jamid": "JAMID_AALAM_BOUNDARY",
+      "expected_cra": null,
+      "expected_root": null
+    },
+    {
+      "id": "CB-05",
+      "token": "فَاللَّهُ",
+      "expected_jamid": "JAMID_AALAM_BOUNDARY",
+      "expected_cra": null,
+      "expected_root": null
+    },
+    {
+      "id": "CB-06",
+      "token": "بِاللَّهِ",
+      "expected_jamid": "JAMID_AALAM_BOUNDARY",
+      "expected_cra": null,
+      "expected_root": null
+    },
+    {
+      "id": "CB-07",
+      "token": "لِلَّهِ",
+      "expected_jamid": "JAMID_AALAM_BOUNDARY",
+      "expected_cra": null,
+      "expected_root": null
+    }
+  ],
+  "negative_controls": [
+    {
+      "id": "NC-01",
+      "token": "أَكَلَ",
+      "assertion": "ء/أ is F1 radical, not stripped",
+      "expected_cra_directive": "DEFER",
+      "must_not": "accept 2-consonant root (ك,ل)"
+    },
+    {
+      "id": "NC-02",
+      "token": "أَخَذَ",
+      "assertion": "ء/أ is F1 radical",
+      "must_not": "strip أَ and accept (خ,ذ) as root"
+    },
+    {
+      "id": "NC-03",
+      "token": "تِين",
+      "assertion": "تِ is F1 radical in nominal path",
+      "expected_root_contains": ["ت"],
+      "must_not": "strip تِ as imperfect prefix"
+    },
+    {
+      "id": "NC-04",
+      "token": "نَوْمُ",
+      "assertion": "نَ is not stripped (و long vowel follows)",
+      "expected_prefix_stripped": null,
+      "must_not": "strip نَ from nominal (long vowel guard)"
+    },
+    {
+      "id": "NC-05",
+      "token": "يَوْمٌ",
+      "assertion": "يَ is not stripped (و long vowel follows)",
+      "expected_prefix_stripped": null,
+      "must_not": "strip يَ (يَوْ triggers long vowel guard)"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "_meta": {
+    "task": "HOKOM-PRE-ROOT-CANONICAL-RADICAL-ACCOUNTING-OWNERSHIP-01",
+    "module": "pipeline/p3_pre_root/canonical_radical_accounting.py",
+    "date": "2026-07-21"
+  },
+  "rules": [
+    {
+      "rule_id": "RULE_INFLECTIONAL_SUFFIX",
+      "description": "Strip known inflectional verbal suffix from segment_host when is_verbal=True",
+      "condition": "is_verbal=True AND segment_host ends with known suffix AND remaining consonants >= 2",
+      "suffixes": [
+        "تُمُوا",
+        "تُمْ",
+        "تُمَا",
+        "تِنَّ",
+        "تُنَّ",
+        "تُم",
+        "وا"
+      ],
+      "output_classification": "INFLECTIONAL_SUFFIX",
+      "prohibitions": [
+        "NO strip when not verbal",
+        "NO strip leaving < 2 consonants"
+      ]
+    },
+    {
+      "rule_id": "RULE_INFLECTIONAL_SUFFIX_WAW_JAMAA_BARE",
+      "description": "Strip bare waw (واو الجماعة) when clitic consumed the full وا",
+      "condition": "is_verbal=True AND host ends with solo و AND consonants before >= 2",
+      "output_classification": "INFLECTIONAL_SUFFIX",
+      "note": "Handles تَكْتُبُوهُ → segment_host=تَكْتُبُو"
+    },
+    {
+      "rule_id": "RULE_DERIVATIONAL_FAMILY",
+      "description": "Detect Form II-X via p2_augmented.detector.detect_augmented on bare stem",
+      "forms_handled": [
+        "FORM_II",
+        "FORM_III",
+        "FORM_IV",
+        "FORM_V",
+        "FORM_VI",
+        "FORM_VII",
+        "FORM_VIII",
+        "FORM_X"
+      ],
+      "output_classification": "DERIVATIONAL_EXTENSION for pattern affixes; RADICAL for core consonants",
+      "note": "Two-pass: first on suffix-stripped stem; fallback force-strips suffix when path is AMBIGUOUS"
+    },
+    {
+      "rule_id": "RULE_IMPERFECT_PREFIX",
+      "description": "Strip imperfect verb prefix (يَ/تَ/نَ/أَ) when verb evidence present",
+      "condition": "is_verbal=True AND stem starts with known prefix pair AND 3rd char not long vowel AND remaining consonants >= 2",
+      "prefixes": [
+        "يَ",
+        "يُ",
+        "يِ",
+        "تَ",
+        "تُ",
+        "تِ",
+        "نَ",
+        "نُ",
+        "نِ",
+        "أَ",
+        "أُ",
+        "أِ"
+      ],
+      "prohibitions": [
+        "NO strip when is_verbal=False",
+        "NO strip when 3rd char is و/ا/ي (long vowel — would strip from nominal like نَوْم)",
+        "NO strip when remaining < 2 consonants"
+      ],
+      "output_classification": "INFLECTIONAL_PREFIX"
+    },
+    {
+      "rule_id": "RULE_TRILATERAL_ROOT_RESOLVED",
+      "description": "Analyze bare stem for trilateral root via p3_candidate.root_rules",
+      "condition": "After suffix and prefix stripped; no augmented form detected",
+      "output_classification": "RADICAL for accepted consonants",
+      "note": "Weak consonants in root → DEFER not ACCEPT"
+    },
+    {
+      "rule_id": "RULE_WEAK_RADICAL",
+      "description": "Detect weak root identity in augmented root output",
+      "condition": "detect_augmented returns root with و/ي/ا/ى/أ/إ/ؤ/ئ/آ",
+      "directive": "DEFER",
+      "reason_code": "WEAK_RADICAL_IN_AUGMENTED_ROOT:DEFER"
+    },
+    {
+      "rule_id": "RULE_BLOCK_PRESERVATION",
+      "description": "Preserve BLOCK from pre_root — never reopen closed boundary",
+      "condition": "pre_root.root_path_directive == 'BLOCK'",
+      "directive": "BLOCK",
+      "reason_code": "CRA_PRESERVE_BLOCK:PRE_ROOT_BOUNDARY",
+      "prohibitions": [
+        "NO accept after BLOCK",
+        "NO root opened after JAMID_AALAM, OPERATOR, MABNI boundaries"
+      ]
+    }
+  ],
+  "invariants": [
+    "VERB_PREFIX_COUNTED_AS_RADICAL = 0",
+    "DERIVATIONAL_EXTENSION_COUNTED_AS_RADICAL = 0",
+    "INFLECTIONAL_SUFFIX_COUNTED_AS_RADICAL = 0",
+    "GEMINATION_RADICAL_IDENTITY_VIOLATIONS = 0",
+    "WEAK_RADICAL_UNLICENSED_ACCEPTS = 0",
+    "CANONICAL_RADICAL_ACCOUNTING_PROVENANCE_VIOLATIONS = 0",
+    "ROOT_AFTER_CLOSED_BOUNDARY = 0",
+    "FALSE_ACCEPT_AFTER_RADICAL_ACCOUNTING = 0",
+    "PRE_ROOT_GENERIC_DEFER_REASONS = 0"
+  ]
+}

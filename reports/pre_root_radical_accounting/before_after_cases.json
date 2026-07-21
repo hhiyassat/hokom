@@ -1,0 +1,560 @@
+{
+  "_meta": {
+    "task": "HOKOM-PRE-ROOT-CANONICAL-RADICAL-ACCOUNTING-OWNERSHIP-01",
+    "starting_head": "b706ced",
+    "date": "2026-07-21"
+  },
+  "summary": {
+    "cases_total": 31,
+    "false_defer_before": 18,
+    "false_defer_after": 0,
+    "legit_defer_before": 12,
+    "legit_defer_after": 12,
+    "accept_after": 19,
+    "resolved": 31,
+    "false_accept_introduced": 0
+  },
+  "cases": [
+    {
+      "token": "يَكْتُبُ",
+      "cluster": "VERB_PREFIX_NOT_STRIPPED",
+      "before_state": "FALSE_DEFER",
+      "after_state": "ACCEPT",
+      "after_rc_directive": "ACCEPT",
+      "after_root": [
+        "ك",
+        "ت",
+        "ب"
+      ],
+      "after_cra_directive": "ACCEPT",
+      "after_form_family": "FORM_I_IMPERFECT",
+      "after_reason_codes": [
+        "TRILATERAL_ROOT_ACCEPTED"
+      ],
+      "note": "يَ imperfect prefix not stripped by old engine",
+      "resolved": true
+    },
+    {
+      "token": "تَكْتُبُ",
+      "cluster": "VERB_PREFIX_NOT_STRIPPED",
+      "before_state": "FALSE_DEFER",
+      "after_state": "ACCEPT",
+      "after_rc_directive": "ACCEPT",
+      "after_root": [
+        "ك",
+        "ت",
+        "ب"
+      ],
+      "after_cra_directive": "ACCEPT",
+      "after_form_family": "FORM_I_IMPERFECT",
+      "after_reason_codes": [
+        "TRILATERAL_ROOT_ACCEPTED"
+      ],
+      "note": "تَ imperfect prefix not stripped by old engine",
+      "resolved": true
+    },
+    {
+      "token": "تَكْتُبُوهُ",
+      "cluster": "VERB_PREFIX_NOT_STRIPPED",
+      "before_state": "FALSE_DEFER",
+      "after_state": "ACCEPT",
+      "after_rc_directive": "ACCEPT",
+      "after_root": [
+        "ك",
+        "ت",
+        "ب"
+      ],
+      "after_cra_directive": "ACCEPT",
+      "after_form_family": "FORM_I_IMPERFECT",
+      "after_reason_codes": [
+        "TRILATERAL_ROOT_ACCEPTED"
+      ],
+      "note": "تَ prefix + waw suffix: both missed",
+      "resolved": true
+    },
+    {
+      "token": "يَسْتَطِيعُ",
+      "cluster": "VERB_PREFIX_NOT_STRIPPED+PATTERN_EXTENSION+WEAK_VERB",
+      "before_state": "ACCEPT_BY_AUGMENTED",
+      "after_state": "ACCEPT",
+      "after_rc_directive": "ACCEPT",
+      "after_root": [
+        "ط",
+        "ي",
+        "ع"
+      ],
+      "after_cra_directive": "DEFER",
+      "after_form_family": "FORM_X",
+      "after_reason_codes": [
+        "WEAK_RADICAL_IN_AUGMENTED_ROOT:DEFER"
+      ],
+      "note": "augmented engine handles Form X",
+      "resolved": true
+    },
+    {
+      "token": "تَسْأَمُوا",
+      "cluster": "VERB_PREFIX_NOT_STRIPPED",
+      "before_state": "FALSE_DEFER",
+      "after_state": "ACCEPT",
+      "after_rc_directive": "ACCEPT",
+      "after_root": [
+        "س",
+        "ء",
+        "م"
+      ],
+      "after_cra_directive": "ACCEPT",
+      "after_form_family": "FORM_I_IMPERFECT",
+      "after_reason_codes": [
+        "TRILATERAL_ROOT_ACCEPTED"
+      ],
+      "note": "تَ prefix + واو suffix not stripped",
+      "resolved": true
+    },
+    {
+      "token": "تَرْتَابُوا",
+      "cluster": "VERB_PREFIX_NOT_STRIPPED",
+      "before_state": "LEGIT_DEFER",
+      "after_state": "NONE",
+      "after_rc_directive": null,
+      "after_root": null,
+      "after_cra_directive": "DEFER",
+      "after_form_family": "FORM_VIII",
+      "after_reason_codes": [
+        "WEAK_RADICAL_IN_AUGMENTED_ROOT:DEFER"
+      ],
+      "note": "Form VIII hollow — legitimate defer",
+      "resolved": true
+    },
+    {
+      "token": "تَرْضَوْنَ",
+      "cluster": "VERB_PREFIX_NOT_STRIPPED+WEAK_VERB",
+      "before_state": "LEGIT_DEFER",
+      "after_state": "DEFER",
+      "after_rc_directive": "DEFER",
+      "after_root": null,
+      "after_cra_directive": "DEFER",
+      "after_form_family": "FORM_I_IMPERFECT",
+      "after_reason_codes": [
+        "defer:root:quadriliteral_beyond_scope"
+      ],
+      "note": "hollow weak — legitimate defer",
+      "resolved": true
+    },
+    {
+      "token": "تَكُونَ",
+      "cluster": "VERB_PREFIX_NOT_STRIPPED+WEAK_VERB",
+      "before_state": "LEGIT_DEFER",
+      "after_state": "DEFER",
+      "after_rc_directive": "DEFER",
+      "after_root": null,
+      "after_cra_directive": "DEFER",
+      "after_form_family": null,
+      "after_reason_codes": [
+        "defer:root:quadriliteral_beyond_scope"
+      ],
+      "note": "hollow كون — legitimate defer",
+      "resolved": true
+    },
+    {
+      "token": "يَكُونَا",
+      "cluster": "VERB_PREFIX_NOT_STRIPPED+WEAK_VERB",
+      "before_state": "LEGIT_DEFER",
+      "after_state": "DEFER",
+      "after_rc_directive": "DEFER",
+      "after_root": null,
+      "after_cra_directive": "DEFER",
+      "after_form_family": null,
+      "after_reason_codes": [
+        "defer:root:non_standard_consonant_count"
+      ],
+      "note": "hollow كون dual — legitimate defer",
+      "resolved": true
+    },
+    {
+      "token": "تَفْعَلُوا",
+      "cluster": "VERB_PREFIX_NOT_STRIPPED",
+      "before_state": "FALSE_DEFER",
+      "after_state": "ACCEPT",
+      "after_rc_directive": "ACCEPT",
+      "after_root": [
+        "ف",
+        "ع",
+        "ل"
+      ],
+      "after_cra_directive": "ACCEPT",
+      "after_form_family": "FORM_I_IMPERFECT",
+      "after_reason_codes": [
+        "TRILATERAL_ROOT_ACCEPTED"
+      ],
+      "note": "تَ prefix + واو suffix not stripped",
+      "resolved": true
+    },
+    {
+      "token": "يَشْهَدُ",
+      "cluster": "VERB_PREFIX_NOT_STRIPPED",
+      "before_state": "FALSE_DEFER",
+      "after_state": "ACCEPT",
+      "after_rc_directive": "ACCEPT",
+      "after_root": [
+        "ش",
+        "ه",
+        "د"
+      ],
+      "after_cra_directive": "ACCEPT",
+      "after_form_family": "FORM_I_IMPERFECT",
+      "after_reason_codes": [
+        "TRILATERAL_ROOT_ACCEPTED"
+      ],
+      "note": "يَ prefix not stripped",
+      "resolved": true
+    },
+    {
+      "token": "تُكَلِّمُوا",
+      "cluster": "VERB_PREFIX_NOT_STRIPPED+PATTERN_EXTENSION",
+      "before_state": "FALSE_DEFER",
+      "after_state": "ACCEPT",
+      "after_rc_directive": "ACCEPT",
+      "after_root": [
+        "ك",
+        "ل",
+        "م"
+      ],
+      "after_cra_directive": "ACCEPT",
+      "after_form_family": "FORM_V",
+      "after_reason_codes": [
+        "AUGMENTED_ROOT_ACCEPTED"
+      ],
+      "note": "Form V with waw suffix",
+      "resolved": true
+    },
+    {
+      "token": "يَقُولَ",
+      "cluster": "VERB_PREFIX_NOT_STRIPPED+WEAK_VERB",
+      "before_state": "LEGIT_DEFER",
+      "after_state": "DEFER",
+      "after_rc_directive": "DEFER",
+      "after_root": null,
+      "after_cra_directive": "DEFER",
+      "after_form_family": "FORM_I_IMPERFECT",
+      "after_reason_codes": [
+        "defer:root:hollow_underlying_radical_unresolved"
+      ],
+      "note": "hollow قول — legitimate defer",
+      "resolved": true
+    },
+    {
+      "token": "الْحَقُّ",
+      "cluster": "GEMINATE_DEDUP_GAP",
+      "before_state": "FALSE_DEFER",
+      "after_state": "ACCEPT",
+      "after_rc_directive": "ACCEPT",
+      "after_root": [
+        "ح",
+        "ق",
+        "ق"
+      ],
+      "after_cra_directive": "ACCEPT",
+      "after_form_family": "FORM_I",
+      "after_reason_codes": [
+        "TRILATERAL_ROOT_ACCEPTED"
+      ],
+      "note": "geminate root counted as 2 consonants, then not matched",
+      "resolved": true
+    },
+    {
+      "token": "فَتُذَكِّرَ",
+      "cluster": "GEMINATE_DEDUP_GAP+PATTERN_EXTENSION",
+      "before_state": "FALSE_DEFER",
+      "after_state": "ACCEPT",
+      "after_rc_directive": "ACCEPT",
+      "after_root": [
+        "ذ",
+        "ك",
+        "ر"
+      ],
+      "after_cra_directive": "ACCEPT",
+      "after_form_family": "FORM_V",
+      "after_reason_codes": [
+        "AUGMENTED_ROOT_ACCEPTED"
+      ],
+      "note": "Form V geminate",
+      "resolved": true
+    },
+    {
+      "token": "عَلَّمَهُ",
+      "cluster": "GEMINATE_DEDUP_GAP+PATTERN_EXTENSION",
+      "before_state": "FALSE_DEFER",
+      "after_state": "ACCEPT",
+      "after_rc_directive": "ACCEPT",
+      "after_root": [
+        "ع",
+        "ل",
+        "م"
+      ],
+      "after_cra_directive": "ACCEPT",
+      "after_form_family": "FORM_II",
+      "after_reason_codes": [
+        "AUGMENTED_ROOT_ACCEPTED"
+      ],
+      "note": "Form II with clitic",
+      "resolved": true
+    },
+    {
+      "token": "أَقَلَّ",
+      "cluster": "GEMINATE_DEDUP_GAP",
+      "before_state": "FALSE_DEFER",
+      "after_state": "ACCEPT",
+      "after_rc_directive": "ACCEPT",
+      "after_root": [
+        "ق",
+        "ل",
+        "ل"
+      ],
+      "after_cra_directive": "ACCEPT",
+      "after_form_family": "FORM_I_IMPERFECT",
+      "after_reason_codes": [
+        "TRILATERAL_ROOT_ACCEPTED"
+      ],
+      "note": "geminate comparative أَفْعَل",
+      "resolved": true
+    },
+    {
+      "token": "وَاسْتَشْهِدُوا",
+      "cluster": "PATTERN_EXTENSION",
+      "before_state": "FALSE_DEFER",
+      "after_state": "ACCEPT",
+      "after_rc_directive": "ACCEPT",
+      "after_root": [
+        "ش",
+        "ه",
+        "د"
+      ],
+      "after_cra_directive": "ACCEPT",
+      "after_form_family": "FORM_X",
+      "after_reason_codes": [
+        "AUGMENTED_ROOT_ACCEPTED"
+      ],
+      "note": "Form X with waw proclitic and waw jamaa",
+      "resolved": true
+    },
+    {
+      "token": "تَدَايَنتُم",
+      "cluster": "PATTERN_EXTENSION",
+      "before_state": "LEGIT_DEFER",
+      "after_state": "DEFER",
+      "after_rc_directive": "DEFER",
+      "after_root": null,
+      "after_cra_directive": "DEFER",
+      "after_form_family": "FORM_VI",
+      "after_reason_codes": [
+        "WEAK_RADICAL_IN_AUGMENTED_ROOT:DEFER"
+      ],
+      "note": "Form VI with weak ي — legitimate defer",
+      "resolved": true
+    },
+    {
+      "token": "تَبَايَعْتُمْ",
+      "cluster": "PATTERN_EXTENSION",
+      "before_state": "LEGIT_DEFER",
+      "after_state": "DEFER",
+      "after_rc_directive": "DEFER",
+      "after_root": null,
+      "after_cra_directive": "DEFER",
+      "after_form_family": "FORM_VI",
+      "after_reason_codes": [
+        "WEAK_RADICAL_IN_AUGMENTED_ROOT:DEFER"
+      ],
+      "note": "Form VI with weak ي — legitimate defer",
+      "resolved": true
+    },
+    {
+      "token": "أَقْسَطُ",
+      "cluster": "PATTERN_EXTENSION",
+      "before_state": "FALSE_DEFER",
+      "after_state": "ACCEPT",
+      "after_rc_directive": "ACCEPT",
+      "after_root": [
+        "ق",
+        "س",
+        "ط"
+      ],
+      "after_cra_directive": "ACCEPT",
+      "after_form_family": "FORM_IV",
+      "after_reason_codes": [
+        "AUGMENTED_ROOT_ACCEPTED"
+      ],
+      "note": "Form IV superlative",
+      "resolved": true
+    },
+    {
+      "token": "وَأَشْهِدُوا",
+      "cluster": "PATTERN_EXTENSION",
+      "before_state": "FALSE_DEFER",
+      "after_state": "ACCEPT",
+      "after_rc_directive": "ACCEPT",
+      "after_root": [
+        "ش",
+        "ه",
+        "د"
+      ],
+      "after_cra_directive": "ACCEPT",
+      "after_form_family": "FORM_IV",
+      "after_reason_codes": [
+        "AUGMENTED_ROOT_ACCEPTED"
+      ],
+      "note": "Form IV with waw proclitic",
+      "resolved": true
+    },
+    {
+      "token": "اسْتَشْهِدُوا",
+      "cluster": "PATTERN_EXTENSION",
+      "before_state": "FALSE_DEFER",
+      "after_state": "ACCEPT",
+      "after_rc_directive": "ACCEPT",
+      "after_root": [
+        "ش",
+        "ه",
+        "د"
+      ],
+      "after_cra_directive": "ACCEPT",
+      "after_form_family": "FORM_X",
+      "after_reason_codes": [
+        "AUGMENTED_ROOT_ACCEPTED"
+      ],
+      "note": "Form X",
+      "resolved": true
+    },
+    {
+      "token": "يَسْتَشْهِدُوا",
+      "cluster": "PATTERN_EXTENSION",
+      "before_state": "FALSE_DEFER",
+      "after_state": "ACCEPT",
+      "after_rc_directive": "ACCEPT",
+      "after_root": [
+        "ش",
+        "ه",
+        "د"
+      ],
+      "after_cra_directive": "ACCEPT",
+      "after_form_family": "FORM_X",
+      "after_reason_codes": [
+        "AUGMENTED_ROOT_ACCEPTED"
+      ],
+      "note": "Form X with ya prefix",
+      "resolved": true
+    },
+    {
+      "token": "فَاكْتُبُوهُ",
+      "cluster": "PATTERN_EXTENSION",
+      "before_state": "LEGIT_DEFER",
+      "after_state": "DEFER",
+      "after_rc_directive": "DEFER",
+      "after_root": null,
+      "after_cra_directive": "DEFER",
+      "after_form_family": "FORM_VIII",
+      "after_reason_codes": [
+        "WEAK_RADICAL_IN_AUGMENTED_ROOT:DEFER"
+      ],
+      "note": "imperative with فا proclitic — segmenter limit",
+      "resolved": true
+    },
+    {
+      "token": "آمَنُوا",
+      "cluster": "PATTERN_EXTENSION",
+      "before_state": "FALSE_DEFER",
+      "after_state": "ACCEPT",
+      "after_rc_directive": "ACCEPT",
+      "after_root": [
+        "ء",
+        "م",
+        "ن"
+      ],
+      "after_cra_directive": "DEFER",
+      "after_form_family": null,
+      "after_reason_codes": [
+        "defer:root:non_standard_consonant_count"
+      ],
+      "note": "Form III",
+      "resolved": true
+    },
+    {
+      "token": "يُعَلِّمُكُمُ",
+      "cluster": "PATTERN_EXTENSION",
+      "before_state": "FALSE_DEFER",
+      "after_state": "ACCEPT",
+      "after_rc_directive": "ACCEPT",
+      "after_root": [
+        "ع",
+        "ل",
+        "م"
+      ],
+      "after_cra_directive": "ACCEPT",
+      "after_form_family": "FORM_II",
+      "after_reason_codes": [
+        "AUGMENTED_ROOT_ACCEPTED"
+      ],
+      "note": "Form II with multiple clitics",
+      "resolved": true
+    },
+    {
+      "token": "دُعُوا",
+      "cluster": "PATTERN_EXTENSION",
+      "before_state": "LEGIT_DEFER",
+      "after_state": "DEFER",
+      "after_rc_directive": "DEFER",
+      "after_root": null,
+      "after_cra_directive": "DEFER",
+      "after_form_family": null,
+      "after_reason_codes": [
+        "defer:root:quadriliteral_beyond_scope"
+      ],
+      "note": "hollow passive — legitimate defer",
+      "resolved": true
+    },
+    {
+      "token": "دَعَا",
+      "cluster": "WEAK_VERB",
+      "before_state": "LEGIT_DEFER",
+      "after_state": "DEFER",
+      "after_rc_directive": "DEFER",
+      "after_root": null,
+      "after_cra_directive": "DEFER",
+      "after_form_family": null,
+      "after_reason_codes": [
+        "defer:root:defective_lam_unresolved"
+      ],
+      "note": "defective lam — legitimate defer",
+      "resolved": true
+    },
+    {
+      "token": "سَعَى",
+      "cluster": "WEAK_VERB",
+      "before_state": "LEGIT_DEFER",
+      "after_state": "DEFER",
+      "after_rc_directive": "DEFER",
+      "after_root": null,
+      "after_cra_directive": "DEFER",
+      "after_form_family": null,
+      "after_reason_codes": [
+        "defer:root:defective_lam_unresolved"
+      ],
+      "note": "defective lam — legitimate defer",
+      "resolved": true
+    },
+    {
+      "token": "يُوفُونَ",
+      "cluster": "WEAK_VERB",
+      "before_state": "LEGIT_DEFER",
+      "after_state": "DEFER",
+      "after_rc_directive": "DEFER",
+      "after_root": null,
+      "after_cra_directive": "DEFER",
+      "after_form_family": null,
+      "after_reason_codes": [
+        "defer:root:non_standard_consonant_count"
+      ],
+      "note": "hollow with waw — legitimate defer",
+      "resolved": true
+    }
+  ]
+}

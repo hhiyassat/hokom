@@ -349,6 +349,75 @@ def hokom(word: str) -> dict:
             root_candidate    = None
             augmented_analysis = None
 
+    # ── Canonical Radical Accounting (HOKOM-PRE-ROOT-CANONICAL-RADICAL-ACCOUNTING-OWNERSHIP-01) ──
+    # يُشغَّل بعد المحرك الثلاثي/المزيد الحالي ويعمل على segment_host مباشرةً.
+    # يُصحِّح حالتين رئيسيتين لم يعالجهما المحرك الحالي:
+    #   1. الفعل المضارع الثلاثي (يَكْتُبُ): البادئة يَ/تَ/نَ/أَ تُحتسب غلطًا حرفًا رابعًا.
+    #   2. المضيف المُعرَّف بالسابقة (وَاسْتَشْهِدُوا): segment_host صحيح بينما
+    #      pre_root.host_surface قد يحمل الواو بسبب مسار الربط.
+    # إذا أنتج المحرك الحالي DEFER وأنتج CRA ACCEPT → أعِد بناء root_candidate.
+    # لا يُلغي ACCEPT موجودًا. لا يُلغي حدًّا مغلقًا.
+    cra_result = None
+    if pre_root is not None and not morphology_blocked:
+        try:
+            from pipeline.p3_pre_root.canonical_radical_accounting import (
+                process_canonical_radical_accounting as _cra_process,
+            )
+            cra_result = _cra_process(
+                input_surface      = input_surface,
+                segment_host       = segment_host,
+                morphology_surface = morphology_surface,
+                pre_root           = pre_root,
+                route              = _route_v,
+            )
+            # تجاوز root_candidate فقط إذا نجح CRA حيث أخفق المحرك الحالي
+            _rc_directive = getattr(root_candidate, 'directive', None)
+            if (cra_result.directive == 'ACCEPT'
+                    and cra_result.candidate_radical_sequences
+                    and _rc_directive in (None, 'DEFER')):
+                import types as _cra_types
+                _cra_root = tuple(cra_result.candidate_radical_sequences[0])
+                _cra_profile = {
+                    'source_engine': 'HOKOM_CRA_ENGINE',
+                    'form_family':   cra_result.form_family or 'FORM_I',
+                    'trilateral_root': list(_cra_root),
+                    'confidence':    'HIGH',
+                }
+                _cra_res_ns = _cra_types.SimpleNamespace(
+                    analyzed_host  = cra_result.canonical_stem,
+                    directive      = 'ACCEPT',
+                    canonical_root = _cra_root,
+                    root_profile   = _cra_profile,
+                    evidence_ids   = tuple(cra_result.evidence),
+                    trace_ids      = ('cra:canonical_radical_accounting',),
+                    residual_codes = (),
+                )
+                from pipeline.p2_projection.root_projection import RootProjection as _CRAProj
+                from pipeline.p3_candidate.root_candidate import RootCandidate as _CRACand
+                _cra_proj     = _CRAProj.from_root_resolution(
+                    _cra_res_ns,
+                    input_surface = pre_root.input_surface,
+                )
+                root_candidate  = _CRACand.from_projection(_cra_proj)
+                root_projection = _cra_proj
+                # أعِد بناء augmented_analysis إذا كشف CRA صيغةً مزيدةً لم يكتشفها المحرك
+                if (cra_result.augmented_detection is not None
+                        and augmented_analysis is None):
+                    _det = cra_result.augmented_detection
+                    from pipeline.p2_augmented.models import AugmentedRootAnalysis as _CRAAUG
+                    augmented_analysis = _CRAAUG(
+                        form_family      = _det.form_family,
+                        trilateral_root  = _cra_root,
+                        past_surface     = cra_result.canonical_stem,
+                        imperfect_prefix = _det.imperfect_prefix,
+                        confidence       = _det.confidence_hint,
+                        evidence_ids     = tuple(cra_result.evidence),
+                        trace_ids        = ('cra:canonical_radical_accounting',),
+                        residual_codes   = (),
+                    )
+        except Exception:
+            cra_result = None
+
     # ── Phase 4A — WaznProjection عبر الأوركسترا ─────────────────────────────
     # يُستدعى دائمًا إن وُجد root_candidate — حتى BLOCK/DEFER (تُنتج NOT_OPENED).
     #
@@ -557,6 +626,7 @@ def hokom(word: str) -> dict:
         'jamid_category':      _jamid_category,
         'aalam_category':      _aalam_category,
         'pre_root':            pre_root,
+        'cra_result':          cra_result,
         'root_refinement':     root_refinement,
         'augmented_analysis':  augmented_analysis,
         'root_projection':     root_projection,
@@ -622,6 +692,7 @@ def hokom(word: str) -> dict:
         'jamid_category':      _jamid_category,
         'aalam_category':      _aalam_category,
         'pre_root':            pre_root,
+        'cra_result':          cra_result,
         'root_refinement':     root_refinement,
         'augmented_analysis':  augmented_analysis,
         'root_projection':     root_projection,
