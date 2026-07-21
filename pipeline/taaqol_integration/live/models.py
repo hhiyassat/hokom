@@ -75,6 +75,10 @@ class HokomTaaqolTraceEvent:
     input_digest: str
     output: str
     strict_mode: bool
+    # Amendment No. 3: split output into structured fields (T-05 partial closure)
+    # These are optional to preserve backward compat with existing trace events.
+    gamma_state: Optional[str] = None    # GammaResult.state when component='Gamma'
+    gate_verdict: Optional[str] = None  # TransitionVerdict.state when component='TransitionGate'
 
 
 @dataclass(frozen=True)
@@ -119,8 +123,59 @@ class HokomTaaqolDecision:
     # taaqol_verdict in hokom() output is None when active=False (never a semantic verdict).
     taaqol_runtime: Optional[dict] = None  # liveness contract dict; None if not populated
 
+    # Amendment No. 3 (HOKOM-TAAQOL-SLOT-GEOMETRY-CONSTITUTIONAL-IMPLEMENTATION-01):
+    # typed slot payload, structured trace, and evidence contract.
+    # All Optional for backward compatibility — None when SGA not available.
+    typed_slots: Optional[tuple] = None        # tuple[dict, ...] — serialized TypedSlots
+    taaqol_trace: Optional[tuple] = None       # tuple[dict, ...] — structured trace events
+    evidence_contract: Optional[dict] = None   # EvidenceContract summary
+
     def to_dict(self) -> dict:
         return dataclasses.asdict(self)
+
+    @classmethod
+    def from_dict(cls, d: dict) -> 'HokomTaaqolDecision':
+        """
+        Reconstruct a HokomTaaqolDecision from to_dict() output.
+        Handles both legacy (no typed_slots) and current format.
+        """
+        trace_raw = d.get('trace') or ()
+        trace = tuple(
+            HokomTaaqolTraceEvent(
+                step=t.get('step', ''),
+                component=t.get('component', ''),
+                input_digest=t.get('input_digest', ''),
+                output=t.get('output', ''),
+                strict_mode=bool(t.get('strict_mode', True)),
+                gamma_state=t.get('gamma_state'),
+                gate_verdict=t.get('gate_verdict'),
+            )
+            if isinstance(t, dict) else t
+            for t in trace_raw
+        )
+        return cls(
+            bridge_id=d.get('bridge_id', HOKOM_TAAQOL_BRIDGE_ID),
+            taaqol_commit=d.get('taaqol_commit', 'unknown'),
+            hokom_commit=d.get('hokom_commit', 'unknown'),
+            strict_mode=bool(d.get('strict_mode', True)),
+            slot_graph_digest=d.get('slot_graph_digest', 'UNAVAILABLE'),
+            gamma_result=d.get('gamma_result', 'UNAVAILABLE'),
+            transition_gate_result=d.get('transition_gate_result', 'UNAVAILABLE'),
+            taaqol_verdict=d.get('taaqol_verdict', 'DEFERRED'),
+            reason_codes=tuple(d.get('reason_codes') or ()),
+            contradictions=tuple(d.get('contradictions') or ()),
+            residuals=tuple(d.get('residuals') or ()),
+            trace=trace,
+            upstream_verdict=d.get('upstream_verdict', 'DEFER'),
+            effective_verdict=d.get('effective_verdict', 'DEFERRED'),
+            fail_closed=bool(d.get('fail_closed', True)),
+            source_engine=d.get('source_engine', 'TAAQOL'),
+            taaqol_center_scope=d.get('taaqol_center_scope'),
+            taaqol_runtime=d.get('taaqol_runtime'),
+            typed_slots=tuple(d['typed_slots']) if d.get('typed_slots') else None,
+            taaqol_trace=tuple(d['taaqol_trace']) if d.get('taaqol_trace') else None,
+            evidence_contract=d.get('evidence_contract'),
+        )
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

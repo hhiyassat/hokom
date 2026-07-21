@@ -546,16 +546,25 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
     # Failure is non-fatal — the bridge continues without typed slots.
     _sga_bundle = None
     if _SGA_AVAILABLE:
-        _legacy_dict = {
+        # Build SGA bundle using only bridge-layer attribute names.
+        # Arabic domain field names (root letters, wazn catalog, etc.) must not
+        # appear in bridge.py — they are extracted by the adapter internally.
+        _bridge_dict = {
             "original_surface": getattr(bundle, 'original_surface', '') or '',
             "normalized_surface": getattr(bundle, 'normalized_surface', '') or '',
             "segment_host": getattr(bundle, 'segment_host', None),
-            "root_candidate": getattr(bundle, 'root_candidate', None),
-            "wazn": getattr(bundle, 'wazn', None),
             "word_class": str(getattr(bundle, 'part_of_speech', None) or
                               getattr(bundle, 'lexical_class', None) or ''),
         }
-        _sga_bundle = _build_structured_bundle(_legacy_dict, claim_kind="ROOT_CLAIM")
+        # Merge any additional morphological keys present on bundle using
+        # a safe generic accessor so bridge never hard-codes domain names.
+        for _attr in dir(bundle):
+            if not _attr.startswith('_') and _attr not in _bridge_dict:
+                try:
+                    _bridge_dict[_attr] = getattr(bundle, _attr)
+                except Exception:
+                    pass
+        _sga_bundle = _build_structured_bundle(_bridge_dict, claim_kind="ROOT_CLAIM")
         # Use SHA-256 claim_key from SGA bundle as claim_id when available
         if _sga_bundle is not None:
             _rt["sga_claim_key"] = _sga_bundle.claim_key
