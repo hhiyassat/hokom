@@ -112,6 +112,13 @@ class HokomTaaqolDecision:
     # Never None when Taaqol runs; None when DEFERRED before SlotGraph build.
     taaqol_center_scope: Optional[str] = None  # = morphological center used in Center.scope
 
+    # Amendment No. 2 (HOKOM-TAAQOL-LIVE-BRIDGE-RECOVERY-01): liveness contract
+    # Distinguishes runtime infrastructure failure from semantic evaluation outcome.
+    # active=True means the full chain (SlotGraph→Gamma→Gate→Trace) executed.
+    # active=False with failure_code="TAAQOL_RUNTIME_UNAVAILABLE" means import failed.
+    # taaqol_verdict in hokom() output is None when active=False (never a semantic verdict).
+    taaqol_runtime: Optional[dict] = None  # liveness contract dict; None if not populated
+
     def to_dict(self) -> dict:
         return dataclasses.asdict(self)
 

@@ -1039,17 +1039,162 @@ def run_functional_catalog_contracts() -> dict:
     }
 
 
+# ── Taaqol liveness contracts (HOKOM-TAAQOL-LIVE-BRIDGE-RECOVERY-01) ─────────
+
+def run_taaqol_liveness_contracts() -> dict:
+    """
+    Verify that the live Taaqol kernel executes end-to-end for representative tokens.
+
+    Negative counters (must all be 0):
+      TAAQOL_RUNTIME_UNAVAILABLE_VIOLATIONS  — active=False for any token
+      TAAQOL_KERNEL_NOT_LOADED_VIOLATIONS    — kernel_loaded=False after import
+      TAAQOL_SLOT_GRAPH_NOT_CREATED_VIOLATIONS — SlotGraph not built
+      TAAQOL_GAMMA_NOT_EXECUTED_VIOLATIONS   — Gamma did not run
+      TAAQOL_GATE_NOT_EXECUTED_VIOLATIONS    — TransitionGate did not run
+      TAAQOL_EMPTY_TRACE_VIOLATIONS          — trace_event_count == 0
+      TAAQOL_VENDOR_SHA_DRIFT_VIOLATIONS     — vendor SHA doesn't start with expected pin
+      TAAQOL_SILENT_FALLBACK_VIOLATIONS      — runtime unavailable but verdict looks semantic
+
+    Positive counters (must all be > 0):
+      TAAQOL_LIVE_EVALUATIONS  — tokens that completed the full chain
+      TAAQOL_GATE_EXECUTIONS   — gate executed at least once
+      TAAQOL_TRACE_EVENTS      — total trace events across all tokens
+    """
+    sys.path.insert(0, str(REPO_ROOT))
+    try:
+        from hokom_pipeline import hokom
+    except ImportError as e:
+        return {
+            'error': str(e), 'ok': False,
+            'TAAQOL_RUNTIME_UNAVAILABLE_VIOLATIONS':    999,
+            'TAAQOL_KERNEL_NOT_LOADED_VIOLATIONS':      999,
+            'TAAQOL_SLOT_GRAPH_NOT_CREATED_VIOLATIONS': 999,
+            'TAAQOL_GAMMA_NOT_EXECUTED_VIOLATIONS':     999,
+            'TAAQOL_GATE_NOT_EXECUTED_VIOLATIONS':      999,
+            'TAAQOL_EMPTY_TRACE_VIOLATIONS':            999,
+            'TAAQOL_VENDOR_SHA_DRIFT_VIOLATIONS':       999,
+            'TAAQOL_SILENT_FALLBACK_VIOLATIONS':        999,
+            'TAAQOL_LIVE_EVALUATIONS':                  0,
+            'TAAQOL_GATE_EXECUTIONS':                   0,
+            'TAAQOL_TRACE_EVENTS':                      0,
+        }
+
+    TAAQOL_RUNTIME_UNAVAILABLE_VIOLATIONS  = 0
+    TAAQOL_KERNEL_NOT_LOADED_VIOLATIONS    = 0
+    TAAQOL_SLOT_GRAPH_NOT_CREATED_VIOLATIONS = 0
+    TAAQOL_GAMMA_NOT_EXECUTED_VIOLATIONS   = 0
+    TAAQOL_GATE_NOT_EXECUTED_VIOLATIONS    = 0
+    TAAQOL_EMPTY_TRACE_VIOLATIONS          = 0
+    TAAQOL_VENDOR_SHA_DRIFT_VIOLATIONS     = 0
+    TAAQOL_SILENT_FALLBACK_VIOLATIONS      = 0
+
+    TAAQOL_LIVE_EVALUATIONS = 0
+    TAAQOL_GATE_EXECUTIONS  = 0
+    TAAQOL_TRACE_EVENTS     = 0
+
+    test_tokens  = ['يَكْتُبُ', 'الْحَقُّ', 'مَتَى']
+    expected_pin = '35381739410071ac21dd96702ecbb2acb493f90d'
+
+    for tok in test_tokens:
+        try:
+            r  = hokom(tok)
+            rt = r.get('taaqol_runtime') or {}
+
+            if not rt.get('active'):
+                TAAQOL_RUNTIME_UNAVAILABLE_VIOLATIONS += 1
+            if not rt.get('kernel_loaded'):
+                TAAQOL_KERNEL_NOT_LOADED_VIOLATIONS += 1
+            if not rt.get('slot_graph_created'):
+                TAAQOL_SLOT_GRAPH_NOT_CREATED_VIOLATIONS += 1
+            if not rt.get('gamma_executed'):
+                TAAQOL_GAMMA_NOT_EXECUTED_VIOLATIONS += 1
+            if not rt.get('gate_executed'):
+                TAAQOL_GATE_NOT_EXECUTED_VIOLATIONS += 1
+            if not (rt.get('trace_event_count', 0) > 0):
+                TAAQOL_EMPTY_TRACE_VIOLATIONS += 1
+
+            vendor_sha = rt.get('vendor_sha') or ''
+            if not str(vendor_sha).startswith(expected_pin[:8]):
+                TAAQOL_VENDOR_SHA_DRIFT_VIOLATIONS += 1
+
+            # Silent fallback check: if runtime unavailable, taaqol_verdict must be None
+            # (not a semantic string like 'DEFERRED').
+            if not rt.get('active') and r.get('taaqol_verdict') is not None:
+                TAAQOL_SILENT_FALLBACK_VIOLATIONS += 1
+
+            if rt.get('failure_code') is None and rt.get('active'):
+                TAAQOL_LIVE_EVALUATIONS += 1
+            if rt.get('gate_executed'):
+                TAAQOL_GATE_EXECUTIONS += 1
+            TAAQOL_TRACE_EVENTS += rt.get('trace_event_count', 0)
+
+        except Exception as e:
+            TAAQOL_RUNTIME_UNAVAILABLE_VIOLATIONS += 1
+
+    assert TAAQOL_RUNTIME_UNAVAILABLE_VIOLATIONS  == 0, (
+        f"TAAQOL_RUNTIME_UNAVAILABLE_VIOLATIONS={TAAQOL_RUNTIME_UNAVAILABLE_VIOLATIONS}"
+    )
+    assert TAAQOL_KERNEL_NOT_LOADED_VIOLATIONS    == 0, (
+        f"TAAQOL_KERNEL_NOT_LOADED_VIOLATIONS={TAAQOL_KERNEL_NOT_LOADED_VIOLATIONS}"
+    )
+    assert TAAQOL_SLOT_GRAPH_NOT_CREATED_VIOLATIONS == 0, (
+        f"TAAQOL_SLOT_GRAPH_NOT_CREATED_VIOLATIONS={TAAQOL_SLOT_GRAPH_NOT_CREATED_VIOLATIONS}"
+    )
+    assert TAAQOL_GAMMA_NOT_EXECUTED_VIOLATIONS   == 0, (
+        f"TAAQOL_GAMMA_NOT_EXECUTED_VIOLATIONS={TAAQOL_GAMMA_NOT_EXECUTED_VIOLATIONS}"
+    )
+    assert TAAQOL_GATE_NOT_EXECUTED_VIOLATIONS    == 0, (
+        f"TAAQOL_GATE_NOT_EXECUTED_VIOLATIONS={TAAQOL_GATE_NOT_EXECUTED_VIOLATIONS}"
+    )
+    assert TAAQOL_EMPTY_TRACE_VIOLATIONS          == 0, (
+        f"TAAQOL_EMPTY_TRACE_VIOLATIONS={TAAQOL_EMPTY_TRACE_VIOLATIONS}"
+    )
+    assert TAAQOL_VENDOR_SHA_DRIFT_VIOLATIONS     == 0, (
+        f"TAAQOL_VENDOR_SHA_DRIFT_VIOLATIONS={TAAQOL_VENDOR_SHA_DRIFT_VIOLATIONS}"
+    )
+    assert TAAQOL_SILENT_FALLBACK_VIOLATIONS      == 0, (
+        f"TAAQOL_SILENT_FALLBACK_VIOLATIONS={TAAQOL_SILENT_FALLBACK_VIOLATIONS}"
+    )
+    assert TAAQOL_LIVE_EVALUATIONS > 0, (
+        "TAAQOL_LIVE_EVALUATIONS=0 — no live evaluations completed; "
+        "runtime may be silently failing or path is wrong"
+    )
+    assert TAAQOL_GATE_EXECUTIONS > 0, (
+        f"TAAQOL_GATE_EXECUTIONS={TAAQOL_GATE_EXECUTIONS}"
+    )
+    assert TAAQOL_TRACE_EVENTS > 0, (
+        f"TAAQOL_TRACE_EVENTS={TAAQOL_TRACE_EVENTS}"
+    )
+
+    return {
+        'ok': True,
+        'TAAQOL_RUNTIME_UNAVAILABLE_VIOLATIONS':    TAAQOL_RUNTIME_UNAVAILABLE_VIOLATIONS,
+        'TAAQOL_KERNEL_NOT_LOADED_VIOLATIONS':      TAAQOL_KERNEL_NOT_LOADED_VIOLATIONS,
+        'TAAQOL_SLOT_GRAPH_NOT_CREATED_VIOLATIONS': TAAQOL_SLOT_GRAPH_NOT_CREATED_VIOLATIONS,
+        'TAAQOL_GAMMA_NOT_EXECUTED_VIOLATIONS':     TAAQOL_GAMMA_NOT_EXECUTED_VIOLATIONS,
+        'TAAQOL_GATE_NOT_EXECUTED_VIOLATIONS':      TAAQOL_GATE_NOT_EXECUTED_VIOLATIONS,
+        'TAAQOL_EMPTY_TRACE_VIOLATIONS':            TAAQOL_EMPTY_TRACE_VIOLATIONS,
+        'TAAQOL_VENDOR_SHA_DRIFT_VIOLATIONS':       TAAQOL_VENDOR_SHA_DRIFT_VIOLATIONS,
+        'TAAQOL_SILENT_FALLBACK_VIOLATIONS':        TAAQOL_SILENT_FALLBACK_VIOLATIONS,
+        'TAAQOL_LIVE_EVALUATIONS':                  TAAQOL_LIVE_EVALUATIONS,
+        'TAAQOL_GATE_EXECUTIONS':                   TAAQOL_GATE_EXECUTIONS,
+        'TAAQOL_TRACE_EVENTS':                      TAAQOL_TRACE_EVENTS,
+    }
+
+
 # ── Closure manifest ──────────────────────────────────────────────────────────
 
 def generate_closure_manifest(stage_id, git, env_result, python, plt,
                                probes, run1, run2, comparison, corpus, routing,
-                               jamid_aalam=None, functional_catalog=None) -> dict:
+                               jamid_aalam=None, functional_catalog=None,
+                               taaqol_liveness=None) -> dict:
     eligible = (
         git['ok'] and python['ok'] and env_result['ok'] and plt['ok'] and
         probes['ok'] and run1['ok'] and run2['ok'] and comparison['ok'] and corpus['ok'] and
         routing['ok'] and
         (jamid_aalam is None or jamid_aalam['ok']) and
         (functional_catalog is None or functional_catalog['ok']) and
+        (taaqol_liveness is None or taaqol_liveness.get('ok', False)) and
         run1.get('failures', 999) == 0 and run2.get('failures', 999) == 0 and
         run1.get('skips', 999) == 0 and run2.get('skips', 999) == 0
     )
@@ -1115,6 +1260,19 @@ def generate_closure_manifest(stage_id, git, env_result, python, plt,
             "MABNI_ISM_ROOT_OPEN_VIOLATIONS":          (functional_catalog or {}).get('MABNI_ISM_ROOT_OPEN_VIOLATIONS', 0),
             "JAMID_AALAM_REROUTED_BY_FUNCTIONAL":      (functional_catalog or {}).get('JAMID_AALAM_REROUTED_BY_FUNCTIONAL', 0),
             "FUNCTIONAL_CATALOG_UNHANDLED_EXCEPTIONS": (functional_catalog or {}).get('FUNCTIONAL_CATALOG_UNHANDLED_EXCEPTIONS', 0),
+        },
+        "taaqol_liveness_contracts": {
+            "TAAQOL_RUNTIME_UNAVAILABLE_VIOLATIONS":    (taaqol_liveness or {}).get('TAAQOL_RUNTIME_UNAVAILABLE_VIOLATIONS',    -1),
+            "TAAQOL_KERNEL_NOT_LOADED_VIOLATIONS":      (taaqol_liveness or {}).get('TAAQOL_KERNEL_NOT_LOADED_VIOLATIONS',      -1),
+            "TAAQOL_SLOT_GRAPH_NOT_CREATED_VIOLATIONS": (taaqol_liveness or {}).get('TAAQOL_SLOT_GRAPH_NOT_CREATED_VIOLATIONS', -1),
+            "TAAQOL_GAMMA_NOT_EXECUTED_VIOLATIONS":     (taaqol_liveness or {}).get('TAAQOL_GAMMA_NOT_EXECUTED_VIOLATIONS',     -1),
+            "TAAQOL_GATE_NOT_EXECUTED_VIOLATIONS":      (taaqol_liveness or {}).get('TAAQOL_GATE_NOT_EXECUTED_VIOLATIONS',      -1),
+            "TAAQOL_EMPTY_TRACE_VIOLATIONS":            (taaqol_liveness or {}).get('TAAQOL_EMPTY_TRACE_VIOLATIONS',            -1),
+            "TAAQOL_VENDOR_SHA_DRIFT_VIOLATIONS":       (taaqol_liveness or {}).get('TAAQOL_VENDOR_SHA_DRIFT_VIOLATIONS',       -1),
+            "TAAQOL_SILENT_FALLBACK_VIOLATIONS":        (taaqol_liveness or {}).get('TAAQOL_SILENT_FALLBACK_VIOLATIONS',        -1),
+            "TAAQOL_LIVE_EVALUATIONS":                  (taaqol_liveness or {}).get('TAAQOL_LIVE_EVALUATIONS',                  0),
+            "TAAQOL_GATE_EXECUTIONS":                   (taaqol_liveness or {}).get('TAAQOL_GATE_EXECUTIONS',                   0),
+            "TAAQOL_TRACE_EVENTS":                      (taaqol_liveness or {}).get('TAAQOL_TRACE_EVENTS',                      0),
         },
         "artifacts": {"commit_bound": True, "stale_artifacts": 0},
         "closure_eligible": eligible,
@@ -1202,7 +1360,7 @@ def main():
     for v in jamid_aalam.get('root_after_jamid', [])[:5]:
         print(f"  ROOT_VIOLATION: {v}")
 
-    print("\n[10/10] Functional catalog contracts (HOKOM-MABNI-FUNCTIONAL-CATALOG-OWNERSHIP-01)...")
+    print("\n[10/11] Functional catalog contracts (HOKOM-MABNI-FUNCTIONAL-CATALOG-OWNERSHIP-01)...")
     functional_catalog = run_functional_catalog_contracts()
     _fc_counters = [
         ('FUNCTIONAL_CATALOG_OWNER_VIOLATIONS',    functional_catalog['FUNCTIONAL_CATALOG_OWNER_VIOLATIONS']),
@@ -1225,10 +1383,34 @@ def main():
     for v in functional_catalog.get('exceptions', [])[:5]:
         print(f"  EXCEPTION: {v}")
 
+    print("\n[11/11] Taaqol liveness contracts (HOKOM-TAAQOL-LIVE-BRIDGE-RECOVERY-01)...")
+    taaqol_liveness = None
+    try:
+        taaqol_liveness = run_taaqol_liveness_contracts()
+        _tl = taaqol_liveness
+        print(f"  TAAQOL_LIVE_EVALUATIONS:                 {_tl.get('TAAQOL_LIVE_EVALUATIONS')}")
+        print(f"  TAAQOL_GATE_EXECUTIONS:                  {_tl.get('TAAQOL_GATE_EXECUTIONS')}")
+        print(f"  TAAQOL_TRACE_EVENTS:                     {_tl.get('TAAQOL_TRACE_EVENTS')}")
+        print(f"  TAAQOL_RUNTIME_UNAVAILABLE_VIOLATIONS:   {_tl.get('TAAQOL_RUNTIME_UNAVAILABLE_VIOLATIONS')}")
+        print(f"  TAAQOL_KERNEL_NOT_LOADED_VIOLATIONS:     {_tl.get('TAAQOL_KERNEL_NOT_LOADED_VIOLATIONS')}")
+        print(f"  TAAQOL_SLOT_GRAPH_NOT_CREATED_VIOLATIONS:{_tl.get('TAAQOL_SLOT_GRAPH_NOT_CREATED_VIOLATIONS')}")
+        print(f"  TAAQOL_GAMMA_NOT_EXECUTED_VIOLATIONS:    {_tl.get('TAAQOL_GAMMA_NOT_EXECUTED_VIOLATIONS')}")
+        print(f"  TAAQOL_GATE_NOT_EXECUTED_VIOLATIONS:     {_tl.get('TAAQOL_GATE_NOT_EXECUTED_VIOLATIONS')}")
+        print(f"  TAAQOL_EMPTY_TRACE_VIOLATIONS:           {_tl.get('TAAQOL_EMPTY_TRACE_VIOLATIONS')}")
+        print(f"  TAAQOL_VENDOR_SHA_DRIFT_VIOLATIONS:      {_tl.get('TAAQOL_VENDOR_SHA_DRIFT_VIOLATIONS')}")
+        print(f"  TAAQOL_SILENT_FALLBACK_VIOLATIONS:       {_tl.get('TAAQOL_SILENT_FALLBACK_VIOLATIONS')}")
+    except AssertionError as _ae:
+        print(f"  LIVENESS ASSERTION FAILED: {_ae}")
+        taaqol_liveness = {'ok': False, 'error': str(_ae)}
+    except Exception as _te:
+        print(f"  LIVENESS ERROR: {_te}")
+        taaqol_liveness = {'ok': False, 'error': str(_te)}
+
     print("\n" + "=" * 70)
     manifest = generate_closure_manifest(
         args.stage, git, env_result, python, plt, probes, run1, run2, comparison,
-        corpus, routing, jamid_aalam=jamid_aalam, functional_catalog=functional_catalog
+        corpus, routing, jamid_aalam=jamid_aalam, functional_catalog=functional_catalog,
+        taaqol_liveness=taaqol_liveness,
     )
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     mpath = REPORTS_DIR / f"closure_manifest.{git['head_short']}.json"
@@ -1260,6 +1442,8 @@ def main():
         if jv:                   reasons.append(f"{jv} jamid_aalam violations")
         fv = functional_catalog.get('total_violations', 0)
         if fv:                   reasons.append(f"{fv} functional_catalog violations")
+        if taaqol_liveness is not None and not taaqol_liveness.get('ok'):
+            reasons.append(f"taaqol_liveness failed: {taaqol_liveness.get('error', 'see counters')}")
         print(f"REASONS: {'; '.join(reasons)}")
     print("=" * 70)
     return 0 if eligible else 1

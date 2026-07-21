@@ -34,11 +34,12 @@ from .decision_composition import compose_effective_verdict
 # Git helpers (deterministic provenance)
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-_REPO_ROOT = Path(__file__).parent.parent.parent
+_REPO_ROOT = Path(__file__).resolve().parents[3]
+_VENDOR_PATH = _REPO_ROOT / 'vendor' / 'Taaqol-GPT' / 'src'
 
 
 def _get_taaqol_commit() -> str:
-    """Get vendor submodule commit hash deterministically."""
+    """Get vendor submodule commit hash deterministically (first 12 chars)."""
     try:
         result = subprocess.run(
             ['git', '-C', 'vendor/Taaqol-GPT', 'rev-parse', 'HEAD'],
@@ -46,6 +47,19 @@ def _get_taaqol_commit() -> str:
             timeout=5,
         )
         return result.stdout.strip()[:12] if result.returncode == 0 else 'unknown'
+    except Exception:
+        return 'unknown'
+
+
+def _get_taaqol_sha_full() -> str:
+    """Get full 40-char vendor submodule commit hash for liveness provenance."""
+    try:
+        result = subprocess.run(
+            ['git', '-C', 'vendor/Taaqol-GPT', 'rev-parse', 'HEAD'],
+            capture_output=True, text=True, cwd=str(_REPO_ROOT),
+            timeout=5,
+        )
+        return result.stdout.strip() if result.returncode == 0 else 'unknown'
     except Exception:
         return 'unknown'
 
@@ -81,10 +95,12 @@ def _deferred_decision(
     residuals: tuple,
     trace: tuple,
     taaqol_center_scope: 'Optional[str]' = None,
+    taaqol_runtime: 'Optional[dict]' = None,
 ) -> HokomTaaqolDecision:
     """
     Build a DEFERRED decision for fail-closed scenarios.
     NEVER returns LICENSED. Always records the failure in trace.
+    taaqol_runtime distinguishes infrastructure failure from semantic DEFER.
     """
     effective = compose_effective_verdict(upstream_verdict, 'DEFERRED')
     return HokomTaaqolDecision(
@@ -105,6 +121,7 @@ def _deferred_decision(
         fail_closed=True,
         source_engine='TAAQOL',
         taaqol_center_scope=taaqol_center_scope,
+        taaqol_runtime=taaqol_runtime,
     )
 
 
@@ -369,6 +386,11 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
 
     Requires Python 3.11+ (taaqqul_slot_geometry uses StrEnum).
     On Python 3.10: returns DEFERRED with TAAQOL_RUNTIME_UNAVAILABLE.
+
+    LIVENESS CONTRACT (HOKOM-TAAQOL-LIVE-BRIDGE-RECOVERY-01):
+    taaqol_runtime in the returned decision distinguishes:
+      - active=False + failure_code="TAAQOL_RUNTIME_UNAVAILABLE" → import/path failure
+      - active=True + gate_executed=True → full chain executed, verdict is semantic
     """
     import sys as _sys
 
@@ -376,6 +398,25 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
     hokom_commit  = _get_hokom_commit()
     upstream_verdict = str(getattr(bundle, 'domain_directive', 'DEFER') or 'DEFER')
     trace: list = []
+
+    # ── Liveness contract dict ────────────────────────────────────────────────
+    # Updated progressively as each step completes. Passed to all returned decisions.
+    # Distinguishes infrastructure failure from semantic verdict — never returns
+    # active=True with failure_code set, or failure_code=None with active=False.
+    _rt: dict = {
+        "active": False,
+        "repo_root": str(_REPO_ROOT),
+        "vendor_path": str(_VENDOR_PATH),
+        "vendor_sha": None,
+        "public_entrypoint": None,
+        "kernel_loaded": False,
+        "slot_graph_created": False,
+        "gamma_executed": False,
+        "gate_executed": False,
+        "trace_event_count": 0,
+        "failure_code": None,
+        "failure_detail": None,
+    }
 
     # ── Compute morphological center (before import so all paths can use it) ──
     # INVARIANT: Center.scope = segment_host, NOT original_surface.
@@ -399,8 +440,9 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
     # ── Import Taaqol (FAIL-CLOSED on ImportError) ────────────────────────────
     # taaqqul_slot_geometry requires Python 3.11+ (StrEnum).
     # On Python 3.10 this ImportError is expected and handled here.
+    # LIVENESS: kernel_loaded stays False and failure_code is set — NOT a semantic DEFER.
     try:
-        _vendor_src = str(_REPO_ROOT / 'vendor' / 'Taaqol-GPT' / 'src')
+        _vendor_src = str(_VENDOR_PATH)
         if _vendor_src not in _sys.path:
             _sys.path.insert(0, _vendor_src)
         import taaqqul_slot_geometry as _taaqol
@@ -412,6 +454,9 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             output=f'ImportError:{e}',
             strict_mode=True,
         ))
+        _rt["failure_code"] = "TAAQOL_RUNTIME_UNAVAILABLE"
+        _rt["failure_detail"] = f'ImportError:{e}'
+        _rt["trace_event_count"] = len(trace)
         return _deferred_decision(
             taaqol_commit=taaqol_commit,
             hokom_commit=hokom_commit,
@@ -420,7 +465,13 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             residuals=('defer:taaqol:runtime_unavailable',),
             trace=tuple(trace),
             taaqol_center_scope=_morphological_center,
+            taaqol_runtime=dict(_rt),
         )
+
+    # ── Taaqol kernel loaded successfully ─────────────────────────────────────
+    _rt["kernel_loaded"] = True
+    _rt["vendor_sha"] = _get_taaqol_sha_full()
+    _rt["public_entrypoint"] = "taaqqul_slot_geometry"
 
     # ── Clitic-only gate ─────────────────────────────────────────────────────
     # If the segmenter found no lexical host (pure clitic construction, e.g. بِكُمْ),
@@ -439,6 +490,9 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             output=f'DEFERRED:no_lexical_host:{_block_reason}:surface={_original_surface!r}',
             strict_mode=True,
         ))
+        _rt["failure_code"] = "SEGMENTATION_NO_LEXICAL_HOST"
+        _rt["failure_detail"] = _block_reason
+        _rt["trace_event_count"] = len(trace)
         return _deferred_decision(
             taaqol_commit=taaqol_commit,
             hokom_commit=hokom_commit,
@@ -447,6 +501,7 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             residuals=('defer:taaqol:clitic_only_no_center',),
             trace=tuple(trace),
             taaqol_center_scope=None,
+            taaqol_runtime=dict(_rt),
         )
 
     # ── Step 1: Build SlotGraph ───────────────────────────────────────────────
@@ -468,6 +523,7 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             ),
             strict_mode=True,
         ))
+        _rt["slot_graph_created"] = True
     except Exception as e:
         trace.append(HokomTaaqolTraceEvent(
             step='slot_graph_construction',
@@ -476,6 +532,9 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             output=f'Error:{type(e).__name__}:{e}',
             strict_mode=True,
         ))
+        _rt["failure_code"] = "SLOT_GRAPH_CONSTRUCTION_FAILED"
+        _rt["failure_detail"] = f'{type(e).__name__}:{e}'
+        _rt["trace_event_count"] = len(trace)
         return _deferred_decision(
             taaqol_commit=taaqol_commit,
             hokom_commit=hokom_commit,
@@ -484,6 +543,7 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             residuals=('defer:taaqol:slot_graph_construction_failed',),
             trace=tuple(trace),
             taaqol_center_scope=_morphological_center,
+            taaqol_runtime=dict(_rt),
         )
 
     # ── Step 2: Run Gamma ─────────────────────────────────────────────────────
@@ -498,6 +558,7 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             output=f'GammaResult(state={gamma_state_str},rank={gamma_result.rank})',
             strict_mode=True,
         ))
+        _rt["gamma_executed"] = True
     except Exception as e:
         trace.append(HokomTaaqolTraceEvent(
             step='gamma_evaluation',
@@ -506,6 +567,9 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             output=f'Error:{type(e).__name__}:{e}',
             strict_mode=True,
         ))
+        _rt["failure_code"] = "GAMMA_EVALUATION_FAILED"
+        _rt["failure_detail"] = f'{type(e).__name__}:{e}'
+        _rt["trace_event_count"] = len(trace)
         return _deferred_decision(
             taaqol_commit=taaqol_commit,
             hokom_commit=hokom_commit,
@@ -514,6 +578,7 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             residuals=('defer:taaqol:gamma_failed',),
             trace=tuple(trace),
             taaqol_center_scope=_morphological_center,
+            taaqol_runtime=dict(_rt),
         )
 
     # ── Step 3: Build EvidenceContract ────────────────────────────────────────
@@ -534,6 +599,9 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             output=f'Error:{type(e).__name__}:{e}',
             strict_mode=True,
         ))
+        _rt["failure_code"] = "EVIDENCE_CONTRACT_FAILED"
+        _rt["failure_detail"] = f'{type(e).__name__}:{e}'
+        _rt["trace_event_count"] = len(trace)
         return _deferred_decision(
             taaqol_commit=taaqol_commit,
             hokom_commit=hokom_commit,
@@ -542,6 +610,7 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             residuals=('defer:taaqol:evidence_failed',),
             trace=tuple(trace),
             taaqol_center_scope=_morphological_center,
+            taaqol_runtime=dict(_rt),
         )
 
     # ── Step 4: Run TransitionGate ────────────────────────────────────────────
@@ -567,6 +636,7 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             ),
             strict_mode=True,
         ))
+        _rt["gate_executed"] = True
     except Exception as e:
         trace.append(HokomTaaqolTraceEvent(
             step='transition_gate_decision',
@@ -575,6 +645,9 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             output=f'Error:{type(e).__name__}:{e}',
             strict_mode=True,
         ))
+        _rt["failure_code"] = "TRANSITION_GATE_FAILED"
+        _rt["failure_detail"] = f'{type(e).__name__}:{e}'
+        _rt["trace_event_count"] = len(trace)
         return _deferred_decision(
             taaqol_commit=taaqol_commit,
             hokom_commit=hokom_commit,
@@ -583,6 +656,7 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             residuals=('defer:taaqol:gate_failed',),
             trace=tuple(trace),
             taaqol_center_scope=_morphological_center,
+            taaqol_runtime=dict(_rt),
         )
 
     # ── Step 5: Compose decision ──────────────────────────────────────────────
@@ -600,6 +674,11 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
     residuals_list = []
     for r in slot_graph.residuals:
         residuals_list.append(str(r.name))
+
+    # ── Finalize liveness contract ────────────────────────────────────────────
+    # All steps succeeded: active=True, all flags set, no failure_code.
+    _rt["active"] = True
+    _rt["trace_event_count"] = len(trace)
 
     return HokomTaaqolDecision(
         bridge_id=HOKOM_TAAQOL_BRIDGE_ID,
@@ -619,6 +698,7 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
         fail_closed=True,
         source_engine='TAAQOL',
         taaqol_center_scope=_morphological_center,
+        taaqol_runtime=dict(_rt),
     )
 
 

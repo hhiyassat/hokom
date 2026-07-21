@@ -743,12 +743,21 @@ def hokom(word: str) -> dict:
     }
     _taaqol_decision = None
     _taaqol_effective_verdict = None
+    _taaqol_runtime = None
+    _taaqol_verdict = None  # None = runtime unavailable; semantic string = live evaluation
     try:
         from pipeline.taaqol_integration.claim_adapter import bundle_from_hokom_result
         from pipeline.taaqol_integration.live.bridge import evaluate_hokom_claim_bundle
         _claim_bundle = bundle_from_hokom_result(_hokom_result_partial)
         _taaqol_decision = evaluate_hokom_claim_bundle(_claim_bundle)
         _taaqol_effective_verdict = _taaqol_decision.effective_verdict
+        _taaqol_runtime = getattr(_taaqol_decision, 'taaqol_runtime', None)
+        # taaqol_verdict is the semantic gate verdict ONLY when runtime executed successfully.
+        # When runtime is unavailable (import/path failure), taaqol_verdict stays None
+        # so callers can distinguish infrastructure failure from semantic DEFER/ACCEPT/BLOCK.
+        if _taaqol_runtime is not None and _taaqol_runtime.get('active'):
+            _taaqol_verdict = _taaqol_decision.taaqol_verdict
+        # else: _taaqol_verdict remains None — runtime did not execute
     except Exception:
         # Integration not yet wired or unavailable — record None, do not raise.
         # This is NOT a silent fallback: taaqol_decision=None signals unavailable.
@@ -816,6 +825,8 @@ def hokom(word: str) -> dict:
         # ── Taaqol Live Governance ────────────────────────────────────────
         'taaqol_decision':             _taaqol_decision,
         'taaqol_effective_verdict':    _taaqol_effective_verdict,
+        'taaqol_verdict':              _taaqol_verdict,
+        'taaqol_runtime':              _taaqol_runtime,
         'taaqol_center_scope':         (
             getattr(_taaqol_decision, 'taaqol_center_scope', None)
             if _taaqol_decision else None
