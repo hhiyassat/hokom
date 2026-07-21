@@ -192,7 +192,27 @@ def test_root_host_not_original_when_clitics_stripped(token):
     input_surf = r.get('input_surface', token)
 
     if rc is None:
-        pytest.skip(f'{token}: no root_candidate (route closed)')
+        # Route is closed — assert closed-route invariants instead of skipping
+        route_v = r.get('_route_v')
+        mabni_v = r.get('mabni_verdict')
+        pre_root = r.get('pre_root')
+        seg_enclitics = r.get('segment_enclitics', ())
+        assert route_v is not None or mabni_v is not None, (
+            f'{token}: closed route must have _route_v or mabni_verdict set; '
+            f'got _route_v={route_v!r}, mabni_verdict={mabni_v!r}'
+        )
+        assert pre_root is None, (
+            f'{token}: pre_root must be None when route is closed; got {pre_root!r}'
+        )
+        assert seg_host is not None and seg_host != input_surf, (
+            f'{token}: segment_host must differ from input_surface when clitics stripped; '
+            f'seg_host={seg_host!r}, input_surf={input_surf!r}'
+        )
+        assert 'هُ' in seg_enclitics, (
+            f'{token}: attached pronoun هُ must appear in segment_enclitics, not as radical; '
+            f'got {seg_enclitics!r}'
+        )
+        return
 
     if seg_host is not None and seg_host != input_surf:
         root_host = getattr(rc, 'host_surface', None)
