@@ -1,0 +1,657 @@
+{
+  "slot_count": 47,
+  "slots": [
+    {
+      "slot_id": "ORIGINAL_SURFACE",
+      "sort_name": "UNKNOWN",
+      "sort_value": -1,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "NORMALIZED_SURFACE",
+      "sort_name": "NORMALIZATION",
+      "sort_value": 10,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "LETTER_SEQUENCE",
+      "sort_name": "PHONOLOGICAL",
+      "sort_value": 20,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "DIACRITIC_SEQUENCE",
+      "sort_name": "PHONOLOGICAL",
+      "sort_value": 20,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "PHONOLOGICAL_CELLS",
+      "sort_name": "PHONOLOGICAL",
+      "sort_value": 20,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "SHADDA_SLOT",
+      "sort_name": "PHONOLOGICAL",
+      "sort_value": 20,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "SUKUN_SLOT",
+      "sort_name": "PHONOLOGICAL",
+      "sort_value": 20,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "MADD_SLOT",
+      "sort_name": "PHONOLOGICAL",
+      "sort_value": 20,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "PROCLITIC_SLOTS",
+      "sort_name": "SEGMENTATION",
+      "sort_value": 30,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "SEGMENT_HOST",
+      "sort_name": "SEGMENTATION",
+      "sort_value": 30,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": [
+        "ROOT_CLAIM",
+        "PATTERN_CLAIM"
+      ]
+    },
+    {
+      "slot_id": "ENCLITIC_SLOTS",
+      "sort_name": "SEGMENTATION",
+      "sort_value": 30,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "ARTICLE_SLOT",
+      "sort_name": "ARTICLE",
+      "sort_value": 35,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "SOLAR_ASSIMILATION_SLOT",
+      "sort_name": "ARTICLE",
+      "sort_value": 35,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "BOUNDARY_TYPE_SLOT",
+      "sort_name": "BOUNDARY",
+      "sort_value": 40,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "PATH_DIRECTIVE_SLOT",
+      "sort_name": "BOUNDARY",
+      "sort_value": 40,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "LEXICAL_IDENTITY_SLOT",
+      "sort_name": "LEXICAL_FUNCTIONAL",
+      "sort_value": 50,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": [
+        "WORD_CLASS_CLAIM",
+        "FUNCTIONAL_OWNER_CLAIM"
+      ]
+    },
+    {
+      "slot_id": "FUNCTIONAL_OWNER_SLOT",
+      "sort_name": "LEXICAL_FUNCTIONAL",
+      "sort_value": 50,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": [
+        "WORD_CLASS_CLAIM",
+        "FUNCTIONAL_OWNER_CLAIM"
+      ]
+    },
+    {
+      "slot_id": "WORD_CLASS_SLOT",
+      "sort_name": "WORD_CLASS",
+      "sort_value": 60,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": [
+        "WORD_CLASS_CLAIM"
+      ]
+    },
+    {
+      "slot_id": "INFLECTION_PREFIX_SLOT",
+      "sort_name": "INFLECTIONAL",
+      "sort_value": 70,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "INFLECTION_SUFFIX_SLOT",
+      "sort_name": "INFLECTIONAL",
+      "sort_value": 70,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "DERIVATIONAL_EXTENSION_SLOTS",
+      "sort_name": "INFLECTIONAL",
+      "sort_value": 70,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": [
+        "MASDAR_CLAIM"
+      ]
+    },
+    {
+      "slot_id": "WEAK_RADICAL_SLOT",
+      "sort_name": "INFLECTIONAL",
+      "sort_value": 70,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": [
+        "ROOT_CLAIM"
+      ]
+    },
+    {
+      "slot_id": "GEMINATION_SLOT",
+      "sort_name": "INFLECTIONAL",
+      "sort_value": 70,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "RESTORATION_CANDIDATE_SET",
+      "sort_name": "INFLECTIONAL",
+      "sort_value": 70,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": [
+        "ROOT_CLAIM"
+      ]
+    },
+    {
+      "slot_id": "RADICAL_R1",
+      "sort_name": "RADICAL",
+      "sort_value": 80,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": [
+        "ROOT_CLAIM"
+      ]
+    },
+    {
+      "slot_id": "RADICAL_R2",
+      "sort_name": "RADICAL",
+      "sort_value": 80,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": [
+        "ROOT_CLAIM"
+      ]
+    },
+    {
+      "slot_id": "RADICAL_R3",
+      "sort_name": "RADICAL",
+      "sort_value": 80,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": [
+        "ROOT_CLAIM"
+      ]
+    },
+    {
+      "slot_id": "RADICAL_R4",
+      "sort_name": "RADICAL",
+      "sort_value": 80,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": [
+        "ROOT_CLAIM"
+      ]
+    },
+    {
+      "slot_id": "ROOT_CANDIDATE_SET",
+      "sort_name": "RADICAL",
+      "sort_value": 80,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "PATTERN_CANDIDATE_SET",
+      "sort_name": "PATTERN",
+      "sort_value": 90,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": [
+        "ROOT_CLAIM",
+        "PATTERN_CLAIM",
+        "DERIVATIVE_CLAIM"
+      ]
+    },
+    {
+      "slot_id": "PATTERN_ALIGNMENT",
+      "sort_name": "PATTERN",
+      "sort_value": 90,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": [
+        "PATTERN_CLAIM"
+      ]
+    },
+    {
+      "slot_id": "PATTERN_EVIDENCE",
+      "sort_name": "PATTERN",
+      "sort_value": 90,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": [
+        "PATTERN_CLAIM"
+      ]
+    },
+    {
+      "slot_id": "BAB_CANDIDATE_SET",
+      "sort_name": "BAB",
+      "sort_value": 100,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": [
+        "BAB_CLAIM"
+      ]
+    },
+    {
+      "slot_id": "MASDAR_CANDIDATE_SET",
+      "sort_name": "MASDAR",
+      "sort_value": 110,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": [
+        "MASDAR_CLAIM"
+      ]
+    },
+    {
+      "slot_id": "DERIVATIVE_CANDIDATE_SET",
+      "sort_name": "DERIVATIVE",
+      "sort_value": 120,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": [
+        "DERIVATIVE_CLAIM"
+      ]
+    },
+    {
+      "slot_id": "NUMBER_SLOT",
+      "sort_name": "MORPHOSYNTAX",
+      "sort_value": 130,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "GENDER_SLOT",
+      "sort_name": "MORPHOSYNTAX",
+      "sort_value": 130,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "DEFINITENESS_SLOT",
+      "sort_name": "MORPHOSYNTAX",
+      "sort_value": 130,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "NISBA_SLOT",
+      "sort_name": "MORPHOSYNTAX",
+      "sort_value": 130,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "COLLECTIVE_SLOT",
+      "sort_name": "MORPHOSYNTAX",
+      "sort_value": 130,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "UNIT_NOUN_SLOT",
+      "sort_name": "MORPHOSYNTAX",
+      "sort_value": 130,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "LEMMA_SLOT",
+      "sort_name": "PARADIGM",
+      "sort_value": 140,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "PARADIGM_SLOT",
+      "sort_name": "PARADIGM",
+      "sort_value": 140,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": [
+        "BAB_CLAIM"
+      ]
+    },
+    {
+      "slot_id": "INFLECTIONAL_FAMILY_SLOT",
+      "sort_name": "PARADIGM",
+      "sort_value": 140,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "DERIVATIONAL_FAMILY_SLOT",
+      "sort_name": "PARADIGM",
+      "sort_value": 140,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "EVIDENCE_SLOT",
+      "sort_name": "EVIDENCE",
+      "sort_value": 900,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    },
+    {
+      "slot_id": "RESIDUAL_SLOT",
+      "sort_name": "RESIDUAL",
+      "sort_value": 910,
+      "possible_states": [
+        "FILLED",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "NOT_APPLICABLE",
+        "BLOCKED"
+      ],
+      "claim_profiles": []
+    }
+  ]
+}

@@ -1,0 +1,196 @@
+{
+  "license_count": 8,
+  "source": "pipeline/p1_atomic_structure/slot_engineering.py::SLOT_TRANS_LICENSES",
+  "violation_closed": "T-08",
+  "licenses": [
+    {
+      "license_id": "DTL-SLOT_TRANS_EPSILON",
+      "slot_trans_state": "''",
+      "cause": "Empty slot boundary accepts initial consonant C; V is forbidden at slot start",
+      "input_slots": [
+        "PHONOLOGICAL_CELLS"
+      ],
+      "output_slots": [
+        "PHONOLOGICAL_CELLS"
+      ],
+      "condition_facts": [
+        "input_element=C"
+      ],
+      "obstacle_facts": [
+        "input_element=V:FORBIDDEN_AT_SLOT_START"
+      ],
+      "evidence_refs": [
+        "SLOT_TRANS:epsilon:C->C"
+      ],
+      "residuals": [],
+      "stage": "H2"
+    },
+    {
+      "license_id": "DTL-SLOT_TRANS_C",
+      "slot_trans_state": "'C'",
+      "cause": "Single consonant prefix C extends to open syllable CV on vowel input",
+      "input_slots": [
+        "PHONOLOGICAL_CELLS"
+      ],
+      "output_slots": [
+        "PHONOLOGICAL_CELLS"
+      ],
+      "condition_facts": [
+        "current_state=C",
+        "input_element=V"
+      ],
+      "obstacle_facts": [
+        "input_element=C:DOUBLE_CONSONANT_CLUSTER_FORBIDDEN"
+      ],
+      "evidence_refs": [
+        "SLOT_TRANS:C:V->CV"
+      ],
+      "residuals": [],
+      "stage": "H2"
+    },
+    {
+      "license_id": "DTL-SLOT_TRANS_CV",
+      "slot_trans_state": "'CV'",
+      "cause": "Open syllable CV branches: V->CVV (long vowel) or C->CVC (closed)",
+      "input_slots": [
+        "PHONOLOGICAL_CELLS"
+      ],
+      "output_slots": [
+        "PHONOLOGICAL_CELLS"
+      ],
+      "condition_facts": [
+        "current_state=CV"
+      ],
+      "obstacle_facts": [],
+      "evidence_refs": [
+        "SLOT_TRANS:CV:V->CVV",
+        "SLOT_TRANS:CV:C->CVC"
+      ],
+      "residuals": [],
+      "stage": "H2"
+    },
+    {
+      "license_id": "DTL-SLOT_TRANS_CVV",
+      "slot_trans_state": "'CVV'",
+      "cause": "Long open syllable CVV closes to CVVC on consonant; second V extension forbidden",
+      "input_slots": [
+        "PHONOLOGICAL_CELLS"
+      ],
+      "output_slots": [
+        "PHONOLOGICAL_CELLS"
+      ],
+      "condition_facts": [
+        "current_state=CVV",
+        "input_element=C"
+      ],
+      "obstacle_facts": [
+        "input_element=V:TRIPLE_VOWEL_EXTENSION_FORBIDDEN"
+      ],
+      "evidence_refs": [
+        "SLOT_TRANS:CVV:C->CVVC"
+      ],
+      "residuals": [],
+      "stage": "H2"
+    },
+    {
+      "license_id": "DTL-SLOT_TRANS_CVC",
+      "slot_trans_state": "'CVC'",
+      "cause": "Closed syllable CVC extends to geminate CVCC at word-final position only",
+      "input_slots": [
+        "PHONOLOGICAL_CELLS"
+      ],
+      "output_slots": [
+        "PHONOLOGICAL_CELLS"
+      ],
+      "condition_facts": [
+        "current_state=CVC",
+        "input_element=C"
+      ],
+      "obstacle_facts": [
+        "input_element=V:POST_CLOSURE_VOWEL_FORBIDDEN"
+      ],
+      "evidence_refs": [
+        "SLOT_TRANS:CVC:C->CVCC"
+      ],
+      "residuals": [
+        "WORD_FINAL_ONLY:CVCC"
+      ],
+      "stage": "H2"
+    },
+    {
+      "license_id": "DTL-SLOT_TRANS_CVVC",
+      "slot_trans_state": "'CVVC'",
+      "cause": "Closed long syllable CVVC extends to super-heavy CVVCC at word-final position only",
+      "input_slots": [
+        "PHONOLOGICAL_CELLS"
+      ],
+      "output_slots": [
+        "PHONOLOGICAL_CELLS"
+      ],
+      "condition_facts": [
+        "current_state=CVVC",
+        "input_element=C"
+      ],
+      "obstacle_facts": [
+        "input_element=V:POST_CLOSURE_VOWEL_FORBIDDEN"
+      ],
+      "evidence_refs": [
+        "SLOT_TRANS:CVVC:C->CVVCC"
+      ],
+      "residuals": [
+        "WORD_FINAL_ONLY:CVVCC"
+      ],
+      "stage": "H2"
+    },
+    {
+      "license_id": "DTL-SLOT_TRANS_CVCC",
+      "slot_trans_state": "'CVCC'",
+      "cause": "Terminal saturated syllable CVCC: no further extension permitted",
+      "input_slots": [
+        "PHONOLOGICAL_CELLS"
+      ],
+      "output_slots": [
+        "PHONOLOGICAL_CELLS"
+      ],
+      "condition_facts": [
+        "current_state=CVCC",
+        "state=TERMINAL_SATURATED"
+      ],
+      "obstacle_facts": [
+        "input_element=ANY:TERMINAL_EXTENSION_BLOCKED"
+      ],
+      "evidence_refs": [
+        "SLOT_TRANS:CVCC:terminal"
+      ],
+      "residuals": [
+        "TERMINAL_SATURATED:CVCC"
+      ],
+      "stage": "H2"
+    },
+    {
+      "license_id": "DTL-SLOT_TRANS_CVVCC",
+      "slot_trans_state": "'CVVCC'",
+      "cause": "Super-heavy terminal syllable CVVCC: no further extension permitted",
+      "input_slots": [
+        "PHONOLOGICAL_CELLS"
+      ],
+      "output_slots": [
+        "PHONOLOGICAL_CELLS"
+      ],
+      "condition_facts": [
+        "current_state=CVVCC",
+        "state=TERMINAL_SATURATED"
+      ],
+      "obstacle_facts": [
+        "input_element=ANY:TERMINAL_EXTENSION_BLOCKED"
+      ],
+      "evidence_refs": [
+        "SLOT_TRANS:CVVCC:terminal"
+      ],
+      "residuals": [
+        "TERMINAL_SATURATED:CVVCC"
+      ],
+      "stage": "H2"
+    }
+  ]
+}

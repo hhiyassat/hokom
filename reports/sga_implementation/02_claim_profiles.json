@@ -1,0 +1,195 @@
+{
+  "active_count": 7,
+  "reserved_count": 3,
+  "profiles": [
+    {
+      "profile_id": "ROOT_CLAIM",
+      "status": "ACTIVE",
+      "required_slots": [
+        "RADICAL_R1",
+        "RADICAL_R2",
+        "RADICAL_R3",
+        "SEGMENT_HOST"
+      ],
+      "optional_slots": [
+        "PATTERN_CANDIDATE_SET",
+        "RADICAL_R4",
+        "RESTORATION_CANDIDATE_SET",
+        "WEAK_RADICAL_SLOT"
+      ],
+      "not_applicable_slots": [
+        "FUNCTIONAL_OWNER_SLOT"
+      ],
+      "allowed_evidence_kinds": [
+        "LEXICAL",
+        "MORPHOLOGICAL",
+        "PATTERN_MATCH",
+        "WAZN_MATCH"
+      ],
+      "minimum_evidence_count": 1,
+      "possible_residual_codes": [
+        "AMBIGUOUS_ROOT",
+        "WEAK_RADICAL"
+      ]
+    },
+    {
+      "profile_id": "PATTERN_CLAIM",
+      "status": "ACTIVE",
+      "required_slots": [
+        "PATTERN_CANDIDATE_SET",
+        "SEGMENT_HOST"
+      ],
+      "optional_slots": [
+        "PATTERN_ALIGNMENT",
+        "PATTERN_EVIDENCE"
+      ],
+      "not_applicable_slots": [],
+      "allowed_evidence_kinds": [
+        "PATTERN_MATCH",
+        "WAZN_MATCH"
+      ],
+      "minimum_evidence_count": 1,
+      "possible_residual_codes": [
+        "AMBIGUOUS_PATTERN"
+      ]
+    },
+    {
+      "profile_id": "BAB_CLAIM",
+      "status": "ACTIVE",
+      "required_slots": [
+        "BAB_CANDIDATE_SET"
+      ],
+      "optional_slots": [
+        "PARADIGM_SLOT"
+      ],
+      "not_applicable_slots": [],
+      "allowed_evidence_kinds": [
+        "LEXICAL",
+        "MORPHOLOGICAL"
+      ],
+      "minimum_evidence_count": 1,
+      "possible_residual_codes": [
+        "AMBIGUOUS_BAB"
+      ]
+    },
+    {
+      "profile_id": "MASDAR_CLAIM",
+      "status": "ACTIVE",
+      "required_slots": [
+        "MASDAR_CANDIDATE_SET"
+      ],
+      "optional_slots": [
+        "DERIVATIONAL_EXTENSION_SLOTS"
+      ],
+      "not_applicable_slots": [],
+      "allowed_evidence_kinds": [
+        "LEXICAL",
+        "PATTERN_MATCH"
+      ],
+      "minimum_evidence_count": 1,
+      "possible_residual_codes": [
+        "AMBIGUOUS_MASDAR",
+        "SAMI_MASDAR"
+      ]
+    },
+    {
+      "profile_id": "DERIVATIVE_CLAIM",
+      "status": "ACTIVE",
+      "required_slots": [
+        "DERIVATIVE_CANDIDATE_SET"
+      ],
+      "optional_slots": [
+        "PATTERN_CANDIDATE_SET"
+      ],
+      "not_applicable_slots": [],
+      "allowed_evidence_kinds": [
+        "LEXICAL",
+        "PATTERN_MATCH"
+      ],
+      "minimum_evidence_count": 1,
+      "possible_residual_codes": [
+        "AMBIGUOUS_DERIVATIVE"
+      ]
+    },
+    {
+      "profile_id": "WORD_CLASS_CLAIM",
+      "status": "ACTIVE",
+      "required_slots": [
+        "WORD_CLASS_SLOT"
+      ],
+      "optional_slots": [
+        "FUNCTIONAL_OWNER_SLOT",
+        "LEXICAL_IDENTITY_SLOT"
+      ],
+      "not_applicable_slots": [
+        "BAB_CANDIDATE_SET",
+        "PATTERN_CANDIDATE_SET",
+        "RADICAL_R1",
+        "RADICAL_R2",
+        "RADICAL_R3"
+      ],
+      "allowed_evidence_kinds": [
+        "CATALOG_HIT",
+        "LEXICAL",
+        "MORPHOLOGICAL"
+      ],
+      "minimum_evidence_count": 1,
+      "possible_residual_codes": [
+        "AMBIGUOUS_WORD_CLASS"
+      ]
+    },
+    {
+      "profile_id": "FUNCTIONAL_OWNER_CLAIM",
+      "status": "ACTIVE",
+      "required_slots": [
+        "FUNCTIONAL_OWNER_SLOT"
+      ],
+      "optional_slots": [
+        "LEXICAL_IDENTITY_SLOT"
+      ],
+      "not_applicable_slots": [
+        "RADICAL_R1",
+        "RADICAL_R2",
+        "RADICAL_R3"
+      ],
+      "allowed_evidence_kinds": [
+        "CATALOG_HIT",
+        "LEXICAL"
+      ],
+      "minimum_evidence_count": 1,
+      "possible_residual_codes": [
+        "FUNCTIONAL_COLLISION"
+      ]
+    },
+    {
+      "profile_id": "SYNTACTIC_RELATION_CLAIM",
+      "status": "RESERVED",
+      "required_slots": [],
+      "optional_slots": [],
+      "not_applicable_slots": [],
+      "allowed_evidence_kinds": [],
+      "minimum_evidence_count": 0,
+      "possible_residual_codes": []
+    },
+    {
+      "profile_id": "SEMANTIC_RELATION_CLAIM",
+      "status": "RESERVED",
+      "required_slots": [],
+      "optional_slots": [],
+      "not_applicable_slots": [],
+      "allowed_evidence_kinds": [],
+      "minimum_evidence_count": 0,
+      "possible_residual_codes": []
+    },
+    {
+      "profile_id": "EXISTENCE_CLAIM",
+      "status": "RESERVED",
+      "required_slots": [],
+      "optional_slots": [],
+      "not_applicable_slots": [],
+      "allowed_evidence_kinds": [],
+      "minimum_evidence_count": 0,
+      "possible_residual_codes": []
+    }
+  ]
+}
