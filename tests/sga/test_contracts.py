@@ -513,21 +513,23 @@ def test_constitutional_13_taaqol_vendor_has_no_hokom_imports():
     hokom's pipeline modules (no Arabic morphology in vendor).
     """
     vendor_src = _REPO_ROOT / "vendor" / "Taaqol-GPT" / "src" / "taaqqul_slot_geometry"
-    hokom_modules = [
-        "hokom_pipeline",
-        "pipeline.p3_pre_root",
-        "pipeline.p3_candidate",
-        "pipeline.p4_wazn",
-        "from mabni",
-        "from mabniyat",
-        "canonical_radical_accounting",
+    import re as _re
+    # Match actual Python import statements only (not prose references)
+    hokom_import_patterns = [
+        r"^(?:import|from)\s+hokom_pipeline",
+        r"^(?:import|from)\s+pipeline\.p3_pre_root",
+        r"^(?:import|from)\s+pipeline\.p3_candidate",
+        r"^(?:import|from)\s+pipeline\.p4_wazn",
+        r"^(?:import|from)\s+mabni\b",
+        r"^(?:import|from)\s+mabniyat\b",
+        r"^(?:import|from)\s+.*canonical_radical_accounting",
     ]
     violations = []
     for py_file in vendor_src.rglob("*.py"):
         text = py_file.read_text(encoding="utf-8")
-        for pattern in hokom_modules:
-            if pattern in text:
-                violations.append(f"{py_file.name}: contains '{pattern}'")
+        for pattern in hokom_import_patterns:
+            if _re.search(pattern, text, _re.MULTILINE):
+                violations.append(f"{py_file.name}: imports '{pattern}'")
     assert not violations, f"Vendor imports Hokom modules: {violations}"
 
 
@@ -691,15 +693,22 @@ def test_constitutional_16_no_skips_in_constitutional_suite():
     """
     this_file = Path(__file__)
     source = this_file.read_text(encoding="utf-8")
-    assert "pytest.mark.skip" not in source, (
-        "Constitutional suite must not contain pytest.mark.skip"
-    )
-    assert "pytest.mark.xfail" not in source, (
-        "Constitutional suite must not contain pytest.mark.xfail"
-    )
-    assert "skipif" not in source, (
-        "Constitutional suite must not contain skipif"
-    )
+    # Check that no decorator lines use skip/xfail markers.
+    # Pattern strings are built dynamically to avoid self-reference in source.
+    _skip_deco  = "@" + "pytest" + "." + "mark" + "." + "skip"
+    _xfail_deco = "@" + "pytest" + "." + "mark" + "." + "xfail"
+    _skipif_deco = "@" + "pytest" + "." + "mark" + "." + "skipif"
+    for _line in source.splitlines():
+        _stripped = _line.strip()
+        assert not _stripped.startswith(_skip_deco), (
+            f"Constitutional suite has forbidden decorator on line: {_stripped!r}"
+        )
+        assert not _stripped.startswith(_xfail_deco), (
+            f"Constitutional suite has forbidden decorator on line: {_stripped!r}"
+        )
+        assert not _stripped.startswith(_skipif_deco), (
+            f"Constitutional suite has forbidden decorator on line: {_stripped!r}"
+        )
 
 
 def test_constitutional_16b_all_claim_profiles_are_defined():

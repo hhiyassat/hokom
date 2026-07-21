@@ -1,0 +1,65 @@
+{
+  "audit_date": "2026-07-22",
+  "head": "02918a6f9bd33f89352ca64ea70c432c2d16a05e",
+  "total_fields": 40,
+  "gaps": {
+    "UNTYPED": [
+      {"field": "slots", "path": "hokom_pipeline.py", "issue": "list[dict] — no frozen dataclass, no SlotState"},
+      {"field": "verdict", "path": "hokom_pipeline.py", "issue": "raw str — not a SlotState enum"},
+      {"field": "mabni_verdict", "path": "hokom_pipeline.py", "issue": "Optional[str] — not FUNCTIONAL_OWNER_SLOT TypedSlot"},
+      {"field": "functional_boundary_owner", "path": "hokom_pipeline.py", "issue": "Optional[str] — not typed enum"},
+      {"field": "functional_collision", "path": "hokom_pipeline.py", "issue": "bool — should be AMBIGUOUS SlotState"},
+      {"field": "root_candidate", "path": "hokom_pipeline.py", "issue": "duck-typed object — not TypedSlot"},
+      {"field": "phase4a_result", "path": "hokom_pipeline.py", "issue": "duck-typed object — not TypedSlot"},
+      {"field": "phase4b_result", "path": "hokom_pipeline.py", "issue": "duck-typed object — not TypedSlot"},
+      {"field": "phase4c_result", "path": "hokom_pipeline.py", "issue": "duck-typed object — not TypedSlot"},
+      {"field": "phase4d_result", "path": "hokom_pipeline.py", "issue": "duck-typed object — not TypedSlot"},
+      {"field": "word_class_result", "path": "hokom_pipeline.py", "issue": "duck-typed object — not TypedSlot"},
+      {"field": "word_class_subclass", "path": "hokom_pipeline.py", "issue": "str|None — not FUNCTIONAL_OWNER_SLOT"},
+      {"field": "inflectional_form", "path": "hokom_pipeline.py", "issue": "duck-typed object — not TypedSlot"},
+      {"field": "pre_root", "path": "hokom_pipeline.py", "issue": "duck-typed object — not TypedSlot"},
+      {"field": "jamid_boundary", "path": "hokom_pipeline.py", "issue": "duck-typed object — not TypedSlot"},
+      {"field": "augmented_analysis", "path": "hokom_pipeline.py", "issue": "duck-typed object — not TypedSlot"},
+      {"field": "cra_result", "path": "hokom_pipeline.py", "issue": "duck-typed object — not TypedSlot"},
+      {"field": "segment_proclitics", "path": "hokom_pipeline.py", "issue": "bare tuple — not PROCLITIC_SLOTS TypedSlot"},
+      {"field": "segment_enclitics", "path": "hokom_pipeline.py", "issue": "bare tuple — not ENCLITIC_SLOTS TypedSlot"},
+      {"field": "active_residuals", "path": "claim_adapter.py", "issue": "bare tuple — not HokomResidualRecord"},
+      {"field": "resolved_residuals", "path": "claim_adapter.py", "issue": "bare tuple — not HokomResidualRecord"},
+      {"field": "taaqol_runtime", "path": "bridge.py", "issue": "raw dict — not typed liveness contract object"}
+    ],
+    "MISSING": [
+      {"field": "SHADDA_SLOT", "note": "Shadda position not tracked as typed slot"},
+      {"field": "SUKUN_SLOT", "note": "Sukun not tracked as typed slot"},
+      {"field": "MADD_SLOT", "note": "Long vowel not tracked as typed slot"},
+      {"field": "RADICAL_R1/R2/R3/R4", "note": "Individual radical slots not typed — only final_root tuple"},
+      {"field": "BOUNDARY_TYPE_SLOT (typed)", "note": "BoundaryType enum not used for morphology_blocked"},
+      {"field": "LEMMA_SLOT", "note": "lemma_surface not linked to LEMMA_SLOT typed slot"},
+      {"field": "INFLECTION_PREFIX_SLOT", "note": "Mudaric prefix not tracked as typed slot"},
+      {"field": "INFLECTION_SUFFIX_SLOT", "note": "Verbal suffixes not tracked as typed slot"}
+    ],
+    "OPAQUE": [
+      {"field": "taaqol_runtime", "path": "bridge.py/models.py", "issue": "dict — no typed contract; active/failure_code buried in raw dict"},
+      {"field": "HokomTaaqolTraceEvent.output", "path": "models.py", "issue": "opaque str — gamma/gate state not structurally accessible"}
+    ],
+    "PARTIAL": [
+      "original_surface (no NormalizationOp chain)",
+      "normalized_surface (no operation log)",
+      "segment_host (not linked to SEGMENT_HOST TypedSlot)",
+      "segment_clitic_only (bool not BoundaryType)",
+      "final_root (tuple not CandidateSet)",
+      "final_wazn (str not CandidateSet)",
+      "final_form (str not CandidateSet)",
+      "final_masdar (str not CandidateSet)",
+      "taaqol_verdict (str not structured)",
+      "taaqol_decision (has to_dict but no from_dict)"
+    ]
+  },
+  "total_gaps": {
+    "UNTYPED": 22,
+    "MISSING": 8,
+    "OPAQUE": 2,
+    "PARTIAL": 10
+  },
+  "stage1_closes": ["UNTYPED (foundations)", "MISSING (slot enumeration)", "OPAQUE (typing foundations)"],
+  "stage1_defers": ["Wiring individual pipeline fields into TypedSlot instances (Stage 2+)"]
+}
