@@ -1,0 +1,23 @@
+component,owner,may_read,may_write,may_delete,notes
+SlotGraph,TAAQOL,BRIDGE,BRIDGE,NEVER,Created by bridge via _build_slot_graph(); HOKOM never constructs directly
+Gamma,TAAQOL,BRIDGE,NEVER,NEVER,Called by bridge; HOKOM never calls gamma() directly
+TransitionGate,TAAQOL,BRIDGE,NEVER,NEVER,Called by bridge; HOKOM never instantiates TransitionGate
+RankLattice,TAAQOL,BRIDGE,NEVER,NEVER,Used internally by TransitionGate; HOKOM never calls meet()/join()
+TraceLedger,TAAQOL,BRIDGE,NEVER,NEVER,HOKOM reads trace events via HokomTaaqolTraceEvent (HOKOM model)
+EvidenceContract,TAAQOL,BRIDGE,BRIDGE,NEVER,Built by bridge via _build_evidence_contract()
+HokomClaimBundle (pipeline/sga/contracts.py),HOKOM,HOKOM+BRIDGE,HOKOM,NEVER,Stage 1 creates this; bridge reads it and maps to Taaqol
+HokomLinguisticClaimBundle (provider_models.py),HOKOM,HOKOM+BRIDGE,HOKOM,NEVER,Existing; claim_adapter builds; bridge reads
+HokomTaaqolDecision,BRIDGE,HOKOM,BRIDGE,NEVER,Output of bridge; HOKOM reads fields
+SlotId,HOKOM,HOKOM+BRIDGE,HOKOM,NEVER,Stage 1; pure Arabic domain enumeration
+SlotSort,HOKOM,HOKOM+BRIDGE,HOKOM,NEVER,Stage 1; processing order
+SlotState,HOKOM,HOKOM+BRIDGE,HOKOM,NEVER,Stage 1; FILLED/UNKNOWN/AMBIGUOUS/NOT_APPLICABLE/BLOCKED
+TypedSlot,HOKOM,HOKOM+BRIDGE,HOKOM,NEVER,Stage 1; unit of typed slot algebra
+CandidateSet,HOKOM,HOKOM+BRIDGE,HOKOM,NEVER,Stage 1; multi-candidate ambiguity carrier
+EvidenceReference,HOKOM,HOKOM+BRIDGE,HOKOM,NEVER,Stage 1; Hokom-side evidence descriptor
+HokomResidualRecord,HOKOM,HOKOM+BRIDGE,HOKOM,NEVER,Stage 1; typed residual with visibility
+DomainTransitionLicense,HOKOM,HOKOM+BRIDGE,HOKOM,NEVER,Stage 1; Hokom issues; Taaqol gate decides
+ClaimProfile,HOKOM,HOKOM+BRIDGE,HOKOM,NEVER,Stage 1; required/optional/not_applicable slots per claim kind
+HokomClaimBundle,HOKOM,HOKOM+BRIDGE,HOKOM,NEVER,Stage 1; structured payload for bridge
+SurfaceProvenance,HOKOM,HOKOM+BRIDGE,HOKOM,NEVER,Stage 1; original_surface preservation contract
+Arabic morphological rules,HOKOM,HOKOM,HOKOM,NEVER,NEVER in bridge or vendor
+Root/wazn extraction,HOKOM,HOKOM,HOKOM,NEVER,NEVER in Taaqol vendor
