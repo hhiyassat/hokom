@@ -29,6 +29,23 @@ from .models import (
 )
 from .decision_composition import compose_effective_verdict
 
+# SGA typed-slot contracts and adapter (Stage 2 wiring)
+try:
+    from pipeline.sga.contracts import (
+        HokomClaimBundle as _HokomClaimBundle,
+        compute_claim_key as _compute_claim_key,
+        SlotId as _SlotId,
+        SlotState as _SlotState,
+    )
+    from pipeline.sga.adapters import (
+        build_claim_bundle as _build_claim_bundle,
+        adapt_root_radicals as _adapt_root_radicals,
+    )
+    _SGA_AVAILABLE = True
+except ImportError:
+    _SGA_AVAILABLE = False
+    _HokomClaimBundle = None  # type: ignore[assignment,misc]
+
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # Git helpers (deterministic provenance)
@@ -126,10 +143,28 @@ def _deferred_decision(
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# SGA structured bundle factory (Stage 2 wiring)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+def _build_structured_bundle(hokom_result_dict: dict, claim_kind: str = "ROOT_CLAIM") -> 'Optional[_HokomClaimBundle]':
+    """
+    Build a HokomClaimBundle (SGA typed slots) from a hokom_pipeline output dict.
+    Returns None if SGA contracts are unavailable (graceful degradation).
+    This is a pure adapter — no linguistic logic, no Taaqol calls.
+    """
+    if not _SGA_AVAILABLE:
+        return None
+    try:
+        return _build_claim_bundle(hokom_result_dict, claim_kind, claim_kind)
+    except Exception:
+        return None
+
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # SlotGraph construction from bundle (uses real Taaqol API)
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-def _build_slot_graph(bundle, taaqol):
+def _build_slot_graph(bundle, taaqol, sga_bundle=None):
     """
     Build a taaqqul_slot_geometry.SlotGraph from a HokomLinguisticClaimBundle.
 
@@ -244,6 +279,38 @@ def _build_slot_graph(bundle, taaqol):
         slots = (primary_slot, wc_slot)
     else:
         slots = (primary_slot,)
+
+    # ── SGA typed radical / pattern slots (Stage 2 wiring) ───────────────────
+    # If an sga_bundle is provided, extract typed radicals (R1/R2/R3) and
+    # pattern from HokomClaimBundle.typed_slots and add them to the SlotGraph.
+    # These are informational optional slots — never required for gate verdict.
+    if sga_bundle is not None and _SGA_AVAILABLE:
+        _sga_extra: list = []
+        _slot_names = {
+            _SlotId.RADICAL_R1: 'sga_radical_r1',
+            _SlotId.RADICAL_R2: 'sga_radical_r2',
+            _SlotId.RADICAL_R3: 'sga_radical_r3',
+            _SlotId.PATTERN_CANDIDATE_SET: 'sga_pattern',
+        }
+        for ts in sga_bundle.typed_slots:
+            if ts.slot_id in _slot_names and ts.value is not None:
+                ts_name = _slot_names[ts.slot_id]
+                _sga_extra.append(Slot(
+                    name=ts_name,
+                    value_state=SlotState.FILLED,
+                    boundary=SlotBoundary(
+                        domain='hokom_sga',
+                        scope=ts_name,
+                        refusal_codes=(),
+                    ),
+                    opening=OpeningPolicy(
+                        allowed_potentials=frozenset({str(ts.value)}),
+                    ),
+                    required=False,
+                    value=str(ts.value),
+                ))
+        if _sga_extra:
+            slots = tuple(slots) + tuple(_sga_extra)
 
     # ── Residuals ─────────────────────────────────────────────────────────────
     residuals_list = []
@@ -473,6 +540,26 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
     _rt["vendor_sha"] = _get_taaqol_sha_full()
     _rt["public_entrypoint"] = "taaqqul_slot_geometry"
 
+    # ── SGA structured bundle (Stage 2 wiring) ───────────────────────────────
+    # Build a HokomClaimBundle from the legacy bundle's attributes, if available.
+    # This provides typed R1/R2/R3/PATTERN slots for the SlotGraph.
+    # Failure is non-fatal — the bridge continues without typed slots.
+    _sga_bundle = None
+    if _SGA_AVAILABLE:
+        _legacy_dict = {
+            "original_surface": getattr(bundle, 'original_surface', '') or '',
+            "normalized_surface": getattr(bundle, 'normalized_surface', '') or '',
+            "segment_host": getattr(bundle, 'segment_host', None),
+            "root_candidate": getattr(bundle, 'root_candidate', None),
+            "wazn": getattr(bundle, 'wazn', None),
+            "word_class": str(getattr(bundle, 'part_of_speech', None) or
+                              getattr(bundle, 'lexical_class', None) or ''),
+        }
+        _sga_bundle = _build_structured_bundle(_legacy_dict, claim_kind="ROOT_CLAIM")
+        # Use SHA-256 claim_key from SGA bundle as claim_id when available
+        if _sga_bundle is not None:
+            _rt["sga_claim_key"] = _sga_bundle.claim_key
+
     # ── Clitic-only gate ─────────────────────────────────────────────────────
     # If the segmenter found no lexical host (pure clitic construction, e.g. بِكُمْ),
     # there is no morphological center — SlotGraph cannot be built.
@@ -506,7 +593,7 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
 
     # ── Step 1: Build SlotGraph ───────────────────────────────────────────────
     try:
-        slot_graph = _build_slot_graph(bundle, _taaqol)
+        slot_graph = _build_slot_graph(bundle, _taaqol, sga_bundle=_sga_bundle)
         graph_digest = _digest(
             f'{getattr(bundle, "claim_id", "")}:'
             f'{getattr(bundle, "domain_directive", "")}:'
