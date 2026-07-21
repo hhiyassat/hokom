@@ -187,18 +187,87 @@ def hokom(word: str) -> dict:
             jamid_boundary  = None
             _is_jamid_aalam = False
 
+    # ── P5.4: Functional Lexical Lookup (HOKOM-MABNI-FUNCTIONAL-CATALOG-OWNERSHIP-01) ─
+    # Resolves segment_host against the unified functional catalog BEFORE root
+    # admission. Handles three cases:
+    #
+    #   OPERATOR_BOUNDARY  — segment_host is a known operator; root path closed.
+    #   MABNI_BOUNDARY     — segment_host is a known ISM mabni; root path closed.
+    #   FUNCTIONAL_AMBIGUITY — bare collision; root path still closed (no silent pick).
+    #
+    # Monotonic routing: skipped if JAMID_AALAM_BOUNDARY or MabniBoundary already
+    # delivered a definitive verdict.  Does NOT skip for OPERATOR_BOUNDARY from
+    # mabni_inventory (some question words carry is_operator=True there but are
+    # grammatically ISM mabni — the functional lookup corrects the label).
+    #
+    # Proclitic-compound rule: when segment_proclitics is non-empty AND the functional
+    # lookup on segment_host finds any result (MABNI or OPERATOR), the overall token
+    # routing is OPERATOR_BOUNDARY (the proclitic heads the compound as a preposition).
+    # This handles بِمَا (segment_host='مَا' → MABNI, but بِ makes it preposition-compound).
+    _functional_result      = None
+    _functional_owner       = None           # OPERATOR_BOUNDARY | MABNI_BOUNDARY | None
+    _functional_collision   = False
+    _functional_match_type  = None
+
+    # Only skip functional lookup for JAMID_AALAM (already authoritatively closed).
+    # MabniBlocked means the phonological slot pattern is invalid for mabni classification,
+    # but the token may still be a known functional word in the catalog (e.g. أَيّ whose
+    # shadda normalization yields an unrecognised slot string).  We still run the catalog
+    # lookup for MabniBlocked tokens so the functional owner can be set correctly.
+    _already_closed = _is_jamid_aalam
+    if not _already_closed and segment_host is not None and not morphology_blocked:
+        try:
+            from pipeline.p5_lexical.functional_lexical_lookup import (
+                lookup as _fl_lookup,
+            )
+            _fl_host = segment_host   # lookup on segment_host ONLY (after clitic strip)
+            _functional_result = _fl_lookup(_fl_host)
+
+            if _functional_result is not None:
+                if _functional_result.collision:
+                    # Collision: ambiguity confirmed — root still closed, no silent pick
+                    _functional_owner     = None
+                    _functional_collision = True
+                else:
+                    _functional_owner     = _functional_result.owner
+                    _functional_collision = False
+                    # Proclitic-compound rule: any token with operator proclitics
+                    # (بِ, لِ, فَ, وَ, كَ) and a functional host → OPERATOR_BOUNDARY
+                    if segment_proclitics and _functional_owner is not None:
+                        _functional_owner = 'OPERATOR_BOUNDARY'
+                _functional_match_type = _functional_result.match_type
+        except Exception:
+            _functional_result     = None
+            _functional_owner      = None
+            _functional_collision  = False
+
+    # ── Route override for MabniBoundary tokens ────────────────────────────────
+    # For tokens already caught by mabni_inventory (e.g. مَنْ as OPERATOR_BOUNDARY),
+    # the functional lookup may correct the owner to MABNI_BOUNDARY.  Store the
+    # corrected label in _functional_owner so the result dict reflects the right owner.
+    # The root path is already closed by MabniBoundary; this is label-only correction.
+    if isinstance(mabni, MabniBoundary) and _functional_owner is not None:
+        pass   # _functional_owner already set; MabniBoundary keeps root closed
+
     # ── Pre-Root Decision (طبقة ما قبل الجذر) ────────────────────────────────
     # تُشغَّل بعد P5 فقط عند MabniOpen — تُقرِّر ما إذا كان مسار الجذر مفتوحًا.
     # تُعيد PreRootDecision أو None عند الفشل.
     # JAMID_AALAM_BOUNDARY: root admission is closed — skip pre_root entirely.
+    # FUNCTIONAL_LOOKUP: OPERATOR_BOUNDARY or MABNI_BOUNDARY → root admission closed.
     pre_root = None
     if not morphology_blocked and isinstance(mabni, MabniOpen) and not _is_jamid_aalam:
         _seg_v   = attachment.segmentation_verdict if attachment else None
         _route_v = attachment.host_route           if attachment else None
 
+        # ── Functional lookup override: close root if functional word found ───
+        if _functional_owner in ('OPERATOR_BOUNDARY', 'MABNI_BOUNDARY'):
+            pre_root = None     # Functional boundary: root path closed
+        elif _functional_collision:
+            pre_root = None     # Collision: root must not open under ambiguity
+        # ── Existing routing from attachment ──────────────────────────────────
         # وضع MABNI_BOUNDARY المستقل (هِيَ، هُوَ، ...): المضيف نفسه مبني —
         # التحليل ذهب إلى DAL، لا حاجة لطبقة ما قبل الجذر.
-        if _seg_v == 'NOT_SEGMENTED' and _route_v == 'MABNI_BOUNDARY':
+        elif _seg_v == 'NOT_SEGMENTED' and _route_v == 'MABNI_BOUNDARY':
             pre_root = None
         elif _route_v == 'OPERATOR_BOUNDARY':
             # Operator host: root admission is closed. The host after proclitic
@@ -659,6 +728,18 @@ def hokom(word: str) -> dict:
         'segment_definite_article': (
             segment_bundle.definite_article if segment_bundle else None
         ),
+        # Functional catalog ownership (for taaqol bridge pass-through)
+        'functional_boundary_owner': _functional_owner,
+        'functional_collision':      _functional_collision,
+        '_route_v': (
+            _functional_owner
+            if _functional_owner is not None
+            else (
+                mabni.verdict
+                if isinstance(mabni, MabniBoundary)
+                else None
+            )
+        ),
     }
     _taaqol_decision = None
     _taaqol_effective_verdict = None
@@ -749,6 +830,33 @@ def hokom(word: str) -> dict:
         'morphology_surface':          morphology_surface,
         'morphology_blocked':          morphology_blocked,
         'morphology_block_reason':     morphology_block_reason,
+        # ── Functional Catalog Ownership (HOKOM-MABNI-FUNCTIONAL-CATALOG-OWNERSHIP-01) ─
+        # functional_boundary_owner: definitive owner after functional lookup.
+        #   For MabniBoundary tokens the functional lookup may correct the label
+        #   (e.g. مَنْ: mabni_inventory gives OPERATOR_BOUNDARY, functional gives MABNI_BOUNDARY).
+        #   For MabniOpen tokens where functional lookup closed the root path,
+        #   functional_boundary_owner records why root was closed.
+        # _route_v: convenience field for canonical gate / downstream consumers.
+        #   Priority: functional_boundary_owner > mabni.verdict (for MabniBoundary) > None.
+        'functional_boundary_result':  _functional_result,
+        'functional_boundary_owner':   _functional_owner,
+        'functional_collision':        _functional_collision,
+        '_route_v': (
+            _functional_owner
+            if _functional_owner is not None
+            else (
+                mabni.verdict
+                if isinstance(mabni, MabniBoundary)
+                else (
+                    (attachment.host_route
+                     if attachment and getattr(attachment, 'host_route', None)
+                        in ('OPERATOR_BOUNDARY', 'MABNI_BOUNDARY')
+                     else None)
+                    if isinstance(mabni, MabniOpen)
+                    else None
+                )
+            )
+        ),
     }
 
 
@@ -840,6 +948,14 @@ def _run_word_class_engine(
         attachment_route = str(getattr(attachment, 'host_route', '') or '')
         attachment_notes = str(getattr(attachment, 'notes', '') or '')
         attachment_mabni_id = extract_mabni_id_from_notes(attachment_notes)
+    elif isinstance(mabni, MabniBoundary) and mabni.verdict == 'MABNI_BOUNDARY':
+        # Commit 3: tokens caught directly by mabni_inventory (e.g. هُوَ, الَّذِي)
+        # do not produce an attachment record.  Synthesise attachment_route so
+        # word class engine STEP 5 can still classify them as ISM (PRONOUN, etc.).
+        attachment_route = 'MABNI_BOUNDARY'
+        if mabni.entries:
+            from pipeline.word_class.catalog import mabni_id_for_vocalized as _mid_lookup
+            attachment_mabni_id = _mid_lookup(mabni.entries[0].surface_vocalized)
 
     # ── available evidence summary (includes phase4a) ─────────────────────────
     avail = []

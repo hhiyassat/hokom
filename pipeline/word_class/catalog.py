@@ -135,6 +135,22 @@ def lexical_class_for_mabni_id(mabni_id: str) -> Optional[str]:
     return row.get('lexical_class') or None
 
 
+def mabni_id_for_vocalized(surface: str) -> str:
+    """
+    Look up a mabni_id from the mabniyat catalog by vocalized surface form.
+    Returns the mabni_id string, or '' if not found.
+
+    Used by _run_word_class_engine to synthesise attachment_mabni_id when a
+    token arrives via MabniBoundary directly (commit 3 path) rather than via
+    the segmenter attachment path.
+    """
+    cat = _get_mabniyat_catalog()
+    row = cat.get('by_vocalized', {}).get(surface)
+    if row is not None:
+        return row.get('mabni_id', '')
+    return ''
+
+
 def extract_mabni_id_from_notes(notes: str) -> str:
     """
     Extract mabni_id from attachment.notes of the form

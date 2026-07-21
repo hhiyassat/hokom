@@ -2213,12 +2213,20 @@ class TestFalseSuffixScanResolution(unittest.TestCase):
         """
         الَّذِيْنَ (بسكون صريح على ياء المدّ) يجب أن يُطابق ALLADHINA في الكتالوج
         ويُعيد MABNI_BOUNDARY — لا تقطيعًا لاحقيًا كاذبًا ينتزع نَ.
+
+        تحديث (commit 3): الَّذِيْنَ أُضيف إلى relative_pronouns_catalog.csv فيُعيد
+        MabniBoundary مباشرةً من mabni_inventory دون المرور بـ attachment.
+        المعيار: mabni.verdict == 'MABNI_BOUNDARY' و root_candidate is None.
         """
-        att = self._att('الَّذِيْنَ')
-        self.assertIsNotNone(att, "يجب أن يوجد attachment لـ الَّذِيْنَ")
-        self.assertEqual(att.segmentation_verdict, 'NOT_SEGMENTED',
-            "لا يُسمح بالتقطيع — الَّذِيْنَ مبني كامل")
-        self.assertEqual(att.host_route, 'MABNI_BOUNDARY')
+        from mabni_layer import MabniBoundary
+        r = self._hokom('الَّذِيْنَ')
+        mabni = r.get('mabni')
+        self.assertIsInstance(mabni, MabniBoundary,
+            "الَّذِيْنَ يجب أن يُعاد كـ MabniBoundary من الكتالوج")
+        self.assertEqual(mabni.verdict, 'MABNI_BOUNDARY',
+            "الَّذِيْنَ: verdict يجب أن يكون MABNI_BOUNDARY")
+        self.assertIsNone(r.get('root_candidate'),
+            "لا يُسمح بفتح مسار الجذر — الَّذِيْنَ مبني كامل")
 
     def test_alladhina_sukun_compatible_huwa_kasra_still_incompatible(self):
         """

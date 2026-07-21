@@ -234,22 +234,45 @@ def test_allah_three_variants_no_enclitics():
 
 
 def test_hoo_root_not_opened():
-    """هُوَ (mabni pronoun) must not open root analysis."""
+    """هُوَ (mabni pronoun) must not open root analysis.
+
+    Updated (commit 3): هُوَ is now caught directly by mabni_inventory via
+    relative_pronouns_catalog.csv, returning MabniBoundary without going
+    through the segmenter attachment path.  We verify mabni.verdict and root.
+    """
+    from mabni_layer import MabniBoundary
     r = hokom('هُوَ')
-    att = r.get('attachment')
+    mabni = r.get('mabni')
     rc = r.get('root_candidate')
-    route = getattr(att, 'host_route', None) if att else None
-    assert route == 'MABNI_BOUNDARY', f'هُوَ: expected MABNI_BOUNDARY, got {route!r}'
+    # Accept either the new MabniBoundary path OR the old attachment path
+    if isinstance(mabni, MabniBoundary):
+        assert mabni.verdict == 'MABNI_BOUNDARY', (
+            f'هُوَ: mabni.verdict expected MABNI_BOUNDARY, got {mabni.verdict!r}')
+    else:
+        att = r.get('attachment')
+        route = getattr(att, 'host_route', None) if att else None
+        assert route == 'MABNI_BOUNDARY', f'هُوَ: expected MABNI_BOUNDARY, got {route!r}'
     assert rc is None, f'هُوَ: root_candidate must be None; got {rc!r}'
 
 
 def test_alladhi_root_not_opened():
-    """الَّذِي (relative pronoun) must not open root analysis."""
+    """الَّذِي (relative pronoun) must not open root analysis.
+
+    Updated (commit 3): الَّذِي is now caught directly by mabni_inventory via
+    relative_pronouns_catalog.csv, returning MabniBoundary without going
+    through the segmenter attachment path.  We verify mabni.verdict and root.
+    """
+    from mabni_layer import MabniBoundary
     r = hokom('الَّذِي')
-    att = r.get('attachment')
+    mabni = r.get('mabni')
     rc = r.get('root_candidate')
-    route = getattr(att, 'host_route', None) if att else None
-    assert route == 'MABNI_BOUNDARY', f'الَّذِي: expected MABNI_BOUNDARY, got {route!r}'
+    if isinstance(mabni, MabniBoundary):
+        assert mabni.verdict == 'MABNI_BOUNDARY', (
+            f'الَّذِي: mabni.verdict expected MABNI_BOUNDARY, got {mabni.verdict!r}')
+    else:
+        att = r.get('attachment')
+        route = getattr(att, 'host_route', None) if att else None
+        assert route == 'MABNI_BOUNDARY', f'الَّذِي: expected MABNI_BOUNDARY, got {route!r}'
     assert rc is None, f'الَّذِي: root_candidate must be None; got {rc!r}'
 
 

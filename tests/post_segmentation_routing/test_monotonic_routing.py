@@ -63,7 +63,14 @@ def test_standalone_mabni_boundary_root_not_opened(token):
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# 2. MABNI_BOUNDARY (attach route via MabniOpen) → root_candidate None
+# 2. MABNI_BOUNDARY (via MabniOpen attach route OR direct MabniBoundary)
+#    → root_candidate None
+#
+# Updated (commit 3): هُوَ, الَّذِي, الَّذِينَ are now caught directly by
+# mabni_inventory via relative_pronouns_catalog.csv, returning MabniBoundary
+# rather than going through MabniOpen → attachment path.  The contract
+# (root_candidate is None, verdict is MABNI_BOUNDARY) is the same; only the
+# mechanism changed.
 # ═══════════════════════════════════════════════════════════════════════════════
 
 MABNI_BOUNDARY_ATTACH_TOKENS = [
@@ -73,17 +80,30 @@ MABNI_BOUNDARY_ATTACH_TOKENS = [
 
 @pytest.mark.parametrize('token', MABNI_BOUNDARY_ATTACH_TOKENS)
 def test_mabni_boundary_attach_root_not_opened(token):
-    """MabniOpen tokens with host_route=MABNI_BOUNDARY must have root_candidate=None."""
+    """Mabni-boundary tokens must have verdict=MABNI_BOUNDARY and root_candidate=None.
+
+    Accepts both the legacy MabniOpen+attachment path and the newer direct
+    MabniBoundary path from mabni_inventory (commit 3).
+    """
+    from mabni_layer import MabniBoundary as _MB
     r = hokom(token)
     rc = _root_candidate(r)
-    att = r.get('attachment')
-    route = getattr(att, 'host_route', None) if att else None
+    mabni = r.get('mabni')
 
-    assert route == 'MABNI_BOUNDARY', (
-        f'{token}: expected MABNI_BOUNDARY attach route, got {route!r}'
-    )
+    if isinstance(mabni, _MB):
+        # New path: caught directly by mabni_inventory catalog
+        assert mabni.verdict == 'MABNI_BOUNDARY', (
+            f'{token}: MabniBoundary.verdict expected MABNI_BOUNDARY, got {mabni.verdict!r}'
+        )
+    else:
+        # Legacy path: MabniOpen → segmenter → attachment.host_route
+        att = r.get('attachment')
+        route = getattr(att, 'host_route', None) if att else None
+        assert route == 'MABNI_BOUNDARY', (
+            f'{token}: expected MABNI_BOUNDARY attach route, got {route!r}'
+        )
     assert rc is None, (
-        f'{token}: root_candidate must be None for MABNI_BOUNDARY host route; '
+        f'{token}: root_candidate must be None for MABNI_BOUNDARY; '
         f'got directive={_root_dir(r)}'
     )
 
