@@ -264,3 +264,53 @@ class TestJamidAalamNonRegression:
         assert r.get('root_candidate') is None, (
             f"{tok!r}: root_candidate should be None after JAMID_AALAM_BOUNDARY"
         )
+
+
+# ── Tests: conditional and interrogative noun taxonomy ────────────────────────
+
+class TestConditionalInterrogativeNounTaxonomy:
+    """
+    HOKOM-MABNI-FUNCTIONAL-TAXONOMY-CORRECTION-01
+
+    Conditional nouns (مَتَى, مَهْمَا) and interrogative nouns (أَنَّى) must be
+    MABNI_BOUNDARY ISM, not OPERATOR_BOUNDARY HARF.  هُوَ must remain a
+    pronoun and must not be misclassified as a relative noun.
+
+    Root path must be closed for all four tokens.
+    """
+
+    @pytest.mark.parametrize('surface,expected_wc,must_not_contain', [
+        ('مَتَى',  'ISM', 'OPERATOR'),
+        ('مَهْمَا', 'ISM', 'OPERATOR'),
+        ('أَنَّى',  'ISM', 'OPERATOR'),
+        ('هُوَ',   'ISM', 'MAWSUL'),
+    ])
+    def test_conditional_interrogative_noun_taxonomy(
+            self, surface, expected_wc, must_not_contain):
+        """Conditional/interrogative nouns must be MABNI_BOUNDARY ISM, not OPERATOR_BOUNDARY."""
+        r = hokom(surface)
+        # root path must be closed
+        assert r.get('pre_root') is None, (
+            f"{surface}: pre_root should be None, got {r.get('pre_root')!r}"
+        )
+        assert r.get('root_candidate') is None, (
+            f"{surface}: root_candidate should be None, got {r.get('root_candidate')!r}"
+        )
+        # must be mabni boundary
+        assert r.get('mabni_verdict') == 'MABNI_BOUNDARY', (
+            f"{surface}: expected mabni_verdict='MABNI_BOUNDARY', "
+            f"got {r.get('mabni_verdict')!r}"
+        )
+        # word class must be ISM
+        wc = (r.get('word_class') or '').upper()
+        assert expected_wc in wc, (
+            f"{surface}: expected word_class containing {expected_wc!r}, "
+            f"got word_class={wc!r}"
+        )
+        # category must not contain disallowed string (no OPERATOR, no MAWSUL for هُوَ)
+        cat = str(r.get('category') or r.get('mabni_category') or '').upper()
+        if cat:
+            assert must_not_contain not in cat, (
+                f"{surface}: category must not contain {must_not_contain!r}, "
+                f"got {cat!r}"
+            )

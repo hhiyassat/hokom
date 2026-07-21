@@ -16,6 +16,7 @@ them.  This module exposes that catalog to the word class engine.
 """
 from __future__ import annotations
 
+import unicodedata
 from typing import Optional
 
 from .models import LexicalSubclass, EvidenceType, WordClassEvidence
@@ -28,8 +29,12 @@ _MABNIYAT_LEXICAL_CLASS_TO_SUBCLASS: dict[str, LexicalSubclass] = {
     'ATTACHED_PRONOUN':   LexicalSubclass.PRONOUN,
     'DEMONSTRATIVE':      LexicalSubclass.DEMONSTRATIVE,
     'RELATIVE':           LexicalSubclass.RELATIVE,
+    'RELATIVE_PRONOUN':   LexicalSubclass.RELATIVE,       # catalog alias
     'INTERROGATIVE_NOUN': LexicalSubclass.INTERROGATIVE_NOUN,
+    'INTERROGATIVE_NAME': LexicalSubclass.INTERROGATIVE_NOUN,  # catalog alias
     'CONDITIONAL_NOUN':   LexicalSubclass.CONDITIONAL_NOUN,
+    'CONDITIONAL_NAME':   LexicalSubclass.CONDITIONAL_NOUN,    # catalog alias (متى / مهما / أنى)
+    'JAZM_NAME':          LexicalSubclass.CONDITIONAL_NOUN,    # catalog alias (jazm names)
     'ADVERBIAL_MABNI':    LexicalSubclass.ADVERBIAL_MABNI,
     'VERB_NAME':          LexicalSubclass.VERB_NAME,
     # These are ISM-class entries that block FI3L
@@ -42,8 +47,12 @@ _MABNIYAT_CLASS_TO_EVIDENCE_TYPE: dict[str, EvidenceType] = {
     'ATTACHED_PRONOUN':   EvidenceType.LEXICAL_PRONOUN_ENTRY,
     'DEMONSTRATIVE':      EvidenceType.LEXICAL_DEMONSTRATIVE_ENTRY,
     'RELATIVE':           EvidenceType.LEXICAL_RELATIVE_ENTRY,
+    'RELATIVE_PRONOUN':   EvidenceType.LEXICAL_RELATIVE_ENTRY,
     'INTERROGATIVE_NOUN': EvidenceType.LEXICAL_INTERROGATIVE_NOUN,
+    'INTERROGATIVE_NAME': EvidenceType.LEXICAL_INTERROGATIVE_NOUN,
     'CONDITIONAL_NOUN':   EvidenceType.LEXICAL_NOMINAL_ENTRY,
+    'CONDITIONAL_NAME':   EvidenceType.LEXICAL_NOMINAL_ENTRY,
+    'JAZM_NAME':          EvidenceType.LEXICAL_NOMINAL_ENTRY,
     'ADVERBIAL_MABNI':    EvidenceType.LEXICAL_ADVERBIAL_MABNI,
     'VERB_NAME':          EvidenceType.LEXICAL_VERB_NAME,
     'NON_VERBAL_SURFACE': EvidenceType.LEXICAL_NOMINAL_ENTRY,
@@ -65,8 +74,12 @@ _ISM_MABNIYAT_CLASSES: frozenset[str] = frozenset({
     'ATTACHED_PRONOUN',
     'DEMONSTRATIVE',
     'RELATIVE',
+    'RELATIVE_PRONOUN',   # catalog alias
     'INTERROGATIVE_NOUN',
+    'INTERROGATIVE_NAME', # catalog alias
     'CONDITIONAL_NOUN',
+    'CONDITIONAL_NAME',   # catalog alias — متى / مهما / أنى
+    'JAZM_NAME',          # catalog alias — jazm conditional names
     'ADVERBIAL_MABNI',
     'VERB_NAME',
     'NON_VERBAL_SURFACE',
@@ -143,9 +156,14 @@ def mabni_id_for_vocalized(surface: str) -> str:
     Used by _run_word_class_engine to synthesise attachment_mabni_id when a
     token arrives via MabniBoundary directly (commit 3 path) rather than via
     the segmenter attachment path.
+
+    NFC-normalizes the input so that diacritic-ordering variants (e.g. أَنَّى
+    with shadda-before-fatha vs fatha-before-shadda) resolve to the same key.
+    The catalog indexes by NFC(surface_vocalized) via mabniyat_layer.normalize_key.
     """
     cat = _get_mabniyat_catalog()
-    row = cat.get('by_vocalized', {}).get(surface)
+    key = unicodedata.normalize('NFC', surface)
+    row = cat.get('by_vocalized', {}).get(key)
     if row is not None:
         return row.get('mabni_id', '')
     return ''

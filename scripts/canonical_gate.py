@@ -726,12 +726,12 @@ def run_radical_accounting_contracts() -> dict:
 
 # Question words that must be routed MABNI_BOUNDARY, not OPERATOR_BOUNDARY.
 # Exact vocalized forms only — avoids مَنْ / مِنْ bare-strip collision.
-# NOTE: أَنَّى, مَتَى, مَهْمَا are EXCLUDED here because they are genuine
-# conditional particles (حروف الشرط) whose vocalized form is identical to
-# the interrogative/adverbial use.  They correctly get OPERATOR_BOUNDARY
-# from the operators catalog.  The fixture does not assert MABNI for them.
+# HOKOM-MABNI-FUNCTIONAL-TAXONOMY-CORRECTION-01:
+# مَتَى, مَهْمَا, أَنَّى are conditional/interrogative nouns (أسماء شرط/استفهام)
+# and must be MABNI_BOUNDARY, not OPERATOR_BOUNDARY.
 _QUESTION_WORDS_VOCALIZED = frozenset({
     'مَنْ', 'مَا', 'أَيْنَ', 'كَيْفَ', 'كَمْ', 'أَيّ',
+    'مَتَى', 'مَهْمَا', 'أَنَّى',
 })
 
 # Proclitic-compound tokens: host is functional + proclitic present → OPERATOR_BOUNDARY
@@ -962,12 +962,52 @@ def run_functional_catalog_contracts() -> dict:
         except Exception as e:
             exceptions.append({'token': surface, 'error': str(e)})
 
+    # ── 10: conditional/interrogative noun taxonomy (HOKOM-MABNI-FUNCTIONAL-TAXONOMY-CORRECTION-01) ──
+    # مَتَى and مَهْمَا must be MABNI_BOUNDARY ISM (conditional nouns), not OPERATOR_BOUNDARY.
+    # أَنَّى must be MABNI_BOUNDARY ISM (interrogative/conditional noun), not OPERATOR_BOUNDARY.
+    # هُوَ must be MABNI_BOUNDARY ISM pronoun, not misclassified as a relative noun.
+    CONDITIONAL_NOUN_MISROUTED_AS_OPERATOR = 0
+    INTERROGATIVE_NOUN_MISROUTED_AS_OPERATOR = 0
+    PRONOUN_MISCLASSIFIED_AS_RELATIVE = 0
+
+    for tok in ['مَتَى', 'مَهْمَا']:
+        try:
+            r = hokom(tok)
+            if (r.get('_route_v') == 'OPERATOR_BOUNDARY'
+                    or r.get('mabni_verdict') != 'MABNI_BOUNDARY'):
+                CONDITIONAL_NOUN_MISROUTED_AS_OPERATOR += 1
+        except Exception as e:
+            exceptions.append({'token': tok, 'error': str(e)})
+
+    try:
+        r = hokom('أَنَّى')
+        if (r.get('_route_v') == 'OPERATOR_BOUNDARY'
+                or r.get('mabni_verdict') != 'MABNI_BOUNDARY'):
+            INTERROGATIVE_NOUN_MISROUTED_AS_OPERATOR += 1
+    except Exception as e:
+        exceptions.append({'token': 'أَنَّى', 'error': str(e)})
+
+    try:
+        r = hokom('هُوَ')
+        cat = str(r.get('category') or r.get('mabni_category') or '').upper()
+        if 'MAWSUL' in cat or 'RELATIVE' in cat:
+            PRONOUN_MISCLASSIFIED_AS_RELATIVE += 1
+    except Exception as e:
+        exceptions.append({'token': 'هُوَ', 'error': str(e)})
+
+    taxonomy_violations = (
+        CONDITIONAL_NOUN_MISROUTED_AS_OPERATOR +
+        INTERROGATIVE_NOUN_MISROUTED_AS_OPERATOR +
+        PRONOUN_MISCLASSIFIED_AS_RELATIVE
+    )
+
     total_violations = (
         len(owner_violations)         + len(root_open_violations)   +
         len(collision_violations)     + len(neg_control_violations) +
         len(question_word_violations) + len(proclitic_violations)   +
         len(whole_form_violations)    + len(mabni_ism_violations)   +
-        len(jamid_rerouted)           + len(exceptions)
+        len(jamid_rerouted)           + len(exceptions)             +
+        taxonomy_violations
     )
 
     return {
@@ -981,6 +1021,9 @@ def run_functional_catalog_contracts() -> dict:
         'MABNI_ISM_ROOT_OPEN_VIOLATIONS':          len(mabni_ism_violations),
         'JAMID_AALAM_REROUTED_BY_FUNCTIONAL':      len(jamid_rerouted),
         'FUNCTIONAL_CATALOG_UNHANDLED_EXCEPTIONS': len(exceptions),
+        'CONDITIONAL_NOUN_MISROUTED_AS_OPERATOR':  CONDITIONAL_NOUN_MISROUTED_AS_OPERATOR,
+        'INTERROGATIVE_NOUN_MISROUTED_AS_OPERATOR': INTERROGATIVE_NOUN_MISROUTED_AS_OPERATOR,
+        'PRONOUN_MISCLASSIFIED_AS_RELATIVE':       PRONOUN_MISCLASSIFIED_AS_RELATIVE,
         'total_violations': total_violations,
         'owner_violations':         owner_violations,
         'root_open_violations':     root_open_violations,

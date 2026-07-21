@@ -857,6 +857,20 @@ def hokom(word: str) -> dict:
                 )
             )
         ),
+        # mabni_verdict: canonical verdict for downstream contracts and gate counters.
+        # Alias of _route_v restricted to OPERATOR_BOUNDARY and MABNI_BOUNDARY only.
+        # Priority: functional_boundary_owner (overrides operator-catalog verdict for
+        # conditional and interrogative nouns) > mabni.verdict for MabniBoundary.
+        'mabni_verdict': (
+            _functional_owner
+            if _functional_owner in ('OPERATOR_BOUNDARY', 'MABNI_BOUNDARY')
+            else (
+                mabni.verdict
+                if isinstance(mabni, MabniBoundary)
+                   and mabni.verdict in ('OPERATOR_BOUNDARY', 'MABNI_BOUNDARY')
+                else None
+            )
+        ),
     }
 
 
