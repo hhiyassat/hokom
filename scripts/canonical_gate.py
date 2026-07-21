@@ -722,16 +722,291 @@ def run_radical_accounting_contracts() -> dict:
     }
 
 
+# ── Functional catalog contracts (HOKOM-MABNI-FUNCTIONAL-CATALOG-OWNERSHIP-01) ──
+
+# Question words that must be routed MABNI_BOUNDARY, not OPERATOR_BOUNDARY.
+# Exact vocalized forms only — avoids مَنْ / مِنْ bare-strip collision.
+# NOTE: أَنَّى, مَتَى, مَهْمَا are EXCLUDED here because they are genuine
+# conditional particles (حروف الشرط) whose vocalized form is identical to
+# the interrogative/adverbial use.  They correctly get OPERATOR_BOUNDARY
+# from the operators catalog.  The fixture does not assert MABNI for them.
+_QUESTION_WORDS_VOCALIZED = frozenset({
+    'مَنْ', 'مَا', 'أَيْنَ', 'كَيْفَ', 'كَمْ', 'أَيّ',
+})
+
+# Proclitic-compound tokens: host is functional + proclitic present → OPERATOR_BOUNDARY
+_PROCLITIC_COMPOUND_CASES = [
+    ('بِمَا', 'OPERATOR_BOUNDARY'),
+    ('فَإِنْ', 'OPERATOR_BOUNDARY'),
+    ('وَلَا', 'OPERATOR_BOUNDARY'),
+    ('وَإِنْ', 'OPERATOR_BOUNDARY'),
+]
+
+# Whole-form protection: root must be closed for these tokens
+_WHOLE_FORM_CASES = ['بِمَا', 'لِمَا', 'فَإِنْ', 'وَلَا']
+
+# Jamid Aalam tokens — functional lookup must NOT reroute these
+_JALALA_FORMS = [
+    'اللَّهُ', 'اللَّهَ', 'اللَّهِ',
+    'وَاللَّهُ', 'فَاللَّهُ', 'بِاللَّهِ', 'لِلَّهِ',
+]
+
+
+def _fc_get_owner(r: dict):
+    """Extract effective boundary owner from a hokom() result dict."""
+    fbo = r.get('functional_boundary_owner')
+    if fbo is not None:
+        return fbo
+    try:
+        from mabni_layer import MabniBoundary, MabniOpen
+        mabni = r.get('mabni')
+        if isinstance(mabni, MabniBoundary):
+            return mabni.verdict
+        if isinstance(mabni, MabniOpen):
+            att = r.get('attachment')
+            if att is not None:
+                route = getattr(att, 'host_route', None)
+                if route in ('OPERATOR_BOUNDARY', 'MABNI_BOUNDARY'):
+                    return route
+    except Exception:
+        pass
+    return None
+
+
+def _fc_root_closed(r: dict) -> bool:
+    return r.get('root_candidate') is None and r.get('pre_root') is None
+
+
+def run_functional_catalog_contracts() -> dict:
+    """
+    Governance counters for HOKOM-MABNI-FUNCTIONAL-CATALOG-OWNERSHIP-01.
+
+    All 10 counters must equal 0 for CLOSURE_ELIGIBLE.
+
+    Counters:
+      FUNCTIONAL_CATALOG_OWNER_VIOLATIONS    — wrong owner vs fixture expected_owner
+      FUNCTIONAL_ROOT_OPEN_VIOLATIONS        — root opened for a functional/mabni token
+      COLLISION_SILENT_PICK_VIOLATIONS       — collision pair resolved by silent first-match
+      NEGATIVE_CONTROL_CLOSED_VIOLATIONS     — derivational token incorrectly closed
+      QUESTION_WORD_OPERATOR_LABEL_VIOLATIONS — question word got OPERATOR not MABNI
+      PROCLITIC_COMPOUND_ROUTING_VIOLATIONS  — proclitic+host compound not OPERATOR
+      WHOLE_FORM_PROTECTION_VIOLATIONS       — whole-form functional token has open root
+      MABNI_ISM_ROOT_OPEN_VIOLATIONS         — ISM mabni (pronoun/relative) has open root
+      JAMID_AALAM_REROUTED_BY_FUNCTIONAL     — functional lookup touched a JAMID_AALAM token
+      FUNCTIONAL_CATALOG_UNHANDLED_EXCEPTIONS — exceptions raised during hokom() calls
+    """
+    sys.path.insert(0, str(REPO_ROOT))
+    _FIXTURE = REPO_ROOT / 'tests' / 'fixtures' / 'functional_catalog_cases.json'
+    try:
+        import json as _json
+        cases = _json.loads(_FIXTURE.read_text(encoding='utf-8'))['cases']
+        from hokom_pipeline import hokom
+    except Exception as e:
+        return {
+            'error': str(e), 'ok': False,
+            'FUNCTIONAL_CATALOG_OWNER_VIOLATIONS':    999,
+            'FUNCTIONAL_ROOT_OPEN_VIOLATIONS':        999,
+            'COLLISION_SILENT_PICK_VIOLATIONS':       999,
+            'NEGATIVE_CONTROL_CLOSED_VIOLATIONS':     999,
+            'QUESTION_WORD_OPERATOR_LABEL_VIOLATIONS': 999,
+            'PROCLITIC_COMPOUND_ROUTING_VIOLATIONS':  999,
+            'WHOLE_FORM_PROTECTION_VIOLATIONS':       999,
+            'MABNI_ISM_ROOT_OPEN_VIOLATIONS':         999,
+            'JAMID_AALAM_REROUTED_BY_FUNCTIONAL':     999,
+            'FUNCTIONAL_CATALOG_UNHANDLED_EXCEPTIONS': 999,
+        }
+
+    owner_violations        = []
+    root_open_violations    = []
+    collision_violations    = []
+    neg_control_violations  = []
+    question_word_violations = []
+    proclitic_violations    = []
+    whole_form_violations   = []
+    mabni_ism_violations    = []
+    jamid_rerouted          = []
+    exceptions              = []
+
+    _functional_cases  = [c for c in cases if not c.get('negative_control')]
+    _negative_controls = [c for c in cases if c.get('negative_control')]
+
+    # ── 1 & 2: per-fixture-case owner + root-closure checks ──────────────────
+    for case in _functional_cases:
+        surface  = case['surface']
+        expected = case.get('expected_owner')
+        try:
+            r     = hokom(surface)
+            owner = _fc_get_owner(r)
+            # FUNCTIONAL_CATALOG_OWNER_VIOLATIONS
+            if expected is not None and owner != expected:
+                owner_violations.append({
+                    'token': surface, 'label': case['label'],
+                    'expected': expected, 'got': owner,
+                })
+            # FUNCTIONAL_ROOT_OPEN_VIOLATIONS
+            if not _fc_root_closed(r):
+                root_open_violations.append({
+                    'token': surface, 'label': case['label'],
+                    'pre_root': repr(r.get('pre_root')),
+                    'root_candidate': repr(r.get('root_candidate')),
+                })
+        except Exception as e:
+            exceptions.append({'token': surface, 'error': str(e)})
+
+    # ── 3: collision silent-pick check ────────────────────────────────────────
+    # Pairs that share a bare form: مِنْ/مَنْ, إِذَا/إِذًا, إِنَّ/إِنْ, أَنَّ/أَنْ
+    # Each vocalized form must be independently resolved without cross-bleeding.
+    _collision_pairs = [
+        ('مِنْ', 'OPERATOR_BOUNDARY', 'مَنْ', 'MABNI_BOUNDARY'),
+        ('إِذَا', 'OPERATOR_BOUNDARY', 'إِذًا', 'OPERATOR_BOUNDARY'),
+        ('إِنَّ', 'OPERATOR_BOUNDARY', 'إِنْ', 'OPERATOR_BOUNDARY'),
+        ('أَنَّ', 'OPERATOR_BOUNDARY', 'أَنْ', 'OPERATOR_BOUNDARY'),
+    ]
+    for tok_a, exp_a, tok_b, exp_b in _collision_pairs:
+        for tok, exp in [(tok_a, exp_a), (tok_b, exp_b)]:
+            try:
+                r     = hokom(tok)
+                owner = _fc_get_owner(r)
+                # A collision that results in wrong owner = silent-pick violation
+                if owner != exp:
+                    collision_violations.append({
+                        'token': tok, 'expected': exp, 'got': owner,
+                        'pair_with': tok_b if tok == tok_a else tok_a,
+                    })
+                # Root must still be closed even for collision pairs
+                if not _fc_root_closed(r):
+                    collision_violations.append({
+                        'token': tok, 'violation': 'root_opened_in_collision_pair',
+                    })
+            except Exception as e:
+                exceptions.append({'token': tok, 'error': str(e)})
+
+    # ── 4: negative control — must NOT be closed ──────────────────────────────
+    for case in _negative_controls:
+        surface = case['surface']
+        try:
+            r     = hokom(surface)
+            owner = _fc_get_owner(r)
+            if owner in ('OPERATOR_BOUNDARY', 'MABNI_BOUNDARY'):
+                neg_control_violations.append({
+                    'token': surface, 'label': case['label'], 'owner': owner,
+                })
+        except Exception as e:
+            exceptions.append({'token': surface, 'error': str(e)})
+
+    # ── 5: question words must be MABNI_BOUNDARY ─────────────────────────────
+    for surface in _QUESTION_WORDS_VOCALIZED:
+        try:
+            r     = hokom(surface)
+            owner = _fc_get_owner(r)
+            if owner == 'OPERATOR_BOUNDARY':
+                question_word_violations.append({'token': surface, 'got': owner})
+        except Exception as e:
+            exceptions.append({'token': surface, 'error': str(e)})
+
+    # ── 6: proclitic-compound routing → OPERATOR_BOUNDARY ────────────────────
+    for surface, expected_owner in _PROCLITIC_COMPOUND_CASES:
+        try:
+            r     = hokom(surface)
+            owner = _fc_get_owner(r)
+            if owner != expected_owner:
+                proclitic_violations.append({
+                    'token': surface, 'expected': expected_owner, 'got': owner,
+                })
+        except Exception as e:
+            exceptions.append({'token': surface, 'error': str(e)})
+
+    # ── 7: whole-form protection — root must be closed ────────────────────────
+    for surface in _WHOLE_FORM_CASES:
+        try:
+            r = hokom(surface)
+            if not _fc_root_closed(r):
+                whole_form_violations.append({
+                    'token': surface,
+                    'pre_root': repr(r.get('pre_root')),
+                    'root_candidate': repr(r.get('root_candidate')),
+                })
+        except Exception as e:
+            exceptions.append({'token': surface, 'error': str(e)})
+
+    # ── 8: ISM mabni (pronouns, relative pronouns) — root must be closed ─────
+    _ism_mabni_tokens = [
+        'هُوَ', 'هِيَ', 'هُمَا', 'هُمْ', 'هُنَّ',
+        'أَنَا', 'نَحْنُ', 'أَنْتَ', 'أَنْتِ',
+        'الَّذِي', 'الَّتِي', 'الَّذِينَ',
+        'مَنْ', 'مَا', 'أَيْنَ', 'كَيْفَ', 'كَمْ',
+    ]
+    for surface in _ism_mabni_tokens:
+        try:
+            r = hokom(surface)
+            if not _fc_root_closed(r):
+                mabni_ism_violations.append({
+                    'token': surface,
+                    'pre_root': repr(r.get('pre_root')),
+                    'root_candidate': repr(r.get('root_candidate')),
+                })
+        except Exception as e:
+            exceptions.append({'token': surface, 'error': str(e)})
+
+    # ── 9: JAMID_AALAM must not be rerouted by functional lookup ─────────────
+    for surface in _JALALA_FORMS:
+        try:
+            r = hokom(surface)
+            fbo = r.get('functional_boundary_owner')
+            if fbo is not None:
+                jamid_rerouted.append({
+                    'token': surface,
+                    'functional_boundary_owner': fbo,
+                    'jamid_verdict': r.get('jamid_verdict'),
+                })
+        except Exception as e:
+            exceptions.append({'token': surface, 'error': str(e)})
+
+    total_violations = (
+        len(owner_violations)         + len(root_open_violations)   +
+        len(collision_violations)     + len(neg_control_violations) +
+        len(question_word_violations) + len(proclitic_violations)   +
+        len(whole_form_violations)    + len(mabni_ism_violations)   +
+        len(jamid_rerouted)           + len(exceptions)
+    )
+
+    return {
+        'FUNCTIONAL_CATALOG_OWNER_VIOLATIONS':     len(owner_violations),
+        'FUNCTIONAL_ROOT_OPEN_VIOLATIONS':         len(root_open_violations),
+        'COLLISION_SILENT_PICK_VIOLATIONS':        len(collision_violations),
+        'NEGATIVE_CONTROL_CLOSED_VIOLATIONS':      len(neg_control_violations),
+        'QUESTION_WORD_OPERATOR_LABEL_VIOLATIONS': len(question_word_violations),
+        'PROCLITIC_COMPOUND_ROUTING_VIOLATIONS':   len(proclitic_violations),
+        'WHOLE_FORM_PROTECTION_VIOLATIONS':        len(whole_form_violations),
+        'MABNI_ISM_ROOT_OPEN_VIOLATIONS':          len(mabni_ism_violations),
+        'JAMID_AALAM_REROUTED_BY_FUNCTIONAL':      len(jamid_rerouted),
+        'FUNCTIONAL_CATALOG_UNHANDLED_EXCEPTIONS': len(exceptions),
+        'total_violations': total_violations,
+        'owner_violations':         owner_violations,
+        'root_open_violations':     root_open_violations,
+        'collision_violations':     collision_violations,
+        'neg_control_violations':   neg_control_violations,
+        'question_word_violations': question_word_violations,
+        'proclitic_violations':     proclitic_violations,
+        'whole_form_violations':    whole_form_violations,
+        'mabni_ism_violations':     mabni_ism_violations,
+        'jamid_rerouted':           jamid_rerouted,
+        'exceptions':               exceptions,
+        'ok': total_violations == 0,
+    }
+
+
 # ── Closure manifest ──────────────────────────────────────────────────────────
 
 def generate_closure_manifest(stage_id, git, env_result, python, plt,
                                probes, run1, run2, comparison, corpus, routing,
-                               jamid_aalam=None) -> dict:
+                               jamid_aalam=None, functional_catalog=None) -> dict:
     eligible = (
         git['ok'] and python['ok'] and env_result['ok'] and plt['ok'] and
         probes['ok'] and run1['ok'] and run2['ok'] and comparison['ok'] and corpus['ok'] and
         routing['ok'] and
         (jamid_aalam is None or jamid_aalam['ok']) and
+        (functional_catalog is None or functional_catalog['ok']) and
         run1.get('failures', 999) == 0 and run2.get('failures', 999) == 0 and
         run1.get('skips', 999) == 0 and run2.get('skips', 999) == 0
     )
@@ -785,6 +1060,18 @@ def generate_closure_manifest(stage_id, git, env_result, python, plt,
             "PROCLITIC_COUNTED_IN_AALAM_ROOT": (jamid_aalam or {}).get('PROCLITIC_COUNTED_IN_AALAM_ROOT', 0),
             "JAMID_MISCLASSIFIED_AS_MABNI":    (jamid_aalam or {}).get('JAMID_MISCLASSIFIED_AS_MABNI', 0),
             "MABNI_INVENTORY_MODIFIED":        0,  # structural invariant: الله never in mabni_inventory
+        },
+        "functional_catalog_contracts": {
+            "FUNCTIONAL_CATALOG_OWNER_VIOLATIONS":     (functional_catalog or {}).get('FUNCTIONAL_CATALOG_OWNER_VIOLATIONS', 0),
+            "FUNCTIONAL_ROOT_OPEN_VIOLATIONS":         (functional_catalog or {}).get('FUNCTIONAL_ROOT_OPEN_VIOLATIONS', 0),
+            "COLLISION_SILENT_PICK_VIOLATIONS":        (functional_catalog or {}).get('COLLISION_SILENT_PICK_VIOLATIONS', 0),
+            "NEGATIVE_CONTROL_CLOSED_VIOLATIONS":      (functional_catalog or {}).get('NEGATIVE_CONTROL_CLOSED_VIOLATIONS', 0),
+            "QUESTION_WORD_OPERATOR_LABEL_VIOLATIONS": (functional_catalog or {}).get('QUESTION_WORD_OPERATOR_LABEL_VIOLATIONS', 0),
+            "PROCLITIC_COMPOUND_ROUTING_VIOLATIONS":   (functional_catalog or {}).get('PROCLITIC_COMPOUND_ROUTING_VIOLATIONS', 0),
+            "WHOLE_FORM_PROTECTION_VIOLATIONS":        (functional_catalog or {}).get('WHOLE_FORM_PROTECTION_VIOLATIONS', 0),
+            "MABNI_ISM_ROOT_OPEN_VIOLATIONS":          (functional_catalog or {}).get('MABNI_ISM_ROOT_OPEN_VIOLATIONS', 0),
+            "JAMID_AALAM_REROUTED_BY_FUNCTIONAL":      (functional_catalog or {}).get('JAMID_AALAM_REROUTED_BY_FUNCTIONAL', 0),
+            "FUNCTIONAL_CATALOG_UNHANDLED_EXCEPTIONS": (functional_catalog or {}).get('FUNCTIONAL_CATALOG_UNHANDLED_EXCEPTIONS', 0),
         },
         "artifacts": {"commit_bound": True, "stale_artifacts": 0},
         "closure_eligible": eligible,
@@ -859,7 +1146,7 @@ def main():
     for v in routing.get('root_after_boundary', [])[:5]:
         print(f"  BOUNDARY_VIOLATION: {v}")
 
-    print("\n[9/9] Jamid Aalam contracts (divine name + proclitic forms)...")
+    print("\n[9/10] Jamid Aalam contracts (divine name + proclitic forms)...")
     jamid_aalam = run_jamid_aalam_contracts()
     print(f"  {jamid_aalam['total_tokens']} tokens")
     print(f"  JAMID_AALAM_BOUNDARY_VIOLATIONS: {jamid_aalam['JAMID_AALAM_BOUNDARY_VIOLATIONS']}")
@@ -872,10 +1159,33 @@ def main():
     for v in jamid_aalam.get('root_after_jamid', [])[:5]:
         print(f"  ROOT_VIOLATION: {v}")
 
+    print("\n[10/10] Functional catalog contracts (HOKOM-MABNI-FUNCTIONAL-CATALOG-OWNERSHIP-01)...")
+    functional_catalog = run_functional_catalog_contracts()
+    _fc_counters = [
+        ('FUNCTIONAL_CATALOG_OWNER_VIOLATIONS',    functional_catalog['FUNCTIONAL_CATALOG_OWNER_VIOLATIONS']),
+        ('FUNCTIONAL_ROOT_OPEN_VIOLATIONS',        functional_catalog['FUNCTIONAL_ROOT_OPEN_VIOLATIONS']),
+        ('COLLISION_SILENT_PICK_VIOLATIONS',       functional_catalog['COLLISION_SILENT_PICK_VIOLATIONS']),
+        ('NEGATIVE_CONTROL_CLOSED_VIOLATIONS',     functional_catalog['NEGATIVE_CONTROL_CLOSED_VIOLATIONS']),
+        ('QUESTION_WORD_OPERATOR_LABEL_VIOLATIONS', functional_catalog['QUESTION_WORD_OPERATOR_LABEL_VIOLATIONS']),
+        ('PROCLITIC_COMPOUND_ROUTING_VIOLATIONS',  functional_catalog['PROCLITIC_COMPOUND_ROUTING_VIOLATIONS']),
+        ('WHOLE_FORM_PROTECTION_VIOLATIONS',       functional_catalog['WHOLE_FORM_PROTECTION_VIOLATIONS']),
+        ('MABNI_ISM_ROOT_OPEN_VIOLATIONS',         functional_catalog['MABNI_ISM_ROOT_OPEN_VIOLATIONS']),
+        ('JAMID_AALAM_REROUTED_BY_FUNCTIONAL',     functional_catalog['JAMID_AALAM_REROUTED_BY_FUNCTIONAL']),
+        ('FUNCTIONAL_CATALOG_UNHANDLED_EXCEPTIONS', functional_catalog['FUNCTIONAL_CATALOG_UNHANDLED_EXCEPTIONS']),
+    ]
+    for name, count in _fc_counters:
+        print(f"  {name}: {count}")
+    for v in functional_catalog.get('owner_violations', [])[:5]:
+        print(f"  OWNER_VIOLATION: {v}")
+    for v in functional_catalog.get('root_open_violations', [])[:5]:
+        print(f"  ROOT_OPEN: {v}")
+    for v in functional_catalog.get('exceptions', [])[:5]:
+        print(f"  EXCEPTION: {v}")
+
     print("\n" + "=" * 70)
     manifest = generate_closure_manifest(
         args.stage, git, env_result, python, plt, probes, run1, run2, comparison,
-        corpus, routing, jamid_aalam=jamid_aalam
+        corpus, routing, jamid_aalam=jamid_aalam, functional_catalog=functional_catalog
     )
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     mpath = REPORTS_DIR / f"closure_manifest.{git['head_short']}.json"
@@ -905,6 +1215,8 @@ def main():
             jamid_aalam.get('JAMID_MISCLASSIFIED_AS_MABNI', 0),
         ])
         if jv:                   reasons.append(f"{jv} jamid_aalam violations")
+        fv = functional_catalog.get('total_violations', 0)
+        if fv:                   reasons.append(f"{fv} functional_catalog violations")
         print(f"REASONS: {'; '.join(reasons)}")
     print("=" * 70)
     return 0 if eligible else 1
