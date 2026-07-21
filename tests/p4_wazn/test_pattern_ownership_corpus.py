@@ -312,15 +312,16 @@ class TestAugmentedVerbCorpus:
         assert _root_directive(surface) == 'ACCEPT'
         assert _form_family(surface)    == form
 
-    @pytest.mark.parametrize("surface,expected_form,deferred_reason", [
-        ('اِنْكَسَرَ', 'FORM_VII', 'ألف الوصل → محجوب بمحرك الفتحات'),
-        ('اِقْتَرَبَ', 'FORM_VIII','ألف الوصل → محجوب بمحرك الفتحات'),
-        ('اِسْتَغْفَرَ','FORM_X',   'ألف الوصل → مؤجل في المأمورية'),
+    @pytest.mark.parametrize("surface,expected_form,expected_wazn,expected_root", [
+        ('اِنْكَسَرَ', 'FORM_VII',  'INFA3ALA',  ('ك', 'س', 'ر')),
+        ('اِقْتَرَبَ', 'FORM_VIII', 'IFTA3ALA',  ('ق', 'ر', 'ب')),
+        ('اِسْتَغْفَرَ','FORM_X',   'ISTAF3ALA', ('غ', 'ف', 'ر')),
     ])
-    def test_forms_vii_viii_x_deferred(self, surface, expected_form, deferred_reason):
+    def test_forms_vii_viii_x_wasl_unlocked(self, surface, expected_form, expected_wazn, expected_root):
         """
-        Forms VII/VIII/X (ألف الوصل): محجوبة/مؤجلة — هذا سلوك محكوم لا خطأ.
-        الكاشف يُنتج التصنيف الصحيح لكن مسار الفتحات يحجب ما قبل الجذر.
+        Forms VII/VIII/X (ألف الوصل): مُرخَّصة بعد تفعيل تخطي ألف الوصل.
+        الكاشف يُنتج التصنيف الصحيح والمسار الكامل ينتج الوزن الصحيح.
+        لا حدود مزيفة (operator_boundary / mabni_verdict / jamid_verdict).
         """
         from pipeline.p2_augmented.detector import detect_augmented
         dr = detect_augmented(surface)
@@ -329,11 +330,19 @@ class TestAugmentedVerbCorpus:
         assert dr.form_family == expected_form, (
             f'{surface}: detector gave {dr.form_family!r}, expected {expected_form!r}'
         )
-        # لكن المسار الكامل لا ينتج وزنًا (ألف الوصل محجوبة)
-        assert _wazn(surface) is None, (
-            f'{surface}: expected None (deferred), got {_wazn(surface)!r}\n'
-            f'Deferral reason: {deferred_reason}'
+        # المسار الكامل ينتج الوزن الصحيح بعد ترخيص ألف الوصل
+        assert _wazn(surface) == expected_wazn, (
+            f'{surface}: expected {expected_wazn!r}, got {_wazn(surface)!r}'
         )
+        # الجذر الكنسي صحيح
+        assert _root(surface) == expected_root, (
+            f'{surface}: expected root {expected_root!r}, got {_root(surface)!r}'
+        )
+        # لا حدود مزيفة ناتجة عن سوء عدّ الحروف الأصلية
+        r = _pipeline(surface)
+        assert not r.get('operator_boundary'), f'{surface}: false operator_boundary'
+        assert r.get('mabni_verdict') is None, f'{surface}: false mabni_verdict'
+        assert r.get('jamid_verdict') is None, f'{surface}: false jamid_verdict'
 
 
 # ══════════════════════════════════════════════════════════════════════════════
