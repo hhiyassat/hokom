@@ -97,3 +97,27 @@ def word_gate(slots: list[dict]) -> tuple[str, list[str]]:
             return 'DEFER', viols
 
     return 'ACCEPT', viols
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 3.  Phonological Boundary Evidence Labels
+#     (HOKOM-SLOT-ENGINE-PLURAL-VERB-UNLOCK-01)
+# ══════════════════════════════════════════════════════════════════════════════
+
+# همزة الوصل at word-initial position after clitic stripping:
+# the ا is phonologically silent — it is the orthographic carrier for the
+# prosthetic vowel used in citation form only.  After segmentation removes
+# the proclitic, the segment_host begins with ا + sukun consonant.  The slot
+# engine must not treat this ا as a phonological V (which would yield '+V').
+HAMZAT_AL_WASL_PATTERN: str = 'HAMZAT_AL_WASL'
+
+# ألف الفارقة at word-final position after واو الجماعة (وا suffix):
+# the final ا is purely orthographic (zero phonological content).  Without
+# this label the slot engine extends the CVV slot to 'CVV+V', which is not
+# in VALID_S and causes a false BLOCK on all masculine plural verb forms.
+ALEF_FARQA_PATTERN: str = 'ALEF_FARQA'
+
+# The synthetic slot dict keys are identical to all other slot dicts so that
+# word_gate() and downstream consumers (mabni_projection, slot_patterns list)
+# can iterate without special-casing.  gate='' ensures the synthetic slots
+# are invisible to word_gate's BLOCK and DEFER tests.

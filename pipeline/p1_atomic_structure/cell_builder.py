@@ -26,6 +26,8 @@ from .slot_engineering import (
     _gate,
     _can_extend_with_mutaharrik,
     word_gate,
+    HAMZAT_AL_WASL_PATTERN,
+    ALEF_FARQA_PATTERN,
 )
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -217,7 +219,24 @@ def syllabify(phones: list[Phone]) -> list[dict]:
             return True
         return False
 
-    for phone in phones:
+    # -- Lookahead helpers (HOKOM-SLOT-ENGINE-PLURAL-VERB-UNLOCK-01) --
+
+    def _next_is_sakin(ph_idx):
+        """Is the next non-space phone sakin? (hamzat al-wasl test)"""
+        for j in range(ph_idx + 1, len(phones)):
+            p = phones[j]
+            if p.char != ' ':
+                return p.is_sakin()
+        return False
+
+    def _is_last_real_phone(ph_idx):
+        """Is this the last non-space phone? (alef al-farqa test)"""
+        for j in range(ph_idx + 1, len(phones)):
+            if phones[j].char != ' ':
+                return False
+        return True
+
+    for _ph_idx, phone in enumerate(phones):
 
         # ── فراغ بين الكلمات ───────────────────────────────────────────────
         if phone.char == ' ':
@@ -247,8 +266,47 @@ def syllabify(phones: list[Phone]) -> list[dict]:
         # ── حرف علة: يمد النواة V → VV ─────────────────────────────────────
         elif phone.is_vowel_letter():
             if not extend('V', phone):
-                slot_phones.append(phone)
-                slot_pattern += '+V'
+                # -- HAMZAT_AL_WASL_SKIP (HOKOM-SLOT-ENGINE-PLURAL-VERB-UNLOCK-01)
+                # Conditions: initial slot (slot_pattern='') + bare alef (alef char) + next sakin.
+                # Hamzat al-wasl is phonologically silent in connected speech.
+                # Treating it as V yields '+V' (BLOCK) for all waw-al-jamaa verbs.
+                # NOT licensed: alef in non-initial position, or next phone non-sakin.
+                if (slot_pattern == ''
+                        and phone.char == 'ا'
+                        and _next_is_sakin(_ph_idx)):
+                    slots.append({
+                        'surface':           phone.surface(),
+                        'pattern':           HAMZAT_AL_WASL_PATTERN,
+                        'gate':              '',
+                        'violations':        [],
+                        'status_at_close':   HAMZAT_AL_WASL_PATTERN,
+                        'close_reason':      'HAMZAT_AL_WASL_SKIP',
+                        'saturation_reason': '',
+                    })
+                    # slot_phones and slot_pattern remain '' for the real onset
+
+                # -- ALEF_FARQA_BOUNDARY (HOKOM-SLOT-ENGINE-PLURAL-VERB-UNLOCK-01)
+                # Conditions: current slot CVV + bare alef + last real phone.
+                # The final alef of waw-al-jamaa suffix is alef al-farqa:
+                # purely orthographic, zero phonological content.
+                # NOT licensed: alef after CVV in non-final position, or slot != CVV.
+                elif (slot_pattern == 'CVV'
+                      and phone.char == 'ا'
+                      and _is_last_real_phone(_ph_idx)):
+                    close_slot('ALEF_FARQA_BOUNDARY')
+                    slots.append({
+                        'surface':           phone.surface(),
+                        'pattern':           ALEF_FARQA_PATTERN,
+                        'gate':              '',
+                        'violations':        [],
+                        'status_at_close':   ALEF_FARQA_PATTERN,
+                        'close_reason':      'ALEF_FARQA_BOUNDARY',
+                        'saturation_reason': '',
+                    })
+
+                else:
+                    slot_phones.append(phone)
+                    slot_pattern += '+V'
 
         # ── ساكن: يضيف كوداً C ──────────────────────────────────────────────
         else:
