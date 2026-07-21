@@ -341,9 +341,17 @@ class MabniInventory:
 
 _INVENTORY: MabniInventory | None = None
 
+# ── مسار مجلد 02_mabniyat الافتراضي ─────────────────────────────────────────
+# HOKOM-MABNI-FUNCTIONAL-CATALOG-OWNERSHIP-01 (Commit 3):
+# تم تحديث القيمة الافتراضية من '' إلى 'data/02_mabniyat' لتحميل:
+#   - relative_pronouns_catalog.csv  (موصولات + ضمائر منفصلة)
+# هذا يُتيح قراءة المبنيات غير العوامل من مجلد البيانات بدلاً من تركها فارغة.
+_DEFAULT_MABNIYAT_DIR = 'data/02_mabniyat'
+
+
 def get_inventory(
     operators_csv: str  = 'data/operators_catalog_split_vocalized_corrected.csv',
-    mabniyat_dir:  str  = '',
+    mabniyat_dir:  str  = _DEFAULT_MABNIYAT_DIR,
 ) -> MabniInventory:
     global _INVENTORY
     if _INVENTORY is None:
@@ -359,9 +367,19 @@ def get_inventory(
             _INVENTORY.load_operators(str(ops_path))
         else:
             print(f"  ⚠ operators CSV غير موجود: {ops_path}")
-        # ── المصدر 2: 02_mabniyat ─────────────────────────────────────────
-        _INVENTORY.load_mabniyat(mabniyat_dir)
+        # ── المصدر 2: 02_mabniyat (موصولات، ضمائر، استفهام) ──────────────
+        if mabniyat_dir and not Path(mabniyat_dir).is_absolute():
+            _mabniyat_resolved = Path(__file__).resolve().parents[2] / mabniyat_dir
+        else:
+            _mabniyat_resolved = Path(mabniyat_dir) if mabniyat_dir else Path('')
+        _INVENTORY.load_mabniyat(str(_mabniyat_resolved))
     return _INVENTORY
+
+
+def reset_inventory() -> None:
+    """Reset the singleton (for test isolation). Not for production use."""
+    global _INVENTORY
+    _INVENTORY = None
 
 
 # ══════════════════════════════════════════════════════════════════════════════
