@@ -486,8 +486,24 @@ def process_canonical_radical_accounting(
 
     # DEFER: فعل ضعيف أو مضغوط أو رباعي أو غير قياسي
     reason = residual_code or 'TRILATERAL_ANALYSIS_DEFER'
-    # Propagate candidate sequences from root_profile (e.g. two-consonant reconstruction)
+    # Propagate candidate sequences from root_profile (e.g. two-consonant reconstruction).
+    # If root_profile carries no sequences and this is a two-consonant compressed surface,
+    # delegate to the extension module (compressed_form_candidates) which generates
+    # candidate triconsonantal sequences from the diacritic on C1.
+    # This keeps the logic out of the frozen root_rules.py (T-10 invariant).
     _defer_candidates = _root_profile.get('candidate_radical_sequences', [])
+    if (not _defer_candidates
+            and reason == 'defer:root:two_consonant_form_unresolved'):
+        try:
+            from pipeline.p3_candidate.compressed_form_candidates import (
+                generate_compressed_ajwaf_candidates as _gen_ajwaf,
+            )
+            _ext = _gen_ajwaf(stem_after_prefix)
+            if _ext:
+                _defer_candidates = _ext
+                evidence.append('COMPRESSED_FORM_CANDIDATES:AJWAF_RECONSTRUCTION')
+        except Exception:
+            pass  # Extension unavailable — fall through with empty candidates
     return _build(
         directive                   = 'DEFER',
         reason_codes                = [reason],
