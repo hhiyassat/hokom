@@ -211,7 +211,7 @@ def test_build_claim_bundle_surface_preserved():
     assert bundle.surface.original_surface == "اسْتَغْفَرَ"
 
 
-def test_build_claim_bundle_contains_15_slots():
+def test_build_claim_bundle_slot_count():
     result = {
         "original_surface": "كَتَبَ",
         "root_candidate": "ك-ت-ب",
@@ -220,4 +220,5 @@ def test_build_claim_bundle_contains_15_slots():
     }
     bundle = build_claim_bundle(result, "ROOT_CLAIM", "ROOT_CLAIM")
     # 2 surface + 3 segmentation + 2 article + 2 boundary + 1 word_class + 4 radicals + 1 pattern
-    assert len(bundle.typed_slots) == 15
+    # + 1 bab + 1 masdar + 1 derivative + 3 morphosyntax + 2 paradigm  (H11-H15, T-09)
+    assert len(bundle.typed_slots) == 23

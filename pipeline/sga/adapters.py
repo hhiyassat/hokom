@@ -243,6 +243,221 @@ def adapt_pattern(hokom_result: dict) -> TypedSlot:
     )
 
 
+# ── H11: Bab ─────────────────────────────────────────────────────────────────
+
+def adapt_bab(hokom_result: dict) -> TypedSlot:
+    """
+    Extract BAB_CANDIDATE_SET from pipeline result.
+    Bab = verb conjugation class (e.g., nasara, daraba, fatiha...).
+    """
+    bab = (
+        hokom_result.get("bab")
+        or hokom_result.get("verb_class")
+        or hokom_result.get("conjugation_class")
+        or hokom_result.get("final_form")
+    )
+
+    if bab is None:
+        return TypedSlot(
+            slot_id=SlotId.BAB_CANDIDATE_SET,
+            sort=SlotSort.BAB,
+            state=SlotState.UNKNOWN,
+        )
+
+    if isinstance(bab, (list, tuple)) and len(bab) > 1:
+        candidates = tuple(
+            CandidateEntry(value=str(b), evidence_code=f"bab:{b}")
+            for b in bab
+        )
+        cset = CandidateSet(candidates=candidates, selected=None)
+        return TypedSlot(
+            slot_id=SlotId.BAB_CANDIDATE_SET,
+            sort=SlotSort.BAB,
+            state=SlotState.AMBIGUOUS,
+            candidate_set=cset,
+        )
+
+    bab_val = bab[0] if isinstance(bab, (list, tuple)) else bab
+    return TypedSlot(
+        slot_id=SlotId.BAB_CANDIDATE_SET,
+        sort=SlotSort.BAB,
+        state=SlotState.FILLED,
+        value=str(bab_val),
+        evidence=(EvidenceReference(
+            evidence_id=f"bab:{bab_val}",
+            kind="LEXICAL",
+            source="hokom_pipeline.bab",
+        ),),
+    )
+
+
+# ── H12: Masdar ───────────────────────────────────────────────────────────────
+
+def adapt_masdar(hokom_result: dict) -> TypedSlot:
+    """Extract MASDAR_CANDIDATE_SET from pipeline result."""
+    masdar = (
+        hokom_result.get("masdar")
+        or hokom_result.get("verbal_noun")
+        or hokom_result.get("masdar_candidate")
+        or hokom_result.get("final_masdar")
+    )
+
+    if masdar is None:
+        return TypedSlot(
+            slot_id=SlotId.MASDAR_CANDIDATE_SET,
+            sort=SlotSort.MASDAR,
+            state=SlotState.UNKNOWN,
+        )
+
+    if isinstance(masdar, (list, tuple)) and len(masdar) > 1:
+        candidates = tuple(
+            CandidateEntry(value=str(m), evidence_code=f"masdar:{m}")
+            for m in masdar
+        )
+        cset = CandidateSet(candidates=candidates, selected=None)
+        return TypedSlot(
+            slot_id=SlotId.MASDAR_CANDIDATE_SET,
+            sort=SlotSort.MASDAR,
+            state=SlotState.AMBIGUOUS,
+            candidate_set=cset,
+        )
+
+    m_val = masdar[0] if isinstance(masdar, (list, tuple)) else masdar
+    return TypedSlot(
+        slot_id=SlotId.MASDAR_CANDIDATE_SET,
+        sort=SlotSort.MASDAR,
+        state=SlotState.FILLED,
+        value=str(m_val),
+        evidence=(EvidenceReference(
+            evidence_id=f"masdar:{m_val}",
+            kind="PATTERN_MATCH",
+            source="hokom_pipeline.masdar",
+        ),),
+    )
+
+
+# ── H13: Derivatives ──────────────────────────────────────────────────────────
+
+_DERIVATIVE_KIND_MAP: dict[str, str] = {
+    "ism_fa3il":        "ISM_FA3IL",
+    "ism_maf3ul":       "ISM_MAF3UL",
+    "sifa_mushabbaha":  "SIFA_MUSHABBAHA",
+    "mubalgha":         "MUBALGHA",
+    "ism_ala":          "ISM_ALA",
+    "ism_makan":        "ISM_MAKAN",
+    "ism_zaman":        "ISM_ZAMAN",
+    "mimi_masdar":      "MIMI_MASDAR",
+    "nisba":            "NISBA",
+}
+
+
+def adapt_derivatives(hokom_result: dict) -> TypedSlot:
+    """Extract DERIVATIVE_CANDIDATE_SET from pipeline result."""
+    deriv = (
+        hokom_result.get("derivative")
+        or hokom_result.get("mushtaq")
+        or hokom_result.get("derivative_kind")
+        or hokom_result.get("word_subtype")
+    )
+
+    if deriv is None:
+        wc = str(hokom_result.get("word_class", "")).lower()
+        for key, kind in _DERIVATIVE_KIND_MAP.items():
+            if key in wc:
+                deriv = kind
+                break
+
+    if deriv is None:
+        return TypedSlot(
+            slot_id=SlotId.DERIVATIVE_CANDIDATE_SET,
+            sort=SlotSort.DERIVATIVE,
+            state=SlotState.UNKNOWN,
+        )
+
+    if isinstance(deriv, (list, tuple)) and len(deriv) > 1:
+        candidates = tuple(
+            CandidateEntry(
+                value=_DERIVATIVE_KIND_MAP.get(str(d).lower(), str(d)),
+                evidence_code=f"deriv:{d}",
+            )
+            for d in deriv
+        )
+        cset = CandidateSet(candidates=candidates, selected=None)
+        return TypedSlot(
+            slot_id=SlotId.DERIVATIVE_CANDIDATE_SET,
+            sort=SlotSort.DERIVATIVE,
+            state=SlotState.AMBIGUOUS,
+            candidate_set=cset,
+        )
+
+    d_val = deriv[0] if isinstance(deriv, (list, tuple)) else deriv
+    kind = _DERIVATIVE_KIND_MAP.get(str(d_val).lower(), str(d_val))
+    return TypedSlot(
+        slot_id=SlotId.DERIVATIVE_CANDIDATE_SET,
+        sort=SlotSort.DERIVATIVE,
+        state=SlotState.FILLED,
+        value=kind,
+        evidence=(EvidenceReference(
+            evidence_id=f"deriv:{kind}",
+            kind="PATTERN_MATCH",
+            source="hokom_pipeline.derivative",
+        ),),
+    )
+
+
+# ── H14: Morphosyntax (Number, Gender, Definiteness) ─────────────────────────
+
+def adapt_morphosyntax(hokom_result: dict) -> tuple[TypedSlot, TypedSlot, TypedSlot]:
+    """Extract NUMBER_SLOT, GENDER_SLOT, DEFINITENESS_SLOT from pipeline result."""
+    number = hokom_result.get("number") or hokom_result.get("grammatical_number")
+    gender = hokom_result.get("gender") or hokom_result.get("grammatical_gender")
+    definiteness = hokom_result.get("definiteness") or (
+        "DEFINITE" if hokom_result.get("has_article") else None
+    )
+
+    num_slot = TypedSlot(
+        slot_id=SlotId.NUMBER_SLOT,
+        sort=SlotSort.MORPHOSYNTAX,
+        state=SlotState.FILLED if number else SlotState.UNKNOWN,
+        value=str(number) if number else None,
+    )
+    gen_slot = TypedSlot(
+        slot_id=SlotId.GENDER_SLOT,
+        sort=SlotSort.MORPHOSYNTAX,
+        state=SlotState.FILLED if gender else SlotState.UNKNOWN,
+        value=str(gender) if gender else None,
+    )
+    def_slot = TypedSlot(
+        slot_id=SlotId.DEFINITENESS_SLOT,
+        sort=SlotSort.MORPHOSYNTAX,
+        state=SlotState.FILLED if definiteness else SlotState.UNKNOWN,
+        value=str(definiteness) if definiteness else None,
+    )
+    return num_slot, gen_slot, def_slot
+
+
+# ── H15: Lemma and Paradigm ───────────────────────────────────────────────────
+
+def adapt_lemma_paradigm(hokom_result: dict) -> tuple[TypedSlot, TypedSlot]:
+    """Extract LEMMA_SLOT and PARADIGM_SLOT from pipeline result."""
+    lemma = hokom_result.get("lemma") or hokom_result.get("dictionary_form") or hokom_result.get("lemma_surface")
+    paradigm = hokom_result.get("paradigm") or hokom_result.get("inflectional_class") or hokom_result.get("paradigm_id")
+
+    lemma_slot = TypedSlot(
+        slot_id=SlotId.LEMMA_SLOT,
+        sort=SlotSort.PARADIGM,
+        state=SlotState.FILLED if lemma else SlotState.UNKNOWN,
+        value=str(lemma) if lemma else None,
+    )
+    par_slot = TypedSlot(
+        slot_id=SlotId.PARADIGM_SLOT,
+        sort=SlotSort.PARADIGM,
+        state=SlotState.FILLED if paradigm else SlotState.UNKNOWN,
+        value=str(paradigm) if paradigm else None,
+    )
+    return lemma_slot, par_slot
+
+
 # ── Full Bundle Assembly ──────────────────────────────────────────────────────
 
 def build_claim_bundle(hokom_result: dict, claim_kind: str, profile_id: str) -> HokomClaimBundle:
@@ -257,11 +472,21 @@ def build_claim_bundle(hokom_result: dict, claim_kind: str, profile_id: str) -> 
     wc_slot = adapt_word_class(hokom_result)
     r1, r2, r3, r4 = adapt_root_radicals(hokom_result)
     pattern_slot = adapt_pattern(hokom_result)
+    # H11-H15 morphology outputs (T-09)
+    bab_slot = adapt_bab(hokom_result)
+    masdar_slot = adapt_masdar(hokom_result)
+    deriv_slot = adapt_derivatives(hokom_result)
+    num_slot, gen_slot, def_slot = adapt_morphosyntax(hokom_result)
+    lemma_slot, par_slot = adapt_lemma_paradigm(hokom_result)
 
     all_slots = (
         orig_slot, norm_slot, proc_slot, host_slot, enc_slot,
         art_slot, solar_slot, boundary_slot, path_slot,
         wc_slot, r1, r2, r3, r4, pattern_slot,
+        # H11-H15
+        bab_slot, masdar_slot, deriv_slot,
+        num_slot, gen_slot, def_slot,
+        lemma_slot, par_slot,
     )
 
     # Build slot_values for claim_key
@@ -310,5 +535,11 @@ __all__ = [
     "adapt_word_class",
     "adapt_root_radicals",
     "adapt_pattern",
+    # H11-H15 (T-09)
+    "adapt_bab",
+    "adapt_masdar",
+    "adapt_derivatives",
+    "adapt_morphosyntax",
+    "adapt_lemma_paradigm",
     "build_claim_bundle",
 ]
