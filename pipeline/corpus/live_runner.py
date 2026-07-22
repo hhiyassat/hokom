@@ -136,6 +136,14 @@ def _build_bundle_dict(hr: dict) -> dict:
     }
     if root_str:
         d["root_candidate"] = root_str
+    # Pass CRA DEFER candidate sequences as primitives so adapt_root_radicals()
+    # can emit AMBIGUOUS for two-consonant compressed imperatives (T-10)
+    _cra = hr.get("cra_result")
+    if (_cra is not None
+            and getattr(_cra, 'directive', None) == 'DEFER'
+            and getattr(_cra, 'candidate_radical_sequences', None)
+            and len(_cra.candidate_radical_sequences) >= 2):
+        d["root_candidates"] = [list(seq) for seq in _cra.candidate_radical_sequences]
     if procs:
         d["proclitics"] = procs
     if encs:

@@ -121,9 +121,52 @@ def analyze_host_consonants(refined_host: str) -> _Result:
     if n < 2:
         return 'BLOCK', None, _RESIDUAL_INSUFFIC, {}
 
-    # ── 2 حروف: مضغوط/أجوف قُلِص → DEFER ──────────────────────────────────
+    # ── 2 حروف: مضغوط/أجوف قُلِص ─────────────────────────────────────────
+    # Two-consonant surface = compressed imperative of hollow (AJWAF) verb.
+    # The middle radical (WAW or YA) is absent from the surface.
+    # Reconstruct candidate triconsonantal sequences from the diacritic on C1:
+    #   damma (ُ) on C1 → WAW middle radical (AJWAF_WAW primary)
+    #   kasra (ِ) on C1 → YA  middle radical (AJWAF_YA  primary)
+    # Both WAW and YA alternates are kept for ambiguity.
+    # INVARIANT: canonical_root = None (no single root selected)
+    # INVARIANT: ≥2 candidate sequences → adapter emits AMBIGUOUS per T-10
     if n == 2:
-        return 'DEFER', None, _RESIDUAL_COMPRESS, {}
+        _DAMMA = '\u064F'   # ُ
+        _KASRA = '\u0650'   # ِ
+
+        c1, c2 = consonants[0], consonants[1]
+
+        # Find diacritic immediately following c1 in normalized text
+        _diacritic_c1 = None
+        _c1_idx = normalized.find(c1)
+        if _c1_idx >= 0:
+            for _ch in normalized[_c1_idx + 1:]:
+                if _ch in _DIACRITICS:
+                    _diacritic_c1 = _ch
+                    break
+                else:
+                    break  # non-diacritic char — stop looking
+
+        if _diacritic_c1 == _DAMMA:
+            _primary_mid   = 'و'
+            _alternate_mid = 'ي'
+        elif _diacritic_c1 == _KASRA:
+            _primary_mid   = 'ي'
+            _alternate_mid = 'و'
+        else:
+            # Cannot determine weak radical from diacritic → original behaviour
+            return 'DEFER', None, _RESIDUAL_COMPRESS, {}
+
+        _candidate_seqs = [
+            [c1, _primary_mid,   c2],   # primary reconstruction
+            [c1, _alternate_mid, c2],   # alternate reconstruction
+        ]
+
+        return 'DEFER', None, _RESIDUAL_COMPRESS, {
+            'candidate_radical_sequences': _candidate_seqs,
+            'compression_class':           'AJWAF_IMPERATIVE',
+            'provenance':                  'TWO_CONSONANT_HOLLOW_RECONSTRUCTION',
+        }
 
     # ── 3 حروف: التحليل الثلاثي ──────────────────────────────────────────────
     if n == 3:

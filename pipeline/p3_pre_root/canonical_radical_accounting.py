@@ -486,15 +486,18 @@ def process_canonical_radical_accounting(
 
     # DEFER: فعل ضعيف أو مضغوط أو رباعي أو غير قياسي
     reason = residual_code or 'TRILATERAL_ANALYSIS_DEFER'
+    # Propagate candidate sequences from root_profile (e.g. two-consonant reconstruction)
+    _defer_candidates = _root_profile.get('candidate_radical_sequences', [])
     return _build(
-        directive       = 'DEFER',
-        reason_codes    = [reason],
-        provenance      = 'CRA:DEFER',
-        canonical_stem  = stem_after_prefix,
-        prefix_stripped = prefix_stripped,
-        suffix_stripped = suffix_stripped,
-        suffix_rule     = suffix_rule,
-        form_family     = form_family_tentative,
-        evidence        = evidence,
-        conflicts       = conflicts,
+        directive                   = 'DEFER',
+        reason_codes                = [reason],
+        provenance                  = 'CRA:DEFER',
+        canonical_stem              = stem_after_prefix,
+        prefix_stripped             = prefix_stripped,
+        suffix_stripped             = suffix_stripped,
+        suffix_rule                 = suffix_rule,
+        form_family                 = form_family_tentative,
+        candidate_radical_sequences = _defer_candidates,
+        evidence                    = evidence,
+        conflicts                   = conflicts,
     )

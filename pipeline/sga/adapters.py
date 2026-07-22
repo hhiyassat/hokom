@@ -188,6 +188,31 @@ def adapt_root_radicals(hokom_result: dict) -> tuple[TypedSlot, TypedSlot, Typed
     root = hokom_result.get("root_candidate")
 
     if not root:
+        # T-10 extension: check primitive "root_candidates" key (corpus runner / bridge
+        # path where cra_result is not passed through the bundle dict).
+        _prim_seqs = hokom_result.get('root_candidates')
+        if (isinstance(_prim_seqs, list) and len(_prim_seqs) >= 2):
+            _cand_entries = tuple(
+                CandidateEntry(
+                    value='-'.join(str(c) for c in _seq),
+                    evidence_code=(
+                        f"cra:two_consonant_hollow:{'-'.join(str(c) for c in _seq)}"
+                    ),
+                )
+                for _seq in _prim_seqs
+            )
+            _cset = CandidateSet(candidates=_cand_entries, selected=None)
+            return (
+                TypedSlot(
+                    slot_id=SlotId.RADICAL_R1,
+                    sort=SlotSort.RADICAL,
+                    state=SlotState.AMBIGUOUS,
+                    candidate_set=_cset,
+                ),
+                TypedSlot(slot_id=SlotId.RADICAL_R2, sort=SlotSort.RADICAL, state=SlotState.UNKNOWN),
+                TypedSlot(slot_id=SlotId.RADICAL_R3, sort=SlotSort.RADICAL, state=SlotState.UNKNOWN),
+                TypedSlot(slot_id=SlotId.RADICAL_R4, sort=SlotSort.RADICAL, state=SlotState.NOT_APPLICABLE),
+            )
         return tuple(
             TypedSlot(slot_id=sid, sort=SlotSort.RADICAL, state=SlotState.UNKNOWN)
             for sid in (SlotId.RADICAL_R1, SlotId.RADICAL_R2, SlotId.RADICAL_R3, SlotId.RADICAL_R4)
@@ -213,15 +238,45 @@ def adapt_root_radicals(hokom_result: dict) -> tuple[TypedSlot, TypedSlot, Typed
     if hasattr(root_str, 'canonical_root'):
         canonical = root_str.canonical_root
         if canonical is None:
-            # RootCandidate with directive=DEFER and no resolved canonical_root.
-            # The upstream pipeline (CRA stage) detected ambiguity (e.g.
-            # two_consonant_form_unresolved) but did NOT enumerate candidate
-            # sequences — so there are zero candidates to put in a CandidateSet.
-            # T-10 AMBIGUOUS requires ≥2 CandidateEntry objects, which we cannot
-            # satisfy without inventing radicals.  Return UNKNOWN for all radical
-            # slots; the UPSTREAM_SELECTION_DEFECT must be fixed in
-            # pipeline/p3_candidate/root_rules.py (analyze_host_consonants,
-            # n==2 branch) to enumerate candidate radical sequences first.
+            # T-10 extension: RootCandidate with directive=DEFER and no canonical_root.
+            # Check two sources for candidate sequences:
+            #   1. cra_result object (direct pipeline path)
+            #   2. "root_candidates" primitive key (corpus runner / bridge path)
+            _two_consonant_seqs = None
+            _cra = hokom_result.get('cra_result')
+            if (_cra is not None
+                    and getattr(_cra, 'directive', None) == 'DEFER'
+                    and getattr(_cra, 'candidate_radical_sequences', None)
+                    and len(_cra.candidate_radical_sequences) >= 2):
+                _two_consonant_seqs = _cra.candidate_radical_sequences
+            elif (hokom_result.get('root_candidates')
+                    and isinstance(hokom_result['root_candidates'], list)
+                    and len(hokom_result['root_candidates']) >= 2):
+                _two_consonant_seqs = hokom_result['root_candidates']
+
+            if _two_consonant_seqs is not None:
+                _cand_entries = tuple(
+                    CandidateEntry(
+                        value='-'.join(str(c) for c in _seq),
+                        evidence_code=(
+                            f"cra:two_consonant_hollow:{'-'.join(str(c) for c in _seq)}"
+                        ),
+                    )
+                    for _seq in _two_consonant_seqs
+                )
+                _cset = CandidateSet(candidates=_cand_entries, selected=None)
+                return (
+                    TypedSlot(
+                        slot_id=SlotId.RADICAL_R1,
+                        sort=SlotSort.RADICAL,
+                        state=SlotState.AMBIGUOUS,
+                        candidate_set=_cset,
+                    ),
+                    TypedSlot(slot_id=SlotId.RADICAL_R2, sort=SlotSort.RADICAL, state=SlotState.UNKNOWN),
+                    TypedSlot(slot_id=SlotId.RADICAL_R3, sort=SlotSort.RADICAL, state=SlotState.UNKNOWN),
+                    TypedSlot(slot_id=SlotId.RADICAL_R4, sort=SlotSort.RADICAL, state=SlotState.NOT_APPLICABLE),
+                )
+            # No candidates available — return UNKNOWN for all radical slots.
             return tuple(
                 TypedSlot(slot_id=sid, sort=SlotSort.RADICAL, state=SlotState.UNKNOWN)
                 for sid in (SlotId.RADICAL_R1, SlotId.RADICAL_R2, SlotId.RADICAL_R3, SlotId.RADICAL_R4)
