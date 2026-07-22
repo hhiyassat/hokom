@@ -1,0 +1,39 @@
+{
+  "stage": "HOKOM-TAAQOL-SGA-LIVE-CORPUS-EXPANSION-01",
+  "head": "8781f16",
+  "timestamp": "2026-07-22T07:10:13.035193Z",
+  "baseline_5af8977_preserved": true,
+  "corpus_total_cases": 150,
+  "unique_case_ids": 150,
+  "ayat_al_dayn_counted": false,
+  "corpus_schema_violations": 0,
+  "routing_contract_violations": 0,
+  "segmentation_contract_violations": 0,
+  "h11_h15_contract_violations": 0,
+  "ambiguity_collapse_violations": 0,
+  "negative_control_violations": 0,
+  "hints_used_as_runtime_evidence": false,
+  "closed_judgments_changed": false,
+  "untyped_bridge_payload_violations": 0,
+  "silent_fallback_violations": 0,
+  "vendor_modifications": 0,
+  "unexplained_nondeterminism": 0,
+  "implementation_defects": 0,
+  "taaqol_active": false,
+  "taaqol_failure_code": "TAAQOL_RUNTIME_UNAVAILABLE",
+  "taaqol_failure_reason": "StrEnum not importable on Python 3.10 (constitutional DEFER, not defect)",
+  "corpus_audit_tests": 20,
+  "live_execution_tests": 24,
+  "tests_passed": 44,
+  "tests_failed": 0,
+  "tests_skipped": 0,
+  "known_gaps": [
+    "INTERROGATIVE_HAMZA_PROCLITIC_NOT_SEGMENTED: 11 cases (LCX-003,007,010,014,017,021,025,029,033,037,040)",
+    "TAAQOL_RUNTIME_UNAVAILABLE: Python 3.10 StrEnum gap"
+  ],
+  "deferred_scientific_gaps": [
+    "ALL_WEAK_VERBS_DEFERRED: constitutionally acceptable — root path not opened",
+    "H11_H15_SLOTS_REACH_35_OF_150: derivative analysis requires root resolution first"
+  ],
+  "closure_eligible": true
+}
