@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hokom–Taaqol Live Demo — آية الدَّيْن</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #f8fafc; color: #1e293b; margin: 0; padding: 0;
+    direction: rtl;
+  }
+  .page { max-width: 1400px; margin: 0 auto; padding: 24px; }
+  h1 { font-size: 1.6em; margin-bottom: 4px; color: #0f172a; }
+  h2 { font-size: 1.2em; color: #334155; margin: 24px 0 8px; border-bottom: 2px solid #e2e8f0; padding-bottom: 4px; }
+  h3 { font-size: 1em; color: #475569; margin: 16px 0 6px; }
+  .verse-box {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 10px;
+    padding: 20px 24px; font-size: 1.3em; line-height: 2.2;
+    direction: rtl; text-align: justify; color: #0f172a;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0; }
+  .meta-card {
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 8px;
+    padding: 10px 16px; min-width: 150px;
+  }
+  .meta-card .val { font-size: 1.5em; font-weight: 700; color: #0f172a; }
+  .meta-card .lbl { font-size: 0.78em; color: #64748b; }
+  .badge {
+    display: inline-block; padding: 2px 7px; border-radius: 4px;
+    font-size: 0.78em; font-weight: 600; letter-spacing: .02em;
+  }
+  .badge-green   { background:#dcfce7; color:#166534; }
+  .badge-amber   { background:#fef9c3; color:#854d0e; }
+  .badge-red     { background:#fee2e2; color:#991b1b; }
+  .badge-purple  { background:#f3e8ff; color:#6b21a8; }
+  .badge-blue    { background:#dbeafe; color:#1e40af; }
+  .badge-gray    { background:#f1f5f9; color:#475569; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.82em; }
+  th {
+    background: #1e293b; color: #fff; padding: 8px 10px;
+    text-align: right; font-weight: 600; white-space: nowrap;
+  }
+  td { padding: 6px 10px; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }
+  tr:hover td { background: #f0f9ff; }
+  tr:nth-child(even) td { background: #f8fafc; }
+  tr:nth-child(even):hover td { background: #f0f9ff; }
+  .arabic { font-size: 1.05em; direction: rtl; }
+  .host-cell { color: #334155; }
+  .idx { color: #94a3b8; font-size: 0.85em; }
+  .wc { font-size: 0.78em; color: #475569; }
+  .wazn { font-size: 0.78em; color: #0369a1; }
+  .h-cell { font-size: 0.78em; color: #166534; }
+  .reason { font-size: 0.75em; color: #64748b; direction: ltr; text-align: left; }
+  .clitic { font-size: 0.85em; color: #7c3aed; }
+  .host { font-weight: 500; }
+  .bar-row { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+  .bar-label { min-width: 200px; font-size: 0.82em; color: #334155; text-align: right; }
+  .bar-track { flex: 1; height: 14px; background: #e2e8f0; border-radius: 99px; overflow: hidden; }
+  .bar-fill { height: 100%; background: #3b82f6; border-radius: 99px; }
+  .bar-root { background: #8b5cf6; }
+  .bar-count { min-width: 30px; font-size: 0.82em; color: #64748b; }
+  .decision-block { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 18px; margin: 12px 0; }
+  .decision-table { width: auto; font-size: 0.82em; }
+  .decision-table td { padding: 3px 8px; border: none; }
+  .dt-label { font-weight: 600; color: #475569; min-width: 200px; }
+  .integrity-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0; }
+  .integrity-item {
+    padding: 6px 14px; border-radius: 6px; font-size: 0.82em; font-weight: 600;
+  }
+  .int-ok  { background: #dcfce7; color: #166534; }
+  .int-bad { background: #fee2e2; color: #991b1b; }
+  .int-info { background: #dbeafe; color: #1e40af; }
+  .meta-box {
+    background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px;
+    padding:10px 14px; font-size:0.78em; color:#475569; direction:ltr; text-align:left;
+  }
+  .defer-section {
+    background:#fffbeb; border-left:4px solid #f59e0b;
+    padding:14px 18px; border-radius:0 8px 8px 0; margin:16px 0;
+  }
+  .defer-section p { margin: 4px 0; font-size: 0.88em; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <h1>Hokom–Taaqol — عرض تشغيلي حي</h1>
+  <p style="color:#64748b;margin:0 0 16px;direction:rtl;">
+    سورة البقرة، الآية 282 — آية الدَّيْن &nbsp;|&nbsp; المرحلة: HOKOM-TAAQOL-AYAT-AL-DAYN-LIVE-DEMO-01
+  </p>
+
+  <div class="verse-box" dir="rtl">
+    يَا أَيُّهَا الَّذِينَ آمَنُوا إِذَا تَدَايَنْتُمْ بِدَيْنٍ إِلَى أَجَلٍ مُسَمًّى فَاكْتُبُوهُ وَلْيَكْتُبْ بَيْنَكُمْ كَاتِبٌ بِالْعَدْلِ وَلَا يَأْبَ كَاتِبٌ أَنْ يَكْتُبَ كَمَا عَلَّمَهُ اللَّهُ فَلْيَكْتُبْ وَلْيُمْلِلِ الَّذِي عَلَيْهِ الْحَقُّ وَلْيَتَّقِ اللَّهَ رَبَّهُ وَلَا يَبْخَسْ مِنْهُ شَيْئًا فَإِنْ كَانَ الَّذِي عَلَيْهِ الْحَقُّ سَفِيهًا أَوْ ضَعِيفًا أَوْ لَا يَسْتَطِيعُ أَنْ يُمِلَّ هُوَ فَلْيُمْلِلْ وَلِيُّهُ بِالْعَدْلِ وَاسْتَشْهِدُوا شَهِيدَيْنِ مِنْ رِجَالِكُمْ فَإِنْ لَمْ يَكُونَا رَجُلَيْنِ فَرَجُلٌ وَامْرَأَتَانِ مِمَّنْ تَرْضَوْنَ مِنَ الشُّهَدَاءِ أَنْ تَضِلَّ إِحْدَاهُمَا فَتُذَكِّرَ إِحْدَاهُمَا الْأُخْرَى وَلَا يَأْبَ الشُّهَدَاءُ إِذَا مَا دُعُوا وَلَا تَسْأَمُوا أَنْ تَكْتُبُوهُ صَغِيرًا أَوْ كَبِيرًا إِلَى أَجَلِهِ ذَلِكُمْ أَقْسَطُ عِنْدَ اللَّهِ وَأَقْوَمُ لِلشَّهَادَةِ وَأَدْنَى أَلَّا تَرْتَابُوا إِلَّا أَنْ تَكُونَ تِجَارَةً حَاضِرَةً تُدِيرُونَهَا بَيْنَكُمْ فَلَيْسَ عَلَيْكُمْ جُنَاحٌ أَلَّا تَكْتُبُوهَا وَأَشْهِدُوا إِذَا تَبَايَعْتُمْ وَلَا يُضَارَّ كَاتِبٌ وَلَا شَهِيدٌ وَإِنْ تَفْعَلُوا فَإِنَّهُ فُسُوقٌ بِكُمْ وَاتَّقُوا اللَّهَ وَيُعَلِّمُكُمُ اللَّهُ وَاللَّهُ بِكُلِّ شَيْءٍ عَلِيمٌ
+  </div>
+
+  <h2>إحصاءات التشغيل</h2>
+  <div class="meta-row">
+    <div class="meta-card"><div class="val">129</div><div class="lbl">كلمات/توكنات</div></div>
+    <div class="meta-card"><div class="val">129</div><div class="lbl">حزم مكتوبة بالنوع (Typed bundles)</div></div>
+    <div class="meta-card"><div class="val">0</div><div class="lbl">تشغيلات Taaqol الحية</div></div>
+    <div class="meta-card"><div class="val">24</div><div class="lbl">وصلت إلى H11-H15</div></div>
+    <div class="meta-card"><div class="val">105</div><div class="lbl">توقفات دستورية صحيحة</div></div>
+    <div class="meta-card"><div class="val">35</div><div class="lbl">جذر معروف</div></div>
+    <div class="meta-card"><div class="val">43</div><div class="lbl">جذر مؤجَّل</div></div>
+    <div class="meta-card"><div class="val">0</div><div class="lbl">جذر مبهم</div></div>
+  </div>
+
+  <h2>توزيع الأحكام (Verdicts)</h2>
+  <div class="bar-row"><span class="bar-label">DEFERRED</span><div class="bar-track"><div class="bar-fill" style="width:100.0%"></div></div><span class="bar-count">129</span></div>
+
+
+  <h2>حالات الجذر</h2>
+  <div class="bar-row"><span class="bar-label">UNKNOWN</span><div class="bar-track"><div class="bar-fill bar-root" style="width:39.5%"></div></div><span class="bar-count">51</span></div>
+<div class="bar-row"><span class="bar-label">DEFERRED</span><div class="bar-track"><div class="bar-fill bar-root" style="width:33.3%"></div></div><span class="bar-count">43</span></div>
+<div class="bar-row"><span class="bar-label">KNOWN</span><div class="bar-track"><div class="bar-fill bar-root" style="width:27.1%"></div></div><span class="bar-count">35</span></div>
+
+
+  <h2>صحة النظام</h2>
+  <div class="integrity-row">
+    <div class="integrity-item int-ok">
+      UNTYPED_PAYLOADS = 0
+    </div>
+    <div class="integrity-item int-ok">
+      SILENT_FALLBACKS = 0
+    </div>
+    <div class="integrity-item int-ok">
+      CLAIM_KEY_NONDETERMINISM = 0
+    </div>
+    <div class="integrity-item int-ok">
+      EVALUATION_ID_COLLISIONS = 0
+    </div>
+    <div class="integrity-item int-info">
+      TAAQOL_RUNTIME_ACTIVE = 0
+    </div>
+  </div>
+  <p style="font-size:0.85em;"><span style="color:#d97706">⚠ Taaqol runtime unavailable — verdicts are DEFERRED, not hidden</span></p>
+
+  <div class="defer-section">
+    <strong>النظام لا يخمّن عند غياب الدليل</strong>
+    <p>عندما لا يكون لدى النظام دليل كافٍ على الجذر أو الوزن أو الاشتقاق، يصدر حكم <strong>DEFER</strong>
+    أو <strong>AMBIGUOUS</strong> — لا يختار بشكل عشوائي ولا يخفي الغموض.
+    وعندما تُغلق الحدود الدستورية مسار التحليل (كلمة مبنية أو حرف جر أو اسم علم جامد)،
+    يصدر <strong>CONSTITUTIONAL_VALID_EARLY_STOP</strong> ويكتفي بالحكم المعتمد دستوريًا.</p>
+    <p>جميع التوقفات المبكرة في هذا العرض هي توقفات دستورية صحيحة — ليست أخطاء.</p>
+  </div>
+
+  <h2>كيف اتخذ النظام قراره؟ — أمثلة مختارة</h2>
+  <div class="decision-block"><h4 style="margin:0 0 4px;font-size:1em;">#4 — <span dir="rtl">آمَنُوا</span></h4>
+<table class="decision-table"><tbody>
+<tr><td class="dt-label">Host</td><td>ءَمَنُوا</td></tr>
+<tr><td class="dt-label">Word class</td><td>ISM (WORD_CLASS_ACCEPTED)</td></tr>
+<tr><td class="dt-label">Root state</td><td>KNOWN</td></tr>
+<tr><td class="dt-label">Canonical root</td><td>ءمن</td></tr>
+<tr><td class="dt-label">Wazn</td><td>FA3ALA</td></tr>
+<tr><td class="dt-label">Constitutional early stop</td><td>WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="dt-label">Cause (from system)</td><td>TAAQOL_RUNTIME_UNAVAILABLE, ImportError:cannot import name 'StrEnum' from 'enum' (/usr/lib/python3.10/enum.py)</td></tr>
+<tr><td class="dt-label">Evidence provenance</td><td>wc:ISM, root:('ء', 'م', 'ن'):r1, root:('ء', 'م', 'ن'):r2, root:('ء', 'م', 'ن'):r3</td></tr>
+<tr><td class="dt-label">Taaqol active</td><td>False</td></tr>
+<tr><td class="dt-label">Taaqol failure code</td><td>TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="dt-label">Taaqol effective verdict</td><td>DEFERRED</td></tr>
+<tr><td class="dt-label">Typed slots</td><td>9 filled / 23 total</td></tr>
+</tbody></table></div>
+<hr style="border:none;border-top:1px solid #e2e8f0;margin:16px 0;">
+<div class="decision-block"><h4 style="margin:0 0 4px;font-size:1em;">#6 — <span dir="rtl">تَدَايَنْتُمْ</span></h4>
+<table class="decision-table"><tbody>
+<tr><td class="dt-label">Host</td><td>تَدَايَنْتُمْ</td></tr>
+<tr><td class="dt-label">Word class</td><td>FI3L (WORD_CLASS_ACCEPTED)</td></tr>
+<tr><td class="dt-label">Root state</td><td>DEFERRED</td></tr>
+<tr><td class="dt-label">Cause (from system)</td><td>TAAQOL_RUNTIME_UNAVAILABLE, ImportError:cannot import name 'StrEnum' from 'enum' (/usr/lib/python3.10/enum.py)</td></tr>
+<tr><td class="dt-label">Residual/defer reason</td><td>defer:root:non_standard_consonant_count</td></tr>
+<tr><td class="dt-label">Evidence provenance</td><td>wc:FI3L</td></tr>
+<tr><td class="dt-label">Taaqol active</td><td>False</td></tr>
+<tr><td class="dt-label">Taaqol failure code</td><td>TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="dt-label">Taaqol effective verdict</td><td>DEFERRED</td></tr>
+<tr><td class="dt-label">Typed slots</td><td>7 filled / 23 total</td></tr>
+</tbody></table></div>
+<hr style="border:none;border-top:1px solid #e2e8f0;margin:16px 0;">
+<div class="decision-block"><h4 style="margin:0 0 4px;font-size:1em;">#13 — <span dir="rtl">بَيْنَكُمْ</span></h4>
+<table class="decision-table"><tbody>
+<tr><td class="dt-label">Host</td><td>بَيْنَ</td></tr>
+<tr><td class="dt-label">Word class</td><td>FI3L (WORD_CLASS_ACCEPTED)</td></tr>
+<tr><td class="dt-label">Root state</td><td>KNOWN</td></tr>
+<tr><td class="dt-label">Canonical root</td><td>بين</td></tr>
+<tr><td class="dt-label">Wazn</td><td>FA3L</td></tr>
+<tr><td class="dt-label">Cause (from system)</td><td>TAAQOL_RUNTIME_UNAVAILABLE, ImportError:cannot import name 'StrEnum' from 'enum' (/usr/lib/python3.10/enum.py)</td></tr>
+<tr><td class="dt-label">Evidence provenance</td><td>wc:FI3L, root:('ب', 'ي', 'ن'):r1, root:('ب', 'ي', 'ن'):r2, root:('ب', 'ي', 'ن'):r3</td></tr>
+<tr><td class="dt-label">Taaqol active</td><td>False</td></tr>
+<tr><td class="dt-label">Taaqol failure code</td><td>TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="dt-label">Taaqol effective verdict</td><td>DEFERRED</td></tr>
+<tr><td class="dt-label">Typed slots</td><td>13 filled / 23 total</td></tr>
+</tbody></table></div>
+<hr style="border:none;border-top:1px solid #e2e8f0;margin:16px 0;">
+<div class="decision-block"><h4 style="margin:0 0 4px;font-size:1em;">#1 — <span dir="rtl">يَا</span></h4>
+<table class="decision-table"><tbody>
+<tr><td class="dt-label">Host</td><td>يَا</td></tr>
+<tr><td class="dt-label">Word class</td><td>HARF (WORD_CLASS_ACCEPTED)</td></tr>
+<tr><td class="dt-label">Root state</td><td>UNKNOWN</td></tr>
+<tr><td class="dt-label">Constitutional early stop</td><td>WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="dt-label">Cause (from system)</td><td>TAAQOL_RUNTIME_UNAVAILABLE, ImportError:cannot import name 'StrEnum' from 'enum' (/usr/lib/python3.10/enum.py)</td></tr>
+<tr><td class="dt-label">Evidence provenance</td><td>wc:HARF</td></tr>
+<tr><td class="dt-label">Taaqol active</td><td>False</td></tr>
+<tr><td class="dt-label">Taaqol failure code</td><td>TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="dt-label">Taaqol effective verdict</td><td>DEFERRED</td></tr>
+<tr><td class="dt-label">Typed slots</td><td>5 filled / 23 total</td></tr>
+</tbody></table></div>
+
+  <h2>جدول الكلمات الكاملة</h2>
+  <div style="overflow-x:auto;">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>السطح</th>
+        <th>التجزئة</th>
+        <th>المضيف</th>
+        <th>ف. الكلام</th>
+        <th>الجذر</th>
+        <th>الوزن</th>
+        <th>H11-H15</th>
+        <th>Taaqol</th>
+        <th>السبب</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="idx">1</td><td class="arabic">يَا</td><td><span class="host">يَا</span></td><td class="arabic host-cell">يَا</td><td class="wc">HARF</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">2</td><td class="arabic">أَيُّهَا</td><td><span class="host">أَيُّهَا</span></td><td class="arabic host-cell">أَيُّهَا</td><td class="wc">HARF</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">3</td><td class="arabic">الَّذِينَ</td><td><span class="host">الَّذِينَ</span></td><td class="arabic host-cell">الَّذِينَ</td><td class="wc">ISM</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">4</td><td class="arabic">آمَنُوا</td><td><span class="host">ءَمَنُوا</span></td><td class="arabic host-cell">ءَمَنُوا</td><td class="wc">ISM</td><td><span class="badge badge-green">ءمن</span></td><td class="wazn">FA3ALA</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">5</td><td class="arabic">إِذَا</td><td><span class="host">إِذَا</span></td><td class="arabic host-cell">إِذَا</td><td class="wc">HARF</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">6</td><td class="arabic">تَدَايَنْتُمْ</td><td><span class="host">تَدَايَنْتُمْ</span></td><td class="arabic host-cell">تَدَايَنْتُمْ</td><td class="wc">FI3L</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">7</td><td class="arabic">بِدَيْنٍ</td><td><span class="clitic proc">بِ</span> | <span class="host">دَيْنٍ</span></td><td class="arabic host-cell">دَيْنٍ</td><td class="wc">ISM</td><td><span class="badge badge-green">دين</span></td><td class="wazn">FA3L</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">8</td><td class="arabic">إِلَى</td><td><span class="host">إِلَى</span></td><td class="arabic host-cell">إِلَى</td><td class="wc">HARF</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">9</td><td class="arabic">أَجَلٍ</td><td><span class="host">أَجَلٍ</span></td><td class="arabic host-cell">أَجَلٍ</td><td class="wc">ISM</td><td><span class="badge badge-green">ءجل</span></td><td class="wazn">FA_A_LA</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">10</td><td class="arabic">مُسَمًّى</td><td><span class="host">مُسَمًّى</span></td><td class="arabic host-cell">مُسَمًّى</td><td class="wc">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">11</td><td class="arabic">فَاكْتُبُوهُ</td><td><span class="clitic proc">فَ</span> | <span class="host">اكْتُبُو</span> | <span class="clitic enc">هُ</span></td><td class="arabic host-cell">اكْتُبُو</td><td class="wc">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">12</td><td class="arabic">وَلْيَكْتُبْ</td><td><span class="clitic proc">وَ+لْ</span> | <span class="host">يَكْتُبْ</span></td><td class="arabic host-cell">يَكْتُبْ</td><td class="wc">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">13</td><td class="arabic">بَيْنَكُمْ</td><td><span class="host">بَيْنَ</span> | <span class="clitic enc">كُمْ</span></td><td class="arabic host-cell">بَيْنَ</td><td class="wc">FI3L</td><td><span class="badge badge-green">بين</span></td><td class="wazn">FA3L</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">14</td><td class="arabic">كَاتِبٌ</td><td><span class="host">كَاتِبٌ</span></td><td class="arabic host-cell">كَاتِبٌ</td><td class="wc">ISM</td><td><span class="badge badge-green">كتب</span></td><td class="wazn">FA3IL</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">15</td><td class="arabic">بِالْعَدْلِ</td><td><span class="clitic proc">بِ</span> | <span class="host">عَدْلِ</span></td><td class="arabic host-cell">عَدْلِ</td><td class="wc">ISM</td><td><span class="badge badge-green">عدل</span></td><td class="wazn">FA3L</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">16</td><td class="arabic">وَلَا</td><td><span class="clitic proc">وَ</span> | <span class="host">لَا</span></td><td class="arabic host-cell">لَا</td><td class="wc">—</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">17</td><td class="arabic">يَأْبَ</td><td><span class="host">يَأْبَ</span></td><td class="arabic host-cell">يَأْبَ</td><td class="wc">FI3L</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">18</td><td class="arabic">كَاتِبٌ</td><td><span class="host">كَاتِبٌ</span></td><td class="arabic host-cell">كَاتِبٌ</td><td class="wc">ISM</td><td><span class="badge badge-green">كتب</span></td><td class="wazn">FA3IL</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">19</td><td class="arabic">أَنْ</td><td><span class="host">أَنْ</span></td><td class="arabic host-cell">أَنْ</td><td class="wc">HARF</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">20</td><td class="arabic">يَكْتُبَ</td><td><span class="host">يَكْتُبَ</span></td><td class="arabic host-cell">يَكْتُبَ</td><td class="wc">FI3L</td><td><span class="badge badge-green">كتب</span></td><td class="wazn">—</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">21</td><td class="arabic">كَمَا</td><td><span class="host">كَمَا</span></td><td class="arabic host-cell">كَمَا</td><td class="wc">—</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">22</td><td class="arabic">عَلَّمَهُ</td><td><span class="host">عَلَّمَ</span> | <span class="clitic enc">هُ</span></td><td class="arabic host-cell">عَلَّمَ</td><td class="wc">ISM</td><td><span class="badge badge-green">علم</span></td><td class="wazn">FA33ALA</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">23</td><td class="arabic">اللَّهُ</td><td><span class="host">اللَّهُ</span></td><td class="arabic host-cell">اللَّهُ</td><td class="wc">—</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">24</td><td class="arabic">فَلْيَكْتُبْ</td><td><span class="clitic proc">فَ+لْ</span> | <span class="host">يَكْتُبْ</span></td><td class="arabic host-cell">يَكْتُبْ</td><td class="wc">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">25</td><td class="arabic">وَلْيُمْلِلِ</td><td><span class="clitic proc">وَ+لْ</span> | <span class="host">يُمْلِلِ</span></td><td class="arabic host-cell">يُمْلِلِ</td><td class="wc">ISM</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">26</td><td class="arabic">الَّذِي</td><td><span class="host">الَّذِي</span></td><td class="arabic host-cell">الَّذِي</td><td class="wc">ISM</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">27</td><td class="arabic">عَلَيْهِ</td><td><span class="host">عَلَيْ</span> | <span class="clitic enc">هِ</span></td><td class="arabic host-cell">عَلَيْ</td><td class="wc">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">28</td><td class="arabic">الْحَقُّ</td><td><span class="host">حَقُّ</span></td><td class="arabic host-cell">حَقُّ</td><td class="wc">FI3L</td><td><span class="badge badge-green">حقق</span></td><td class="wazn">FA_A_LA</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">29</td><td class="arabic">وَلْيَتَّقِ</td><td><span class="clitic proc">وَ+لْ</span> | <span class="host">يَتَّقِ</span></td><td class="arabic host-cell">يَتَّقِ</td><td class="wc">ISM</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">30</td><td class="arabic">اللَّهَ</td><td><span class="host">اللَّهَ</span></td><td class="arabic host-cell">اللَّهَ</td><td class="wc">—</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">31</td><td class="arabic">رَبَّهُ</td><td><span class="host">رَبَّ</span> | <span class="clitic enc">هُ</span></td><td class="arabic host-cell">رَبَّ</td><td class="wc">—</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">32</td><td class="arabic">وَلَا</td><td><span class="clitic proc">وَ</span> | <span class="host">لَا</span></td><td class="arabic host-cell">لَا</td><td class="wc">—</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">33</td><td class="arabic">يَبْخَسْ</td><td><span class="host">يَبْخَسْ</span></td><td class="arabic host-cell">يَبْخَسْ</td><td class="wc">FI3L</td><td><span class="badge badge-green">بخس</span></td><td class="wazn">—</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">34</td><td class="arabic">مِنْهُ</td><td><span class="host">مِنْ</span> | <span class="clitic enc">هُ</span></td><td class="arabic host-cell">مِنْ</td><td class="wc">—</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">35</td><td class="arabic">شَيْئًا</td><td><span class="host">شَيْئًا</span></td><td class="arabic host-cell">شَيْئًا</td><td class="wc">ISM</td><td><span class="badge badge-green">شيء</span></td><td class="wazn">FA3L</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">36</td><td class="arabic">فَإِنْ</td><td><span class="clitic proc">فَ</span> | <span class="host">إِنْ</span></td><td class="arabic host-cell">إِنْ</td><td class="wc">—</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">37</td><td class="arabic">كَانَ</td><td><span class="host">كَانَ</span></td><td class="arabic host-cell">كَانَ</td><td class="wc">FI3L</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">38</td><td class="arabic">الَّذِي</td><td><span class="host">الَّذِي</span></td><td class="arabic host-cell">الَّذِي</td><td class="wc">ISM</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">39</td><td class="arabic">عَلَيْهِ</td><td><span class="host">عَلَيْ</span> | <span class="clitic enc">هِ</span></td><td class="arabic host-cell">عَلَيْ</td><td class="wc">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">40</td><td class="arabic">الْحَقُّ</td><td><span class="host">حَقُّ</span></td><td class="arabic host-cell">حَقُّ</td><td class="wc">FI3L</td><td><span class="badge badge-green">حقق</span></td><td class="wazn">FA_A_LA</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">41</td><td class="arabic">سَفِيهًا</td><td><span class="host">سَفِيهًا</span></td><td class="arabic host-cell">سَفِيهًا</td><td class="wc">ISM</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">42</td><td class="arabic">أَوْ</td><td><span class="host">أَوْ</span></td><td class="arabic host-cell">أَوْ</td><td class="wc">HARF</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">43</td><td class="arabic">ضَعِيفًا</td><td><span class="host">ضَعِيفًا</span></td><td class="arabic host-cell">ضَعِيفًا</td><td class="wc">ISM</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">44</td><td class="arabic">أَوْ</td><td><span class="host">أَوْ</span></td><td class="arabic host-cell">أَوْ</td><td class="wc">HARF</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">45</td><td class="arabic">لَا</td><td><span class="host">لَا</span></td><td class="arabic host-cell">لَا</td><td class="wc">HARF</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">46</td><td class="arabic">يَسْتَطِيعُ</td><td><span class="host">يَسْتَطِيعُ</span></td><td class="arabic host-cell">يَسْتَطِيعُ</td><td class="wc">ISM</td><td><span class="badge badge-green">طيع</span></td><td class="wazn">ISTAF3ALA</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">47</td><td class="arabic">أَنْ</td><td><span class="host">أَنْ</span></td><td class="arabic host-cell">أَنْ</td><td class="wc">HARF</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">48</td><td class="arabic">يُمِلَّ</td><td><span class="host">يُمِلَّ</span></td><td class="arabic host-cell">يُمِلَّ</td><td class="wc">FI3L</td><td><span class="badge badge-green">ملل</span></td><td class="wazn">—</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">49</td><td class="arabic">هُوَ</td><td><span class="host">هُوَ</span></td><td class="arabic host-cell">هُوَ</td><td class="wc">ISM</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">50</td><td class="arabic">فَلْيُمْلِلْ</td><td><span class="clitic proc">فَ+لْ</span> | <span class="host">يُمْلِلْ</span></td><td class="arabic host-cell">يُمْلِلْ</td><td class="wc">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">51</td><td class="arabic">وَلِيُّهُ</td><td><span class="host">وَلِيُّ</span> | <span class="clitic enc">هُ</span></td><td class="arabic host-cell">وَلِيُّ</td><td class="wc">ISM</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">52</td><td class="arabic">بِالْعَدْلِ</td><td><span class="clitic proc">بِ</span> | <span class="host">عَدْلِ</span></td><td class="arabic host-cell">عَدْلِ</td><td class="wc">ISM</td><td><span class="badge badge-green">عدل</span></td><td class="wazn">FA3L</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">53</td><td class="arabic">وَاسْتَشْهِدُوا</td><td><span class="clitic proc">وَ</span> | <span class="host">اسْتَشْهِدُوا</span></td><td class="arabic host-cell">اسْتَشْهِدُوا</td><td class="wc">ISM</td><td><span class="badge badge-green">شهد</span></td><td class="wazn">ISTAF3ALA</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">54</td><td class="arabic">شَهِيدَيْنِ</td><td><span class="host">شَهِيدَيْنِ</span></td><td class="arabic host-cell">شَهِيدَيْنِ</td><td class="wc">ISM</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">55</td><td class="arabic">مِنْ</td><td><span class="host">مِنْ</span></td><td class="arabic host-cell">مِنْ</td><td class="wc">HARF</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">56</td><td class="arabic">رِجَالِكُمْ</td><td><span class="host">رِجَالِ</span> | <span class="clitic enc">كُمْ</span></td><td class="arabic host-cell">رِجَالِ</td><td class="wc">ISM</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">57</td><td class="arabic">فَإِنْ</td><td><span class="clitic proc">فَ</span> | <span class="host">إِنْ</span></td><td class="arabic host-cell">إِنْ</td><td class="wc">—</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">58</td><td class="arabic">لَمْ</td><td><span class="host">لَمْ</span></td><td class="arabic host-cell">لَمْ</td><td class="wc">HARF</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">59</td><td class="arabic">يَكُونَا</td><td><span class="host">يَكُونَا</span></td><td class="arabic host-cell">يَكُونَا</td><td class="wc">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">60</td><td class="arabic">رَجُلَيْنِ</td><td><span class="host">رَجُلَيْنِ</span></td><td class="arabic host-cell">رَجُلَيْنِ</td><td class="wc">ISM</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">61</td><td class="arabic">فَرَجُلٌ</td><td><span class="clitic proc">فَ</span> | <span class="host">رَجُلٌ</span></td><td class="arabic host-cell">رَجُلٌ</td><td class="wc">ISM</td><td><span class="badge badge-green">رجل</span></td><td class="wazn">FA_U_LA</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">62</td><td class="arabic">وَامْرَأَتَانِ</td><td><span class="clitic proc">وَ</span> | <span class="host">امْرَأَتَانِ</span></td><td class="arabic host-cell">امْرَأَتَانِ</td><td class="wc">ISM</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">63</td><td class="arabic">مِمَّنْ</td><td><span class="host">مِمَّنْ</span></td><td class="arabic host-cell">مِمَّنْ</td><td class="wc">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">64</td><td class="arabic">تَرْضَوْنَ</td><td><span class="host">تَرْضَوْنَ</span></td><td class="arabic host-cell">تَرْضَوْنَ</td><td class="wc">FI3L</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">65</td><td class="arabic">مِنَ</td><td><span class="host">مِنَ</span></td><td class="arabic host-cell">مِنَ</td><td class="wc">HARF</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">66</td><td class="arabic">الشُّهَدَاءِ</td><td><span class="host">شُّهَدَاءِ</span></td><td class="arabic host-cell">شُّهَدَاءِ</td><td class="wc">ISM</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">67</td><td class="arabic">أَنْ</td><td><span class="host">أَنْ</span></td><td class="arabic host-cell">أَنْ</td><td class="wc">HARF</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">68</td><td class="arabic">تَضِلَّ</td><td><span class="host">تَضِلَّ</span></td><td class="arabic host-cell">تَضِلَّ</td><td class="wc">FI3L</td><td><span class="badge badge-green">ضلل</span></td><td class="wazn">—</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">69</td><td class="arabic">إِحْدَاهُمَا</td><td><span class="host">إِحْدَا</span> | <span class="clitic enc">هُمَا</span></td><td class="arabic host-cell">إِحْدَا</td><td class="wc">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">70</td><td class="arabic">فَتُذَكِّرَ</td><td><span class="clitic proc">فَ</span> | <span class="host">تُذَكِّرَ</span></td><td class="arabic host-cell">تُذَكِّرَ</td><td class="wc">ISM</td><td><span class="badge badge-green">ذكر</span></td><td class="wazn">TAFA33ALA</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">71</td><td class="arabic">إِحْدَاهُمَا</td><td><span class="host">إِحْدَا</span> | <span class="clitic enc">هُمَا</span></td><td class="arabic host-cell">إِحْدَا</td><td class="wc">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">72</td><td class="arabic">الْأُخْرَى</td><td><span class="host">أُخْرَى</span></td><td class="arabic host-cell">أُخْرَى</td><td class="wc">FI3L</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">73</td><td class="arabic">وَلَا</td><td><span class="clitic proc">وَ</span> | <span class="host">لَا</span></td><td class="arabic host-cell">لَا</td><td class="wc">—</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">74</td><td class="arabic">يَأْبَ</td><td><span class="host">يَأْبَ</span></td><td class="arabic host-cell">يَأْبَ</td><td class="wc">FI3L</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">75</td><td class="arabic">الشُّهَدَاءُ</td><td><span class="host">شُّهَدَاءُ</span></td><td class="arabic host-cell">شُّهَدَاءُ</td><td class="wc">ISM</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">76</td><td class="arabic">إِذَا</td><td><span class="host">إِذَا</span></td><td class="arabic host-cell">إِذَا</td><td class="wc">HARF</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">77</td><td class="arabic">مَا</td><td><span class="host">مَا</span></td><td class="arabic host-cell">مَا</td><td class="wc">HARF</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">78</td><td class="arabic">دُعُوا</td><td><span class="host">دُعُوا</span></td><td class="arabic host-cell">دُعُوا</td><td class="wc">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">79</td><td class="arabic">وَلَا</td><td><span class="clitic proc">وَ</span> | <span class="host">لَا</span></td><td class="arabic host-cell">لَا</td><td class="wc">—</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">80</td><td class="arabic">تَسْأَمُوا</td><td><span class="host">تَسْأَمُوا</span></td><td class="arabic host-cell">تَسْأَمُوا</td><td class="wc">FI3L</td><td><span class="badge badge-green">سءم</span></td><td class="wazn">—</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">81</td><td class="arabic">أَنْ</td><td><span class="host">أَنْ</span></td><td class="arabic host-cell">أَنْ</td><td class="wc">HARF</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">82</td><td class="arabic">تَكْتُبُوهُ</td><td><span class="host">تَكْتُبُو</span> | <span class="clitic enc">هُ</span></td><td class="arabic host-cell">تَكْتُبُو</td><td class="wc">FI3L</td><td><span class="badge badge-green">كتب</span></td><td class="wazn">—</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">83</td><td class="arabic">صَغِيرًا</td><td><span class="host">صَغِيرًا</span></td><td class="arabic host-cell">صَغِيرًا</td><td class="wc">ISM</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">84</td><td class="arabic">أَوْ</td><td><span class="host">أَوْ</span></td><td class="arabic host-cell">أَوْ</td><td class="wc">HARF</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">85</td><td class="arabic">كَبِيرًا</td><td><span class="host">كَبِيرًا</span></td><td class="arabic host-cell">كَبِيرًا</td><td class="wc">ISM</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">86</td><td class="arabic">إِلَى</td><td><span class="host">إِلَى</span></td><td class="arabic host-cell">إِلَى</td><td class="wc">HARF</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">87</td><td class="arabic">أَجَلِهِ</td><td><span class="host">أَجَلِ</span> | <span class="clitic enc">هِ</span></td><td class="arabic host-cell">أَجَلِ</td><td class="wc">ISM</td><td><span class="badge badge-green">ءجل</span></td><td class="wazn">FA_A_LA</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">88</td><td class="arabic">ذَلِكُمْ</td><td><span class="host">ذَلِكُمْ</span></td><td class="arabic host-cell">ذَلِكُمْ</td><td class="wc">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">89</td><td class="arabic">أَقْسَطُ</td><td><span class="host">أَقْسَطُ</span></td><td class="arabic host-cell">أَقْسَطُ</td><td class="wc">ISM</td><td><span class="badge badge-green">قسط</span></td><td class="wazn">AF3AL</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">90</td><td class="arabic">عِنْدَ</td><td><span class="host">عِنْدَ</span></td><td class="arabic host-cell">عِنْدَ</td><td class="wc">FI3L</td><td><span class="badge badge-green">عند</span></td><td class="wazn">FI3L</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">91</td><td class="arabic">اللَّهِ</td><td><span class="host">اللَّهِ</span></td><td class="arabic host-cell">اللَّهِ</td><td class="wc">—</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">92</td><td class="arabic">وَأَقْوَمُ</td><td><span class="clitic proc">وَ</span> | <span class="host">أَقْوَمُ</span></td><td class="arabic host-cell">أَقْوَمُ</td><td class="wc">ISM</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">93</td><td class="arabic">لِلشَّهَادَةِ</td><td><span class="clitic proc">لِ</span> | <span class="host">شَّهَادَةِ</span></td><td class="arabic host-cell">شَّهَادَةِ</td><td class="wc">ISM</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">94</td><td class="arabic">وَأَدْنَى</td><td><span class="clitic proc">وَ</span> | <span class="host">أَدْنَى</span></td><td class="arabic host-cell">أَدْنَى</td><td class="wc">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">95</td><td class="arabic">أَلَّا</td><td><span class="host">أَلَّا</span></td><td class="arabic host-cell">أَلَّا</td><td class="wc">FI3L</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">96</td><td class="arabic">تَرْتَابُوا</td><td><span class="host">تَرْتَابُوا</span></td><td class="arabic host-cell">تَرْتَابُوا</td><td class="wc">FI3L</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">97</td><td class="arabic">إِلَّا</td><td><span class="host">إِلَّا</span></td><td class="arabic host-cell">إِلَّا</td><td class="wc">HARF</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">98</td><td class="arabic">أَنْ</td><td><span class="host">أَنْ</span></td><td class="arabic host-cell">أَنْ</td><td class="wc">HARF</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">99</td><td class="arabic">تَكُونَ</td><td><span class="host">تَكُونَ</span></td><td class="arabic host-cell">تَكُونَ</td><td class="wc">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">100</td><td class="arabic">تِجَارَةً</td><td><span class="host">تِجَارَةً</span></td><td class="arabic host-cell">تِجَارَةً</td><td class="wc">ISM</td><td><span class="badge badge-green">جرة</span></td><td class="wazn">TAFA3ALA</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">101</td><td class="arabic">حَاضِرَةً</td><td><span class="host">حَاضِرَةً</span></td><td class="arabic host-cell">حَاضِرَةً</td><td class="wc">ISM</td><td><span class="badge badge-green">حضر</span></td><td class="wazn">FA3IL</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">102</td><td class="arabic">تُدِيرُونَهَا</td><td><span class="host">تُدِيرُونَ</span> | <span class="clitic enc">هَا</span></td><td class="arabic host-cell">تُدِيرُونَ</td><td class="wc">ISM</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">103</td><td class="arabic">بَيْنَكُمْ</td><td><span class="host">بَيْنَ</span> | <span class="clitic enc">كُمْ</span></td><td class="arabic host-cell">بَيْنَ</td><td class="wc">FI3L</td><td><span class="badge badge-green">بين</span></td><td class="wazn">FA3L</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">104</td><td class="arabic">فَلَيْسَ</td><td><span class="clitic proc">فَ</span> | <span class="host">لَيْسَ</span></td><td class="arabic host-cell">لَيْسَ</td><td class="wc">—</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">105</td><td class="arabic">عَلَيْكُمْ</td><td><span class="host">عَلَيْ</span> | <span class="clitic enc">كُمْ</span></td><td class="arabic host-cell">عَلَيْ</td><td class="wc">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">106</td><td class="arabic">جُنَاحٌ</td><td><span class="host">جُنَاحٌ</span></td><td class="arabic host-cell">جُنَاحٌ</td><td class="wc">ISM</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">107</td><td class="arabic">أَلَّا</td><td><span class="host">أَلَّا</span></td><td class="arabic host-cell">أَلَّا</td><td class="wc">FI3L</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">108</td><td class="arabic">تَكْتُبُوهَا</td><td><span class="host">تَكْتُبُو</span> | <span class="clitic enc">هَا</span></td><td class="arabic host-cell">تَكْتُبُو</td><td class="wc">FI3L</td><td><span class="badge badge-green">كتب</span></td><td class="wazn">—</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">109</td><td class="arabic">وَأَشْهِدُوا</td><td><span class="clitic proc">وَ</span> | <span class="host">أَشْهِدُوا</span></td><td class="arabic host-cell">أَشْهِدُوا</td><td class="wc">ISM</td><td><span class="badge badge-green">شهد</span></td><td class="wazn">AF3AL</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">110</td><td class="arabic">إِذَا</td><td><span class="host">إِذَا</span></td><td class="arabic host-cell">إِذَا</td><td class="wc">HARF</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">111</td><td class="arabic">تَبَايَعْتُمْ</td><td><span class="host">تَبَايَعْتُمْ</span></td><td class="arabic host-cell">تَبَايَعْتُمْ</td><td class="wc">FI3L</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">112</td><td class="arabic">وَلَا</td><td><span class="clitic proc">وَ</span> | <span class="host">لَا</span></td><td class="arabic host-cell">لَا</td><td class="wc">—</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">113</td><td class="arabic">يُضَارَّ</td><td><span class="host">يُضَارَّ</span></td><td class="arabic host-cell">يُضَارَّ</td><td class="wc">FI3L</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">114</td><td class="arabic">كَاتِبٌ</td><td><span class="host">كَاتِبٌ</span></td><td class="arabic host-cell">كَاتِبٌ</td><td class="wc">ISM</td><td><span class="badge badge-green">كتب</span></td><td class="wazn">FA3IL</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">115</td><td class="arabic">وَلَا</td><td><span class="clitic proc">وَ</span> | <span class="host">لَا</span></td><td class="arabic host-cell">لَا</td><td class="wc">—</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">116</td><td class="arabic">شَهِيدٌ</td><td><span class="host">شَهِيدٌ</span></td><td class="arabic host-cell">شَهِيدٌ</td><td class="wc">ISM</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">117</td><td class="arabic">وَإِنْ</td><td><span class="clitic proc">وَ</span> | <span class="host">إِنْ</span></td><td class="arabic host-cell">إِنْ</td><td class="wc">—</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">118</td><td class="arabic">تَفْعَلُوا</td><td><span class="host">تَفْعَلُوا</span></td><td class="arabic host-cell">تَفْعَلُوا</td><td class="wc">FI3L</td><td><span class="badge badge-green">فعل</span></td><td class="wazn">—</td><td class="h-cell">✓ NUMBER_SLOT, GENDER_SLOT</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">TAAQOL_RUNTIME_UNAVAILABLE</td></tr>
+<tr><td class="idx">119</td><td class="arabic">فَإِنَّهُ</td><td><span class="host">فَإِنَّ</span> | <span class="clitic enc">هُ</span></td><td class="arabic host-cell">فَإِنَّ</td><td class="wc">—</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">120</td><td class="arabic">فُسُوقٌ</td><td><span class="host">فُسُوقٌ</span></td><td class="arabic host-cell">فُسُوقٌ</td><td class="wc">ISM</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">121</td><td class="arabic">بِكُمْ</td><td><span class="clitic proc">بِ</span> | <span class="host">—</span> | <span class="clitic enc">كُمْ</span></td><td class="arabic host-cell"></td><td class="wc">—</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">SEGMENTATION_NO_LEXICAL_HOST</td></tr>
+<tr><td class="idx">122</td><td class="arabic">وَاتَّقُوا</td><td><span class="clitic proc">وَ</span> | <span class="host">اتَّقُوا</span></td><td class="arabic host-cell">اتَّقُوا</td><td class="wc">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">123</td><td class="arabic">اللَّهَ</td><td><span class="host">اللَّهَ</span></td><td class="arabic host-cell">اللَّهَ</td><td class="wc">—</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">124</td><td class="arabic">وَيُعَلِّمُكُمُ</td><td><span class="clitic proc">وَ</span> | <span class="host">يُعَلِّمُ</span> | <span class="clitic enc">كُمُ</span></td><td class="arabic host-cell">يُعَلِّمُ</td><td class="wc">ISM</td><td><span class="badge badge-green">علم</span></td><td class="wazn">FA33ALA</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">125</td><td class="arabic">اللَّهُ</td><td><span class="host">اللَّهُ</span></td><td class="arabic host-cell">اللَّهُ</td><td class="wc">—</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">126</td><td class="arabic">وَاللَّهُ</td><td><span class="clitic proc">وَ</span> | <span class="host">اللَّهُ</span></td><td class="arabic host-cell">اللَّهُ</td><td class="wc">—</td><td><span class="badge badge-gray">UNKNOWN</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">127</td><td class="arabic">بِكُلِّ</td><td><span class="clitic proc">بِ</span> | <span class="host">كُلِّ</span></td><td class="arabic host-cell">كُلِّ</td><td class="wc">—</td><td><span class="badge badge-green">كلل</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_DEFERRED</td></tr>
+<tr><td class="idx">128</td><td class="arabic">شَيْءٍ</td><td><span class="host">شَيْءٍ</span></td><td class="arabic host-cell">شَيْءٍ</td><td class="wc">ISM</td><td><span class="badge badge-green">شيء</span></td><td class="wazn">FA3L</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+<tr><td class="idx">129</td><td class="arabic">عَلِيمٌ</td><td><span class="host">عَلِيمٌ</span></td><td class="arabic host-cell">عَلِيمٌ</td><td class="wc">ISM</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="wazn">—</td><td class="h-cell">—</td><td><span class="badge badge-amber">DEFERRED</span></td><td class="reason">WORD_CLASS_ACCEPTED</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>بيانات البيئة</h2>
+  <div class="meta-box">
+    HEAD: 9cba040<br>
+    Vendor SHA: 35381739410071ac<br>
+    Python: 3.10.12<br>
+    Platform: Linux<br>
+    Timestamp: 2026-07-22T13:23:46.701734+00:00<br>
+    Ayat source: tests/post_segmentation_routing/test_ayat_al_dayn_routing.py
+  </div>
+
+</div>
+</body>
+</html>
