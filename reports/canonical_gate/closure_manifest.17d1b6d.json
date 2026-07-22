@@ -1,0 +1,9 @@
+{
+  "stage": "HOKOM-TAAQOL-SGA-LIVE-CORPUS-EXPANSION-01",
+  "commit": "17d1b6d",
+  "commit_full": "17d1b6d8c6244bcb9a7283d7c202e58a49f3c27d",
+  "closure_eligible": false,
+  "pending_canonical_run": true,
+  "note": "Pre-flight manifest; canonical gate must be run on macOS/Python 3.12.4 .venv-py312.",
+  "timestamp": "2026-07-22T13:11:34.602884+00:00"
+}
