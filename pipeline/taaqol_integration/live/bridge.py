@@ -291,6 +291,10 @@ def _build_slot_graph(bundle, taaqol, sga_bundle=None):
     # If an sga_bundle is provided, extract typed radicals (R1/R2/R3) and
     # pattern from HokomClaimBundle.typed_slots and add them to the SlotGraph.
     # These are informational optional slots — never required for gate verdict.
+    #
+    # T-10: AMBIGUOUS slots are passed with ALL candidates (not just the first).
+    # An AMBIGUOUS slot produces a DEFERRABLE residual so the gate defers rather
+    # than silently selecting candidate[0].
     if sga_bundle is not None and _SGA_AVAILABLE:
         _sga_extra: list = []
         _slot_names = {
@@ -300,22 +304,45 @@ def _build_slot_graph(bundle, taaqol, sga_bundle=None):
             _SlotId.PATTERN_CANDIDATE_SET: 'sga_pattern',
         }
         for ts in sga_bundle.typed_slots:
-            if ts.slot_id in _slot_names and ts.value is not None:
+            if ts.slot_id in _slot_names:
                 ts_name = _slot_names[ts.slot_id]
-                _sga_extra.append(Slot(
-                    name=ts_name,
-                    value_state=SlotState.FILLED,
-                    boundary=SlotBoundary(
-                        domain='hokom_sga',
-                        scope=ts_name,
-                        refusal_codes=(),
-                    ),
-                    opening=OpeningPolicy(
-                        allowed_potentials=frozenset({str(ts.value)}),
-                    ),
-                    required=False,
-                    value=str(ts.value),
-                ))
+                if ts.state == _SlotState.AMBIGUOUS and ts.candidate_set is not None:
+                    # T-10: AMBIGUOUS — pass ALL candidates, selected must be None
+                    assert ts.candidate_set.selected is None, (
+                        f"AMBIGUOUS slot {ts.slot_id} must have selected=None"
+                    )
+                    # Pass as EMPTY slot (not FILLED) so gate knows it's unresolved
+                    _sga_extra.append(Slot(
+                        name=ts_name,
+                        value_state=SlotState.EMPTY,
+                        boundary=SlotBoundary(
+                            domain='hokom_sga',
+                            scope=ts_name,
+                            refusal_codes=(FailureCode.REQUIRED_SLOT_EMPTY,),
+                        ),
+                        opening=OpeningPolicy(
+                            allowed_potentials=frozenset(
+                                str(c.value) for c in ts.candidate_set.candidates
+                            ),
+                        ),
+                        required=False,
+                        value=None,
+                    ))
+                elif ts.value is not None:
+                    _sga_extra.append(Slot(
+                        name=ts_name,
+                        value_state=SlotState.FILLED,
+                        boundary=SlotBoundary(
+                            domain='hokom_sga',
+                            scope=ts_name,
+                            refusal_codes=(),
+                        ),
+                        opening=OpeningPolicy(
+                            allowed_potentials=frozenset({str(ts.value)}),
+                        ),
+                        required=False,
+                        value=str(ts.value),
+                    ))
         if _sga_extra:
             slots = tuple(slots) + tuple(_sga_extra)
 
@@ -346,6 +373,26 @@ def _build_slot_graph(bundle, taaqol, sga_bundle=None):
             visible=True,
             note='Hokom residual',
         ))
+
+    # ── T-10: AMBIGUOUS residuals from SGA bundle ─────────────────────────────
+    # When the SGA bundle contains AMBIGUOUS_CANDIDATE_SET residuals, pass them
+    # as DEFERRABLE residuals to the SlotGraph so the gate defers disambiguation.
+    # Never collapses multiple candidates to first (AMBIGUITY_COLLAPSE_VIOLATIONS=0).
+    if sga_bundle is not None and _SGA_AVAILABLE:
+        _sga_residuals = getattr(sga_bundle, 'residuals', ()) or ()
+        for _sga_res in _sga_residuals:
+            if getattr(_sga_res, 'code', '') == 'AMBIGUOUS_CANDIDATE_SET':
+                safe_name = (str(getattr(_sga_res, 'residual_id', '')) or 'ambiguous_candidate_set')[:120]
+                # Only add if not already present (dedup by name)
+                _existing_names = {r.name for r in residuals_list if hasattr(r, 'name')}
+                if safe_name not in _existing_names:
+                    residuals_list.append(Residual(
+                        name=safe_name,
+                        kind=ResidualKind.DEFERRABLE,
+                        visible=True,
+                        note=getattr(_sga_res, 'reason', 'ambiguous candidate set'),
+                    ))
+
     residuals = tuple(residuals_list)
 
     # ── Rank ─────────────────────────────────────────────────────────────────

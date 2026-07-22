@@ -165,15 +165,38 @@ def adapt_word_class(hokom_result: dict) -> TypedSlot:
 
 # ── H8-H9: Radicals ──────────────────────────────────────────────────────────
 
+def _parse_root_string(root: str) -> list[str]:
+    """Parse a root string 'ك-ت-ب' / 'ك ت ب' / 'كتب' into radical parts."""
+    if "-" in root:
+        parts = root.split("-")
+    elif " " in root:
+        parts = root.split()
+    else:
+        parts = list(root)
+    return [p.strip() for p in parts if p.strip()]
+
+
 def adapt_root_radicals(hokom_result: dict) -> tuple[TypedSlot, TypedSlot, TypedSlot, TypedSlot]:
     """
     Extract R1/R2/R3/R4 from root_candidate.
-    root_candidate format: "ك-ت-ب" or "ك ت ب" or "كتب"
+    root_candidate format: "ك-ت-ب" or "ك ت ب" or "كتب" or list of such strings.
+
+    T-10: When root_candidate is a list with multiple entries, the radicals are
+    AMBIGUOUS — all candidates are preserved in ROOT_CANDIDATE_SET, and R1/R2/R3
+    remain UNKNOWN. No silent first-selection.
     """
     root = hokom_result.get("root_candidate")
 
     if not root:
-        # No root — UNKNOWN for all radicals
+        return tuple(
+            TypedSlot(slot_id=sid, sort=SlotSort.RADICAL, state=SlotState.UNKNOWN)
+            for sid in (SlotId.RADICAL_R1, SlotId.RADICAL_R2, SlotId.RADICAL_R3, SlotId.RADICAL_R4)
+        )
+
+    # T-10: detect ambiguous multi-root list
+    if isinstance(root, (list, tuple)) and len(root) > 1:
+        # Multiple root candidates → R1/R2/R3 must remain UNKNOWN (no silent pick)
+        # ROOT_CANDIDATE_SET handled in build_claim_bundle via residuals
         return tuple(
             TypedSlot(
                 slot_id=sid,
@@ -183,15 +206,15 @@ def adapt_root_radicals(hokom_result: dict) -> tuple[TypedSlot, TypedSlot, Typed
             for sid in (SlotId.RADICAL_R1, SlotId.RADICAL_R2, SlotId.RADICAL_R3, SlotId.RADICAL_R4)
         )
 
-    # Parse radicals
-    if "-" in root:
-        parts = root.split("-")
-    elif " " in root:
-        parts = root.split()
-    else:
-        parts = list(root)
+    # Single root (str or 1-element list/tuple)
+    root_str = root[0] if isinstance(root, (list, tuple)) else root
 
-    parts = [p.strip() for p in parts if p.strip()]
+    # Handle object with canonical_root attribute (RootCandidate)
+    if hasattr(root_str, 'canonical_root'):
+        parts = list(root_str.canonical_root)
+        root_str = '-'.join(parts)
+    else:
+        parts = _parse_root_string(str(root_str))
 
     slots = []
     for i, sid in enumerate(
@@ -214,7 +237,7 @@ def adapt_root_radicals(hokom_result: dict) -> tuple[TypedSlot, TypedSlot, Typed
             value=value,
             evidence=(
                 EvidenceReference(
-                    evidence_id=f"root:{root}:r{i+1}",
+                    evidence_id=f"root:{root_str}:r{i+1}",
                     kind="MORPHOLOGICAL",
                     source="hokom_pipeline.root_candidate",
                 ),
@@ -511,19 +534,62 @@ def build_claim_bundle(hokom_result: dict, claim_kind: str, profile_id: str) -> 
     if path_slot.state == SlotState.BLOCKED:
         obstacle_facts.append(f"CLOSED_BOUNDARY:{boundary_slot.value}")
 
+    # T-10: Ambiguous candidate sets — record residuals, preserve all candidates
+    residuals: list[HokomResidualRecord] = []
+    candidate_sets: dict[str, CandidateSet] = {}
+    _root = hokom_result.get("root_candidate")
+    if isinstance(_root, (list, tuple)) and len(_root) > 1:
+        # Root ambiguity: all candidates preserved; R1/R2/R3 remain UNKNOWN
+        _root_candidates = tuple(
+            CandidateEntry(value=str(r), evidence_code=f"root_candidate:{r}")
+            for r in _root
+        )
+        _root_cset = CandidateSet(candidates=_root_candidates, selected=None)
+        candidate_sets[SlotId.ROOT_CANDIDATE_SET.value] = _root_cset
+        # Add AMBIGUOUS_CANDIDATE_SET residual — code registered in ROOT_CLAIM profile
+        residuals.append(HokomResidualRecord(
+            residual_id=f"root_ambiguous:{len(_root)}",
+            code="AMBIGUOUS_CANDIDATE_SET",
+            kind="DEFERRABLE",
+            source_slot=SlotId.ROOT_CANDIDATE_SET,
+            candidate_set=_root_cset,
+            reason=f"root_candidate has {len(_root)} candidates; disambiguation required",
+            visibility="VISIBLE",
+            next_evidence_required="ROOT_DISAMBIGUATION",
+        ))
+
+    # Also record AMBIGUOUS residuals for any other AMBIGUOUS typed slots (H11-H15, T-10)
+    for _ts in all_slots:
+        if _ts.state == SlotState.AMBIGUOUS and _ts.candidate_set is not None:
+            assert _ts.candidate_set.selected is None, (
+                f"AMBIGUOUS slot {_ts.slot_id} must have selected=None"
+            )
+            candidate_sets[_ts.slot_id.value] = _ts.candidate_set
+            if not any(r.source_slot == _ts.slot_id for r in residuals):
+                residuals.append(HokomResidualRecord(
+                    residual_id=f"ambiguous:{_ts.slot_id.value}",
+                    code="AMBIGUOUS_CANDIDATE_SET",
+                    kind="DEFERRABLE",
+                    source_slot=_ts.slot_id,
+                    candidate_set=_ts.candidate_set,
+                    reason=f"slot {_ts.slot_id.value} has {len(_ts.candidate_set.candidates)} candidates",
+                    visibility="VISIBLE",
+                    next_evidence_required="CANDIDATE_DISAMBIGUATION",
+                ))
+
     return HokomClaimBundle(
         claim_key=claim_key,
         claim_kind=claim_kind,
         profile_id=profile_id,
         surface=prov,
         typed_slots=all_slots,
-        candidate_sets={},
+        candidate_sets=candidate_sets,
         evidence_refs=tuple(all_evidence),
         condition_facts=(),
         obstacle_facts=tuple(obstacle_facts),
         defeater_facts=(),
         domain_licenses=(),
-        residuals=(),
+        residuals=tuple(residuals),
     )
 
 
