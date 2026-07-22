@@ -386,6 +386,115 @@ RESERVED_CLAIM_PROFILES: frozenset[str] = frozenset({
 })
 
 
+# ── Claim Profile Versioning ───────────────────────────────────────────────────
+
+CLAIM_PROFILE_SCHEMA_VERSION = "1.0.0"
+
+
+@dataclass(frozen=True)
+class ClaimProfileVersion:
+    profile_id: str
+    schema_version: str            # semver string
+    status: str                    # ACTIVE | RESERVED | DEPRECATED | RETIRED
+    added_in_stage: str            # which HOKOM stage added this profile
+    compatible_bundle_versions: FrozenSet[str]  # e.g. frozenset({"1.0.0"})
+
+
+CLAIM_PROFILE_VERSIONS: dict[str, ClaimProfileVersion] = {
+    "ROOT_CLAIM": ClaimProfileVersion(
+        profile_id="ROOT_CLAIM",
+        schema_version="1.0.0",
+        status="ACTIVE",
+        added_in_stage="HOKOM-TAAQOL-SLOT-GEOMETRY-CONSTITUTIONAL-IMPLEMENTATION-01",
+        compatible_bundle_versions=frozenset({"1.0.0"}),
+    ),
+    "PATTERN_CLAIM": ClaimProfileVersion(
+        profile_id="PATTERN_CLAIM",
+        schema_version="1.0.0",
+        status="ACTIVE",
+        added_in_stage="HOKOM-TAAQOL-SLOT-GEOMETRY-CONSTITUTIONAL-IMPLEMENTATION-01",
+        compatible_bundle_versions=frozenset({"1.0.0"}),
+    ),
+    "BAB_CLAIM": ClaimProfileVersion(
+        profile_id="BAB_CLAIM",
+        schema_version="1.0.0",
+        status="ACTIVE",
+        added_in_stage="HOKOM-TAAQOL-SLOT-GEOMETRY-CONSTITUTIONAL-IMPLEMENTATION-01",
+        compatible_bundle_versions=frozenset({"1.0.0"}),
+    ),
+    "MASDAR_CLAIM": ClaimProfileVersion(
+        profile_id="MASDAR_CLAIM",
+        schema_version="1.0.0",
+        status="ACTIVE",
+        added_in_stage="HOKOM-TAAQOL-SLOT-GEOMETRY-CONSTITUTIONAL-IMPLEMENTATION-01",
+        compatible_bundle_versions=frozenset({"1.0.0"}),
+    ),
+    "DERIVATIVE_CLAIM": ClaimProfileVersion(
+        profile_id="DERIVATIVE_CLAIM",
+        schema_version="1.0.0",
+        status="ACTIVE",
+        added_in_stage="HOKOM-TAAQOL-SLOT-GEOMETRY-CONSTITUTIONAL-IMPLEMENTATION-01",
+        compatible_bundle_versions=frozenset({"1.0.0"}),
+    ),
+    "WORD_CLASS_CLAIM": ClaimProfileVersion(
+        profile_id="WORD_CLASS_CLAIM",
+        schema_version="1.0.0",
+        status="ACTIVE",
+        added_in_stage="HOKOM-TAAQOL-SLOT-GEOMETRY-CONSTITUTIONAL-IMPLEMENTATION-01",
+        compatible_bundle_versions=frozenset({"1.0.0"}),
+    ),
+    "FUNCTIONAL_OWNER_CLAIM": ClaimProfileVersion(
+        profile_id="FUNCTIONAL_OWNER_CLAIM",
+        schema_version="1.0.0",
+        status="ACTIVE",
+        added_in_stage="HOKOM-TAAQOL-SLOT-GEOMETRY-CONSTITUTIONAL-IMPLEMENTATION-01",
+        compatible_bundle_versions=frozenset({"1.0.0"}),
+    ),
+    # Reserved profiles — schema_version 0.0.0-reserved; not executable
+    "SYNTACTIC_RELATION_CLAIM": ClaimProfileVersion(
+        profile_id="SYNTACTIC_RELATION_CLAIM",
+        schema_version="0.0.0-reserved",
+        status="RESERVED",
+        added_in_stage="HOKOM-TAAQOL-SLOT-GEOMETRY-CONSTITUTIONAL-IMPLEMENTATION-01",
+        compatible_bundle_versions=frozenset(),
+    ),
+    "SEMANTIC_RELATION_CLAIM": ClaimProfileVersion(
+        profile_id="SEMANTIC_RELATION_CLAIM",
+        schema_version="0.0.0-reserved",
+        status="RESERVED",
+        added_in_stage="HOKOM-TAAQOL-SLOT-GEOMETRY-CONSTITUTIONAL-IMPLEMENTATION-01",
+        compatible_bundle_versions=frozenset(),
+    ),
+    "EXISTENCE_CLAIM": ClaimProfileVersion(
+        profile_id="EXISTENCE_CLAIM",
+        schema_version="0.0.0-reserved",
+        status="RESERVED",
+        added_in_stage="HOKOM-TAAQOL-SLOT-GEOMETRY-CONSTITUTIONAL-IMPLEMENTATION-01",
+        compatible_bundle_versions=frozenset(),
+    ),
+}
+
+
+def get_profile_version(profile_id: str) -> ClaimProfileVersion:
+    """
+    Return the ClaimProfileVersion for the given profile_id.
+    Raises KeyError for unknown profiles (fail-closed).
+    Raises RuntimeError for RESERVED profiles (cannot be executed).
+    """
+    if profile_id not in CLAIM_PROFILE_VERSIONS:
+        raise KeyError(
+            f"Unknown claim profile: {profile_id!r}. "
+            "Fail-closed: unregistered profiles are forbidden."
+        )
+    v = CLAIM_PROFILE_VERSIONS[profile_id]
+    if v.status == "RESERVED":
+        raise RuntimeError(
+            f"Claim profile {profile_id!r} is RESERVED and cannot be executed. "
+            "Reserved profiles have no slots and produce no claims."
+        )
+    return v
+
+
 # ── Claim Key ─────────────────────────────────────────────────────────────────
 
 def compute_claim_key(
@@ -507,6 +616,10 @@ __all__ = [
     "CandidateSet",
     "ClaimProfile",
     "CLAIM_PROFILES",
+    "CLAIM_PROFILE_SCHEMA_VERSION",
+    "CLAIM_PROFILE_VERSIONS",
+    "ClaimProfileVersion",
+    "get_profile_version",
     "RESERVED_CLAIM_PROFILES",
     "compute_claim_key",
     "deserialize_claim_bundle",
