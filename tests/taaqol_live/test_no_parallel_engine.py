@@ -28,17 +28,25 @@ def test_gate_is_closed():
 
 
 def test_only_one_canonical_entrypoint():
-    """Only evaluate_hokom_claim_bundle is the canonical entrypoint."""
-    from pipeline.taaqol_integration.live.bridge import evaluate_hokom_claim_bundle
+    """
+    Canonical entrypoints are evaluate_hokom_claim_bundle (legacy HokomLinguisticClaimBundle)
+    and evaluate_sga_bundle (T-03 typed SGA boundary, requires HokomClaimBundle).
+    No other evaluate_* functions are permitted.
+    """
+    from pipeline.taaqol_integration.live.bridge import (
+        evaluate_hokom_claim_bundle,
+        evaluate_sga_bundle,
+    )
     assert callable(evaluate_hokom_claim_bundle)
-    # No other evaluate_* functions should exist
+    assert callable(evaluate_sga_bundle)
     import pipeline.taaqol_integration.live.bridge as _bridge
-    eval_funcs = [
+    eval_funcs = sorted(
         name for name in dir(_bridge)
         if name.startswith('evaluate_') and callable(getattr(_bridge, name))
-    ]
-    assert eval_funcs == ['evaluate_hokom_claim_bundle'], \
-        f"Unexpected evaluate_* functions found: {eval_funcs}"
+    )
+    _ALLOWED = sorted(['evaluate_hokom_claim_bundle', 'evaluate_sga_bundle'])
+    assert eval_funcs == _ALLOWED, \
+        f"Unexpected evaluate_* functions: got {eval_funcs}, expected {_ALLOWED}"
 
 
 def test_no_shadow_mode_in_live_bridge():

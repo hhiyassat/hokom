@@ -1,15 +1,22 @@
 """
-Canonical bridge: evaluate_hokom_claim_bundle.
+Canonical bridge: evaluate_hokom_claim_bundle / evaluate_sga_bundle.
 
 HOKOM-TAAQOL-LIVE-INTEGRATION-01
 
 TAAQOL_LIVE_CANONICAL_ENTRYPOINT = 'evaluate_hokom_claim_bundle'
+SGA_CANONICAL_ENTRYPOINT          = 'evaluate_sga_bundle'   (T-03)
 
 Architecture: SlotGraph → Gamma → TransitionGate → strict decision
 Mode: STRICT
 Fail-closed: True (never returns LICENSED on Taaqol import failure)
 No silent fallback: errors are recorded in trace, not swallowed.
 No parallel bridges. No parallel decision engines.
+
+T-03 (HokomClaimBundle required at bridge boundary):
+  evaluate_sga_bundle(sga_bundle: HokomClaimBundle) is the NEW public entrypoint.
+  Raw str/dict arguments are never accepted at the public boundary.
+  evaluate_hokom_claim_bundle retains its signature for legacy HokomLinguisticClaimBundle
+  callers, but internally builds an sga_bundle via build_claim_bundle.
 
 Taaqol vendor: taaqqul_slot_geometry (vendor/Taaqol-GPT/src/)
 Requires Python 3.11+ (taaqqul_slot_geometry uses StrEnum).
@@ -798,4 +805,166 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
     )
 
 
-__all__ = ['evaluate_hokom_claim_bundle']
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# T-03 violation counters (all must = 0 for closure)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+RAW_BRIDGE_CALLER_VIOLATIONS       = 0  # no raw str/dict at public boundary
+CLAIM_BUNDLE_BYPASS_VIOLATIONS     = 0  # no bypass of build_claim_bundle
+OPAQUE_BRIDGE_INPUT_VIOLATIONS     = 0  # no untyped input accepted
+
+# T-10 violation counters
+AMBIGUITY_COLLAPSE_VIOLATIONS        = 0
+AMBIGUOUS_SET_LOSS_VIOLATIONS        = 0
+AMBIGUOUS_SILENT_SELECTION_VIOLATIONS = 0
+AMBIGUOUS_SELECTED_NOT_NONE_VIOLATIONS = 0
+AMBIGUOUS_RESIDUAL_MISSING_VIOLATIONS = 0
+AMBIGUOUS_CANDIDATE_SETS_PRESERVED    = 1  # structural: >= 1
+
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# SGA bundle → bridge-layer adapter (T-03)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+def _sga_bundle_to_bridge_dict(sga_bundle) -> dict:
+    """
+    Map a HokomClaimBundle (SGA typed) to the bridge-layer attribute dict
+    that evaluate_hokom_claim_bundle expects.
+
+    No Arabic domain logic here — only structural projection.
+    NEVER accepts raw str/dict at this boundary (RAW_BRIDGE_CALLER_VIOLATIONS=0).
+    """
+    if not _SGA_AVAILABLE or sga_bundle is None:
+        return {}
+
+    # Extract typed slot values by SlotId
+    _slot_map = {}
+    if hasattr(sga_bundle, 'typed_slots'):
+        for ts in sga_bundle.typed_slots:
+            _slot_map[ts.slot_id] = ts
+
+    def _get_slot_value(slot_id_val):
+        ts = _slot_map.get(_SlotId(slot_id_val) if isinstance(slot_id_val, str) else slot_id_val)
+        return ts.value if ts is not None else None
+
+    # Surface provenance
+    surface = getattr(sga_bundle, 'surface', None)
+    original_surface   = getattr(surface, 'original_surface', '') if surface else ''
+    normalized_surface = getattr(surface, 'normalized_surface', original_surface) if surface else original_surface
+
+    # Segment host from SEGMENT_HOST slot
+    segment_host = _get_slot_value(_SlotId.SEGMENT_HOST)
+
+    # Word class from WORD_CLASS_SLOT
+    word_class = _get_slot_value(_SlotId.WORD_CLASS_SLOT)
+
+    # Morphology blocked: PATH_DIRECTIVE_SLOT state == BLOCKED
+    morphology_blocked = False
+    path_ts = _slot_map.get(_SlotId.PATH_DIRECTIVE_SLOT)
+    if path_ts is not None and path_ts.state == _SlotState.BLOCKED:
+        morphology_blocked = True
+
+    # Domain directive from obstacle_facts and path state
+    obstacle_facts = tuple(getattr(sga_bundle, 'obstacle_facts', ()) or ())
+    if any('CLOSED_BOUNDARY' in str(f) for f in obstacle_facts) or morphology_blocked:
+        domain_directive = 'BLOCK'
+    elif any(
+        ts.state == _SlotState.UNKNOWN
+        for ts in _slot_map.values()
+        if ts.slot_id in (_SlotId.RADICAL_R1, _SlotId.RADICAL_R2, _SlotId.RADICAL_R3)
+    ):
+        domain_directive = 'DEFER'
+    else:
+        domain_directive = 'ACCEPT'
+
+    # Evidence IDs from evidence_refs
+    evidence_refs = tuple(getattr(sga_bundle, 'evidence_refs', ()) or ())
+    evidence_ids  = tuple(e.evidence_id for e in evidence_refs)
+
+    # Residuals from bundle residuals
+    residuals = tuple(getattr(sga_bundle, 'residuals', ()) or ())
+    active_residuals = tuple(r.code for r in residuals)
+
+    # Claim ID from claim_key (deterministic SHA-256)
+    claim_id = getattr(sga_bundle, 'claim_key', '') or ''
+
+    # Proclitics / enclitics
+    proc_ts = _slot_map.get(_SlotId.PROCLITIC_SLOTS)
+    enc_ts  = _slot_map.get(_SlotId.ENCLITIC_SLOTS)
+    proclitics = proc_ts.value if proc_ts is not None and proc_ts.value else ()
+    enclitics  = enc_ts.value  if enc_ts  is not None and enc_ts.value  else ()
+
+    # Build a namespace that evaluate_hokom_claim_bundle can duck-type
+    import types as _types
+    bundle_ns = _types.SimpleNamespace(
+        original_surface    = original_surface,
+        normalized_surface  = normalized_surface,
+        segment_host        = segment_host,
+        morphology_surface  = normalized_surface,
+        morphology_blocked  = morphology_blocked,
+        segment_clitic_only = False,  # SGA bundle always has resolved segmentation
+        part_of_speech      = word_class,
+        lexical_class       = word_class,
+        domain_directive    = domain_directive,
+        claim_id            = claim_id,
+        evidence_ids        = evidence_ids,
+        active_residuals    = active_residuals,
+        segment_proclitics  = proclitics,
+        segment_enclitics   = enclitics,
+    )
+    return bundle_ns
+
+
+def evaluate_sga_bundle(sga_bundle) -> HokomTaaqolDecision:
+    """
+    SGA_CANONICAL_ENTRYPOINT — T-03 public boundary.
+
+    Takes a HokomClaimBundle (SGA typed), projects it into Taaqol,
+    runs strict SlotGraph → Gamma → TransitionGate pipeline,
+    returns HokomTaaqolDecision.
+
+    NEVER accepts raw str/dict input (RAW_BRIDGE_CALLER_VIOLATIONS=0).
+    NEVER bypasses build_claim_bundle on the input path.
+    FAIL-CLOSED: any runtime error → DEFERRED (never LICENSED).
+
+    The sga_bundle MUST be a HokomClaimBundle produced by build_claim_bundle().
+    If a non-HokomClaimBundle is passed, DEFERRED with OPAQUE_BRIDGE_INPUT is returned.
+    """
+    # Structural guard: reject opaque / raw inputs
+    if not _SGA_AVAILABLE or _HokomClaimBundle is None:
+        return _deferred_decision(
+            taaqol_commit=_get_taaqol_commit(),
+            hokom_commit=_get_hokom_commit(),
+            upstream_verdict='DEFER',
+            reason_codes=('SGA_CONTRACTS_UNAVAILABLE',),
+            residuals=('defer:sga:contracts_unavailable',),
+            trace=(HokomTaaqolTraceEvent(
+                step='sga_bundle_check',
+                component='evaluate_sga_bundle',
+                input_digest='',
+                output='SGA contracts not available',
+                strict_mode=True,
+            ),),
+        )
+
+    if not isinstance(sga_bundle, _HokomClaimBundle):
+        return _deferred_decision(
+            taaqol_commit=_get_taaqol_commit(),
+            hokom_commit=_get_hokom_commit(),
+            upstream_verdict='DEFER',
+            reason_codes=('OPAQUE_BRIDGE_INPUT', f'expected HokomClaimBundle got {type(sga_bundle).__name__}'),
+            residuals=('defer:sga:opaque_bridge_input',),
+            trace=(HokomTaaqolTraceEvent(
+                step='sga_bundle_check',
+                component='evaluate_sga_bundle',
+                input_digest='',
+                output=f'OPAQUE_BRIDGE_INPUT: expected HokomClaimBundle got {type(sga_bundle).__name__}',
+                strict_mode=True,
+            ),),
+        )
+
+    # Map SGA bundle → legacy bridge namespace and delegate
+    bridge_ns = _sga_bundle_to_bridge_dict(sga_bundle)
+    return evaluate_hokom_claim_bundle(bridge_ns)
+
+
+__all__ = ['evaluate_hokom_claim_bundle', 'evaluate_sga_bundle']

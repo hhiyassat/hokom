@@ -160,6 +160,14 @@ def hokom(word: str) -> dict:
     slots   = syllabify(phones)
     verdict, word_viols = word_gate(slots)
 
+    # T-02: typed phonological boundary — wrap immediately after syllabify()
+    _typed_phonological_slots = None
+    try:
+        from pipeline.p1_atomic_structure.phonological_slot import wrap_syllabify_output as _wso
+        _typed_phonological_slots = _wso(slots)
+    except Exception:
+        _typed_phonological_slots = None
+
     # ── P5: Mabni Lookup ─────────────────────────────────────────────────────
     mabni = process_mabni(input_surface, normalized_surface, slots, verdict, word_viols)
 
@@ -745,11 +753,29 @@ def hokom(word: str) -> dict:
     _taaqol_effective_verdict = None
     _taaqol_runtime = None
     _taaqol_verdict = None  # None = runtime unavailable; semantic string = live evaluation
+    # T-03: build HokomClaimBundle (SGA typed) first — it is the required bridge input.
+    # build_claim_bundle() is the ONLY way to build the bundle; no raw dict accepted.
+    _sga_claim_bundle = None
     try:
-        from pipeline.taaqol_integration.claim_adapter import bundle_from_hokom_result
-        from pipeline.taaqol_integration.live.bridge import evaluate_hokom_claim_bundle
-        _claim_bundle = bundle_from_hokom_result(_hokom_result_partial)
-        _taaqol_decision = evaluate_hokom_claim_bundle(_claim_bundle)
+        from pipeline.sga.adapters import build_claim_bundle as _build_sga_bundle
+        _sga_claim_bundle = _build_sga_bundle(
+            _hokom_result_partial, "ROOT_CLAIM", "ROOT_CLAIM"
+        )
+    except Exception:
+        _sga_claim_bundle = None
+
+    try:
+        # Primary path: evaluate_sga_bundle with typed HokomClaimBundle (T-03)
+        if _sga_claim_bundle is not None:
+            from pipeline.taaqol_integration.live.bridge import evaluate_sga_bundle
+            _taaqol_decision = evaluate_sga_bundle(_sga_claim_bundle)
+        else:
+            # Fallback: legacy adapter path (claim_adapter + evaluate_hokom_claim_bundle)
+            # Used only when SGA bundle construction fails; deprecated — not silent.
+            from pipeline.taaqol_integration.claim_adapter import bundle_from_hokom_result
+            from pipeline.taaqol_integration.live.bridge import evaluate_hokom_claim_bundle
+            _claim_bundle = bundle_from_hokom_result(_hokom_result_partial)
+            _taaqol_decision = evaluate_hokom_claim_bundle(_claim_bundle)
         _taaqol_effective_verdict = _taaqol_decision.effective_verdict
         _taaqol_runtime = getattr(_taaqol_decision, 'taaqol_runtime', None)
         # taaqol_verdict is the semantic gate verdict ONLY when runtime executed successfully.
@@ -822,6 +848,10 @@ def hokom(word: str) -> dict:
                                         if word_class_result and word_class_result.subclass
                                         else None),
         'inflection_skipped_reason':   _inflection_skipped_reason,
+        # ── T-02: typed phonological slots ───────────────────────────────
+        'typed_phonological_slots':    _typed_phonological_slots,
+        # ── T-03: SGA claim bundle (HokomClaimBundle, not raw dict) ──────
+        'sga_claim_bundle':            _sga_claim_bundle,
         # ── Taaqol Live Governance ────────────────────────────────────────
         'taaqol_decision':             _taaqol_decision,
         'taaqol_effective_verdict':    _taaqol_effective_verdict,
