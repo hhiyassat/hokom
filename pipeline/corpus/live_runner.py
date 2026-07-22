@@ -74,6 +74,12 @@ class CaseResult:
     seg_clitic_chain_match: Optional[bool] = None
     seg_host_match: Optional[bool] = None
 
+    # Inflectional analysis gate (populated from hokom_result)
+    # True when hokom sets inflection_skipped_reason (WORD_CLASS_DEFERRED /
+    # WORD_CLASS_ACCEPTED / WORD_CLASS_BLOCKED), meaning the pipeline
+    # constitutionally cannot populate H11-H15 derivative slots.
+    inflection_skipped: bool = False
+
     # Performance
     latency_ms: float = 0.0
 
@@ -266,6 +272,12 @@ def run_case(case: CorpusCase) -> CaseResult:
         result.final_root = hr.get("final_root")
         result.final_wazn = hr.get("final_wazn")
         result.morphology_blocked = bool(hr.get("morphology_blocked"))
+
+        # inflection_skipped_reason: set by hokom when word-class analysis
+        # cannot complete (DEFERRED / ACCEPTED-but-no-inflection / BLOCKED).
+        # When True, the H11-H15 derivative stage is constitutionally
+        # unreachable — treat as VALID_EARLY_STOP at the gate level.
+        result.inflection_skipped = bool(hr.get("inflection_skipped_reason"))
 
         # ── Step 4: Routing ───────────────────────────────────────────────
         result.routing_actual = _determine_routing(hr)

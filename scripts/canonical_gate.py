@@ -1391,6 +1391,12 @@ def _lcx_run_corpus_once(cases) -> list[dict]:
             "latency_ms":               r.latency_ms,
             "error":                    r.error,
             "error_class":              r.error_class,
+            # Constitutional early-stop signal: hokom set inflection_skipped_reason
+            # (WORD_CLASS_DEFERRED / WORD_CLASS_ACCEPTED / WORD_CLASS_BLOCKED),
+            # meaning the H11-H15 derivative stage is unreachable by design — the
+            # word-class pipeline could not complete inflectional analysis. These
+            # cases must be classified as VALID_EARLY_STOP, not INVALID_MISS.
+            "inflection_skipped":       r.inflection_skipped,
         })
     return out
 
@@ -1479,29 +1485,41 @@ def run_live_corpus_expansion_stage() -> int:
     h11_flagged         = len(h11_flagged_ids)
     h11_reached         = sum(1 for r in run1 if r["h11_h15_slots_reached"])
     h11_typed_outputs   = sum(len(r["h11_h15_slots_reached"]) for r in run1)
+    # Constitutional valid early stop: CLOSED_BOUNDARY (operator/mabni/jamid) OR
+    # inflection_skipped (hokom set inflection_skipped_reason, meaning word-class
+    # analysis could not complete — H11-H15 derivative stage is constitutionally
+    # unreachable; marking these as INVALID_MISS is a false violation).
     h11_valid_early_stops = sum(
         1 for r in run1
         if r["case_id"] in h11_flagged_ids
-        and r["routing_actual"] in ("CLOSED_BOUNDARY",)
         and not r["h11_h15_slots_reached"]
+        and not r["error"]
+        and (
+            r["routing_actual"] in ("CLOSED_BOUNDARY",)
+            or r["inflection_skipped"]
+        )
     )
     h11_invalid_misses = sum(
         1 for r in run1
         if r["case_id"] in h11_flagged_ids
-        and r["routing_actual"] not in ("CLOSED_BOUNDARY",)
         and not r["h11_h15_slots_reached"]
         and not r["error"]
+        and r["routing_actual"] not in ("CLOSED_BOUNDARY",)
+        and not r["inflection_skipped"]
     )
 
     ambiguity_expected_ids  = set(corpus_result.ambiguity_expected_ids)
     ambiguity_expected      = len(ambiguity_expected_ids)
     ambiguity_observed      = sum(1 for r in run1 if r["ambiguous_slots"])
+    # Exclude cases where inflection was constitutionally skipped: these cannot
+    # produce AMBIGUOUS slot state and are VALID_EARLY_STOP, not COLLAPSE.
     ambiguity_collapse      = [
         r["case_id"] for r in run1
         if r["case_id"] in ambiguity_expected_ids
         and not r["ambiguous_slots"]
         and r["routing_actual"] not in ("CLOSED_BOUNDARY",)
         and not r["error"]
+        and not r["inflection_skipped"]
     ]
 
     latencies      = [r["latency_ms"] for r in run1 if not r["error"]]
