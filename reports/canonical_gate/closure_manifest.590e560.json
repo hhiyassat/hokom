@@ -1,0 +1,41 @@
+{
+  "_schema_version": "1",
+  "stage": "HOKOM-TAAQOL-SGA-POST-CLOSURE-HARDENING-01",
+  "commit": "590e560",
+  "commit_full": "590e5605329298978233b424af886f76c18d82b0",
+  "timestamp": "2026-07-22T03:20:27.202332Z",
+  "baseline_ef87e6a_preserved": true,
+  "public_typed_slot_count": 47,
+  "untyped_bridge_payload_violations": 0,
+  "silent_fallback_violations": 0,
+  "ambiguity_collapse_violations": 0,
+  "profile_version_violations": 0,
+  "domain_license_version_violations": 0,
+  "architecture_boundary_violations": 0,
+  "vendor_sha_drift_violations": 0,
+  "corpus_contract_violations": 0,
+  "unexplained_nondeterminism": 0,
+  "closure_eligible": true,
+  "hardening_artifacts": {
+    "slot_registry": "pipeline/sga/slot_registry.py",
+    "bundle_contract": "pipeline/sga/bundle_contract.py",
+    "license_registry": "pipeline/sga/license_registry.py",
+    "claim_profile_versions": "pipeline/sga/contracts.py (CLAIM_PROFILE_VERSIONS)",
+    "test_slot_registry": "tests/sga/test_slot_registry.py",
+    "test_bundle_contract": "tests/sga/test_bundle_contract.py",
+    "test_profile_versioning": "tests/sga/test_profile_versioning.py",
+    "test_license_versioning": "tests/sga/test_license_versioning.py",
+    "test_bridge_compatibility": "tests/sga/test_bridge_compatibility.py",
+    "test_architecture": "tests/sga/test_architecture.py",
+    "test_expanded_corpus": "tests/sga/test_expanded_corpus.py",
+    "test_performance": "tests/sga/test_performance.py",
+    "test_stability": "tests/sga/test_stability.py"
+  },
+  "test_counts": {
+    "sga_suite": 292,
+    "full_run": 5704,
+    "skipped": 55,
+    "pre_existing_failures": 12,
+    "hardening_new_failures": 0
+  }
+}
