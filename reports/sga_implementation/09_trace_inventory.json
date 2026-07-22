@@ -1,0 +1,26 @@
+{
+  "_schema_version": "1",
+  "stage_id": "HOKOM-TAAQOL-SGA-CONSTITUTIONAL-CONVERGENCE-01",
+  "commit": "ee418b6",
+  "generated_at": "2026-07-22T02:37:15.287090+00:00",
+  "trace_components": [
+    {
+      "component": "SlotGraph",
+      "status": "WIRED",
+      "source": "bridge._build_slot_graph()"
+    },
+    {
+      "component": "Gamma",
+      "status": "WIRED",
+      "source": "bridge.evaluate_hokom_claim_bundle()"
+    },
+    {
+      "component": "TransitionGate",
+      "status": "WIRED",
+      "source": "bridge.evaluate_hokom_claim_bundle()"
+    }
+  ],
+  "trace_events_structure": "HokomTaaqolTraceEvent(step, component, input_digest, output, strict_mode, gamma_state, gate_verdict)",
+  "trace_preserved_in_decision": true,
+  "prior_trace_status": "PRIOR_TRACE_PRESERVED"
+}

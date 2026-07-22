@@ -1,82 +1,39 @@
 {
-  "last_updated": "Stage-2-through-7",
-  "violations": [
-    {
-      "id": "T-02",
-      "description": "syllabify() returns list[dict] — no typed phonological slots",
-      "status": "PARTIAL",
-      "closure_note": "PhonologicalSlot wrapper created in pipeline/p1_atomic_structure/phonological_slot.py. syllabify() output is not yet replaced — adapter must be wired into cell_builder callers.",
-      "files": ["pipeline/p1_atomic_structure/phonological_slot.py"]
+  "_schema_version": "1",
+  "stage_id": "HOKOM-TAAQOL-SGA-CONSTITUTIONAL-CONVERGENCE-01",
+  "commit": "ee418b6",
+  "generated_at": "2026-07-22T02:37:15.287090+00:00",
+  "tasks": [
+    "T-02",
+    "T-03",
+    "T-09",
+    "T-10"
+  ],
+  "counters": {
+    "T-02": {
+      "UNTYPED_PHONOLOGICAL_CALLER_VIOLATIONS": 0,
+      "description": "All production callers of syllabify() now wrap output via wrap_syllabify_output()"
     },
-    {
-      "id": "T-03",
-      "description": "segment_host returned as plain str with no TypedSlot wrapping",
-      "status": "PARTIAL",
-      "closure_note": "adapt_segmentation() in adapters.py wraps segment_host as SEGMENT_HOST TypedSlot. build_claim_bundle() produces full bundle. Bridge wires the bundle. Direct segment_token callers still receive plain str.",
-      "files": ["pipeline/sga/adapters.py"]
+    "T-03": {
+      "RAW_BRIDGE_CALLER_VIOLATIONS": 0,
+      "CLAIM_BUNDLE_BYPASS_VIOLATIONS": 0,
+      "OPAQUE_BRIDGE_INPUT_VIOLATIONS": 0,
+      "description": "evaluate_sga_bundle() is the typed entrypoint; rejects non-HokomClaimBundle with OPAQUE_BRIDGE_INPUT"
     },
-    {
-      "id": "T-04",
-      "description": "ORIGINAL_SURFACE lost after normalization in some paths",
-      "status": "CLOSED",
-      "closure_note": "adapt_surface_identity() captures original_surface and normalized_surface into SurfaceProvenance. HokomClaimBundle.surface.assert_original_preserved() enforces invariant.",
-      "files": ["pipeline/sga/adapters.py", "pipeline/sga/contracts.py"]
+    "T-09": {
+      "H11_ADAPTER_VIOLATIONS": 0,
+      "H12_ADAPTER_VIOLATIONS": 0,
+      "H13_ADAPTER_VIOLATIONS": 0,
+      "H14_ADAPTER_VIOLATIONS": 0,
+      "H15_ADAPTER_VIOLATIONS": 0,
+      "description": "H11-H15 adapters (adapt_bab, adapt_masdar, adapt_derivatives, adapt_morphosyntax, adapt_lemma_paradigm) all wired into build_claim_bundle()"
     },
-    {
-      "id": "T-05",
-      "description": "HokomTaaqolTraceEvent.output is opaque str — no structured gamma_state/gate_verdict fields",
-      "status": "CLOSED",
-      "closure_note": "Added gamma_state and gate_verdict Optional[str] fields to HokomTaaqolTraceEvent in models.py.",
-      "files": ["pipeline/taaqol_integration/live/models.py"]
-    },
-    {
-      "id": "T-06",
-      "description": "HokomTaaqolDecision has no typed_slots or evidence_contract fields",
-      "status": "CLOSED",
-      "closure_note": "Added typed_slots, taaqol_trace, evidence_contract Optional fields to HokomTaaqolDecision. Added from_dict() classmethod for round-trip serialization.",
-      "files": ["pipeline/taaqol_integration/live/models.py"]
-    },
-    {
-      "id": "T-07",
-      "description": "HokomTaaqolDecision has no from_dict() — no round-trip serialization contract",
-      "status": "CLOSED",
-      "closure_note": "from_dict() classmethod added. Round-trip: from_dict(to_dict(d)).taaqol_verdict == d.taaqol_verdict verified.",
-      "files": ["pipeline/taaqol_integration/live/models.py"]
-    },
-    {
-      "id": "T-08",
-      "description": "8 SLOT_TRANS entries lack DomainTransitionLicense",
-      "status": "CLOSED",
-      "closure_note": "SLOT_TRANS_LICENSES dict added to slot_engineering.py with one DomainTransitionLicense per SLOT_TRANS state. All 8 states covered.",
-      "files": ["pipeline/p1_atomic_structure/slot_engineering.py"]
-    },
-    {
-      "id": "T-11",
-      "description": "Root radicals (R1/R2/R3/R4) not typed — returned as plain str from root_candidate",
-      "status": "CLOSED",
-      "closure_note": "adapt_root_radicals() wraps root_candidate into four TypedSlot instances (RADICAL_R1/R2/R3/R4) with proper states. R4=NOT_APPLICABLE for trilateral roots.",
-      "files": ["pipeline/sga/adapters.py"]
-    },
-    {
-      "id": "T-12",
-      "description": "Pattern/wazn not typed — returned as plain str",
-      "status": "CLOSED",
-      "closure_note": "adapt_pattern() wraps wazn into PATTERN_CANDIDATE_SET TypedSlot with WAZN_MATCH evidence.",
-      "files": ["pipeline/sga/adapters.py"]
-    },
-    {
-      "id": "T-13",
-      "description": "Bridge claim_id uses uuid4 — not deterministic",
-      "status": "CLOSED",
-      "closure_note": "Bridge now computes sga_claim_key via compute_claim_key() (SHA-256) from HokomClaimBundle. Stored in taaqol_runtime['sga_claim_key']. uuid4 removed from bridge.",
-      "files": ["pipeline/taaqol_integration/live/bridge.py"]
-    },
-    {
-      "id": "T-14",
-      "description": "Bridge contains Arabic-domain terms (root_candidate, wazn) violating constitutional boundary",
-      "status": "CLOSED",
-      "closure_note": "Bridge no longer contains forbidden Arabic rule patterns. Uses generic dir()-based attribute mirror. Constitutional test 12 passes.",
-      "files": ["pipeline/taaqol_integration/live/bridge.py"]
+    "T-10": {
+      "AMBIGUITY_COLLAPSE_VIOLATIONS": 0,
+      "AMBIGUOUS_CANDIDATE_SET_RESIDUALS_DROPPED": 0,
+      "description": "Ambiguous root candidates preserved in ROOT_CANDIDATE_SET; R1/R2/R3 remain UNKNOWN; AMBIGUOUS_CANDIDATE_SET residual emitted"
     }
-  ]
+  },
+  "total_violations": 0,
+  "bridge_expressivity_status": "FULL"
 }

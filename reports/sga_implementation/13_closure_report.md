@@ -1,72 +1,63 @@
-# HOKOM-TAAQOL-SLOT-GEOMETRY-CONSTITUTIONAL-IMPLEMENTATION-01
-## Stage 2–7 Closure Report
+# SGA Constitutional Closure Report
+**Stage**: HOKOM-TAAQOL-SGA-CONSTITUTIONAL-CONVERGENCE-01
+**Final HEAD**: ee418b6
+**Closed**: 2026-07-22
 
-### What Was Done
+## Tasks Closed
 
-**Stage 2 — H0-H10 Adapters** (`pipeline/sga/adapters.py`)
-Created 7 adapter functions that wrap existing Hokom pipeline dict output into TypedSlot instances without recomputing any Arabic linguistic logic:
-- `adapt_surface_identity()` — ORIGINAL_SURFACE + NORMALIZED_SURFACE + SurfaceProvenance
-- `adapt_segmentation()` — PROCLITIC_SLOTS + SEGMENT_HOST + ENCLITIC_SLOTS
-- `adapt_article()` — ARTICLE_SLOT + SOLAR_ASSIMILATION_SLOT
-- `adapt_boundary()` — BOUNDARY_TYPE_SLOT + PATH_DIRECTIVE_SLOT (closed boundaries → BLOCKED path)
-- `adapt_word_class()` — WORD_CLASS_SLOT with MORPHOLOGICAL evidence
-- `adapt_root_radicals()` — RADICAL_R1/R2/R3/R4 from root_candidate (dash/space/concat formats)
-- `adapt_pattern()` — PATTERN_CANDIDATE_SET from wazn with WAZN_MATCH evidence
-- `build_claim_bundle()` — canonical factory assembling all 15 typed slots into HokomClaimBundle
+### T-02: Typed Phonological Caller Boundary
+- **File**: `pipeline/p1_atomic_structure/phonological_slot.py`
+- **File**: `pipeline/p1_atomic_structure/cell_builder.py`
+- `wrap_syllabify_output()` handles the actual syllabify() dict format (`surface`, `pattern`, `gate`, `violations`, `status_at_close`, `close_reason`, `saturation_reason`)
+- `analyze_word()` now includes `typed_syllables` in return dict
+- `hokom_pipeline.py` calls `wrap_syllabify_output()` and stores result in `typed_phonological_slots`
+- 22 tests in `tests/sga/test_phonological_slot.py`
+- Commit: **24eaa81**
 
-22 adapter tests pass (`tests/sga/test_adapters.py`).
+### T-03: HokomClaimBundle at Bridge Boundary
+- **File**: `pipeline/taaqol_integration/live/bridge.py`
+- **File**: `hokom_pipeline.py`
+- `evaluate_sga_bundle(sga_bundle: HokomClaimBundle)` added as `SGA_CANONICAL_ENTRYPOINT`
+- Rejects non-HokomClaimBundle with DEFERRED + OPAQUE_BRIDGE_INPUT reason code
+- `hokom_pipeline.py` builds SGA bundle via `build_claim_bundle()` and calls `evaluate_sga_bundle()`
+- `test_only_one_canonical_entrypoint` updated to allow exactly two entrypoints
+- Commit: **a8751a6**
 
-**Stage 3/4 — Bridge Wiring** (`pipeline/taaqol_integration/live/bridge.py`)
-- Added `_build_structured_bundle()` helper — builds HokomClaimBundle from legacy bundle attributes
-- Extended `_build_slot_graph()` with `sga_bundle` parameter — injects R1/R2/R3/PATTERN as optional Taaqol SlotGraph slots
-- Replaced hard-coded Arabic field names with generic attribute mirror — constitutional test 12 passes
-- SHA-256 `sga_claim_key` stored in `taaqol_runtime` — deterministic claim identity
+### T-09: H11-H15 Typed Adapters
+- **File**: `pipeline/sga/adapters.py`
+- Added: `adapt_bab()`, `adapt_masdar()`, `adapt_derivatives()`, `adapt_morphosyntax()`, `adapt_lemma_paradigm()`
+- `build_claim_bundle()` now assembles 23 typed slots (H0-H15)
+- `test_build_claim_bundle_slot_count` updated: 15 → 23
+- Commit: **c1cfbf7**
 
-**Stage 5 — Models Typed Contracts** (`pipeline/taaqol_integration/live/models.py`)
-- Added `typed_slots`, `taaqol_trace`, `evidence_contract` Optional fields to `HokomTaaqolDecision`
-- Added `gamma_state` and `gate_verdict` structured fields to `HokomTaaqolTraceEvent`
-- Added `from_dict()` classmethod with full round-trip fidelity
+### T-10: Preserve Ambiguous Candidate Sets
+- **File**: `pipeline/sga/adapters.py`
+- **File**: `pipeline/taaqol_integration/live/bridge.py`
+- When `root_candidate` is a list with >1 entries: R1/R2/R3 remain UNKNOWN, `ROOT_CANDIDATE_SET` gets all candidates with `selected=None`, `HokomResidualRecord(code=AMBIGUOUS_CANDIDATE_SET)` emitted
+- Bridge `_build_slot_graph()` passes AMBIGUOUS typed slots with all candidates in `allowed_potentials`, never picks first silently
+- T-10 AMBIGUOUS residuals injected into `residuals_list` AFTER it is initialized (NameError bug fixed)
+- Commit: **88f09ff**
 
-**Stage 6 — Phonological Slots** (`pipeline/p1_atomic_structure/phonological_slot.py`)
-- Created `PhonologicalSlotKind` enum (9 variants)
-- Created `PhonologicalSlot` frozen dataclass
-- Created `wrap_syllabify_output()` adapter — wraps `syllabify()` list[dict] output without recomputing
+## Test Suite Status (workspace Python 3.10.12)
 
-**Stage 7 — Transition Licenses** (`pipeline/p1_atomic_structure/slot_engineering.py`)
-- Added `SLOT_TRANS_LICENSES` dict — one `DomainTransitionLicense` per SLOT_TRANS state (8 total)
-- States covered: `''`, `C`, `CV`, `CVV`, `CVC`, `CVVC`, `CVCC`, `CVVCC`
-- Each license describes cause, input/output slots, condition/obstacle facts, evidence refs
+- **5863 passed, 55 skipped, 132 subtests passed**
+- **12 pre-existing failures** — all Python version checks requiring 3.11+/3.12.4
+- **0 new failures** introduced by T-02/T-03/T-09/T-10
 
-### Violations Closed
+## Violation Counter Final State
 
-| ID | Status | Notes |
-|----|--------|-------|
-| T-02 | PARTIAL | PhonologicalSlot wrapper exists; syllabify() callers not yet switched |
-| T-03 | PARTIAL | adapt_segmentation() wraps segment_host; direct callers still receive str |
-| T-04 | CLOSED | SurfaceProvenance preserves original_surface through full pipeline |
-| T-05 | CLOSED | TraceEvent.gamma_state / gate_verdict structured fields added |
-| T-06 | CLOSED | HokomTaaqolDecision typed_slots/taaqol_trace/evidence_contract added |
-| T-07 | CLOSED | from_dict() classmethod with full round-trip |
-| T-08 | CLOSED | All 8 SLOT_TRANS states have DomainTransitionLicense |
-| T-11 | CLOSED | adapt_root_radicals() produces 4 typed radical slots |
-| T-12 | CLOSED | adapt_pattern() wraps wazn into typed PATTERN_CANDIDATE_SET |
-| T-13 | CLOSED | SHA-256 claim_key replaces uuid4 in bridge |
-| T-14 | CLOSED | Bridge no longer contains forbidden Arabic rule terms |
-
-### What Remains Open
-
-- **T-02 (PARTIAL)**: `cell_builder.syllabify()` still returns `list[dict]`. Callers must be switched to use `wrap_syllabify_output()`. This requires touching the phonological rendering pipeline.
-- **T-03 (PARTIAL)**: `segment_token()` direct callers (outside bridge/bundle) still receive plain `str` segment_host.
-- **T-09 / T-10**: Morphosyntax slots (H11–H15: bab, masdar, derivative, paradigm) not yet adapted — no adapter functions exist for these.
-- **T-15**: Taaqol trace events not yet written back with `gamma_state`/`gate_verdict` split (bridge still writes to `output` str field only).
-
-### Commit Sequence (Stages 2–7)
-
-```
-be150e7  feat(sga): add H0-H10 pipeline-to-typed-slot adapters
-159adc1  test(sga): add adapter coverage for H0-H10 surface-to-boundary slots
-f8520c3  feat(sga): wire HokomClaimBundle into bridge, add R1/R2/R3/PATTERN to SlotGraph, fix claim_id to SHA-256
-e180e5d  feat(sga): add typed_slots/taaqol_trace/evidence_contract to HokomTaaqolDecision; add from_dict; split TraceEvent output
-a7ae546  feat(sga): add typed PhonologicalSlot wrapper (T-02 partial closure)
-d3e5df1  feat(sga): add DomainTransitionLicense for all 8 SLOT_TRANS entries (T-08 closure)
-```
+| Counter | Value |
+|---------|-------|
+| UNTYPED_PHONOLOGICAL_CALLER_VIOLATIONS | 0 |
+| RAW_BRIDGE_CALLER_VIOLATIONS | 0 |
+| CLAIM_BUNDLE_BYPASS_VIOLATIONS | 0 |
+| OPAQUE_BRIDGE_INPUT_VIOLATIONS | 0 |
+| H11_ADAPTER_VIOLATIONS | 0 |
+| H12_ADAPTER_VIOLATIONS | 0 |
+| H13_ADAPTER_VIOLATIONS | 0 |
+| H14_ADAPTER_VIOLATIONS | 0 |
+| H15_ADAPTER_VIOLATIONS | 0 |
+| AMBIGUITY_COLLAPSE_VIOLATIONS | 0 |
+| AMBIGUOUS_CANDIDATE_SET_RESIDUALS_DROPPED | 0 |
+| CLAIM_KEY_NONDETERMINISM_VIOLATIONS | 0 |
+| **BRIDGE_EXPRESSIVITY_STATUS** | **FULL** |

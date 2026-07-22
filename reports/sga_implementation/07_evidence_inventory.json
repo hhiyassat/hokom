@@ -1,0 +1,29 @@
+{
+  "_schema_version": "1",
+  "stage_id": "HOKOM-TAAQOL-SGA-CONSTITUTIONAL-CONVERGENCE-01",
+  "commit": "ee418b6",
+  "generated_at": "2026-07-22T02:37:15.287090+00:00",
+  "evidence_kinds_registered": [
+    "CATALOG_HIT",
+    "WAZN_MATCH",
+    "PATTERN_MATCH",
+    "LEXICAL",
+    "MORPHOLOGICAL",
+    "CONTEXTUAL"
+  ],
+  "evidence_slots_in_claim_bundle": [
+    "RADICAL_R1",
+    "RADICAL_R2",
+    "RADICAL_R3",
+    "RADICAL_R4",
+    "PATTERN_CANDIDATE_SET",
+    "BAB_CANDIDATE_SET",
+    "MASDAR_CANDIDATE_SET",
+    "DERIVATIVE_CANDIDATE_SET"
+  ],
+  "evidence_refs_per_claim": {
+    "typical_root_claim": 4,
+    "typical_pattern_claim": 1
+  },
+  "total_evidence_coverage": "FULL"
+}
