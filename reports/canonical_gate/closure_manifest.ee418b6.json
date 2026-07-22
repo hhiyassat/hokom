@@ -1,0 +1,48 @@
+{
+  "_schema_version": "1",
+  "stage_id": "HOKOM-TAAQOL-SGA-CONSTITUTIONAL-CONVERGENCE-01",
+  "commit": "ee418b6",
+  "commit_full": "ee418b66c4a27025728fffd42396f9b39e318737",
+  "timestamp": "2026-07-22T02:36:06.753576+00:00",
+  "runtime": {
+    "platform": "Darwin",
+    "python": "3.12.4",
+    "executable": "/Users/husseinhiyassat/hokom/.venv-py312/bin/python"
+  },
+  "worktree": {
+    "tracked_clean": true,
+    "vendor_clean": true,
+    "tracked_dirty": []
+  },
+  "canonical_core": {
+    "run_1_exit": 0,
+    "run_2_exit": 0,
+    "run_1_passed": 5882,
+    "run_2_passed": 5882,
+    "failures": 0,
+    "skips": 55,
+    "node_ids_equal": true,
+    "outcomes_equal": true
+  },
+  "sga_constitutional_counters": {
+    "UNTYPED_PHONOLOGICAL_CALLER_VIOLATIONS": 0,
+    "RAW_BRIDGE_CALLER_VIOLATIONS": 0,
+    "CLAIM_BUNDLE_BYPASS_VIOLATIONS": 0,
+    "OPAQUE_BRIDGE_INPUT_VIOLATIONS": 0,
+    "H11_ADAPTER_VIOLATIONS": 0,
+    "H12_ADAPTER_VIOLATIONS": 0,
+    "H13_ADAPTER_VIOLATIONS": 0,
+    "H14_ADAPTER_VIOLATIONS": 0,
+    "H15_ADAPTER_VIOLATIONS": 0,
+    "AMBIGUITY_COLLAPSE_VIOLATIONS": 0,
+    "AMBIGUOUS_CANDIDATE_SET_RESIDUALS_DROPPED": 0,
+    "CLAIM_KEY_NONDETERMINISM_VIOLATIONS": 0,
+    "BRIDGE_EXPRESSIVITY_STATUS": "FULL"
+  },
+  "tasks_closed": [
+    "T-02",
+    "T-03",
+    "T-09",
+    "T-10"
+  ]
+}

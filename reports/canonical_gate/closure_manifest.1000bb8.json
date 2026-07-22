@@ -1,0 +1,49 @@
+{
+  "_schema_version": "1",
+  "stage_id": "HOKOM-POST-SEGMENTATION-MORPHOLOGY-ROUTING-OWNERSHIP-01",
+  "commit": "1000bb8",
+  "commit_full": "1000bb8f014afe3ce3af471a5114da3900e90780",
+  "timestamp": "2026-07-20T13:56:54.574042+00:00",
+  "runtime": {
+    "platform": "Linux",
+    "python": "3.10.12",
+    "executable": "/usr/bin/python"
+  },
+  "worktree": {
+    "tracked_clean": true,
+    "vendor_clean": true,
+    "tracked_dirty": []
+  },
+  "canonical_core": {
+    "run_1_exit": 1,
+    "run_2_exit": 1,
+    "run_1_passed": 5013,
+    "run_2_passed": 5013,
+    "failures": 4,
+    "skips": 5,
+    "node_ids_equal": true,
+    "outcomes_equal": true
+  },
+  "canonical_probes": {
+    "total": 17,
+    "failures": 0,
+    "failing_probes": []
+  },
+  "corpus_contracts": {
+    "total_tokens": 129,
+    "failures": 0,
+    "violations": []
+  },
+  "routing_contracts": {
+    "total_tokens": 129,
+    "POST_SEGMENTATION_ROUTING_VIOLATIONS": 0,
+    "ROOT_AFTER_CLOSED_BOUNDARY": 0,
+    "SURFACE_PROVENANCE_VIOLATIONS": 0,
+    "ARTICLE_REATTACHMENT_VIOLATIONS": 0
+  },
+  "artifacts": {
+    "commit_bound": true,
+    "stale_artifacts": 0
+  },
+  "closure_eligible": false
+}

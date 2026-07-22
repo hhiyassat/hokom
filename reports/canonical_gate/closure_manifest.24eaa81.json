@@ -1,0 +1,9 @@
+{
+  "_schema_version": "1",
+  "stage_id": "HOKOM-TAAQOL-SGA-CONSTITUTIONAL-CONVERGENCE-01",
+  "commit": "24eaa81",
+  "commit_full": "24eaa81placeholder",
+  "timestamp": "2026-07-22T02:25:18.738979+00:00",
+  "closure_eligible": false,
+  "note": "stub manifest created during T-02/T-03 implementation; full gate requires Python 3.12.4"
+}
