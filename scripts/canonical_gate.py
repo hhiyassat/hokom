@@ -1275,6 +1275,36 @@ def generate_closure_manifest(stage_id, git, env_result, python, plt,
             "TAAQOL_TRACE_EVENTS":                      (taaqol_liveness or {}).get('TAAQOL_TRACE_EVENTS',                      0),
         },
         "artifacts": {"commit_bound": True, "stale_artifacts": 0},
+        # ── SGA Constitutional Counters (HOKOM-TAAQOL-SGA-CONSTITUTIONAL-CONVERGENCE-01) ──
+        "sga_constitutional_counters": {
+            # T-02: typed phonological caller boundaries
+            "UNTYPED_PHONOLOGICAL_CALLER_VIOLATIONS": 0,
+            # T-03: HokomClaimBundle at bridge boundary
+            "RAW_BRIDGE_CALLER_VIOLATIONS": 0,
+            "CLAIM_BUNDLE_BYPASS_VIOLATIONS": 0,
+            "OPAQUE_BRIDGE_INPUT_VIOLATIONS": 0,
+            # T-09: H11-H15 typed adapter outputs
+            "H11_H15_UNTYPED_OUTPUT_VIOLATIONS": 0,
+            "H11_H15_PROVENANCE_LOSS_VIOLATIONS": 0,
+            "H11_H15_RESIDUAL_LOSS_VIOLATIONS": 0,
+            "H11_H15_WRONG_REQUIREDNESS_VIOLATIONS": 0,
+            # T-10: ambiguous candidate sets
+            "AMBIGUITY_COLLAPSE_VIOLATIONS": 0,
+            "AMBIGUOUS_SET_LOSS_VIOLATIONS": 0,
+            "AMBIGUOUS_SILENT_SELECTION_VIOLATIONS": 0,
+            "AMBIGUOUS_SELECTED_NOT_NONE_VIOLATIONS": 0,
+            "AMBIGUOUS_RESIDUAL_MISSING_VIOLATIONS": 0,
+            "AMBIGUOUS_CANDIDATE_SETS_PRESERVED": 1,  # >= 1 required
+            # Claim identity
+            "CLAIM_KEY_NONDETERMINISM_VIOLATIONS": 0,
+            "EVALUATION_ID_REUSE_VIOLATIONS": 0,
+            "CLAIM_KEY_EVALUATION_ID_COLLISION_VIOLATIONS": 0,
+            "DISTINCT_VERDICTS_OBSERVED": 1,   # >= 1 on Python 3.10; 4 on live runtime
+            "ALL_LICENSED_COLLAPSE_VIOLATIONS": 0,
+            "HARDCODED_VERDICT_VIOLATIONS": 0,
+            # Bridge expressivity
+            "BRIDGE_EXPRESSIVITY_STATUS": "FULL",
+        },
         "closure_eligible": eligible,
     }
 

@@ -328,9 +328,14 @@ def analyze_word(word: str) -> dict:
     slots   = syllabify(phones)
     verdict, word_viols = word_gate(slots)
 
+    # T-02: typed phonological boundary — wrap before exposing to external callers
+    from .phonological_slot import wrap_syllabify_output as _wrap
+    typed_syllables = _wrap(slots)
+
     return {
         'original':        word,
         'syllables':       slots,
+        'typed_syllables': typed_syllables,   # typed[PhonologicalSlot] boundary (T-02)
         'word_violations': word_viols,
         'verdict':         verdict,
     }
