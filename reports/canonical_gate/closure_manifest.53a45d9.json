@@ -1,0 +1,35 @@
+{
+  "stage": "HOKOM-TAAQOL-SGA-LIVE-CORPUS-EXPANSION-01",
+  "commit": "53a45d9",
+  "commit_full": "53a45d95a2e494a36b283282b948f2dbebf26470",
+  "closure_eligible": false,
+  "fatal_violations": {
+    "H11_H15_INVALID_MISSES": 114,
+    "AMBIGUITY_COLLAPSE_VIOLATIONS": 25
+  },
+  "documented_non_blocking": {
+    "ROUTING_ORACLE_MISMATCHES": 16,
+    "INTERROGATIVE_HAMZA_ROUTING_MISMATCHES": 0,
+    "INTERROGATIVE_HAMZA_CASE_IDS": [],
+    "OTHER_ROUTING_MISMATCH_CASE_IDS": [
+      "LCX-007",
+      "LCX-083",
+      "LCX-088",
+      "LCX-090",
+      "LCX-092",
+      "LCX-094",
+      "LCX-095",
+      "LCX-097",
+      "LCX-099",
+      "LCX-100",
+      "LCX-145",
+      "LCX-146",
+      "LCX-147",
+      "LCX-148",
+      "LCX-149",
+      "LCX-150"
+    ]
+  },
+  "baseline_head": "bc6cd64",
+  "detailed_manifest": "reports/canonical_gate/live_corpus_expansion_manifest.53a45d9.json"
+}

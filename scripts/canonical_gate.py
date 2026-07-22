@@ -1647,6 +1647,36 @@ def run_live_corpus_expansion_stage() -> int:
     mpath.write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
     print(f"\nManifest: {mpath.relative_to(REPO_ROOT)}")
 
+    # Governance manifest — scanned by tests/governance/test_artifact_commit_binding.py
+    # Derives commit values from Git at runtime; never hard-coded.
+    _short = subprocess.check_output(
+        ["git", "rev-parse", "--short", "HEAD"], cwd=REPO_ROOT
+    ).decode().strip()
+    _full = subprocess.check_output(
+        ["git", "rev-parse", "HEAD"], cwd=REPO_ROOT
+    ).decode().strip()
+    governance_manifest = {
+        "stage":            "HOKOM-TAAQOL-SGA-LIVE-CORPUS-EXPANSION-01",
+        "commit":           _short,
+        "commit_full":      _full,
+        "closure_eligible": closure_eligible,
+        "fatal_violations": fatal,
+        "documented_non_blocking": {
+            "ROUTING_ORACLE_MISMATCHES": routing_mismatches,
+            "INTERROGATIVE_HAMZA_ROUTING_MISMATCHES": len(hamza_ids),
+            "INTERROGATIVE_HAMZA_CASE_IDS": hamza_ids,
+            "OTHER_ROUTING_MISMATCH_CASE_IDS": other_ids,
+        },
+        "baseline_head":    "bc6cd64",
+        "detailed_manifest": str(mpath.relative_to(REPO_ROOT)),
+    }
+    governance_path = _LCX_REPORTS_DIR / f"closure_manifest.{_short}.json"
+    governance_path.write_text(
+        json.dumps(governance_manifest, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    print(f"Governance manifest: {governance_path.relative_to(REPO_ROOT)}")
+
     m = manifest["stage_metrics"]
     print("\n" + "=" * 60)
     print(f"STAGE:                    HOKOM-TAAQOL-SGA-LIVE-CORPUS-EXPANSION-01")
@@ -1687,8 +1717,21 @@ def run_live_corpus_expansion_stage() -> int:
     print(f"CLOSURE_ELIGIBLE:         {closure_eligible}")
     print(f"MANIFEST:                 {mpath.relative_to(REPO_ROOT)}")
     print("=" * 60)
-    print("\n[ATTESTATION REQUIRED] Run under macOS / Python 3.12.4 / .venv-py312")
-    print("for final canonical closure attestation.")
+    # Environment attestation — conditional on actual runtime environment
+    _is_macos  = sys.platform == "darwin"
+    _is_py312  = sys.version_info[:2] == (3, 12)
+    _in_venv   = ".venv-py312" in sys.executable
+    if _is_macos and _is_py312 and _in_venv:
+        print("\nCANONICAL_ENVIRONMENT_ATTESTATION = PASSED")
+    else:
+        print("\n[ATTESTATION REQUIRED] Run under macOS / Python 3.12.4 / .venv-py312")
+        print("for final canonical closure attestation.")
+        _missing = []
+        if not _is_macos:  _missing.append(f"platform={sys.platform} (need darwin)")
+        if not _is_py312:  _missing.append(f"python={sys.version_info[:2]} (need 3.12)")
+        if not _in_venv:   _missing.append(f"executable={sys.executable} (need .venv-py312)")
+        if _missing:
+            print(f"  Missing: {'; '.join(_missing)}")
     return 0 if closure_eligible else 1
 
 
