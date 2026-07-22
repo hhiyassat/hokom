@@ -1309,6 +1309,389 @@ def generate_closure_manifest(stage_id, git, env_result, python, plt,
     }
 
 
+# ── HOKOM-TAAQOL-SGA-LIVE-CORPUS-EXPANSION-01 ────────────────────────────────
+
+import hashlib as _hashlib
+import statistics as _statistics
+import uuid as _uuid
+from collections import Counter as _Counter
+
+_TAAQOL_PIN = "35381739410071ac21dd96702ecbb2acb493f90d"
+_CORPUS_PATH = REPO_ROOT / "data" / "test-data" / "hokom_taaqol_sga_live_corpus_150.json"
+_LCX_REPORTS_DIR = REPO_ROOT / "reports" / "canonical_gate"
+
+
+def _lcx_get_vendor_sha() -> str:
+    p = REPO_ROOT / "vendor" / "Taaqol-GPT" / "commit_sha.txt"
+    if p.exists():
+        return p.read_text().strip()
+    try:
+        return subprocess.check_output(
+            ["git", "-C", str(REPO_ROOT / "vendor" / "Taaqol-GPT"), "rev-parse", "HEAD"],
+            stderr=subprocess.DEVNULL,
+        ).decode().strip()
+    except Exception:
+        return "UNKNOWN"
+
+
+def _lcx_run_suite_once() -> dict:
+    """Run pytest, return summary dict."""
+    result = subprocess.run(
+        [sys.executable, "-m", "pytest", "tests/", "-q", "--tb=line",
+         "--no-header", "-rN"],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        text=True,
+    )
+    output = result.stdout + result.stderr
+    passed = failed = errors = skipped = 0
+    failed_ids: list[str] = []
+    for line in output.splitlines():
+        if " passed" in line or " failed" in line:
+            mp = re.search(r"(\d+) passed", line)
+            mf = re.search(r"(\d+) failed", line)
+            me = re.search(r"(\d+) error", line)
+            ms = re.search(r"(\d+) skip", line)
+            if mp: passed  = int(mp.group(1))
+            if mf: failed  = int(mf.group(1))
+            if me: errors  = int(me.group(1))
+            if ms: skipped = int(ms.group(1))
+        if line.startswith("FAILED "):
+            failed_ids.append(line[7:].strip())
+    return {
+        "passed": passed, "failed": failed, "errors": errors,
+        "skipped": skipped, "failed_node_ids": failed_ids,
+        "return_code": result.returncode,
+        "output_tail": output[-2000:] if len(output) > 2000 else output,
+    }
+
+
+def _lcx_run_corpus_once(cases) -> list[dict]:
+    from pipeline.corpus.live_runner import run_case
+    out = []
+    for case in cases:
+        r = run_case(case)
+        out.append({
+            "case_id":                  r.case_id,
+            "surface":                  r.surface,
+            "section":                  r.section,
+            "routing_actual":           r.routing_actual,
+            "routing_oracle_match":     r.routing_oracle_match,
+            "routing_oracle_miss_reason": r.routing_oracle_miss_reason,
+            "claim_key":                r.claim_key,
+            "typed_slot_count":         r.typed_slot_count,
+            "ambiguous_slots":          r.ambiguous_slots,
+            "h11_h15_slots_reached":    r.h11_h15_slots_reached,
+            "taaqol_verdict":           r.taaqol_verdict,
+            "taaqol_active":            r.taaqol_active,
+            "taaqol_gate_executed":     r.taaqol_gate_executed,
+            "taaqol_trace_count":       r.taaqol_trace_count,
+            "taaqol_failure_code":      r.taaqol_failure_code,
+            "evaluation_id":            r.evaluation_id,
+            "latency_ms":               r.latency_ms,
+            "error":                    r.error,
+            "error_class":              r.error_class,
+        })
+    return out
+
+
+def _lcx_classify_mismatches(cases, results: list[dict]) -> dict:
+    case_map = {c.case_id: c for c in cases}
+    hamza_ids, other_ids = [], []
+    for rd in results:
+        if not rd["routing_oracle_match"] and rd["routing_actual"]:
+            case = case_map.get(rd["case_id"])
+            oracle  = (case.routing_oracle if case else "") or ""
+            surface = (case.surface       if case else "") or ""
+            if "PROCLITIC" in oracle and (
+                surface.startswith("أَ")   # أَ with fatha
+                or surface.startswith("أ")      # أ bare
+            ):
+                hamza_ids.append(rd["case_id"])
+            else:
+                other_ids.append(rd["case_id"])
+    return {"hamza": hamza_ids, "other": other_ids}
+
+
+def run_live_corpus_expansion_stage() -> int:
+    """
+    HOKOM-TAAQOL-SGA-LIVE-CORPUS-EXPANSION-01 gate.
+    Returns 0 if CLOSURE_ELIGIBLE, 1 otherwise.
+    """
+    sys.path.insert(0, str(REPO_ROOT))
+    from pipeline.corpus.live_corpus_loader import load_corpus
+
+    head = subprocess.check_output(
+        ["git", "rev-parse", "HEAD"], cwd=REPO_ROOT,
+    ).decode().strip()
+    vendor_sha = _lcx_get_vendor_sha()
+
+    print(f"\nHEAD:        {head}")
+    print(f"Vendor SHA:  {vendor_sha}")
+    print(f"Python:      {sys.version}")
+    print(f"Platform:    {sys.platform}")
+    print(f"Timestamp:   {datetime.now(timezone.utc).isoformat()}Z")
+
+    # 1. Load corpus
+    cases, corpus_result = load_corpus(_CORPUS_PATH)
+    print(f"\nCorpus: {corpus_result.case_count} cases, valid={corpus_result.is_valid}")
+    if corpus_result.violations:
+        for v in corpus_result.violations:
+            print(f"  VIOLATION: {v}")
+
+    # 2. Three runs for stability
+    print("\nRunning corpus ×3 for stability…")
+    run1 = _lcx_run_corpus_once(cases)
+    run2 = _lcx_run_corpus_once(cases)
+    run3 = _lcx_run_corpus_once(cases)
+    print("  Done.")
+
+    # 3. Stability analysis
+    claim_key_nondeterminism = [
+        {"case_id": cases[i].case_id, "keys": list({run1[i]["claim_key"], run2[i]["claim_key"], run3[i]["claim_key"]} - {None})}
+        for i in range(len(cases))
+        if len({k for k in (run1[i]["claim_key"], run2[i]["claim_key"], run3[i]["claim_key"]) if k is not None}) > 1
+    ]
+    routing_nondeterminism = [
+        {"case_id": cases[i].case_id, "routes": list({run1[i]["routing_actual"], run2[i]["routing_actual"], run3[i]["routing_actual"]})}
+        for i in range(len(cases))
+        if len({run1[i]["routing_actual"], run2[i]["routing_actual"], run3[i]["routing_actual"]}) > 1
+    ]
+    all_eval_ids = [r["evaluation_id"] for r in run1 + run2 + run3 if r["evaluation_id"]]
+    evaluation_id_collision = len(set(all_eval_ids)) < len(all_eval_ids)
+
+    # 4. Primary metrics from run1
+    routing_matches    = sum(1 for r in run1 if r["routing_oracle_match"])
+    routing_mismatches = sum(1 for r in run1 if not r["routing_oracle_match"] and r["routing_actual"])
+    classification     = _lcx_classify_mismatches(cases, run1)
+    hamza_ids          = classification["hamza"]
+    other_ids          = classification["other"]
+
+    typed_bundles = sum(1 for r in run1 if r["typed_slot_count"] > 0)
+    untyped       = [r["case_id"] for r in run1 if r["typed_slot_count"] == 0 and not r["error"]]
+
+    taaqol_active_count  = sum(1 for r in run1 if r["taaqol_active"])
+    taaqol_evaluations   = sum(1 for r in run1 if r["taaqol_verdict"] not in (None, "None", ""))
+    taaqol_gate_executed = sum(1 for r in run1 if r["taaqol_gate_executed"])
+    taaqol_trace_events  = sum(r["taaqol_trace_count"] for r in run1)
+
+    h11_flagged_ids     = set(corpus_result.h11_h15_flagged_ids)
+    h11_flagged         = len(h11_flagged_ids)
+    h11_reached         = sum(1 for r in run1 if r["h11_h15_slots_reached"])
+    h11_typed_outputs   = sum(len(r["h11_h15_slots_reached"]) for r in run1)
+    h11_valid_early_stops = sum(
+        1 for r in run1
+        if r["case_id"] in h11_flagged_ids
+        and r["routing_actual"] in ("CLOSED_BOUNDARY",)
+        and not r["h11_h15_slots_reached"]
+    )
+    h11_invalid_misses = sum(
+        1 for r in run1
+        if r["case_id"] in h11_flagged_ids
+        and r["routing_actual"] not in ("CLOSED_BOUNDARY",)
+        and not r["h11_h15_slots_reached"]
+        and not r["error"]
+    )
+
+    ambiguity_expected_ids  = set(corpus_result.ambiguity_expected_ids)
+    ambiguity_expected      = len(ambiguity_expected_ids)
+    ambiguity_observed      = sum(1 for r in run1 if r["ambiguous_slots"])
+    ambiguity_collapse      = [
+        r["case_id"] for r in run1
+        if r["case_id"] in ambiguity_expected_ids
+        and not r["ambiguous_slots"]
+        and r["routing_actual"] not in ("CLOSED_BOUNDARY",)
+        and not r["error"]
+    ]
+
+    latencies      = [r["latency_ms"] for r in run1 if not r["error"]]
+    latency_median = _statistics.median(latencies) if latencies else 0.0
+    latency_mean   = _statistics.mean(latencies)   if latencies else 0.0
+
+    vendor_sha_drift   = 0 if vendor_sha == _TAAQOL_PIN else 1
+    silent_fallback    = [r["case_id"] for r in run1 if r["error_class"] == "NONE" and r["claim_key"] is None]
+    errors             = [r for r in run1 if r["error"]]
+    error_by_class     = dict(_Counter(r["error_class"] for r in run1))
+
+    print(f"\n--- Metrics ---")
+    print(f"Typed bundles:               {typed_bundles}/150")
+    print(f"Taaqol active:               {taaqol_active_count}/150")
+    print(f"Routing matches:             {routing_matches}/150")
+    print(f"Routing mismatches:          {routing_mismatches}")
+    print(f"  Interrogative-hamza:       {len(hamza_ids)} {hamza_ids}")
+    print(f"  Other:                     {len(other_ids)} {other_ids}")
+    print(f"Claim-key nondeterminism:    {len(claim_key_nondeterminism)}")
+    print(f"Evaluation-ID collisions:    {evaluation_id_collision}")
+    print(f"Vendor SHA drift:            {vendor_sha_drift}")
+    print(f"Ambiguity collapse viols:    {len(ambiguity_collapse)}")
+    print(f"Untyped bridge payloads:     {len(untyped)}")
+    print(f"Silent fallbacks:            {len(silent_fallback)}")
+    print(f"H11-H15 invalid misses:      {h11_invalid_misses}")
+    print(f"Errors:                      {len(errors)}")
+    print(f"Latency median:              {latency_median:.3f}ms")
+
+    # 5. Test suite ×2
+    print("\n=== TEST SUITE RUN 1 ===")
+    suite1 = _lcx_run_suite_once()
+    print(f"  passed={suite1['passed']} failed={suite1['failed']}")
+    print("\n=== TEST SUITE RUN 2 ===")
+    suite2 = _lcx_run_suite_once()
+    print(f"  passed={suite2['passed']} failed={suite2['failed']}")
+    ids1, ids2 = set(suite1["failed_node_ids"]), set(suite2["failed_node_ids"])
+    node_ids_equal  = (ids1 == ids2)
+    outcomes_equal  = (suite1["passed"] == suite2["passed"] and suite1["failed"] == suite2["failed"])
+
+    # 6. Fatal violations (routing mismatches are documented, not blocking)
+    all_violations = {
+        "CORPUS_SCHEMA_VIOLATIONS":           len(corpus_result.violations),
+        "UNTYPED_BRIDGE_PAYLOAD_VIOLATIONS":  len(untyped),
+        "SILENT_FALLBACK_VIOLATIONS":         len(silent_fallback),
+        "VENDOR_SHA_DRIFT_VIOLATIONS":        vendor_sha_drift,
+        "CLAIM_KEY_NONDETERMINISM":           len(claim_key_nondeterminism),
+        "EVALUATION_ID_COLLISIONS":           1 if evaluation_id_collision else 0,
+        "UNEXPLAINED_NONDETERMINISM":         len(claim_key_nondeterminism) + len(routing_nondeterminism),
+        "H11_H15_INVALID_MISSES":             h11_invalid_misses,
+        "AMBIGUITY_COLLAPSE_VIOLATIONS":      len(ambiguity_collapse),
+        "IMPLEMENTATION_DEFECTS":             len(errors),
+    }
+    fatal = {k: v for k, v in all_violations.items() if v != 0}
+    closure_eligible = (len(fatal) == 0)
+
+    # 7. Write manifest
+    corpus_sha256 = _hashlib.sha256(_CORPUS_PATH.read_bytes()).hexdigest() if _CORPUS_PATH.exists() else "MISSING"
+    manifest = {
+        "stage":            "HOKOM-TAAQOL-SGA-LIVE-CORPUS-EXPANSION-01",
+        "head":             head,
+        "baseline_head":    "5af8977",
+        "timestamp":        datetime.now(timezone.utc).isoformat() + "Z",
+        "python_version":   sys.version,
+        "platform":         sys.platform,
+        "vendor_sha":       vendor_sha,
+        "vendor_sha_pinned": _TAAQOL_PIN,
+        "corpus_path":      str(_CORPUS_PATH.relative_to(REPO_ROOT)),
+        "corpus_sha256":    corpus_sha256,
+        "stage_metrics": {
+            "CORPUS_TOTAL_CASES":      corpus_result.case_count,
+            "UNIQUE_CASE_IDS":         corpus_result.unique_ids,
+            "CORPUS_SCHEMA_VIOLATIONS": len(corpus_result.violations),
+            "ROUTING_ORACLE_MATCHES":  routing_matches,
+            "ROUTING_ORACLE_MISMATCHES": routing_mismatches,
+            "INTERROGATIVE_HAMZA_ROUTING_MISMATCHES": len(hamza_ids),
+            "INTERROGATIVE_HAMZA_CASE_IDS": hamza_ids,
+            "OTHER_ROUTING_MISMATCH_CASE_IDS": other_ids,
+            "TYPED_BUNDLES":           typed_bundles,
+            "UNTYPED_BRIDGE_PAYLOAD_VIOLATIONS": len(untyped),
+            "UNTYPED_CASE_IDS":        untyped,
+            "SILENT_FALLBACK_VIOLATIONS": len(silent_fallback),
+            "TAAQOL_RUNTIME_ACTIVE":   taaqol_active_count,
+            "TAAQOL_LIVE_EVALUATIONS": taaqol_evaluations,
+            "TAAQOL_GATE_EXECUTIONS":  taaqol_gate_executed,
+            "TAAQOL_TRACE_EVENTS":     taaqol_trace_events,
+            "H11_H15_FLAGGED":         h11_flagged,
+            "H11_H15_REACHED":         h11_reached,
+            "H11_H15_TYPED_OUTPUTS":   h11_typed_outputs,
+            "H11_H15_VALID_EARLY_STOPS": h11_valid_early_stops,
+            "H11_H15_INVALID_MISSES":  h11_invalid_misses,
+            "AMBIGUITY_EXPECTED_CASES": ambiguity_expected,
+            "AMBIGUITY_OBSERVED_CASES": ambiguity_observed,
+            "AMBIGUITY_COLLAPSE_VIOLATIONS": len(ambiguity_collapse),
+            "AMBIGUITY_COLLAPSE_CASE_IDS": ambiguity_collapse,
+            "VENDOR_SHA":              vendor_sha,
+            "VENDOR_SHA_PINNED":       _TAAQOL_PIN,
+            "VENDOR_SHA_DRIFT_VIOLATIONS": vendor_sha_drift,
+            "CLAIM_KEY_NONDETERMINISM": len(claim_key_nondeterminism),
+            "ROUTING_NONDETERMINISM":  len(routing_nondeterminism),
+            "EVALUATION_ID_COLLISIONS": 1 if evaluation_id_collision else 0,
+            "UNEXPLAINED_NONDETERMINISM": len(claim_key_nondeterminism) + len(routing_nondeterminism),
+            "LATENCY_MEDIAN_MS":       round(latency_median, 3),
+            "LATENCY_MEAN_MS":         round(latency_mean, 3),
+            "IMPLEMENTATION_DEFECTS":  len(errors),
+            "ERROR_CLASS_DISTRIBUTION": error_by_class,
+            "RUN1_RESULT_COUNT":       len(run1),
+            "RUN2_RESULT_COUNT":       len(run2),
+            "RUN3_RESULT_COUNT":       len(run3),
+            "FATAL_VIOLATIONS":        fatal,
+            "DOCUMENTED_NON_BLOCKING_MISMATCHES": {
+                "ROUTING_ORACLE_MISMATCHES": routing_mismatches,
+                "INTERROGATIVE_HAMZA_ROUTING_MISMATCHES": len(hamza_ids),
+            },
+            "CLOSURE_ELIGIBLE": closure_eligible,
+        },
+        "test_suite": {
+            "run_1": {
+                "passed":          suite1["passed"],
+                "failed":          suite1["failed"],
+                "failed_node_ids": suite1["failed_node_ids"],
+                "return_code":     suite1["return_code"],
+            },
+            "run_2": {
+                "passed":          suite2["passed"],
+                "failed":          suite2["failed"],
+                "failed_node_ids": suite2["failed_node_ids"],
+                "return_code":     suite2["return_code"],
+            },
+            "node_ids_equal":  node_ids_equal,
+            "outcomes_equal":  outcomes_equal,
+        },
+        "closure_eligible": closure_eligible,
+        "fatal_violations":  fatal,
+        "documented_non_blocking": {
+            "ROUTING_ORACLE_MISMATCHES": routing_mismatches,
+            "INTERROGATIVE_HAMZA_ROUTING_MISMATCHES": len(hamza_ids),
+        },
+        "attestation_required": "macOS / Python 3.12.4 / .venv-py312",
+    }
+
+    mpath = _LCX_REPORTS_DIR / f"live_corpus_expansion_manifest.{head[:7]}.json"
+    mpath.parent.mkdir(parents=True, exist_ok=True)
+    mpath.write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(f"\nManifest: {mpath.relative_to(REPO_ROOT)}")
+
+    m = manifest["stage_metrics"]
+    print("\n" + "=" * 60)
+    print(f"STAGE:                    HOKOM-TAAQOL-SGA-LIVE-CORPUS-EXPANSION-01")
+    print(f"HEAD:                     {head}")
+    print(f"VENDOR_SHA_DRIFT:         {m['VENDOR_SHA_DRIFT_VIOLATIONS']}")
+    print(f"CORPUS_TOTAL_CASES:       {m['CORPUS_TOTAL_CASES']}")
+    print(f"UNIQUE_CASE_IDS:          {m['UNIQUE_CASE_IDS']}")
+    print(f"CORPUS_SCHEMA_VIOLATIONS: {m['CORPUS_SCHEMA_VIOLATIONS']}")
+    print(f"ROUTING_ORACLE_MATCHES:   {m['ROUTING_ORACLE_MATCHES']}")
+    print(f"ROUTING_ORACLE_MISMATCHES:{m['ROUTING_ORACLE_MISMATCHES']}")
+    print(f"  INTERROGATIVE_HAMZA:    {m['INTERROGATIVE_HAMZA_ROUTING_MISMATCHES']} {m['INTERROGATIVE_HAMZA_CASE_IDS']}")
+    print(f"  OTHER_MISMATCHES:       {len(m['OTHER_ROUTING_MISMATCH_CASE_IDS'])} {m['OTHER_ROUTING_MISMATCH_CASE_IDS']}")
+    print(f"TYPED_BUNDLES:            {m['TYPED_BUNDLES']}")
+    print(f"UNTYPED_VIOLATIONS:       {m['UNTYPED_BRIDGE_PAYLOAD_VIOLATIONS']}")
+    print(f"TAAQOL_RUNTIME_ACTIVE:    {m['TAAQOL_RUNTIME_ACTIVE']}")
+    print(f"TAAQOL_LIVE_EVALUATIONS:  {m['TAAQOL_LIVE_EVALUATIONS']}")
+    print(f"TAAQOL_GATE_EXECUTIONS:   {m['TAAQOL_GATE_EXECUTIONS']}")
+    print(f"TAAQOL_TRACE_EVENTS:      {m['TAAQOL_TRACE_EVENTS']}")
+    print(f"H11_H15_FLAGGED:          {m['H11_H15_FLAGGED']}")
+    print(f"H11_H15_REACHED:          {m['H11_H15_REACHED']}")
+    print(f"H11_H15_TYPED_OUTPUTS:    {m['H11_H15_TYPED_OUTPUTS']}")
+    print(f"H11_H15_VALID_EARLY_STOP: {m['H11_H15_VALID_EARLY_STOPS']}")
+    print(f"H11_H15_INVALID_MISSES:   {m['H11_H15_INVALID_MISSES']}")
+    print(f"AMBIGUITY_EXPECTED:       {m['AMBIGUITY_EXPECTED_CASES']}")
+    print(f"AMBIGUITY_OBSERVED:       {m['AMBIGUITY_OBSERVED_CASES']}")
+    print(f"AMBIGUITY_COLLAPSE_VIOLS: {m['AMBIGUITY_COLLAPSE_VIOLATIONS']}")
+    print(f"CLAIM_KEY_NONDETERMINISM: {m['CLAIM_KEY_NONDETERMINISM']}")
+    print(f"EVALUATION_ID_COLLISIONS: {m['EVALUATION_ID_COLLISIONS']}")
+    print(f"SILENT_FALLBACK_VIOLS:    {m['SILENT_FALLBACK_VIOLATIONS']}")
+    print(f"IMPLEMENTATION_DEFECTS:   {m['IMPLEMENTATION_DEFECTS']}")
+    print(f"FATAL_VIOLATIONS:         {fatal}")
+    print()
+    print(f"TEST_RUN_1:               passed={suite1['passed']} failed={suite1['failed']}")
+    print(f"TEST_RUN_2:               passed={suite2['passed']} failed={suite2['failed']}")
+    print(f"NODE_IDS_EQUAL:           {node_ids_equal}")
+    print(f"OUTCOMES_EQUAL:           {outcomes_equal}")
+    print()
+    print(f"CLOSURE_ELIGIBLE:         {closure_eligible}")
+    print(f"MANIFEST:                 {mpath.relative_to(REPO_ROOT)}")
+    print("=" * 60)
+    print("\n[ATTESTATION REQUIRED] Run under macOS / Python 3.12.4 / .venv-py312")
+    print("for final canonical closure attestation.")
+    return 0 if closure_eligible else 1
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
@@ -1316,6 +1699,12 @@ def main():
     parser.add_argument('--stage',  default='UNKNOWN', help='Stage ID')
     parser.add_argument('--commit', help='Expected commit (optional)')
     args = parser.parse_args()
+
+    # ── Live corpus expansion stage: early dispatch ───────────────────────────
+    if args.stage == "HOKOM-TAAQOL-SGA-LIVE-CORPUS-EXPANSION-01":
+        sys.exit(run_live_corpus_expansion_stage())
+    # ─────────────────────────────────────────────────────────────────────────
+
 
     print("=" * 70)
     print(f"HOKOM CANONICAL GATE — {args.stage}")
