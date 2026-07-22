@@ -1802,6 +1802,23 @@ def main():
                     print(f"         field={cr['field']} op={cr['op']} "
                           f"expected={cr['expected']!r} actual={cr['actual']!r}")
 
+    # ── Provisional manifest (written BEFORE test runs so test_artifact_commit_binding
+    #    sees the current HEAD during internal pytest passes) ──────────────────────
+    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    _prov_path = REPORTS_DIR / f"closure_manifest.{git['head_short']}.json"
+    _prov_path.write_text(
+        json.dumps({
+            "stage":            args.stage,
+            "commit":           git['head_short'],
+            "commit_full":      git['head_full'],
+            "closure_eligible": False,
+            "status":           "RUNNING",
+            "timestamp":        datetime.now(timezone.utc).isoformat(),
+        }, ensure_ascii=False, indent=2),
+        encoding='utf-8',
+    )
+    print(f"  [provisional manifest written: {_prov_path.name}]")
+
     print("\n[6/7] Test suite (2 runs)...")
     run1 = run_test_suite(1, git['head_short'])
     run2 = run_test_suite(2, git['head_short'])
