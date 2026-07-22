@@ -211,7 +211,22 @@ def adapt_root_radicals(hokom_result: dict) -> tuple[TypedSlot, TypedSlot, Typed
 
     # Handle object with canonical_root attribute (RootCandidate)
     if hasattr(root_str, 'canonical_root'):
-        parts = list(root_str.canonical_root)
+        canonical = root_str.canonical_root
+        if canonical is None:
+            # RootCandidate with directive=DEFER and no resolved canonical_root.
+            # The upstream pipeline (CRA stage) detected ambiguity (e.g.
+            # two_consonant_form_unresolved) but did NOT enumerate candidate
+            # sequences — so there are zero candidates to put in a CandidateSet.
+            # T-10 AMBIGUOUS requires ≥2 CandidateEntry objects, which we cannot
+            # satisfy without inventing radicals.  Return UNKNOWN for all radical
+            # slots; the UPSTREAM_SELECTION_DEFECT must be fixed in
+            # pipeline/p3_candidate/root_rules.py (analyze_host_consonants,
+            # n==2 branch) to enumerate candidate radical sequences first.
+            return tuple(
+                TypedSlot(slot_id=sid, sort=SlotSort.RADICAL, state=SlotState.UNKNOWN)
+                for sid in (SlotId.RADICAL_R1, SlotId.RADICAL_R2, SlotId.RADICAL_R3, SlotId.RADICAL_R4)
+            )
+        parts = list(canonical)
         root_str = '-'.join(parts)
     else:
         parts = _parse_root_string(str(root_str))
