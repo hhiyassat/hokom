@@ -384,6 +384,23 @@ def _extract_morphosyntax(hr: dict) -> dict:
 
 
 # ── root / CRA detail ─────────────────────────────────────────────────────────
+# Canonical wazn templates per augmented form family.
+# Used when the pipeline cannot resolve wazn (root DEFERRED) but CRA
+# has identified the form family from surface structure.
+_FORM_FAMILY_TO_WAZN: dict[str, str] = {
+    'FORM_I':    'فَعَلَ',
+    'FORM_II':   'فَعَّلَ',
+    'FORM_III':  'فَاعَلَ',
+    'FORM_IV':   'أَفْعَلَ',
+    'FORM_V':    'تَفَعَّلَ',
+    'FORM_VI':   'تَفَاعَلَ',
+    'FORM_VII':  'اِنْفَعَلَ',
+    'FORM_VIII': 'اِفْتَعَلَ',
+    'FORM_IX':   'اِفْعَلَّ',
+    'FORM_X':    'اِسْتَفْعَلَ',
+}
+
+
 def _extract_root_detail(hr: dict) -> dict:
     rc  = hr.get('root_candidate')
     cra = hr.get('cra_result')
@@ -446,7 +463,17 @@ def _extract_root_detail(hr: dict) -> dict:
         'cra_evidence':      cra_evidence,
         'phase4a_residuals': p4a_residuals,
         'rc_residual_codes': rc_residuals,
-        'wazn':              hr.get('final_wazn'),
+        # Wazn: prefer pipeline's final_wazn; fall back to canonical template
+        # derived from CRA form_family when root is DEFERRED/UNKNOWN.
+        # The slot remains UNKNOWN — this is the template label only.
+        'wazn':              (
+            hr.get('final_wazn')
+            or _FORM_FAMILY_TO_WAZN.get(cra_form or '')
+        ),
+        'wazn_source':       (
+            'pipeline:final_wazn' if hr.get('final_wazn')
+            else ('cra:form_family_template' if cra_form and cra_form in _FORM_FAMILY_TO_WAZN else None)
+        ),
         'masdar':            hr.get('final_masdar') or hr.get('final_masdar_pattern'),
         'derivative_type':   hr.get('derivative_type'),
         'bab_state':         'UNKNOWN' if not hr.get('final_wazn') else 'KNOWN',
@@ -846,7 +873,7 @@ def format_csv(results: list[dict]) -> str:
             'h11_h15_reached':      str(h.get('reached', False)),
             'h11_h15_filled_slots': ' '.join(h.get('filled_slots', [])),
             'typed_slot_count':     len(ts),
-            'filled_count':         sum(1 for s in ts if s.get('state') == 'FILLED'),
+            'filled_slot_count':    sum(1 for s in ts if s.get('state') == 'FILLED'),
             'unknown_slot_count':   sum(1 for s in ts if s.get('state') == 'UNKNOWN'),
             'not_opened_layers':    '; '.join(cv.get('not_opened_layers', [])),
             'active_residuals':     '; '.join(cv.get('active_residuals', [])),

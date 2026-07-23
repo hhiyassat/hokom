@@ -129,6 +129,15 @@ def _has_imperfect_prefix(s: str) -> Optional[str]:
         # but is NOT imperfect. Imperfect 3M_PL subj/juss starts with يَ/تَ, not نَ.
         if bare.endswith('وا'):
             return None  # past 3M_PL — not imperfect
+
+        # Exclude past-tense 2nd/1st person suffix forms.
+        # Form V/VI/VII+ past verbs (e.g. تَدَايَنْتُمْ, تَبَايَعْتُمْ) start with
+        # تَ + fatha and have ≥5 bare chars, but carry a past suffix — not imperfect.
+        # No standard imperfect paradigm ends in any of these bare sequences.
+        _PAST_BARE_SUFFIXES = ('تم', 'تما', 'تنّ', 'تن', 'نا', 'تا')
+        if any(bare.endswith(sfx) for sfx in _PAST_BARE_SUFFIXES):
+            return None  # past tense with person/number suffix — not imperfect
+
         if len(bare) >= 5 and first_char in (YAA, TA, NUN):
             return first_char
 
@@ -504,7 +513,8 @@ def extract_all_features(surface: str) -> dict:
         feats = extract_past_features(surface)
         return {
             'tense_aspect': 'PAST',
-            'mood': None,
+            # Past tense has no indicative/subjunctive/jussive distinction.
+            'mood': 'NOT_APPLICABLE',
             'voice': feats.get('voice', 'ACTIVE'),
             'person': feats.get('person'),
             'number': feats.get('number'),
