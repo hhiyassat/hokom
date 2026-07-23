@@ -97,13 +97,43 @@ class SequentialAnalysisContext:
         """
         Convenience method: apply consume_mood() to a process_token_full() result.
 
-        Modifies the 'morphosyntax' sub-dict in-place if the token is an
-        imperfect verb and a governing mood is pending.
+        Modifies the 'morphosyntax' sub-dict in-place if the token is a
+        confirmed non-terminal FI3L token with an IMPERFECT verb and a
+        governing mood is pending.
+
+        RESTRICTIONS (HOKOM-CLOSED-CONTRACT-SEMANTIC-REGRESSION-FIREWALL-01):
+          - Must NOT inject mood into a terminal-boundary record
+            (boundary_type=JAMID_AALAM_BOUNDARY / MABNI_BOUNDARY / etc.)
+          - Must NOT change word_class
+          - Must NOT create FI3L for an ISM/HARF/JAMID record
+          - Must NOT override a terminal boundary
 
         Returns the (possibly modified) result dict.
         """
+        _TERMINAL_VERDICTS = frozenset({
+            'JAMID_AALAM_BOUNDARY',
+            'MABNI_BOUNDARY',
+            'OPERATOR_BOUNDARY',
+        })
+
+        # Guard 1: terminal boundary — no injection
+        for _key in ('boundary_type', 'jamid_verdict', 'mabni_verdict', '_route_v'):
+            if result.get(_key) in _TERMINAL_VERDICTS:
+                # Consume mood (scope must be depleted) but do not apply it
+                self.consume_mood()
+                return result
+
+        # Guard 2: only inject into a confirmed FI3L record
+        wc_result = result.get('word_class')
+        wc_class  = None
+        if isinstance(wc_result, dict):
+            wc_class = wc_result.get('class')
+        elif isinstance(wc_result, str):
+            wc_class = wc_result
+
         mood = self.consume_mood()
         if mood is not None:
+            # Guard 3: only modify morphosyntax — never word_class
             ms = result.get('morphosyntax')
             if isinstance(ms, dict) and ms.get('tense_aspect') == 'IMPERFECT':
                 ms['mood'] = mood

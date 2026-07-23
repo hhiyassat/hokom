@@ -615,7 +615,11 @@ def hokom(word: str) -> dict:
     # Word class uses morphology_surface (segment_host), not the full token.
     # When morphology is blocked (clitic-only or segmentation failure), skip.
     word_class_result = None
-    if not morphology_blocked and morphology_surface:
+    # TERMINAL BOUNDARY GUARD: JAMID_AALAM_BOUNDARY closes the pipeline.
+    # A terminal record must NOT enter the word class engine, identify_tense,
+    # extract_all_features, or verbal reconciliation.
+    # HOKOM-CLOSED-CONTRACT-SEMANTIC-REGRESSION-FIREWALL-01
+    if not morphology_blocked and morphology_surface and not _is_jamid_aalam:
         try:
             word_class_result = _run_word_class_engine(
                 input_surface      = input_surface,
@@ -767,6 +771,10 @@ def hokom(word: str) -> dict:
         'mabni':               mabni,
         'attachment':          attachment,
         # ── Jamid Aalam Boundary ─────────────────────────────────────────
+        # boundary_type: canonical surfaced field for terminal-boundary checks.
+        # Equals jamid_verdict when JAMID_AALAM_BOUNDARY; None otherwise.
+        # HOKOM-CLOSED-CONTRACT-SEMANTIC-REGRESSION-FIREWALL-01
+        'boundary_type':       _jamid_verdict,
         'jamid_boundary':      jamid_boundary,
         'jamid_verdict':       _jamid_verdict,
         'jamid_category':      _jamid_category,
@@ -872,6 +880,9 @@ def hokom(word: str) -> dict:
         'mabni':               mabni,
         'attachment':          attachment,
         # ── Jamid Aalam Boundary (HOKOM-JAMID-AALAM-LEXICAL-BOUNDARY-CLOSURE-01) ─
+        # boundary_type: canonical surfaced field for terminal-boundary checks.
+        # HOKOM-CLOSED-CONTRACT-SEMANTIC-REGRESSION-FIREWALL-01
+        'boundary_type':       _jamid_verdict,
         'jamid_boundary':      jamid_boundary,
         'jamid_verdict':       _jamid_verdict,
         'jamid_category':      _jamid_category,
