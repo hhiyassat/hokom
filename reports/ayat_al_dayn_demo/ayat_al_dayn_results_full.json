@@ -4,12 +4,12 @@
   "meta": {
     "stage": "HOKOM-TAAQOL-AYAT-AL-DAYN-LIVE-DEMO-01",
     "version": "2",
-    "head": "1ff983e",
-    "head_full": "1ff983e977688daff73f799bd6b19e0c58f1024f",
+    "head": "a6a8ee2",
+    "head_full": "a6a8ee29cef9b32285c375e4911d5edc7ca9e82f",
     "vendor_sha": "35381739410071ac",
     "python": "3.10.12",
     "platform": "Linux",
-    "timestamp": "2026-07-23T11:55:18.419047+00:00",
+    "timestamp": "2026-07-23T20:21:45.626434+00:00",
     "ayat_source": "tests/post_segmentation_routing/test_ayat_al_dayn_routing.py",
     "token_count": 129
   },
@@ -17,8 +17,8 @@
     "token_count": 129,
     "typed_bundles": 129,
     "taaqol_live": 0,
-    "h11_h15_reached": 24,
-    "early_stops": 105,
+    "h11_h15_reached": 34,
+    "early_stops": 91,
     "overall_verdicts": {
       "COMPOSITE": 129
     },
@@ -624,7 +624,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -1255,7 +1255,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -1892,7 +1892,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -2566,7 +2566,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -3200,7 +3200,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -3849,7 +3849,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -4524,7 +4524,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -5158,7 +5158,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -5827,7 +5827,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -6465,7 +6465,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -6543,21 +6543,27 @@
         "clitic_only": false
       },
       "word_class": {
-        "class": null,
-        "subclass": null,
-        "verdict": "WORD_CLASS_DEFERRED",
-        "evidence": [],
+        "class": "FI3L",
+        "subclass": "VERBAL_IMPERATIVE",
+        "verdict": "WORD_CLASS_ACCEPTED",
+        "evidence": [
+          {
+            "type": "MORPHOLOGY_PATH_VERBAL",
+            "source": "pipeline.p5_inflection",
+            "value": "IMPERATIVE_SURFACE_DETECTED",
+            "confidence": "HIGH"
+          }
+        ],
         "trace": [
           {
-            "step": "defer",
-            "decision": "DEFERRED:AMBIGUOUS_MORPHOLOGY_PATH",
+            "step": "step8b_imperative_surface",
+            "decision": "FI3L:VERBAL_IMPERATIVE",
             "evidence": [
-              "morphology_path=ambiguous_morphology_path",
-              "p5_verdict=OPEN"
+              "original_surface=فَاكْتُبُوهُ"
             ]
           }
         ],
-        "inflection_skipped_reason": "WORD_CLASS_DEFERRED"
+        "inflection_skipped_reason": null
       },
       "root_analysis": {
         "root_state": "DEFERRED",
@@ -6590,12 +6596,12 @@
         "masdar_state": "UNKNOWN"
       },
       "morphosyntax": {
-        "number": null,
-        "gender": null,
-        "person": null,
-        "tense_aspect": null,
-        "mood": null,
-        "voice": null,
+        "number": "PL",
+        "gender": "M",
+        "person": "2",
+        "tense_aspect": "IMPERATIVE",
+        "mood": "NOT_APPLICABLE",
+        "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
       "typed_slots": [
@@ -6723,10 +6729,18 @@
           "slot_id": "WORD_CLASS_SLOT",
           "layer": "WORD_CLASS",
           "layer_sort": 60,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "FI3L",
           "candidate_set": null,
-          "evidence": [],
+          "evidence": [
+            {
+              "evidence_id": "wc:FI3L",
+              "kind": "MORPHOLOGICAL",
+              "source": "hokom_pipeline",
+              "payload": null,
+              "is_negative": false
+            }
+          ],
           "provenance": null,
           "residual": null,
           "owner": "HOKOM"
@@ -6831,8 +6845,8 @@
           "slot_id": "NUMBER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "PL",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -6843,8 +6857,8 @@
           "slot_id": "GENDER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "M",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -6888,8 +6902,8 @@
           "owner": "HOKOM"
         }
       ],
-      "claim_key": "e4ccc78d4020470202e3d3abbc8d9a9ad8f8b86e42c5a4d671f61b62e46aa5e7",
-      "evaluation_id": "a2cb8a9406a150c1",
+      "claim_key": "5336219de8f134fabe7b8e2af5c15c8fe636f6b6ed2964cfc26e465dde369123",
+      "evaluation_id": "1d3eaa60403c5725",
       "composite_verdict": {
         "by_layer": [
           {
@@ -6961,12 +6975,12 @@
             "slots": [
               "WORD_CLASS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 1,
+            "FILLED": 1,
+            "UNKNOWN": 0,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "LICENSED"
           },
           {
             "layer": "RADICAL",
@@ -7038,12 +7052,12 @@
               "GENDER_SLOT",
               "DEFINITENESS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 3,
+            "FILLED": 2,
+            "UNKNOWN": 1,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "PARTIAL"
           },
           {
             "layer": "PARADIGM",
@@ -7065,10 +7079,12 @@
           "PROCLITIC_SLOTS",
           "SEGMENT_HOST",
           "ENCLITIC_SLOTS",
-          "PATH_DIRECTIVE_SLOT"
+          "PATH_DIRECTIVE_SLOT",
+          "WORD_CLASS_SLOT",
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
         ],
         "deferred_claims": [
-          "WORD_CLASS_SLOT",
           "RADICAL_R1",
           "RADICAL_R2",
           "RADICAL_R3",
@@ -7077,8 +7093,6 @@
           "BAB_CANDIDATE_SET",
           "MASDAR_CANDIDATE_SET",
           "DERIVATIVE_CANDIDATE_SET",
-          "NUMBER_SLOT",
-          "GENDER_SLOT",
           "DEFINITENESS_SLOT",
           "LEMMA_SLOT",
           "PARADIGM_SLOT"
@@ -7086,13 +7100,11 @@
         "blocked_claims": [],
         "ambiguous_claims": [],
         "not_opened_layers": [
-          "WORD_CLASS",
           "RADICAL",
           "PATTERN",
           "BAB",
           "MASDAR",
           "DERIVATIVE",
-          "MORPHOSYNTAX",
           "PARADIGM"
         ],
         "active_residuals": [
@@ -7103,15 +7115,18 @@
         "overall_verdict": "COMPOSITE"
       },
       "h11_h15": {
-        "reached": false,
-        "filled_slots": [],
-        "skipped_reason": "WORD_CLASS_DEFERRED"
+        "reached": true,
+        "filled_slots": [
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
+        ],
+        "skipped_reason": null
       },
       "taaqol": {
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "DEFER",
         "taaqol_verdict": "DEFERRED",
@@ -7185,21 +7200,28 @@
         "clitic_only": false
       },
       "word_class": {
-        "class": null,
-        "subclass": null,
-        "verdict": "WORD_CLASS_DEFERRED",
-        "evidence": [],
+        "class": "FI3L",
+        "subclass": "VERBAL_IMPERFECT",
+        "verdict": "WORD_CLASS_ACCEPTED",
+        "evidence": [
+          {
+            "type": "MORPHOLOGY_PATH_VERBAL",
+            "source": "pipeline.p5_inflection",
+            "value": "LAM_AMR_JUSSIVE_IMPERFECT",
+            "confidence": "HIGH"
+          }
+        ],
         "trace": [
           {
-            "step": "defer",
-            "decision": "DEFERRED:AMBIGUOUS_MORPHOLOGY_PATH",
+            "step": "step8c_lam_amr",
+            "decision": "FI3L:VERBAL_IMPERFECT",
             "evidence": [
-              "morphology_path=ambiguous_morphology_path",
-              "p5_verdict=OPEN"
+              "original_surface=وَلْيَكْتُبْ",
+              "lam_al_amr_governs_jussive"
             ]
           }
         ],
-        "inflection_skipped_reason": "WORD_CLASS_DEFERRED"
+        "inflection_skipped_reason": null
       },
       "root_analysis": {
         "root_state": "DEFERRED",
@@ -7230,12 +7252,12 @@
         "masdar_state": "UNKNOWN"
       },
       "morphosyntax": {
-        "number": null,
-        "gender": null,
-        "person": null,
-        "tense_aspect": null,
-        "mood": null,
-        "voice": null,
+        "number": "SG",
+        "gender": "M",
+        "person": "3",
+        "tense_aspect": "IMPERFECT",
+        "mood": "JUSSIVE",
+        "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
       "typed_slots": [
@@ -7362,10 +7384,18 @@
           "slot_id": "WORD_CLASS_SLOT",
           "layer": "WORD_CLASS",
           "layer_sort": 60,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "FI3L",
           "candidate_set": null,
-          "evidence": [],
+          "evidence": [
+            {
+              "evidence_id": "wc:FI3L",
+              "kind": "MORPHOLOGICAL",
+              "source": "hokom_pipeline",
+              "payload": null,
+              "is_negative": false
+            }
+          ],
           "provenance": null,
           "residual": null,
           "owner": "HOKOM"
@@ -7470,8 +7500,8 @@
           "slot_id": "NUMBER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "SG",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -7482,8 +7512,8 @@
           "slot_id": "GENDER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "M",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -7527,8 +7557,8 @@
           "owner": "HOKOM"
         }
       ],
-      "claim_key": "70e990cd2d928825167e1f2f05871a6b84beb1de28119b8744559153a652aeaf",
-      "evaluation_id": "9019c8e1ed8c8400",
+      "claim_key": "7a61e917263090cd6611530e76c9780e8f60a2bdbba5b6c1ad84867661ba8a9b",
+      "evaluation_id": "f5ba269195a92c87",
       "composite_verdict": {
         "by_layer": [
           {
@@ -7600,12 +7630,12 @@
             "slots": [
               "WORD_CLASS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 1,
+            "FILLED": 1,
+            "UNKNOWN": 0,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "LICENSED"
           },
           {
             "layer": "RADICAL",
@@ -7677,12 +7707,12 @@
               "GENDER_SLOT",
               "DEFINITENESS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 3,
+            "FILLED": 2,
+            "UNKNOWN": 1,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "PARTIAL"
           },
           {
             "layer": "PARADIGM",
@@ -7703,10 +7733,12 @@
           "NORMALIZED_SURFACE",
           "PROCLITIC_SLOTS",
           "SEGMENT_HOST",
-          "PATH_DIRECTIVE_SLOT"
+          "PATH_DIRECTIVE_SLOT",
+          "WORD_CLASS_SLOT",
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
         ],
         "deferred_claims": [
-          "WORD_CLASS_SLOT",
           "RADICAL_R1",
           "RADICAL_R2",
           "RADICAL_R3",
@@ -7715,8 +7747,6 @@
           "BAB_CANDIDATE_SET",
           "MASDAR_CANDIDATE_SET",
           "DERIVATIVE_CANDIDATE_SET",
-          "NUMBER_SLOT",
-          "GENDER_SLOT",
           "DEFINITENESS_SLOT",
           "LEMMA_SLOT",
           "PARADIGM_SLOT"
@@ -7724,13 +7754,11 @@
         "blocked_claims": [],
         "ambiguous_claims": [],
         "not_opened_layers": [
-          "WORD_CLASS",
           "RADICAL",
           "PATTERN",
           "BAB",
           "MASDAR",
           "DERIVATIVE",
-          "MORPHOSYNTAX",
           "PARADIGM"
         ],
         "active_residuals": [
@@ -7742,15 +7770,18 @@
         "overall_verdict": "COMPOSITE"
       },
       "h11_h15": {
-        "reached": false,
-        "filled_slots": [],
-        "skipped_reason": "WORD_CLASS_DEFERRED"
+        "reached": true,
+        "filled_slots": [
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
+        ],
+        "skipped_reason": null
       },
       "taaqol": {
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -8412,7 +8443,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -9084,7 +9115,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -9760,7 +9791,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -10385,7 +10416,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -10510,7 +10541,7 @@
         "gender": "M",
         "person": "3",
         "tense_aspect": "IMPERFECT",
-        "mood": "SUBJUNCTIVE",
+        "mood": "JUSSIVE",
         "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
@@ -11030,7 +11061,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -11702,7 +11733,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -12338,7 +12369,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -13002,7 +13033,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -13621,7 +13652,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -14302,7 +14333,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -14372,21 +14403,28 @@
         "clitic_only": false
       },
       "word_class": {
-        "class": null,
-        "subclass": null,
-        "verdict": "WORD_CLASS_DEFERRED",
-        "evidence": [],
+        "class": "FI3L",
+        "subclass": "VERBAL_IMPERFECT",
+        "verdict": "WORD_CLASS_ACCEPTED",
+        "evidence": [
+          {
+            "type": "MORPHOLOGY_PATH_VERBAL",
+            "source": "pipeline.p5_inflection",
+            "value": "IMPERFECT_PREFIX_NO_MORPH_PATH",
+            "confidence": "MEDIUM"
+          }
+        ],
         "trace": [
           {
-            "step": "defer",
-            "decision": "DEFERRED:NO_MORPHOLOGY_PATH",
+            "step": "step9b_imperfect_no_morph",
+            "decision": "FI3L:VERBAL_IMPERFECT",
             "evidence": [
-              "morphology_path=",
-              "p5_verdict=OPEN"
+              "normalized_surface=ءَللْلَهُ",
+              "hollow_or_geminate_imperfect"
             ]
           }
         ],
-        "inflection_skipped_reason": "WORD_CLASS_DEFERRED"
+        "inflection_skipped_reason": null
       },
       "root_analysis": {
         "root_state": "UNKNOWN",
@@ -14409,12 +14447,12 @@
         "masdar_state": "UNKNOWN"
       },
       "morphosyntax": {
-        "number": null,
-        "gender": null,
-        "person": null,
-        "tense_aspect": null,
-        "mood": null,
-        "voice": null,
+        "number": "SG",
+        "gender": "M",
+        "person": "1",
+        "tense_aspect": "IMPERFECT",
+        "mood": "SUBJUNCTIVE",
+        "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
       "typed_slots": [
@@ -14538,10 +14576,18 @@
           "slot_id": "WORD_CLASS_SLOT",
           "layer": "WORD_CLASS",
           "layer_sort": 60,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "FI3L",
           "candidate_set": null,
-          "evidence": [],
+          "evidence": [
+            {
+              "evidence_id": "wc:FI3L",
+              "kind": "MORPHOLOGICAL",
+              "source": "hokom_pipeline",
+              "payload": null,
+              "is_negative": false
+            }
+          ],
           "provenance": null,
           "residual": null,
           "owner": "HOKOM"
@@ -14646,8 +14692,8 @@
           "slot_id": "NUMBER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "SG",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -14658,8 +14704,8 @@
           "slot_id": "GENDER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "M",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -14703,8 +14749,8 @@
           "owner": "HOKOM"
         }
       ],
-      "claim_key": "4370643324d4a3626276ca753f8d3c26f509f7e4de2a1eccb153bc1885eb203a",
-      "evaluation_id": "e128223687991d9a",
+      "claim_key": "199384eb4ad431ed2eb2e2fa263bc0a6286fc33447131302ea892bcf17157488",
+      "evaluation_id": "06e8ca0f51e1c79f",
       "composite_verdict": {
         "by_layer": [
           {
@@ -14776,12 +14822,12 @@
             "slots": [
               "WORD_CLASS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 1,
+            "FILLED": 1,
+            "UNKNOWN": 0,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "LICENSED"
           },
           {
             "layer": "RADICAL",
@@ -14853,12 +14899,12 @@
               "GENDER_SLOT",
               "DEFINITENESS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 3,
+            "FILLED": 2,
+            "UNKNOWN": 1,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "PARTIAL"
           },
           {
             "layer": "PARADIGM",
@@ -14878,10 +14924,12 @@
           "ORIGINAL_SURFACE",
           "NORMALIZED_SURFACE",
           "SEGMENT_HOST",
-          "PATH_DIRECTIVE_SLOT"
+          "PATH_DIRECTIVE_SLOT",
+          "WORD_CLASS_SLOT",
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
         ],
         "deferred_claims": [
-          "WORD_CLASS_SLOT",
           "RADICAL_R1",
           "RADICAL_R2",
           "RADICAL_R3",
@@ -14890,8 +14938,6 @@
           "BAB_CANDIDATE_SET",
           "MASDAR_CANDIDATE_SET",
           "DERIVATIVE_CANDIDATE_SET",
-          "NUMBER_SLOT",
-          "GENDER_SLOT",
           "DEFINITENESS_SLOT",
           "LEMMA_SLOT",
           "PARADIGM_SLOT"
@@ -14899,13 +14945,11 @@
         "blocked_claims": [],
         "ambiguous_claims": [],
         "not_opened_layers": [
-          "WORD_CLASS",
           "RADICAL",
           "PATTERN",
           "BAB",
           "MASDAR",
           "DERIVATIVE",
-          "MORPHOSYNTAX",
           "PARADIGM"
         ],
         "active_residuals": [],
@@ -14913,15 +14957,18 @@
         "overall_verdict": "COMPOSITE"
       },
       "h11_h15": {
-        "reached": false,
-        "filled_slots": [],
-        "skipped_reason": "WORD_CLASS_DEFERRED"
+        "reached": true,
+        "filled_slots": [
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
+        ],
+        "skipped_reason": null
       },
       "taaqol": {
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -14992,21 +15039,28 @@
         "clitic_only": false
       },
       "word_class": {
-        "class": null,
-        "subclass": null,
-        "verdict": "WORD_CLASS_DEFERRED",
-        "evidence": [],
+        "class": "FI3L",
+        "subclass": "VERBAL_IMPERFECT",
+        "verdict": "WORD_CLASS_ACCEPTED",
+        "evidence": [
+          {
+            "type": "MORPHOLOGY_PATH_VERBAL",
+            "source": "pipeline.p5_inflection",
+            "value": "LAM_AMR_JUSSIVE_IMPERFECT",
+            "confidence": "HIGH"
+          }
+        ],
         "trace": [
           {
-            "step": "defer",
-            "decision": "DEFERRED:AMBIGUOUS_MORPHOLOGY_PATH",
+            "step": "step8c_lam_amr",
+            "decision": "FI3L:VERBAL_IMPERFECT",
             "evidence": [
-              "morphology_path=ambiguous_morphology_path",
-              "p5_verdict=OPEN"
+              "original_surface=فَلْيَكْتُبْ",
+              "lam_al_amr_governs_jussive"
             ]
           }
         ],
-        "inflection_skipped_reason": "WORD_CLASS_DEFERRED"
+        "inflection_skipped_reason": null
       },
       "root_analysis": {
         "root_state": "DEFERRED",
@@ -15037,12 +15091,12 @@
         "masdar_state": "UNKNOWN"
       },
       "morphosyntax": {
-        "number": null,
-        "gender": null,
-        "person": null,
-        "tense_aspect": null,
-        "mood": null,
-        "voice": null,
+        "number": "SG",
+        "gender": "M",
+        "person": "3",
+        "tense_aspect": "IMPERFECT",
+        "mood": "JUSSIVE",
+        "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
       "typed_slots": [
@@ -15169,10 +15223,18 @@
           "slot_id": "WORD_CLASS_SLOT",
           "layer": "WORD_CLASS",
           "layer_sort": 60,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "FI3L",
           "candidate_set": null,
-          "evidence": [],
+          "evidence": [
+            {
+              "evidence_id": "wc:FI3L",
+              "kind": "MORPHOLOGICAL",
+              "source": "hokom_pipeline",
+              "payload": null,
+              "is_negative": false
+            }
+          ],
           "provenance": null,
           "residual": null,
           "owner": "HOKOM"
@@ -15277,8 +15339,8 @@
           "slot_id": "NUMBER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "SG",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -15289,8 +15351,8 @@
           "slot_id": "GENDER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "M",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -15334,8 +15396,8 @@
           "owner": "HOKOM"
         }
       ],
-      "claim_key": "47f81478e2c8a971829db224166888b1690c7a4bdc0a415d0baec9e74a5412af",
-      "evaluation_id": "1df355334a2578f8",
+      "claim_key": "fbf53696946038c1d5e5ee89aeea6dc7f40afd40a8294b24ec9ef275ca98632e",
+      "evaluation_id": "7d10ed8333e7bd99",
       "composite_verdict": {
         "by_layer": [
           {
@@ -15407,12 +15469,12 @@
             "slots": [
               "WORD_CLASS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 1,
+            "FILLED": 1,
+            "UNKNOWN": 0,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "LICENSED"
           },
           {
             "layer": "RADICAL",
@@ -15484,12 +15546,12 @@
               "GENDER_SLOT",
               "DEFINITENESS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 3,
+            "FILLED": 2,
+            "UNKNOWN": 1,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "PARTIAL"
           },
           {
             "layer": "PARADIGM",
@@ -15510,10 +15572,12 @@
           "NORMALIZED_SURFACE",
           "PROCLITIC_SLOTS",
           "SEGMENT_HOST",
-          "PATH_DIRECTIVE_SLOT"
+          "PATH_DIRECTIVE_SLOT",
+          "WORD_CLASS_SLOT",
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
         ],
         "deferred_claims": [
-          "WORD_CLASS_SLOT",
           "RADICAL_R1",
           "RADICAL_R2",
           "RADICAL_R3",
@@ -15522,8 +15586,6 @@
           "BAB_CANDIDATE_SET",
           "MASDAR_CANDIDATE_SET",
           "DERIVATIVE_CANDIDATE_SET",
-          "NUMBER_SLOT",
-          "GENDER_SLOT",
           "DEFINITENESS_SLOT",
           "LEMMA_SLOT",
           "PARADIGM_SLOT"
@@ -15531,13 +15593,11 @@
         "blocked_claims": [],
         "ambiguous_claims": [],
         "not_opened_layers": [
-          "WORD_CLASS",
           "RADICAL",
           "PATTERN",
           "BAB",
           "MASDAR",
           "DERIVATIVE",
-          "MORPHOSYNTAX",
           "PARADIGM"
         ],
         "active_residuals": [
@@ -15549,15 +15609,18 @@
         "overall_verdict": "COMPOSITE"
       },
       "h11_h15": {
-        "reached": false,
-        "filled_slots": [],
-        "skipped_reason": "WORD_CLASS_DEFERRED"
+        "reached": true,
+        "filled_slots": [
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
+        ],
+        "skipped_reason": null
       },
       "taaqol": {
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -15632,27 +15695,28 @@
         "clitic_only": false
       },
       "word_class": {
-        "class": "ISM",
-        "subclass": "LEXICAL_NOUN",
+        "class": "FI3L",
+        "subclass": "VERBAL_IMPERFECT",
         "verdict": "WORD_CLASS_ACCEPTED",
         "evidence": [
           {
-            "type": "MORPHOLOGY_PATH_NOMINAL",
-            "source": "pipeline.pre_root",
-            "value": "nominal_morphology_path",
-            "confidence": "MEDIUM"
+            "type": "MORPHOLOGY_PATH_VERBAL",
+            "source": "pipeline.p5_inflection",
+            "value": "LAM_AMR_JUSSIVE_IMPERFECT",
+            "confidence": "HIGH"
           }
         ],
         "trace": [
           {
-            "step": "nominal_morphology_path",
-            "decision": "ISM:LEXICAL_NOUN",
+            "step": "step8c_lam_amr",
+            "decision": "FI3L:VERBAL_IMPERFECT",
             "evidence": [
-              "morphology_path=nominal_morphology_path"
+              "original_surface=وَلْيُمْلِلِ",
+              "lam_al_amr_governs_jussive"
             ]
           }
         ],
-        "inflection_skipped_reason": "WORD_CLASS_ACCEPTED"
+        "inflection_skipped_reason": null
       },
       "root_analysis": {
         "root_state": "DEFERRED",
@@ -15816,11 +15880,11 @@
           "layer": "WORD_CLASS",
           "layer_sort": 60,
           "state": "FILLED",
-          "value": "ISM",
+          "value": "FI3L",
           "candidate_set": null,
           "evidence": [
             {
-              "evidence_id": "wc:ISM",
+              "evidence_id": "wc:FI3L",
               "kind": "MORPHOLOGICAL",
               "source": "hokom_pipeline",
               "payload": null,
@@ -15988,8 +16052,8 @@
           "owner": "HOKOM"
         }
       ],
-      "claim_key": "8ea35464f5e87c022baab37718b02e5c1b44440ce527e5343c070d2f8f40c8cf",
-      "evaluation_id": "5e70287b02aaaa26",
+      "claim_key": "d483a5913683eff66349b7292ba11202810300f68921eb7ee33da714b21e3059",
+      "evaluation_id": "c6a84311c850a04e",
       "composite_verdict": {
         "by_layer": [
           {
@@ -16204,13 +16268,13 @@
       "h11_h15": {
         "reached": false,
         "filled_slots": [],
-        "skipped_reason": "WORD_CLASS_ACCEPTED"
+        "skipped_reason": null
       },
       "taaqol": {
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -16851,7 +16915,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -17483,7 +17547,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -18140,7 +18204,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -18216,27 +18280,28 @@
         "clitic_only": false
       },
       "word_class": {
-        "class": "ISM",
-        "subclass": "LEXICAL_NOUN",
+        "class": "FI3L",
+        "subclass": "VERBAL_IMPERFECT",
         "verdict": "WORD_CLASS_ACCEPTED",
         "evidence": [
           {
-            "type": "MORPHOLOGY_PATH_NOMINAL",
-            "source": "pipeline.pre_root",
-            "value": "nominal_morphology_path",
-            "confidence": "MEDIUM"
+            "type": "MORPHOLOGY_PATH_VERBAL",
+            "source": "pipeline.p5_inflection",
+            "value": "LAM_AMR_JUSSIVE_IMPERFECT",
+            "confidence": "HIGH"
           }
         ],
         "trace": [
           {
-            "step": "nominal_morphology_path",
-            "decision": "ISM:LEXICAL_NOUN",
+            "step": "step8c_lam_amr",
+            "decision": "FI3L:VERBAL_IMPERFECT",
             "evidence": [
-              "morphology_path=nominal_morphology_path"
+              "original_surface=وَلْيَتَّقِ",
+              "lam_al_amr_governs_jussive"
             ]
           }
         ],
-        "inflection_skipped_reason": "WORD_CLASS_ACCEPTED"
+        "inflection_skipped_reason": null
       },
       "root_analysis": {
         "root_state": "DEFERRED",
@@ -18403,11 +18468,11 @@
           "layer": "WORD_CLASS",
           "layer_sort": 60,
           "state": "FILLED",
-          "value": "ISM",
+          "value": "FI3L",
           "candidate_set": null,
           "evidence": [
             {
-              "evidence_id": "wc:ISM",
+              "evidence_id": "wc:FI3L",
               "kind": "MORPHOLOGICAL",
               "source": "hokom_pipeline",
               "payload": null,
@@ -18575,8 +18640,8 @@
           "owner": "HOKOM"
         }
       ],
-      "claim_key": "6d6d99d31b7a0274ed53f9fb8cd267414ebbc7fec0ff852efcf88fc19afc24c3",
-      "evaluation_id": "df3f174cf6385ac9",
+      "claim_key": "c47f8e4de7de93272cf28dccadea316504bd6fcea1d94b52b926a886b4920b02",
+      "evaluation_id": "8595ae1ae2e9060a",
       "composite_verdict": {
         "by_layer": [
           {
@@ -18791,13 +18856,13 @@
       "h11_h15": {
         "reached": false,
         "filled_slots": [],
-        "skipped_reason": "WORD_CLASS_ACCEPTED"
+        "skipped_reason": null
       },
       "taaqol": {
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -18869,21 +18934,28 @@
         "clitic_only": false
       },
       "word_class": {
-        "class": null,
-        "subclass": null,
-        "verdict": "WORD_CLASS_DEFERRED",
-        "evidence": [],
+        "class": "FI3L",
+        "subclass": "VERBAL_IMPERFECT",
+        "verdict": "WORD_CLASS_ACCEPTED",
+        "evidence": [
+          {
+            "type": "MORPHOLOGY_PATH_VERBAL",
+            "source": "pipeline.p5_inflection",
+            "value": "IMPERFECT_PREFIX_NO_MORPH_PATH",
+            "confidence": "MEDIUM"
+          }
+        ],
         "trace": [
           {
-            "step": "defer",
-            "decision": "DEFERRED:NO_MORPHOLOGY_PATH",
+            "step": "step9b_imperfect_no_morph",
+            "decision": "FI3L:VERBAL_IMPERFECT",
             "evidence": [
-              "morphology_path=",
-              "p5_verdict=OPEN"
+              "normalized_surface=ءَللْلَهَ",
+              "hollow_or_geminate_imperfect"
             ]
           }
         ],
-        "inflection_skipped_reason": "WORD_CLASS_DEFERRED"
+        "inflection_skipped_reason": null
       },
       "root_analysis": {
         "root_state": "UNKNOWN",
@@ -18906,12 +18978,12 @@
         "masdar_state": "UNKNOWN"
       },
       "morphosyntax": {
-        "number": null,
-        "gender": null,
-        "person": null,
-        "tense_aspect": null,
-        "mood": null,
-        "voice": null,
+        "number": "SG",
+        "gender": "M",
+        "person": "1",
+        "tense_aspect": "IMPERFECT",
+        "mood": "SUBJUNCTIVE",
+        "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
       "typed_slots": [
@@ -19035,10 +19107,18 @@
           "slot_id": "WORD_CLASS_SLOT",
           "layer": "WORD_CLASS",
           "layer_sort": 60,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "FI3L",
           "candidate_set": null,
-          "evidence": [],
+          "evidence": [
+            {
+              "evidence_id": "wc:FI3L",
+              "kind": "MORPHOLOGICAL",
+              "source": "hokom_pipeline",
+              "payload": null,
+              "is_negative": false
+            }
+          ],
           "provenance": null,
           "residual": null,
           "owner": "HOKOM"
@@ -19143,8 +19223,8 @@
           "slot_id": "NUMBER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "SG",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -19155,8 +19235,8 @@
           "slot_id": "GENDER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "M",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -19200,8 +19280,8 @@
           "owner": "HOKOM"
         }
       ],
-      "claim_key": "15d782894820be29d969f05a824f491f3e297c6b697b0a7a07ffa38503a28a11",
-      "evaluation_id": "018b5084dfbf5c41",
+      "claim_key": "1f76569f50be44911654f1a32f2d7222ae68970188fa7da365698433c827c7f5",
+      "evaluation_id": "8a49c5700ba8e812",
       "composite_verdict": {
         "by_layer": [
           {
@@ -19273,12 +19353,12 @@
             "slots": [
               "WORD_CLASS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 1,
+            "FILLED": 1,
+            "UNKNOWN": 0,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "LICENSED"
           },
           {
             "layer": "RADICAL",
@@ -19350,12 +19430,12 @@
               "GENDER_SLOT",
               "DEFINITENESS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 3,
+            "FILLED": 2,
+            "UNKNOWN": 1,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "PARTIAL"
           },
           {
             "layer": "PARADIGM",
@@ -19375,10 +19455,12 @@
           "ORIGINAL_SURFACE",
           "NORMALIZED_SURFACE",
           "SEGMENT_HOST",
-          "PATH_DIRECTIVE_SLOT"
+          "PATH_DIRECTIVE_SLOT",
+          "WORD_CLASS_SLOT",
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
         ],
         "deferred_claims": [
-          "WORD_CLASS_SLOT",
           "RADICAL_R1",
           "RADICAL_R2",
           "RADICAL_R3",
@@ -19387,8 +19469,6 @@
           "BAB_CANDIDATE_SET",
           "MASDAR_CANDIDATE_SET",
           "DERIVATIVE_CANDIDATE_SET",
-          "NUMBER_SLOT",
-          "GENDER_SLOT",
           "DEFINITENESS_SLOT",
           "LEMMA_SLOT",
           "PARADIGM_SLOT"
@@ -19396,13 +19476,11 @@
         "blocked_claims": [],
         "ambiguous_claims": [],
         "not_opened_layers": [
-          "WORD_CLASS",
           "RADICAL",
           "PATTERN",
           "BAB",
           "MASDAR",
           "DERIVATIVE",
-          "MORPHOSYNTAX",
           "PARADIGM"
         ],
         "active_residuals": [],
@@ -19410,15 +19488,18 @@
         "overall_verdict": "COMPOSITE"
       },
       "h11_h15": {
-        "reached": false,
-        "filled_slots": [],
-        "skipped_reason": "WORD_CLASS_DEFERRED"
+        "reached": true,
+        "filled_slots": [
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
+        ],
+        "skipped_reason": null
       },
       "taaqol": {
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -20040,7 +20121,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -20662,7 +20743,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -21326,7 +21407,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -21950,7 +22031,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -22614,7 +22695,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -23239,7 +23320,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -23871,7 +23952,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -24508,7 +24589,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -25140,7 +25221,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -25797,7 +25878,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -26442,7 +26523,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -27076,7 +27157,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -27716,7 +27797,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -28350,7 +28431,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -28981,7 +29062,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -29113,7 +29194,7 @@
         "gender": "M",
         "person": "3",
         "tense_aspect": "IMPERFECT",
-        "mood": "INDICATIVE",
+        "mood": "JUSSIVE",
         "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
@@ -29662,7 +29743,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -30296,7 +30377,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -30960,7 +31041,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -31599,7 +31680,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -31670,21 +31751,28 @@
         "clitic_only": false
       },
       "word_class": {
-        "class": null,
-        "subclass": null,
-        "verdict": "WORD_CLASS_DEFERRED",
-        "evidence": [],
+        "class": "FI3L",
+        "subclass": "VERBAL_IMPERFECT",
+        "verdict": "WORD_CLASS_ACCEPTED",
+        "evidence": [
+          {
+            "type": "MORPHOLOGY_PATH_VERBAL",
+            "source": "pipeline.p5_inflection",
+            "value": "LAM_AMR_JUSSIVE_IMPERFECT",
+            "confidence": "HIGH"
+          }
+        ],
         "trace": [
           {
-            "step": "defer",
-            "decision": "DEFERRED:AMBIGUOUS_MORPHOLOGY_PATH",
+            "step": "step8c_lam_amr",
+            "decision": "FI3L:VERBAL_IMPERFECT",
             "evidence": [
-              "morphology_path=ambiguous_morphology_path",
-              "p5_verdict=OPEN"
+              "original_surface=فَلْيُمْلِلْ",
+              "lam_al_amr_governs_jussive"
             ]
           }
         ],
-        "inflection_skipped_reason": "WORD_CLASS_DEFERRED"
+        "inflection_skipped_reason": null
       },
       "root_analysis": {
         "root_state": "DEFERRED",
@@ -31715,12 +31803,12 @@
         "masdar_state": "UNKNOWN"
       },
       "morphosyntax": {
-        "number": null,
-        "gender": null,
-        "person": null,
-        "tense_aspect": null,
-        "mood": null,
-        "voice": null,
+        "number": "SG",
+        "gender": "M",
+        "person": "3",
+        "tense_aspect": "IMPERFECT",
+        "mood": "JUSSIVE",
+        "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
       "typed_slots": [
@@ -31847,10 +31935,18 @@
           "slot_id": "WORD_CLASS_SLOT",
           "layer": "WORD_CLASS",
           "layer_sort": 60,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "FI3L",
           "candidate_set": null,
-          "evidence": [],
+          "evidence": [
+            {
+              "evidence_id": "wc:FI3L",
+              "kind": "MORPHOLOGICAL",
+              "source": "hokom_pipeline",
+              "payload": null,
+              "is_negative": false
+            }
+          ],
           "provenance": null,
           "residual": null,
           "owner": "HOKOM"
@@ -31955,8 +32051,8 @@
           "slot_id": "NUMBER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "SG",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -31967,8 +32063,8 @@
           "slot_id": "GENDER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "M",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -32012,8 +32108,8 @@
           "owner": "HOKOM"
         }
       ],
-      "claim_key": "8cf46347acdb3afece354a99042858cf531edafb750e544df2ae7c2babc29021",
-      "evaluation_id": "923fdfc1ab4b3630",
+      "claim_key": "a15a285bdcd24a16bcfb45a965d21c9ffd745698bc259807ba109615e033d97f",
+      "evaluation_id": "42915cdc89a63bbf",
       "composite_verdict": {
         "by_layer": [
           {
@@ -32085,12 +32181,12 @@
             "slots": [
               "WORD_CLASS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 1,
+            "FILLED": 1,
+            "UNKNOWN": 0,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "LICENSED"
           },
           {
             "layer": "RADICAL",
@@ -32162,12 +32258,12 @@
               "GENDER_SLOT",
               "DEFINITENESS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 3,
+            "FILLED": 2,
+            "UNKNOWN": 1,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "PARTIAL"
           },
           {
             "layer": "PARADIGM",
@@ -32188,10 +32284,12 @@
           "NORMALIZED_SURFACE",
           "PROCLITIC_SLOTS",
           "SEGMENT_HOST",
-          "PATH_DIRECTIVE_SLOT"
+          "PATH_DIRECTIVE_SLOT",
+          "WORD_CLASS_SLOT",
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
         ],
         "deferred_claims": [
-          "WORD_CLASS_SLOT",
           "RADICAL_R1",
           "RADICAL_R2",
           "RADICAL_R3",
@@ -32200,8 +32298,6 @@
           "BAB_CANDIDATE_SET",
           "MASDAR_CANDIDATE_SET",
           "DERIVATIVE_CANDIDATE_SET",
-          "NUMBER_SLOT",
-          "GENDER_SLOT",
           "DEFINITENESS_SLOT",
           "LEMMA_SLOT",
           "PARADIGM_SLOT"
@@ -32209,13 +32305,11 @@
         "blocked_claims": [],
         "ambiguous_claims": [],
         "not_opened_layers": [
-          "WORD_CLASS",
           "RADICAL",
           "PATTERN",
           "BAB",
           "MASDAR",
           "DERIVATIVE",
-          "MORPHOSYNTAX",
           "PARADIGM"
         ],
         "active_residuals": [
@@ -32227,15 +32321,18 @@
         "overall_verdict": "COMPOSITE"
       },
       "h11_h15": {
-        "reached": false,
-        "filled_slots": [],
-        "skipped_reason": "WORD_CLASS_DEFERRED"
+        "reached": true,
+        "filled_slots": [
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
+        ],
+        "skipped_reason": null
       },
       "taaqol": {
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -32884,7 +32981,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -33558,7 +33655,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -33632,7 +33729,7 @@
       },
       "word_class": {
         "class": "FI3L",
-        "subclass": "VERBAL_PAST",
+        "subclass": "VERBAL_IMPERATIVE",
         "verdict": "WORD_CLASS_ACCEPTED",
         "evidence": [
           {
@@ -33690,8 +33787,8 @@
       "morphosyntax": {
         "number": "PL",
         "gender": "M",
-        "person": "3",
-        "tense_aspect": "PAST",
+        "person": "2",
+        "tense_aspect": "IMPERATIVE",
         "mood": "NOT_APPLICABLE",
         "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
@@ -34243,7 +34340,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "DEFER",
         "taaqol_verdict": "DEFERRED",
@@ -34887,7 +34984,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -35522,7 +35619,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -36167,7 +36264,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -36792,7 +36889,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -37423,7 +37520,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -37491,21 +37588,28 @@
         "clitic_only": false
       },
       "word_class": {
-        "class": null,
-        "subclass": null,
-        "verdict": "WORD_CLASS_DEFERRED",
-        "evidence": [],
+        "class": "FI3L",
+        "subclass": "VERBAL_IMPERFECT",
+        "verdict": "WORD_CLASS_ACCEPTED",
+        "evidence": [
+          {
+            "type": "MORPHOLOGY_PATH_VERBAL",
+            "source": "pipeline.p5_inflection",
+            "value": "IMPERFECT_PREFIX_NO_MORPH_PATH",
+            "confidence": "MEDIUM"
+          }
+        ],
         "trace": [
           {
-            "step": "defer",
-            "decision": "DEFERRED:NO_MORPHOLOGY_PATH",
+            "step": "step9b_imperfect_no_morph",
+            "decision": "FI3L:VERBAL_IMPERFECT",
             "evidence": [
-              "morphology_path=no_morphology_path",
-              "p5_verdict=OPEN"
+              "normalized_surface=يَكُونَا",
+              "hollow_or_geminate_imperfect"
             ]
           }
         ],
-        "inflection_skipped_reason": "WORD_CLASS_DEFERRED"
+        "inflection_skipped_reason": null
       },
       "root_analysis": {
         "root_state": "DEFERRED",
@@ -37664,10 +37768,18 @@
           "slot_id": "WORD_CLASS_SLOT",
           "layer": "WORD_CLASS",
           "layer_sort": 60,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "FI3L",
           "candidate_set": null,
-          "evidence": [],
+          "evidence": [
+            {
+              "evidence_id": "wc:FI3L",
+              "kind": "MORPHOLOGICAL",
+              "source": "hokom_pipeline",
+              "payload": null,
+              "is_negative": false
+            }
+          ],
           "provenance": null,
           "residual": null,
           "owner": "HOKOM"
@@ -37829,8 +37941,8 @@
           "owner": "HOKOM"
         }
       ],
-      "claim_key": "950a614242e417c8e56651126b95d406bda4f1f2ab610b6efd23feca54cbf6c8",
-      "evaluation_id": "5270304dae85e3b1",
+      "claim_key": "0bcaacc27053c83643e242065defee61b48865dc190c6c3900c609f693e02985",
+      "evaluation_id": "54a7a91d2f28183f",
       "composite_verdict": {
         "by_layer": [
           {
@@ -37902,12 +38014,12 @@
             "slots": [
               "WORD_CLASS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 1,
+            "FILLED": 1,
+            "UNKNOWN": 0,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "LICENSED"
           },
           {
             "layer": "RADICAL",
@@ -38004,10 +38116,10 @@
           "ORIGINAL_SURFACE",
           "NORMALIZED_SURFACE",
           "SEGMENT_HOST",
-          "PATH_DIRECTIVE_SLOT"
+          "PATH_DIRECTIVE_SLOT",
+          "WORD_CLASS_SLOT"
         ],
         "deferred_claims": [
-          "WORD_CLASS_SLOT",
           "RADICAL_R1",
           "RADICAL_R2",
           "RADICAL_R3",
@@ -38025,7 +38137,6 @@
         "blocked_claims": [],
         "ambiguous_claims": [],
         "not_opened_layers": [
-          "WORD_CLASS",
           "RADICAL",
           "PATTERN",
           "BAB",
@@ -38044,13 +38155,13 @@
       "h11_h15": {
         "reached": false,
         "filled_slots": [],
-        "skipped_reason": "WORD_CLASS_DEFERRED"
+        "skipped_reason": null
       },
       "taaqol": {
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -38695,7 +38806,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -39373,7 +39484,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -40023,7 +40134,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "DEFER",
         "taaqol_verdict": "DEFERRED",
@@ -40653,7 +40764,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -41303,7 +41414,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -41938,7 +42049,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -42578,7 +42689,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "DEFER",
         "taaqol_verdict": "DEFERRED",
@@ -43212,7 +43323,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -43281,7 +43392,7 @@
       },
       "word_class": {
         "class": "FI3L",
-        "subclass": "VERBAL_PAST",
+        "subclass": "VERBAL_IMPERFECT",
         "verdict": "WORD_CLASS_ACCEPTED",
         "evidence": [
           {
@@ -43294,10 +43405,10 @@
         "trace": [
           {
             "step": "verbal_root_path",
-            "decision": "FI3L:VERBAL_PAST",
+            "decision": "FI3L:VERBAL_IMPERFECT",
             "evidence": [
               "morphology_path=verbal_root_path",
-              "tense_derived=VERBAL_PAST"
+              "tense_derived=VERBAL_IMPERFECT"
             ]
           }
         ],
@@ -43333,9 +43444,9 @@
       "morphosyntax": {
         "number": "SG",
         "gender": "M",
-        "person": "3",
-        "tense_aspect": "PAST",
-        "mood": "NOT_APPLICABLE",
+        "person": "2",
+        "tense_aspect": "IMPERFECT",
+        "mood": "SUBJUNCTIVE",
         "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
@@ -43876,7 +43987,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -44513,7 +44624,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -44587,7 +44698,7 @@
       },
       "word_class": {
         "class": "FI3L",
-        "subclass": "VERBAL_PAST",
+        "subclass": "VERBAL_IMPERFECT",
         "verdict": "WORD_CLASS_ACCEPTED",
         "evidence": [
           {
@@ -44644,9 +44755,9 @@
       "morphosyntax": {
         "number": "SG",
         "gender": "M",
-        "person": "3",
-        "tense_aspect": "PAST",
-        "mood": "NOT_APPLICABLE",
+        "person": "2",
+        "tense_aspect": "IMPERFECT",
+        "mood": "SUBJUNCTIVE",
         "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
@@ -45197,7 +45308,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -45834,7 +45945,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -46459,7 +46570,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -47081,7 +47192,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -47206,7 +47317,7 @@
         "gender": "M",
         "person": "3",
         "tense_aspect": "IMPERFECT",
-        "mood": "SUBJUNCTIVE",
+        "mood": "JUSSIVE",
         "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
@@ -47726,7 +47837,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -48369,7 +48480,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "DEFER",
         "taaqol_verdict": "DEFERRED",
@@ -49003,7 +49114,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -49634,7 +49745,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -50261,7 +50372,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -50886,7 +50997,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -51010,7 +51121,7 @@
         "gender": "M",
         "person": "2",
         "tense_aspect": "IMPERFECT",
-        "mood": "INDICATIVE",
+        "mood": "JUSSIVE",
         "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
@@ -51551,7 +51662,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -52184,7 +52295,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -52306,11 +52417,11 @@
         "masdar_state": "UNKNOWN"
       },
       "morphosyntax": {
-        "number": "SG",
+        "number": "PL",
         "gender": "M",
         "person": "2",
         "tense_aspect": "IMPERFECT",
-        "mood": "INDICATIVE",
+        "mood": "SUBJUNCTIVE",
         "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
@@ -52578,7 +52689,7 @@
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
           "state": "FILLED",
-          "value": "SG",
+          "value": "PL",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -52634,8 +52745,8 @@
           "owner": "HOKOM"
         }
       ],
-      "claim_key": "3e20ba7c11a22409bd2c1ec5eaf842750c934b2de77b972857dc0afbaf76ce0d",
-      "evaluation_id": "f06ca4fa84c545d4",
+      "claim_key": "e84710a95463d602791e0d82ea68c2827c5360ceb29a514cfa5b7c1720b8ea9d",
+      "evaluation_id": "910d037d4defd303",
       "composite_verdict": {
         "by_layer": [
           {
@@ -52854,7 +52965,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -53496,7 +53607,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -54130,7 +54241,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -54770,7 +54881,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -55404,7 +55515,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -56078,7 +56189,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -56710,7 +56821,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -56781,35 +56892,29 @@
         "clitic_only": false
       },
       "word_class": {
-        "class": "FI3L",
-        "subclass": "VERBAL_IMPERFECT",
+        "class": "ISM",
+        "subclass": "LEXICAL_NOUN",
         "verdict": "WORD_CLASS_ACCEPTED",
         "evidence": [
           {
-            "type": "LICENSED_VERBAL_HOST",
+            "type": "MORPHOLOGY_PATH_NOMINAL",
             "source": "pipeline.p4_bab",
-            "value": "BAB_FORM_IV",
-            "confidence": "HIGH"
-          },
-          {
-            "type": "MORPHOLOGY_PATH_VERBAL",
-            "source": "pipeline.pre_root",
-            "value": "verbal_root_path",
+            "value": "ELATIVE_AFAL_PATTERN",
             "confidence": "HIGH"
           }
         ],
         "trace": [
           {
-            "step": "licensed_verbal_host",
-            "decision": "FI3L:VERBAL_IMPERFECT",
+            "step": "elative_guard",
+            "decision": "ISM:ELATIVE_ADJECTIVE",
             "evidence": [
-              "bab_id=BAB_FORM_IV",
-              "form_family=FORM_IV",
-              "tense_derived=VERBAL_IMPERFECT"
+              "bab=BAB_FORM_IV",
+              "p4a_wazn=AF3AL",
+              "C2=FATHA+terminal_DAMMA"
             ]
           }
         ],
-        "inflection_skipped_reason": null
+        "inflection_skipped_reason": "WORD_CLASS_ACCEPTED"
       },
       "root_analysis": {
         "root_state": "KNOWN",
@@ -56837,12 +56942,12 @@
         "masdar_state": "KNOWN"
       },
       "morphosyntax": {
-        "number": "SG",
-        "gender": "M",
-        "person": "1",
-        "tense_aspect": "IMPERFECT",
-        "mood": "INDICATIVE",
-        "voice": "ACTIVE",
+        "number": null,
+        "gender": null,
+        "person": null,
+        "tense_aspect": null,
+        "mood": null,
+        "voice": null,
         "source": "hokom_pipeline:direct"
       },
       "typed_slots": [
@@ -56967,11 +57072,11 @@
           "layer": "WORD_CLASS",
           "layer_sort": 60,
           "state": "FILLED",
-          "value": "FI3L",
+          "value": "ISM",
           "candidate_set": null,
           "evidence": [
             {
-              "evidence_id": "wc:FI3L",
+              "evidence_id": "wc:ISM",
               "kind": "MORPHOLOGICAL",
               "source": "hokom_pipeline",
               "payload": null,
@@ -57114,8 +57219,8 @@
           "slot_id": "NUMBER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "FILLED",
-          "value": "SG",
+          "state": "UNKNOWN",
+          "value": null,
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -57126,8 +57231,8 @@
           "slot_id": "GENDER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "FILLED",
-          "value": "M",
+          "state": "UNKNOWN",
+          "value": null,
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -57171,8 +57276,8 @@
           "owner": "HOKOM"
         }
       ],
-      "claim_key": "08e94cff78e0d5f223b74c4f704e92b3067f4d2c2ff563dcc42200a979b7638e",
-      "evaluation_id": "66d3f77df5db040a",
+      "claim_key": "4e4bea757317037507af207e1c5a73262163285c28b3025bcc02c082251526c4",
+      "evaluation_id": "ec0b4482495d773b",
       "composite_verdict": {
         "by_layer": [
           {
@@ -57321,12 +57426,12 @@
               "GENDER_SLOT",
               "DEFINITENESS_SLOT"
             ],
-            "FILLED": 2,
-            "UNKNOWN": 1,
+            "FILLED": 0,
+            "UNKNOWN": 3,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "PARTIAL"
+            "layer_verdict": "NOT_OPENED"
           },
           {
             "layer": "PARADIGM",
@@ -57351,14 +57456,14 @@
           "RADICAL_R1",
           "RADICAL_R2",
           "RADICAL_R3",
-          "PATTERN_CANDIDATE_SET",
-          "NUMBER_SLOT",
-          "GENDER_SLOT"
+          "PATTERN_CANDIDATE_SET"
         ],
         "deferred_claims": [
           "BAB_CANDIDATE_SET",
           "MASDAR_CANDIDATE_SET",
           "DERIVATIVE_CANDIDATE_SET",
+          "NUMBER_SLOT",
+          "GENDER_SLOT",
           "DEFINITENESS_SLOT",
           "LEMMA_SLOT",
           "PARADIGM_SLOT"
@@ -57369,6 +57474,7 @@
           "BAB",
           "MASDAR",
           "DERIVATIVE",
+          "MORPHOSYNTAX",
           "PARADIGM"
         ],
         "active_residuals": [
@@ -57378,18 +57484,15 @@
         "overall_verdict": "COMPOSITE"
       },
       "h11_h15": {
-        "reached": true,
-        "filled_slots": [
-          "NUMBER_SLOT",
-          "GENDER_SLOT"
-        ],
-        "skipped_reason": null
+        "reached": false,
+        "filled_slots": [],
+        "skipped_reason": "WORD_CLASS_ACCEPTED"
       },
       "taaqol": {
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -58044,7 +58147,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -58115,21 +58218,28 @@
         "clitic_only": false
       },
       "word_class": {
-        "class": null,
-        "subclass": null,
-        "verdict": "WORD_CLASS_DEFERRED",
-        "evidence": [],
+        "class": "FI3L",
+        "subclass": "VERBAL_IMPERFECT",
+        "verdict": "WORD_CLASS_ACCEPTED",
+        "evidence": [
+          {
+            "type": "MORPHOLOGY_PATH_VERBAL",
+            "source": "pipeline.p5_inflection",
+            "value": "IMPERFECT_PREFIX_NO_MORPH_PATH",
+            "confidence": "MEDIUM"
+          }
+        ],
         "trace": [
           {
-            "step": "defer",
-            "decision": "DEFERRED:NO_MORPHOLOGY_PATH",
+            "step": "step9b_imperfect_no_morph",
+            "decision": "FI3L:VERBAL_IMPERFECT",
             "evidence": [
-              "morphology_path=",
-              "p5_verdict=OPEN"
+              "normalized_surface=ءَللْلَهِ",
+              "hollow_or_geminate_imperfect"
             ]
           }
         ],
-        "inflection_skipped_reason": "WORD_CLASS_DEFERRED"
+        "inflection_skipped_reason": null
       },
       "root_analysis": {
         "root_state": "UNKNOWN",
@@ -58152,12 +58262,12 @@
         "masdar_state": "UNKNOWN"
       },
       "morphosyntax": {
-        "number": null,
-        "gender": null,
-        "person": null,
-        "tense_aspect": null,
-        "mood": null,
-        "voice": null,
+        "number": "SG",
+        "gender": "M",
+        "person": "1",
+        "tense_aspect": "IMPERFECT",
+        "mood": "SUBJUNCTIVE",
+        "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
       "typed_slots": [
@@ -58281,10 +58391,18 @@
           "slot_id": "WORD_CLASS_SLOT",
           "layer": "WORD_CLASS",
           "layer_sort": 60,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "FI3L",
           "candidate_set": null,
-          "evidence": [],
+          "evidence": [
+            {
+              "evidence_id": "wc:FI3L",
+              "kind": "MORPHOLOGICAL",
+              "source": "hokom_pipeline",
+              "payload": null,
+              "is_negative": false
+            }
+          ],
           "provenance": null,
           "residual": null,
           "owner": "HOKOM"
@@ -58389,8 +58507,8 @@
           "slot_id": "NUMBER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "SG",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -58401,8 +58519,8 @@
           "slot_id": "GENDER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "M",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -58446,8 +58564,8 @@
           "owner": "HOKOM"
         }
       ],
-      "claim_key": "00f26cfbbf15891abaf3ebcc4ccccb3f4741f8220b058b1423527a8a677ff27a",
-      "evaluation_id": "db9013e9edb00e14",
+      "claim_key": "bfd6313d85c5e5af93b43cbd272f5543dc0ab886394faf8c9b813c80eb3d98fb",
+      "evaluation_id": "9ebd8435c8ac87f9",
       "composite_verdict": {
         "by_layer": [
           {
@@ -58519,12 +58637,12 @@
             "slots": [
               "WORD_CLASS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 1,
+            "FILLED": 1,
+            "UNKNOWN": 0,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "LICENSED"
           },
           {
             "layer": "RADICAL",
@@ -58596,12 +58714,12 @@
               "GENDER_SLOT",
               "DEFINITENESS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 3,
+            "FILLED": 2,
+            "UNKNOWN": 1,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "PARTIAL"
           },
           {
             "layer": "PARADIGM",
@@ -58621,10 +58739,12 @@
           "ORIGINAL_SURFACE",
           "NORMALIZED_SURFACE",
           "SEGMENT_HOST",
-          "PATH_DIRECTIVE_SLOT"
+          "PATH_DIRECTIVE_SLOT",
+          "WORD_CLASS_SLOT",
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
         ],
         "deferred_claims": [
-          "WORD_CLASS_SLOT",
           "RADICAL_R1",
           "RADICAL_R2",
           "RADICAL_R3",
@@ -58633,8 +58753,6 @@
           "BAB_CANDIDATE_SET",
           "MASDAR_CANDIDATE_SET",
           "DERIVATIVE_CANDIDATE_SET",
-          "NUMBER_SLOT",
-          "GENDER_SLOT",
           "DEFINITENESS_SLOT",
           "LEMMA_SLOT",
           "PARADIGM_SLOT"
@@ -58642,13 +58760,11 @@
         "blocked_claims": [],
         "ambiguous_claims": [],
         "not_opened_layers": [
-          "WORD_CLASS",
           "RADICAL",
           "PATTERN",
           "BAB",
           "MASDAR",
           "DERIVATIVE",
-          "MORPHOSYNTAX",
           "PARADIGM"
         ],
         "active_residuals": [],
@@ -58656,15 +58772,18 @@
         "overall_verdict": "COMPOSITE"
       },
       "h11_h15": {
-        "reached": false,
-        "filled_slots": [],
-        "skipped_reason": "WORD_CLASS_DEFERRED"
+        "reached": true,
+        "filled_slots": [
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
+        ],
+        "skipped_reason": null
       },
       "taaqol": {
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -59312,7 +59431,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -59960,7 +60079,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "DEFER",
         "taaqol_verdict": "DEFERRED",
@@ -60598,7 +60717,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -61223,7 +61342,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -61345,7 +61464,7 @@
         "gender": "M",
         "person": "2",
         "tense_aspect": "IMPERFECT",
-        "mood": "INDICATIVE",
+        "mood": "SUBJUNCTIVE",
         "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
@@ -61862,7 +61981,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -62493,7 +62612,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -63124,7 +63243,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -63192,21 +63311,28 @@
         "clitic_only": false
       },
       "word_class": {
-        "class": null,
-        "subclass": null,
-        "verdict": "WORD_CLASS_DEFERRED",
-        "evidence": [],
+        "class": "FI3L",
+        "subclass": "VERBAL_IMPERFECT",
+        "verdict": "WORD_CLASS_ACCEPTED",
+        "evidence": [
+          {
+            "type": "MORPHOLOGY_PATH_VERBAL",
+            "source": "pipeline.p5_inflection",
+            "value": "IMPERFECT_PREFIX_NO_MORPH_PATH",
+            "confidence": "MEDIUM"
+          }
+        ],
         "trace": [
           {
-            "step": "defer",
-            "decision": "DEFERRED:NO_MORPHOLOGY_PATH",
+            "step": "step9b_imperfect_no_morph",
+            "decision": "FI3L:VERBAL_IMPERFECT",
             "evidence": [
-              "morphology_path=no_morphology_path",
-              "p5_verdict=OPEN"
+              "normalized_surface=تَكُونَ",
+              "hollow_or_geminate_imperfect"
             ]
           }
         ],
-        "inflection_skipped_reason": "WORD_CLASS_DEFERRED"
+        "inflection_skipped_reason": null
       },
       "root_analysis": {
         "root_state": "DEFERRED",
@@ -63365,10 +63491,18 @@
           "slot_id": "WORD_CLASS_SLOT",
           "layer": "WORD_CLASS",
           "layer_sort": 60,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "FI3L",
           "candidate_set": null,
-          "evidence": [],
+          "evidence": [
+            {
+              "evidence_id": "wc:FI3L",
+              "kind": "MORPHOLOGICAL",
+              "source": "hokom_pipeline",
+              "payload": null,
+              "is_negative": false
+            }
+          ],
           "provenance": null,
           "residual": null,
           "owner": "HOKOM"
@@ -63530,8 +63664,8 @@
           "owner": "HOKOM"
         }
       ],
-      "claim_key": "c43b3bc8a42788674e595e3981899b5e01aedd94ea4b10e5a13a4464e3b12ba5",
-      "evaluation_id": "e460d16f2ea4c56e",
+      "claim_key": "43467ef6f4ffa2d7c2e84815fcab7f32eeccf6d0f7fb9d6b62ec21b0140af32d",
+      "evaluation_id": "8d03242e5c953f85",
       "composite_verdict": {
         "by_layer": [
           {
@@ -63603,12 +63737,12 @@
             "slots": [
               "WORD_CLASS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 1,
+            "FILLED": 1,
+            "UNKNOWN": 0,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "LICENSED"
           },
           {
             "layer": "RADICAL",
@@ -63705,10 +63839,10 @@
           "ORIGINAL_SURFACE",
           "NORMALIZED_SURFACE",
           "SEGMENT_HOST",
-          "PATH_DIRECTIVE_SLOT"
+          "PATH_DIRECTIVE_SLOT",
+          "WORD_CLASS_SLOT"
         ],
         "deferred_claims": [
-          "WORD_CLASS_SLOT",
           "RADICAL_R1",
           "RADICAL_R2",
           "RADICAL_R3",
@@ -63726,7 +63860,6 @@
         "blocked_claims": [],
         "ambiguous_claims": [],
         "not_opened_layers": [
-          "WORD_CLASS",
           "RADICAL",
           "PATTERN",
           "BAB",
@@ -63745,13 +63878,13 @@
       "h11_h15": {
         "reached": false,
         "filled_slots": [],
-        "skipped_reason": "WORD_CLASS_DEFERRED"
+        "skipped_reason": null
       },
       "taaqol": {
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -64423,7 +64556,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -65097,7 +65230,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -65749,7 +65882,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -66411,7 +66544,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -67036,7 +67169,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -67668,7 +67801,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -68311,7 +68444,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -68936,7 +69069,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -69058,11 +69191,11 @@
         "masdar_state": "UNKNOWN"
       },
       "morphosyntax": {
-        "number": "SG",
+        "number": "PL",
         "gender": "M",
         "person": "2",
         "tense_aspect": "IMPERFECT",
-        "mood": "INDICATIVE",
+        "mood": "SUBJUNCTIVE",
         "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
@@ -69330,7 +69463,7 @@
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
           "state": "FILLED",
-          "value": "SG",
+          "value": "PL",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -69386,8 +69519,8 @@
           "owner": "HOKOM"
         }
       ],
-      "claim_key": "5d1498432a6f3fa5974cdc41574a2de6dea3cfe47dedb1a6e2b729d7f2a97d1b",
-      "evaluation_id": "d89c91eb53ae4c4b",
+      "claim_key": "d01f4535454b3fe9da7f8a5484a8d4c9c1740368fa64c8c2c0599a0e11926897",
+      "evaluation_id": "2ae6ae5a2a5f1b9f",
       "composite_verdict": {
         "by_layer": [
           {
@@ -69606,7 +69739,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -69679,7 +69812,7 @@
       },
       "word_class": {
         "class": "FI3L",
-        "subclass": "VERBAL_PAST",
+        "subclass": "VERBAL_IMPERATIVE",
         "verdict": "WORD_CLASS_ACCEPTED",
         "evidence": [
           {
@@ -69698,11 +69831,11 @@
         "trace": [
           {
             "step": "licensed_verbal_host",
-            "decision": "FI3L:VERBAL_IMPERFECT",
+            "decision": "FI3L:VERBAL_IMPERATIVE",
             "evidence": [
               "bab_id=BAB_FORM_IV",
               "form_family=FORM_IV",
-              "tense_derived=VERBAL_IMPERFECT"
+              "tense_derived=VERBAL_IMPERATIVE"
             ]
           }
         ],
@@ -69737,8 +69870,8 @@
       "morphosyntax": {
         "number": "PL",
         "gender": "M",
-        "person": "3",
-        "tense_aspect": "PAST",
+        "person": "2",
+        "tense_aspect": "IMPERATIVE",
         "mood": "NOT_APPLICABLE",
         "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
@@ -70290,7 +70423,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -70923,7 +71056,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -71572,7 +71705,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -72198,7 +72331,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -72324,7 +72457,7 @@
         "gender": "M",
         "person": "3",
         "tense_aspect": "IMPERFECT",
-        "mood": "SUBJUNCTIVE",
+        "mood": "JUSSIVE",
         "voice": "PASSIVE",
         "source": "hokom_pipeline:direct"
       },
@@ -72845,7 +72978,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -73518,7 +73651,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -74145,7 +74278,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -74785,7 +74918,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -75410,7 +75543,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -75534,7 +75667,7 @@
         "gender": "M",
         "person": "2",
         "tense_aspect": "IMPERFECT",
-        "mood": "INDICATIVE",
+        "mood": "JUSSIVE",
         "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
@@ -76075,7 +76208,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -76699,7 +76832,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -77339,7 +77472,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -77960,7 +78093,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "DEFER",
         "taaqol_verdict": "DEFERRED",
@@ -78030,21 +78163,27 @@
         "clitic_only": false
       },
       "word_class": {
-        "class": null,
-        "subclass": null,
-        "verdict": "WORD_CLASS_DEFERRED",
-        "evidence": [],
+        "class": "FI3L",
+        "subclass": "VERBAL_IMPERATIVE",
+        "verdict": "WORD_CLASS_ACCEPTED",
+        "evidence": [
+          {
+            "type": "MORPHOLOGY_PATH_VERBAL",
+            "source": "pipeline.p5_inflection",
+            "value": "IMPERATIVE_SURFACE_DETECTED",
+            "confidence": "HIGH"
+          }
+        ],
         "trace": [
           {
-            "step": "defer",
-            "decision": "DEFERRED:AMBIGUOUS_MORPHOLOGY_PATH",
+            "step": "step8b_imperative_surface",
+            "decision": "FI3L:VERBAL_IMPERATIVE",
             "evidence": [
-              "morphology_path=ambiguous_morphology_path",
-              "p5_verdict=OPEN"
+              "original_surface=وَاتَّقُوا"
             ]
           }
         ],
-        "inflection_skipped_reason": "WORD_CLASS_DEFERRED"
+        "inflection_skipped_reason": null
       },
       "root_analysis": {
         "root_state": "DEFERRED",
@@ -78078,12 +78217,12 @@
         "masdar_state": "UNKNOWN"
       },
       "morphosyntax": {
-        "number": null,
-        "gender": null,
-        "person": null,
-        "tense_aspect": null,
-        "mood": null,
-        "voice": null,
+        "number": "PL",
+        "gender": "M",
+        "person": "2",
+        "tense_aspect": "IMPERATIVE",
+        "mood": "NOT_APPLICABLE",
+        "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
       "typed_slots": [
@@ -78209,10 +78348,18 @@
           "slot_id": "WORD_CLASS_SLOT",
           "layer": "WORD_CLASS",
           "layer_sort": 60,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "FI3L",
           "candidate_set": null,
-          "evidence": [],
+          "evidence": [
+            {
+              "evidence_id": "wc:FI3L",
+              "kind": "MORPHOLOGICAL",
+              "source": "hokom_pipeline",
+              "payload": null,
+              "is_negative": false
+            }
+          ],
           "provenance": null,
           "residual": null,
           "owner": "HOKOM"
@@ -78317,8 +78464,8 @@
           "slot_id": "NUMBER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "PL",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -78329,8 +78476,8 @@
           "slot_id": "GENDER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "M",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -78374,8 +78521,8 @@
           "owner": "HOKOM"
         }
       ],
-      "claim_key": "9512160975601afd10292e1a9b310e62629e55681ee793a4e03a5244a6121a0b",
-      "evaluation_id": "a7a9cb19eb75426c",
+      "claim_key": "41bc42e41ef8ec26f377898043237e76de14037daa48891bb5c8aaeddb0e9a37",
+      "evaluation_id": "abe411405d4b9551",
       "composite_verdict": {
         "by_layer": [
           {
@@ -78447,12 +78594,12 @@
             "slots": [
               "WORD_CLASS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 1,
+            "FILLED": 1,
+            "UNKNOWN": 0,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "LICENSED"
           },
           {
             "layer": "RADICAL",
@@ -78524,12 +78671,12 @@
               "GENDER_SLOT",
               "DEFINITENESS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 3,
+            "FILLED": 2,
+            "UNKNOWN": 1,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "PARTIAL"
           },
           {
             "layer": "PARADIGM",
@@ -78550,10 +78697,12 @@
           "NORMALIZED_SURFACE",
           "PROCLITIC_SLOTS",
           "SEGMENT_HOST",
-          "PATH_DIRECTIVE_SLOT"
+          "PATH_DIRECTIVE_SLOT",
+          "WORD_CLASS_SLOT",
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
         ],
         "deferred_claims": [
-          "WORD_CLASS_SLOT",
           "RADICAL_R1",
           "RADICAL_R2",
           "RADICAL_R3",
@@ -78562,8 +78711,6 @@
           "BAB_CANDIDATE_SET",
           "MASDAR_CANDIDATE_SET",
           "DERIVATIVE_CANDIDATE_SET",
-          "NUMBER_SLOT",
-          "GENDER_SLOT",
           "DEFINITENESS_SLOT",
           "LEMMA_SLOT",
           "PARADIGM_SLOT"
@@ -78571,13 +78718,11 @@
         "blocked_claims": [],
         "ambiguous_claims": [],
         "not_opened_layers": [
-          "WORD_CLASS",
           "RADICAL",
           "PATTERN",
           "BAB",
           "MASDAR",
           "DERIVATIVE",
-          "MORPHOSYNTAX",
           "PARADIGM"
         ],
         "active_residuals": [
@@ -78588,15 +78733,18 @@
         "overall_verdict": "COMPOSITE"
       },
       "h11_h15": {
-        "reached": false,
-        "filled_slots": [],
-        "skipped_reason": "WORD_CLASS_DEFERRED"
+        "reached": true,
+        "filled_slots": [
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
+        ],
+        "skipped_reason": null
       },
       "taaqol": {
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "DEFER",
         "taaqol_verdict": "DEFERRED",
@@ -78667,21 +78815,28 @@
         "clitic_only": false
       },
       "word_class": {
-        "class": null,
-        "subclass": null,
-        "verdict": "WORD_CLASS_DEFERRED",
-        "evidence": [],
+        "class": "FI3L",
+        "subclass": "VERBAL_IMPERFECT",
+        "verdict": "WORD_CLASS_ACCEPTED",
+        "evidence": [
+          {
+            "type": "MORPHOLOGY_PATH_VERBAL",
+            "source": "pipeline.p5_inflection",
+            "value": "IMPERFECT_PREFIX_NO_MORPH_PATH",
+            "confidence": "MEDIUM"
+          }
+        ],
         "trace": [
           {
-            "step": "defer",
-            "decision": "DEFERRED:NO_MORPHOLOGY_PATH",
+            "step": "step9b_imperfect_no_morph",
+            "decision": "FI3L:VERBAL_IMPERFECT",
             "evidence": [
-              "morphology_path=",
-              "p5_verdict=OPEN"
+              "normalized_surface=ءَللْلَهَ",
+              "hollow_or_geminate_imperfect"
             ]
           }
         ],
-        "inflection_skipped_reason": "WORD_CLASS_DEFERRED"
+        "inflection_skipped_reason": null
       },
       "root_analysis": {
         "root_state": "UNKNOWN",
@@ -78704,12 +78859,12 @@
         "masdar_state": "UNKNOWN"
       },
       "morphosyntax": {
-        "number": null,
-        "gender": null,
-        "person": null,
-        "tense_aspect": null,
-        "mood": null,
-        "voice": null,
+        "number": "SG",
+        "gender": "M",
+        "person": "1",
+        "tense_aspect": "IMPERFECT",
+        "mood": "SUBJUNCTIVE",
+        "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
       "typed_slots": [
@@ -78833,10 +78988,18 @@
           "slot_id": "WORD_CLASS_SLOT",
           "layer": "WORD_CLASS",
           "layer_sort": 60,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "FI3L",
           "candidate_set": null,
-          "evidence": [],
+          "evidence": [
+            {
+              "evidence_id": "wc:FI3L",
+              "kind": "MORPHOLOGICAL",
+              "source": "hokom_pipeline",
+              "payload": null,
+              "is_negative": false
+            }
+          ],
           "provenance": null,
           "residual": null,
           "owner": "HOKOM"
@@ -78941,8 +79104,8 @@
           "slot_id": "NUMBER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "SG",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -78953,8 +79116,8 @@
           "slot_id": "GENDER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "M",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -78998,8 +79161,8 @@
           "owner": "HOKOM"
         }
       ],
-      "claim_key": "15d782894820be29d969f05a824f491f3e297c6b697b0a7a07ffa38503a28a11",
-      "evaluation_id": "fd371b131dfdc413",
+      "claim_key": "1f76569f50be44911654f1a32f2d7222ae68970188fa7da365698433c827c7f5",
+      "evaluation_id": "44ac4ec2bc7bf64e",
       "composite_verdict": {
         "by_layer": [
           {
@@ -79071,12 +79234,12 @@
             "slots": [
               "WORD_CLASS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 1,
+            "FILLED": 1,
+            "UNKNOWN": 0,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "LICENSED"
           },
           {
             "layer": "RADICAL",
@@ -79148,12 +79311,12 @@
               "GENDER_SLOT",
               "DEFINITENESS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 3,
+            "FILLED": 2,
+            "UNKNOWN": 1,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "PARTIAL"
           },
           {
             "layer": "PARADIGM",
@@ -79173,10 +79336,12 @@
           "ORIGINAL_SURFACE",
           "NORMALIZED_SURFACE",
           "SEGMENT_HOST",
-          "PATH_DIRECTIVE_SLOT"
+          "PATH_DIRECTIVE_SLOT",
+          "WORD_CLASS_SLOT",
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
         ],
         "deferred_claims": [
-          "WORD_CLASS_SLOT",
           "RADICAL_R1",
           "RADICAL_R2",
           "RADICAL_R3",
@@ -79185,8 +79350,6 @@
           "BAB_CANDIDATE_SET",
           "MASDAR_CANDIDATE_SET",
           "DERIVATIVE_CANDIDATE_SET",
-          "NUMBER_SLOT",
-          "GENDER_SLOT",
           "DEFINITENESS_SLOT",
           "LEMMA_SLOT",
           "PARADIGM_SLOT"
@@ -79194,13 +79357,11 @@
         "blocked_claims": [],
         "ambiguous_claims": [],
         "not_opened_layers": [
-          "WORD_CLASS",
           "RADICAL",
           "PATTERN",
           "BAB",
           "MASDAR",
           "DERIVATIVE",
-          "MORPHOSYNTAX",
           "PARADIGM"
         ],
         "active_residuals": [],
@@ -79208,15 +79369,18 @@
         "overall_verdict": "COMPOSITE"
       },
       "h11_h15": {
-        "reached": false,
-        "filled_slots": [],
-        "skipped_reason": "WORD_CLASS_DEFERRED"
+        "reached": true,
+        "filled_slots": [
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
+        ],
+        "skipped_reason": null
       },
       "taaqol": {
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -79289,7 +79453,7 @@
       },
       "word_class": {
         "class": "FI3L",
-        "subclass": "VERBAL_PAST",
+        "subclass": "VERBAL_IMPERFECT",
         "verdict": "WORD_CLASS_ACCEPTED",
         "evidence": [
           {
@@ -79347,8 +79511,8 @@
         "number": "SG",
         "gender": "M",
         "person": "3",
-        "tense_aspect": "PAST",
-        "mood": "NOT_APPLICABLE",
+        "tense_aspect": "IMPERFECT",
+        "mood": "INDICATIVE",
         "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
@@ -79902,7 +80066,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -79972,21 +80136,28 @@
         "clitic_only": false
       },
       "word_class": {
-        "class": null,
-        "subclass": null,
-        "verdict": "WORD_CLASS_DEFERRED",
-        "evidence": [],
+        "class": "FI3L",
+        "subclass": "VERBAL_IMPERFECT",
+        "verdict": "WORD_CLASS_ACCEPTED",
+        "evidence": [
+          {
+            "type": "MORPHOLOGY_PATH_VERBAL",
+            "source": "pipeline.p5_inflection",
+            "value": "IMPERFECT_PREFIX_NO_MORPH_PATH",
+            "confidence": "MEDIUM"
+          }
+        ],
         "trace": [
           {
-            "step": "defer",
-            "decision": "DEFERRED:NO_MORPHOLOGY_PATH",
+            "step": "step9b_imperfect_no_morph",
+            "decision": "FI3L:VERBAL_IMPERFECT",
             "evidence": [
-              "morphology_path=",
-              "p5_verdict=OPEN"
+              "normalized_surface=ءَللْلَهُ",
+              "hollow_or_geminate_imperfect"
             ]
           }
         ],
-        "inflection_skipped_reason": "WORD_CLASS_DEFERRED"
+        "inflection_skipped_reason": null
       },
       "root_analysis": {
         "root_state": "UNKNOWN",
@@ -80009,12 +80180,12 @@
         "masdar_state": "UNKNOWN"
       },
       "morphosyntax": {
-        "number": null,
-        "gender": null,
-        "person": null,
-        "tense_aspect": null,
-        "mood": null,
-        "voice": null,
+        "number": "SG",
+        "gender": "M",
+        "person": "1",
+        "tense_aspect": "IMPERFECT",
+        "mood": "SUBJUNCTIVE",
+        "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
       "typed_slots": [
@@ -80138,10 +80309,18 @@
           "slot_id": "WORD_CLASS_SLOT",
           "layer": "WORD_CLASS",
           "layer_sort": 60,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "FI3L",
           "candidate_set": null,
-          "evidence": [],
+          "evidence": [
+            {
+              "evidence_id": "wc:FI3L",
+              "kind": "MORPHOLOGICAL",
+              "source": "hokom_pipeline",
+              "payload": null,
+              "is_negative": false
+            }
+          ],
           "provenance": null,
           "residual": null,
           "owner": "HOKOM"
@@ -80246,8 +80425,8 @@
           "slot_id": "NUMBER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "SG",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -80258,8 +80437,8 @@
           "slot_id": "GENDER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "M",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -80303,8 +80482,8 @@
           "owner": "HOKOM"
         }
       ],
-      "claim_key": "4370643324d4a3626276ca753f8d3c26f509f7e4de2a1eccb153bc1885eb203a",
-      "evaluation_id": "9563c0d3e73cb8bc",
+      "claim_key": "199384eb4ad431ed2eb2e2fa263bc0a6286fc33447131302ea892bcf17157488",
+      "evaluation_id": "3706756f4b761344",
       "composite_verdict": {
         "by_layer": [
           {
@@ -80376,12 +80555,12 @@
             "slots": [
               "WORD_CLASS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 1,
+            "FILLED": 1,
+            "UNKNOWN": 0,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "LICENSED"
           },
           {
             "layer": "RADICAL",
@@ -80453,12 +80632,12 @@
               "GENDER_SLOT",
               "DEFINITENESS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 3,
+            "FILLED": 2,
+            "UNKNOWN": 1,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "PARTIAL"
           },
           {
             "layer": "PARADIGM",
@@ -80478,10 +80657,12 @@
           "ORIGINAL_SURFACE",
           "NORMALIZED_SURFACE",
           "SEGMENT_HOST",
-          "PATH_DIRECTIVE_SLOT"
+          "PATH_DIRECTIVE_SLOT",
+          "WORD_CLASS_SLOT",
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
         ],
         "deferred_claims": [
-          "WORD_CLASS_SLOT",
           "RADICAL_R1",
           "RADICAL_R2",
           "RADICAL_R3",
@@ -80490,8 +80671,6 @@
           "BAB_CANDIDATE_SET",
           "MASDAR_CANDIDATE_SET",
           "DERIVATIVE_CANDIDATE_SET",
-          "NUMBER_SLOT",
-          "GENDER_SLOT",
           "DEFINITENESS_SLOT",
           "LEMMA_SLOT",
           "PARADIGM_SLOT"
@@ -80499,13 +80678,11 @@
         "blocked_claims": [],
         "ambiguous_claims": [],
         "not_opened_layers": [
-          "WORD_CLASS",
           "RADICAL",
           "PATTERN",
           "BAB",
           "MASDAR",
           "DERIVATIVE",
-          "MORPHOSYNTAX",
           "PARADIGM"
         ],
         "active_residuals": [],
@@ -80513,15 +80690,18 @@
         "overall_verdict": "COMPOSITE"
       },
       "h11_h15": {
-        "reached": false,
-        "filled_slots": [],
-        "skipped_reason": "WORD_CLASS_DEFERRED"
+        "reached": true,
+        "filled_slots": [
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
+        ],
+        "skipped_reason": null
       },
       "taaqol": {
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -80591,21 +80771,28 @@
         "clitic_only": false
       },
       "word_class": {
-        "class": null,
-        "subclass": null,
-        "verdict": "WORD_CLASS_DEFERRED",
-        "evidence": [],
+        "class": "FI3L",
+        "subclass": "VERBAL_IMPERFECT",
+        "verdict": "WORD_CLASS_ACCEPTED",
+        "evidence": [
+          {
+            "type": "MORPHOLOGY_PATH_VERBAL",
+            "source": "pipeline.p5_inflection",
+            "value": "IMPERFECT_PREFIX_NO_MORPH_PATH",
+            "confidence": "MEDIUM"
+          }
+        ],
         "trace": [
           {
-            "step": "defer",
-            "decision": "DEFERRED:NO_MORPHOLOGY_PATH",
+            "step": "step9b_imperfect_no_morph",
+            "decision": "FI3L:VERBAL_IMPERFECT",
             "evidence": [
-              "morphology_path=",
-              "p5_verdict=OPEN"
+              "normalized_surface=ءَللْلَهُ",
+              "hollow_or_geminate_imperfect"
             ]
           }
         ],
-        "inflection_skipped_reason": "WORD_CLASS_DEFERRED"
+        "inflection_skipped_reason": null
       },
       "root_analysis": {
         "root_state": "UNKNOWN",
@@ -80628,12 +80815,12 @@
         "masdar_state": "UNKNOWN"
       },
       "morphosyntax": {
-        "number": null,
-        "gender": null,
-        "person": null,
-        "tense_aspect": null,
-        "mood": null,
-        "voice": null,
+        "number": "SG",
+        "gender": "M",
+        "person": "3",
+        "tense_aspect": "IMPERFECT",
+        "mood": "NOT_APPLICABLE",
+        "voice": "ACTIVE",
         "source": "hokom_pipeline:direct"
       },
       "typed_slots": [
@@ -80759,10 +80946,18 @@
           "slot_id": "WORD_CLASS_SLOT",
           "layer": "WORD_CLASS",
           "layer_sort": 60,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "FI3L",
           "candidate_set": null,
-          "evidence": [],
+          "evidence": [
+            {
+              "evidence_id": "wc:FI3L",
+              "kind": "MORPHOLOGICAL",
+              "source": "hokom_pipeline",
+              "payload": null,
+              "is_negative": false
+            }
+          ],
           "provenance": null,
           "residual": null,
           "owner": "HOKOM"
@@ -80867,8 +81062,8 @@
           "slot_id": "NUMBER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "SG",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -80879,8 +81074,8 @@
           "slot_id": "GENDER_SLOT",
           "layer": "MORPHOSYNTAX",
           "layer_sort": 130,
-          "state": "UNKNOWN",
-          "value": null,
+          "state": "FILLED",
+          "value": "M",
           "candidate_set": null,
           "evidence": [],
           "provenance": null,
@@ -80924,8 +81119,8 @@
           "owner": "HOKOM"
         }
       ],
-      "claim_key": "2b79ca6976725bc87c476c3c128afccbad952652972ba345e4cb8227a6c51ed2",
-      "evaluation_id": "bc7ac08bb8aa39fa",
+      "claim_key": "bd293d079fa95b24872de89d3b294b300792b9cb2704a323216641033a8925f5",
+      "evaluation_id": "063e0adb4790c476",
       "composite_verdict": {
         "by_layer": [
           {
@@ -80997,12 +81192,12 @@
             "slots": [
               "WORD_CLASS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 1,
+            "FILLED": 1,
+            "UNKNOWN": 0,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "LICENSED"
           },
           {
             "layer": "RADICAL",
@@ -81074,12 +81269,12 @@
               "GENDER_SLOT",
               "DEFINITENESS_SLOT"
             ],
-            "FILLED": 0,
-            "UNKNOWN": 3,
+            "FILLED": 2,
+            "UNKNOWN": 1,
             "NOT_APPLICABLE": 0,
             "AMBIGUOUS": 0,
             "BLOCKED": 0,
-            "layer_verdict": "NOT_OPENED"
+            "layer_verdict": "PARTIAL"
           },
           {
             "layer": "PARADIGM",
@@ -81100,10 +81295,12 @@
           "NORMALIZED_SURFACE",
           "PROCLITIC_SLOTS",
           "SEGMENT_HOST",
-          "PATH_DIRECTIVE_SLOT"
+          "PATH_DIRECTIVE_SLOT",
+          "WORD_CLASS_SLOT",
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
         ],
         "deferred_claims": [
-          "WORD_CLASS_SLOT",
           "RADICAL_R1",
           "RADICAL_R2",
           "RADICAL_R3",
@@ -81112,8 +81309,6 @@
           "BAB_CANDIDATE_SET",
           "MASDAR_CANDIDATE_SET",
           "DERIVATIVE_CANDIDATE_SET",
-          "NUMBER_SLOT",
-          "GENDER_SLOT",
           "DEFINITENESS_SLOT",
           "LEMMA_SLOT",
           "PARADIGM_SLOT"
@@ -81121,13 +81316,11 @@
         "blocked_claims": [],
         "ambiguous_claims": [],
         "not_opened_layers": [
-          "WORD_CLASS",
           "RADICAL",
           "PATTERN",
           "BAB",
           "MASDAR",
           "DERIVATIVE",
-          "MORPHOSYNTAX",
           "PARADIGM"
         ],
         "active_residuals": [],
@@ -81135,15 +81328,18 @@
         "overall_verdict": "COMPOSITE"
       },
       "h11_h15": {
-        "reached": false,
-        "filled_slots": [],
-        "skipped_reason": "WORD_CLASS_DEFERRED"
+        "reached": true,
+        "filled_slots": [
+          "NUMBER_SLOT",
+          "GENDER_SLOT"
+        ],
+        "skipped_reason": null
       },
       "taaqol": {
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -81795,7 +81991,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -82463,7 +82659,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",
@@ -83106,7 +83302,7 @@
         "available": false,
         "bridge_id": "HOKOM_TAAQOL_LIVE_BRIDGE",
         "taaqol_commit": "353817394100",
-        "hokom_commit": "1ff983e97768",
+        "hokom_commit": "a6a8ee29cef9",
         "strict_mode": true,
         "upstream_verdict": "ACCEPT",
         "taaqol_verdict": "DEFERRED",

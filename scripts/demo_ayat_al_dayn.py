@@ -602,11 +602,32 @@ def process_token_full(idx: int, surface: str) -> dict:
 
 # ── run all tokens ────────────────────────────────────────────────────────────
 def run_all(verbose: bool = True) -> list[dict]:
+    """
+    Run all tokens through the pipeline with sequential governing-particle context.
+
+    The SequentialAnalysisContext carrier (pipeline/p5_inflection/context_carrier.py)
+    propagates mood from governing particles (وَلَا, أَنْ, أَلَّا, وَإِنْ, …) to the
+    immediately following imperfect verb.  This is the ONLY inter-token state;
+    all other analysis is stateless per token.
+
+    Context injection rule:
+      - After processing token N, update the carrier from token N's surface.
+      - Before recording token N+1's result, consume any pending mood and inject
+        it into the morphosyntax dict if token N+1 is an imperfect verb.
+    """
+    from pipeline.p5_inflection.context_carrier import SequentialAnalysisContext
+    ctx = SequentialAnalysisContext()
+
     if verbose:
         print(f'Processing {len(TOKENS)} tokens…', file=sys.stderr)
     results = []
     for i, tok in enumerate(TOKENS):
         r = process_token_full(i + 1, tok)
+        # Inject governing-particle mood into the current token's morphosyntax
+        # (uses the mood set by the PREVIOUS token's update_from_token call).
+        ctx.inject_mood_into_result(r, tok)
+        # Record whether THIS token is a governing particle for the NEXT iteration.
+        ctx.update_from_token(tok)
         if verbose and (i + 1) % 20 == 0:
             print(f'  {i + 1}/{len(TOKENS)}', file=sys.stderr)
         results.append(r)

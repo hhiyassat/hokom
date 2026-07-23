@@ -98,6 +98,8 @@ _JUSSIVE_PARTICLE_FORMS: frozenset = frozenset({
     'وَلَا',  # wa-laa naahiya (compound prohibitive)
     'فَلَا',  # fa-laa naahiya (compound prohibitive)
     'لَا تَ', # laa + verb (alternative split)
+    'وَإِنْ', # wa-in (compound conditional, jussive)
+    'فَإِنْ', # fa-in (compound conditional, jussive)
 })
 
 # Particles that govern the SUBJUNCTIVE
@@ -189,6 +191,19 @@ def _has_imperfect_prefix(s: str) -> Optional[str]:
             if c2_char in (WAW, YAA, ALIF):
                 return first_char
 
+    # ── Normalized expanded geminate: scan for C+SUKUUN + same-C ────────────
+    # The normalizer expands SHADDA to C+SUKUUN+C (e.g. تَضِلَّ→تَضِلْلَ).
+    # After that expansion, pairs[k]=C[SUKUUN] followed by pairs[k+1]=same-C
+    # is the fingerprint of a geminated-root imperfect.
+    # This check runs AFTER the SHADDA check (SHADDA in pairs[2]) so that
+    # original (non-normalized) forms are already caught above.
+    if (has_fatha or has_damma) and len(pairs) >= 4:
+        for k in range(1, len(pairs) - 1):
+            c_k, d_k = pairs[k]
+            c_k1, _  = pairs[k + 1]
+            if c_k == c_k1 and SUKUUN in d_k and c_k not in DIACRITICS:
+                return first_char
+
     # ── Extended: augmented forms (Form V-X) with 5+ bare chars ─────────────
     if has_fatha and len(pairs) >= 4:
         bare = strip_diacritics(s)
@@ -268,9 +283,13 @@ def identify_tense(surface: str) -> Optional[str]:
         if len(pairs) >= 3:
             second_char, second_diacs = pairs[1]
             # Classic imperative: hamzat al-wasl + C+sukuun (اِكْتُبْ, اُكْتُبُوا)
-            # Guard: exclude definite article لْ (الْحَقُّ, الْأُخْرَى)
+            # Guard 1: exclude definite article لْ (الْحَقُّ, الْأُخْرَى)
+            # Guard 2: exclude dual nouns ending in ان (امرأتانِ, رجلانِ …).
+            #   The dual nominative marker -ān cannot end a verb imperative.
             if SUKUUN in second_diacs and second_char != 'ل':
-                return 'IMPERATIVE'
+                _bare_chk = strip_diacritics(stripped)
+                if not (_bare_chk.endswith('ان') and len(_bare_chk) > 4):
+                    return 'IMPERATIVE'
             # Form VIII assimilation: اتَّقُوا — SHADDA on C1 (assimilation ت+ت→تّ)
             # + DAMMA on C2 (thematic vowel of the stem)
             if SHADDA in second_diacs and len(pairs) >= 4:
@@ -400,10 +419,37 @@ def extract_imperfect_features(surface: str) -> dict:
         gender_from_prefix = 'M'
         number_from_prefix = 'SG'
 
-    # ── Voice detection (passive imperfect: يُفْعَلُ — prefix has damma) ──────
+    # ── Voice detection ───────────────────────────────────────────────────────
+    # Basic rule: DAMMA on imperfect prefix → PASSIVE (يُفْعَلُ).
+    # Override for augmented forms (Form II, V, etc.): these also carry DAMMA
+    # on the prefix in ACTIVE voice (يُفَعِّلُ, يُتَفَعَّلُ …).  Detect the
+    # doubled-consonant that marks Form II/V:
+    #   Original form (SHADDA): C + [KASRA + SHADDA] → ACTIVE
+    #                           C + [FATHA + SHADDA] → PASSIVE
+    #   Normalizer-expanded:    C[SUKUUN] + same-C[KASRA] → ACTIVE
+    #                           C[SUKUUN] + same-C[FATHA] → PASSIVE
     voice = 'ACTIVE'
     if pairs and DAMMA in pairs[0][1]:
-        voice = 'PASSIVE'
+        voice = 'PASSIVE'   # default when prefix has damma
+        # Scan for doubled-consonant to override for FORM_II/V active
+        for k in range(1, len(pairs)):
+            c_k, d_k = pairs[k]
+            if SHADDA in d_k:
+                # Original SHADDA form: vowel on same cell as SHADDA
+                if KASRA in d_k:
+                    voice = 'ACTIVE'
+                elif FATHA in d_k:
+                    voice = 'PASSIVE'
+                break
+            if SUKUUN in d_k and k + 1 < len(pairs):
+                c_k1, d_k1 = pairs[k + 1]
+                if c_k == c_k1 and c_k not in DIACRITICS:
+                    # Normalizer-expanded geminate: vowel on second occurrence
+                    if KASRA in d_k1:
+                        voice = 'ACTIVE'
+                    elif FATHA in d_k1:
+                        voice = 'PASSIVE'
+                    break
 
     # ── Suffix → number/gender/mood ───────────────────────────────────────────
     # Indicative suffixes with ن
@@ -448,6 +494,16 @@ def extract_imperfect_features(surface: str) -> dict:
     # Subjunctive/Jussive suffixes (long vowel dropped)
     if bare.endswith('وا') and not bare.endswith('هوا'):
         # يَفْعُلُوا → 3M_PL or 2M_PL subjunctive/jussive
+        person = person_from_prefix
+        if first_char == TA:
+            person = '2'
+        mood = _detect_mood_from_stem_ending(surface, bare)
+        return {'person': person, 'number': 'PL', 'gender': 'M', 'mood': mood, 'voice': voice}
+
+    if bare.endswith('و') and len(bare) >= 5 and not bare.endswith('هو'):
+        # Plural waw with alif dropped before an object-pronoun enclitic:
+        # يَكْتُبُوهُ → host=يَكْتُبُو (bare='يكتبو').
+        # Guard len>=5 to exclude 4-char hollow imperfect SG (يَدعُو, bare='يدعو').
         person = person_from_prefix
         if first_char == TA:
             person = '2'
@@ -557,16 +613,23 @@ def extract_imperative_features(surface: str) -> dict:
     """Extract features from an imperative verb surface."""
     bare = _bare(surface)
 
-    # Imperative default: 2nd person
+    # Imperative default: 2nd person.
+    # mood=NOT_APPLICABLE: the imperative is a mood in itself; there is no
+    # indicative/subjunctive/jussive distinction on the mood axis for imperatives.
     features = {
         'person': '2',
         'number': 'SG',
         'gender': 'M',
-        'mood': 'IMPERATIVE',
+        'mood': 'NOT_APPLICABLE',
         'voice': 'ACTIVE',
     }
 
     if bare.endswith('وا'):
+        features['number'] = 'PL'
+    elif bare.endswith('و') and len(bare) >= 5:
+        # Plural waw with alif dropped before an object-pronoun enclitic:
+        # اكْتُبُوهُ → host=اكْتُبُو (bare='اكتبو').
+        # Guard len>=5 to exclude short forms.
         features['number'] = 'PL'
     elif bare.endswith('ي'):
         features['gender'] = 'F'
@@ -628,6 +691,17 @@ def extract_all_features(surface: str) -> dict:
     if tense == 'IMPERFECT':
         # Use the bare-verb surface (after stripping conjunction) for feature extraction
         feats = extract_imperfect_features(stripped_conj)
+        # Post-check: recover plural number when واو الجماعة is followed by an
+        # object-pronoun enclitic (e.g. تَكْتُبُوهَا, تَكْتُبُوهُ).
+        # extract_imperfect_features may return SG when bare ends in 'و' + pronoun.
+        if feats.get('number') == 'SG':
+            _imp_bare = strip_diacritics(stripped_conj)
+            for _pron in sorted(_ATTACHED_PRONOUN_BARE, key=len, reverse=True):
+                _trigger = 'و' + _pron
+                if _imp_bare.endswith(_trigger) and len(_imp_bare) > len(_trigger) + 2:
+                    feats = dict(feats)
+                    feats['number'] = 'PL'
+                    break
         mood = feats.get('mood', 'INDICATIVE')
         # Lam al-amr overrides mood to JUSSIVE regardless of suffix pattern
         if has_lam_amr:
@@ -642,9 +716,24 @@ def extract_all_features(surface: str) -> dict:
         }
     elif tense == 'IMPERATIVE':
         feats = extract_imperative_features(stripped_conj)
+        # Post-check: recover plural number when واو الجماعة is followed by an
+        # object-pronoun enclitic in the FULL surface (e.g. اكْتُبُوهُ → 'اكتبوه').
+        # extract_imperative_features only sees the bare without diacritics; the
+        # 'وا' → 'و' contraction before pronouns hides the plural marker.
+        # Check: bare of stripped_conj ends in 'و' + known pronoun bare.
+        _imp_bare = strip_diacritics(stripped_conj)
+        if feats.get('number') == 'SG':
+            for _pron in sorted(_ATTACHED_PRONOUN_BARE, key=len, reverse=True):
+                _trigger = 'و' + _pron
+                if _imp_bare.endswith(_trigger) and len(_imp_bare) > len(_trigger) + 2:
+                    feats = dict(feats)
+                    feats['number'] = 'PL'
+                    break
         return {
             'tense_aspect': 'IMPERATIVE',
-            'mood': 'IMPERATIVE',
+            # mood=NOT_APPLICABLE: the imperative is inherently a mood category;
+            # indicative/subjunctive/jussive distinctions do not apply.
+            'mood': 'NOT_APPLICABLE',
             'voice': 'ACTIVE',
             'person': feats.get('person'),
             'number': feats.get('number'),
