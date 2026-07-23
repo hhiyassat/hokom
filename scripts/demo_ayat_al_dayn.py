@@ -2,31 +2,33 @@
 # -*- coding: utf-8 -*-
 """
 scripts/demo_ayat_al_dayn.py
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-HOKOM-TAAQOL-AYAT-AL-DAYN-LIVE-DEMO-01
+HOKOM-TAAQOL-AYAT-AL-DAYN-LIVE-DEMO-01  (v2 — full slot detail)
 
 Live operational demo: Hokom–Taaqol pipeline over Ayat al-Dayn
-(Sūrat al-Baqara 2:282).
+(Sūrat al-Baqara 2:282), 129 tokens.
 
-All 129 tokens are processed through the real pipeline with no hints,
-seeds, injected results, or mock substitutions.  Taaqol is invoked
-live; if its runtime is unavailable the verdict is truthfully reported
-as TAAQOL_RUNTIME_UNAVAILABLE — not hidden.
+Rules:
+  - No hints, seeds, injected results, or mock substitutions.
+  - No invented values.  If a slot has no value, its real state and
+    reason are reported.
+  - composite_verdict is per-layer, never a single overall string.
+  - LICENSED only appears when a specific claim is named.
 
 Usage
 -----
-    python scripts/demo_ayat_al_dayn.py                    # terminal table (default)
+    python scripts/demo_ayat_al_dayn.py                     # terminal
     python scripts/demo_ayat_al_dayn.py --format terminal
     python scripts/demo_ayat_al_dayn.py --format json
     python scripts/demo_ayat_al_dayn.py --format csv
     python scripts/demo_ayat_al_dayn.py --format html
-    python scripts/demo_ayat_al_dayn.py --open             # write all formats + open HTML
+    python scripts/demo_ayat_al_dayn.py --open
 """
 from __future__ import annotations
 
 import argparse
-import csv
+import csv as csv_mod
 import hashlib
 import io
 import json
@@ -35,16 +37,15 @@ import platform
 import subprocess
 import sys
 import unicodedata
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
-# ── repo root on path ─────────────────────────────────────────────────────────
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
-# ── canonical text (sourced from tests/post_segmentation_routing/test_ayat_al_dayn_routing.py)
+# ── canonical text ────────────────────────────────────────────────────────────
 AYAT_AL_DAYN = (
     'يَا أَيُّهَا الَّذِينَ آمَنُوا إِذَا تَدَايَنْتُمْ بِدَيْنٍ إِلَى أَجَلٍ مُسَمًّى '
     'فَاكْتُبُوهُ وَلْيَكْتُبْ بَيْنَكُمْ كَاتِبٌ بِالْعَدْلِ وَلَا يَأْبَ كَاتِبٌ '
@@ -67,74 +68,35 @@ AYAT_SOURCE_FILE = 'tests/post_segmentation_routing/test_ayat_al_dayn_routing.py
 TOKENS = AYAT_AL_DAYN.split()
 assert len(TOKENS) == 129, f'Expected 129 tokens, got {len(TOKENS)}'
 
-# ── H11-H15 slot names (morpho-syntactic / derivative layer) ─────────────────
-_H11_H15_SLOT_NAMES: frozenset[str] = frozenset({
-    "BAB_CANDIDATE_SET",
-    "MASDAR_CANDIDATE_SET",
-    "DERIVATIVE_CANDIDATE_SET",
-    "NUMBER_SLOT",
-    "GENDER_SLOT",
-    "DEFINITENESS_SLOT",
-    "NISBA_SLOT",
-    "COLLECTIVE_SLOT",
-    "UNIT_NOUN_SLOT",
-    "LEMMA_SLOT",
-    "PARADIGM_SLOT",
-    "INFLECTIONAL_FAMILY_SLOT",
-    "DERIVATIONAL_FAMILY_SLOT",
-})
+# Layer names from SlotSort
+_LAYER_NAME: dict[int, str] = {
+    0:   'SURFACE_IDENTITY',
+    10:  'NORMALIZATION',
+    20:  'PHONOLOGICAL',
+    30:  'SEGMENTATION',
+    35:  'ARTICLE',
+    40:  'BOUNDARY',
+    50:  'LEXICAL_FUNCTIONAL',
+    60:  'WORD_CLASS',
+    70:  'INFLECTIONAL',
+    80:  'RADICAL',
+    90:  'PATTERN',
+    100: 'BAB',
+    110: 'MASDAR',
+    120: 'DERIVATIVE',
+    130: 'MORPHOSYNTAX',
+    140: 'PARADIGM',
+    900: 'EVIDENCE',
+    910: 'RESIDUAL',
+}
 
 
-# ── result dataclass ──────────────────────────────────────────────────────────
-@dataclass
-class TokenResult:
-    token_index: int
-    original_surface: str
-    normalized_surface: Optional[str] = None
-    proclitics: list = field(default_factory=list)
-    host_surface: Optional[str] = None
-    enclitics: list = field(default_factory=list)
-    word_class: Optional[str] = None
-    word_class_verdict: Optional[str] = None
-    # root
-    root_state: Optional[str] = None          # ACCEPT / DEFER / AMBIGUOUS / UNKNOWN
-    canonical_root: Optional[str] = None
-    root_candidates: list = field(default_factory=list)
-    # wazn / masdar / derivatives
-    wazn: Optional[str] = None
-    masdar: Optional[str] = None
-    derivative_type: Optional[str] = None
-    # H11-H15
-    h11_h15_reached: bool = False
-    h11_h15_filled_slots: list = field(default_factory=list)
-    # Taaqol
-    taaqol_active: bool = False
-    taaqol_verdict: Optional[str] = None
-    taaqol_effective_verdict: Optional[str] = None
-    taaqol_failure_code: Optional[str] = None
-    # SGA bundle
-    claim_key: Optional[str] = None       # content hash (may collide for identical words)
-    evaluation_id: Optional[str] = None   # unique per token: hash(claim_key + token_index)
-    typed_slot_count: int = 0
-    filled_slot_count: int = 0
-    unknown_slot_count: int = 0
-    # provenance / early-stop
-    cause: Optional[str] = None
-    condition: Optional[str] = None
-    obstacle: Optional[str] = None
-    residual_or_defer_reason: Optional[str] = None
-    early_stop_reason: Optional[str] = None
-    evidence_provenance: Optional[str] = None
-    # error
-    error: Optional[str] = None
-
-
-# ── git / env helpers ─────────────────────────────────────────────────────────
+# ── git / env ─────────────────────────────────────────────────────────────────
 def _git(cmd: list[str]) -> str:
     try:
         return subprocess.check_output(cmd, cwd=REPO_ROOT, stderr=subprocess.DEVNULL).decode().strip()
     except Exception:
-        return "UNKNOWN"
+        return 'UNKNOWN'
 
 
 def _vendor_sha() -> str:
@@ -146,421 +108,764 @@ def _vendor_sha() -> str:
             ).decode().strip()[:16]
         except Exception:
             pass
-    # Fall back to pinned SHA
     pinned = REPO_ROOT / 'tests' / 'fixtures' / 'vendor_sha_pin.txt'
     if pinned.exists():
         return pinned.read_text().strip()[:16]
-    return "UNKNOWN"
+    return 'UNKNOWN'
 
 
-# ── pipeline runner ───────────────────────────────────────────────────────────
-def _extract_root_string(rc) -> str | None:
-    if rc is None:
-        return None
-    canon = getattr(rc, 'canonical_root', None)
-    if canon and isinstance(canon, (tuple, list)):
-        return ''.join(canon)
-    if canon and isinstance(canon, str):
-        return canon
-    return None
+# ── slot serializer ───────────────────────────────────────────────────────────
+def _serialize_slot(s) -> dict:
+    """
+    Serialise a TypedSlot to a dict with all fields.
+    Never invents a value — if a field is None/empty the key is still present.
+    """
+    import dataclasses
 
+    layer_sort = getattr(s.sort, 'value', int(s.sort)) if s.sort is not None else None
+    layer_name = _LAYER_NAME.get(layer_sort, str(layer_sort))
 
-def _build_bundle_dict(hr: dict) -> dict:
-    """Same distillation as live_runner._build_bundle_dict()."""
-    rc = hr.get("root_candidate")
-    root_str = _extract_root_string(rc)
+    # evidence refs
+    evs = []
+    for e in (s.evidence or ()):
+        evs.append({
+            'evidence_id':  getattr(e, 'evidence_id', None),
+            'kind':         getattr(e, 'kind', None),
+            'source':       getattr(e, 'source', None),
+            'payload':      getattr(e, 'payload', None),
+            'is_negative':  getattr(e, 'is_negative', None),
+        })
 
-    procs = list(hr.get("segment_proclitics") or hr.get("proclitics") or [])
-    encs  = list(hr.get("segment_enclitics") or hr.get("enclitics") or [])
+    # provenance
+    prov = None
+    if s.provenance is not None:
+        prov = {
+            'original_surface':  getattr(s.provenance, 'original_surface', None),
+            'normalized_surface': getattr(s.provenance, 'normalized_surface', None),
+            'operations':        list(getattr(s.provenance, 'operations', ())),
+        }
 
-    d: dict = {
-        "word":         hr.get("input_surface", ""),
-        "segment_host": hr.get("segment_host") or hr.get("morphology_surface") or hr.get("input_surface", ""),
-        "word_class":   hr.get("word_class"),
-        "wazn":         hr.get("final_wazn"),
-        "number":       hr.get("number"),
-        "gender":       hr.get("gender"),
-        "lemma":        hr.get("lemma_surface"),
+    # candidate_set
+    cset = None
+    if s.candidate_set is not None:
+        cset_obj = s.candidate_set
+        entries = []
+        for ce in getattr(cset_obj, 'candidates', ()):
+            entries.append({
+                'value':    getattr(ce, 'value', str(ce)),
+                'score':    getattr(ce, 'score', None),
+                'evidence': getattr(ce, 'evidence', None),
+            })
+        cset = {
+            'candidates':        entries,
+            'selected':          getattr(cset_obj, 'selected', None),
+            'selection_evidence': getattr(cset_obj, 'selection_evidence', None),
+        }
+
+    # residual
+    res = None
+    if s.residual is not None:
+        r = s.residual
+        res = {
+            'residual_id':          getattr(r, 'residual_id', None),
+            'code':                 getattr(r, 'code', None),
+            'kind':                 getattr(r, 'kind', None),
+            'source_slot':          getattr(r.source_slot, 'value', None) if getattr(r, 'source_slot', None) else None,
+            'reason':               getattr(r, 'reason', None),
+            'visibility':           getattr(r, 'visibility', None),
+            'next_evidence_required': getattr(r, 'next_evidence_required', None),
+        }
+
+    return {
+        'slot_id':       s.slot_id.value,
+        'layer':         layer_name,
+        'layer_sort':    layer_sort,
+        'state':         s.state.value,
+        'value':         s.value,
+        'candidate_set': cset,
+        'evidence':      evs,
+        'provenance':    prov,
+        'residual':      res,
+        'owner':         getattr(s, 'owner', None),
     }
-    if root_str:
-        d["root_candidate"] = root_str
-
-    _cra = hr.get("cra_result")
-    if (_cra is not None
-            and getattr(_cra, 'directive', None) == 'DEFER'
-            and getattr(_cra, 'candidate_radical_sequences', None)
-            and len(_cra.candidate_radical_sequences) >= 2):
-        d["root_candidates"] = [list(seq) for seq in _cra.candidate_radical_sequences]
-
-    if procs:
-        d["proclitics"] = procs
-    if encs:
-        d["enclitics"] = encs
-    if hr.get("has_article") or hr.get("article"):
-        d["article"] = True
-    return d
 
 
-def process_token(idx: int, surface: str) -> TokenResult:
-    result = TokenResult(token_index=idx, original_surface=surface)
+# ── composite verdict builder ─────────────────────────────────────────────────
+_STATE_RANK = {'FILLED': 0, 'AMBIGUOUS': 1, 'NOT_APPLICABLE': 2, 'BLOCKED': 3, 'UNKNOWN': 4}
+
+
+def _build_composite_verdict(slots: list[dict], hr: dict) -> dict:
+    """
+    Per-layer summary of claim states.
+    Never emits a global 'LICENSED'; each layer has its own verdict.
+    LICENSED is only used when a specific filled claim is named.
+    """
+    from collections import defaultdict
+    by_layer: dict[str, dict] = {}
+    for s in slots:
+        layer = s['layer']
+        if layer not in by_layer:
+            by_layer[layer] = {
+                'layer':    layer,
+                'slots':    [],
+                'FILLED':   0,
+                'UNKNOWN':  0,
+                'NOT_APPLICABLE': 0,
+                'AMBIGUOUS': 0,
+                'BLOCKED':  0,
+            }
+        by_layer[layer]['slots'].append(s['slot_id'])
+        state = s['state']
+        if state in by_layer[layer]:
+            by_layer[layer][state] += 1
+
+    # Classify each layer
+    for ln, ld in by_layer.items():
+        total = sum(ld[k] for k in ('FILLED','UNKNOWN','NOT_APPLICABLE','AMBIGUOUS','BLOCKED'))
+        na    = ld['NOT_APPLICABLE']
+        filled = ld['FILLED']
+        unk   = ld['UNKNOWN']
+        amb   = ld['AMBIGUOUS']
+        blk   = ld['BLOCKED']
+
+        if total == na:
+            ld['layer_verdict'] = 'NOT_APPLICABLE'
+        elif blk > 0:
+            ld['layer_verdict'] = 'BLOCKED'
+        elif amb > 0:
+            ld['layer_verdict'] = 'AMBIGUOUS'
+        elif unk > 0 and filled == 0:
+            ld['layer_verdict'] = 'NOT_OPENED'
+        elif unk > 0 and filled > 0:
+            ld['layer_verdict'] = 'PARTIAL'
+        else:
+            ld['layer_verdict'] = 'LICENSED'
+
+    # Collect licensed / deferred / etc. claims
+    licensed_claims  = [s['slot_id'] for s in slots if s['state'] == 'FILLED']
+    deferred_claims  = [s['slot_id'] for s in slots if s['state'] == 'UNKNOWN']
+    blocked_claims   = [s['slot_id'] for s in slots if s['state'] == 'BLOCKED']
+    ambiguous_claims = [s['slot_id'] for s in slots if s['state'] == 'AMBIGUOUS']
+    not_opened_layers = [ln for ln, ld in by_layer.items() if ld['layer_verdict'] == 'NOT_OPENED']
+
+    # Active residuals from hr
+    active_residuals = list(hr.get('active_residuals') or ())
+
+    return {
+        'by_layer':          list(by_layer.values()),
+        'licensed_claims':   licensed_claims,
+        'deferred_claims':   deferred_claims,
+        'blocked_claims':    blocked_claims,
+        'ambiguous_claims':  ambiguous_claims,
+        'not_opened_layers': not_opened_layers,
+        'active_residuals':  active_residuals,
+        'has_unresolved_claims': bool(deferred_claims or blocked_claims or ambiguous_claims),
+        # Guard: overall LICENSED must never mask unresolved claims
+        'overall_verdict':   (
+            'FULLY_LICENSED'
+            if not deferred_claims and not blocked_claims and not ambiguous_claims
+            and all(s['state'] in ('FILLED','NOT_APPLICABLE') for s in slots)
+            else 'COMPOSITE'
+        ),
+    }
+
+
+# ── Taaqol claim decomposition ────────────────────────────────────────────────
+def _decompose_taaqol(hr: dict) -> dict:
+    td   = hr.get('taaqol_decision')
+    rt   = hr.get('taaqol_runtime') or {}
+
+    if td is None:
+        return {'available': False, 'reason': 'no_taaqol_decision_in_result'}
+
+    # Typed slots from Taaqol (None on sandbox)
+    t_slots = getattr(td, 'typed_slots', None)
+    t_slot_list = []
+    if t_slots:
+        for s in t_slots:
+            t_slot_list.append({
+                'slot_id':  s.slot_id.value if hasattr(s.slot_id, 'value') else str(s.slot_id),
+                'state':    s.state.value if hasattr(s.state, 'value') else str(s.state),
+                'value':    getattr(s, 'value', None),
+            })
+
+    # Trace events
+    trace_events = []
+    t_trace = getattr(td, 'taaqol_trace', None)
+    if t_trace:
+        for ev in t_trace:
+            trace_events.append({
+                'step':         getattr(ev, 'step', None),
+                'component':    getattr(ev, 'component', None),
+                'input_digest': getattr(ev, 'input_digest', None),
+                'output':       getattr(ev, 'output', None),
+                'strict_mode':  getattr(ev, 'strict_mode', None),
+                'gamma_state':  getattr(ev, 'gamma_state', None),
+                'gate_verdict': getattr(ev, 'gate_verdict', None),
+            })
+    else:
+        # Still emit the trace events from the bridge decision
+        t_trace_raw = getattr(td, 'trace', None)
+        if t_trace_raw:
+            for ev in t_trace_raw:
+                trace_events.append({
+                    'step':         getattr(ev, 'step', None),
+                    'component':    getattr(ev, 'component', None),
+                    'input_digest': getattr(ev, 'input_digest', ''),
+                    'output':       getattr(ev, 'output', None),
+                    'strict_mode':  getattr(ev, 'strict_mode', None),
+                    'gamma_state':  getattr(ev, 'gamma_state', None),
+                    'gate_verdict': getattr(ev, 'gate_verdict', None),
+                })
+
+    # Evidence contract
+    ec = getattr(td, 'evidence_contract', None)
+    ec_dict = None
+    if ec is not None:
+        ec_dict = str(ec)
+
+    return {
+        'available':                rt.get('active', False),
+        'bridge_id':                getattr(td, 'bridge_id', None),
+        'taaqol_commit':            getattr(td, 'taaqol_commit', None),
+        'hokom_commit':             getattr(td, 'hokom_commit', None),
+        'strict_mode':              getattr(td, 'strict_mode', None),
+        'upstream_verdict':         getattr(td, 'upstream_verdict', None),
+        'taaqol_verdict':           getattr(td, 'taaqol_verdict', None),
+        'effective_verdict':        getattr(td, 'effective_verdict', None),
+        'reason_codes':             list(getattr(td, 'reason_codes', ()) or ()),
+        'contradictions':           list(getattr(td, 'contradictions', ()) or ()),
+        'residuals':                list(getattr(td, 'residuals', ()) or ()),
+        'fail_closed':              getattr(td, 'fail_closed', None),
+        'slot_graph_digest':        getattr(td, 'slot_graph_digest', None),
+        'gamma_result':             getattr(td, 'gamma_result', None),
+        'transition_gate_result':   getattr(td, 'transition_gate_result', None),
+        'center_scope':             getattr(td, 'taaqol_center_scope', None),
+        # Runtime probes
+        'runtime': {
+            'kernel_loaded':     rt.get('kernel_loaded', False),
+            'slot_graph_created': rt.get('slot_graph_created', False),
+            'gamma_executed':    rt.get('gamma_executed', False),
+            'gate_executed':     rt.get('gate_executed', False),
+            'trace_event_count': rt.get('trace_event_count', 0),
+            'failure_code':      rt.get('failure_code'),
+            'failure_detail':    rt.get('failure_detail'),
+            'vendor_sha':        rt.get('vendor_sha'),
+        },
+        # Typed slot evaluations (populated when Taaqol is live)
+        'typed_slot_evaluations': t_slot_list,
+        'trace_events':           trace_events,
+        'evidence_contract':      ec_dict,
+        # Per-claim decomposition (what this Taaqol call evaluated)
+        'claim_id':        None,   # set per-call on macOS
+        'claim_type':      'HOKOM_SGA_AYAT_AL_DAYN_LIVE_DEMO',
+        'claim_profile':   'AYAT_AL_DAYN_LIVE_DEMO',
+        'license_id':      None,   # populated by Taaqol when live
+        'evidence_sufficiency': None,  # populated by Taaqol when live
+    }
+
+
+# ── morphosyntax from hr ──────────────────────────────────────────────────────
+def _extract_morphosyntax(hr: dict) -> dict:
+    """
+    Number, gender, person, tense, mood, voice come from hokom() directly.
+    The bundle only captures NUMBER_SLOT and GENDER_SLOT.
+    We report all six here with their source.
+    """
+    return {
+        'number':      hr.get('number'),
+        'gender':      hr.get('gender'),
+        'person':      hr.get('person'),
+        'tense_aspect': hr.get('tense_aspect'),
+        'mood':        hr.get('mood'),
+        'voice':       hr.get('voice'),
+        'source':      'hokom_pipeline:direct',
+    }
+
+
+# ── root / CRA detail ─────────────────────────────────────────────────────────
+def _extract_root_detail(hr: dict) -> dict:
+    rc  = hr.get('root_candidate')
+    cra = hr.get('cra_result')
+    p4a = hr.get('phase4a_result')
+
+    rc_dir        = getattr(rc, 'directive', None) if rc else None
+    canonical     = getattr(rc, 'canonical_root', None) if rc else None
+    rc_residuals  = list(getattr(rc, 'residual_codes', ()) or ())
+
+    cra_evidence  = list(getattr(cra, 'evidence', ()) or []) if cra else []
+    cra_form      = getattr(cra, 'form_family', None) if cra else None
+    cra_suffix    = getattr(cra, 'suffix_stripped', None) if cra else None
+    cra_suffix_rule = getattr(cra, 'suffix_rule', None) if cra else None
+    cra_provenance = getattr(cra, 'provenance', None) if cra else None
+    cra_reason    = list(getattr(cra, 'reason_codes', []) or []) if cra else []
+    cra_stem      = getattr(cra, 'canonical_stem', None) if cra else None
+
+    p4a_residuals = list(getattr(p4a, 'residual_codes', ()) or ()) if p4a else []
+    final_root    = hr.get('final_root')
+
+    if canonical and isinstance(canonical, (tuple, list)):
+        canonical_str = ''.join(canonical)
+    elif canonical:
+        canonical_str = str(canonical)
+    else:
+        canonical_str = None
+
+    if final_root and isinstance(final_root, (tuple, list)):
+        final_root_str = ''.join(final_root)
+    elif final_root:
+        final_root_str = str(final_root)
+    else:
+        final_root_str = None
+
+    # Root state classification
+    cra_seqs = getattr(cra, 'candidate_radical_sequences', None) if cra else None
+    if cra_seqs and len(cra_seqs) >= 2 and not canonical_str:
+        root_state = 'AMBIGUOUS'
+        candidates = [''.join(s) for s in cra_seqs]
+    elif rc_dir == 'ACCEPT' or final_root_str:
+        root_state = 'KNOWN'
+        candidates = []
+    elif rc_dir == 'DEFER':
+        root_state = 'DEFERRED'
+        candidates = []
+    else:
+        root_state = 'UNKNOWN'
+        candidates = []
+
+    return {
+        'root_state':        root_state,
+        'canonical_root':    final_root_str or canonical_str,
+        'root_candidates':   candidates,
+        'cra_form_family':   cra_form,
+        'cra_canonical_stem': cra_stem,
+        'cra_suffix_stripped': cra_suffix,
+        'cra_suffix_rule':   cra_suffix_rule,
+        'cra_provenance':    cra_provenance,
+        'cra_reason_codes':  cra_reason,
+        'cra_evidence':      cra_evidence,
+        'phase4a_residuals': p4a_residuals,
+        'rc_residual_codes': rc_residuals,
+        'wazn':              hr.get('final_wazn'),
+        'masdar':            hr.get('final_masdar') or hr.get('final_masdar_pattern'),
+        'derivative_type':   hr.get('derivative_type'),
+        'bab_state':         'UNKNOWN' if not hr.get('final_wazn') else 'KNOWN',
+        'masdar_state':      'UNKNOWN' if not (hr.get('final_masdar') or hr.get('final_masdar_pattern')) else 'KNOWN',
+    }
+
+
+# ── main token processor ──────────────────────────────────────────────────────
+def process_token_full(idx: int, surface: str) -> dict:
+    """
+    Run one token through the full pipeline and return a complete dict.
+    All data comes from the live pipeline — nothing invented.
+    """
+    out: dict[str, Any] = {
+        'token_index':    idx,
+        'original_surface': surface,
+        'error':          None,
+    }
+
     try:
         from hokom_pipeline import hokom
-        hr = hokom(surface)
-        hr_dict = dict(hr)
+        from pipeline.corpus.live_runner import _build_bundle_dict
+        from pipeline.sga.adapters import build_claim_bundle
+        from pipeline.sga.contracts import SlotState
 
-        result.normalized_surface  = hr_dict.get("normalized_surface") or hr_dict.get("normalized")
-        result.proclitics          = list(hr_dict.get("segment_proclitics") or hr_dict.get("proclitics") or [])
-        result.host_surface        = hr_dict.get("segment_host") or hr_dict.get("morphology_surface")
-        result.enclitics           = list(hr_dict.get("segment_enclitics") or hr_dict.get("enclitics") or [])
-        result.word_class          = hr_dict.get("word_class")
-        result.word_class_verdict  = hr_dict.get("word_class_verdict")
-        result.wazn                = hr_dict.get("final_wazn")
-        result.masdar              = hr_dict.get("final_masdar") or hr_dict.get("final_masdar_pattern")
-        result.derivative_type     = hr_dict.get("derivative_type")
+        hr_obj = hokom(surface)
+        hr     = dict(hr_obj)
 
-        # Root state
-        rc = hr_dict.get("root_candidate")
-        rc_dir = getattr(rc, 'directive', None) if rc else None
-        cra = hr_dict.get("cra_result")
+        # ── 1. Normalisation & segmentation ───────────────────────────────
+        sb = hr.get('segment_bundle')
+        out['normalization'] = {
+            'normalized_surface': hr.get('normalized_surface') or hr.get('normalized'),
+            'source': 'hokom_pipeline:normalizer',
+        }
+        out['segmentation'] = {
+            'proclitics':   list(hr.get('segment_proclitics') or hr.get('proclitics') or []),
+            'host_surface': hr.get('segment_host') or hr.get('morphology_surface'),
+            'enclitics':    list(hr.get('segment_enclitics') or hr.get('enclitics') or []),
+            'has_article':  bool(hr.get('has_article') or hr.get('article')),
+            'verdict':      getattr(sb, 'verdict', None).value if sb and getattr(sb, 'verdict', None) else None,
+            'clitic_only':  hr.get('segment_clitic_only', False),
+        }
 
-        # Check for two-consonant ambiguous candidates
-        cra_seqs = getattr(cra, 'candidate_radical_sequences', None) if cra else None
-        if cra_seqs and len(cra_seqs) >= 2 and not _extract_root_string(rc):
-            result.root_state = "AMBIGUOUS"
-            result.root_candidates = [''.join(s) for s in cra_seqs]
-        elif rc_dir == 'ACCEPT':
-            result.root_state = "KNOWN"
-            result.canonical_root = _extract_root_string(rc)
-        elif rc_dir == 'DEFER':
-            result.root_state = "DEFERRED"
-            result.residual_or_defer_reason = ', '.join(getattr(rc, 'residual_codes', ()) or ())
-        else:
-            result.root_state = "UNKNOWN"
+        # ── 2. Word class ──────────────────────────────────────────────────
+        wc_res = hr.get('word_class_result')
+        wc_trace = []
+        if wc_res and getattr(wc_res, 'trace', None):
+            for t in wc_res.trace:
+                wc_trace.append({
+                    'step':     getattr(t, 'step', None),
+                    'decision': getattr(t, 'decision', None),
+                    'evidence': list(getattr(t, 'evidence', ()) or ()),
+                })
+        out['word_class'] = {
+            'class':      hr.get('word_class'),
+            'subclass':   hr.get('word_class_subclass') or (
+                getattr(wc_res, 'subclass', None).value
+                if wc_res and getattr(wc_res, 'subclass', None) else None
+            ),
+            'verdict':    hr.get('word_class_verdict'),
+            'evidence':   [
+                {'type': getattr(e, 'evidence_type', None).value if hasattr(getattr(e, 'evidence_type', None), 'value') else str(getattr(e,'evidence_type','')),
+                 'source': getattr(e, 'source', None),
+                 'value':  getattr(e, 'value', None),
+                 'confidence': getattr(e, 'confidence', None)}
+                for e in (getattr(wc_res, 'primary_evidence', ()) or ())
+            ] if wc_res else [],
+            'trace':      wc_trace,
+            'inflection_skipped_reason': hr.get('inflection_skipped_reason'),
+        }
 
-        # Inflection / early-stop
-        isr = hr_dict.get("inflection_skipped_reason")
-        if isr:
-            result.early_stop_reason = isr
+        # ── 3. Root / CRA / wazn / masdar ────────────────────────────────
+        out['root_analysis'] = _extract_root_detail(hr)
 
-        # Cause / condition / obstacle from SGA bundle
-        try:
-            from pipeline.corpus.live_runner import _build_bundle_dict as _lrbd
-            from pipeline.sga.adapters import build_claim_bundle
-            from pipeline.sga.contracts import SlotState
+        # ── 4. Morphosyntax ───────────────────────────────────────────────
+        out['morphosyntax'] = _extract_morphosyntax(hr)
 
-            bd = _lrbd(hr_dict)
-            claim_kind = "AYAT_AL_DAYN_LIVE_DEMO"
-            bundle = build_claim_bundle(bd, claim_kind, claim_kind)
+        # ── 5. Full typed slots ───────────────────────────────────────────
+        bd = _build_bundle_dict(hr)
+        claim_kind = 'AYAT_AL_DAYN_LIVE_DEMO'
+        bundle = build_claim_bundle(bd, claim_kind, claim_kind)
 
-            result.claim_key = bundle.claim_key
-            # evaluation_id: unique per token position (claim_key + token_index)
-            result.evaluation_id = hashlib.sha256(
-                f"{bundle.claim_key}:{idx}".encode()
-            ).hexdigest()[:16]
-            result.typed_slot_count = len(bundle.typed_slots)
-            result.filled_slot_count = sum(
-                1 for s in bundle.typed_slots if s.state == SlotState.FILLED
-            )
-            result.unknown_slot_count = sum(
-                1 for s in bundle.typed_slots if s.state == SlotState.UNKNOWN
-            )
+        typed_slots = [_serialize_slot(s) for s in bundle.typed_slots]
+        out['typed_slots'] = typed_slots
 
-            # H11-H15 filled slots
-            h_filled = [
-                s.slot_id.value
-                for s in bundle.typed_slots
-                if s.slot_id.value in _H11_H15_SLOT_NAMES and s.state == SlotState.FILLED
-            ]
-            result.h11_h15_reached     = bool(h_filled)
-            result.h11_h15_filled_slots = h_filled
+        # claim_key (content hash) + evaluation_id (per-token)
+        out['claim_key'] = bundle.claim_key
+        out['evaluation_id'] = hashlib.sha256(
+            f'{bundle.claim_key}:{idx}'.encode()
+        ).hexdigest()[:16]
 
-            # Condition / obstacle / cause from bundle facts
-            if bundle.condition_facts:
-                result.condition = '; '.join(str(f) for f in bundle.condition_facts)
-            if bundle.obstacle_facts:
-                result.obstacle = '; '.join(str(f) for f in bundle.obstacle_facts)
+        # ── 6. Composite verdict ──────────────────────────────────────────
+        out['composite_verdict'] = _build_composite_verdict(typed_slots, hr)
 
-            # Evidence provenance from evidence_refs
-            if bundle.evidence_refs:
-                result.evidence_provenance = ', '.join(
-                    getattr(e, 'evidence_id', str(e)) for e in bundle.evidence_refs[:4]
-                )
+        # ── 7. H11-H15 layer ─────────────────────────────────────────────
+        _H11_H15 = {
+            'BAB_CANDIDATE_SET','MASDAR_CANDIDATE_SET','DERIVATIVE_CANDIDATE_SET',
+            'NUMBER_SLOT','GENDER_SLOT','DEFINITENESS_SLOT','NISBA_SLOT',
+            'COLLECTIVE_SLOT','UNIT_NOUN_SLOT','LEMMA_SLOT','PARADIGM_SLOT',
+            'INFLECTIONAL_FAMILY_SLOT','DERIVATIONAL_FAMILY_SLOT',
+        }
+        h11_filled = [
+            s['slot_id'] for s in typed_slots
+            if s['slot_id'] in _H11_H15 and s['state'] == 'FILLED'
+        ]
+        out['h11_h15'] = {
+            'reached':     bool(h11_filled),
+            'filled_slots': h11_filled,
+            'skipped_reason': hr.get('inflection_skipped_reason'),
+        }
 
-            # Residuals
-            if bundle.residuals:
-                result.residual_or_defer_reason = '; '.join(str(r) for r in bundle.residuals)
+        # ── 8. Taaqol claim decomposition ────────────────────────────────
+        out['taaqol'] = _decompose_taaqol(hr)
 
-        except Exception as bundle_err:
-            result.error = (result.error or '') + f'[bundle:{type(bundle_err).__name__}:{bundle_err}] '
-
-        # Taaqol
-        rt = hr_dict.get("taaqol_runtime") or {}
-        td = hr_dict.get("taaqol_decision")
-        result.taaqol_active           = bool(rt.get("active", False))
-        result.taaqol_verdict          = hr_dict.get("taaqol_verdict")
-        result.taaqol_effective_verdict = hr_dict.get("taaqol_effective_verdict")
-        result.taaqol_failure_code     = rt.get("failure_code")
-
-        # cause from reason codes on taaqol decision
-        if td and hasattr(td, 'reason_codes') and td.reason_codes:
-            result.cause = ', '.join(td.reason_codes[:3])
-
-        # Early-stop / boundary cause
-        if not result.cause:
-            if isr:
-                result.cause = isr
-            elif result.root_state == "DEFERRED" and result.residual_or_defer_reason:
-                result.cause = result.residual_or_defer_reason
+        # ── 9. Hokom pipeline verdict (upstream) ──────────────────────────
+        out['pipeline_verdict'] = hr.get('verdict')
+        out['active_residuals'] = list(hr.get('active_residuals') or ())
+        out['resolved_residuals'] = list(hr.get('resolved_residuals') or ())
 
     except Exception as exc:
-        result.error = str(exc)
-        result.root_state = "ERROR"
+        import traceback
+        out['error'] = {'type': type(exc).__name__, 'message': str(exc), 'trace': traceback.format_exc()}
 
-    return result
+    return out
 
 
 # ── run all tokens ────────────────────────────────────────────────────────────
-def run_all(verbose: bool = True) -> list[TokenResult]:
+def run_all(verbose: bool = True) -> list[dict]:
     if verbose:
-        print(f"Processing {len(TOKENS)} tokens …", file=sys.stderr)
+        print(f'Processing {len(TOKENS)} tokens…', file=sys.stderr)
     results = []
     for i, tok in enumerate(TOKENS):
-        r = process_token(i + 1, tok)
+        r = process_token_full(i + 1, tok)
         if verbose and (i + 1) % 20 == 0:
-            print(f"  {i+1}/{len(TOKENS)}", file=sys.stderr)
+            print(f'  {i + 1}/{len(TOKENS)}', file=sys.stderr)
         results.append(r)
     if verbose:
-        print("  Done.", file=sys.stderr)
+        print('  Done.', file=sys.stderr)
     return results
 
 
 # ── integrity checks ──────────────────────────────────────────────────────────
-def integrity_check(results: list[TokenResult]) -> dict:
-    # nondeterminism: re-run first 5 tokens and compare claim_keys
-    nondeterminism_count = 0
+def integrity_check(results: list[dict]) -> dict:
+    # 1. Slot name without value/state
+    slots_missing_state = 0
+    for r in results:
+        for s in r.get('typed_slots', []):
+            if 'state' not in s or 'slot_id' not in s:
+                slots_missing_state += 1
+
+    # 2. LICENSED without scope (overall_verdict=FULLY_LICENSED while deferred exist)
+    licensed_without_scope = 0
+    for r in results:
+        cv = r.get('composite_verdict', {})
+        if cv.get('overall_verdict') == 'FULLY_LICENSED' and cv.get('has_unresolved_claims'):
+            licensed_without_scope += 1
+
+    # 3. Missing evaluation_id
+    missing_eval_id = sum(1 for r in results if not r.get('evaluation_id'))
+
+    # 4. Evaluation_id collisions
+    eids = [r['evaluation_id'] for r in results if r.get('evaluation_id')]
+    eid_collisions = len(eids) - len(set(eids))
+
+    # 5. Missing Taaqol trace when runtime active
+    missing_taaqol_trace = sum(
+        1 for r in results
+        if r.get('taaqol', {}).get('available')
+        and not r.get('taaqol', {}).get('trace_events')
+    )
+
+    # 6. Claim_key nondeterminism (re-run first 5)
+    nondeterminism = 0
     for r in results[:5]:
-        r2 = process_token(r.token_index, r.original_surface)
-        if r2.claim_key and r.claim_key and r2.claim_key != r.claim_key:
-            nondeterminism_count += 1
+        r2 = process_token_full(r['token_index'], r['original_surface'])
+        if r2.get('claim_key') and r.get('claim_key') and r2['claim_key'] != r['claim_key']:
+            nondeterminism += 1
 
-    # evaluation_id collisions: evaluation_id is token-scoped, must be unique
-    eval_ids = [r.evaluation_id for r in results if r.evaluation_id]
-    collision_count = len(eval_ids) - len(set(eval_ids))
-
-    # untyped payloads: results with typed_slot_count == 0 and no early stop and no error
+    # 7. Untyped payloads (no slots and no early stop)
     untyped = sum(
         1 for r in results
-        if r.typed_slot_count == 0
-        and not r.early_stop_reason
-        and not r.error
-        and r.word_class not in ("MABNI", "OPERATOR")
+        if not r.get('typed_slots')
+        and not r.get('word_class', {}).get('inflection_skipped_reason')
+        and not r.get('error')
     )
 
-    # silent fallbacks: taaqol_active=False without declared failure code or early stop
+    # 8. Silent fallbacks
     silent = sum(
         1 for r in results
-        if not r.taaqol_active
-        and not r.taaqol_failure_code
-        and not r.early_stop_reason
-        and r.word_class not in (None, "MABNI", "OPERATOR")
+        if not r.get('taaqol', {}).get('available')
+        and not r.get('taaqol', {}).get('runtime', {}).get('failure_code')
+        and not r.get('word_class', {}).get('inflection_skipped_reason')
+        and r.get('word_class', {}).get('class') not in (None, 'MABNI', 'OPERATOR')
     )
 
-    taaqol_live = sum(1 for r in results if r.taaqol_active)
+    taaqol_live = sum(1 for r in results if r.get('taaqol', {}).get('available'))
 
     return {
-        "UNTYPED_PAYLOADS":           untyped,
-        "SILENT_FALLBACKS":           silent,
-        "CLAIM_KEY_NONDETERMINISM":   nondeterminism_count,
-        "EVALUATION_ID_COLLISIONS":   collision_count,
-        "TAAQOL_RUNTIME_ACTIVE":      taaqol_live,
+        'SLOTS_MISSING_STATE':        slots_missing_state,
+        'LICENSED_WITHOUT_SCOPE':     licensed_without_scope,
+        'MISSING_EVALUATION_ID':      missing_eval_id,
+        'EVALUATION_ID_COLLISIONS':   eid_collisions,
+        'MISSING_TAAQOL_TRACE_ACTIVE': missing_taaqol_trace,
+        'CLAIM_KEY_NONDETERMINISM':   nondeterminism,
+        'UNTYPED_PAYLOADS':           untyped,
+        'SILENT_FALLBACKS':           silent,
+        'TAAQOL_RUNTIME_ACTIVE':      taaqol_live,
     }
 
 
 # ── summary statistics ────────────────────────────────────────────────────────
-def summary_stats(results: list[TokenResult]) -> dict:
-    verdict_counts: dict[str, int] = {}
+def summary_stats(results: list[dict]) -> dict:
+    overall_verdicts: dict[str, int] = {}
     for r in results:
-        v = r.taaqol_effective_verdict or "NO_TAAQOL"
-        verdict_counts[v] = verdict_counts.get(v, 0) + 1
+        ov = r.get('composite_verdict', {}).get('overall_verdict', 'NO_DATA')
+        overall_verdicts[ov] = overall_verdicts.get(ov, 0) + 1
 
-    root_state_counts: dict[str, int] = {}
+    taaqol_verdicts: dict[str, int] = {}
     for r in results:
-        k = r.root_state or "NONE"
-        root_state_counts[k] = root_state_counts.get(k, 0) + 1
+        tv = r.get('taaqol', {}).get('effective_verdict') or 'NO_TAAQOL'
+        taaqol_verdicts[tv] = taaqol_verdicts.get(tv, 0) + 1
 
-    h11_reached = sum(1 for r in results if r.h11_h15_reached)
-    early_stops = sum(1 for r in results if r.early_stop_reason)
-    typed_bundles = sum(1 for r in results if r.typed_slot_count > 0)
-    taaqol_live = sum(1 for r in results if r.taaqol_active)
-    errors = sum(1 for r in results if r.error)
+    root_states: dict[str, int] = {}
+    for r in results:
+        rs = r.get('root_analysis', {}).get('root_state', 'NONE')
+        root_states[rs] = root_states.get(rs, 0) + 1
 
     return {
-        "token_count":          len(results),
-        "typed_bundles":        typed_bundles,
-        "taaqol_live_evals":    taaqol_live,
-        "verdict_counts":       verdict_counts,
-        "root_state_counts":    root_state_counts,
-        "h11_h15_reached":      h11_reached,
-        "constitutional_early_stops": early_stops,
-        "errors":               errors,
+        'token_count':      len(results),
+        'typed_bundles':    sum(1 for r in results if r.get('typed_slots')),
+        'taaqol_live':      sum(1 for r in results if r.get('taaqol', {}).get('available')),
+        'h11_h15_reached':  sum(1 for r in results if r.get('h11_h15', {}).get('reached')),
+        'early_stops':      sum(1 for r in results if r.get('word_class', {}).get('inflection_skipped_reason')),
+        'overall_verdicts': overall_verdicts,
+        'taaqol_verdicts':  taaqol_verdicts,
+        'root_states':      root_states,
+        'errors':           sum(1 for r in results if r.get('error')),
     }
 
 
-# ── format: terminal ──────────────────────────────────────────────────────────
-def _bare(s: str | None) -> str:
+# ── terminal format ───────────────────────────────────────────────────────────
+def _bare(s) -> str:
     if not s:
         return ''
-    return ''.join(c for c in s if unicodedata.category(c) not in ('Mn', 'Cf'))
+    return ''.join(c for c in str(s) if unicodedata.category(c) not in ('Mn', 'Cf'))
 
 
-def format_terminal(results: list[TokenResult], stats: dict, checks: dict) -> str:
+def format_terminal(results: list[dict], stats: dict, checks: dict) -> str:
     lines = []
-    lines.append(f"\nHOKOM–TAAQOL LIVE DEMO — آية الدَّيْن (البقرة 2:282)")
-    lines.append("=" * 100)
+    lines.append(f'\nHOKOM–TAAQOL LIVE DEMO — آية الدَّيْن (البقرة 2:282)')
+    lines.append('=' * 110)
     lines.append(
-        f"{'#':>3}  {'Surface':<14} {'Segmentation':<22} {'Host':<14} "
-        f"{'Root':<10} {'H11-15':^6} {'Taaqol':<12} Reason"
+        f'{"#":>3}  {"Surface":<14} {"Segmentation":<22} {"Host":<14} '
+        f'{"WC":<8} {"Root":<10} {"Wazn":<8} {"H11-15":^6} '
+        f'{"Taaqol":<12} Layer Verdict'
     )
-    lines.append("-" * 100)
-    for r in results:
-        seg = ''
-        if r.proclitics:
-            seg += '+'.join(r.proclitics) + '|'
-        seg += (_bare(r.host_surface) or '')
-        if r.enclitics:
-            seg += '|' + '+'.join(r.enclitics)
+    lines.append('-' * 110)
 
-        root_disp = r.canonical_root or (
-            '/'.join(r.root_candidates[:2]) if r.root_candidates else (r.root_state or '')
+    for r in results:
+        seg = r.get('segmentation', {})
+        procs = seg.get('proclitics', [])
+        encs  = seg.get('enclitics', [])
+        host  = seg.get('host_surface', '')
+
+        seg_str = ''
+        if procs:
+            seg_str += '+'.join(procs) + '|'
+        seg_str += (_bare(host) or '')
+        if encs:
+            seg_str += '|' + '+'.join(encs)
+
+        ra  = r.get('root_analysis', {})
+        cv  = r.get('composite_verdict', {})
+        tq  = r.get('taaqol', {})
+        wc  = r.get('word_class', {})
+
+        root_disp = ra.get('canonical_root') or (
+            '/'.join(ra.get('root_candidates', [])[:2]) or ra.get('root_state', '—')
         )
-        h_disp = 'YES' if r.h11_h15_reached else ('—' if r.early_stop_reason else 'NO')
-        tq = r.taaqol_effective_verdict or r.taaqol_failure_code or '—'
-        reason = r.early_stop_reason or (r.cause or '')[:40]
-        if r.error:
-            reason = f'ERR:{r.error[:30]}'
+        wazn_disp = ra.get('wazn') or '—'
+        h_disp    = 'YES' if r.get('h11_h15', {}).get('reached') else '—'
+        tq_eff    = tq.get('effective_verdict') or tq.get('runtime', {}).get('failure_code') or '—'
+        wc_class  = wc.get('class') or '—'
+
+        # Summarise per-layer verdict (skip NOT_APPLICABLE)
+        layer_summary = {
+            ld['layer']: ld['layer_verdict']
+            for ld in cv.get('by_layer', [])
+            if ld['layer_verdict'] != 'NOT_APPLICABLE'
+        }
+        key_layers = ['WORD_CLASS', 'RADICAL', 'PATTERN', 'MORPHOSYNTAX']
+        layer_str = ' | '.join(
+            f'{l}:{layer_summary.get(l,"—")}'
+            for l in key_layers
+            if l in layer_summary
+        )
+
         lines.append(
-            f"{r.token_index:>3}  {_bare(r.original_surface):<14} {seg:<22} "
-            f"{_bare(r.host_surface) or '':<14} {root_disp:<10} "
-            f"{h_disp:^6}  {tq:<12} {reason}"
+            f'{r["token_index"]:>3}  '
+            f'{_bare(r["original_surface"]):<14} '
+            f'{seg_str:<22} '
+            f'{_bare(host) or "":<14} '
+            f'{wc_class:<8} '
+            f'{_bare(root_disp) or "":<10} '
+            f'{_bare(wazn_disp):<8} '
+            f'{h_disp:^6}  '
+            f'{tq_eff:<14} '
+            f'{layer_str}'
         )
-    lines.append("-" * 100)
-    lines.append(f"\nTokens: {stats['token_count']} | "
-                 f"Typed bundles: {stats['typed_bundles']} | "
-                 f"Taaqol live: {stats['taaqol_live_evals']} | "
-                 f"H11-15 reached: {stats['h11_h15_reached']} | "
-                 f"Early stops: {stats['constitutional_early_stops']}")
-    lines.append(f"Root states: {stats['root_state_counts']}")
-    lines.append(f"Verdicts:    {stats['verdict_counts']}")
-    lines.append(f"\nIntegrity: UNTYPED={checks['UNTYPED_PAYLOADS']} "
-                 f"SILENT_FALLBACKS={checks['SILENT_FALLBACKS']} "
-                 f"NONDETERMINISM={checks['CLAIM_KEY_NONDETERMINISM']} "
-                 f"COLLISIONS={checks['EVALUATION_ID_COLLISIONS']} "
-                 f"TAAQOL_ACTIVE={checks['TAAQOL_RUNTIME_ACTIVE']}")
+
+    lines.append('-' * 110)
+    lines.append(
+        f'\nTokens:{stats["token_count"]} | Typed bundles:{stats["typed_bundles"]} | '
+        f'Taaqol live:{stats["taaqol_live"]} | H11-15:{stats["h11_h15_reached"]} | '
+        f'Early stops:{stats["early_stops"]}'
+    )
+    lines.append(f'Root states:   {stats["root_states"]}')
+    lines.append(f'Taaqol:        {stats["taaqol_verdicts"]}')
+    lines.append(f'Overall:       {stats["overall_verdicts"]}')
+    lines.append(f'\nIntegrity:')
+    for k, v in checks.items():
+        ok = '✓' if v == 0 or (k == 'TAAQOL_RUNTIME_ACTIVE' and v >= 0) else '✗'
+        lines.append(f'  {k:<40} = {v}  {ok}')
     return '\n'.join(lines)
 
 
-# ── format: json ─────────────────────────────────────────────────────────────
-def format_json(results: list[TokenResult], stats: dict, checks: dict, meta: dict) -> str:
-    rows = []
-    for r in results:
-        rows.append({
-            "token_index":           r.token_index,
-            "original_surface":      r.original_surface,
-            "normalized_surface":    r.normalized_surface,
-            "proclitics":            r.proclitics,
-            "host_surface":          r.host_surface,
-            "enclitics":             r.enclitics,
-            "word_class":            r.word_class,
-            "word_class_verdict":    r.word_class_verdict,
-            "root_state":            r.root_state,
-            "canonical_root":        r.canonical_root,
-            "root_candidates":       r.root_candidates,
-            "wazn":                  r.wazn,
-            "masdar":                r.masdar,
-            "derivative_type":       r.derivative_type,
-            "H11_H15_reached":       r.h11_h15_reached,
-            "H11_H15_filled_slots":  r.h11_h15_filled_slots,
-            "Taaqol_active":         r.taaqol_active,
-            "Taaqol_verdict":        r.taaqol_verdict,
-            "Taaqol_effective_verdict": r.taaqol_effective_verdict,
-            "Taaqol_failure_code":   r.taaqol_failure_code,
-            "claim_key":             r.claim_key,
-            "evaluation_id":         r.evaluation_id,
-            "typed_slot_count":      r.typed_slot_count,
-            "filled_slot_count":     r.filled_slot_count,
-            "unknown_slot_count":    r.unknown_slot_count,
-            "cause":                 r.cause,
-            "condition":             r.condition,
-            "obstacle":              r.obstacle,
-            "evidence_provenance":   r.evidence_provenance,
-            "residual_or_defer_reason": r.residual_or_defer_reason,
-            "early_stop_reason":     r.early_stop_reason,
-            "error":                 r.error,
-        })
+# ── JSON format ───────────────────────────────────────────────────────────────
+def format_json(results: list[dict], stats: dict, checks: dict, meta: dict) -> str:
     return json.dumps({
-        "stage":            "HOKOM-TAAQOL-AYAT-AL-DAYN-LIVE-DEMO-01",
-        "meta":             meta,
-        "summary":          stats,
-        "integrity_checks": checks,
-        "tokens":           rows,
-    }, indent=2, ensure_ascii=False)
+        'stage':   'HOKOM-TAAQOL-AYAT-AL-DAYN-LIVE-DEMO-01',
+        'version': '2',
+        'meta':    meta,
+        'summary': stats,
+        'integrity_checks': checks,
+        'tokens':  results,
+    }, indent=2, ensure_ascii=False, default=str)
 
 
-# ── format: csv ──────────────────────────────────────────────────────────────
-def format_csv(results: list[TokenResult]) -> str:
+# ── CSV (summary row per token) ───────────────────────────────────────────────
+def format_csv(results: list[dict]) -> str:
     buf = io.StringIO()
     fields = [
-        "token_index", "original_surface", "normalized_surface",
-        "proclitics", "host_surface", "enclitics",
-        "word_class", "word_class_verdict",
-        "root_state", "canonical_root", "root_candidates",
-        "wazn", "masdar", "derivative_type",
-        "H11_H15_reached", "H11_H15_filled_slots",
-        "Taaqol_active", "Taaqol_verdict", "Taaqol_effective_verdict", "Taaqol_failure_code",
-        "claim_key", "typed_slot_count", "filled_slot_count", "unknown_slot_count",
-        "cause", "condition", "obstacle", "evidence_provenance",
-        "residual_or_defer_reason", "early_stop_reason", "error",
+        'token_index', 'original_surface', 'normalized_surface',
+        'proclitics', 'host_surface', 'enclitics',
+        'word_class', 'word_class_subclass', 'word_class_verdict', 'inflection_skipped_reason',
+        'root_state', 'canonical_root', 'root_candidates',
+        'cra_form_family', 'cra_suffix_stripped', 'cra_reason_codes', 'phase4a_residuals',
+        'wazn', 'masdar', 'derivative_type',
+        'number', 'gender', 'person', 'tense_aspect', 'mood', 'voice',
+        'h11_h15_reached', 'h11_h15_filled_slots',
+        'typed_slot_count', 'filled_slot_count', 'unknown_slot_count',
+        'not_opened_layers', 'active_residuals',
+        'overall_verdict', 'has_unresolved_claims',
+        'licensed_claims', 'deferred_claims',
+        'taaqol_effective_verdict', 'taaqol_failure_code', 'taaqol_reason_codes',
+        'claim_key', 'evaluation_id', 'pipeline_verdict', 'error',
     ]
-    writer = csv.DictWriter(buf, fieldnames=fields, extrasaction='ignore')
+    writer = csv_mod.DictWriter(buf, fieldnames=fields, extrasaction='ignore')
     writer.writeheader()
     for r in results:
+        seg = r.get('segmentation', {})
+        ra  = r.get('root_analysis', {})
+        ms  = r.get('morphosyntax', {})
+        cv  = r.get('composite_verdict', {})
+        tq  = r.get('taaqol', {})
+        wc  = r.get('word_class', {})
+        h   = r.get('h11_h15', {})
+        ts  = r.get('typed_slots', [])
+
         writer.writerow({
-            "token_index":           r.token_index,
-            "original_surface":      r.original_surface,
-            "normalized_surface":    r.normalized_surface or '',
-            "proclitics":            ' '.join(r.proclitics),
-            "host_surface":          r.host_surface or '',
-            "enclitics":             ' '.join(r.enclitics),
-            "word_class":            r.word_class or '',
-            "word_class_verdict":    r.word_class_verdict or '',
-            "root_state":            r.root_state or '',
-            "canonical_root":        r.canonical_root or '',
-            "root_candidates":       '/'.join(r.root_candidates),
-            "wazn":                  r.wazn or '',
-            "masdar":                r.masdar or '',
-            "derivative_type":       r.derivative_type or '',
-            "H11_H15_reached":       str(r.h11_h15_reached),
-            "H11_H15_filled_slots":  ' '.join(r.h11_h15_filled_slots),
-            "Taaqol_active":         str(r.taaqol_active),
-            "Taaqol_verdict":        r.taaqol_verdict or '',
-            "Taaqol_effective_verdict": r.taaqol_effective_verdict or '',
-            "Taaqol_failure_code":   r.taaqol_failure_code or '',
-            "claim_key":             r.claim_key or '',
-            "typed_slot_count":      r.typed_slot_count,
-            "filled_slot_count":     r.filled_slot_count,
-            "unknown_slot_count":    r.unknown_slot_count,
-            "cause":                 r.cause or '',
-            "condition":             r.condition or '',
-            "obstacle":              r.obstacle or '',
-            "evidence_provenance":   r.evidence_provenance or '',
-            "residual_or_defer_reason": r.residual_or_defer_reason or '',
-            "early_stop_reason":     r.early_stop_reason or '',
-            "error":                 r.error or '',
+            'token_index':          r['token_index'],
+            'original_surface':     r['original_surface'],
+            'normalized_surface':   r.get('normalization', {}).get('normalized_surface', ''),
+            'proclitics':           ' '.join(seg.get('proclitics', [])),
+            'host_surface':         seg.get('host_surface', ''),
+            'enclitics':            ' '.join(seg.get('enclitics', [])),
+            'word_class':           wc.get('class', ''),
+            'word_class_subclass':  wc.get('subclass', ''),
+            'word_class_verdict':   wc.get('verdict', ''),
+            'inflection_skipped_reason': wc.get('inflection_skipped_reason', ''),
+            'root_state':           ra.get('root_state', ''),
+            'canonical_root':       ra.get('canonical_root', ''),
+            'root_candidates':      '/'.join(ra.get('root_candidates', [])),
+            'cra_form_family':      ra.get('cra_form_family', ''),
+            'cra_suffix_stripped':  ra.get('cra_suffix_stripped', ''),
+            'cra_reason_codes':     '; '.join(ra.get('cra_reason_codes', [])),
+            'phase4a_residuals':    '; '.join(ra.get('phase4a_residuals', [])),
+            'wazn':                 ra.get('wazn', ''),
+            'masdar':               ra.get('masdar', ''),
+            'derivative_type':      ra.get('derivative_type', ''),
+            'number':               ms.get('number', ''),
+            'gender':               ms.get('gender', ''),
+            'person':               ms.get('person', ''),
+            'tense_aspect':         ms.get('tense_aspect', ''),
+            'mood':                 ms.get('mood', ''),
+            'voice':                ms.get('voice', ''),
+            'h11_h15_reached':      str(h.get('reached', False)),
+            'h11_h15_filled_slots': ' '.join(h.get('filled_slots', [])),
+            'typed_slot_count':     len(ts),
+            'filled_count':         sum(1 for s in ts if s.get('state') == 'FILLED'),
+            'unknown_slot_count':   sum(1 for s in ts if s.get('state') == 'UNKNOWN'),
+            'not_opened_layers':    '; '.join(cv.get('not_opened_layers', [])),
+            'active_residuals':     '; '.join(cv.get('active_residuals', [])),
+            'overall_verdict':      cv.get('overall_verdict', ''),
+            'has_unresolved_claims': str(cv.get('has_unresolved_claims', '')),
+            'licensed_claims':      ' '.join(cv.get('licensed_claims', [])),
+            'deferred_claims':      ' '.join(cv.get('deferred_claims', [])),
+            'taaqol_effective_verdict': tq.get('effective_verdict', ''),
+            'taaqol_failure_code':  tq.get('runtime', {}).get('failure_code', ''),
+            'taaqol_reason_codes':  '; '.join(tq.get('reason_codes', [])),
+            'claim_key':            r.get('claim_key', ''),
+            'evaluation_id':        r.get('evaluation_id', ''),
+            'pipeline_verdict':     r.get('pipeline_verdict', ''),
+            'error':                str(r.get('error') or ''),
         })
     return buf.getvalue()
 
 
-# ── format: html ─────────────────────────────────────────────────────────────
+# ── HTML helpers ──────────────────────────────────────────────────────────────
 def _esc(s) -> str:
     if s is None:
         return ''
@@ -569,356 +874,470 @@ def _esc(s) -> str:
             .replace('>', '&gt;').replace('"', '&quot;'))
 
 
-def _verdict_badge(v: str | None) -> str:
-    if not v:
-        return '<span class="badge badge-gray">—</span>'
-    color = {
-        "ACCEPT":    "badge-green",
-        "DEFERRED":  "badge-amber",
-        "DEFER":     "badge-amber",
-        "BLOCKED":   "badge-red",
-        "AMBIGUOUS": "badge-purple",
-        "TAAQOL_RUNTIME_UNAVAILABLE": "badge-gray",
-        "NO_TAAQOL": "badge-gray",
-    }.get(v, "badge-blue")
-    return f'<span class="badge {color}">{_esc(v)}</span>'
+def _state_badge(state: str | None) -> str:
+    if not state:
+        return '<span class="badge bdg-gray">—</span>'
+    cls = {
+        'FILLED':          'bdg-green',
+        'LICENSED':        'bdg-green',
+        'FULLY_LICENSED':  'bdg-green',
+        'PARTIAL':         'bdg-yellow',
+        'UNKNOWN':         'bdg-amber',
+        'NOT_OPENED':      'bdg-amber',
+        'DEFERRED':        'bdg-amber',
+        'NOT_APPLICABLE':  'bdg-gray',
+        'AMBIGUOUS':       'bdg-purple',
+        'BLOCKED':         'bdg-red',
+        'COMPOSITE':       'bdg-blue',
+        'ERROR':           'bdg-red',
+    }.get(state, 'bdg-blue')
+    return f'<span class="badge {cls}">{_esc(state)}</span>'
 
 
-def _root_badge(r: TokenResult) -> str:
-    if r.root_state == "KNOWN":
-        return f'<span class="badge badge-green">{_esc(r.canonical_root)}</span>'
-    if r.root_state == "AMBIGUOUS":
-        opts = ' / '.join(_esc(c) for c in r.root_candidates[:3])
-        return f'<span class="badge badge-purple">AMBIGUOUS: {opts}</span>'
-    if r.root_state == "DEFERRED":
-        return '<span class="badge badge-amber">DEFERRED</span>'
-    return f'<span class="badge badge-gray">{_esc(r.root_state or "—")}</span>'
+def _slot_html(s: dict) -> str:
+    state = s.get('state', '—')
+    val   = s.get('value')
+    cset  = s.get('candidate_set')
+    res   = s.get('residual')
+    evs   = s.get('evidence', [])
+
+    val_html = _esc(val) if val is not None else '<em class="nil">—</em>'
+    if cset and cset.get('selected'):
+        val_html = f'<strong>{_esc(cset["selected"])}</strong>'
+        if cset.get('candidates'):
+            cands = ', '.join(_esc(c.get('value', c)) for c in cset['candidates'][:4])
+            val_html += f' <small class="cands">candidates: {cands}</small>'
+
+    ev_html = ''
+    if evs:
+        ev_html = '<div class="ev-list">' + ''.join(
+            f'<span class="ev-tag">{_esc(e.get("evidence_id","?"))}</span>' for e in evs[:3]
+        ) + '</div>'
+
+    res_html = ''
+    if res:
+        res_html = (
+            f'<div class="residual-tag">⚑ {_esc(res.get("code",""))} — '
+            f'{_esc(res.get("reason",""))}</div>'
+        )
+
+    layer = s.get('layer', '—')
+    return (
+        f'<tr class="slot-row state-{state.lower()}">'
+        f'<td class="slot-id">{_esc(s.get("slot_id",""))}</td>'
+        f'<td class="slot-layer">{_esc(layer)}</td>'
+        f'<td>{_state_badge(state)}</td>'
+        f'<td class="slot-val">{val_html}{ev_html}{res_html}</td>'
+        f'</tr>'
+    )
 
 
-def _decision_example(r: TokenResult) -> str:
-    """HTML snippet for one token decision explanation."""
-    lines = []
-    lines.append(f'<h4 style="margin:0 0 4px;font-size:1em;">#{r.token_index} — <span dir="rtl">{_esc(r.original_surface)}</span></h4>')
-    lines.append('<table class="decision-table"><tbody>')
+def _token_html(r: dict, open_detail: bool = False) -> str:
+    idx   = r['token_index']
+    surf  = r['original_surface']
+    seg   = r.get('segmentation', {})
+    ra    = r.get('root_analysis', {})
+    wc    = r.get('word_class', {})
+    ms    = r.get('morphosyntax', {})
+    cv    = r.get('composite_verdict', {})
+    tq    = r.get('taaqol', {})
+    h     = r.get('h11_h15', {})
+    ts    = r.get('typed_slots', [])
 
-    def row(label, val):
-        _em = '<em style="color:#888">—</em>'
-        return f'<tr><td class="dt-label">{_esc(label)}</td><td>{_esc(str(val)) if val else _em}</td></tr>'
+    # Summary row
+    root_disp = ra.get('canonical_root') or (
+        ' / '.join(ra.get('root_candidates', [])[:2]) or ra.get('root_state', '—')
+    )
+    overall = cv.get('overall_verdict', '—')
 
-    lines.append(row("Host", r.host_surface))
-    lines.append(row("Word class", f"{r.word_class} ({r.word_class_verdict})"))
-    lines.append(row("Root state", r.root_state))
-    if r.canonical_root:
-        lines.append(row("Canonical root", r.canonical_root))
-    if r.root_candidates:
-        lines.append(row("Root candidates", ' / '.join(r.root_candidates)))
-    if r.wazn:
-        lines.append(row("Wazn", r.wazn))
-    if r.early_stop_reason:
-        lines.append(row("Constitutional early stop", r.early_stop_reason))
-    if r.cause:
-        lines.append(row("Cause (from system)", r.cause))
-    if r.residual_or_defer_reason:
-        lines.append(row("Residual/defer reason", r.residual_or_defer_reason))
-    if r.evidence_provenance:
-        lines.append(row("Evidence provenance", r.evidence_provenance))
-    lines.append(row("Taaqol active", str(r.taaqol_active)))
-    if r.taaqol_failure_code:
-        lines.append(row("Taaqol failure code", r.taaqol_failure_code))
-    lines.append(row("Taaqol effective verdict", r.taaqol_effective_verdict))
-    lines.append(row("Typed slots", f"{r.filled_slot_count} filled / {r.typed_slot_count} total"))
-    lines.append('</tbody></table>')
-    return '\n'.join(lines)
+    # Layer verdict badges
+    layer_badges = ''
+    for ld in cv.get('by_layer', []):
+        if ld['layer_verdict'] == 'NOT_APPLICABLE':
+            continue
+        layer_badges += f'{_state_badge(ld["layer_verdict"])}<small class="lv-name">{_esc(ld["layer"])}</small> '
 
+    # Taaqol row
+    tq_eff = tq.get('effective_verdict') or '—'
+    tq_fail = tq.get('runtime', {}).get('failure_code') or ''
 
-def format_html(results: list[TokenResult], stats: dict, checks: dict, meta: dict) -> str:
-    # Pick decision examples: first KNOWN root, first DEFERRED, first AMBIGUOUS,
-    # first with H11-15, first early-stop
-    examples = []
-    seen = set()
-    criteria = [
-        lambda r: r.root_state == "KNOWN" and r.wazn,
-        lambda r: r.root_state == "DEFERRED",
-        lambda r: r.root_state == "AMBIGUOUS",
-        lambda r: r.h11_h15_reached,
-        lambda r: bool(r.early_stop_reason),
-        lambda r: r.word_class == "MABNI",
+    # Full slot table
+    slot_rows = ''.join(_slot_html(s) for s in ts)
+
+    # Deferred / not-opened breakdown
+    deferred_section = ''
+    if cv.get('deferred_claims'):
+        deferred_section = (
+            '<div class="claim-group deferred-group">'
+            '<div class="cg-title">DEFERRED CLAIMS</div>'
+            + ''.join(f'<span class="claim-tag deferred">{_esc(s)}</span>' for s in cv['deferred_claims'])
+            + '</div>'
+        )
+    licensed_section = ''
+    if cv.get('licensed_claims'):
+        licensed_section = (
+            '<div class="claim-group licensed-group">'
+            '<div class="cg-title">LICENSED CLAIMS</div>'
+            + ''.join(f'<span class="claim-tag licensed">{_esc(s)}</span>' for s in cv['licensed_claims'])
+            + '</div>'
+        )
+    ambig_section = ''
+    if cv.get('ambiguous_claims'):
+        ambig_section = (
+            '<div class="claim-group ambig-group">'
+            '<div class="cg-title">AMBIGUOUS CLAIMS</div>'
+            + ''.join(f'<span class="claim-tag ambig">{_esc(s)}</span>' for s in cv['ambiguous_claims'])
+            + '</div>'
+        )
+    not_opened_section = ''
+    if cv.get('not_opened_layers'):
+        not_opened_section = (
+            '<div class="claim-group not-opened-group">'
+            '<div class="cg-title">NOT OPENED LAYERS</div>'
+            + ''.join(f'<span class="claim-tag not-opened">{_esc(l)}</span>' for l in cv['not_opened_layers'])
+            + '</div>'
+        )
+
+    # Morphosyntax values (real values or — if absent)
+    ms_items = [
+        ('number', ms.get('number')), ('gender', ms.get('gender')),
+        ('person', ms.get('person')), ('tense', ms.get('tense_aspect')),
+        ('mood', ms.get('mood')), ('voice', ms.get('voice')),
     ]
-    for crit in criteria:
-        for r in results:
-            if crit(r) and r.token_index not in seen:
-                examples.append(r)
-                seen.add(r.token_index)
-                break
-
-    vc = stats["verdict_counts"]
-    rc = stats["root_state_counts"]
-
-    # Token table rows
-    table_rows = []
-    for r in results:
-        seg_parts = []
-        if r.proclitics:
-            seg_parts.append('<span class="clitic proc">' + '+'.join(_esc(p) for p in r.proclitics) + '</span>')
-        seg_parts.append('<span class="host">' + _esc(r.host_surface or '—') + '</span>')
-        if r.enclitics:
-            seg_parts.append('<span class="clitic enc">' + '+'.join(_esc(e) for e in r.enclitics) + '</span>')
-        seg_html = ' | '.join(seg_parts)
-
-        reason = r.early_stop_reason or r.taaqol_failure_code or ''
-        h_str = ('✓ ' + ', '.join(r.h11_h15_filled_slots[:2])) if r.h11_h15_reached else '—'
-
-        table_rows.append(
-            f'<tr>'
-            f'<td class="idx">{r.token_index}</td>'
-            f'<td class="arabic">{_esc(r.original_surface)}</td>'
-            f'<td>{seg_html}</td>'
-            f'<td class="arabic host-cell">{_esc(r.host_surface or "")}</td>'
-            f'<td class="wc">{_esc(r.word_class or "—")}</td>'
-            f'<td>{_root_badge(r)}</td>'
-            f'<td class="wazn">{_esc(r.wazn or "—")}</td>'
-            f'<td class="h-cell">{_esc(h_str)}</td>'
-            f'<td>{_verdict_badge(r.taaqol_effective_verdict)}</td>'
-            f'<td class="reason">{_esc(reason[:60])}</td>'
-            f'</tr>'
-        )
-    table_html = '\n'.join(table_rows)
-
-    examples_html = '\n<hr style="border:none;border-top:1px solid #e2e8f0;margin:16px 0;">\n'.join(
-        f'<div class="decision-block">{_decision_example(r)}</div>' for r in examples
+    ms_html = ' '.join(
+        f'<span class="ms-item"><span class="ms-lbl">{_esc(k)}</span>'
+        f'<span class="ms-val">{_esc(v) if v else "—"}</span></span>'
+        for k, v in ms_items
     )
 
-    verdict_bars = ''
-    total = stats['token_count']
-    for v, cnt in sorted(vc.items(), key=lambda x: -x[1]):
-        pct = cnt / total * 100
-        verdict_bars += (
-            f'<div class="bar-row"><span class="bar-label">{_esc(v)}</span>'
-            f'<div class="bar-track"><div class="bar-fill" style="width:{pct:.1f}%"></div></div>'
-            f'<span class="bar-count">{cnt}</span></div>\n'
+    # Root analysis row
+    root_analysis_html = (
+        f'<table class="mini-table"><tr>'
+        f'<td><b>state</b></td><td>{_esc(ra.get("root_state","—"))}</td>'
+        f'<td><b>canonical</b></td><td class="arabic">{_esc(ra.get("canonical_root","—"))}</td>'
+        f'<td><b>wazn</b></td><td>{_esc(ra.get("wazn","—"))}</td>'
+        f'<td><b>masdar</b></td><td>{_esc(ra.get("masdar","—"))}</td>'
+        f'<td><b>form</b></td><td>{_esc(ra.get("cra_form_family","—"))}</td>'
+        f'<td><b>suffix</b></td><td class="arabic">{_esc(ra.get("cra_suffix_stripped","—"))}</td>'
+        f'</tr></table>'
+    )
+    if ra.get('cra_reason_codes') or ra.get('phase4a_residuals') or ra.get('rc_residual_codes'):
+        all_reasons = (ra.get('cra_reason_codes') or []) + (ra.get('phase4a_residuals') or []) + (ra.get('rc_residual_codes') or [])
+        root_analysis_html += (
+            '<div class="residual-tag">Root DEFER reason: '
+            + '; '.join(_esc(x) for x in all_reasons)
+            + '</div>'
         )
 
-    root_bars = ''
-    for v, cnt in sorted(rc.items(), key=lambda x: -x[1]):
-        pct = cnt / total * 100
-        root_bars += (
-            f'<div class="bar-row"><span class="bar-label">{_esc(v)}</span>'
-            f'<div class="bar-track"><div class="bar-fill bar-root" style="width:{pct:.1f}%"></div></div>'
-            f'<span class="bar-count">{cnt}</span></div>\n'
+    # Taaqol detail
+    tq_detail = (
+        f'<table class="mini-table"><tr>'
+        f'<td><b>upstream</b></td><td>{_esc(tq.get("upstream_verdict","—"))}</td>'
+        f'<td><b>taaqol</b></td><td>{_esc(tq.get("taaqol_verdict","—"))}</td>'
+        f'<td><b>effective</b></td><td>{_state_badge(tq_eff)}</td>'
+        f'<td><b>fail_closed</b></td><td>{_esc(tq.get("fail_closed","—"))}</td>'
+        f'</tr>'
+        f'<tr>'
+        f'<td><b>gamma</b></td><td>{_esc(tq.get("gamma_result","—"))}</td>'
+        f'<td><b>slot_graph</b></td><td>{_esc(tq.get("slot_graph_digest","—"))}</td>'
+        f'<td><b>gate</b></td><td>{_esc(tq.get("transition_gate_result","—"))}</td>'
+        f'<td><b>active</b></td><td>{str(tq.get("available","—"))}</td>'
+        f'</tr></table>'
+    )
+    if tq_fail:
+        tq_detail += f'<div class="residual-tag">Taaqol failure: {_esc(tq_fail)}</div>'
+    if tq.get('reason_codes'):
+        tq_detail += (
+            '<div class="residual-tag">reason_codes: '
+            + '; '.join(_esc(x) for x in tq.get('reason_codes', []))
+            + '</div>'
         )
+    if tq.get('trace_events'):
+        tq_detail += '<div class="trace-title">Trace events:</div>'
+        for ev in tq['trace_events']:
+            tq_detail += (
+                f'<div class="trace-ev">'
+                f'[{_esc(ev.get("step","?"))}] {_esc(ev.get("component",""))} → '
+                f'{_esc(str(ev.get("output",""))[:120])}'
+                f'</div>'
+            )
 
-    checks_ok = all(v == 0 for k, v in checks.items() if k != 'TAAQOL_RUNTIME_ACTIVE')
-    checks_taaqol_note = (
-        '<span style="color:#16a34a">✓ Taaqol runtime active</span>'
+    open_attr = ' open' if open_detail else ''
+    return f'''
+<details class="token-details"{open_attr} id="tok{idx}">
+  <summary class="token-summary">
+    <span class="tok-idx">#{idx}</span>
+    <span class="tok-surf arabic">{_esc(surf)}</span>
+    <span class="tok-wc">{_esc(wc.get("class","—"))}</span>
+    <span class="tok-root arabic">{_esc(root_disp)}</span>
+    <span class="tok-wazn">{_esc(ra.get("wazn","—"))}</span>
+    {_state_badge(overall)}
+    {_state_badge(tq_eff)}
+    <span class="tok-layer-badges">{layer_badges}</span>
+  </summary>
+
+  <div class="token-body">
+    <div class="section-grid">
+
+      <div class="section">
+        <div class="section-title">Segmentation</div>
+        <table class="mini-table">
+          <tr><td>proclitics</td><td class="arabic">{_esc(' '.join(seg.get('proclitics',[])) or '—')}</td></tr>
+          <tr><td>host</td><td class="arabic"><strong>{_esc(seg.get('host_surface','—'))}</strong></td></tr>
+          <tr><td>enclitics</td><td class="arabic">{_esc(' '.join(seg.get('enclitics',[])) or '—')}</td></tr>
+          <tr><td>article</td><td>{str(seg.get('has_article',False))}</td></tr>
+        </table>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Word Class</div>
+        <table class="mini-table">
+          <tr><td>class</td><td><strong>{_esc(wc.get('class','—'))}</strong></td></tr>
+          <tr><td>subclass</td><td>{_esc(wc.get('subclass','—'))}</td></tr>
+          <tr><td>verdict</td><td>{_state_badge(wc.get('verdict'))}</td></tr>
+          <tr><td>early_stop</td><td>{_esc(wc.get('inflection_skipped_reason','—'))}</td></tr>
+        </table>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Morphosyntax (from pipeline)</div>
+        <div class="ms-grid">{ms_html}</div>
+      </div>
+
+    </div>
+
+    <div class="section">
+      <div class="section-title">Root / CRA / Wazn / Masdar</div>
+      {root_analysis_html}
+    </div>
+
+    <div class="section">
+      <div class="section-title">Claim Groups</div>
+      <div class="claim-groups">
+        {licensed_section}{deferred_section}{ambig_section}{not_opened_section}
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Taaqol Claim Decomposition</div>
+      {tq_detail}
+    </div>
+
+    <div class="section">
+      <div class="section-title">All Typed Slots ({len(ts)} total)</div>
+      <table class="slot-table">
+        <thead><tr><th>Slot</th><th>Layer</th><th>State</th><th>Value / Evidence / Residual</th></tr></thead>
+        <tbody>{slot_rows}</tbody>
+      </table>
+    </div>
+
+    <div class="section footer-meta">
+      claim_key: <code>{_esc(r.get('claim_key',''))}</code>
+      &nbsp;|&nbsp;
+      evaluation_id: <code>{_esc(r.get('evaluation_id',''))}</code>
+      &nbsp;|&nbsp;
+      pipeline_verdict: <strong>{_esc(r.get('pipeline_verdict',''))}</strong>
+    </div>
+  </div>
+</details>
+'''
+
+
+# ── full HTML report ──────────────────────────────────────────────────────────
+def format_html(results: list[dict], stats: dict, checks: dict, meta: dict) -> str:
+    # Open first DEFERRED-root token by default for demo
+    open_idx = next(
+        (r['token_index'] for r in results if r.get('root_analysis', {}).get('root_state') == 'DEFERRED'),
+        None
+    )
+
+    token_html_parts = [_token_html(r, open_detail=(r['token_index'] == open_idx)) for r in results]
+    all_tokens_html  = '\n'.join(token_html_parts)
+
+    # Integrity section
+    int_html = ''
+    for k, v in checks.items():
+        ok = v == 0 or (k == 'TAAQOL_RUNTIME_ACTIVE' and v >= 0)
+        cls = 'int-ok' if ok else 'int-bad'
+        int_html += f'<div class="int-item {cls}"><span class="int-key">{_esc(k)}</span><span class="int-val">{v}</span></div>\n'
+
+    taaqol_note = (
+        '<span class="tq-active">✓ Taaqol runtime active — live evaluations present</span>'
         if checks['TAAQOL_RUNTIME_ACTIVE'] > 0
-        else '<span style="color:#d97706">⚠ Taaqol runtime unavailable — verdicts are DEFERRED, not hidden</span>'
+        else '<span class="tq-deferred">⚠ Taaqol runtime unavailable (Python 3.10 sandbox). '
+             'On macOS/3.12.4 all Taaqol stages will be live. '
+             'All verdicts are truthfully DEFERRED — nothing is hidden.</span>'
     )
 
-    return f"""<!DOCTYPE html>
+    return f'''<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hokom–Taaqol Live Demo — آية الدَّيْن</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hokom–Taaqol Live Demo — آية الدَّيْن (v2)</title>
 <style>
-  * {{ box-sizing: border-box; }}
-  body {{
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background: #f8fafc; color: #1e293b; margin: 0; padding: 0;
-    direction: rtl;
-  }}
-  .page {{ max-width: 1400px; margin: 0 auto; padding: 24px; }}
-  h1 {{ font-size: 1.6em; margin-bottom: 4px; color: #0f172a; }}
-  h2 {{ font-size: 1.2em; color: #334155; margin: 24px 0 8px; border-bottom: 2px solid #e2e8f0; padding-bottom: 4px; }}
-  h3 {{ font-size: 1em; color: #475569; margin: 16px 0 6px; }}
-  .verse-box {{
-    background: #fff; border: 1px solid #cbd5e1; border-radius: 10px;
-    padding: 20px 24px; font-size: 1.3em; line-height: 2.2;
-    direction: rtl; text-align: justify; color: #0f172a;
-    box-shadow: 0 1px 4px rgba(0,0,0,.06);
-  }}
-  .meta-row {{ display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0; }}
-  .meta-card {{
-    background: #fff; border: 1px solid #e2e8f0; border-radius: 8px;
-    padding: 10px 16px; min-width: 150px;
-  }}
-  .meta-card .val {{ font-size: 1.5em; font-weight: 700; color: #0f172a; }}
-  .meta-card .lbl {{ font-size: 0.78em; color: #64748b; }}
-  .badge {{
-    display: inline-block; padding: 2px 7px; border-radius: 4px;
-    font-size: 0.78em; font-weight: 600; letter-spacing: .02em;
-  }}
-  .badge-green   {{ background:#dcfce7; color:#166534; }}
-  .badge-amber   {{ background:#fef9c3; color:#854d0e; }}
-  .badge-red     {{ background:#fee2e2; color:#991b1b; }}
-  .badge-purple  {{ background:#f3e8ff; color:#6b21a8; }}
-  .badge-blue    {{ background:#dbeafe; color:#1e40af; }}
-  .badge-gray    {{ background:#f1f5f9; color:#475569; }}
-  table {{ border-collapse: collapse; width: 100%; font-size: 0.82em; }}
-  th {{
-    background: #1e293b; color: #fff; padding: 8px 10px;
-    text-align: right; font-weight: 600; white-space: nowrap;
-  }}
-  td {{ padding: 6px 10px; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }}
-  tr:hover td {{ background: #f0f9ff; }}
-  tr:nth-child(even) td {{ background: #f8fafc; }}
-  tr:nth-child(even):hover td {{ background: #f0f9ff; }}
-  .arabic {{ font-size: 1.05em; direction: rtl; }}
-  .host-cell {{ color: #334155; }}
-  .idx {{ color: #94a3b8; font-size: 0.85em; }}
-  .wc {{ font-size: 0.78em; color: #475569; }}
-  .wazn {{ font-size: 0.78em; color: #0369a1; }}
-  .h-cell {{ font-size: 0.78em; color: #166534; }}
-  .reason {{ font-size: 0.75em; color: #64748b; direction: ltr; text-align: left; }}
-  .clitic {{ font-size: 0.85em; color: #7c3aed; }}
-  .host {{ font-weight: 500; }}
-  .bar-row {{ display: flex; align-items: center; gap: 8px; margin: 4px 0; }}
-  .bar-label {{ min-width: 200px; font-size: 0.82em; color: #334155; text-align: right; }}
-  .bar-track {{ flex: 1; height: 14px; background: #e2e8f0; border-radius: 99px; overflow: hidden; }}
-  .bar-fill {{ height: 100%; background: #3b82f6; border-radius: 99px; }}
-  .bar-root {{ background: #8b5cf6; }}
-  .bar-count {{ min-width: 30px; font-size: 0.82em; color: #64748b; }}
-  .decision-block {{ background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 18px; margin: 12px 0; }}
-  .decision-table {{ width: auto; font-size: 0.82em; }}
-  .decision-table td {{ padding: 3px 8px; border: none; }}
-  .dt-label {{ font-weight: 600; color: #475569; min-width: 200px; }}
-  .integrity-row {{ display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0; }}
-  .integrity-item {{
-    padding: 6px 14px; border-radius: 6px; font-size: 0.82em; font-weight: 600;
-  }}
-  .int-ok  {{ background: #dcfce7; color: #166534; }}
-  .int-bad {{ background: #fee2e2; color: #991b1b; }}
-  .int-info {{ background: #dbeafe; color: #1e40af; }}
-  .meta-box {{
-    background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px;
-    padding:10px 14px; font-size:0.78em; color:#475569; direction:ltr; text-align:left;
-  }}
-  .defer-section {{
-    background:#fffbeb; border-left:4px solid #f59e0b;
-    padding:14px 18px; border-radius:0 8px 8px 0; margin:16px 0;
-  }}
-  .defer-section p {{ margin: 4px 0; font-size: 0.88em; }}
+*{{box-sizing:border-box;}}
+body{{font-family:'Segoe UI',system-ui,sans-serif;background:#f8fafc;color:#1e293b;margin:0;padding:0;direction:rtl;}}
+.page{{max-width:1400px;margin:0 auto;padding:24px;}}
+h1{{font-size:1.6em;margin-bottom:4px;}}
+h2{{font-size:1.15em;color:#334155;margin:20px 0 6px;border-bottom:2px solid #e2e8f0;padding-bottom:4px;}}
+.verse-box{{background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:18px 22px;font-size:1.25em;line-height:2.2;direction:rtl;text-align:justify;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:16px;}}
+.stat-row{{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0;}}
+.stat-card{{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:8px 14px;min-width:130px;}}
+.stat-card .val{{font-size:1.45em;font-weight:700;color:#0f172a;}}
+.stat-card .lbl{{font-size:0.76em;color:#64748b;}}
+.badge{{display:inline-block;padding:2px 6px;border-radius:4px;font-size:0.76em;font-weight:600;letter-spacing:.02em;}}
+.bdg-green{{background:#dcfce7;color:#166534;}}
+.bdg-amber{{background:#fef9c3;color:#854d0e;}}
+.bdg-yellow{{background:#fef08a;color:#713f12;}}
+.bdg-red{{background:#fee2e2;color:#991b1b;}}
+.bdg-purple{{background:#f3e8ff;color:#6b21a8;}}
+.bdg-blue{{background:#dbeafe;color:#1e40af;}}
+.bdg-gray{{background:#f1f5f9;color:#475569;}}
+/* Token details */
+details.token-details{{border:1px solid #e2e8f0;border-radius:8px;margin:5px 0;background:#fff;}}
+details.token-details[open]{{box-shadow:0 2px 8px rgba(0,0,0,.08);}}
+summary.token-summary{{cursor:pointer;padding:10px 14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;list-style:none;}}
+summary.token-summary::-webkit-details-marker{{display:none;}}
+summary:hover{{background:#f0f9ff;border-radius:8px;}}
+.tok-idx{{color:#94a3b8;font-size:0.82em;min-width:28px;}}
+.tok-surf{{font-size:1.1em;font-weight:600;min-width:120px;}}
+.tok-wc{{font-size:0.78em;color:#475569;min-width:60px;}}
+.tok-root{{font-size:0.9em;color:#0369a1;min-width:70px;}}
+.tok-wazn{{font-size:0.78em;color:#7c3aed;min-width:60px;}}
+.tok-layer-badges{{display:flex;flex-wrap:wrap;gap:3px;}}
+.lv-name{{font-size:0.7em;color:#64748b;margin-right:4px;}}
+.token-body{{padding:14px 18px;border-top:1px solid #f1f5f9;}}
+.section-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:14px;}}
+.section{{background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:10px 14px;margin-bottom:10px;}}
+.section-title{{font-size:0.8em;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}}
+.mini-table{{border-collapse:collapse;font-size:0.82em;width:auto;}}
+.mini-table td{{padding:2px 8px;border:none;vertical-align:middle;}}
+.mini-table td:first-child{{color:#64748b;font-size:0.9em;min-width:90px;}}
+/* Morphosyntax */
+.ms-grid{{display:flex;flex-wrap:wrap;gap:6px;}}
+.ms-item{{display:flex;flex-direction:column;align-items:center;background:#fff;border:1px solid #e2e8f0;border-radius:5px;padding:4px 8px;min-width:60px;}}
+.ms-lbl{{font-size:0.68em;color:#94a3b8;text-transform:uppercase;}}
+.ms-val{{font-size:0.9em;font-weight:600;color:#0f172a;}}
+/* Claim groups */
+.claim-groups{{display:flex;flex-wrap:wrap;gap:8px;}}
+.claim-group{{padding:8px 12px;border-radius:6px;border:1px solid;min-width:180px;}}
+.cg-title{{font-size:0.7em;font-weight:700;text-transform:uppercase;margin-bottom:5px;}}
+.claim-tag{{display:inline-block;padding:2px 6px;border-radius:4px;font-size:0.75em;margin:2px;}}
+.licensed-group{{background:#f0fdf4;border-color:#bbf7d0;}}
+.licensed-group .cg-title{{color:#166534;}}
+.licensed{{background:#dcfce7;color:#166534;}}
+.deferred-group{{background:#fffbeb;border-color:#fde68a;}}
+.deferred-group .cg-title{{color:#92400e;}}
+.deferred{{background:#fef9c3;color:#854d0e;}}
+.ambig-group{{background:#faf5ff;border-color:#e9d5ff;}}
+.ambig-group .cg-title{{color:#6b21a8;}}
+.ambig{{background:#f3e8ff;color:#6b21a8;}}
+.not-opened-group{{background:#fff7ed;border-color:#fed7aa;}}
+.not-opened-group .cg-title{{color:#9a3412;}}
+.not-opened{{background:#ffedd5;color:#9a3412;}}
+/* Slot table */
+.slot-table{{border-collapse:collapse;width:100%;font-size:0.8em;}}
+.slot-table th{{background:#334155;color:#fff;padding:5px 10px;text-align:right;}}
+.slot-table td{{padding:4px 10px;border-bottom:1px solid #f1f5f9;}}
+.slot-id{{font-family:monospace;font-size:0.85em;}}
+.slot-layer{{color:#64748b;font-size:0.82em;}}
+.slot-val{{direction:rtl;}}
+.state-filled{{background:#f0fdf4;}}
+.state-unknown{{background:#fffbeb;}}
+.state-not_applicable{{background:#f8fafc;color:#94a3b8;}}
+.state-ambiguous{{background:#faf5ff;}}
+.state-blocked{{background:#fff1f2;}}
+.ev-list{{display:flex;flex-wrap:wrap;gap:3px;margin-top:3px;}}
+.ev-tag{{background:#dbeafe;color:#1e40af;padding:1px 5px;border-radius:3px;font-size:0.7em;}}
+.residual-tag{{font-size:0.75em;color:#b45309;background:#fef9c3;padding:2px 6px;border-radius:3px;margin-top:3px;display:inline-block;}}
+.cands{{color:#64748b;font-size:0.82em;}}
+.nil{{color:#94a3b8;}}
+/* Trace */
+.trace-title{{font-size:0.76em;font-weight:600;color:#475569;margin-top:6px;}}
+.trace-ev{{font-size:0.75em;color:#475569;padding:2px 4px;background:#f1f5f9;border-radius:3px;margin:1px 0;direction:ltr;text-align:left;}}
+/* Integrity */
+.int-grid{{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;}}
+.int-item{{padding:5px 12px;border-radius:5px;font-size:0.82em;display:flex;gap:6px;}}
+.int-key{{color:inherit;}}
+.int-val{{font-weight:700;}}
+.int-ok{{background:#dcfce7;color:#166534;}}
+.int-bad{{background:#fee2e2;color:#991b1b;}}
+.tq-active{{color:#16a34a;font-size:0.88em;}}
+.tq-deferred{{color:#d97706;font-size:0.88em;}}
+.footer-meta{{font-size:0.76em;color:#64748b;direction:ltr;text-align:left;padding:6px 0;}}
+.arabic{{direction:rtl;}}
+.defer-notice{{background:#fffbeb;border-left:4px solid #f59e0b;padding:12px 16px;border-radius:0 6px 6px 0;font-size:0.88em;margin:14px 0;}}
+.meta-box{{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:6px;padding:10px 14px;font-size:0.78em;color:#475569;direction:ltr;text-align:left;}}
 </style>
 </head>
 <body>
 <div class="page">
-
-  <h1>Hokom–Taaqol — عرض تشغيلي حي</h1>
-  <p style="color:#64748b;margin:0 0 16px;direction:rtl;">
-    سورة البقرة، الآية 282 — آية الدَّيْن &nbsp;|&nbsp; المرحلة: HOKOM-TAAQOL-AYAT-AL-DAYN-LIVE-DEMO-01
+  <h1>Hokom–Taaqol — عرض تشغيلي حي (v2 — تفاصيل كاملة)</h1>
+  <p style="color:#64748b;margin:0 0 12px;direction:rtl;">
+    سورة البقرة 2:282 — آية الدَّيْن &nbsp;|&nbsp; HOKOM-TAAQOL-AYAT-AL-DAYN-LIVE-DEMO-01
   </p>
 
-  <div class="verse-box" dir="rtl">
-    {_esc(AYAT_AL_DAYN)}
+  <div class="verse-box" dir="rtl">{_esc(AYAT_AL_DAYN)}</div>
+
+  <h2>إحصاءات</h2>
+  <div class="stat-row">
+    <div class="stat-card"><div class="val">{stats["token_count"]}</div><div class="lbl">توكنات</div></div>
+    <div class="stat-card"><div class="val">{stats["typed_bundles"]}</div><div class="lbl">Typed bundles</div></div>
+    <div class="stat-card"><div class="val">{stats["taaqol_live"]}</div><div class="lbl">Taaqol live</div></div>
+    <div class="stat-card"><div class="val">{stats["h11_h15_reached"]}</div><div class="lbl">H11-H15 reached</div></div>
+    <div class="stat-card"><div class="val">{stats["early_stops"]}</div><div class="lbl">توقفات دستورية</div></div>
+    <div class="stat-card"><div class="val">{stats["root_states"].get("KNOWN",0)}</div><div class="lbl">جذر معروف</div></div>
+    <div class="stat-card"><div class="val">{stats["root_states"].get("DEFERRED",0)}</div><div class="lbl">جذر مؤجَّل</div></div>
+    <div class="stat-card"><div class="val">{stats["root_states"].get("UNKNOWN",0)}</div><div class="lbl">جذر مجهول</div></div>
+    <div class="stat-card"><div class="val">{stats["root_states"].get("AMBIGUOUS",0)}</div><div class="lbl">جذر مبهم</div></div>
   </div>
-
-  <h2>إحصاءات التشغيل</h2>
-  <div class="meta-row">
-    <div class="meta-card"><div class="val">{stats['token_count']}</div><div class="lbl">كلمات/توكنات</div></div>
-    <div class="meta-card"><div class="val">{stats['typed_bundles']}</div><div class="lbl">حزم مكتوبة بالنوع (Typed bundles)</div></div>
-    <div class="meta-card"><div class="val">{stats['taaqol_live_evals']}</div><div class="lbl">تشغيلات Taaqol الحية</div></div>
-    <div class="meta-card"><div class="val">{stats['h11_h15_reached']}</div><div class="lbl">وصلت إلى H11-H15</div></div>
-    <div class="meta-card"><div class="val">{stats['constitutional_early_stops']}</div><div class="lbl">توقفات دستورية صحيحة</div></div>
-    <div class="meta-card"><div class="val">{sum(1 for r in results if r.root_state == 'KNOWN')}</div><div class="lbl">جذر معروف</div></div>
-    <div class="meta-card"><div class="val">{sum(1 for r in results if r.root_state == 'DEFERRED')}</div><div class="lbl">جذر مؤجَّل</div></div>
-    <div class="meta-card"><div class="val">{sum(1 for r in results if r.root_state == 'AMBIGUOUS')}</div><div class="lbl">جذر مبهم</div></div>
-  </div>
-
-  <h2>توزيع الأحكام (Verdicts)</h2>
-  {verdict_bars}
-
-  <h2>حالات الجذر</h2>
-  {root_bars}
 
   <h2>صحة النظام</h2>
-  <div class="integrity-row">
-    <div class="integrity-item {'int-ok' if checks['UNTYPED_PAYLOADS']==0 else 'int-bad'}">
-      UNTYPED_PAYLOADS = {checks['UNTYPED_PAYLOADS']}
-    </div>
-    <div class="integrity-item {'int-ok' if checks['SILENT_FALLBACKS']==0 else 'int-bad'}">
-      SILENT_FALLBACKS = {checks['SILENT_FALLBACKS']}
-    </div>
-    <div class="integrity-item {'int-ok' if checks['CLAIM_KEY_NONDETERMINISM']==0 else 'int-bad'}">
-      CLAIM_KEY_NONDETERMINISM = {checks['CLAIM_KEY_NONDETERMINISM']}
-    </div>
-    <div class="integrity-item {'int-ok' if checks['EVALUATION_ID_COLLISIONS']==0 else 'int-bad'}">
-      EVALUATION_ID_COLLISIONS = {checks['EVALUATION_ID_COLLISIONS']}
-    </div>
-    <div class="integrity-item int-info">
-      TAAQOL_RUNTIME_ACTIVE = {checks['TAAQOL_RUNTIME_ACTIVE']}
-    </div>
-  </div>
-  <p style="font-size:0.85em;">{checks_taaqol_note}</p>
+  <div class="int-grid">{int_html}</div>
+  <p>{taaqol_note}</p>
 
-  <div class="defer-section">
-    <strong>النظام لا يخمّن عند غياب الدليل</strong>
-    <p>عندما لا يكون لدى النظام دليل كافٍ على الجذر أو الوزن أو الاشتقاق، يصدر حكم <strong>DEFER</strong>
-    أو <strong>AMBIGUOUS</strong> — لا يختار بشكل عشوائي ولا يخفي الغموض.
-    وعندما تُغلق الحدود الدستورية مسار التحليل (كلمة مبنية أو حرف جر أو اسم علم جامد)،
-    يصدر <strong>CONSTITUTIONAL_VALID_EARLY_STOP</strong> ويكتفي بالحكم المعتمد دستوريًا.</p>
-    <p>جميع التوقفات المبكرة في هذا العرض هي توقفات دستورية صحيحة — ليست أخطاء.</p>
+  <div class="defer-notice">
+    <strong>النظام لا يخمّن عند غياب الدليل</strong><br>
+    عندما يكون الجذر أو الوزن أو المصدر مؤجَّلًا، لا يصدر النظام حكم LICENSED الشامل.
+    يُصدر بدلًا منه <strong>COMPOSITE</strong> مع قائمتين منفصلتين:
+    <strong>LICENSED_CLAIMS</strong> (الحقول المرخَّصة تحديدًا) و<strong>DEFERRED_CLAIMS</strong> (الحقول المؤجَّلة).
+    هذا ينطبق على <em>تَدَايَنْتُمْ</em>: word_class=FI3L مرخَّص، لكن الجذر والوزن والمصدر مؤجَّلة.
   </div>
 
-  <h2>كيف اتخذ النظام قراره؟ — أمثلة مختارة</h2>
-  {examples_html}
-
-  <h2>جدول الكلمات الكاملة</h2>
-  <div style="overflow-x:auto;">
-  <table>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>السطح</th>
-        <th>التجزئة</th>
-        <th>المضيف</th>
-        <th>ف. الكلام</th>
-        <th>الجذر</th>
-        <th>الوزن</th>
-        <th>H11-H15</th>
-        <th>Taaqol</th>
-        <th>السبب</th>
-      </tr>
-    </thead>
-    <tbody>
-      {table_html}
-    </tbody>
-  </table>
-  </div>
+  <h2>الكلمات — انقر لتفاصيل كل طبقة</h2>
+  {all_tokens_html}
 
   <h2>بيانات البيئة</h2>
   <div class="meta-box">
-    HEAD: {_esc(meta.get('head',''))}<br>
-    Vendor SHA: {_esc(meta.get('vendor_sha',''))}<br>
-    Python: {_esc(meta.get('python',''))}<br>
-    Platform: {_esc(meta.get('platform',''))}<br>
-    Timestamp: {_esc(meta.get('timestamp',''))}<br>
-    Ayat source: {_esc(meta.get('ayat_source',''))}
+    HEAD: {_esc(meta.get("head",""))}<br>
+    Vendor SHA: {_esc(meta.get("vendor_sha",""))}<br>
+    Python: {_esc(meta.get("python",""))}<br>
+    Platform: {_esc(meta.get("platform",""))}<br>
+    Timestamp: {_esc(meta.get("timestamp",""))}<br>
+    Ayat source: {_esc(meta.get("ayat_source",""))}
   </div>
-
 </div>
 </body>
-</html>
-"""
+</html>'''
 
 
 # ── output writers ────────────────────────────────────────────────────────────
 REPORT_DIR = REPO_ROOT / 'reports' / 'ayat_al_dayn_demo'
 
-def write_outputs(results: list[TokenResult], stats: dict, checks: dict, meta: dict) -> dict[str, Path]:
+
+def write_outputs(results: list[dict], stats: dict, checks: dict, meta: dict) -> dict[str, Path]:
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
     paths = {}
 
-    # JSON
-    p = REPORT_DIR / 'ayat_al_dayn_results.json'
+    p = REPORT_DIR / 'ayat_al_dayn_results_full.json'
     p.write_text(format_json(results, stats, checks, meta), encoding='utf-8')
     paths['json'] = p
 
-    # CSV
     p = REPORT_DIR / 'ayat_al_dayn_results.csv'
     p.write_text(format_csv(results), encoding='utf-8')
     paths['csv'] = p
 
-    # HTML
     p = REPORT_DIR / 'ayat_al_dayn_manager_report.html'
     p.write_text(format_html(results, stats, checks, meta), encoding='utf-8')
     paths['html'] = p
@@ -928,70 +1347,66 @@ def write_outputs(results: list[TokenResult], stats: dict, checks: dict, meta: d
 
 # ── main ─────────────────────────────────────────────────────────────────────
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description='HOKOM-TAAQOL-AYAT-AL-DAYN-LIVE-DEMO-01 — Live pipeline demo over Ayat al-Dayn'
-    )
+    parser = argparse.ArgumentParser()
     parser.add_argument('--format', choices=['terminal', 'json', 'csv', 'html'], default='terminal')
-    parser.add_argument('--open', action='store_true', help='Write all formats and open HTML in browser')
+    parser.add_argument('--open', action='store_true')
     args = parser.parse_args()
 
     results = run_all(verbose=True)
     stats   = summary_stats(results)
     checks  = integrity_check(results)
     meta    = {
-        "stage":        "HOKOM-TAAQOL-AYAT-AL-DAYN-LIVE-DEMO-01",
-        "head":         _git(['git', 'rev-parse', '--short', 'HEAD']),
-        "head_full":    _git(['git', 'rev-parse', 'HEAD']),
-        "vendor_sha":   _vendor_sha(),
-        "python":       f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}",
-        "platform":     platform.system(),
-        "timestamp":    datetime.now(timezone.utc).isoformat(),
-        "ayat_source":  AYAT_SOURCE_FILE,
-        "token_count":  len(TOKENS),
+        'stage':       'HOKOM-TAAQOL-AYAT-AL-DAYN-LIVE-DEMO-01',
+        'version':     '2',
+        'head':        _git(['git', 'rev-parse', '--short', 'HEAD']),
+        'head_full':   _git(['git', 'rev-parse', 'HEAD']),
+        'vendor_sha':  _vendor_sha(),
+        'python':      f'{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}',
+        'platform':    platform.system(),
+        'timestamp':   datetime.now(timezone.utc).isoformat(),
+        'ayat_source': AYAT_SOURCE_FILE,
+        'token_count': len(TOKENS),
     }
 
+    paths = write_outputs(results, stats, checks, meta)
+
     if args.open:
-        paths = write_outputs(results, stats, checks, meta)
-        print(f"\nJSON : {paths['json']}")
-        print(f"CSV  : {paths['csv']}")
-        print(f"HTML : {paths['html']}")
         import webbrowser
         webbrowser.open(paths['html'].as_uri())
+        print(f'JSON : {paths["json"]}')
+        print(f'CSV  : {paths["csv"]}')
+        print(f'HTML : {paths["html"]}')
         return 0
 
     if args.format == 'terminal':
         print(format_terminal(results, stats, checks))
     elif args.format == 'json':
-        paths = write_outputs(results, stats, checks, meta)
         print(format_json(results, stats, checks, meta))
     elif args.format == 'csv':
-        paths = write_outputs(results, stats, checks, meta)
         print(format_csv(results))
     elif args.format == 'html':
-        paths = write_outputs(results, stats, checks, meta)
         print(paths['html'])
 
-    # Always write outputs to disk
-    paths = write_outputs(results, stats, checks, meta)
-
-    # Print summary to stderr
-    print("\n── Summary ─────────────────────────────────────────────────────", file=sys.stderr)
-    print(f"TOKEN_COUNT              = {stats['token_count']}", file=sys.stderr)
-    print(f"TYPED_BUNDLES            = {stats['typed_bundles']}", file=sys.stderr)
-    print(f"TAAQOL_LIVE_EVALUATIONS  = {stats['taaqol_live_evals']}", file=sys.stderr)
-    print(f"H11_H15_REACHED          = {stats['h11_h15_reached']}", file=sys.stderr)
-    print(f"CONSTITUTIONAL_STOPS     = {stats['constitutional_early_stops']}", file=sys.stderr)
-    print(f"VERDICT_COUNTS           = {stats['verdict_counts']}", file=sys.stderr)
-    print(f"ROOT_STATE_COUNTS        = {stats['root_state_counts']}", file=sys.stderr)
-    print(f"\nIntegrity checks:", file=sys.stderr)
+    print('\n── Summary ─────────────────────────────────────────────────', file=sys.stderr)
+    for k, v in {
+        'TOKEN_COUNT':             stats['token_count'],
+        'TYPED_BUNDLES':           stats['typed_bundles'],
+        'TAAQOL_LIVE_EVALUATIONS': stats['taaqol_live'],
+        'H11_H15_REACHED':         stats['h11_h15_reached'],
+        'EARLY_STOPS':             stats['early_stops'],
+    }.items():
+        print(f'  {k:<36} = {v}', file=sys.stderr)
+    print(f'  OVERALL_VERDICTS           = {stats["overall_verdicts"]}', file=sys.stderr)
+    print(f'  ROOT_STATES                = {stats["root_states"]}', file=sys.stderr)
+    print(f'  TAAQOL_VERDICTS            = {stats["taaqol_verdicts"]}', file=sys.stderr)
+    print('\n  Integrity:', file=sys.stderr)
     for k, v in checks.items():
-        ok = v == 0 if k != 'TAAQOL_RUNTIME_ACTIVE' else v >= 0
-        print(f"  {k:<36} = {v}  {'✓' if ok else '✗'}", file=sys.stderr)
-    print(f"\nOutput files:", file=sys.stderr)
-    for fmt, p in paths.items():
-        print(f"  {fmt.upper():<6} {p}", file=sys.stderr)
-    print("─" * 65, file=sys.stderr)
-
+        ok = '✓' if (v == 0 or (k == 'TAAQOL_RUNTIME_ACTIVE' and v >= 0)) else '✗'
+        print(f'    {k:<38} = {v}  {ok}', file=sys.stderr)
+    print(f'\n  JSON : {paths["json"]}', file=sys.stderr)
+    print(f'  CSV  : {paths["csv"]}', file=sys.stderr)
+    print(f'  HTML : {paths["html"]}', file=sys.stderr)
+    print('─' * 65, file=sys.stderr)
     return 0
 
 
