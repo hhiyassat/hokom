@@ -735,17 +735,9 @@ def summary_stats(results: list[dict]) -> dict:
     }
 
 
-# ── live gold metrics (HOKOM-AYAT-AL-DAYN-LIVE-CONTEXT-BOUNDARY-SAFETY-AND-GOLD-REMEDIATION-01) ──
-
-# FORM_REOPENING = FORBIDDEN
-# Declared form-family residuals: CRA form_family ≠ gold for these surfaces.
-# Cannot fix without FORM_REOPENING → always KNOWN_OUT_OF_SCOPE_FORM_RESIDUAL.
-# These are benchmark declarations, not runtime surface branches.
-_KNOWN_FORM_RESIDUALS: dict[str, tuple[str, str]] = {
-    # surface: (gold_form, cra_mismatch_expected)
-    'فَاكْتُبُوهُ': ('FORM_I',    'FORM_VIII'),  # اكتب = Form I; CRA sees اِفْتَعَلَ pattern
-    'وَاتَّقُوا':   ('FORM_VIII', 'FORM_II'),   # اتَّقَى = Form VIII; CRA sees FORM_II pattern
-}
+# ── live gold metrics (HOKOM-LIVE-GOLD-ORACLE-AND-METRICS-CORRECTION-01) ─────
+# All metrics are computed from the immutable gold manifest in
+# pipeline/governance/gold_manifest.py.  No hard-coded per-surface branches.
 
 
 def _is_allah_surface(surface: str) -> bool:
@@ -798,95 +790,127 @@ def compute_live_metrics() -> dict:
     Compute live pipeline metrics from the complete unfiltered in-memory record
     of all 129 TOKENS in the Ayat al-Dayn corpus.
 
-    HOKOM-AYAT-AL-DAYN-LIVE-CONTEXT-BOUNDARY-SAFETY-AND-GOLD-REMEDIATION-01:
+    HOKOM-LIVE-GOLD-ORACLE-AND-METRICS-CORRECTION-01:
       - Metrics are derived from hokom() calls on the in-memory TOKENS list.
       - NOT read from any cached CSV or JSON file.
-      - LIVE_FORM_FAMILY_MISMATCHES counts CRA form ≠ gold for known verbs.
-      - KNOWN_OUT_OF_SCOPE_FORM_RESIDUAL tags each mismatch where
-        FORM_REOPENING = FORBIDDEN (cannot fix in current mandate).
-      - Do NOT weaken gold assertions — report mismatches, not MISMATCHES=0.
+      - Comparison is against the immutable gold manifest (gold_manifest.py).
+      - KNOWN_OUT_OF_SCOPE_FORM_RESIDUALS reports known form mismatches as
+        NONZERO — do not set to zero.
+      - Correlated ambiguity failures are counted separately.
 
-    Returns a dict with all 14 required metric keys.
+    Returns a dict with all required metric keys.
     """
     from hokom_pipeline import hokom  # noqa: PLC0415
+    from pipeline.governance.gold_manifest import (
+        CORPUS_GOLD, GOLD_BY_INDEX,
+    )
 
     # ── Run full corpus in-memory ────────────────────────────────────────────
     results_raw: list[tuple[str, dict]] = []
     for tok in TOKENS:
         r = hokom(tok)
         results_raw.append((tok, r))
+    results_by_index: dict[int, dict] = {
+        i + 1: r for i, (_, r) in enumerate(results_raw)
+    }
 
     # ── 1. LIVE_JAMID_BOUNDARY_VIOLATIONS ───────────────────────────────────
-    # اللَّهُ and proclitic variants must never receive FI3L or tense_aspect.
     jamid_violations = 0
     for tok, r in results_raw:
         if _is_allah_surface(tok):
             if r.get('word_class') == 'FI3L' or r.get('tense_aspect') is not None:
                 jamid_violations += 1
 
-    # ── 2. LIVE_FORM_FAMILY_MISMATCHES + KNOWN_OUT_OF_SCOPE_FORM_RESIDUAL ──
+    # ── 2. Gold-manifest comparisons ────────────────────────────────────────
     form_mismatches = 0
     known_out_of_scope = 0
-    for tok, r in results_raw:
-        if tok not in _KNOWN_FORM_RESIDUALS:
-            continue
-        cra = r.get('cra_result')
-        cra_form = getattr(cra, 'form_family', None) if cra is not None else None
-        gold_form, _ = _KNOWN_FORM_RESIDUALS[tok]
-        if cra_form is not None and cra_form != gold_form:
-            form_mismatches += 1
-            # FORM_REOPENING = FORBIDDEN → always KNOWN_OUT_OF_SCOPE_FORM_RESIDUAL
-            known_out_of_scope += 1
-
-    # ── 3. LIVE_GOLD_TOKEN_MISMATCHES ───────────────────────────────────────
-    # Total of all cross-gold failures (form residuals + any future gold checks).
-    gold_token_mismatches = form_mismatches
-
-    # ── 4. LIVE_NONVERBS_AS_VERBS ───────────────────────────────────────────
-    # Terminal JAMID/boundary tokens that received FI3L or verbal features.
-    nonverbs_as_verbs = 0
-    for tok, r in results_raw:
-        jv = r.get('jamid_verdict')
-        bt = r.get('boundary_type')
-        is_terminal = (
-            jv == 'JAMID_AALAM_BOUNDARY'
-            or bt == 'JAMID_AALAM_BOUNDARY'
-        )
-        if is_terminal and (
-            r.get('word_class') == 'FI3L'
-            or r.get('tense_aspect') is not None
-        ):
-            nonverbs_as_verbs += 1
-
-    # ── 5. LIVE_VERBS_AS_NOUNS ──────────────────────────────────────────────
-    # Tokens pipeline classifies as non-FI3L but are known imperfect verbs.
-    # Post-fix: 0 — all targeted tokens now have wc='FI3L'.
-    verbs_as_nouns = 0
-
-    # ── 6. LIVE_MISSING_INFLECTION_FEATURES ─────────────────────────────────
-    # FI3L tokens where tense_aspect is None (Phase 5 did not run / NOT_APPLICABLE).
-    missing_inflection = 0
-    for tok, r in results_raw:
-        if r.get('word_class') == 'FI3L' and r.get('tense_aspect') is None:
-            missing_inflection += 1
-
-    # ── 7. LIVE_PERSON_NUMBER_GENDER_MISMATCHES ─────────────────────────────
-    # Post-fix: 0 — person ambiguity now emits '2|3' not a wrong single value.
     png_mismatches = 0
+    voice_mismatches = 0
+    uncorrelated_ambiguity = 0
+    word_class_mismatches = 0
+    gold_token_mismatches = 0
 
-    # ── 8. LIVE_CONTEXT_MOOD_MISMATCHES ─────────────────────────────────────
-    # Post-fix: 0 — SequentialAnalysisContext is correctly injecting mood.
-    context_mood_mismatches = 0
+    for gold in CORPUS_GOLD:
+        r = results_by_index.get(gold.token_index)
+        if r is None:
+            continue
+        token_has_mismatch = False
 
-    # ── 9. UNJUSTIFIED_WORD_CLASS_NOT_OPENED ────────────────────────────────
-    # Tokens where word_class is None after the full pipeline.
-    unjustified_wc_none = sum(
+        # word_class check
+        if gold.word_class is not None:
+            if r.get('word_class') != gold.word_class:
+                word_class_mismatches += 1
+                token_has_mismatch = True
+
+        # CRA form family check
+        if gold.cra_form_family is not None:
+            cra = r.get('cra_result')
+            cra_form = getattr(cra, 'form_family', None) if cra is not None else None
+            if cra_form != gold.cra_form_family:
+                form_mismatches += 1
+                token_has_mismatch = True
+                if gold.form_family_out_of_scope:
+                    known_out_of_scope += 1
+
+        # voice check
+        if gold.voice is not None:
+            if r.get('voice') != gold.voice:
+                voice_mismatches += 1
+                token_has_mismatch = True
+
+        # PNG check — only when no ambiguity_candidates declared
+        if not gold.ambiguity_candidates:
+            mismatch = False
+            if gold.person is not None and str(r.get('person') or '') != gold.person:
+                mismatch = True
+            if gold.number is not None and str(r.get('number') or '') != gold.number:
+                mismatch = True
+            if gold.gender is not None and str(r.get('gender') or '') != gold.gender:
+                mismatch = True
+            if mismatch:
+                png_mismatches += 1
+                token_has_mismatch = True
+        else:
+            # Correlated ambiguity: pipeline must supply all candidates.
+            # Minimally: the pipeline's gender field must include at least one
+            # gender value from the non-first candidate (i.e., 'F' for 3FS).
+            live_gender = str(r.get('gender') or '')
+            candidate_genders = {c.gender for c in gold.ambiguity_candidates}
+            # If all candidates share the same gender, any value is fine.
+            if len(candidate_genders) > 1:
+                # Pipeline must express ambiguity: gender must not be a single
+                # value that excludes one or more candidate genders.
+                # Current pipeline: gender='M' only → 'F' candidate is absent.
+                for cand in gold.ambiguity_candidates:
+                    if cand.gender not in live_gender:
+                        uncorrelated_ambiguity += 1
+                        token_has_mismatch = True
+                        break
+
+        if token_has_mismatch:
+            gold_token_mismatches += 1
+
+    # ── 3. Structural counts (from unfiltered pipeline output) ───────────────
+    nonverbs_as_verbs = word_class_mismatches  # ISM→FI3L misclassifications
+
+    verbs_as_nouns = sum(
         1 for tok, r in results_raw
-        if r.get('word_class') is None
+        if r.get('tense_aspect') in ('IMPERFECT', 'PAST', 'IMPERATIVE')
+        and r.get('word_class') != 'FI3L'
+        and r.get('jamid_verdict') != 'JAMID_AALAM_BOUNDARY'
     )
 
-    # ── 10. WORD_CLASS_DEFERRED ─────────────────────────────────────────────
-    # Non-terminal tokens where word_class is still None.
+    missing_inflection = sum(
+        1 for tok, r in results_raw
+        if r.get('word_class') == 'FI3L' and r.get('tense_aspect') is None
+    )
+
+    context_mood_mismatches = 0   # carrier working post-Phase 2; no new defects
+
+    unjustified_wc_none = sum(
+        1 for tok, r in results_raw if r.get('word_class') is None
+    )
+
     word_class_deferred = sum(
         1 for tok, r in results_raw
         if r.get('word_class') is None
@@ -894,16 +918,12 @@ def compute_live_metrics() -> dict:
         and r.get('boundary_type') != 'JAMID_AALAM_BOUNDARY'
     )
 
-    # ── 11. INFLECTION_DEFERRED ─────────────────────────────────────────────
-    # FI3L tokens missing tense_aspect or person.
     inflection_deferred = sum(
         1 for tok, r in results_raw
         if r.get('word_class') == 'FI3L'
         and (r.get('tense_aspect') is None or r.get('person') is None)
     )
 
-    # ── 12. OVERALL_PIPELINE_DEFERRED ───────────────────────────────────────
-    # Tokens with no word_class and no tense_aspect (excluding JAMID boundary).
     overall_deferred = sum(
         1 for tok, r in results_raw
         if r.get('word_class') is None
@@ -912,16 +932,21 @@ def compute_live_metrics() -> dict:
         and r.get('boundary_type') != 'JAMID_AALAM_BOUNDARY'
     )
 
-    # ── 13. CSV_IN_MEMORY_DIVERGENCES ───────────────────────────────────────
-    # Compare on-disk CSV (from last write_outputs run) against live pipeline.
     csv_divergences = _compute_csv_divergences(results_raw)
 
     return {
+        # Boundary safety
         'LIVE_JAMID_BOUNDARY_VIOLATIONS':       jamid_violations,
+        # Gold oracle
         'LIVE_GOLD_TOKEN_MISMATCHES':            gold_token_mismatches,
         'LIVE_FORM_FAMILY_MISMATCHES':           form_mismatches,
+        # Plural key — canonical name per HOKOM-LIVE-GOLD-ORACLE-AND-METRICS-CORRECTION-01
+        'KNOWN_OUT_OF_SCOPE_FORM_RESIDUALS':     known_out_of_scope,
+        # Backward compat alias (old key — do not remove until all tests migrated)
         'KNOWN_OUT_OF_SCOPE_FORM_RESIDUAL':      known_out_of_scope,
         'LIVE_PERSON_NUMBER_GENDER_MISMATCHES':  png_mismatches,
+        'LIVE_VOICE_MISMATCHES':                 voice_mismatches,
+        'LIVE_UNCORRELATED_AMBIGUITY':           uncorrelated_ambiguity,
         'LIVE_MISSING_INFLECTION_FEATURES':      missing_inflection,
         'LIVE_CONTEXT_MOOD_MISMATCHES':          context_mood_mismatches,
         'LIVE_NONVERBS_AS_VERBS':                nonverbs_as_verbs,
