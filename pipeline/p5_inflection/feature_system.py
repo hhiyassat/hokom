@@ -60,6 +60,59 @@ def _bare(s: str) -> str:
     return strip_diacritics(s)
 
 
+# ── Conjunction prefix stripping ──────────────────────────────────────────────
+
+def _strip_conjunction_prefix(surface: str) -> str:
+    """
+    Strip leading وَ (waw+fatha) or فَ (fa+fatha) conjunction prefix.
+    Requires at least 3 chars remaining after the strip so we don't
+    consume an entire short word.
+    """
+    if len(surface) >= 4:          # prefix (2 chars) + at least 2 remaining
+        first, second = surface[0], surface[1]
+        if first in ('و', 'ف') and second == FATHA:
+            return surface[2:]
+    return surface
+
+
+def _strip_lam_amr(surface: str) -> tuple:
+    """
+    Strip lam al-amr (لْ = lam + sukuun) from start of surface.
+    Returns (stripped_surface, lam_amr_found: bool).
+    Lam al-amr is always vowelless (sukuun).
+    """
+    if len(surface) >= 4:      # لْ (2 chars) + verb (≥2 chars)
+        if surface[0] == 'ل' and surface[1] == SUKUUN:
+            return surface[2:], True
+    return surface, False
+
+
+# ── Governing-particle sets (for multi-word input mood injection) ─────────────
+
+# Prohibitive / conditional particles that govern the JUSSIVE
+_JUSSIVE_PARTICLE_FORMS: frozenset = frozenset({
+    'لَا',    # laa naahiya (prohibitive)
+    'لَمْ',   # lam (past negation, jussive)
+    'لَمَّا',  # lamma (past negation, jussive)
+    'إِنْ',   # in (conditional)
+    'وَلَا',  # wa-laa naahiya (compound prohibitive)
+    'فَلَا',  # fa-laa naahiya (compound prohibitive)
+    'لَا تَ', # laa + verb (alternative split)
+})
+
+# Particles that govern the SUBJUNCTIVE
+_SUBJUNCTIVE_PARTICLE_FORMS: frozenset = frozenset({
+    'أَنْ',   # an
+    'لَنْ',   # lan (future negation)
+    'كَيْ',   # kay
+    'حَتَّى', # hatta
+    'أَلَّا',  # alla = an + la (subjunctive + negation)
+    'لِ',    # li-
+    'لِيَ',   # liya
+    'فَأَنْ', # fa-an
+})
+
+
 def _chars_and_diacs(s: str) -> list[tuple[str, list[str]]]:
     """
     Parse surface into list of (base_char, [diacritics]) pairs.
@@ -79,18 +132,19 @@ def _has_imperfect_prefix(s: str) -> Optional[str]:
     """
     Return the prefix letter if surface starts with an imperfect prefix.
 
-    Detects all patterns:
-      يَ / تَ / أَ / نَ  (active imperfect: prefix has fatha)
-      يُ / تُ / أُ / نُ  (passive imperfect or augmented: prefix has damma)
+    Automatically strips a leading conjunction prefix (وَ/فَ) before analysis.
 
-    Classic detection: fatha on prefix + sukuun on C1.
-    Extended detection: damma on prefix (augmented/passive) OR
-                        fatha on prefix + any consonant (augmented forms lack sukuun on C1).
-
-    The extended rule accepts any surface where the first char is a mudaric
-    prefix letter (ي/ت/أ/ن) with fatha or damma, followed by at least 2 more
-    consonants — this covers all Arabic imperfect patterns including Form II–X.
+    Detects:
+      يَ/تَ/أَ/نَ  (active, fatha on prefix)
+      يُ/تُ/أُ/نُ  (passive/augmented, damma on prefix)
+      Geminated roots: prefix + C1 + C2+SHADDA (e.g. تَضِلَّ, يَرُدُّ)
+      Hollow roots:    prefix + C1[damma/kasra] + و/ي + C3 (e.g. يَكُونُ, تَبِيعُ)
+      Dual imperfect:  ends in ونا  (NOT past نا suffix)
+      Augmented forms: 5+ bare chars with fatha prefix
     """
+    # Strip conjunction prefix before all detection
+    s = _strip_conjunction_prefix(s)
+
     if len(s) < 3:
         return None
     pairs = _chars_and_diacs(s)
@@ -107,36 +161,46 @@ def _has_imperfect_prefix(s: str) -> Optional[str]:
     if not has_fatha and not has_damma:
         return None  # prefix must carry a vowel
 
-    # ── Classic test: fatha on prefix + sukuun on next consonant ─────────────
+    # ── Classic test: fatha on prefix + sukuun on C1 ─────────────────────────
     if has_fatha and len(pairs) >= 2:
         _, second_diacs = pairs[1]
         if SUKUUN in second_diacs:
             return first_char
 
-    # ── Damma on prefix (passive/augmented) ──────────────────────────────────
+    # ── Damma on prefix (passive / augmented Form II-X) ──────────────────────
     if has_damma and len(pairs) >= 3:
-        # Passive/augmented: يُفَعِّلُ, يُنْصَرُ, etc.
         return first_char
 
-    # ── Extended: fatha on prefix but no sukuun on C1 (augmented forms II–X) ─
-    # Forms like Form II: يُفَعِّلُ have damma (covered above).
-    # For active augmented imperfect with fatha on prefix: e.g. يَتَفَعَّلُ (Form V)
-    # يَ + تَ + فَعَّلُ: pairs[0]=(ي,fatha), pairs[1]=(ت,fatha) — no sukuun on C1
+    # ── Geminated root: prefix + C1 + C2+SHADDA ─────────────────────────────
+    # e.g. تَضِلَّ (ت+ض[kasra]+ل[shadda]), يَرُدُّ (ي+ر[damma]+د[shadda])
+    # SHADDA at pairs[2] is the doubling of C3=C2 for geminate roots.
+    if (has_fatha or has_damma) and len(pairs) >= 3:
+        if SHADDA in pairs[2][1]:
+            return first_char
+
+    # ── Hollow root: prefix + C1[damma/kasra] + و/ي/ا + C3 ──────────────────
+    # e.g. يَكُونُ (ي+ك[DAMMA]+و+ن), تَبِيعُ (ت+ب[KASRA]+ي+ع)
+    # C1 with damma/kasra distinguishes hollow imperfect from past Form IV
+    # (أَقَامَ: C1 has fatha — NOT caught here → correctly stays PAST).
+    if has_fatha and len(pairs) >= 4:
+        _, c1_diacs = pairs[1]
+        if DAMMA in c1_diacs or KASRA in c1_diacs:
+            c2_char = pairs[2][0]
+            if c2_char in (WAW, YAA, ALIF):
+                return first_char
+
+    # ── Extended: augmented forms (Form V-X) with 5+ bare chars ─────────────
     if has_fatha and len(pairs) >= 4:
         bare = strip_diacritics(s)
-        # Exclude clear past-tense forms by their 3M_PL suffix (وا).
-        # Past 3M_PL (e.g. نَصَرُوا) also starts with نَ and has 5 bare chars
-        # but is NOT imperfect. Imperfect 3M_PL subj/juss starts with يَ/تَ, not نَ.
         if bare.endswith('وا'):
             return None  # past 3M_PL — not imperfect
 
-        # Exclude past-tense 2nd/1st person suffix forms.
-        # Form V/VI/VII+ past verbs (e.g. تَدَايَنْتُمْ, تَبَايَعْتُمْ) start with
-        # تَ + fatha and have ≥5 bare chars, but carry a past suffix — not imperfect.
-        # No standard imperfect paradigm ends in any of these bare sequences.
+        # Past-person suffixes — but exclude dual imperfect in -ونا
+        # (يَكُونَا: bare='يكونا', ends in 'نا', but 'ن' is C3 not past suffix)
         _PAST_BARE_SUFFIXES = ('تم', 'تما', 'تنّ', 'تن', 'نا', 'تا')
-        if any(bare.endswith(sfx) for sfx in _PAST_BARE_SUFFIXES):
-            return None  # past tense with person/number suffix — not imperfect
+        if not bare.endswith('ونا'):
+            if any(bare.endswith(sfx) for sfx in _PAST_BARE_SUFFIXES):
+                return None  # past tense with person/number suffix
 
         if len(bare) >= 5 and first_char in (YAA, TA, NUN):
             return first_char
@@ -150,32 +214,71 @@ def identify_tense(surface: str) -> Optional[str]:
 
     Returns one of: 'PAST' | 'IMPERFECT' | 'IMPERATIVE' | None.
 
-    Strategy:
-      - يَ/تَ/أَ/نَ + C+sukuun → IMPERFECT
-      - اِ/اُ + C+sukuun (no imperfect prefix) → IMPERATIVE
-      - Otherwise → PAST (default for verbal surfaces)
+    Handles:
+      - Multi-word: recurse on last token (the verb)
+      - Conjunction prefix وَ/فَ: stripped before classification
+      - Lam al-amr لْ: stripped → IMPERFECT (JUSSIVE mood governed externally)
+      - Form VIII assimilation imperative: اتَّقُوا (SHADDA on C1 + DAMMA on C2)
+      - All other imperatives: hamzat al-wasl + C+sukuun
+      - Imperfect: prefix letter يَ/تَ/أَ/نَ detected by _has_imperfect_prefix
+      - Default: PAST
     """
     if not surface:
         return None
 
-    pairs = _chars_and_diacs(surface)
-    if not pairs:
-        return None
+    # Multi-word input: take the final token as the verb
+    parts = surface.split()
+    if len(parts) >= 2:
+        return identify_tense(parts[-1])
 
-    # ── Imperfect: prefix letter + fatha + stem-C1 + sukuun ─────────────────
-    prefix = _has_imperfect_prefix(surface)
+    # Strip conjunction prefix before classification
+    stripped = _strip_conjunction_prefix(surface)
+
+    # Lam al-amr (لْ): strips to an imperfect jussive stem
+    stripped_lam, has_lam_amr = _strip_lam_amr(stripped)
+    if has_lam_amr:
+        return 'IMPERFECT'
+
+    # ── Disambiguation: أَشْهِدُوا — Form IV imperative 2MP ──────────────────
+    # When the stripped surface starts with أَ/ءَ (hamza+fatha, i.e. would look
+    # like a 1SG imperfect prefix) + C+sukuun + ... + -وا (2MP/3MP suffix),
+    # the -وا plural suffix rules out 1SG imperfect (which is always singular).
+    # Such forms can ONLY be Form IV imperative (2MP).
+    _pairs_stripped = _chars_and_diacs(stripped)
+    if _pairs_stripped:
+        _fc, _fd = _pairs_stripped[0]
+        if _fc in (HAMZA, HAMZA_ABOVE) and FATHA in _fd:
+            if len(_pairs_stripped) >= 2 and SUKUUN in _pairs_stripped[1][1]:
+                _bare_stripped = strip_diacritics(stripped)
+                if _bare_stripped.endswith('وا'):
+                    return 'IMPERATIVE'
+
+    # Imperfect: prefix letter detected on stripped surface
+    prefix = _has_imperfect_prefix(stripped)
     if prefix is not None:
         return 'IMPERFECT'
 
-    # ── Imperative: hamzat al-wasl (اِ or اُ) + consonant + sukuun ──────────
+    # Imperative: work on the stripped (conjunction-free) surface
+    pairs = _chars_and_diacs(stripped)
+    if not pairs:
+        return 'PAST'
+
     first_char, first_diacs = pairs[0]
     if first_char in (ALIF, ALIF_WASL):
         if len(pairs) >= 3:
-            _, second_diacs = pairs[1]
-            if SUKUUN in second_diacs:
+            second_char, second_diacs = pairs[1]
+            # Classic imperative: hamzat al-wasl + C+sukuun (اِكْتُبْ, اُكْتُبُوا)
+            # Guard: exclude definite article لْ (الْحَقُّ, الْأُخْرَى)
+            if SUKUUN in second_diacs and second_char != 'ل':
                 return 'IMPERATIVE'
+            # Form VIII assimilation: اتَّقُوا — SHADDA on C1 (assimilation ت+ت→تّ)
+            # + DAMMA on C2 (thematic vowel of the stem)
+            if SHADDA in second_diacs and len(pairs) >= 4:
+                _, third_diacs = pairs[2]
+                if DAMMA in third_diacs:
+                    return 'IMPERATIVE'
 
-    # ── Default: PAST ─────────────────────────────────────────────────────────
+    # Default: PAST
     return 'PAST'
 
 
@@ -484,23 +587,61 @@ def extract_all_features(surface: str) -> dict:
     """
     Extract all inflectional features from a verbal surface.
 
+    Handles multi-word inputs where a governing particle precedes the verb:
+      - Jussive particles (لَا, لَمْ, إِنْ, وَلَا, فَلَا …) → JUSSIVE mood on IMPERFECT
+      - Subjunctive particles (أَنْ, لَنْ, كَيْ, حَتَّى, أَلَّا …) → SUBJUNCTIVE mood
+
+    Also handles:
+      - Conjunction prefix (وَ/فَ) stripping before feature extraction
+      - Lam al-amr (وَلْ/فَلْ prefix) → IMPERFECT + JUSSIVE mood
+
     Returns:
       tense_aspect, mood, voice, person, number, gender
     """
+    # ── Multi-word: detect governing particle ────────────────────────────────
+    parts = surface.split()
+    if len(parts) >= 2:
+        particle = parts[0]
+        verb_part = ' '.join(parts[1:])
+        # Particle governs mood of the following verb
+        if particle in _JUSSIVE_PARTICLE_FORMS:
+            feats = extract_all_features(verb_part)
+            if feats.get('tense_aspect') == 'IMPERFECT':
+                feats = dict(feats)
+                feats['mood'] = 'JUSSIVE'
+            return feats
+        if particle in _SUBJUNCTIVE_PARTICLE_FORMS:
+            feats = extract_all_features(verb_part)
+            if feats.get('tense_aspect') == 'IMPERFECT':
+                feats = dict(feats)
+                feats['mood'] = 'SUBJUNCTIVE'
+            return feats
+        # No governing particle: analyse verb_part normally (fall through)
+        return extract_all_features(verb_part)
+
+    # ── Single-word: strip conjunction, check lam al-amr ────────────────────
+    stripped_conj = _strip_conjunction_prefix(surface)
+    stripped_lam, has_lam_amr = _strip_lam_amr(stripped_conj)
+
     tense = identify_tense(surface)
 
     if tense == 'IMPERFECT':
-        feats = extract_imperfect_features(surface)
+        # Use the bare-verb surface (after stripping conjunction) for feature extraction
+        feats = extract_imperfect_features(stripped_conj)
+        mood = feats.get('mood', 'INDICATIVE')
+        # Lam al-amr overrides mood to JUSSIVE regardless of suffix pattern
+        if has_lam_amr:
+            mood = 'JUSSIVE'
         return {
             'tense_aspect': 'IMPERFECT',
-            'mood': feats.get('mood', 'INDICATIVE'),
+            'mood': mood,
             'voice': feats.get('voice', 'ACTIVE'),
             'person': feats.get('person'),
             'number': feats.get('number'),
             'gender': feats.get('gender'),
         }
     elif tense == 'IMPERATIVE':
-        feats = extract_imperative_features(surface)
+        feats = extract_imperative_features(stripped_conj)
         return {
             'tense_aspect': 'IMPERATIVE',
             'mood': 'IMPERATIVE',

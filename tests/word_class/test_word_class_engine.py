@@ -129,10 +129,15 @@ class TestFi3lClassification:
         assert res.word_class == WordClass.FI3L
 
     def test_ambiguous_path_with_p4a_accept(self):
-        """كَتَبَ — ambiguous path + p4a:accept → FI3L."""
+        """كَتَبَ — ambiguous path + p4a:accept (verbal wazn) + p4b:attempted → FI3L.
+
+        In the real pipeline, p4a accepting a verbal wazn (FA_A_LA) always causes
+        p4b to be attempted (DEFER for unresolved bab), so p4b:attempted is present.
+        G2 guards against nominal-wazn tokens (بَيْنَكُمْ: FA3L + NOT_APPLICABLE → DEFER).
+        """
         res = _classify(
             morphology_path='ambiguous_morphology_path',
-            available_evidence=('p4a:accept:FA_A_LA',),
+            available_evidence=('p4a:accept:FA_A_LA', 'p4b:attempted'),
         )
         assert res.word_class == WordClass.FI3L
 

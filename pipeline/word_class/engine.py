@@ -51,7 +51,16 @@ from .catalog import (
 )
 
 # ── Tense → LexicalSubclass helper (HOKOM-AYAT-AL-DAYN-WORD-CLASS-AND-SUBCLASS-ROUTING-CORRECTION-01) ──
-from pipeline.p5_inflection.feature_system import extract_all_features as _get_surface_feats
+from pipeline.p5_inflection.feature_system import (
+    extract_all_features as _get_surface_feats,
+    _strip_conjunction_prefix as _strip_conj,
+    _strip_lam_amr as _strip_lam,
+    _has_imperfect_prefix as _has_imp_prefix,
+    identify_tense as _identify_tense,
+    _chars_and_diacs as _cad,
+    FATHA, DAMMA, SUKUUN, SHADDA,
+    ALIF, ALIF_WASL,
+)
 
 _TENSE_TO_SUBCLASS = {
     'IMPERFECT':  LexicalSubclass.VERBAL_IMPERFECT,
@@ -272,6 +281,41 @@ def classify_word_class(request: WordClassRequest) -> WordClassResult:
     # ══════════════════════════════════════════════════════════════════════════
     # _verbal_compat already computed above (shared with Step 3 guard).
     if request.licensed_verbal_host and _verbal_compat:
+        # ── Elative guard (اسم تفضيل): AF3AL pattern ────────────────────────
+        # أَقْسَطُ is an elative adjective (أَفْعَلُ): phase4a accepted AF3AL
+        # (Form IV claim) and phase4b tentatively licensed it, but it is NOT a
+        # finite verb.  Guard: Form IV family + FATHA on first char (not DAMMA
+        # as in the imperfect passive prefix يُ) + surface ends in DAMMA
+        # (tanwin-less damma = elative citation form).
+        _ns = request.normalized_surface or ''
+        # ── Elative guard (اسم تفضيل): AF3AL citation form ────────────────────
+        # أَقْسَطُ is an elative adjective (أَفْعَلُ).  Distinguishing rule:
+        #   BAB_FORM_IV  + p4a:accept:AF3AL  + C2=FATHA  + terminal DAMMA
+        # This pattern CANNOT be any conjugated Form IV verb because:
+        #   - Form IV 3MSG past: أَفْعَلَ (FATHA at end, not DAMMA)
+        #   - Form IV imperfect 1SG: أُفْعِلُ (DAMMA prefix أُ, KASRA on C2)
+        # أَكْتُبُ (Form I imperfect 1SG) is excluded: C2 carries DAMMA (yaf3ulu bab).
+        _bab_id = (request.bab_id or '').upper()
+        _p4a_wazn_ev = next((s for s in request.available_evidence
+                              if s.startswith('p4a:accept:')), '')
+        _p4a_wazn = (_p4a_wazn_ev[len('p4a:accept:'):]
+                     if _p4a_wazn_ev.startswith('p4a:accept:') else '')
+        if _bab_id == 'BAB_FORM_IV' and _p4a_wazn == 'AF3AL' and len(_ns) >= 2:
+            _pairs_ns = _cad(_ns)
+            if (len(_pairs_ns) >= 3
+                    and FATHA in _pairs_ns[2][1]
+                    and _ns.endswith(DAMMA)):
+                tr.append(_trace('elative_guard', 'ISM:ELATIVE_ADJECTIVE',
+                                 f'bab={_bab_id}', 'p4a_wazn=AF3AL',
+                                 'C2=FATHA+terminal_DAMMA'))
+                n_ev = _ev(EvidenceType.MORPHOLOGY_PATH_NOMINAL, 'pipeline.p4_bab',
+                           'ELATIVE_AFAL_PATTERN', 'HIGH')
+                ev.append(n_ev)
+                return _accepted(surface, rid, WordClass.ISM,
+                                 LexicalSubclass.LEXICAL_NOUN,
+                                 evidence=tuple(ev), trace=tuple(tr),
+                                 reason_code='ELATIVE_AFAL_NOT_VERB')
+
         lv_ev = _ev(EvidenceType.LICENSED_VERBAL_HOST, 'pipeline.p4_bab',
                     request.bab_id or request.form_family or 'BAB_ACCEPTED')
         ev.append(lv_ev)
@@ -310,6 +354,50 @@ def classify_word_class(request: WordClassRequest) -> WordClassResult:
         return _accepted(surface, rid, WordClass.FI3L, sub,
                          evidence=tuple(ev), trace=tuple(tr),
                          reason_code='VERBAL_ROOT_PATH')
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # STEP 8b — FI3L: Imperative surface is self-evidencing (any morphology path)
+    # ══════════════════════════════════════════════════════════════════════════
+    # فَاكْتُبُوهُ, وَاتَّقُوا, وَاسْتَشْهِدُوا: hamzat al-wasl after optional
+    # conjunction prefix is the unambiguous morphological mark of an Arabic
+    # imperative.  No phase4 evidence is required — surface form alone resolves
+    # the token.  Must run BEFORE the p4a gate (Step 8) because the presence
+    # of an enclitic (-هُ in فَاكْتُبُوهُ) can cause p4a to DEFER.
+    _orig_for_imp = request.original_surface or ''
+    _imp_tense = _identify_tense(_orig_for_imp)
+    if _imp_tense == 'IMPERATIVE':
+        _imp_ev = _ev(EvidenceType.MORPHOLOGY_PATH_VERBAL, 'pipeline.p5_inflection',
+                      'IMPERATIVE_SURFACE_DETECTED', 'HIGH')
+        ev.append(_imp_ev)
+        tr.append(_trace('step8b_imperative_surface', 'FI3L:VERBAL_IMPERATIVE',
+                         f'original_surface={_orig_for_imp}'))
+        return _accepted(surface, rid, WordClass.FI3L,
+                         LexicalSubclass.VERBAL_IMPERATIVE,
+                         evidence=tuple(ev), trace=tuple(tr),
+                         reason_code='IMPERATIVE_SURFACE_SELF_EVIDENT')
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # STEP 8c — FI3L: Lam al-amr (وَلْ/فَلْ prefix) → JUSSIVE imperfect
+    # ══════════════════════════════════════════════════════════════════════════
+    # وَلْيَكْتُبْ, فَلْيَكْتُبْ, فَلْيُمْلِلْ: original starts with conjunction
+    # (وَ/فَ) + lam+sukuun (لْ) — the lam al-amr governs jussive imperfect.
+    # Must run BEFORE the p4a gate because lam al-amr forms may have p4a=DEFER.
+    _orig_for_lam = request.original_surface or ''
+    if (len(_orig_for_lam) >= 4
+            and _orig_for_lam[0] in ('و', 'ف')
+            and _orig_for_lam[1] == FATHA
+            and _orig_for_lam[2] == 'ل'
+            and _orig_for_lam[3] == SUKUUN):
+        _lam_ev = _ev(EvidenceType.MORPHOLOGY_PATH_VERBAL, 'pipeline.p5_inflection',
+                      'LAM_AMR_JUSSIVE_IMPERFECT', 'HIGH')
+        ev.append(_lam_ev)
+        tr.append(_trace('step8c_lam_amr', 'FI3L:VERBAL_IMPERFECT',
+                         f'original_surface={_orig_for_lam}',
+                         'lam_al_amr_governs_jussive'))
+        return _accepted(surface, rid, WordClass.FI3L,
+                         LexicalSubclass.VERBAL_IMPERFECT,
+                         evidence=tuple(ev), trace=tuple(tr),
+                         reason_code='LAM_AMR_JUSSIVE_IMPERFECT')
 
     # ══════════════════════════════════════════════════════════════════════════
     # STEP 8 — FI3L: ambiguous_morphology_path + phase4a wazn accepted
@@ -364,6 +452,28 @@ def classify_word_class(request: WordClassRequest) -> WordClassResult:
         return _accepted(surface, rid, WordClass.FI3L, sub,
                          evidence=tuple(ev), trace=tuple(tr),
                          reason_code='AMBIGUOUS_PATH_P4A_WAZN')
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # STEP 9b — FI3L: imperfect surface on no_morphology_path (hollow/geminate)
+    # ══════════════════════════════════════════════════════════════════════════
+    # يَكُونَا, تَكُونَ: hollow roots produce no morphology path because they
+    # lack the classic vowel-pattern and appear irregular.  But the surface
+    # imperfect prefix (يَ/تَ with DAMMA on C1 + و/ي at C2) is reliable.
+    # _has_imp_prefix already strips conjunction prefix and handles hollow roots.
+    if request.morphology_path in ('no_morphology_path', ''):
+        _norm_for_9b = request.normalized_surface or ''
+        if _has_imp_prefix(_norm_for_9b) is not None:
+            sub_9b = _subclass_from_surface(_norm_for_9b)
+            _imp9b_ev = _ev(EvidenceType.MORPHOLOGY_PATH_VERBAL,
+                            'pipeline.p5_inflection',
+                            'IMPERFECT_PREFIX_NO_MORPH_PATH', 'MEDIUM')
+            ev.append(_imp9b_ev)
+            tr.append(_trace('step9b_imperfect_no_morph', f'FI3L:{sub_9b.value}',
+                             f'normalized_surface={_norm_for_9b}',
+                             'hollow_or_geminate_imperfect'))
+            return _accepted(surface, rid, WordClass.FI3L, sub_9b,
+                             evidence=tuple(ev), trace=tuple(tr),
+                             reason_code='IMPERFECT_PREFIX_NO_MORPH_PATH')
 
     # ══════════════════════════════════════════════════════════════════════════
     # STEP 9 — ISM: nominal morphology path

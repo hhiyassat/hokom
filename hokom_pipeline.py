@@ -51,6 +51,25 @@ def hokom(word: str) -> dict:
       normalized_surface — الشكل الداخلي (بعد normalize(): شدة + همزة)
       structural_encoding — أنماط الـ slots (CVC | CV | …)
     """
+    # ── Multi-word governing particle routing ────────────────────────────────
+    # "وَلَا تَسْأَمُوا" / "أَلَّا تَرْتَابُوا": if input is two tokens where the
+    # first is a known mood-governing particle, run hokom() on the verb token
+    # alone, then inject the mood from the particle.
+    _parts = word.split()
+    if len(_parts) == 2:
+        from pipeline.p5_inflection.feature_system import (
+            _JUSSIVE_PARTICLE_FORMS as _JPF,
+            _SUBJUNCTIVE_PARTICLE_FORMS as _SPF,
+        )
+        _particle, _verb_token = _parts[0], _parts[1]
+        if _particle in _JPF or _particle in _SPF:
+            _verb_result = hokom(_verb_token)
+            if _verb_result.get('tense_aspect') == 'IMPERFECT':
+                _verb_result = dict(_verb_result)
+                _verb_result['mood'] = 'JUSSIVE' if _particle in _JPF else 'SUBJUNCTIVE'
+                _verb_result['input_surface'] = word
+            return _verb_result
+
     # ── التمثيل الرباعي ───────────────────────────────────────────────────────
     input_surface      = word
     canonical_surface  = word                  # سياسة محافظة: لا تعديل على الهوية
@@ -686,6 +705,16 @@ def hokom(word: str) -> dict:
     #   FI3L + tense=IMPERFECT  → VERBAL_IMPERFECT
     #   FI3L + tense=IMPERATIVE → VERBAL_IMPERATIVE
     #
+    # CRITICAL GUARD: Phase 5 runs on the FULL original surface (including
+    # conjunction prefix وَ/فَ), so it may return tense=PAST for forms that the
+    # engine correctly resolved as VERBAL_IMPERATIVE using morphological analysis
+    # on the conjunction-stripped surface.  Do NOT override the engine's
+    # VERBAL_IMPERATIVE with Phase 5's PAST — the engine's morphological surface
+    # analysis is the authoritative source for imperatives.
+    # Similarly, if engine says VERBAL_IMPERFECT (e.g. lam al-amr case) and Phase5
+    # says PAST (because it saw وَلْيَكْتُبْ with conjunction and did not strip),
+    # trust the engine.
+    #
     # Note: word_class_result is frozen; dataclasses.replace() creates a new instance.
     if (word_class_result is not None
             and word_class_result.verdict == WordClassVerdict.ACCEPTED
@@ -698,8 +727,20 @@ def hokom(word: str) -> dict:
             'IMPERFECT':  _LexSub.VERBAL_IMPERFECT,
             'IMPERATIVE': _LexSub.VERBAL_IMPERATIVE,
         }
+        _engine_sub = word_class_result.subclass
         _reconciled_sub = _RECONCILE_MAP[_tense_aspect]
-        if word_class_result.subclass != _reconciled_sub:
+        # Guard: don't demote engine's imperative/imperfect to PAST
+        # when Phase5 could not strip conjunction prefix.
+        if (_engine_sub == _LexSub.VERBAL_IMPERATIVE
+                and _tense_aspect == 'PAST'):
+            # Engine correctly identified imperative; sync tense_aspect
+            _tense_aspect = 'IMPERATIVE'
+        elif (_engine_sub == _LexSub.VERBAL_IMPERFECT
+                and _tense_aspect == 'PAST'):
+            # Engine correctly identified imperfect (e.g. lam al-amr);
+            # sync tense_aspect so downstream fields are consistent.
+            _tense_aspect = 'IMPERFECT'
+        elif word_class_result.subclass != _reconciled_sub:
             word_class_result = _dc.replace(
                 word_class_result, subclass=_reconciled_sub)
 
