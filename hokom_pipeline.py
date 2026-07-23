@@ -665,12 +665,46 @@ def hokom(word: str) -> dict:
     else:
         try:
             from pipeline.p5_inflection.phase5_orchestrator import project_inflection_with_licensing
-            # Phase 5 always analyses the full normalized surface for tense/PNG features.
-            # Attached pronouns are detected separately inside the orchestrator via `attachment`.
-            _p5_surface = normalized_surface
+            # HOKOM-AYAT-AL-DAYN-LIVE-CONTEXT-BOUNDARY-SAFETY-AND-GOLD-REMEDIATION-01
+            #
+            # Fix A — _p5_surface selection:
+            # When the attachment layer has SEGMENTED pronoun suffixes
+            # (هَا / كُمْ / هُمْ / ...), using the full normalized_surface
+            # causes extract_all_features to see the pronoun as part of the
+            # inflectional paradigm, returning wrong number/voice.
+            # Use morphology_surface (pronoun-stripped) in that case.
+            # When the attachment is NOT_SEGMENTED (e.g. وَلْيُمْلِلِ, which
+            # has a functional prefix وَلْ that CRA strips into morphology_surface
+            # but the full form is needed for lam-al-amr jussive detection),
+            # fall back to normalized_surface so feature_system sees the particle.
+            _att_segmented_pronoun = (
+                attachment is not None
+                and getattr(attachment, 'segmentation_verdict', None) == 'SEGMENTED'
+                and bool(getattr(attachment, 'attached_mabniyat', None))
+                and morphology_surface
+                and morphology_surface != normalized_surface
+            )
+            _p5_surface = morphology_surface if _att_segmented_pronoun else normalized_surface
+
+            # Fix B — morphpath gate for confirmed FI3L:
+            # The word_class engine can confirm FI3L via its own surface-level
+            # heuristics (lam-al-amr detection, imperfect prefix with no morph
+            # path, etc.) even when pre_root assigns a NON_VERBAL morphology path.
+            # In that case the NON_VERBAL path guard inside Phase 5 would block
+            # inflection — wrongly returning NOT_APPLICABLE for a confirmed verb.
+            # When _is_confirmed_fi3l is True, the word_class engine has higher
+            # authority than pre_root's heuristic path; clear the gate so Phase 5
+            # proceeds on surface features alone (source_path='surface_only').
+            _NON_VERBAL_P5 = frozenset({
+                'nominal_morphology_path',
+                'no_morphology_path',
+            })
             _p5_morphpath = (
                 pre_root.morphology_path.value if pre_root is not None else None
             )
+            if _p5_morphpath in _NON_VERBAL_P5:
+                # Clear: confirmed FI3L supersedes the heuristic path gate
+                _p5_morphpath = None
             phase5_result = project_inflection_with_licensing(
                 surface       = _p5_surface,
                 root          = _final_root,

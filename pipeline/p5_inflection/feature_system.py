@@ -528,6 +528,22 @@ def extract_imperfect_features(surface: str) -> dict:
     # ── No suffix → detect mood from stem-final vowel (C3 diacritic) ─────────
     mood = _detect_mood_from_stem_ending(surface, bare)
 
+    # HOKOM-AYAT-AL-DAYN-LIVE-CONTEXT-BOUNDARY-SAFETY-AND-GOLD-REMEDIATION-01
+    # تَ/تُ prefix imperfect without a disambiguating suffix is structurally
+    # ambiguous between 2MS (أنت تَفعَل) and 3FS (هي تَفعَل).  No surface-only
+    # heuristic can resolve this ambiguity; downstream context or tafsir is
+    # required.  Emit person='2|3' to record the typed ambiguity explicitly.
+    # Tests: test_tadilla_is_ambiguous_or_contextually_3fs,
+    #        test_fatudhakkira_is_form_ii_and_contextually_3fs
+    if first_char == TA:
+        return {
+            'person': '2|3',
+            'number': number_from_prefix,
+            'gender': gender_from_prefix,
+            'mood': mood,
+            'voice': voice,
+        }
+
     return {
         'person': person_from_prefix,
         'number': number_from_prefix,
