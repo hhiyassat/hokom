@@ -675,6 +675,34 @@ def hokom(word: str) -> dict:
     _gender       = inflectional_form.gender       if inflectional_form else None
     _lemma_surface = inflectional_form.lemma_surface if inflectional_form else None
 
+    # ── Post-Phase-5 subclass reconciliation ─────────────────────────────────
+    # HOKOM-AYAT-AL-DAYN-WORD-CLASS-AND-SUBCLASS-ROUTING-CORRECTION-01 (Class E)
+    #
+    # The word class engine assigns subclass at classification time (before Phase 5),
+    # so it cannot know tense_aspect with certainty for all token shapes.  After
+    # Phase 5 computes tense_aspect from the inflected surface, correct the subclass
+    # to match.  This enforces the invariant:
+    #   FI3L + tense=PAST       → VERBAL_PAST
+    #   FI3L + tense=IMPERFECT  → VERBAL_IMPERFECT
+    #   FI3L + tense=IMPERATIVE → VERBAL_IMPERATIVE
+    #
+    # Note: word_class_result is frozen; dataclasses.replace() creates a new instance.
+    if (word_class_result is not None
+            and word_class_result.verdict == WordClassVerdict.ACCEPTED
+            and word_class_result.word_class == WordClass.FI3L
+            and _tense_aspect in ('PAST', 'IMPERFECT', 'IMPERATIVE')):
+        import dataclasses as _dc
+        from pipeline.word_class.models import LexicalSubclass as _LexSub
+        _RECONCILE_MAP = {
+            'PAST':       _LexSub.VERBAL_PAST,
+            'IMPERFECT':  _LexSub.VERBAL_IMPERFECT,
+            'IMPERATIVE': _LexSub.VERBAL_IMPERATIVE,
+        }
+        _reconciled_sub = _RECONCILE_MAP[_tense_aspect]
+        if word_class_result.subclass != _reconciled_sub:
+            word_class_result = _dc.replace(
+                word_class_result, subclass=_reconciled_sub)
+
     # ── Taaqol Live Governance (HOKOM-TAAQOL-LIVE-INTEGRATION-01) ────────────
     # Build claim bundle from pipeline state and run strict Taaqol evaluation.
     # Fail-closed: any Taaqol runtime error → DEFERRED (never LICENSED).
@@ -1022,6 +1050,14 @@ def _run_word_class_engine(
             avail.append(f'p4a:accept:{_wazn4a}' if _wazn4a else 'p4a:accept')
     if licensed_verbal_host:
         avail.append('bab:accept')
+    # Class C2 fix: signal whether phase4b was attempted (DEFER) vs not opened
+    # (NOT_APPLICABLE).  The engine uses this to distinguish verb candidates that
+    # phase4b evaluated-but-deferred (كَتَبَ → FI3L) from non-verbs that phase4b
+    # never touched (بَيْنَكُمْ, عِنْدَ → DEFER in engine Step 8 Guard G2).
+    if phase4b_result is not None:
+        _dir4b_raw = str(getattr(phase4b_result, 'final_directive', '')).upper()
+        if _dir4b_raw not in ('NOT_APPLICABLE', ''):
+            avail.append('p4b:attempted')
     upstream_verdicts = tuple(avail)
 
     # ── Build request ──────────────────────────────────────────────────────────
