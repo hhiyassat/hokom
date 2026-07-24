@@ -625,7 +625,6 @@ def run_all(verbose: bool = True) -> list[dict]:
 
     if verbose:
         print(f'Processing {len(TOKENS)} tokens…', file=sys.stderr)
-    from pipeline.p5_inflection.feature_system import strip_diacritics as _sd
     results = []
     for i, tok in enumerate(TOKENS):
         r = process_token_full(i + 1, tok)
@@ -634,22 +633,34 @@ def run_all(verbose: bool = True) -> list[dict]:
         ctx.inject_mood_into_result(r, tok)
         # Record whether THIS token is a governing particle for the NEXT iteration.
         ctx.update_from_token(tok)
-        # HOKOM-GOLDEN-RULES-AND-LIVE-CLOSURE-CORRECTION-01 (Golden Rule 10)
-        # Feminine-noun lookahead: an ambiguous تَ-prefix imperfect (person='2|3',
-        # SG) followed by a feminine noun (bare ends with ة) resolves to 3FS
-        # (e.g. تَكُونَ + تِجَارَةً). Keep run_all consistent with
-        # compute_live_metrics so the CSV matches the in-memory record.
-        _ms = r.get('morphosyntax')
-        if isinstance(_ms, dict) and _ms.get('person') == '2|3' and _ms.get('number') == 'SG':
-            _next_tok = TOKENS[i + 1] if i + 1 < len(TOKENS) else ''
-            if _sd(_next_tok).endswith('ة'):
-                _ms['person'] = '3'
-                _ms['gender'] = 'F'
         if verbose and (i + 1) % 20 == 0:
             print(f'  {i + 1}/{len(TOKENS)}', file=sys.stderr)
         results.append(r)
     if verbose:
         print('  Done.', file=sys.stderr)
+
+    # HOKOM-SEQUENTIAL-3FS-RESOLUTION-AND-CANONICAL-ARTIFACT-REBASE-01
+    # Pass 2: general sequential subject-agreement 3FS resolution.
+    # Replaces the old single-token ة lookahead with the full 4-check
+    # is_feminine_sg_subject_evidence() + coordinated-fa/wa inheritance.
+    # Augment each morphosyntax dict with word_class and segmentation data
+    # so apply_subject_agreement_context() can apply all four checks.
+    from pipeline.p5_inflection.subject_agreement import apply_subject_agreement_context
+    _sa_pairs: list[tuple[str, dict]] = []
+    for res in results:
+        ms_aug = dict(res.get('morphosyntax') or {})
+        ms_aug['word_class'] = res.get('word_class', {}).get('class')
+        seg = res.get('segmentation', {})
+        ms_aug['segment_host'] = seg.get('host_surface')
+        ms_aug['segment_enclitics'] = tuple(seg.get('enclitics') or ())
+        _sa_pairs.append((res['original_surface'], ms_aug))
+    _sa_resolved, _ = apply_subject_agreement_context(_sa_pairs)
+    for i, (_, resolved_ms) in enumerate(_sa_resolved):
+        ms = results[i].get('morphosyntax')
+        if ms is not None:
+            ms['person'] = resolved_ms.get('person')
+            ms['gender'] = resolved_ms.get('gender')
+
     return results
 
 
@@ -841,32 +852,33 @@ def compute_live_metrics() -> dict:
     )
 
     # ── Run full corpus in-memory ────────────────────────────────────────────
-    # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01
-    # Use sequential context carrier to inject governing-particle mood into
-    # the immediately following imperfect verb (fixes CONTEXT_MOOD_MISMATCH).
-    # Also apply feminine-noun lookahead for تَ-prefix hollow verbs:
-    # when the next token is a feminine noun (bare form ends with ة),
-    # resolve the 2MS/3FS ambiguity to 3FS (e.g. تَكُونَ + تِجَارَةً → 3FS).
+    # HOKOM-SEQUENTIAL-3FS-RESOLUTION-AND-CANONICAL-ARTIFACT-REBASE-01
+    # Two-pass sequential processing:
+    #   Pass 1 — collect raw hokom() results for all tokens.
+    #   Pass 2 — apply sequential context (mood injection + 3FS subject resolution).
+    # The 3FS resolution uses a general subject-agreement module that detects
+    # feminine subjects via morphological surface features and pipeline analysis,
+    # without token lists, indices, or verse-specific conditions.
     from pipeline.p5_inflection.context_carrier import SequentialAnalysisContext as _SAC
+    from pipeline.p5_inflection.subject_agreement import apply_subject_agreement_context
+
+    # Pass 1: raw hokom results
+    _hokom_raw: list[tuple[str, dict]] = [(tok, hokom(tok)) for tok in TOKENS]
+
+    # Pass 2a: mood injection (governing-particle scope)
     _ctx = _SAC()
-    results_raw: list[tuple[str, dict]] = []
-    for _i, tok in enumerate(TOKENS):
-        r = hokom(tok)
-        # Inject governing-particle mood (JUSSIVE/SUBJUNCTIVE from prev token)
+    _mood_injected: list[tuple[str, dict]] = []
+    for tok, r in _hokom_raw:
+        r = dict(r)
         _pending_mood = _ctx.consume_mood()
         if _pending_mood and r.get('tense_aspect') == 'IMPERFECT':
             r['mood'] = _pending_mood
         _ctx.update_from_token(tok)
-        # Lookahead: ambiguous تَ-prefix (person='2|3', SG) + next token is
-        # feminine noun (bare ends with taa marbuta ة) → resolve to 3FS.
-        _next_tok = TOKENS[_i + 1] if _i + 1 < len(TOKENS) else ''
-        from pipeline.p5_inflection.feature_system import strip_diacritics as _sd
-        if (r.get('person') in ('2|3',)
-                and r.get('number') == 'SG'
-                and _sd(_next_tok).endswith('ة')):
-            r['person'] = '3'
-            r['gender'] = 'F'
-        results_raw.append((tok, r))
+        _mood_injected.append((tok, r))
+
+    # Pass 2b: 3FS subject-agreement resolution
+    results_raw, _context_3fs_resolved = apply_subject_agreement_context(_mood_injected)
+
     results_by_index: dict[int, dict] = {
         i + 1: r for i, (_, r) in enumerate(results_raw)
     }
@@ -1096,6 +1108,8 @@ def compute_live_metrics() -> dict:
         'INFLECTION_DEFERRED':                   inflection_deferred,
         'OVERALL_PIPELINE_DEFERRED':             overall_deferred,
         'CSV_IN_MEMORY_DIVERGENCES':             csv_divergences,
+        # Sequential context resolution count
+        'LIVE_CONTEXT_3FS_RESOLVED':             _context_3fs_resolved,
     }
 
 
