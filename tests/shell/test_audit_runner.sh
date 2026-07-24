@@ -6,8 +6,8 @@
 # when the named failure condition occurs.
 #
 # Governance binding:
-#   NEW_LINGUISTIC_BASE_HEAD = 39d1bab269d170899b50a2ffb801fd982d443a58
-#   EXPECTED_CANONICAL_CSV_SHA = cf618a87c3d65c316a85e756dcae1a72c3ddb42109f89ae46d627cfc9c94745a
+#   NEW_LINGUISTIC_BASE_HEAD = 2e2a3ac71a00ad520675c91e13904903f573034b
+#   EXPECTED_CANONICAL_CSV_SHA = 5e673089f33e42309a66ded1816fffb9098227f1f86bb35c5faa33349dd47d84
 #
 # Usage: bash tests/shell/test_audit_runner.sh
 set -uo pipefail

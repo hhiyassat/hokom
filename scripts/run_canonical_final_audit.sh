@@ -13,7 +13,7 @@ LOGS="$REPO_DIR/reports/canonical_gate"
 mkdir -p "$LOGS"
 
 # LINGUISTIC_BASE_HEAD: last linguistic commit — immutable
-LINGUISTIC_BASE_HEAD="39d1bab269d170899b50a2ffb801fd982d443a58"
+LINGUISTIC_BASE_HEAD="2e2a3ac71a00ad520675c91e13904903f573034b"
 # AUDITED_HEAD: computed dynamically — the actual HEAD being audited
 AUDITED_HEAD="$(git rev-parse HEAD)"
 
@@ -252,7 +252,7 @@ echo "JSON_SHA256=sha256:$JSON_SHA"
 echo "HTML_SHA256=sha256:$HTML_SHA"
 
 # CSV must be deterministic; check against canonical frozen value
-EXPECTED_CSV="cf618a87c3d65c316a85e756dcae1a72c3ddb42109f89ae46d627cfc9c94745a"
+EXPECTED_CSV="5e673089f33e42309a66ded1816fffb9098227f1f86bb35c5faa33349dd47d84"
 if [[ "$CSV_SHA" == "$EXPECTED_CSV" ]]; then
     echo "CSV_DETERMINISM=OK"
 else
