@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # HOKOM-CANONICAL-FINAL-AUDIT-RUNNER-HARDENING-01
+# HOKOM-CANONICAL-AUDIT-RUNNER-BOOTSTRAP-CLOSURE-01
 # Canonical closure audit — must run on macOS with .venv-py312
 # Usage: cd /path/to/hokom && bash scripts/run_canonical_final_audit.sh
 # Exits 0 only for VERIFIED_CLOSED; exits nonzero for any OPEN condition.
@@ -10,6 +11,9 @@ cd "$REPO_DIR"
 VENV="$REPO_DIR/.venv-py312/bin/python"
 LOGS="$REPO_DIR/reports/canonical_gate"
 mkdir -p "$LOGS"
+
+LINGUISTIC_BASE_HEAD="c98d35398d440cb3d51597fd8a19a4687ce1c581"
+AUDITED_HEAD="91c4bb85b7365d8cc6895b9d93c7f8cedd690cdb"
 
 # ── verdict flags ────────────────────────────────────────────────────────────
 HEAD_OK=0; INITIAL_TREE_CLEAN=0; DARWIN_OK=0; PYTHON_3124_OK=0; VENV_OK=0
@@ -25,9 +29,11 @@ OPEN_REASONS=()
 fail_flag() { OPEN_REASONS+=("$1"); echo "FAIL: $1"; }
 
 # ── §1 Repository identity ───────────────────────────────────────────────────
-REQUIRED_HEAD="c98d35398d440cb3d51597fd8a19a4687ce1c581"
+REQUIRED_HEAD="$AUDITED_HEAD"
 START_HEAD="$(git rev-parse HEAD)"
 echo "START_HEAD=$START_HEAD"
+echo "LINGUISTIC_BASE_HEAD=$LINGUISTIC_BASE_HEAD"
+echo "AUDITED_HEAD=$AUDITED_HEAD"
 if [[ "$START_HEAD" == "$REQUIRED_HEAD" ]]; then HEAD_OK=1
 else fail_flag "HEAD_MISMATCH: got=$START_HEAD expected=$REQUIRED_HEAD"; fi
 
@@ -400,6 +406,8 @@ done
 # ── §11 Final verdict conjunction ─────────────────────────────────────────────
 FINAL_HEAD="$(git rev-parse HEAD)"
 echo "FINAL_HEAD=$FINAL_HEAD"
+echo "LINGUISTIC_BASE_HEAD=$LINGUISTIC_BASE_HEAD"
+echo "AUDITED_HEAD=$AUDITED_HEAD"
 [[ "$FINAL_HEAD" != "$REQUIRED_HEAD" ]] && fail_flag "HEAD_CHANGED_DURING_AUDIT"
 
 echo ""
