@@ -790,19 +790,28 @@ def compute_live_metrics() -> dict:
     Compute live pipeline metrics from the complete unfiltered in-memory record
     of all 129 TOKENS in the Ayat al-Dayn corpus.
 
-    HOKOM-LIVE-GOLD-ORACLE-AND-METRICS-CORRECTION-01:
+    HOKOM-LIVE-GOLD-ORACLE-COVERAGE-AND-GATE-HARDENING-02:
       - Metrics are derived from hokom() calls on the in-memory TOKENS list.
       - NOT read from any cached CSV or JSON file.
       - Comparison is against the immutable gold manifest (gold_manifest.py).
       - KNOWN_OUT_OF_SCOPE_FORM_RESIDUALS reports known form mismatches as
         NONZERO — do not set to zero.
-      - Correlated ambiguity failures are counted separately.
+      - Uncorrelated ambiguity failures ALSO count toward
+        LIVE_PERSON_NUMBER_GENDER_MISMATCHES (they are a gender-representation defect).
+      - Context mood mismatches: for gold records with defect_codes containing
+        'CONTEXT_MOOD_MISMATCH', compare raw hokom() mood to gold.mood.
+      - Word-class blanks split into TOTAL / JUSTIFIED / UNJUSTIFIED / UNADJUDICATED.
+        Terminal JAMID_AALAM_BOUNDARY and SEGMENTATION_NO_LEXICAL_HOST are JUSTIFIED.
+        OPERATOR_BOUNDARY-routed tokens are JUSTIFIED.  All others are UNJUSTIFIED
+        until explicitly adjudicated.
 
     Returns a dict with all required metric keys.
     """
     from hokom_pipeline import hokom  # noqa: PLC0415
     from pipeline.governance.gold_manifest import (
-        CORPUS_GOLD, GOLD_BY_INDEX,
+        CORPUS_GOLD,
+        WC_JUSTIFIED_REASON_CODES,
+        WC_JUSTIFIED_ROUTES,
     )
 
     # ── Run full corpus in-memory ────────────────────────────────────────────
@@ -826,6 +835,7 @@ def compute_live_metrics() -> dict:
     known_out_of_scope = 0
     png_mismatches = 0
     voice_mismatches = 0
+    context_mood_mismatches = 0
     uncorrelated_ambiguity = 0
     word_class_mismatches = 0
     gold_token_mismatches = 0
@@ -858,6 +868,15 @@ def compute_live_metrics() -> dict:
                 voice_mismatches += 1
                 token_has_mismatch = True
 
+        # context mood check — only for records with CONTEXT_MOOD_MISMATCH defect
+        if (
+            gold.mood is not None
+            and 'CONTEXT_MOOD_MISMATCH' in gold.defect_codes
+            and r.get('mood') != gold.mood
+        ):
+            context_mood_mismatches += 1
+            token_has_mismatch = True
+
         # PNG check — only when no ambiguity_candidates declared
         if not gold.ambiguity_candidates:
             mismatch = False
@@ -872,18 +891,19 @@ def compute_live_metrics() -> dict:
                 token_has_mismatch = True
         else:
             # Correlated ambiguity: pipeline must supply all candidates.
-            # Minimally: the pipeline's gender field must include at least one
-            # gender value from the non-first candidate (i.e., 'F' for 3FS).
+            # The pipeline's gender field must include every gender value present
+            # across all AmbiguityCandidate entries.
+            # Current pipeline emits gender='M' only → the 3FS (gender='F') candidate
+            # is absent → uncorrelated ambiguity.
+            # These failures ALSO count toward LIVE_PERSON_NUMBER_GENDER_MISMATCHES
+            # because they represent an incorrect gender representation.
             live_gender = str(r.get('gender') or '')
             candidate_genders = {c.gender for c in gold.ambiguity_candidates}
-            # If all candidates share the same gender, any value is fine.
             if len(candidate_genders) > 1:
-                # Pipeline must express ambiguity: gender must not be a single
-                # value that excludes one or more candidate genders.
-                # Current pipeline: gender='M' only → 'F' candidate is absent.
                 for cand in gold.ambiguity_candidates:
                     if cand.gender not in live_gender:
                         uncorrelated_ambiguity += 1
+                        png_mismatches += 1   # gender defect → counts as PNG mismatch
                         token_has_mismatch = True
                         break
 
@@ -905,19 +925,6 @@ def compute_live_metrics() -> dict:
         if r.get('word_class') == 'FI3L' and r.get('tense_aspect') is None
     )
 
-    context_mood_mismatches = 0   # carrier working post-Phase 2; no new defects
-
-    unjustified_wc_none = sum(
-        1 for tok, r in results_raw if r.get('word_class') is None
-    )
-
-    word_class_deferred = sum(
-        1 for tok, r in results_raw
-        if r.get('word_class') is None
-        and r.get('jamid_verdict') != 'JAMID_AALAM_BOUNDARY'
-        and r.get('boundary_type') != 'JAMID_AALAM_BOUNDARY'
-    )
-
     inflection_deferred = sum(
         1 for tok, r in results_raw
         if r.get('word_class') == 'FI3L'
@@ -932,27 +939,69 @@ def compute_live_metrics() -> dict:
         and r.get('boundary_type') != 'JAMID_AALAM_BOUNDARY'
     )
 
+    # ── 4. Word-class not-opened categories ─────────────────────────────────
+    # Every token with wc=None falls into exactly one category with a reason code.
+    # JUSTIFIED: JAMID_AALAM_BOUNDARY, SEGMENTATION_NO_LEXICAL_HOST, OPERATOR_BOUNDARY
+    # UNJUSTIFIED: WORD_CLASS_DEFERRED with no known route — unexplained deferral
+    # UNADJUDICATED: reserved for tokens requiring case-by-case review
+    wc_not_opened_total = 0
+    wc_justified = 0
+    wc_unjustified = 0
+    wc_unadjudicated = 0
+
+    for tok, r in results_raw:
+        if r.get('word_class') is not None:
+            continue
+        wc_not_opened_total += 1
+
+        skip_reason = r.get('inflection_skipped_reason') or ''
+        route = r.get('_route_v') or ''
+        jamid = r.get('jamid_verdict') or r.get('boundary_type') or ''
+
+        if (
+            skip_reason in WC_JUSTIFIED_REASON_CODES
+            or jamid == 'JAMID_AALAM_BOUNDARY'
+            or route in WC_JUSTIFIED_ROUTES
+        ):
+            wc_justified += 1
+        else:
+            # WORD_CLASS_DEFERRED with no operator/boundary route → unjustified
+            wc_unjustified += 1
+
     csv_divergences = _compute_csv_divergences(results_raw)
 
     return {
         # Boundary safety
         'LIVE_JAMID_BOUNDARY_VIOLATIONS':       jamid_violations,
-        # Gold oracle
+        # Gold oracle — token-level
         'LIVE_GOLD_TOKEN_MISMATCHES':            gold_token_mismatches,
+        # Form family
         'LIVE_FORM_FAMILY_MISMATCHES':           form_mismatches,
-        # Plural key — canonical name per HOKOM-LIVE-GOLD-ORACLE-AND-METRICS-CORRECTION-01
+        # Plural canonical key
         'KNOWN_OUT_OF_SCOPE_FORM_RESIDUALS':     known_out_of_scope,
-        # Backward compat alias (old key — do not remove until all tests migrated)
+        # Backward compat alias — do not remove until all tests migrated
         'KNOWN_OUT_OF_SCOPE_FORM_RESIDUAL':      known_out_of_scope,
+        # Person / Number / Gender (includes uncorrelated ambiguity gender failures)
         'LIVE_PERSON_NUMBER_GENDER_MISMATCHES':  png_mismatches,
+        # Voice
         'LIVE_VOICE_MISMATCHES':                 voice_mismatches,
-        'LIVE_UNCORRELATED_AMBIGUITY':           uncorrelated_ambiguity,
-        'LIVE_MISSING_INFLECTION_FEATURES':      missing_inflection,
+        # Context mood (raw hokom() vs gold declared mood for CONTEXT_MOOD_MISMATCH records)
         'LIVE_CONTEXT_MOOD_MISMATCHES':          context_mood_mismatches,
+        # Correlated ambiguity sub-count
+        'LIVE_UNCORRELATED_AMBIGUITY':           uncorrelated_ambiguity,
+        # Inflection
+        'LIVE_MISSING_INFLECTION_FEATURES':      missing_inflection,
+        # Word class mismatches
         'LIVE_NONVERBS_AS_VERBS':                nonverbs_as_verbs,
         'LIVE_VERBS_AS_NOUNS':                   verbs_as_nouns,
-        'UNJUSTIFIED_WORD_CLASS_NOT_OPENED':     unjustified_wc_none,
-        'WORD_CLASS_DEFERRED':                   word_class_deferred,
+        # Word class not-opened — split into three categories
+        'WORD_CLASS_NOT_OPENED_TOTAL':           wc_not_opened_total,
+        'JUSTIFIED_WORD_CLASS_NOT_OPENED':       wc_justified,
+        'UNJUSTIFIED_WORD_CLASS_NOT_OPENED':     wc_unjustified,
+        'UNADJUDICATED_WORD_CLASS_NOT_OPENED':   wc_unadjudicated,
+        # Legacy alias (old flat count) — equals wc_not_opened_total, kept for compat
+        'WORD_CLASS_DEFERRED':                   wc_not_opened_total,
+        # Pipeline deferred
         'INFLECTION_DEFERRED':                   inflection_deferred,
         'OVERALL_PIPELINE_DEFERRED':             overall_deferred,
         'CSV_IN_MEMORY_DIVERGENCES':             csv_divergences,
