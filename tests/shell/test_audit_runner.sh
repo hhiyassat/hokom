@@ -2,6 +2,7 @@
 # HOKOM-CANONICAL-FINAL-AUDIT-RUNNER-HARDENING-01
 # Updated: HOKOM-SEQUENTIAL-3FS-RESOLUTION-AND-CANONICAL-ARTIFACT-REBASE-01 (Commit 2)
 # Updated: HOKOM-CANONICAL-AUDIT-NONMUTATING-RUNNER-CORRECTION-01
+# Updated: HOKOM-CANONICAL-AUDIT-LIVE-REGENERATION-RESTORATION-01
 # Shell unit tests for run_canonical_final_audit.sh guard logic.
 # Tests verify that each guard correctly sets CLOSURE_VERDICT = OPEN
 # when the named failure condition occurs.
@@ -32,7 +33,7 @@ RUN1_COLLECT_EXIT=0; RUN2_COLLECT_EXIT=0; NODE_IDS_EQUAL=1
 RUN1_COLLECTED_COUNT=10; RUN2_COLLECTED_COUNT=10
 RUN1_EXIT=0; RUN2_EXIT=0; TREE_STABLE_BETWEEN_RUNS=1
 CLOSURE_GATE_EXIT=0; ALL_REQUIRED_METRICS_PRESENT=1; ALL_CLOSURE_METRICS_ZERO=1
-ARTIFACT_BINDING_READY=1
+ARTIFACT_BINDING_READY=1; POST_REGEN_WORKTREE_CLEAN=1
 $extra_flags
 
 VERDICT_OK=1
@@ -58,6 +59,7 @@ VERDICT_OK=1
 [[ \"\$ALL_REQUIRED_METRICS_PRESENT\" != 1 ]] && VERDICT_OK=0
 [[ \"\$ALL_CLOSURE_METRICS_ZERO\" != 1 ]]     && VERDICT_OK=0
 [[ \"\$ARTIFACT_BINDING_READY\" != 1 ]]       && VERDICT_OK=0
+[[ \"\$POST_REGEN_WORKTREE_CLEAN\" != 1 ]]    && VERDICT_OK=0
 echo \"VERDICT=\$([[ \$VERDICT_OK == 1 ]] && echo VERIFIED_CLOSED || echo OPEN)\"
 " 2>/dev/null
 }
@@ -152,6 +154,75 @@ V="$(run_verdict 'RUNTIME_CONTRACT_EXIT=2')"
 V="$(run_verdict 'DARWIN_OK=0')"
 [[ "$V" == *"OPEN"* ]] && ok "T14: DARWIN_OK=0 → OPEN" \
                         || fail "T14: non-Darwin should be OPEN (got: $V)"
+
+# ── T15: POST_REGEN_WORKTREE_CLEAN=0 → OPEN ──────────────────────────────────
+V="$(run_verdict 'POST_REGEN_WORKTREE_CLEAN=0')"
+[[ "$V" == *"OPEN"* ]] && ok "T15: POST_REGEN_WORKTREE_CLEAN=0 → OPEN" \
+                        || fail "T15: dirty post-regen worktree should be OPEN (got: $V)"
+
+echo ""
+echo "-- structural grep tests against runner file --"
+RUNNER="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/scripts/run_canonical_final_audit.sh"
+
+# T16: demo script is invoked in the runner
+grep -q 'scripts/demo_ayat_al_dayn.py' "$RUNNER" \
+    && ok "T16: runner invokes scripts/demo_ayat_al_dayn.py" \
+    || fail "T16: runner must invoke scripts/demo_ayat_al_dayn.py"
+
+# T17: GENERATED_CSV_SHA is compared to EXPECTED_CSV
+grep -q 'GENERATED_CSV_SHA' "$RUNNER" \
+    && ok "T17: runner uses GENERATED_CSV_SHA for SHA comparison" \
+    || fail "T17: runner must reference GENERATED_CSV_SHA"
+
+# T18: no LOGS/probe_runner.py reference (probe is in AUDIT_TMPDIR)
+grep -q 'LOGS/probe_runner.py' "$RUNNER" \
+    && fail "T18: runner must NOT reference LOGS/probe_runner.py (use AUDIT_TMPDIR)" \
+    || ok "T18: runner does not reference LOGS/probe_runner.py"
+
+# T19: restore_artifacts function is defined
+grep -q 'restore_artifacts()' "$RUNNER" \
+    && ok "T19: runner defines restore_artifacts() function" \
+    || fail "T19: runner must define restore_artifacts() function"
+
+# T20: EXIT trap using _audit_exit_trap is defined
+grep -q "_audit_exit_trap" "$RUNNER" \
+    && ok "T20: runner defines _audit_exit_trap EXIT trap" \
+    || fail "T20: runner must define _audit_exit_trap"
+
+# T21: probe runner is written to AUDIT_TMPDIR
+grep -q 'AUDIT_TMPDIR/probe_runner.py' "$RUNNER" \
+    && ok "T21: probe runner written to AUDIT_TMPDIR" \
+    || fail "T21: probe runner must be in AUDIT_TMPDIR"
+
+# T22: original-ayat_al_dayn backups are written
+grep -q 'original-ayat_al_dayn_results.csv' "$RUNNER" \
+    && ok "T22: original-ayat_al_dayn backups referenced" \
+    || fail "T22: runner must write original-ayat_al_dayn backup files"
+
+# T23: generated-ayat_al_dayn copies are written
+grep -q 'generated-ayat_al_dayn_results.csv' "$RUNNER" \
+    && ok "T23: generated-ayat_al_dayn copies referenced" \
+    || fail "T23: runner must copy generated-ayat_al_dayn files"
+
+# T24: EXIT trap captures _es=$?
+grep -q 'local _es=\$?' "$RUNNER" \
+    && ok "T24: EXIT trap captures _es=\$? for exit status preservation" \
+    || fail "T24: EXIT trap must capture local _es=\$?"
+
+# T25: POST_REGEN_WORKTREE_CLEAN appears in verdict conjunction
+grep -q 'POST_REGEN_WORKTREE_CLEAN.*VERDICT_OK' "$RUNNER" \
+    && ok "T25: POST_REGEN_WORKTREE_CLEAN in verdict conjunction" \
+    || fail "T25: runner verdict conjunction must check POST_REGEN_WORKTREE_CLEAN"
+
+# T26: _RESTORE_DONE idempotency guard is present
+grep -q '_RESTORE_DONE' "$RUNNER" \
+    && ok "T26: _RESTORE_DONE idempotency guard present" \
+    || fail "T26: runner must have _RESTORE_DONE idempotency guard"
+
+# T27: GENERATED_CSV_SHA is compared to EXPECTED_CSV for ARTIFACT_BINDING_READY
+grep -q 'GENERATED_CSV_SHA.*EXPECTED_CSV\|EXPECTED_CSV.*GENERATED_CSV_SHA' "$RUNNER" \
+    && ok "T27: GENERATED_CSV_SHA compared to EXPECTED_CSV for ARTIFACT_BINDING_READY" \
+    || fail "T27: runner must compare GENERATED_CSV_SHA to EXPECTED_CSV"
 
 echo ""
 echo "=== RESULTS: $PASS passed, $FAIL failed ==="

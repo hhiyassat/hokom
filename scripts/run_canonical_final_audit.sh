@@ -2,6 +2,7 @@
 # HOKOM-CANONICAL-FINAL-AUDIT-RUNNER-HARDENING-01
 # HOKOM-CANONICAL-AUDIT-RUNNER-BOOTSTRAP-CLOSURE-01
 # HOKOM-CANONICAL-AUDIT-NONMUTATING-RUNNER-CORRECTION-01
+# HOKOM-CANONICAL-AUDIT-LIVE-REGENERATION-RESTORATION-01
 # Canonical closure audit — must run on macOS with .venv-py312
 # Usage: cd /path/to/hokom && bash scripts/run_canonical_final_audit.sh
 # Exits 0 only for VERIFIED_CLOSED; exits nonzero for any OPEN condition.
@@ -26,14 +27,44 @@ RUN1_COLLECT_EXIT=1; RUN2_COLLECT_EXIT=1; NODE_IDS_EQUAL=0
 RUN1_COLLECTED_COUNT=0; RUN2_COLLECTED_COUNT=0
 RUN1_EXIT=1; RUN2_EXIT=1; TREE_STABLE_BETWEEN_RUNS=0
 CLOSURE_GATE_EXIT=1; ALL_REQUIRED_METRICS_PRESENT=0; ALL_CLOSURE_METRICS_ZERO=0
-ARTIFACT_BINDING_READY=0
+ARTIFACT_BINDING_READY=0; POST_REGEN_WORKTREE_CLEAN=0
+GENERATED_CSV_SHA=""; GENERATED_JSON_SHA=""; GENERATED_HTML_SHA=""
+
+# Artifact paths (needed by restore_artifacts before §5 runs)
+REPORT_DIR="$REPO_DIR/reports/ayat_al_dayn_demo"
+CSV_FILE="$REPORT_DIR/ayat_al_dayn_results.csv"
+JSON_FILE="$REPORT_DIR/ayat_al_dayn_results_full.json"
+HTML_FILE="$REPORT_DIR/ayat_al_dayn_manager_report.html"
 
 OPEN_REASONS=()
 fail_flag() { OPEN_REASONS+=("$1"); echo "FAIL: $1"; }
 
-# Probe runner lives outside the repository in a temp file; cleaned up on any exit.
-PROBE_SCRIPT="$(mktemp /tmp/hokom_probe_XXXXXX.py)"
-trap 'rm -f "$PROBE_SCRIPT"' EXIT
+# Audit temp directory: probe runner + artifact backups + generated copies.
+# Lives outside the repository — never inside reports/canonical_gate/.
+AUDIT_TMPDIR="$(mktemp -d /tmp/hokom_audit_XXXXXX)"
+
+# Idempotent artifact restoration — safe to call on any exit path.
+# _RESTORE_DONE prevents recursive invocation.
+_RESTORE_DONE=0
+restore_artifacts() {
+    [[ "$_RESTORE_DONE" == 1 ]] && return 0
+    _RESTORE_DONE=1
+    [[ -f "$AUDIT_TMPDIR/original-ayat_al_dayn_results.csv" ]] && \
+        cp "$AUDIT_TMPDIR/original-ayat_al_dayn_results.csv"        "$CSV_FILE"  2>/dev/null || true
+    [[ -f "$AUDIT_TMPDIR/original-ayat_al_dayn_results_full.json" ]] && \
+        cp "$AUDIT_TMPDIR/original-ayat_al_dayn_results_full.json"  "$JSON_FILE" 2>/dev/null || true
+    [[ -f "$AUDIT_TMPDIR/original-ayat_al_dayn_manager_report.html" ]] && \
+        cp "$AUDIT_TMPDIR/original-ayat_al_dayn_manager_report.html" "$HTML_FILE" 2>/dev/null || true
+}
+_audit_exit_trap() {
+    local _es=$?
+    trap '' EXIT  # prevent re-entrancy
+    set +e
+    restore_artifacts
+    rm -rf "$AUDIT_TMPDIR"
+    exit "$_es"
+}
+trap '_audit_exit_trap' EXIT
 
 # ── §1 Repository identity ───────────────────────────────────────────────────
 START_HEAD="$AUDITED_HEAD"
@@ -129,7 +160,7 @@ fi
 
 # ── §4 Live probes (17 tokens) ───────────────────────────────────────────────
 echo "--- §4 live probes ---"
-cat > "$PROBE_SCRIPT" << 'PROBE_EOF'
+cat > "$AUDIT_TMPDIR/probe_runner.py" << 'PROBE_EOF'
 import sys, os
 sys.path.insert(0, os.getcwd())
 from hokom_pipeline import hokom
@@ -230,36 +261,58 @@ print(f'PROBE_VERDICT: {"ALL_PASS" if all_pass else "FAILURES_PRESENT"} ({sum(1 
 raise SystemExit(0 if all_pass else 1)
 PROBE_EOF
 
-if "$VENV" "$PROBE_SCRIPT" 2>&1 | tee "$LOGS/probe.log"; then
+if "$VENV" "$AUDIT_TMPDIR/probe_runner.py" 2>&1 | tee "$LOGS/probe.log"; then
     PROBE_EXIT=0
 else
     PROBE_EXIT=$?
     fail_flag "PROBE_EXIT=$PROBE_EXIT"
 fi
 
-# ── §5 Canonical artifact verification (non-mutating) ────────────────────────
-# HOKOM-CANONICAL-AUDIT-NONMUTATING-RUNNER-CORRECTION-01
-# Do NOT delete or regenerate committed artifacts. JSON and HTML carry
-# a timestamp and are non-deterministic across runs; only the CSV SHA
-# is bound and verified. The working tree must remain clean throughout.
-echo "--- §5 canonical artifact verification (non-mutating) ---"
-REPORT_DIR="$REPO_DIR/reports/ayat_al_dayn_demo"
-CSV_FILE="$REPORT_DIR/ayat_al_dayn_results.csv"
-JSON_FILE="$REPORT_DIR/ayat_al_dayn_results_full.json"
-HTML_FILE="$REPORT_DIR/ayat_al_dayn_manager_report.html"
-CSV_SHA=""; JSON_SHA="(non-deterministic)"; HTML_SHA="(non-deterministic)"
+# ── §5 Live report regeneration + canonical artifact binding ─────────────────
+# HOKOM-CANONICAL-AUDIT-LIVE-REGENERATION-RESTORATION-01
+# Proves: current audited code + current Darwin/Python 3.12.4 runtime +
+# current live Taaqol integration → regenerates the canonical CSV byte-for-byte.
+# Pattern: backup committed → regenerate → copy generated → SHA → verify →
+#          restore committed in §5b → check POST_REGEN_WORKTREE_CLEAN.
+echo "--- §5 live report regeneration ---"
 
-if [[ ! -f "$CSV_FILE" ]]; then
-    fail_flag "ARTIFACT_MISSING: $CSV_FILE"
+if [[ ! -f "$CSV_FILE" || ! -f "$JSON_FILE" || ! -f "$HTML_FILE" ]]; then
+    fail_flag "ARTIFACT_MISSING_PRE_REGEN: check $REPORT_DIR"
 else
-    CSV_SHA="$("$VENV" -c "import hashlib,pathlib; print(hashlib.sha256(pathlib.Path('$CSV_FILE').read_bytes()).hexdigest())")"
-    echo "CSV_SHA256=sha256:$CSV_SHA"
+    # 1. Back up committed originals
+    cp "$CSV_FILE"  "$AUDIT_TMPDIR/original-ayat_al_dayn_results.csv"
+    cp "$JSON_FILE" "$AUDIT_TMPDIR/original-ayat_al_dayn_results_full.json"
+    cp "$HTML_FILE" "$AUDIT_TMPDIR/original-ayat_al_dayn_manager_report.html"
+    echo "ARTIFACT_BACKUP=OK"
+
+    # 2. Live regeneration
+    echo "LIVE_REPORT_REGENERATION=RUNNING"
+    if "$VENV" scripts/demo_ayat_al_dayn.py 2>&1 | tee "$LOGS/demo_regen.log"; then
+        echo "LIVE_REPORT_REGENERATION=OK"
+    else
+        fail_flag "LIVE_REGEN_FAILED"
+    fi
+
+    # 3. Copy generated outputs into AUDIT_TMPDIR (before restoration)
+    cp "$CSV_FILE"  "$AUDIT_TMPDIR/generated-ayat_al_dayn_results.csv"
+    cp "$JSON_FILE" "$AUDIT_TMPDIR/generated-ayat_al_dayn_results_full.json"
+    cp "$HTML_FILE" "$AUDIT_TMPDIR/generated-ayat_al_dayn_manager_report.html"
+
+    # 4. Compute SHAs from generated copies
+    GENERATED_CSV_SHA="$("$VENV" -c "import hashlib,pathlib; print(hashlib.sha256(pathlib.Path('$AUDIT_TMPDIR/generated-ayat_al_dayn_results.csv').read_bytes()).hexdigest())")"
+    GENERATED_JSON_SHA="$("$VENV" -c "import hashlib,pathlib; print(hashlib.sha256(pathlib.Path('$AUDIT_TMPDIR/generated-ayat_al_dayn_results_full.json').read_bytes()).hexdigest())")"
+    GENERATED_HTML_SHA="$("$VENV" -c "import hashlib,pathlib; print(hashlib.sha256(pathlib.Path('$AUDIT_TMPDIR/generated-ayat_al_dayn_manager_report.html').read_bytes()).hexdigest())")"
+    echo "GENERATED_CSV_SHA256=sha256:$GENERATED_CSV_SHA"
+    echo "GENERATED_JSON_SHA256=sha256:$GENERATED_JSON_SHA  (non-deterministic: run evidence only)"
+    echo "GENERATED_HTML_SHA256=sha256:$GENERATED_HTML_SHA  (non-deterministic: run evidence only)"
+
+    # 5. Verify generated CSV SHA against canonical binding
     EXPECTED_CSV="5e673089f33e42309a66ded1816fffb9098227f1f86bb35c5faa33349dd47d84"
-    if [[ "$CSV_SHA" == "$EXPECTED_CSV" ]]; then
+    if [[ "$GENERATED_CSV_SHA" == "$EXPECTED_CSV" ]]; then
         echo "CSV_DETERMINISM=OK"
         ARTIFACT_BINDING_READY=1
     else
-        fail_flag "CSV_SHA_MISMATCH: got=$CSV_SHA expected=$EXPECTED_CSV"
+        fail_flag "CSV_SHA_MISMATCH: got=$GENERATED_CSV_SHA expected=$EXPECTED_CSV"
     fi
 fi
 
@@ -299,6 +352,19 @@ else
     CSV_VERIFIER_EXIT=$?
     fail_flag "CSV_VERIFIER_EXIT=$CSV_VERIFIER_EXIT"
     CSV_IN_MEMORY_DIVERGENCES="$(grep 'CSV_IN_MEMORY_DIVERGENCES=' "$LOGS/csv_verifier.log" | tail -1 | cut -d= -f2 || echo -1)"
+fi
+
+# ── §5b Restore committed artifacts + worktree cleanliness check ─────────────
+echo "--- §5b artifact restoration ---"
+restore_artifacts
+echo "ARTIFACT_RESTORE=OK"
+
+POST_REGEN_DIRTY="$(git diff --name-only HEAD 2>&1)"
+if [[ -z "$POST_REGEN_DIRTY" ]]; then
+    POST_REGEN_WORKTREE_CLEAN=1
+    echo "POST_REGEN_WORKTREE_CLEAN=1"
+else
+    fail_flag "POST_REGEN_WORKTREE_DIRTY: $POST_REGEN_DIRTY"
 fi
 
 # ── §9 Semantic tree fingerprint (before RUN1) ───────────────────────────────
@@ -445,11 +511,12 @@ printf "  RUN1_EXIT=%s\n  RUN2_EXIT=%s\n  TREE_STABLE_BETWEEN_RUNS=%s\n" \
     "$RUN1_EXIT" "$RUN2_EXIT" "$TREE_STABLE_BETWEEN_RUNS"
 printf "  CLOSURE_GATE_EXIT=%s\n  ALL_REQUIRED_METRICS_PRESENT=%s\n  ALL_CLOSURE_METRICS_ZERO=%s\n" \
     "$CLOSURE_GATE_EXIT" "$ALL_REQUIRED_METRICS_PRESENT" "$ALL_CLOSURE_METRICS_ZERO"
-printf "  ARTIFACT_BINDING_READY=%s\n" "$ARTIFACT_BINDING_READY"
+printf "  ARTIFACT_BINDING_READY=%s\n  POST_REGEN_WORKTREE_CLEAN=%s\n" \
+    "$ARTIFACT_BINDING_READY" "$POST_REGEN_WORKTREE_CLEAN"
 echo ""
-echo "  CSV_SHA256=sha256:$CSV_SHA"
-echo "  JSON_SHA256=sha256:$JSON_SHA"
-echo "  HTML_SHA256=sha256:$HTML_SHA"
+echo "  GENERATED_CSV_SHA256=sha256:$GENERATED_CSV_SHA"
+echo "  GENERATED_JSON_SHA256=sha256:$GENERATED_JSON_SHA  (non-deterministic: run evidence only)"
+echo "  GENERATED_HTML_SHA256=sha256:$GENERATED_HTML_SHA  (non-deterministic: run evidence only)"
 echo ""
 
 VERDICT_OK=1
@@ -475,6 +542,7 @@ VERDICT_OK=1
 [[ "$ALL_REQUIRED_METRICS_PRESENT" != 1 ]] && VERDICT_OK=0
 [[ "$ALL_CLOSURE_METRICS_ZERO" != 1 ]]     && VERDICT_OK=0
 [[ "$ARTIFACT_BINDING_READY" != 1 ]]       && VERDICT_OK=0
+[[ "$POST_REGEN_WORKTREE_CLEAN" != 1 ]]    && VERDICT_OK=0
 
 if [[ "$VERDICT_OK" == 1 ]]; then
     echo "CLOSURE_VERDICT = VERIFIED_CLOSED"
