@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # HOKOM-CANONICAL-FINAL-AUDIT-RUNNER-HARDENING-01
 # HOKOM-CANONICAL-AUDIT-RUNNER-BOOTSTRAP-CLOSURE-01
+# HOKOM-CANONICAL-AUDIT-NONMUTATING-RUNNER-CORRECTION-01
 # Canonical closure audit — must run on macOS with .venv-py312
 # Usage: cd /path/to/hokom && bash scripts/run_canonical_final_audit.sh
 # Exits 0 only for VERIFIED_CLOSED; exits nonzero for any OPEN condition.
@@ -29,6 +30,10 @@ ARTIFACT_BINDING_READY=0
 
 OPEN_REASONS=()
 fail_flag() { OPEN_REASONS+=("$1"); echo "FAIL: $1"; }
+
+# Probe runner lives outside the repository in a temp file; cleaned up on any exit.
+PROBE_SCRIPT="$(mktemp /tmp/hokom_probe_XXXXXX.py)"
+trap 'rm -f "$PROBE_SCRIPT"' EXIT
 
 # ── §1 Repository identity ───────────────────────────────────────────────────
 START_HEAD="$AUDITED_HEAD"
@@ -124,7 +129,7 @@ fi
 
 # ── §4 Live probes (17 tokens) ───────────────────────────────────────────────
 echo "--- §4 live probes ---"
-cat > "$LOGS/probe_runner.py" << 'PROBE_EOF'
+cat > "$PROBE_SCRIPT" << 'PROBE_EOF'
 import sys, os
 sys.path.insert(0, os.getcwd())
 from hokom_pipeline import hokom
@@ -225,40 +230,38 @@ print(f'PROBE_VERDICT: {"ALL_PASS" if all_pass else "FAILURES_PRESENT"} ({sum(1 
 raise SystemExit(0 if all_pass else 1)
 PROBE_EOF
 
-if "$VENV" "$LOGS/probe_runner.py" 2>&1 | tee "$LOGS/probe.log"; then
+if "$VENV" "$PROBE_SCRIPT" 2>&1 | tee "$LOGS/probe.log"; then
     PROBE_EXIT=0
 else
     PROBE_EXIT=$?
     fail_flag "PROBE_EXIT=$PROBE_EXIT"
 fi
 
-# ── §5 Report regeneration ───────────────────────────────────────────────────
-echo "--- §5 report regeneration ---"
+# ── §5 Canonical artifact verification (non-mutating) ────────────────────────
+# HOKOM-CANONICAL-AUDIT-NONMUTATING-RUNNER-CORRECTION-01
+# Do NOT delete or regenerate committed artifacts. JSON and HTML carry
+# a timestamp and are non-deterministic across runs; only the CSV SHA
+# is bound and verified. The working tree must remain clean throughout.
+echo "--- §5 canonical artifact verification (non-mutating) ---"
 REPORT_DIR="$REPO_DIR/reports/ayat_al_dayn_demo"
 CSV_FILE="$REPORT_DIR/ayat_al_dayn_results.csv"
 JSON_FILE="$REPORT_DIR/ayat_al_dayn_results_full.json"
 HTML_FILE="$REPORT_DIR/ayat_al_dayn_manager_report.html"
+CSV_SHA=""; JSON_SHA="(non-deterministic)"; HTML_SHA="(non-deterministic)"
 
-rm -f "$CSV_FILE" "$JSON_FILE" "$HTML_FILE"
-"$VENV" scripts/demo_ayat_al_dayn.py 2>&1 | tee "$LOGS/demo_regen.log"
-
-# Bind exact fresh SHA-256 for all three generated files (once; do not re-run)
-CSV_SHA="$("$VENV" -c "import hashlib,pathlib; print(hashlib.sha256(pathlib.Path('$CSV_FILE').read_bytes()).hexdigest())")"
-JSON_SHA="$("$VENV" -c "import hashlib,pathlib; print(hashlib.sha256(pathlib.Path('$JSON_FILE').read_bytes()).hexdigest())")"
-HTML_SHA="$("$VENV" -c "import hashlib,pathlib; print(hashlib.sha256(pathlib.Path('$HTML_FILE').read_bytes()).hexdigest())")"
-
-echo "CSV_SHA256=sha256:$CSV_SHA"
-echo "JSON_SHA256=sha256:$JSON_SHA"
-echo "HTML_SHA256=sha256:$HTML_SHA"
-
-# CSV must be deterministic; check against canonical frozen value
-EXPECTED_CSV="5e673089f33e42309a66ded1816fffb9098227f1f86bb35c5faa33349dd47d84"
-if [[ "$CSV_SHA" == "$EXPECTED_CSV" ]]; then
-    echo "CSV_DETERMINISM=OK"
+if [[ ! -f "$CSV_FILE" ]]; then
+    fail_flag "ARTIFACT_MISSING: $CSV_FILE"
 else
-    fail_flag "CSV_SHA_MISMATCH: got=$CSV_SHA expected=$EXPECTED_CSV"
+    CSV_SHA="$("$VENV" -c "import hashlib,pathlib; print(hashlib.sha256(pathlib.Path('$CSV_FILE').read_bytes()).hexdigest())")"
+    echo "CSV_SHA256=sha256:$CSV_SHA"
+    EXPECTED_CSV="5e673089f33e42309a66ded1816fffb9098227f1f86bb35c5faa33349dd47d84"
+    if [[ "$CSV_SHA" == "$EXPECTED_CSV" ]]; then
+        echo "CSV_DETERMINISM=OK"
+        ARTIFACT_BINDING_READY=1
+    else
+        fail_flag "CSV_SHA_MISMATCH: got=$CSV_SHA expected=$EXPECTED_CSV"
+    fi
 fi
-ARTIFACT_BINDING_READY=1
 
 # ── §6 Independent CSV verifier (separate process) ───────────────────────────
 echo "--- §6 CSV verifier ---"
