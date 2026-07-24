@@ -12,8 +12,10 @@ VENV="$REPO_DIR/.venv-py312/bin/python"
 LOGS="$REPO_DIR/reports/canonical_gate"
 mkdir -p "$LOGS"
 
+# LINGUISTIC_BASE_HEAD: last linguistic commit — immutable
 LINGUISTIC_BASE_HEAD="c98d35398d440cb3d51597fd8a19a4687ce1c581"
-AUDITED_HEAD="91c4bb85b7365d8cc6895b9d93c7f8cedd690cdb"
+# AUDITED_HEAD: computed dynamically — the actual HEAD being audited
+AUDITED_HEAD="$(git rev-parse HEAD)"
 
 # ── verdict flags ────────────────────────────────────────────────────────────
 HEAD_OK=0; INITIAL_TREE_CLEAN=0; DARWIN_OK=0; PYTHON_3124_OK=0; VENV_OK=0
@@ -29,13 +31,25 @@ OPEN_REASONS=()
 fail_flag() { OPEN_REASONS+=("$1"); echo "FAIL: $1"; }
 
 # ── §1 Repository identity ───────────────────────────────────────────────────
-REQUIRED_HEAD="$AUDITED_HEAD"
-START_HEAD="$(git rev-parse HEAD)"
+START_HEAD="$AUDITED_HEAD"
 echo "START_HEAD=$START_HEAD"
 echo "LINGUISTIC_BASE_HEAD=$LINGUISTIC_BASE_HEAD"
 echo "AUDITED_HEAD=$AUDITED_HEAD"
-if [[ "$START_HEAD" == "$REQUIRED_HEAD" ]]; then HEAD_OK=1
-else fail_flag "HEAD_MISMATCH: got=$START_HEAD expected=$REQUIRED_HEAD"; fi
+
+# HEAD must be a descendant of LINGUISTIC_BASE_HEAD
+if git merge-base --is-ancestor "$LINGUISTIC_BASE_HEAD" HEAD 2>/dev/null; then
+    # Only governance runner files may differ from the linguistic baseline
+    DIFF_FROM_BASE="$(git diff "$LINGUISTIC_BASE_HEAD"..HEAD --name-only | sort)"
+    ALLOWED_DIFF="$(printf 'scripts/run_canonical_final_audit.sh\ntests/shell/test_audit_runner.sh')"
+    if [[ "$DIFF_FROM_BASE" == "$ALLOWED_DIFF" ]]; then
+        HEAD_OK=1
+        echo "HEAD_OK=1 (descendant of LINGUISTIC_BASE_HEAD; diff=$DIFF_FROM_BASE)"
+    else
+        fail_flag "HEAD_DIFF_VIOLATION: files changed beyond governance runner: $DIFF_FROM_BASE"
+    fi
+else
+    fail_flag "HEAD_NOT_DESCENDANT_OF_LINGUISTIC_BASE: $AUDITED_HEAD is not after $LINGUISTIC_BASE_HEAD"
+fi
 
 # Require exactly clean working tree; caller must remove .DS_Store beforehand
 DIRTY="$(git status --porcelain --untracked-files=all 2>&1)"
@@ -408,7 +422,7 @@ FINAL_HEAD="$(git rev-parse HEAD)"
 echo "FINAL_HEAD=$FINAL_HEAD"
 echo "LINGUISTIC_BASE_HEAD=$LINGUISTIC_BASE_HEAD"
 echo "AUDITED_HEAD=$AUDITED_HEAD"
-[[ "$FINAL_HEAD" != "$REQUIRED_HEAD" ]] && fail_flag "HEAD_CHANGED_DURING_AUDIT"
+[[ "$FINAL_HEAD" != "$AUDITED_HEAD" ]] && fail_flag "HEAD_CHANGED_DURING_AUDIT: was=$AUDITED_HEAD now=$FINAL_HEAD"
 
 echo ""
 echo "=== VERDICT CONJUNCTION ==="

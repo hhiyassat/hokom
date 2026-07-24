@@ -93,9 +93,9 @@ V="$(run_verdict 'CLOSURE_GATE_EXIT=1')"
 [[ "$V" == *"OPEN"* ]] && ok "T5: CLOSURE_GATE_EXIT=1 → OPEN" \
                         || fail "T5: gate exit 1 should be OPEN (got: $V)"
 
-# ── T6: wrong HEAD ────────────────────────────────────────────────────────────
+# ── T6: wrong HEAD (non-descendant or bad diff) ──────────────────────────────
 V="$(run_verdict 'HEAD_OK=0')"
-[[ "$V" == *"OPEN"* ]] && ok "T6: HEAD_OK=0 → OPEN" \
+[[ "$V" == *"OPEN"* ]] && ok "T6: HEAD_OK=0 (non-descendant/diff-violation) → OPEN" \
                         || fail "T6: wrong HEAD should be OPEN (got: $V)"
 
 # ── T7: wrong Python ─────────────────────────────────────────────────────────
