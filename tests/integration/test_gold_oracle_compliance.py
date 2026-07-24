@@ -72,14 +72,13 @@ def _metrics():
 
 def test_gold_token_mismatches_detected():
     """
-    LIVE_GOLD_TOKEN_MISMATCHES must be >= 12 at current HEAD.
-    The detector correctly identifies 12 tokens with at least one field
-    differing from the gold manifest expectation.
+    HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    LIVE_GOLD_TOKEN_MISMATCHES == 0 (all gold manifest defects resolved).
     """
     m = _metrics()
-    assert m['LIVE_GOLD_TOKEN_MISMATCHES'] >= 12, (
+    assert m['LIVE_GOLD_TOKEN_MISMATCHES'] == 0, (
         f"LIVE_GOLD_TOKEN_MISMATCHES={m['LIVE_GOLD_TOKEN_MISMATCHES']}: "
-        "detector must find >= 12 token-level mismatches at current HEAD.")
+        "expected 0 — all gold manifest defects resolved.")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -88,15 +87,15 @@ def test_gold_token_mismatches_detected():
 
 def test_form_family_mismatches_detected():
     """
-    LIVE_FORM_FAMILY_MISMATCHES must be >= 6.
-    Tokens: آمَنُوا(FORM_IV/None), فَاكْتُبُوهُ(FORM_I/FORM_VIII),
-            وَلْيَتَّقِ(FORM_VIII/FORM_II), يُمِلَّ(FORM_IV/FORM_I_IMPERFECT),
-            فَتُذَكِّرَ(FORM_II/FORM_V), وَاتَّقُوا(FORM_VIII/FORM_II).
+    HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    LIVE_FORM_FAMILY_MISMATCHES == 0 (all CRA form-family defects resolved).
+    Fixed: آمَنُوا→FORM_IV, فَاكْتُبُوهُ→FORM_I, وَلْيَتَّقِ→FORM_VIII,
+           يُمِلَّ→FORM_IV, فَتُذَكِّرَ→FORM_II, وَاتَّقُوا→FORM_VIII.
     """
     m = _metrics()
-    assert m['LIVE_FORM_FAMILY_MISMATCHES'] >= 6, (
+    assert m['LIVE_FORM_FAMILY_MISMATCHES'] == 0, (
         f"LIVE_FORM_FAMILY_MISMATCHES={m['LIVE_FORM_FAMILY_MISMATCHES']}: "
-        "detector must find >= 6 CRA form-family mismatches.")
+        "expected 0 — all CRA form-family defects resolved.")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -105,16 +104,15 @@ def test_form_family_mismatches_detected():
 
 def test_known_oos_form_residuals_detected():
     """
-    KNOWN_OUT_OF_SCOPE_FORM_RESIDUALS must be >= 6.
-    All 6 form mismatches are OOS (FORM_REOPENING=FORBIDDEN):
-    آمَنُوا, فَاكْتُبُوهُ, وَلْيَتَّقِ, يُمِلَّ, فَتُذَكِّرَ, وَاتَّقُوا.
+    HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    KNOWN_OUT_OF_SCOPE_FORM_RESIDUALS == 0 (all OOS form residuals resolved).
     """
     m = _metrics()
     assert 'KNOWN_OUT_OF_SCOPE_FORM_RESIDUALS' in m, (
         "KNOWN_OUT_OF_SCOPE_FORM_RESIDUALS key missing")
-    assert m['KNOWN_OUT_OF_SCOPE_FORM_RESIDUALS'] >= 6, (
+    assert m['KNOWN_OUT_OF_SCOPE_FORM_RESIDUALS'] == 0, (
         f"KNOWN_OUT_OF_SCOPE_FORM_RESIDUALS={m['KNOWN_OUT_OF_SCOPE_FORM_RESIDUALS']}: "
-        "detector must find >= 6 OOS form residuals.")
+        "expected 0 — all OOS form residuals resolved.")
 
 
 def test_known_oos_form_residuals_backward_compat_alias():
@@ -135,45 +133,45 @@ def test_known_oos_form_residuals_backward_compat_alias():
 
 def test_png_mismatches_detected():
     """
-    LIVE_PERSON_NUMBER_GENDER_MISMATCHES must be >= 4.
-    Explicit: يَكُونَا(SG→DU), تَكُونَ(2PL/M→3SG/F).
-    Via uncorrelated ambiguity: تَضِلَّ(gender=F absent), فَتُذَكِّرَ(gender=F absent).
+    HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    LIVE_PERSON_NUMBER_GENDER_MISMATCHES == 0 (all PNG defects resolved).
+    Fixed: يَكُونَا→DU, تَكُونَ→3SG/F (context lookahead),
+           تَضِلَّ/فَتُذَكِّرَ gender='M|F' (uncorrelated ambiguity resolved).
     """
     m = _metrics()
-    assert m['LIVE_PERSON_NUMBER_GENDER_MISMATCHES'] >= 4, (
+    assert m['LIVE_PERSON_NUMBER_GENDER_MISMATCHES'] == 0, (
         f"LIVE_PERSON_NUMBER_GENDER_MISMATCHES={m['LIVE_PERSON_NUMBER_GENDER_MISMATCHES']}: "
-        "detector must find >= 4 PNG mismatches (includes uncorrelated ambiguity).")
+        "expected 0 — all PNG defects resolved.")
 
 
 def test_yakuna_number_mismatch_is_detected():
     """
-    يَكُونَا: pipeline gives number=SG, gold=DU.
-    Detector must identify this as a PNG mismatch (not a zero).
+    HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    يَكُونَا: hollow dual imperfect — pipeline now gives number=DU (fixed).
+    Fix: _has_imperfect_prefix now detects 'ونا' hollow-dual suffix.
     """
     r = hokom('يَكُونَا')
     assert r.get('word_class') == 'FI3L', (
         f"يَكُونَا prerequisite: wc={r.get('word_class')!r}")
-    # The defect is SG instead of DU — detector catches this.
-    assert r.get('number') != 'DU', (
-        "يَكُونَا number='DU' — this defect was unexpectedly fixed. "
-        "Update the gold manifest and closure gate.")
+    assert r.get('number') == 'DU', (
+        f"يَكُونَا number={r.get('number')!r}: expected DU (hollow dual fix).")
 
 
 def test_takuna_png_mismatch_is_detected():
     """
-    تَكُونَ: pipeline gives person=2, number=PL, gender=M.
-    Gold: person=3, number=SG, gender=F.
-    Detector must identify this as a PNG mismatch.
+    HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    تَكُونَ: via compute_live_metrics() context lookahead, pipeline gives 3SG/F.
+    Raw hokom() still gives 2|3/SG/M|F (ambiguous without lookahead).
+    The metrics (with lookahead) resolve to person=3, number=SG, gender=F.
     """
     r = hokom('تَكُونَ')
     assert r.get('word_class') == 'FI3L', (
         f"تَكُونَ prerequisite: wc={r.get('word_class')!r}")
-    person = r.get('person')
-    number = r.get('number')
-    gender = r.get('gender')
-    # Verify the defect is still present (so detector is catching a real issue).
-    assert not (person == '3' and number == 'SG' and gender == 'F'), (
-        "تَكُونَ PNG defect unexpectedly fixed. Update gold manifest + closure gate.")
+    # Raw hokom: person='2|3', number=SG, gender='M|F' (ambiguous)
+    # After compute_live_metrics lookahead: resolves to 3SGF.
+    # Verify hollow verb is no longer mis-detected as 2MPL:
+    assert r.get('number') != 'PL', (
+        f"تَكُونَ number={r.get('number')!r}: hollow verb must not be PL.")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -182,31 +180,36 @@ def test_takuna_png_mismatch_is_detected():
 
 def test_voice_mismatches_detected():
     """
-    LIVE_VOICE_MISMATCHES must be >= 2.
-    تُدِيرُونَهَا(PASSIVE→ACTIVE) and يُمِلَّ(PASSIVE→ACTIVE).
+    HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    LIVE_VOICE_MISMATCHES == 0 (all voice defects resolved).
+    Fixed: Form IV active detection (damma prefix + kasra on C1 → ACTIVE).
     """
     m = _metrics()
-    assert m['LIVE_VOICE_MISMATCHES'] >= 2, (
+    assert m['LIVE_VOICE_MISMATCHES'] == 0, (
         f"LIVE_VOICE_MISMATCHES={m['LIVE_VOICE_MISMATCHES']}: "
-        "detector must find >= 2 voice mismatches.")
+        "expected 0 — Form IV voice (kasra-on-C1) fix applied.")
 
 
 def test_tudirunaha_voice_defect_present():
-    """تُدِيرُونَهَا: pipeline gives PASSIVE, gold=ACTIVE. Defect must still be present."""
+    """
+    HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    تُدِيرُونَهَا: Form IV hollow active — pipeline now gives voice=ACTIVE (fixed).
+    """
     r = hokom('تُدِيرُونَهَا')
     assert r.get('word_class') == 'FI3L', f"wc={r.get('word_class')!r}"
-    assert r.get('voice') != 'ACTIVE', (
-        "تُدِيرُونَهَا voice=ACTIVE — defect unexpectedly fixed. "
-        "Update gold manifest + closure gate.")
+    assert r.get('voice') == 'ACTIVE', (
+        f"تُدِيرُونَهَا voice={r.get('voice')!r}: expected ACTIVE (Form IV hollow fix).")
 
 
 def test_yumilla_voice_defect_present():
-    """يُمِلَّ: pipeline gives PASSIVE, gold=ACTIVE. Defect must still be present."""
+    """
+    HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    يُمِلَّ: Form IV geminate active — pipeline now gives voice=ACTIVE (fixed).
+    """
     r = hokom('يُمِلَّ')
     assert r.get('word_class') == 'FI3L', f"wc={r.get('word_class')!r}"
-    assert r.get('voice') != 'ACTIVE', (
-        "يُمِلَّ voice=ACTIVE — defect unexpectedly fixed. "
-        "Update gold manifest + closure gate.")
+    assert r.get('voice') == 'ACTIVE', (
+        f"يُمِلَّ voice={r.get('voice')!r}: expected ACTIVE (Form IV geminate fix).")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -215,14 +218,15 @@ def test_yumilla_voice_defect_present():
 
 def test_context_mood_mismatches_detected():
     """
-    LIVE_CONTEXT_MOOD_MISMATCHES must be >= 1.
-    تَسْأَمُوا [80]: وَلَا تَسْأَمُوا is prohibitive (JUSSIVE required).
-    Raw hokom() gives mood=INDICATIVE (no sequential context).
+    HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    LIVE_CONTEXT_MOOD_MISMATCHES == 0.
+    compute_live_metrics() now uses SequentialAnalysisContext to inject
+    governing-particle mood, correctly setting تَسْأَمُوا mood=JUSSIVE.
     """
     m = _metrics()
-    assert m['LIVE_CONTEXT_MOOD_MISMATCHES'] >= 1, (
+    assert m['LIVE_CONTEXT_MOOD_MISMATCHES'] == 0, (
         f"LIVE_CONTEXT_MOOD_MISMATCHES={m['LIVE_CONTEXT_MOOD_MISMATCHES']}: "
-        "detector must find >= 1 context mood mismatch.")
+        "expected 0 — context carrier now injects JUSSIVE for وَلَا تَسْأَمُوا.")
 
 
 def test_tasamu_mood_defect_present():
@@ -256,11 +260,22 @@ def test_yastati3u_context_boundary_protected():
 # ══════════════════════════════════════════════════════════════════════════════
 
 def test_word_class_not_opened_total():
-    """WORD_CLASS_NOT_OPENED_TOTAL must be 40 (all tokens with wc=None)."""
+    """
+    HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    WORD_CLASS_NOT_OPENED_TOTAL == 21 (was 40 before remediation).
+    All 21 remaining wc=None tokens are JUSTIFIED (JAMID_AALAM_BOUNDARY, proclitic
+    constructions with pre_root=NONE, SEGMENTATION_NO_LEXICAL_HOST).
+    UNJUSTIFIED_WORD_CLASS_NOT_OPENED == 0.
+
+    Note: engine STEP 9c (no_morphology_path default-to-ISM) applies only when
+    morphology_path == 'no_morphology_path' (explicit pre_root assessment result).
+    Tokens with pre_root=NONE (morphology_path='') correctly remain deferred so
+    that the engine contract "no evidence → defer" is upheld.
+    """
     m = _metrics()
     assert 'WORD_CLASS_NOT_OPENED_TOTAL' in m, "WORD_CLASS_NOT_OPENED_TOTAL key missing"
-    assert m['WORD_CLASS_NOT_OPENED_TOTAL'] == 40, (
-        f"WORD_CLASS_NOT_OPENED_TOTAL={m['WORD_CLASS_NOT_OPENED_TOTAL']}: expected 40.")
+    assert m['WORD_CLASS_NOT_OPENED_TOTAL'] == 21, (
+        f"WORD_CLASS_NOT_OPENED_TOTAL={m['WORD_CLASS_NOT_OPENED_TOTAL']}: expected 21.")
 
 
 def test_word_class_not_opened_categories_sum_to_total():
@@ -306,13 +321,14 @@ def test_segmentation_no_host_not_unjustified():
 
 def test_unjustified_word_class_not_opened_nonzero():
     """
-    UNJUSTIFIED_WORD_CLASS_NOT_OPENED must be > 0 at current HEAD.
-    There are 19 plain-deferred tokens with no known route justification.
+    HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    UNJUSTIFIED_WORD_CLASS_NOT_OPENED == 0 (all 19 unjustified tokens resolved).
+    Engine fixes assign word_class=ISM to all AMBIGUOUS/NO_MORPHOLOGY path tokens.
     """
     m = _metrics()
-    assert m['UNJUSTIFIED_WORD_CLASS_NOT_OPENED'] > 0, (
+    assert m['UNJUSTIFIED_WORD_CLASS_NOT_OPENED'] == 0, (
         f"UNJUSTIFIED_WORD_CLASS_NOT_OPENED={m['UNJUSTIFIED_WORD_CLASS_NOT_OPENED']}: "
-        "must be > 0 — 19 tokens are unjustifiably deferred at current HEAD.")
+        "expected 0 — all ISM tokens now correctly classified.")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -321,21 +337,23 @@ def test_unjustified_word_class_not_opened_nonzero():
 
 def test_ajal_word_class_defect_present():
     """
-    أَجَلٍ [9]: pipeline gives wc=FI3L, gold=ISM.
-    Detector counts this as LIVE_NONVERBS_AS_VERBS > 0.
+    HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    أَجَلٍ [9]: tanwin suffix → nominal path before mudaric check → wc=ISM (fixed).
     """
     r = hokom('أَجَلٍ')
-    assert r.get('word_class') != 'ISM', (
-        "أَجَلٍ wc=ISM — defect unexpectedly fixed. "
-        "Update gold manifest + closure gate.")
+    assert r.get('word_class') == 'ISM', (
+        f"أَجَلٍ wc={r.get('word_class')!r}: expected ISM (tanwin nominal guard fix).")
 
 
 def test_nonverbs_as_verbs_detected():
-    """LIVE_NONVERBS_AS_VERBS must be > 0 (أَجَلٍ misclassified as FI3L)."""
+    """
+    HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    LIVE_NONVERBS_AS_VERBS == 0 (أَجَلٍ now correctly ISM).
+    """
     m = _metrics()
-    assert m['LIVE_NONVERBS_AS_VERBS'] > 0, (
+    assert m['LIVE_NONVERBS_AS_VERBS'] == 0, (
         f"LIVE_NONVERBS_AS_VERBS={m['LIVE_NONVERBS_AS_VERBS']}: "
-        "أَجَلٍ wc=FI3L misclassification must be detected.")
+        "expected 0 — أَجَلٍ tanwin nominal guard applied.")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -344,33 +362,38 @@ def test_nonverbs_as_verbs_detected():
 
 def test_uncorrelated_ambiguity_detected():
     """
-    LIVE_UNCORRELATED_AMBIGUITY must be >= 2.
-    تَضِلَّ and فَتُذَكِّرَ: pipeline gender=M only, 3FS (gender=F) candidate absent.
+    HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    LIVE_UNCORRELATED_AMBIGUITY == 0.
+    تَضِلَّ + فَتُذَكِّرَ: TA-prefix default gender now 'M|F', both candidates present.
     """
     m = _metrics()
-    assert m['LIVE_UNCORRELATED_AMBIGUITY'] >= 2, (
+    assert m['LIVE_UNCORRELATED_AMBIGUITY'] == 0, (
         f"LIVE_UNCORRELATED_AMBIGUITY={m['LIVE_UNCORRELATED_AMBIGUITY']}: "
-        "must be >= 2 (تَضِلَّ + فَتُذَكِّرَ).")
+        "expected 0 — TA-prefix gender 'M|F' fix applied.")
 
 
 def test_tadilla_gender_f_absent():
-    """تَضِلَّ: gender must NOT contain 'F' at current HEAD (defect present)."""
+    """
+    HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    تَضِلَّ: TA-prefix default gender='M|F' — 3FS candidate now present (fixed).
+    """
     r = hokom('تَضِلَّ')
     assert r.get('word_class') == 'FI3L', f"wc={r.get('word_class')!r}"
     gender = str(r.get('gender') or '')
-    assert 'F' not in gender, (
-        f"تَضِلَّ gender={gender!r}: 3FS candidate (gender=F) now present — "
-        "defect fixed. Update gold manifest + closure gate.")
+    assert 'F' in gender, (
+        f"تَضِلَّ gender={gender!r}: expected 'F' in gender (TA-prefix M|F fix).")
 
 
 def test_fatudhakkira_gender_f_absent():
-    """فَتُذَكِّرَ: gender must NOT contain 'F' at current HEAD (defect present)."""
+    """
+    HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    فَتُذَكِّرَ: TA-prefix default gender='M|F' — 3FS candidate now present (fixed).
+    """
     r = hokom('فَتُذَكِّرَ')
     assert r.get('word_class') == 'FI3L', f"wc={r.get('word_class')!r}"
     gender = str(r.get('gender') or '')
-    assert 'F' not in gender, (
-        f"فَتُذَكِّرَ gender={gender!r}: 3FS candidate (gender=F) now present — "
-        "defect fixed. Update gold manifest + closure gate.")
+    assert 'F' in gender, (
+        f"فَتُذَكِّرَ gender={gender!r}: expected 'F' in gender (TA-prefix M|F fix).")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -404,19 +427,17 @@ def test_form_x_protection_istaghfiru_imperative():
 
 def test_form_x_protection_yastghfiruna_defect_present():
     """
-    يَسْتَغْفِرُونَ: Form X imperfect — pipeline gives cra=FORM_I_IMPERFECT (defect).
-    The closure gate will FAIL until this is fixed.
-    This test confirms the defect is still present (for detector validation).
+    HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    يَسْتَغْفِرُونَ: Form X imperfect — CRA now gives cra=FORM_X (fixed).
+    Fix: 'ُونَ' suffix added to _VERBAL_SUFFIXES, stripping it reveals اِسْتَ pattern.
     """
     r = hokom('يَسْتَغْفِرُونَ')
     cra = r.get('cra_result')
     cra_form = getattr(cra, 'form_family', None) if cra else None
-    # Gold: FORM_X. Pipeline: FORM_I_IMPERFECT. Defect must still be present.
     assert r.get('word_class') == 'FI3L', f"wc={r.get('word_class')!r}"
     assert r.get('tense_aspect') == 'IMPERFECT', f"ta={r.get('tense_aspect')!r}"
-    assert cra_form != 'FORM_X', (
-        f"يَسْتَغْفِرُونَ cra_form={cra_form!r}: FORM_X defect unexpectedly fixed. "
-        "Add to FORM_X_PROTECTION passing set and update closure gate.")
+    assert cra_form == 'FORM_X', (
+        f"يَسْتَغْفِرُونَ cra_form={cra_form!r}: expected FORM_X (ونَ suffix strip fix).")
 
 
 def test_form_x_negative_control_sayaktubu():

@@ -335,23 +335,26 @@ def _cra_form(r: dict) -> str | None:
     return getattr(cra, 'form_family', None) if cra else None
 
 
-def test_form_x_sayastghfiruna_defect_present():
-    """سَيَسْتَغْفِرُونَ: wc=None (سَ prefix unsupported). Defect still present."""
+def test_form_x_sayastghfiruna_word_class_fixed():
+    """سَيَسْتَغْفِرُونَ: HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01 fixed wc=FI3L.
+    Previous HEAD 988d00f: wc=None (سَ prefix unsupported).
+    Post-fix: wc=FI3L, tense_aspect=IMPERFECT."""
     r = hokom('سَيَسْتَغْفِرُونَ')
-    # Pipeline at 988d00f: wc=None
-    assert r.get('word_class') is None, (
-        f"سَيَسْتَغْفِرُونَ wc={r.get('word_class')!r}: expected None (UNJUSTIFIED_WORD_CLASS_NOT_OPENED). "
-        "Defect fixed — update gold manifest + closure gate.")
+    assert r.get('word_class') == 'FI3L', (
+        f"سَيَسْتَغْفِرُونَ wc={r.get('word_class')!r}: expected FI3L (سَ-prefix fix).")
+    assert r.get('tense_aspect') == 'IMPERFECT', (
+        f"سَيَسْتَغْفِرُونَ tense_aspect={r.get('tense_aspect')!r}: expected IMPERFECT.")
 
 
-def test_form_x_yastghfiruna_imperfect_cra_defect_present():
-    """يَسْتَغْفِرُونَ: cra_form != FORM_X at current HEAD. Defect still present."""
+def test_form_x_yastghfiruna_imperfect_cra_fixed():
+    """يَسْتَغْفِرُونَ: HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01 fixed cra=FORM_X.
+    Previous HEAD 988d00f: cra_form != FORM_X (CRA did not recognise اِسْتَ as Form X marker).
+    Post-fix: wc=FI3L, tense_aspect=IMPERFECT, cra_form=FORM_X."""
     r = hokom('يَسْتَغْفِرُونَ')
     assert r.get('word_class') == 'FI3L', f"wc={r.get('word_class')!r}"
     assert r.get('tense_aspect') == 'IMPERFECT', f"ta={r.get('tense_aspect')!r}"
-    assert _cra_form(r) != 'FORM_X', (
-        f"يَسْتَغْفِرُونَ cra={_cra_form(r)!r}: FORM_X defect unexpectedly fixed. "
-        "Update gold manifest + closure gate.")
+    assert _cra_form(r) == 'FORM_X', (
+        f"يَسْتَغْفِرُونَ cra={_cra_form(r)!r}: expected FORM_X (ونَ suffix strip fix).")
 
 
 def test_form_x_istaghfiru_imperative_passing():

@@ -178,24 +178,25 @@ def test_faktubuhu_form_i_plural_with_object_enclitic():
     # CRA form_family mismatch — KNOWN_OUT_OF_SCOPE_FORM_RESIDUAL
     cra = r.get('cra_result')
     cra_form = cra.form_family if cra else None
+    # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    # CRA now correctly detects FORM_I for فَاكْتُبُوهُ (hamza-wasl strip fix).
+    # Gold says FORM_I; CRA now gives FORM_I → mismatch resolved.
     assert cra_form is not None, (
         "فَاكْتُبُوهُ cra_result has no form_family — cannot classify residual")
-    assert cra_form != 'FORM_I', (
-        f"فَاكْتُبُوهُ cra_form={cra_form!r} matches FORM_I — not a known residual; "
-        "re-check gold or remove from KNOWN_OUT_OF_SCOPE list")
+    assert cra_form == 'FORM_I', (
+        f"فَاكْتُبُوهُ cra_form={cra_form!r}: expected FORM_I (hamza-wasl strip fix).")
 
-    # Live metrics must track the form residual
+    # Live metrics must reflect resolved form (LIVE_FORM_FAMILY_MISMATCHES=0)
     _mod = _load_demo()
     assert hasattr(_mod, 'compute_live_metrics'), (
-        "demo_ayat_al_dayn.compute_live_metrics() not found — "
-        "LIVE_FORM_FAMILY_MISMATCHES cannot be verified")
+        "demo_ayat_al_dayn.compute_live_metrics() not found")
     metrics = _mod.compute_live_metrics()
-    assert metrics.get('LIVE_FORM_FAMILY_MISMATCHES', 0) >= 1, (
+    assert metrics.get('LIVE_FORM_FAMILY_MISMATCHES', -1) == 0, (
         f"LIVE_FORM_FAMILY_MISMATCHES={metrics.get('LIVE_FORM_FAMILY_MISMATCHES')!r} "
-        "— must be >= 1 (فَاكْتُبُوهُ and وَاتَّقُوا are known form residuals)")
-    assert metrics.get('KNOWN_OUT_OF_SCOPE_FORM_RESIDUAL', 0) >= 1, (
+        "— expected 0 after remediation")
+    assert metrics.get('KNOWN_OUT_OF_SCOPE_FORM_RESIDUAL', -1) == 0, (
         f"KNOWN_OUT_OF_SCOPE_FORM_RESIDUAL={metrics.get('KNOWN_OUT_OF_SCOPE_FORM_RESIDUAL')!r} "
-        "— must be >= 1")
+        "— expected 0 after remediation")
 
 
 def test_wattaqu_assimilated_form_viii():
@@ -218,19 +219,18 @@ def test_wattaqu_assimilated_form_viii():
     cra_form = cra.form_family if cra else None
     assert cra_form is not None, (
         "وَاتَّقُوا cra_result has no form_family — cannot classify residual")
-    # CRA says FORM_II; gold expects FORM_VIII → known mismatch
-    assert cra_form != 'FORM_VIII', (
-        f"وَاتَّقُوا cra_form={cra_form!r} is unexpectedly FORM_VIII — "
-        "check if CRA was fixed; remove from KNOWN_OUT_OF_SCOPE if so")
+    # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    # CRA now correctly detects FORM_VIII for وَاتَّقُوا (Form VIII assimilation fix).
+    assert cra_form == 'FORM_VIII', (
+        f"وَاتَّقُوا cra_form={cra_form!r}: expected FORM_VIII (assimilation fix).")
 
     _mod = _load_demo()
     assert hasattr(_mod, 'compute_live_metrics'), (
-        "demo_ayat_al_dayn.compute_live_metrics() not found — "
-        "LIVE_FORM_FAMILY_MISMATCHES cannot be verified")
+        "demo_ayat_al_dayn.compute_live_metrics() not found")
     metrics = _mod.compute_live_metrics()
-    assert metrics.get('KNOWN_OUT_OF_SCOPE_FORM_RESIDUAL', 0) >= 2, (
+    assert metrics.get('KNOWN_OUT_OF_SCOPE_FORM_RESIDUAL', -1) == 0, (
         f"KNOWN_OUT_OF_SCOPE_FORM_RESIDUAL={metrics.get('KNOWN_OUT_OF_SCOPE_FORM_RESIDUAL')!r} "
-        "— must be >= 2 (both فَاكْتُبُوهُ and وَاتَّقُوا are form residuals)")
+        "— expected 0 after remediation")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -290,12 +290,12 @@ def test_fatudhakkira_is_form_ii_and_contextually_3fs():
         "تُ-prefix imperfect is 2MS/3FS ambiguous — must not lock to 2MS only. "
         "Set person='2|3' or person='3' (contextual 3FS).")
 
-    # CRA form mismatch — KNOWN_OUT_OF_SCOPE
+    # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    # CRA now correctly detects FORM_II for فَتُذَكِّرَ (Form II active shadda fix).
     cra = r.get('cra_result')
     cra_form = cra.form_family if cra else None
-    assert cra_form != 'FORM_II', (
-        f"فَتُذَكِّرَ cra_form={cra_form!r} is unexpectedly FORM_II — "
-        "check if CRA was fixed; if so update KNOWN_OUT_OF_SCOPE list")
+    assert cra_form == 'FORM_II', (
+        f"فَتُذَكِّرَ cra_form={cra_form!r}: expected FORM_II (shadda detection fix).")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -417,11 +417,18 @@ def test_unjustified_word_class_not_opened():
         if wc is None:
             missing_wc.append((i + 1, tok))
 
+    # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    # After remediation, UNJUSTIFIED=0. JUSTIFIED covers JAMID+SEG_NO_HOST tokens.
+    # The raw wc=None count (len(missing_wc)) equals WORD_CLASS_NOT_OPENED_TOTAL,
+    # which includes JUSTIFIED tokens. Do NOT require UNJUSTIFIED == total_wc_none.
     reported = metrics['UNJUSTIFIED_WORD_CLASS_NOT_OPENED']
-    assert reported == len(missing_wc), (
-        f"UNJUSTIFIED_WORD_CLASS_NOT_OPENED={reported} but pipeline "
-        f"found {len(missing_wc)} tokens with word_class=None: "
-        f"{[t for _, t in missing_wc[:5]]}")
+    total = metrics.get('WORD_CLASS_NOT_OPENED_TOTAL', len(missing_wc))
+    assert len(missing_wc) == total, (
+        f"Raw wc=None count {len(missing_wc)} != WORD_CLASS_NOT_OPENED_TOTAL={total}: "
+        f"tokens={[t for _, t in missing_wc[:5]]}")
+    assert reported == 0, (
+        f"UNJUSTIFIED_WORD_CLASS_NOT_OPENED={reported}: expected 0 after remediation "
+        f"(all {len(missing_wc)} wc=None tokens are JUSTIFIED or resolved).")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -481,14 +488,15 @@ def test_live_metrics_are_derived_from_unfiltered_records():
         f"LIVE_JAMID_BOUNDARY_VIOLATIONS={metrics['LIVE_JAMID_BOUNDARY_VIOLATIONS']} "
         "— اللَّهُ is being classified as FI3L or receiving verbal features")
 
-    # Form residuals must be tracked
-    assert metrics['LIVE_FORM_FAMILY_MISMATCHES'] >= 2, (
+    # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    # All form residuals resolved — LIVE_FORM_FAMILY_MISMATCHES=0.
+    assert metrics['LIVE_FORM_FAMILY_MISMATCHES'] == 0, (
         f"LIVE_FORM_FAMILY_MISMATCHES={metrics['LIVE_FORM_FAMILY_MISMATCHES']} "
-        "— must count فَاكْتُبُوهُ (FORM_VIII vs FORM_I) and وَاتَّقُوا (FORM_II vs FORM_VIII)")
+        "— expected 0 (all form families fixed).")
 
-    assert metrics['KNOWN_OUT_OF_SCOPE_FORM_RESIDUAL'] >= 2, (
+    assert metrics['KNOWN_OUT_OF_SCOPE_FORM_RESIDUAL'] == 0, (
         f"KNOWN_OUT_OF_SCOPE_FORM_RESIDUAL={metrics['KNOWN_OUT_OF_SCOPE_FORM_RESIDUAL']} "
-        "— must be >= 2 (both form residuals are known/declared)")
+        "— expected 0 (all form residuals resolved).")
 
     # CSV divergences should be zero after regeneration
     csv_div = metrics.get('CSV_IN_MEMORY_DIVERGENCES', None)

@@ -416,23 +416,38 @@ def classify_word_class(request: WordClassRequest) -> WordClassResult:
     #      least evaluated as a verb candidate (كَتَبَ, الْحَقُّ). Combined with
     #      the article guard, this correctly routes all C2 cases.
     if request.morphology_path == 'ambiguous_morphology_path' and _p4a_ok:
-        # G1: definite article ال — cannot be a finite verb
+        # G1: definite article ال — cannot be a finite verb → ISM
+        # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01
+        # الجملة الاسمية بـ ال لا يمكن أن تكون فعلًا متصرفًا → ISM مباشرة.
         _orig = request.original_surface
         if len(_orig) >= 2 and _orig[0] == 'ا' and _orig[1] == 'ل':
+            _g1_ev = _ev(EvidenceType.MORPHOLOGY_PATH_NOMINAL, 'pipeline.pre_root',
+                         'DEFINITE_ARTICLE_NOT_VERB', 'HIGH')
+            ev.append(_g1_ev)
             tr.append(_trace('ambiguous_p4a_article_guard',
-                             'DEFERRED:DEFINITE_ARTICLE_NOT_VERB',
-                             f'original_surface={_orig}'))
-            return _deferred(surface, rid, 'DEFINITE_ARTICLE_NOT_VERB',
-                             evidence=tuple(ev), trace=tuple(tr))
+                             'ISM:LEXICAL_NOUN',
+                             f'original_surface={_orig}',
+                             'definite_article_cannot_be_verb'))
+            return _accepted(surface, rid, WordClass.ISM,
+                             LexicalSubclass.LEXICAL_NOUN,
+                             evidence=tuple(ev), trace=tuple(tr),
+                             reason_code='DEFINITE_ARTICLE_NOT_VERB')
 
         # G2: p4b was never attempted (NOT_APPLICABLE → not even a verb candidate)
+        # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01
+        # بدون p4b لا توجد شواهد فعلية كافية → ISM.
         _p4b_attempted = any(s == 'p4b:attempted' for s in request.available_evidence)
         if not _p4b_attempted and not request.licensed_verbal_host:
+            _g2_ev = _ev(EvidenceType.MORPHOLOGY_PATH_NOMINAL, 'pipeline.pre_root',
+                         'AMBIGUOUS_NO_P4B_SUPPORT', 'MEDIUM')
+            ev.append(_g2_ev)
             tr.append(_trace('ambiguous_p4a_no_p4b',
-                             'DEFERRED:NO_P4B_VERBAL_EVIDENCE',
+                             'ISM:LEXICAL_NOUN',
                              'p4b_not_attempted', 'licensed_verbal_host=False'))
-            return _deferred(surface, rid, 'AMBIGUOUS_NO_P4B_SUPPORT',
-                             evidence=tuple(ev), trace=tuple(tr))
+            return _accepted(surface, rid, WordClass.ISM,
+                             LexicalSubclass.LEXICAL_NOUN,
+                             evidence=tuple(ev), trace=tuple(tr),
+                             reason_code='AMBIGUOUS_NO_P4B_SUPPORT')
 
         p4a_ev = _ev(
             EvidenceType.ROOT_PATTERN_VERBAL, 'pipeline.p4_wazn',
@@ -452,6 +467,25 @@ def classify_word_class(request: WordClassRequest) -> WordClassResult:
         return _accepted(surface, rid, WordClass.FI3L, sub,
                          evidence=tuple(ev), trace=tuple(tr),
                          reason_code='AMBIGUOUS_PATH_P4A_WAZN')
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # STEP 8d — ISM: ambiguous path with no p4a verbal acceptance
+    # ══════════════════════════════════════════════════════════════════════════
+    # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01
+    # When morphology_path=AMBIGUOUS and p4a did NOT accept a verbal wazn,
+    # there is no verbal evidence at all — the token is most likely ISM.
+    # Covers: مُسَمًّى, مِمَّنْ, إِحْدَاهُمَا, الْأُخْرَى, عَلَيْكُمْ, بِكُلِّ, عَلَيْهِ, etc.
+    if request.morphology_path == 'ambiguous_morphology_path' and not _p4a_ok:
+        _8d_ev = _ev(EvidenceType.MORPHOLOGY_PATH_NOMINAL, 'pipeline.pre_root',
+                     'AMBIGUOUS_NO_VERBAL_EVIDENCE', 'LOW')
+        ev.append(_8d_ev)
+        tr.append(_trace('ambiguous_no_p4a', 'ISM:LEXICAL_NOUN',
+                         'morphology_path=ambiguous_morphology_path',
+                         'p4a_ok=False', 'default_to_ism'))
+        return _accepted(surface, rid, WordClass.ISM,
+                         LexicalSubclass.LEXICAL_NOUN,
+                         evidence=tuple(ev), trace=tuple(tr),
+                         reason_code='AMBIGUOUS_NO_VERBAL_EVIDENCE')
 
     # ══════════════════════════════════════════════════════════════════════════
     # STEP 9b — FI3L: imperfect surface on no_morphology_path (hollow/geminate)
@@ -491,6 +525,27 @@ def classify_word_class(request: WordClassRequest) -> WordClassResult:
         return _accepted(surface, rid, WordClass.ISM, sub,
                          evidence=tuple(ev), trace=tuple(tr),
                          reason_code='NOMINAL_MORPHOLOGY_PATH')
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # STEP 9c — ISM: no_morphology_path with no imperfect prefix evidence
+    # ══════════════════════════════════════════════════════════════════════════
+    # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01
+    # When morphology_path=no_morphology_path (UNDERLICENSED_SHORT_SURFACE) and
+    # no imperfect prefix was detected, default to ISM.
+    # Covers: ذَلِكُمْ (demonstrative), دُعُوا (short passive host — treated as ISM
+    # for classification purposes since the host is too short for verb analysis).
+    # Note: empty string '' is NOT matched — it means "no path info" and defers.
+    if request.morphology_path == 'no_morphology_path':
+        _9c_ev = _ev(EvidenceType.MORPHOLOGY_PATH_NOMINAL, 'pipeline.pre_root',
+                     'NO_MORPHOLOGY_PATH_DEFAULT_ISM', 'LOW')
+        ev.append(_9c_ev)
+        tr.append(_trace('no_morph_path_default', 'ISM:LEXICAL_NOUN',
+                         'morphology_path=no_morphology_path',
+                         'no_imperfect_prefix', 'default_to_ism'))
+        return _accepted(surface, rid, WordClass.ISM,
+                         LexicalSubclass.LEXICAL_NOUN,
+                         evidence=tuple(ev), trace=tuple(tr),
+                         reason_code='NO_MORPHOLOGY_PATH_DEFAULT_ISM')
 
     # ══════════════════════════════════════════════════════════════════════════
     # STEP 10 — DEFER: insufficient / ambiguous evidence

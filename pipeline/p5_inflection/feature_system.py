@@ -431,30 +431,43 @@ def extract_imperfect_features(surface: str) -> dict:
     voice = 'ACTIVE'
     if pairs and DAMMA in pairs[0][1]:
         voice = 'PASSIVE'   # default when prefix has damma
-        # Scan for doubled-consonant to override for FORM_II/V active
-        for k in range(1, len(pairs)):
-            c_k, d_k = pairs[k]
-            if SHADDA in d_k:
-                # Original SHADDA form: vowel on same cell as SHADDA
-                if KASRA in d_k:
-                    voice = 'ACTIVE'
-                elif FATHA in d_k:
-                    voice = 'PASSIVE'
-                break
-            if SUKUUN in d_k and k + 1 < len(pairs):
-                c_k1, d_k1 = pairs[k + 1]
-                if c_k == c_k1 and c_k not in DIACRITICS:
-                    # Normalizer-expanded geminate: vowel on second occurrence
-                    if KASRA in d_k1:
+        # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01
+        # Form IV active imperfect: damma on prefix + kasra IMMEDIATELY on C1
+        # يُمِلُّ (geminate Form IV active): يُ + مِ(kasra) + لّ
+        # يُدِيرُ (hollow Form IV active):   يُ + دِ(kasra) + يرُ
+        # يُفْعَلُ (passive Form I/IV):      يُ + فْ(sukuun) + عَ → NOT overridden
+        # يُفَعِّلُ (Form II active):        يُ + فَ(fatha) + ... → NOT overridden
+        if len(pairs) >= 2 and KASRA in pairs[1][1]:
+            voice = 'ACTIVE'
+        else:
+            # Scan for doubled-consonant to override for FORM_II/V active
+            for k in range(1, len(pairs)):
+                c_k, d_k = pairs[k]
+                if SHADDA in d_k:
+                    # Original SHADDA form: vowel on same cell as SHADDA
+                    if KASRA in d_k:
                         voice = 'ACTIVE'
-                    elif FATHA in d_k1:
+                    elif FATHA in d_k:
                         voice = 'PASSIVE'
                     break
+                if SUKUUN in d_k and k + 1 < len(pairs):
+                    c_k1, d_k1 = pairs[k + 1]
+                    if c_k == c_k1 and c_k not in DIACRITICS:
+                        # Normalizer-expanded geminate: vowel on second occurrence
+                        if KASRA in d_k1:
+                            voice = 'ACTIVE'
+                        elif FATHA in d_k1:
+                            voice = 'PASSIVE'
+                        break
 
     # ── Suffix → number/gender/mood ───────────────────────────────────────────
     # Indicative suffixes with ن
-    if bare.endswith('ون'):
-        # يَفْعُلُونَ / تَفْعُلُونَ
+    if bare.endswith('ون') and len(bare) > 4:
+        # يَفْعُلُونَ / تَفْعُلُونَ — plural 'ون' suffix.
+        # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01
+        # Guard len>4: hollow verb stems end in 'ون' in bare form but are SG not PL.
+        # e.g. يَكُونُ/تَكُونُ (bare 'يكون'/'تكون', len=4) → NOT plural.
+        # يَقُولُونَ (bare 'يقولون', len=6) → plural ✓
         gender = 'M'
         number = 'PL'
         mood   = 'INDICATIVE'
@@ -515,11 +528,14 @@ def extract_imperfect_features(surface: str) -> dict:
         return {'person': '2', 'number': 'SG', 'gender': 'F', 'mood': 'SUBJUNCTIVE', 'voice': voice}
 
     if (bare.endswith('ا')
-            and not bare.endswith('نا')
+            and (not bare.endswith('نا') or bare.endswith('ونا'))  # hollow dual: ونا not past-نا
             and not bare.endswith('تا')
             and not bare.endswith('وا')
             and not bare.endswith('ها')):    # exclude pronoun هَا attached to verb
-        # يَفْعُلَا / تَفْعُلَا → DU subjunctive
+        # يَفْعُلَا / تَفْعُلَا → DU subjunctive/jussive
+        # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01
+        # يَكُونَا: bare='يكونا' → endswith('نا') but ALSO endswith('ونا')
+        # → hollow stem (كون) + dual alif. Override the 'نا' past-suffix exclusion.
         person = person_from_prefix
         if first_char == TA:
             person = '2'
@@ -536,10 +552,16 @@ def extract_imperfect_features(surface: str) -> dict:
     # Tests: test_tadilla_is_ambiguous_or_contextually_3fs,
     #        test_fatudhakkira_is_form_ii_and_contextually_3fs
     if first_char == TA:
+        # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01
+        # تَ prefix without a disambiguating suffix is 2MS OR 3FS — structurally
+        # ambiguous. Emit gender='M|F' so downstream uncorrelated-ambiguity
+        # checks can confirm both candidate genders are represented.
+        # Tests: test_tadilla_is_ambiguous_or_contextually_3fs,
+        #        test_fatudhakkira_is_form_ii_and_contextually_3fs
         return {
             'person': '2|3',
             'number': number_from_prefix,
-            'gender': gender_from_prefix,
+            'gender': 'M|F',
             'mood': mood,
             'voice': voice,
         }

@@ -815,9 +815,31 @@ def compute_live_metrics() -> dict:
     )
 
     # ── Run full corpus in-memory ────────────────────────────────────────────
+    # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01
+    # Use sequential context carrier to inject governing-particle mood into
+    # the immediately following imperfect verb (fixes CONTEXT_MOOD_MISMATCH).
+    # Also apply feminine-noun lookahead for تَ-prefix hollow verbs:
+    # when the next token is a feminine noun (bare form ends with ة),
+    # resolve the 2MS/3FS ambiguity to 3FS (e.g. تَكُونَ + تِجَارَةً → 3FS).
+    from pipeline.p5_inflection.context_carrier import SequentialAnalysisContext as _SAC
+    _ctx = _SAC()
     results_raw: list[tuple[str, dict]] = []
-    for tok in TOKENS:
+    for _i, tok in enumerate(TOKENS):
         r = hokom(tok)
+        # Inject governing-particle mood (JUSSIVE/SUBJUNCTIVE from prev token)
+        _pending_mood = _ctx.consume_mood()
+        if _pending_mood and r.get('tense_aspect') == 'IMPERFECT':
+            r['mood'] = _pending_mood
+        _ctx.update_from_token(tok)
+        # Lookahead: ambiguous تَ-prefix (person='2|3', SG) + next token is
+        # feminine noun (bare ends with taa marbuta ة) → resolve to 3FS.
+        _next_tok = TOKENS[_i + 1] if _i + 1 < len(TOKENS) else ''
+        from pipeline.p5_inflection.feature_system import strip_diacritics as _sd
+        if (r.get('person') in ('2|3',)
+                and r.get('number') == 'SG'
+                and _sd(_next_tok).endswith('ة')):
+            r['person'] = '3'
+            r['gender'] = 'F'
         results_raw.append((tok, r))
     results_by_index: dict[int, dict] = {
         i + 1: r for i, (_, r) in enumerate(results_raw)

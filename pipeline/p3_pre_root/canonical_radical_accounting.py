@@ -82,6 +82,11 @@ _VERBAL_SUFFIXES: List[tuple] = sorted(
         ('تِنَّ',  'INFLECTIONAL_SUFFIX_2PL_FEM'),          # كتبتنَّ
         ('تُنَّ',  'INFLECTIONAL_SUFFIX_2PL_FEM_ALT'),      # كتبتنَّ (بديل)
         ('تُم',   'INFLECTIONAL_SUFFIX_2PL_MASC_PLAIN'),   # كتبتُم (بلا سكون)
+        # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01
+        # نون الجمع المضارع (ونَ / ُونَ): يَسْتَغْفِرُونَ → يَسْتَغْفِرُ + ونَ.
+        # تجريدها يكشف الجذع الفعلي لكشف الصيغة المزيدة (Form X).
+        # تُضاف آخرًا (الأطول أولاً) — وا أطول.
+        ('ُونَ',   'INFLECTIONAL_SUFFIX_NUN_JAMAA_MUDARI'),  # يفعلونَ (مضارع جمع)
         ('وا',    'INFLECTIONAL_SUFFIX_WAW_JAMAA'),         # واو الجماعة: كتبوا / يكتبوا
     ],
     key=lambda x: -len(x[0]),
@@ -401,6 +406,36 @@ def process_canonical_radical_accounting(
                 suffix_stripped = _suf2
                 suffix_rule     = _rule2
                 evidence.append(f'RULE_INFLECTIONAL_SUFFIX:{_rule2}:AUGMENTED_FALLBACK')
+            else:
+                # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01
+                # اللاحقة جُرِّدت لكن detect_augmented لم يُثبت صيغةً مزيدةً.
+                # نُحدِّث bare_stem حتى يستفيد ب.3 (Form IV بانكماش) من الجذع المُجرَّد.
+                bare_stem       = _bare2
+                suffix_stripped = _suf2
+                suffix_rule     = _rule2
+
+    # ════════════════════════════════════════════════════════════════════════
+    # ب.3 — Form IV بانكماش الهمزتين (آمَنَ ← أَأَمَنَ)
+    # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01
+    # آمَنُوا: السطح الأصلي يحتوي آ (ألف مدّة = U+0622) — علامة الهمزتين المتلاقيتين.
+    # بعد التطبيع: ءَمَنُوا → بعد تجريد وا: ءَمَنُ → هيكل n=3 [ء,م,ن].
+    # الكاشف detect_augmented يُعيد None لأن n=3 بلا شدة لا يطابق أي نمط.
+    # الحل: اكتشاف السطح الأصلي آ يُثبت Form IV (أَأَمَنَ → آمَنَ).
+    if detection is None and 'آ' in input_surface:
+        try:
+            from pipeline.p2_augmented.skeleton import extract_skeleton as _skel_fn
+            _check_skel = _skel_fn(bare_stem)
+            _BARE_HAMZA = 'ء'
+            if (len(_check_skel) == 3
+                    and _check_skel[0][0] == _BARE_HAMZA
+                    and not _check_skel[1][1]
+                    and not _check_skel[2][1]):
+                from pipeline.p2_augmented.detector import DetectionResult as _DR
+                _root = tuple(c for c,_ in _check_skel)
+                detection = _DR('FORM_IV', _root, None, 'MEDIUM')
+                evidence.append('RULE_FORM_IV_HAMZA_CONTRACTION:ALIF_MADDA_DETECTED')
+        except Exception:
+            pass
 
     if detection is not None:
         form_family = detection.form_family
@@ -453,6 +488,30 @@ def process_canonical_radical_accounting(
     form_family_tentative: Optional[str] = (
         'FORM_I_IMPERFECT' if prefix_stripped is not None else None
     )
+
+    # ════════════════════════════════════════════════════════════════════════
+    # المرحلة ج.2 — RULE_HAMZA_WASL_STRIP (الأمر والمجزوم بهمزة الوصل)
+    # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01
+    # اكْتُبُ ← اكتبوا: الألف الأولى همزة وصل (لا تُحتسب صامتًا).
+    # النمط: ا + صامت + سكون → جذع أمر ثلاثي مجرد (FORM_I).
+    # يُطبَّق فقط عند غياب بادئة مضارع وغياب اكتشاف صيغة مزيدة وعدم الكشف عن
+    # بادئة مجزوم (لأن المجزوم لا يحمل همزة وصل عادةً في هذا الكورباس).
+    # ════════════════════════════════════════════════════════════════════════
+    _SUKUUN = '\u0652'       # ْ
+    _PLAIN_ALIF = '\u0627'   # ا (بلا مدّة أو همزة)
+    if (prefix_stripped is None
+            and detection is None
+            and len(stem_after_prefix) >= 4
+            and stem_after_prefix[0] == _PLAIN_ALIF
+            and stem_after_prefix[1] != '\u0644'  # لا تجريد قبل لام التعريف
+            and len(stem_after_prefix) > 2
+            and stem_after_prefix[2] == _SUKUUN):
+        # الألف الثانية والثالثة يفصل بينهما سكون: نمط همزة الوصل (اكْ، اسْ، اشْ …)
+        _wasl_stripped = stem_after_prefix[1:]
+        if _count_consonants(_wasl_stripped) >= _MIN_CONSONANTS_AFTER_SUFFIX_STRIP:
+            stem_after_prefix = _wasl_stripped
+            form_family_tentative = 'FORM_I'
+            evidence.append('RULE_HAMZA_WASL_STRIP:IMPERATIVE_FORM_I')
 
     # ════════════════════════════════════════════════════════════════════════
     # المرحلة د — التحليل الثلاثي على الجذع النهائي

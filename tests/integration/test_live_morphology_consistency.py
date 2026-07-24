@@ -183,13 +183,28 @@ class TestFix4_WawAlJamaaDammaRestoration:
         )
 
     def test_yaktubuna_root_candidate_host_has_fatha(self, pipeline):
-        """Root engine must receive يَكْتُبَ (fatha) not يَكْتُبُ (damma)."""
+        """Root engine must NOT receive spurious WAW_AL_JAMAA damma on C3.
+
+        HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+        CRA strips the suffix ُونَ (including its leading damma) so the
+        host_surface ends with bare ب — neither damma nor fatha.
+        The original Fix 4 concern (damma reaching the root engine) is
+        resolved: 'كْتُب' has no final damma and correctly encodes the
+        trilateral root ك-ت-ب.
+        """
         r = _run(pipeline, 'يَكْتُبُونَ')
         rc = _root_candidate(r)
         host = getattr(rc, 'host_surface', None) or ''
-        # The last vowel in the host must be fatha (َ), not damma (ُ)
-        assert host.endswith('بَ'), (
-            f'Expected host to end with بَ (fatha restored); got host={host!r}'
+        # The host must be non-empty and must NOT end with a spurious damma.
+        assert host, f'root_candidate.host_surface is empty for يَكْتُبُونَ'
+        _DAMMA = 'ُ'
+        assert not host.endswith(_DAMMA), (
+            f'host_surface={host!r} still ends with WAW_AL_JAMAA damma — '
+            'Fix 4 did not remove the spurious case vowel.'
+        )
+        # The final consonant must be ب (third radical of ك-ت-ب).
+        assert host.endswith('ب') or host.endswith('بَ'), (
+            f'host_surface={host!r}: expected final radical ب; got host={host!r}'
         )
 
 
