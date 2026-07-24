@@ -374,10 +374,10 @@ for _r in CORPUS_GOLD:
 #   2. Recompute and update MANIFEST_DIGEST using _compute_manifest_digest().
 #   3. Record the old/new diff in the amendment.
 
-def _compute_manifest_digest() -> str:
-    """Compute SHA-256 of canonical CORPUS_GOLD serialization."""
+def _compute_digest_for(corpus: tuple) -> str:
+    """Compute SHA-256 of canonical serialization for an arbitrary GoldRecord tuple."""
     canonical = []
-    for rec in sorted(CORPUS_GOLD, key=lambda r: r.token_index):
+    for rec in sorted(corpus, key=lambda r: r.token_index):
         canonical.append({
             'token_index': rec.token_index,
             'surface': rec.surface,
@@ -403,6 +403,11 @@ def _compute_manifest_digest() -> str:
         })
     serialized = json.dumps(canonical, ensure_ascii=False, sort_keys=True)
     return 'sha256:' + hashlib.sha256(serialized.encode('utf-8')).hexdigest()
+
+
+def _compute_manifest_digest() -> str:
+    """Compute SHA-256 of canonical CORPUS_GOLD serialization."""
+    return _compute_digest_for(CORPUS_GOLD)
 
 
 # ── Computed at import time from the live CORPUS_GOLD ────────────────────────
@@ -523,6 +528,87 @@ WC_JUSTIFIED_ROUTES: frozenset[str] = frozenset({
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ──────────────────────────────────────────────────────────────────────────────
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Amendment record + authorization gate
+# ──────────────────────────────────────────────────────────────────────────────
+
+@dataclass(frozen=True)
+class AmendmentRecord:
+    """
+    Explicit amendment record required for any protected gold change.
+
+    A matching recomputed new_manifest_digest alone does NOT authorize the change.
+    All fields must be non-empty.  amendment_id must be assigned by the governance
+    lead before the commit is landed.
+    """
+    amendment_id: str                       # governance-assigned ID
+    old_manifest_digest: str                # must equal the frozen MANIFEST_DIGEST before the change
+    new_manifest_digest: str                # must equal _compute_digest_for(proposed_corpus_gold)
+    changed_gold_key: str                   # e.g. "token_9.word_class"
+    old_expectation: str                    # human-readable before value
+    new_expectation: str                    # human-readable after value
+    rationale: str                          # linguistic or pipeline justification
+    affected_constitutional_contract: str   # mandate / contract ID being amended
+
+
+def verify_amendment_authorization(
+    amendment: AmendmentRecord,
+    proposed_corpus_gold: tuple,
+) -> tuple[str, str]:
+    """
+    Return ('ACCEPT', reason) or ('GOVERNANCE_REJECTED', reason).
+
+    Rules (all must pass):
+      1. amendment_id must be non-empty — a recomputed digest ALONE is insufficient.
+      2. old_manifest_digest must equal the current frozen MANIFEST_DIGEST.
+      3. new_manifest_digest must equal _compute_digest_for(proposed_corpus_gold).
+      4. All narrative fields must be non-empty.
+    """
+    # Rule 1 — amendment_id is mandatory; digest match alone is not authorization.
+    if not (amendment.amendment_id or '').strip():
+        return (
+            'GOVERNANCE_REJECTED',
+            'AMENDMENT_ID_MISSING: A CONSTITUTIONAL_AMENDMENT_ID is required. '
+            'A matching recomputed digest alone does not authorize the change.',
+        )
+
+    # Rule 2 — old digest must match the current frozen manifest.
+    if amendment.old_manifest_digest != MANIFEST_DIGEST:
+        return (
+            'GOVERNANCE_REJECTED',
+            f'OLD_DIGEST_MISMATCH: amendment.old_manifest_digest='
+            f'{amendment.old_manifest_digest!r} does not match frozen '
+            f'MANIFEST_DIGEST={MANIFEST_DIGEST!r}.',
+        )
+
+    # Rule 3 — new digest must match the proposed corpus.
+    computed_new = _compute_digest_for(proposed_corpus_gold)
+    if amendment.new_manifest_digest != computed_new:
+        return (
+            'GOVERNANCE_REJECTED',
+            f'NEW_DIGEST_MISMATCH: amendment.new_manifest_digest='
+            f'{amendment.new_manifest_digest!r} does not match computed='
+            f'{computed_new!r}.',
+        )
+
+    # Rule 4 — all narrative fields must be present.
+    for field_name in (
+        'changed_gold_key', 'old_expectation', 'new_expectation',
+        'rationale', 'affected_constitutional_contract',
+    ):
+        if not (getattr(amendment, field_name, '') or '').strip():
+            return (
+                'GOVERNANCE_REJECTED',
+                f'MISSING_REQUIRED_FIELD: {field_name} must not be empty.',
+            )
+
+    return (
+        'ACCEPT',
+        f'AMENDMENT_AUTHORIZED: amendment_id={amendment.amendment_id!r} '
+        f'approved for {amendment.changed_gold_key}.',
+    )
+
 
 def active_defect_surfaces() -> frozenset[str]:
     """Return surfaces with declared defects at start_head."""
