@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 # HOKOM-CANONICAL-FINAL-AUDIT-RUNNER-HARDENING-01
+# Updated: HOKOM-SEQUENTIAL-3FS-RESOLUTION-AND-CANONICAL-ARTIFACT-REBASE-01 (Commit 2)
 # Shell unit tests for run_canonical_final_audit.sh guard logic.
 # Tests verify that each guard correctly sets CLOSURE_VERDICT = OPEN
 # when the named failure condition occurs.
+#
+# Governance binding:
+#   NEW_LINGUISTIC_BASE_HEAD = 39d1bab269d170899b50a2ffb801fd982d443a58
+#   EXPECTED_CANONICAL_CSV_SHA = cf618a87c3d65c316a85e756dcae1a72c3ddb42109f89ae46d627cfc9c94745a
+#
 # Usage: bash tests/shell/test_audit_runner.sh
 set -uo pipefail
 
