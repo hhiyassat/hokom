@@ -131,7 +131,7 @@ def _check_form_v_vi(
     """
     # هل يبدأ الجذع بتاء مضبوطة؟
     ta_prefix_found = None
-    for tp in ('تَ', 'تُ', 'تِ'):
+    for tp in ('تَ',):  # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01: only FATHA-ta is Form V/VI augment
         if stem.startswith(tp):
             ta_prefix_found = tp
             break
@@ -162,10 +162,15 @@ def _check_form_v_vi(
     return None
 
 
+# حروف بادئة المضارع — تُستخدَم في الكشف عن Form VIII المدغم (يَتَّقِ)
+_IMPERFECT_PREFIX_LETTERS: frozenset[str] = frozenset('يتنأ')
+
+
 def _match_skeleton(
     skel: list[tuple[str, bool]],
     imp_prefix: Optional[str],
     had_ta_strip: bool = False,
+    raw_stem: str = '',
 ) -> Optional[DetectionResult]:
     """
     طابق الهيكل العظمي الكامل ضد أنماط Form II–X.
@@ -212,14 +217,24 @@ def _match_skeleton(
             return DetectionResult('FORM_VII', root, imp_prefix, conf)
 
         # Form VIII past: alif-C1-ta-C2-C3  (pos[0]=alif, pos[2]=ت)
+        # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+        # Form VIII augment alif has KASRA (اِ). Form I imperative wasla has no kasra
+        # or has DAMMA (فَاكْتُبُوهُ host 'اكتبو' → plain alif, not Form VIII).
+        _KASRA_CHAR = 'ِ'
         if skel[0][0] in _ALIF_FORMS and skel[2][0] == _TA:
-            root = (
-                _clean(skel[1][0]),
-                _clean(skel[3][0]),
-                _clean(skel[4][0]),
+            _alif_kasra = (
+                raw_stem
+                and len(raw_stem) >= 2
+                and raw_stem[1] == _KASRA_CHAR
             )
-            conf = _root_confidence(root)
-            return DetectionResult('FORM_VIII', root, imp_prefix, conf)
+            if _alif_kasra:
+                root = (
+                    _clean(skel[1][0]),
+                    _clean(skel[3][0]),
+                    _clean(skel[4][0]),
+                )
+                conf = _root_confidence(root)
+                return DetectionResult('FORM_VIII', root, imp_prefix, conf)
 
         # Form VIII active participle: مُفْتَعِل → م-C1-ت-C2-C3
         if skel[0][0] == _MIM and skel[2][0] == _TA:
@@ -274,13 +289,30 @@ def _match_skeleton(
             conf = _root_confidence(root)
             return DetectionResult('FORM_VIII', root, imp_prefix, conf)
 
-    # ── n=3: Form II ───────────────────────────────────────────────────────────
+    # ── n=3: Form II / Form VIII assimilation ──────────────────────────────────
     if n == 3:
-        # Form II past: C1-(C2+shadda)-C3
+        # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01
+        # Form II past: C1-(C2+shadda)-C3 — pos[0] must NOT be alif or imperfect prefix.
+        # Form VIII assimilation past:  alif + (C1+ta merged → shadda) + C2
+        #   (e.g. اتَّقَى → pos[0]=ا, pos[1]=تّ, pos[2]=ق)
+        # Form VIII assimilation imperfect: prefix + (C1+ta → shadda) + C2
+        #   (e.g. يَتَّقِ → pos[0]=ي, pos[1]=تّ, pos[2]=ق)
         if skel[1][1]:  # position 1 has shadda
-            root = tuple(_clean(skel[i][0]) for i in (0, 1, 2))
-            conf = _root_confidence(root)
-            return DetectionResult('FORM_II', root, imp_prefix, conf)
+            if skel[0][0] in _ALIF_FORMS:
+                # alif + shadda → Form VIII past assimilation (وَاتَّقُوا)
+                root = tuple(_clean(skel[i][0]) for i in (0, 1, 2))
+                conf = _root_confidence(root)
+                return DetectionResult('FORM_VIII', root, imp_prefix, conf)
+            elif skel[0][0] in _IMPERFECT_PREFIX_LETTERS:
+                # imperfect prefix + shadda → Form VIII imperfect assimilation (يَتَّقِ)
+                root = tuple(_clean(skel[i][0]) for i in (0, 1, 2))
+                conf = _root_confidence(root)
+                return DetectionResult('FORM_VIII', root, imp_prefix, conf)
+            else:
+                # regular Form II (كَرَّمَ, ذَكَّرَ)
+                root = tuple(_clean(skel[i][0]) for i in (0, 1, 2))
+                conf = _root_confidence(root)
+                return DetectionResult('FORM_II', root, imp_prefix, conf)
 
     return None
 
@@ -335,7 +367,7 @@ def detect_augmented(refined_host: str) -> Optional[DetectionResult]:
     # تُعالج Form IV (أَفْعَلَ) قبل أن يُجرَّد أَ كبادئة مضارع.
     # تُعالج أيضًا Form III/VII/VIII/IX/X الماضي.
     orig_skel = extract_skeleton(refined_host)
-    result = _match_skeleton(orig_skel, imp_prefix=None)
+    result = _match_skeleton(orig_skel, imp_prefix=None, raw_stem=refined_host)
     if result is not None:
         # حارس نمط الميم: اسم الفاعل مُفْتَعِل (Form VIII) يبدأ بـ 'مُ' (ضمة)،
         # بينما مَفْعَل / مَكْتَبَ (اسم مكان) يبدأ بـ 'مَ' (فتحة).
@@ -361,5 +393,40 @@ def detect_augmented(refined_host: str) -> Optional[DetectionResult]:
 
     # ── الخطوة 5: مطابقة الهيكل العظمي للجذع بعد الفصل ─────────────────────
     stem_skel = extract_skeleton(stem)
-    result = _match_skeleton(stem_skel, imp_prefix=imp_prefix)
+
+    # ── إصلاح C: n=3 مع همزة مفردة في الموضع 0 — Form IV بانكماش الهمزتين ──
+    # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01
+    # آمَنَ = أَأَمَنَ (Form IV) بعد التطبيع: ءَمَنَ (ء = U+0621).
+    # الهيكل n=3 مع ء في الموضع 0 بلا شدة = Form IV بانكماش الهمزتين.
+    # الفرق عن Form I (أَكَلَ → ء,ك,ل): السياق هنا بعد تجريد اللاحقة
+    # وفشل الخطوة 2 (لا صيغة معروفة على الجذع الكامل) → Form IV.
+    _BARE_HAMZA = 'ء'   # U+0621
+    if (len(stem_skel) == 3
+            and stem_skel[0][0] == _BARE_HAMZA
+            and not stem_skel[1][1]           # no shadda at pos[1]
+            and not stem_skel[2][1]):         # no shadda at pos[2]
+        root = tuple(_clean(stem_skel[i][0]) for i in (0, 1, 2))
+        conf = _root_confidence(root)
+        return DetectionResult('FORM_IV', root, imp_prefix, conf)
+
+    # ── إصلاح E: n=2 مع شدة على الموضع 1 + بادئة ضمة → Form IV مضعَّف ───────
+    # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01
+    # يُمِلَّ → بعد تجريد يُ: stem='مِلَّ', هيكل n=2 = [م, ل(شدة)].
+    # البادئة يُ (ضمة) + C1(كسرة) + C2(شدة) = Form IV مضعَّف.
+    # الفرق عن Form I مضعَّف (يَرُدُّ → رُدُّ): C1 لها ضمة لا كسرة.
+    _KASRA_CHAR = 'ِ'
+    _DAMMA_CHAR = 'ُ'
+    if (len(stem_skel) == 2
+            and stem_skel[1][1]              # shadda at pos[1]
+            and imp_prefix is not None
+            and imp_prefix[-1] == _DAMMA_CHAR   # damma on prefix (يُ/تُ/نُ/أُ)
+            and len(stem) >= 2
+            and stem[1] == _KASRA_CHAR):     # kasra on C1 = Form IV active marker
+        root = (_clean(stem_skel[0][0]),
+                _clean(stem_skel[1][0]),
+                _clean(stem_skel[1][0]))     # geminate: C2 = C3
+        conf = _root_confidence(root)
+        return DetectionResult('FORM_IV', root, imp_prefix, conf)
+
+    result = _match_skeleton(stem_skel, imp_prefix=imp_prefix, raw_stem=stem)
     return result

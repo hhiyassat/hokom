@@ -95,6 +95,43 @@ _VERBAL_SUFFIXES: List[tuple] = sorted(
 # الحد الأدنى لعدد الحروف في الجذع بعد تجريد اللاحقة
 _MIN_CONSONANTS_AFTER_SUFFIX_STRIP: int = 2
 
+# حركات (لكشف صيغة أفعل الأجوف في المضارع)
+_DAMMA:  str = 'ُ'   # ُ
+_KASRA:  str = 'ِ'   # ِ
+_LONG_VOWEL_MEDIAL: frozenset[str] = frozenset('ويا')
+
+
+def _hollow_form_iv_root(stem_after_prefix: str) -> Optional[tuple]:
+    """
+    RULE_FORM_IV_HOLLOW_IMPERFECT reconstruction.
+
+    Given the imperfect stem AFTER the DAMMA-prefix has been stripped, detect the
+    hollow Form IV geometry: C1 + KASRA + medial-long-vowel (ي/و/ا) + C3, e.g.
+    دِير (from تُدِير / يُدِير).  Return the reconstructed hollow root
+    (C1, 'و', C3) with a canonical medial و, or None when the geometry does not
+    match.
+    """
+    # Parse (base_char, [diacritics]) pairs.
+    pairs: list[tuple[str, list[str]]] = []
+    for ch in stem_after_prefix:
+        if ch in _DIACRITICS:
+            if pairs:
+                pairs[-1][1].append(ch)
+        else:
+            pairs.append((ch, []))
+    if len(pairs) < 3:
+        return None
+    c1_char, c1_diacs = pairs[0]
+    medial_char, _ = pairs[1]
+    c3_char, _ = pairs[2]
+    if _KASRA not in c1_diacs:
+        return None
+    if medial_char not in _LONG_VOWEL_MEDIAL:
+        return None
+    if c1_char in _WEAK_ROOT_LETTERS or c3_char in _WEAK_ROOT_LETTERS:
+        return None
+    return (c1_char, 'و', c3_char)
+
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 2. نوع الخانة
@@ -488,6 +525,34 @@ def process_canonical_radical_accounting(
     form_family_tentative: Optional[str] = (
         'FORM_I_IMPERFECT' if prefix_stripped is not None else None
     )
+
+    # ════════════════════════════════════════════════════════════════════════
+    # المرحلة ج.1b — RULE_FORM_IV_HOLLOW_IMPERFECT
+    # HOKOM-GOLDEN-RULES-AND-LIVE-CLOSURE-CORRECTION-01 (Golden Rule 6)
+    # تُدِيرُ / يُدِيرُ (أَدَارَ → Form IV hollow imperfect active): the prefix
+    # carries DAMMA (تُ/يُ/نُ/أُ) and C1 carries KASRA immediately followed by a
+    # medial long-vowel (ي/و/ا) + C3.  This geometry is the أُفْعِل imperfect of a
+    # hollow Form IV verb — NOT a bare Form I imperfect.  Reconstruct the hollow
+    # root with a medial و (the أَفْعَلَ hollow class: دور/قوم/عون).
+    if (prefix_stripped is not None
+            and detection is None
+            and _DAMMA in prefix_stripped):
+        _skel_iv = _hollow_form_iv_root(stem_after_prefix)
+        if _skel_iv is not None:
+            evidence.append('RULE_FORM_IV_HOLLOW_IMPERFECT:DAMMA_PREFIX_KASRA_C1_HOLLOW')
+            return _build(
+                directive                   = 'ACCEPT',
+                reason_codes                = ['FORM_IV_HOLLOW_IMPERFECT_ACCEPTED'],
+                provenance                  = 'CRA:FORM_IV_HOLLOW',
+                canonical_stem              = stem_after_prefix,
+                prefix_stripped             = prefix_stripped,
+                suffix_stripped             = suffix_stripped,
+                suffix_rule                 = suffix_rule,
+                form_family                 = 'FORM_IV',
+                candidate_radical_sequences = [list(_skel_iv)],
+                evidence                    = evidence,
+                conflicts                   = conflicts,
+            )
 
     # ════════════════════════════════════════════════════════════════════════
     # المرحلة ج.2 — RULE_HAMZA_WASL_STRIP (الأمر والمجزوم بهمزة الوصل)

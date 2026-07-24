@@ -20,6 +20,7 @@ hokom_pipeline.py — خط أنابيب الحكم الكامل
 
 import sys
 import uuid as _uuid
+from typing import Optional
 from tokenizer    import tokenize, words_only
 from normalizer   import normalize
 from pipeline.p0_segmentation.normalization import canonical_normalize
@@ -34,6 +35,93 @@ from pipeline.word_class.catalog import extract_mabni_id_from_notes
 W = 80
 
 STAGE_WIDTH = 22
+
+# ══════════════════════════════════════════════════════════════════════════════
+# HOKOM-GOLDEN-RULES-AND-LIVE-CLOSURE-CORRECTION-01 (Golden Rule 11)
+# Structural realization guard for theoretical root derivatives (mushtaqat).
+# ══════════════════════════════════════════════════════════════════════════════
+_MUSHTAQ_DIACRITICS = frozenset('ًٌٍَُِّْٰٕٓٔ')
+_MUSHTAQ_ROOT_SLOTS = ('ف', 'ع', 'ل')
+
+
+def _mushtaq_bare(text: str) -> str:
+    """Strip diacritics (incl. shadda) from a surface/pattern → bare letters."""
+    return ''.join(c for c in (text or '') if c not in _MUSHTAQ_DIACRITICS)
+
+
+def _surface_realizes_mushtaq_pattern(normalized_surface: str, pattern: str) -> bool:
+    """
+    Return True when the surface STRUCTURALLY realizes the mushtaq pattern.
+
+    A derivational pattern (فَاعِل, مَفْعُول, مَفْعَل, فَعَّال …) carries augment
+    letters beyond the three root radicals (ف/ع/ل placeholders).  The surface
+    must contain those augment letters as a multiset subset — otherwise the
+    derivative is a purely theoretical root-derivative that the surface does
+    NOT instantiate (e.g. أَجَل = ءجل does not realize فَاعِل, which needs ا).
+    """
+    if not pattern:
+        return False
+    pat_bare = _mushtaq_bare(pattern)
+    surf_bare = _mushtaq_bare(normalized_surface)
+    # Derive augment letters: pattern letters minus one occurrence of each
+    # root-slot placeholder (ف/ع/ل).
+    augment = list(pat_bare)
+    for slot in _MUSHTAQ_ROOT_SLOTS:
+        if slot in augment:
+            augment.remove(slot)
+    if not augment:
+        # No augment letters → nothing distinctive to realize; treat as
+        # non-realizing so a bare form is never labelled a derivative.
+        return False
+    surf_pool = list(surf_bare)
+    for aug in augment:
+        if aug in surf_pool:
+            surf_pool.remove(aug)
+        else:
+            return False
+    return True
+
+
+_NUMBER_CODE = {'SG': 'S', 'DU': 'D', 'PL': 'P'}
+
+
+def _build_ambiguity_candidates(person, number, gender) -> tuple:
+    """
+    HOKOM-GOLDEN-RULES-AND-LIVE-CLOSURE-CORRECTION-01 (Golden Rule 10)
+
+    Build the correlated ambiguity bundle for a structurally ambiguous imperfect
+    surface.  When person/gender carry pipe-separated readings (e.g. person='2|3',
+    gender='M|F'), the readings are CORRELATED positionally: person[i] pairs with
+    gender[i].  Returns a tuple of dicts {person, number, gender, reading}, or an
+    empty tuple when the surface is unambiguous.
+    """
+    if not person or '|' not in str(person):
+        return ()
+    persons = str(person).split('|')
+    genders = str(gender).split('|') if gender else []
+    num = str(number or 'SG')
+    ncode = _NUMBER_CODE.get(num, 'S')
+    candidates = []
+    for i, p in enumerate(persons):
+        g = genders[i] if i < len(genders) else (genders[0] if genders else 'M')
+        candidates.append({
+            'person':  p,
+            'number':  num,
+            'gender':  g,
+            'reading': f'{p}{g}{ncode}',
+        })
+    return tuple(candidates)
+
+
+def _first_realized_mushtaq(normalized_surface: str, accepted: dict) -> Optional[str]:
+    """
+    Return the first accepted mushtaq TYPE whose pattern the surface actually
+    realizes, or None if none is structurally realized.
+    """
+    for m_type, m_pattern in accepted.items():
+        if _surface_realizes_mushtaq_pattern(normalized_surface, m_pattern):
+            return m_type
+    return None
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -732,6 +820,15 @@ def hokom(word: str) -> dict:
     _gender       = inflectional_form.gender       if inflectional_form else None
     _lemma_surface = inflectional_form.lemma_surface if inflectional_form else None
 
+    # ── Structured correlated-ambiguity bundle ───────────────────────────────
+    # HOKOM-GOLDEN-RULES-AND-LIVE-CLOSURE-CORRECTION-01 (Golden Rule 10)
+    # When the surface is structurally ambiguous (تَ/تُ-prefix imperfect: 2MS OR
+    # 3FS), the pipe-string summary (person='2|3', gender='M|F') is retained for
+    # human-readable/back-compat display, but the CANONICAL representation is the
+    # correlated bundle list where person/number/gender are grouped per reading.
+    # person/gender MUST NOT be inferred from the pipe strings independently.
+    _ambiguity_candidates = _build_ambiguity_candidates(_person, _number, _gender)
+
     # ── Post-Phase-5 subclass reconciliation ─────────────────────────────────
     # HOKOM-AYAT-AL-DAYN-WORD-CLASS-AND-SUBCLASS-ROUTING-CORRECTION-01 (Class E)
     #
@@ -950,6 +1047,7 @@ def hokom(word: str) -> dict:
         'person':        _person,
         'number':        _number,
         'gender':        _gender,
+        'ambiguity_candidates': _ambiguity_candidates,
         'lemma_surface': _lemma_surface,
         # ── Word Class Engine (canonical ISM/FI3L/HARF) ───────────────────
         'word_class_result':           word_class_result,
@@ -1091,9 +1189,18 @@ def _run_word_class_engine(
         if _dir4d in ('ACCEPT', 'PARTIAL_ACCEPT'):
             _accepted_mushtaqat = getattr(phase4d_result, 'accepted_mushtaqat', ()) or ()
             if _accepted_mushtaqat:
-                derivative_accepted = True
-                # first accepted type
-                derivative_type = list(dict(_accepted_mushtaqat).keys())[0] if _accepted_mushtaqat else ''
+                # HOKOM-GOLDEN-RULES-AND-LIVE-CLOSURE-CORRECTION-01 (Golden Rule 11)
+                # accepted_mushtaqat are THEORETICAL root-level derivatives.
+                # They must NOT set the token's subclass unless the surface
+                # STRUCTURALLY realizes the mushtaq pattern (فَاعِل needs a medial
+                # ا, مَفْعُول needs م+و, etc.).  أَجَلٍ (bare wazn فَعَلَ / FA_A_LA)
+                # does not realize فَاعِل, so ISM_FA3IL must not be inferred.
+                _realized_type = _first_realized_mushtaq(
+                    normalized_surface, dict(_accepted_mushtaqat)
+                )
+                if _realized_type is not None:
+                    derivative_accepted = True
+                    derivative_type = _realized_type
 
     # ── verbal host evidence ───────────────────────────────────────────────────
     licensed_verbal_host = False

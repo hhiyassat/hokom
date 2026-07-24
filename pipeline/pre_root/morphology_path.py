@@ -163,7 +163,15 @@ def classify_morphology_path(
     if _is_broken_plural_candidate(host_surface):
         return MorphologyPath.NOMINAL_MORPHOLOGY_PATH
 
-    # ── شاهد 1: بادئة مضارع قبل اللواحق الاسمية ─────────────────────────────
+    # ── شاهد 1: تنوين في نهاية السطح — شاهد اسمي قاطع قبل أي فحص فعلي ────────
+    # HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01
+    # التنوين علامة صرفية اسمية خالصة — الفعل المضارع لا يُنوَّن أبدًا.
+    # يجب فحصه قبل _is_mudaric_surface لأن أَجَلٍ يبدأ بـ أَجَ (بادئة مضارع ظاهرة)
+    # لكن التنوين (ٍ) في نهايته يُثبت اسميته.
+    if host_surface and host_surface[-1] in _TANWIN_CHARS:
+        return MorphologyPath.NOMINAL_MORPHOLOGY_PATH
+
+    # ── شاهد 2: بادئة مضارع قبل اللواحق الاسمية ─────────────────────────────
     # HOKOM-AYAT-AL-DAYN-LIVE-CONTEXT-BOUNDARY-SAFETY-AND-GOLD-REMEDIATION-01
     # الترتيب المصحَّح: فحص البادئة المضارعية أولًا قبل فحص اللواحق الاسمية.
     #
@@ -180,13 +188,9 @@ def classify_morphology_path(
         return MorphologyPath.VERBAL_ROOT_PATH
 
     # ── الشواهد الاسمية — بعد استبعاد المضارع ───────────────────────────────
-    # شاهد 2: لواحق اسمية صريحة (ينَ / ونَ / اتٌ / ...)
+    # شاهد 3: لواحق اسمية صريحة (ينَ / ونَ / اتٌ / ...)
     # الآن يُطبَّق فقط على ما ثبت أنه غير مضارع في الشاهد أعلاه.
     if _ends_with_nominal_tail(host_surface):
-        return MorphologyPath.NOMINAL_MORPHOLOGY_PATH
-
-    # شاهد 3: تنوين في نهاية السطح (كلمة منونة ليست فعلًا)
-    if host_surface and host_surface[-1] in _TANWIN_CHARS:
         return MorphologyPath.NOMINAL_MORPHOLOGY_PATH
 
     # ── الشواهد الفعلية الإضافية ──────────────────────────────────────────────
@@ -203,7 +207,20 @@ def classify_morphology_path(
     # ── علامة إعراب قصيرة بلا تنوين — شاهد اسمي ثانوي ─────────────────────
     # بعد استبعاد المضارع والمعلوم الفعلية، الكسرة أو الضمة في النهاية
     # تُرجِّح الاسمية (خَالِدُ، نَوْمِ، أُمِّ، ...).
-    if host_surface and host_surface[-1] in _CASE_MARKERS and len(host_surface) >= 4:
+    # إصلاح HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01:
+    # الشدّة (ّ) قد تُخفي الحركة الإعرابية (حَقُّ، كُلِّ): آخر الكلمة شدّة
+    # والحرف قبلها ضمة/كسرة → شاهد اسمي كذلك.
+    _SHADDA = 'ّ'
+    _last = host_surface[-1] if host_surface else ''
+    _case_hit = (
+        (_last in _CASE_MARKERS and len(host_surface) >= 4)
+        or (
+            _last == _SHADDA
+            and len(host_surface) >= 3
+            and host_surface[-2] in _CASE_MARKERS
+        )
+    )
+    if _case_hit:
         return MorphologyPath.NOMINAL_MORPHOLOGY_PATH
 
     # ── مرشح للجذر بدون شاهد واضح ──────────────────────────────────────────

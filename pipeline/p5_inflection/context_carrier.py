@@ -20,6 +20,18 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Optional
 
+# Bare لَا surfaces (standalone, no proclitic waw/fa).  A compound وَلَا / فَلَا is
+# prohibitive and is handled by _JUSSIVE_PARTICLE_FORMS directly.
+_BARE_LAA_FORMS: frozenset = frozenset({'لَا', 'لا'})
+
+# Preceding surfaces after which a bare لَا is NEGATIVE (نَافِيَة), not
+# prohibitive (نَاهِيَة).  أَوْ (disjunction) and لَكِنْ (exception) both introduce
+# a negated statement, not a prohibition.
+_NEGATIVE_LAA_PRECEDERS: frozenset = frozenset({
+    'أَوْ', 'او', 'أو',
+    'لَكِنْ', 'لٰكِنْ', 'لكن',
+})
+
 
 @dataclass
 class SequentialAnalysisContext:
@@ -44,6 +56,9 @@ class SequentialAnalysisContext:
     # Informational (for debugging / tracing)
     last_particle: Optional[str] = None
     last_injected_surface: Optional[str] = None
+
+    # Surface of the immediately-preceding token (for لا نافية disambiguation).
+    _prev_surface: Optional[str] = field(default=None, repr=False)
 
     def consume_mood(self) -> Optional[str]:
         """
@@ -76,7 +91,24 @@ class SequentialAnalysisContext:
             _JUSSIVE_PARTICLE_FORMS as _JPF,
             _SUBJUNCTIVE_PARTICLE_FORMS as _SPF,
         )
-        if surface in _JPF:
+        # HOKOM-GOLDEN-RULES-AND-LIVE-CLOSURE-CORRECTION-01 (Golden Rule 8)
+        # لا النَّافِيَة vs لا النَّاهِيَة:  a bare لَا that follows a disjunction /
+        # exception particle (أَوْ / لَكِنْ …) is NEGATIVE (نَافِيَة) — it does NOT
+        # govern the jussive.  Only a clause-initial prohibitive لَا (النَّاهِيَة)
+        # governs JUSSIVE.  Detect the negative position by inspecting the
+        # immediately-preceding token surface.  This is general — no hard-coded
+        # index and no hard-coded verb surface.
+        _is_negative_laa = (
+            surface in _BARE_LAA_FORMS
+            and (self._prev_surface or '') in _NEGATIVE_LAA_PRECEDERS
+        )
+        if _is_negative_laa:
+            # Negative لا: consume nothing, govern nothing for the next token.
+            self._governing_particle = None
+            self._governing_mood = None
+            self._scope_remaining = 0
+            self.last_particle = None
+        elif surface in _JPF:
             self._governing_particle = surface
             self._governing_mood = 'JUSSIVE'
             self._scope_remaining = 1
@@ -88,6 +120,7 @@ class SequentialAnalysisContext:
             self.last_particle = surface
         # If not a governing particle: leave existing scope unchanged so that
         # a particle's scope is not accidentally reset by a non-particle token.
+        self._prev_surface = surface
 
     def inject_mood_into_result(
         self,

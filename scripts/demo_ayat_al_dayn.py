@@ -379,6 +379,11 @@ def _extract_morphosyntax(hr: dict) -> dict:
         'tense_aspect': hr.get('tense_aspect'),
         'mood':        hr.get('mood'),
         'voice':       hr.get('voice'),
+        # HOKOM-GOLDEN-RULES-AND-LIVE-CLOSURE-CORRECTION-01 (Golden Rule 10)
+        # Canonical correlated-ambiguity bundle (person/number/gender grouped
+        # per reading). This is the correlation-preserving field; the pipe-string
+        # person/gender above are human-readable summaries only.
+        'ambiguity_candidates': list(hr.get('ambiguity_candidates') or ()),
         'source':      'hokom_pipeline:direct',
     }
 
@@ -620,6 +625,7 @@ def run_all(verbose: bool = True) -> list[dict]:
 
     if verbose:
         print(f'Processing {len(TOKENS)} tokens…', file=sys.stderr)
+    from pipeline.p5_inflection.feature_system import strip_diacritics as _sd
     results = []
     for i, tok in enumerate(TOKENS):
         r = process_token_full(i + 1, tok)
@@ -628,6 +634,17 @@ def run_all(verbose: bool = True) -> list[dict]:
         ctx.inject_mood_into_result(r, tok)
         # Record whether THIS token is a governing particle for the NEXT iteration.
         ctx.update_from_token(tok)
+        # HOKOM-GOLDEN-RULES-AND-LIVE-CLOSURE-CORRECTION-01 (Golden Rule 10)
+        # Feminine-noun lookahead: an ambiguous تَ-prefix imperfect (person='2|3',
+        # SG) followed by a feminine noun (bare ends with ة) resolves to 3FS
+        # (e.g. تَكُونَ + تِجَارَةً). Keep run_all consistent with
+        # compute_live_metrics so the CSV matches the in-memory record.
+        _ms = r.get('morphosyntax')
+        if isinstance(_ms, dict) and _ms.get('person') == '2|3' and _ms.get('number') == 'SG':
+            _next_tok = TOKENS[i + 1] if i + 1 < len(TOKENS) else ''
+            if _sd(_next_tok).endswith('ة'):
+                _ms['person'] = '3'
+                _ms['gender'] = 'F'
         if verbose and (i + 1) % 20 == 0:
             print(f'  {i + 1}/{len(TOKENS)}', file=sys.stderr)
         results.append(r)
@@ -766,6 +783,7 @@ def _compute_csv_divergences(results_raw: list) -> int:
                     'word_class':   row.get('word_class', ''),
                     'tense_aspect': row.get('tense_aspect', ''),
                     'person':       row.get('person', ''),
+                    'ambiguity_candidates_json': row.get('ambiguity_candidates_json', ''),
                 }
         divergences = 0
         for i, (tok, r) in enumerate(results_raw):
@@ -776,9 +794,17 @@ def _compute_csv_divergences(results_raw: list) -> int:
             live_wc = r.get('word_class') or ''
             live_ta = r.get('tense_aspect') or ''
             live_p  = str(r.get('person') or '')
+            # HOKOM-GOLDEN-RULES-AND-LIVE-CLOSURE-CORRECTION-01 (Golden Rule 10)
+            # Verify the CSV ambiguity_candidates_json serializes every in-memory
+            # correlated bundle (correlation must not be lost in export).
+            live_amb = json.dumps(
+                list(r.get('ambiguity_candidates') or ()),
+                ensure_ascii=False, sort_keys=True,
+            )
             if (live_wc != disk['word_class']
                     or live_ta != disk['tense_aspect']
-                    or live_p != disk['person']):
+                    or live_p != disk['person']
+                    or live_amb != disk['ambiguity_candidates_json']):
                 divergences += 1
         return divergences
     except Exception:
@@ -912,25 +938,65 @@ def compute_live_metrics() -> dict:
                 png_mismatches += 1
                 token_has_mismatch = True
         else:
-            # Correlated ambiguity: pipeline must supply all candidates.
-            # The pipeline's gender field must include every gender value present
-            # across all AmbiguityCandidate entries.
-            # Current pipeline emits gender='M' only → the 3FS (gender='F') candidate
-            # is absent → uncorrelated ambiguity.
-            # These failures ALSO count toward LIVE_PERSON_NUMBER_GENDER_MISMATCHES
-            # because they represent an incorrect gender representation.
-            live_gender = str(r.get('gender') or '')
-            candidate_genders = {c.gender for c in gold.ambiguity_candidates}
-            if len(candidate_genders) > 1:
-                for cand in gold.ambiguity_candidates:
-                    if cand.gender not in live_gender:
-                        uncorrelated_ambiguity += 1
-                        png_mismatches += 1   # gender defect → counts as PNG mismatch
-                        token_has_mismatch = True
-                        break
+            # Correlated ambiguity (Golden Rule 10): the pipeline must supply
+            # STRUCTURED correlated bundles (r['ambiguity_candidates']) containing
+            # every gold reading as a (person, number, gender) triple.
+            # A pipe-string-only representation (person='2|3', gender='M|F') yields
+            # NO structured bundles → correctly flagged as uncorrelated ambiguity.
+            # The former substring check ('M' in 'M|F') was a FALSE-ZERO trap.
+            live_bundles = set()
+            for c in (r.get('ambiguity_candidates') or ()):
+                if isinstance(c, dict):
+                    live_bundles.add((c.get('person'), c.get('number'), c.get('gender')))
+                else:
+                    live_bundles.add((
+                        getattr(c, 'person', None),
+                        getattr(c, 'number', None),
+                        getattr(c, 'gender', None),
+                    ))
+            for cand in gold.ambiguity_candidates:
+                if (cand.person, cand.number, cand.gender) not in live_bundles:
+                    uncorrelated_ambiguity += 1
+                    png_mismatches += 1   # ambiguity-representation defect → PNG
+                    token_has_mismatch = True
+                    break
 
         if token_has_mismatch:
             gold_token_mismatches += 1
+
+    # ── 2b. Extended gold policy (supplementary fields) ──────────────────────
+    # HOKOM-GOLDEN-RULES-AND-LIVE-CLOSURE-CORRECTION-01
+    # gold_manifest.py is immutable; extended_gold_policy.py adds checks for
+    # word_class_subclass, canonical_root, cra_form_family (token 102), the
+    # context-resolved mood (token 46), and structured correlated ambiguity.
+    # These fold into the gate-checked metric buckets so the closure gate cannot
+    # show a false zero while the CSV still carries the defect.
+    from pipeline.governance.extended_gold_policy import (
+        EXTENDED_GOLD,
+        check_extended_expectation,
+    )
+    ext_subclass_mismatches = 0
+    ext_root_mismatches = 0
+    for _exp in EXTENDED_GOLD:
+        _r = results_by_index.get(_exp.token_index)
+        if _r is None:
+            continue
+        _res = check_extended_expectation(
+            _exp, _r, context_mood=_r.get('mood')
+        )
+        if _res['any']:
+            gold_token_mismatches += 1
+        ext_subclass_mismatches += _res['subclass']
+        ext_root_mismatches += _res['canonical_root']
+        # cra_form_family defects join the form-family metric
+        form_mismatches += _res['cra_form_family']
+        # context mood defects join the context-mood metric
+        context_mood_mismatches += _res['context_mood']
+        # nominal misclassification (subclass) surfaces as a word-class subclass
+        # defect, tracked separately AND folded into token mismatch above.
+        # uncorrelated ambiguity + PNG
+        uncorrelated_ambiguity += _res['uncorrelated_ambiguity']
+        png_mismatches += _res['uncorrelated_ambiguity']
 
     # ── 3. Structural counts (from unfiltered pipeline output) ───────────────
     nonverbs_as_verbs = word_class_mismatches  # ISM→FI3L misclassifications
@@ -1011,6 +1077,9 @@ def compute_live_metrics() -> dict:
         'LIVE_CONTEXT_MOOD_MISMATCHES':          context_mood_mismatches,
         # Correlated ambiguity sub-count
         'LIVE_UNCORRELATED_AMBIGUITY':           uncorrelated_ambiguity,
+        # Extended gold policy sub-counts (supplementary fields)
+        'LIVE_SUBCLASS_MISMATCHES':              ext_subclass_mismatches,
+        'LIVE_ROOT_MISMATCHES':                  ext_root_mismatches,
         # Inflection
         'LIVE_MISSING_INFLECTION_FEATURES':      missing_inflection,
         # Word class mismatches
@@ -1139,6 +1208,7 @@ def format_csv(results: list[dict]) -> str:
         'cra_form_family', 'cra_suffix_stripped', 'cra_reason_codes', 'phase4a_residuals',
         'wazn', 'masdar', 'derivative_type',
         'number', 'gender', 'person', 'tense_aspect', 'mood', 'voice',
+        'ambiguity_candidates_json',
         'h11_h15_reached', 'h11_h15_filled_slots',
         'typed_slot_count', 'filled_slot_count', 'unknown_slot_count',
         'not_opened_layers', 'active_residuals',
@@ -1186,6 +1256,10 @@ def format_csv(results: list[dict]) -> str:
             'tense_aspect':         ms.get('tense_aspect', ''),
             'mood':                 ms.get('mood', ''),
             'voice':                ms.get('voice', ''),
+            # Canonical correlation-preserving ambiguity export (Golden Rule 10).
+            'ambiguity_candidates_json': json.dumps(
+                ms.get('ambiguity_candidates', []), ensure_ascii=False, sort_keys=True
+            ),
             'h11_h15_reached':      str(h.get('reached', False)),
             'h11_h15_filled_slots': ' '.join(h.get('filled_slots', [])),
             'typed_slot_count':     len(ts),
