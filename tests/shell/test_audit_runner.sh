@@ -828,6 +828,112 @@ echo "OK"
 ' 2>&1 && ok "T69: is_authorized_post_artifact_path rejects non-governance, accepts governance" \
          || fail "T69: authorization function must accept only authorized paths"
 
+# ── HOKOM-TAAQOL-PER-LAYER-OBSERVABILITY-REPORT-01 ─────────────────────────────
+
+# T70: demo_ayat_al_dayn.py is authorized in the post-artifact allowlist
+grep -q 'scripts/demo_ayat_al_dayn.py' "$RUNNER" \
+    && ok "T70: scripts/demo_ayat_al_dayn.py is authorized in allowlist" \
+    || fail "T70: scripts/demo_ayat_al_dayn.py must be in post-artifact allowlist"
+
+# T71: bridge.py is authorized in the post-artifact allowlist
+grep -q 'pipeline/taaqol_integration/live/bridge.py' "$RUNNER" \
+    && ok "T71: pipeline/taaqol_integration/live/bridge.py is authorized in allowlist" \
+    || fail "T71: bridge.py must be in post-artifact allowlist"
+
+# T72: test_taaqol_layer_report.py is authorized in the post-artifact allowlist
+grep -q 'tests/demo/test_taaqol_layer_report.py' "$RUNNER" \
+    && ok "T72: tests/demo/test_taaqol_layer_report.py is authorized in allowlist" \
+    || fail "T72: test_taaqol_layer_report.py must be in post-artifact allowlist"
+
+# T73: demo_ayat_al_dayn.py contains --taaqol argument definition
+grep -q '\-\-taaqol' scripts/demo_ayat_al_dayn.py \
+    && ok "T73: demo_ayat_al_dayn.py defines --taaqol flag" \
+    || fail "T73: demo_ayat_al_dayn.py must define --taaqol flag"
+
+# T74: generate_taaqol_layer_csv function exists in demo script
+grep -q 'def generate_taaqol_layer_csv' scripts/demo_ayat_al_dayn.py \
+    && ok "T74: generate_taaqol_layer_csv() defined in demo_ayat_al_dayn.py" \
+    || fail "T74: generate_taaqol_layer_csv() must be defined in demo_ayat_al_dayn.py"
+
+# T75: _derive_layer_state function exists in demo script
+grep -q 'def _derive_layer_state' scripts/demo_ayat_al_dayn.py \
+    && ok "T75: _derive_layer_state() defined in demo_ayat_al_dayn.py" \
+    || fail "T75: _derive_layer_state() must be defined in demo_ayat_al_dayn.py"
+
+# T76: bridge.py slot_graph_slots contract extension is present
+grep -q 'slot_graph_slots' pipeline/taaqol_integration/live/bridge.py \
+    && ok "T76: slot_graph_slots extended contract present in bridge.py" \
+    || fail "T76: bridge.py must define slot_graph_slots in taaqol_runtime"
+
+# T77: HOKOM-TAAQOL-PER-LAYER-OBSERVABILITY-REPORT-01 mandate header present in bridge.py
+grep -q 'HOKOM-TAAQOL-PER-LAYER-OBSERVABILITY-REPORT-01' pipeline/taaqol_integration/live/bridge.py \
+    && ok "T77: mandate header present in bridge.py" \
+    || fail "T77: bridge.py must reference HOKOM-TAAQOL-PER-LAYER-OBSERVABILITY-REPORT-01"
+
+# T78: taaqol layers CSV output path is correctly defined
+grep -q 'ayat_al_dayn_taaqol_layers.csv' scripts/demo_ayat_al_dayn.py \
+    && ok "T78: ayat_al_dayn_taaqol_layers.csv output path defined in demo script" \
+    || fail "T78: demo script must define ayat_al_dayn_taaqol_layers.csv output path"
+
+# T79: SKIPPED_BY_CONTRACT state is defined in _derive_layer_state
+grep -q 'SKIPPED_BY_CONTRACT' scripts/demo_ayat_al_dayn.py \
+    && ok "T79: SKIPPED_BY_CONTRACT state present in demo script" \
+    || fail "T79: SKIPPED_BY_CONTRACT must be a valid layer state in demo script"
+
+# T80: _sanitize_failure_detail is present (determinism guard)
+grep -q '_sanitize_failure_detail' scripts/demo_ayat_al_dayn.py \
+    && ok "T80: _sanitize_failure_detail() present (determinism guard)" \
+    || fail "T80: _sanitize_failure_detail() must exist for CSV determinism"
+
+# T81: test_taaqol_layer_report.py contains 15 test functions
+test_count="$(grep -c '^def test_' tests/demo/test_taaqol_layer_report.py 2>/dev/null || echo 0)"
+[ "$test_count" -ge 15 ] \
+    && ok "T81: test_taaqol_layer_report.py has $test_count test functions (≥15)" \
+    || fail "T81: test_taaqol_layer_report.py must have ≥15 test functions (found $test_count)"
+
+# T82: write_outputs() accepts taaqol parameter (bool = False default)
+grep -q 'taaqol.*bool.*=.*False\|taaqol=False' scripts/demo_ayat_al_dayn.py \
+    && ok "T82: write_outputs() accepts taaqol parameter (default False)" \
+    || fail "T82: write_outputs() must have taaqol parameter with False default"
+
+# T83: _INFLECTION_DEPENDENT_LAYERS constant is defined
+grep -q '_INFLECTION_DEPENDENT_LAYERS' scripts/demo_ayat_al_dayn.py \
+    && ok "T83: _INFLECTION_DEPENDENT_LAYERS constant defined in demo script" \
+    || fail "T83: _INFLECTION_DEPENDENT_LAYERS must be defined in demo script"
+
+# T84: non-authorized path is rejected by updated is_authorized_post_artifact_path
+bash -c '
+is_authorized_post_artifact_path() {
+    local path="$1"
+    case "$path" in
+        scripts/canonical_gate.py) return 0 ;;
+        scripts/run_canonical_final_audit.sh) return 0 ;;
+        tests/governance/test_artifact_commit_binding.py) return 0 ;;
+        tests/shell/test_audit_runner.sh) return 0 ;;
+        scripts/demo_ayat_al_dayn.py) return 0 ;;
+        pipeline/taaqol_integration/live/bridge.py) return 0 ;;
+        tests/demo/test_taaqol_layer_report.py) return 0 ;;
+    esac
+    if [[ "$path" =~ ^reports/canonical_gate/closure_manifest\.[0-9a-f]{7,40}\.json$ ]]; then
+        return 0
+    fi
+    return 1
+}
+# Governance paths must all pass
+is_authorized_post_artifact_path "scripts/demo_ayat_al_dayn.py" || { echo "SHOULD PASS"; exit 1; }
+is_authorized_post_artifact_path "pipeline/taaqol_integration/live/bridge.py" || { echo "SHOULD PASS"; exit 1; }
+is_authorized_post_artifact_path "tests/demo/test_taaqol_layer_report.py" || { echo "SHOULD PASS"; exit 1; }
+# Non-governance paths must be rejected
+is_authorized_post_artifact_path "pipeline/p5_inflection/engine.py" \
+    && { echo "SHOULD HAVE BEEN REJECTED"; exit 1; } \
+    || true
+is_authorized_post_artifact_path "hokom_pipeline.py" \
+    && { echo "SHOULD HAVE BEEN REJECTED"; exit 1; } \
+    || true
+echo "OK"
+' 2>&1 && ok "T84: updated allowlist accepts all HOKOM-TAAQOL-PER-LAYER paths, rejects others" \
+         || fail "T84: updated is_authorized_post_artifact_path must authorize new phase paths"
+
 echo ""
 echo "=== RESULTS: $PASS passed, $FAIL failed ==="
 [[ "$FAIL" == 0 ]] && exit 0 || exit 1

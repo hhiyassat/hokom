@@ -1,0 +1,425 @@
+"""
+tests/demo/test_taaqol_layer_report.py
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+HOKOM-TAAQOL-PER-LAYER-OBSERVABILITY-REPORT-01
+
+15 invariant tests for the per-layer Taaqol observability CSV generated
+by ``python scripts/demo_ayat_al_dayn.py --taaqol``.
+
+Shape: 129 tokens × 18 registered layers = 2322 rows (+ 1 header).
+
+Reconciliation targets (macOS / Python 3.12 only):
+  LICENSED               = 73
+  DEFERRED               = 56
+  TAAQOL_LIVE_EVALUATIONS = 128
+  H11_H15_REACHED        = 33
+  EARLY_STOPS            = 96
+
+In CI (Python 3.10 sandbox) Taaqol defers for all tokens (ImportError),
+so reconciliation counts differ — those tests skip on inactive runtimes.
+"""
+from __future__ import annotations
+
+import csv
+import hashlib
+import io
+import sys
+from pathlib import Path
+
+import pytest
+
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+sys.path.insert(0, str(REPO_ROOT))
+
+# Reconciliation targets (macOS live environment)
+_LICENSED_TARGET              = 73
+_DEFERRED_TARGET              = 56
+_TAAQOL_LIVE_TARGET           = 128
+_H11_H15_TARGET               = 33
+_EARLY_STOPS_TARGET           = 96
+_EXPECTED_ROWS                = 2322   # 129 × 18
+_EXPECTED_TOKENS              = 129
+_EXPECTED_LAYERS              = 18
+_MIN_COLUMNS                  = 50
+
+# Registered layer IDs (SlotSort enum values)
+_REGISTERED_LAYER_IDS = {0, 10, 20, 30, 35, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 900, 910}
+_REGISTERED_LAYER_NAMES = {
+    0:   'SURFACE_IDENTITY',
+    10:  'NORMALIZATION',
+    20:  'PHONOLOGICAL',
+    30:  'SEGMENTATION',
+    35:  'ARTICLE',
+    40:  'BOUNDARY',
+    50:  'LEXICAL_FUNCTIONAL',
+    60:  'WORD_CLASS',
+    70:  'INFLECTIONAL',
+    80:  'RADICAL',
+    90:  'PATTERN',
+    100: 'BAB',
+    110: 'MASDAR',
+    120: 'DERIVATIVE',
+    130: 'MORPHOSYNTAX',
+    140: 'PARADIGM',
+    900: 'EVIDENCE',
+    910: 'RESIDUAL',
+}
+_VALID_LAYER_STATES = frozenset({
+    'EXECUTED', 'NOT_REACHED', 'BLOCKED', 'DEFERRED', 'SKIPPED_BY_CONTRACT', 'ERROR',
+})
+_INFLECTION_DEPENDENT_LAYERS = frozenset({70, 80, 90, 100, 110, 120, 130, 140})
+
+
+# ── Fixture: generate CSV content ─────────────────────────────────────────────
+
+@pytest.fixture(scope='module')
+def csv_content() -> str:
+    """
+    Generate the per-layer CSV by running the pipeline in-process.
+    This consumes the actual Taaqol trace — no mocking.
+    """
+    from scripts.demo_ayat_al_dayn import run_all, generate_taaqol_layer_csv
+    results = run_all(verbose=False)
+    return generate_taaqol_layer_csv(results)
+
+
+@pytest.fixture(scope='module')
+def rows(csv_content) -> list[dict]:
+    """Parsed CSV rows (DictReader)."""
+    reader = csv.DictReader(io.StringIO(csv_content))
+    return list(reader)
+
+
+# ── T1: CSV is generated and non-empty ────────────────────────────────────────
+
+def test_csv_generated_and_nonempty(csv_content):
+    """T1: generate_taaqol_layer_csv() returns a non-empty string."""
+    assert isinstance(csv_content, str), "CSV content must be a str"
+    assert len(csv_content) > 100, "CSV content is suspiciously short"
+
+
+# ── T2: Exact row count ───────────────────────────────────────────────────────
+
+def test_row_count(rows):
+    """T2: CSV has exactly 129 × 18 = 2322 data rows."""
+    assert len(rows) == _EXPECTED_ROWS, (
+        f"Expected {_EXPECTED_ROWS} data rows (129×18), got {len(rows)}"
+    )
+
+
+# ── T3: Column count ≥ 50 ────────────────────────────────────────────────────
+
+def test_column_count(rows):
+    """T3: CSV has at least 50 columns covering all required categories."""
+    if not rows:
+        pytest.skip("no rows")
+    n_cols = len(rows[0])
+    assert n_cols >= _MIN_COLUMNS, (
+        f"Expected ≥{_MIN_COLUMNS} columns, got {n_cols}.\n"
+        f"Columns present: {list(rows[0].keys())}"
+    )
+
+
+# ── T4: Required columns are present ─────────────────────────────────────────
+
+def test_required_columns_present(rows):
+    """T4: All required column categories are present in the CSV header."""
+    if not rows:
+        pytest.skip("no rows")
+    cols = set(rows[0].keys())
+    required = {
+        # Token identity
+        'token_index', 'original_surface', 'normalized_surface', 'segment_host',
+        'word_class', 'inflection_skipped_reason', 'pipeline_verdict',
+        'evaluation_id', 'claim_key',
+        # Registry identity
+        'layer_id', 'layer_name',
+        # Reachability
+        'layer_state', 'layer_state_reason',
+        # Slot snapshot
+        'slot_count', 'filled_count', 'empty_count', 'deferred_count',
+        'unknown_count', 'ambiguous_count', 'blocked_count', 'not_applicable_count',
+        'slot_ids', 'slot_values', 'slot_states_detail',
+        # H11-H15
+        'h11_h15_reached', 'h11_h15_filled_slots',
+        # Taaqol gateway
+        'taaqol_available', 'taaqol_verdict', 'upstream_verdict', 'effective_verdict',
+        'gamma_state', 'gate_verdict', 'slot_graph_digest', 'taaqol_center_scope',
+        'bridge_id', 'taaqol_trace_steps',
+        # Bridge SlotGraph (extended contract)
+        'bridge_slot_count', 'bridge_slot_names', 'bridge_slot_states',
+        # Runtime integrity
+        'runtime_active', 'runtime_kernel_loaded', 'runtime_slot_graph_created',
+        'runtime_gamma_executed', 'runtime_gate_executed',
+        'runtime_failure_code', 'runtime_failure_detail',
+        'runtime_trace_event_count', 'runtime_vendor_sha',
+        'runtime_taaqol_commit', 'runtime_hokom_commit',
+        'token_error',
+    }
+    missing = required - cols
+    assert not missing, (
+        f"Required columns missing from CSV:\n{sorted(missing)}"
+    )
+
+
+# ── T5: Distinct token count ──────────────────────────────────────────────────
+
+def test_distinct_token_count(rows):
+    """T5: Exactly 129 distinct token_index values appear in the CSV."""
+    indices = {int(r['token_index']) for r in rows}
+    assert len(indices) == _EXPECTED_TOKENS, (
+        f"Expected {_EXPECTED_TOKENS} distinct tokens, got {len(indices)}"
+    )
+    assert min(indices) == 1 and max(indices) == _EXPECTED_TOKENS, (
+        f"Token indices must be 1–{_EXPECTED_TOKENS}, got min={min(indices)} max={max(indices)}"
+    )
+
+
+# ── T6: Distinct layer count and IDs ─────────────────────────────────────────
+
+def test_distinct_layer_ids(rows):
+    """T6: Exactly 18 distinct layer_id values, matching the registered layer registry."""
+    layer_ids = {int(r['layer_id']) for r in rows}
+    assert layer_ids == _REGISTERED_LAYER_IDS, (
+        f"Layer IDs mismatch.\n"
+        f"  expected: {sorted(_REGISTERED_LAYER_IDS)}\n"
+        f"  actual:   {sorted(layer_ids)}"
+    )
+
+
+# ── T7: Each token × layer appears exactly once ───────────────────────────────
+
+def test_no_duplicate_token_layer_pairs(rows):
+    """T7: Each (token_index, layer_id) pair appears exactly once."""
+    seen = set()
+    duplicates = []
+    for r in rows:
+        key = (r['token_index'], r['layer_id'])
+        if key in seen:
+            duplicates.append(key)
+        seen.add(key)
+    assert not duplicates, (
+        f"Duplicate (token_index, layer_id) pairs: {duplicates[:10]}"
+    )
+
+
+# ── T8: layer_state is always a valid value ───────────────────────────────────
+
+def test_layer_state_valid(rows):
+    """T8: Every layer_state value is one of the 6 valid states (never empty/unknown)."""
+    invalid = [
+        (r['token_index'], r['layer_id'], r['layer_state'])
+        for r in rows
+        if r['layer_state'] not in _VALID_LAYER_STATES
+    ]
+    assert not invalid, (
+        f"Invalid layer_state values found (first 5):\n"
+        + "\n".join(
+            f"  token={t} layer={l} state={repr(s)}"
+            for t, l, s in invalid[:5]
+        )
+    )
+
+
+# ── T9: layer_name matches registered names ───────────────────────────────────
+
+def test_layer_name_matches_registry(rows):
+    """T9: Each layer_name matches the registered name for its layer_id."""
+    mismatches = []
+    for r in rows:
+        lid = int(r['layer_id'])
+        expected_name = _REGISTERED_LAYER_NAMES.get(lid, '')
+        if r['layer_name'] != expected_name:
+            mismatches.append((lid, r['layer_name'], expected_name))
+    assert not mismatches, (
+        f"Layer name mismatches (first 5):\n"
+        + "\n".join(
+            f"  layer_id={lid} got={repr(got)} expected={repr(exp)}"
+            for lid, got, exp in mismatches[:5]
+        )
+    )
+
+
+# ── T10: Early-stop tokens → SKIPPED_BY_CONTRACT for inflection layers ────────
+
+def test_skipped_by_contract_for_early_stops(rows):
+    """
+    T10: For any token with inflection_skipped_reason set, every
+    inflection-dependent layer (70–140) that has no FILLED slot must be
+    SKIPPED_BY_CONTRACT — never EXECUTED or NOT_REACHED.
+    """
+    violations = []
+    for r in rows:
+        layer_id = int(r['layer_id'])
+        if layer_id not in _INFLECTION_DEPENDENT_LAYERS:
+            continue
+        if not r.get('inflection_skipped_reason'):
+            continue
+        # If filled_count > 0, the layer ran despite early stop → OK
+        if int(r.get('filled_count', 0)) > 0:
+            continue
+        if r['layer_state'] != 'SKIPPED_BY_CONTRACT':
+            violations.append({
+                'token_index': r['token_index'],
+                'layer_id':    layer_id,
+                'state':       r['layer_state'],
+                'skip_reason': r['inflection_skipped_reason'],
+            })
+    assert not violations, (
+        f"Early-stop tokens must have SKIPPED_BY_CONTRACT for inflection-dependent "
+        f"layers without FILLED data (first 5 violations):\n"
+        + "\n".join(str(v) for v in violations[:5])
+    )
+
+
+# ── T11: Early-stop count matches EARLY_STOPS target ─────────────────────────
+
+def test_early_stops_count(rows):
+    """
+    T11: Number of distinct tokens with inflection_skipped_reason set
+    matches EARLY_STOPS = 96.
+    """
+    early_stop_tokens = {
+        r['token_index']
+        for r in rows
+        if r.get('inflection_skipped_reason')
+    }
+    assert len(early_stop_tokens) == _EARLY_STOPS_TARGET, (
+        f"EARLY_STOPS mismatch: expected {_EARLY_STOPS_TARGET}, "
+        f"got {len(early_stop_tokens)}"
+    )
+
+
+# ── T12: H11_H15_REACHED count matches target ────────────────────────────────
+
+def test_h11_h15_reached_count(rows):
+    """
+    T12: Number of distinct tokens with h11_h15_reached = 'True'
+    matches H11_H15_REACHED = 33.
+    """
+    h11_tokens = {
+        r['token_index']
+        for r in rows
+        if r.get('h11_h15_reached') == 'True'
+    }
+    assert len(h11_tokens) == _H11_H15_TARGET, (
+        f"H11_H15_REACHED mismatch: expected {_H11_H15_TARGET}, "
+        f"got {len(h11_tokens)}"
+    )
+
+
+# ── T13: Determinism (SHA-256 stable across runs) ─────────────────────────────
+
+def test_csv_determinism():
+    """
+    T13: Two successive calls to generate_taaqol_layer_csv() produce
+    byte-for-byte identical output (SHA-256 digest must match).
+    No timestamps, memory addresses, or machine-specific paths allowed.
+    """
+    from scripts.demo_ayat_al_dayn import run_all, generate_taaqol_layer_csv
+    results = run_all(verbose=False)
+    csv1 = generate_taaqol_layer_csv(results)
+    csv2 = generate_taaqol_layer_csv(results)
+    sha1 = hashlib.sha256(csv1.encode('utf-8')).hexdigest()
+    sha2 = hashlib.sha256(csv2.encode('utf-8')).hexdigest()
+    assert sha1 == sha2, (
+        f"generate_taaqol_layer_csv() is non-deterministic:\n"
+        f"  run 1: {sha1}\n"
+        f"  run 2: {sha2}"
+    )
+
+
+# ── T14: Default command byte-for-byte unchanged ──────────────────────────────
+
+def test_default_command_unchanged():
+    """
+    T14: Running write_outputs() without --taaqol must NOT create the
+    taaqol layers CSV file (default command byte-for-byte unchanged).
+
+    We verify the taaqol CSV is absent from paths and the file is not written.
+    Existing canonical artifacts are saved and restored so artifact digest
+    checks remain valid.
+    """
+    from scripts.demo_ayat_al_dayn import (
+        run_all, summary_stats, integrity_check, write_outputs, REPORT_DIR,
+    )
+    taaqol_csv_path = REPORT_DIR / 'ayat_al_dayn_taaqol_layers.csv'
+
+    # Save existing canonical artifact bytes so we can restore after write_outputs()
+    _saved: dict[str, bytes] = {}
+    for fname in ('ayat_al_dayn_results.csv', 'ayat_al_dayn_results_full.json',
+                  'ayat_al_dayn_manager_report.html'):
+        p = REPORT_DIR / fname
+        if p.exists():
+            _saved[fname] = p.read_bytes()
+
+    # Remove taaqol CSV if it exists from a previous --taaqol run
+    _taaqol_existed = taaqol_csv_path.exists()
+    if _taaqol_existed:
+        taaqol_csv_path.unlink()
+
+    try:
+        results = run_all(verbose=False)
+        stats   = summary_stats(results)
+        checks  = integrity_check(results)
+        meta    = {
+            'stage': 'test', 'version': '2', 'head': 'test', 'head_full': 'test',
+            'vendor_sha': 'test', 'python': 'test', 'platform': 'test',
+            'timestamp': '2026-01-01T00:00:00+00:00', 'ayat_source': 'test',
+            'token_count': len(results),
+        }
+        paths = write_outputs(results, stats, checks, meta, taaqol=False)
+
+        assert 'taaqol_layers' not in paths, (
+            "write_outputs(taaqol=False) must NOT return 'taaqol_layers' in paths"
+        )
+        assert not taaqol_csv_path.exists(), (
+            f"write_outputs(taaqol=False) must NOT write {taaqol_csv_path}"
+        )
+    finally:
+        # Restore canonical artifacts so artifact digest tests remain valid
+        for fname, data in _saved.items():
+            (REPORT_DIR / fname).write_bytes(data)
+
+
+# ── T15: Reconciliation targets (live Taaqol only) ───────────────────────────
+
+def test_reconciliation_targets_when_live(rows):
+    """
+    T15: When Taaqol runtime is active (Python ≥ 3.11, macOS),
+    LICENSED / DEFERRED / TAAQOL_LIVE_EVALUATIONS counts must match targets.
+    Skipped when Taaqol is inactive (Python 3.10 / CI sandbox).
+    """
+    live_tokens = {r['token_index'] for r in rows if r.get('runtime_active') == 'True'}
+    if not live_tokens:
+        pytest.skip(
+            "Taaqol runtime not active (Python 3.10 / CI sandbox — expected). "
+            "Reconciliation targets are verified on macOS Python 3.12."
+        )
+
+    licensed_tokens = {
+        r['token_index'] for r in rows if r.get('taaqol_verdict') == 'LICENSED'
+    }
+    deferred_tokens = {
+        r['token_index'] for r in rows if r.get('taaqol_verdict') == 'DEFERRED'
+    }
+
+    errors = []
+    if len(licensed_tokens) != _LICENSED_TARGET:
+        errors.append(
+            f"LICENSED: expected {_LICENSED_TARGET}, got {len(licensed_tokens)}"
+        )
+    if len(deferred_tokens) != _DEFERRED_TARGET:
+        errors.append(
+            f"DEFERRED: expected {_DEFERRED_TARGET}, got {len(deferred_tokens)}"
+        )
+    if len(live_tokens) != _TAAQOL_LIVE_TARGET:
+        errors.append(
+            f"TAAQOL_LIVE_EVALUATIONS: expected {_TAAQOL_LIVE_TARGET}, "
+            f"got {len(live_tokens)}"
+        )
+
+    assert not errors, (
+        "Reconciliation targets not met:\n" + "\n".join(f"  {e}" for e in errors)
+    )

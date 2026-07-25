@@ -351,6 +351,8 @@ def _decompose_taaqol(hr: dict) -> dict:
             'failure_code':      rt.get('failure_code'),
             'failure_detail':    rt.get('failure_detail'),
             'vendor_sha':        rt.get('vendor_sha'),
+            # HOKOM-TAAQOL-PER-LAYER-OBSERVABILITY-REPORT-01
+            'slot_graph_slots':  rt.get('slot_graph_slots', []),
         },
         # Typed slot evaluations (populated when Taaqol is live)
         'typed_slot_evaluations': t_slot_list,
@@ -1753,11 +1755,283 @@ summary:hover{{background:#f0f9ff;border-radius:8px;}}
 </html>'''
 
 
+# ── per-layer Taaqol observability (HOKOM-TAAQOL-PER-LAYER-OBSERVABILITY-REPORT-01) ──
+
+# Layers that are skipped by contract when inflection analysis is bypassed (early stop).
+_INFLECTION_DEPENDENT_LAYERS: frozenset[int] = frozenset({70, 80, 90, 100, 110, 120, 130, 140})
+
+
+def _sanitize_failure_detail(detail: str) -> str:
+    """
+    Remove machine-specific filesystem paths from failure_detail for determinism.
+    e.g. "ImportError: cannot import 'StrEnum' from 'enum' (/usr/lib/python3.10/enum.py)"
+         → "ImportError: cannot import 'StrEnum' from 'enum'"
+    """
+    import re
+    detail = re.sub(r'\s*\([/\\][^)]+\.py\)', '', detail)
+    return detail[:200]
+
+
+def _derive_layer_state(layer_sort: int, token: dict) -> tuple[str, str]:
+    """
+    Derive the per-layer state for one token × one registered Taaqol layer.
+    Returns (state_str, reason_str).
+
+    States (exhaustive):
+      EXECUTED           — Layer ran and produced ≥1 FILLED slot.
+      NOT_REACHED        — Pipeline did not reach this layer (runtime failure,
+                           clitic-only, no slots produced, all NOT_APPLICABLE
+                           or UNKNOWN with no meaningful data).
+      BLOCKED            — Layer has ≥1 BLOCKED slot (blocking residual).
+      DEFERRED           — Layer ran but outcome is ambiguous or explicitly deferred.
+      SKIPPED_BY_CONTRACT — Layer intentionally skipped for this token class
+                           (inflection-dependent layer for an early-stop token).
+      ERROR              — Token pipeline raised an exception.
+
+    All values derived from actual pipeline data — nothing invented.
+    """
+    # Token pipeline error → ERROR for all layers
+    if token.get('error'):
+        err = token['error']
+        return 'ERROR', f"pipeline_error:{err.get('type', 'unknown')}"
+
+    taaqol = token.get('taaqol', {})
+    rt = taaqol.get('runtime', {})
+    failure_code = rt.get('failure_code') or ''
+    wc = token.get('word_class', {})
+    inflection_skipped = wc.get('inflection_skipped_reason') or ''
+
+    # Collect SGA typed_slots for this layer (actual pipeline data, never invented)
+    slots_in_layer = [
+        s for s in token.get('typed_slots', [])
+        if s.get('layer_sort') == layer_sort
+    ]
+
+    # SKIPPED_BY_CONTRACT: inflection-dependent layer + early-stop token
+    # Only if no FILLED data exists — if filled, the layer ran despite early stop.
+    if inflection_skipped and layer_sort in _INFLECTION_DEPENDENT_LAYERS:
+        has_filled = any(s.get('state') == 'FILLED' for s in slots_in_layer)
+        if not has_filled:
+            return 'SKIPPED_BY_CONTRACT', f'inflection_skipped:{inflection_skipped}'
+
+    # No slots produced for this layer
+    if not slots_in_layer:
+        if failure_code == 'TAAQOL_RUNTIME_UNAVAILABLE':
+            return 'NOT_REACHED', 'taaqol_runtime_unavailable'
+        if failure_code == 'SEGMENTATION_NO_LEXICAL_HOST':
+            return 'NOT_REACHED', 'clitic_only_no_center'
+        return 'NOT_REACHED', 'no_slots_produced'
+
+    # Aggregate slot states
+    states = [s.get('state', 'UNKNOWN') for s in slots_in_layer]
+    s_filled    = sum(1 for s in states if s == 'FILLED')
+    s_blocked   = sum(1 for s in states if s == 'BLOCKED')
+    s_deferred  = sum(1 for s in states if s == 'DEFERRED')
+    s_ambiguous = sum(1 for s in states if s == 'AMBIGUOUS')
+    s_unknown   = sum(1 for s in states if s == 'UNKNOWN')
+    s_na        = sum(1 for s in states if s == 'NOT_APPLICABLE')
+    total = len(states)
+
+    if total > 0 and s_na == total:
+        # All NOT_APPLICABLE — layer evaluated, does not apply to this token
+        return 'NOT_REACHED', 'all_not_applicable'
+    if s_blocked > 0:
+        return 'BLOCKED', 'blocking_residual_in_slot'
+    if s_filled > 0:
+        return 'EXECUTED', 'slots_filled'
+    if s_ambiguous > 0:
+        return 'DEFERRED', 'ambiguous_candidate_set'
+    if s_deferred > 0:
+        return 'DEFERRED', 'slot_explicitly_deferred'
+    if s_unknown > 0:
+        return 'NOT_REACHED', 'slots_unknown_no_value'
+    return 'NOT_REACHED', 'no_meaningful_slot_data'
+
+
+def generate_taaqol_layer_csv(results: list[dict]) -> str:
+    """
+    Generate long-format per-layer Taaqol observability CSV.
+
+    Shape: 129 tokens × 18 registered layers = 2322 data rows (+ 1 header).
+    One row per (token_index, layer_id) pair.
+
+    All values consumed from actual pipeline data:
+      - SGA typed_slots  → per-layer slot states (never invented)
+      - taaqol runtime   → bridge execution trace (extended contract)
+      - word_class       → inflection_skipped_reason for SKIPPED_BY_CONTRACT
+
+    Determinism: no timestamps, no memory addresses, no machine-specific paths.
+    failure_detail is sanitised to strip filesystem paths before inclusion.
+    SHA-256 digest must be identical across clean runs on the same platform.
+    """
+    LAYERS = sorted(_LAYER_NAME.keys())  # canonical order
+
+    fieldnames = [
+        # Token identity
+        'token_index', 'original_surface', 'normalized_surface', 'segment_host',
+        'word_class', 'word_class_verdict', 'inflection_skipped_reason',
+        'pipeline_verdict', 'evaluation_id', 'claim_key',
+        # Registry identity
+        'layer_id', 'layer_name',
+        # Reachability
+        'layer_state', 'layer_state_reason',
+        # Slot snapshot
+        'slot_count', 'filled_count', 'empty_count', 'deferred_count',
+        'unknown_count', 'ambiguous_count', 'blocked_count', 'not_applicable_count',
+        'slot_ids', 'slot_values', 'slot_states_detail',
+        # H11-H15
+        'h11_h15_reached', 'h11_h15_filled_slots',
+        # Taaqol gateway (shared per token, repeated across all layers)
+        'taaqol_available', 'taaqol_verdict', 'upstream_verdict', 'effective_verdict',
+        'gamma_state', 'gate_verdict', 'slot_graph_digest', 'taaqol_center_scope',
+        'bridge_id', 'taaqol_trace_steps',
+        # Bridge-level SlotGraph (extended Taaqol trace contract)
+        'bridge_slot_count', 'bridge_slot_names', 'bridge_slot_states',
+        # Runtime integrity
+        'runtime_active', 'runtime_kernel_loaded', 'runtime_slot_graph_created',
+        'runtime_gamma_executed', 'runtime_gate_executed',
+        'runtime_failure_code', 'runtime_failure_detail',
+        'runtime_trace_event_count', 'runtime_vendor_sha',
+        'runtime_taaqol_commit', 'runtime_hokom_commit',
+        # Error
+        'token_error',
+    ]
+
+    buf = io.StringIO()
+    writer = csv_mod.DictWriter(buf, fieldnames=fieldnames, lineterminator='\n')
+    writer.writeheader()
+
+    for token in results:
+        idx    = token.get('token_index', '')
+        orig   = token.get('original_surface', '')
+        taaqol = token.get('taaqol', {})
+        rt     = taaqol.get('runtime', {})
+        wc     = token.get('word_class', {})
+        seg    = token.get('segmentation', {})
+        norm   = token.get('normalization', {})
+        h11    = token.get('h11_h15', {})
+        err    = token.get('error')
+
+        norm_surface = norm.get('normalized_surface') or taaqol.get('center_scope') or ''
+        seg_host     = seg.get('host_surface') or ''
+
+        trace_steps = ','.join(
+            e.get('step', '') for e in taaqol.get('trace_events', []) if e.get('step')
+        )
+
+        bridge_slots      = rt.get('slot_graph_slots', [])
+        bridge_slot_count = len(bridge_slots)
+        bridge_slot_names = ','.join(s.get('name', '') for s in bridge_slots)
+        bridge_slot_states = ','.join(s.get('state', '') for s in bridge_slots)
+
+        failure_detail_raw = rt.get('failure_detail') or ''
+        failure_detail_clean = _sanitize_failure_detail(failure_detail_raw)
+
+        for layer_sort in LAYERS:
+            layer_name = _LAYER_NAME[layer_sort]
+            layer_state, state_reason = _derive_layer_state(layer_sort, token)
+
+            slots_in_layer = [
+                s for s in token.get('typed_slots', [])
+                if s.get('layer_sort') == layer_sort
+            ]
+            s_filled    = sum(1 for s in slots_in_layer if s.get('state') == 'FILLED')
+            s_empty     = sum(1 for s in slots_in_layer if s.get('state') == 'EMPTY')
+            s_deferred  = sum(1 for s in slots_in_layer if s.get('state') == 'DEFERRED')
+            s_unknown   = sum(1 for s in slots_in_layer if s.get('state') == 'UNKNOWN')
+            s_ambiguous = sum(1 for s in slots_in_layer if s.get('state') == 'AMBIGUOUS')
+            s_blocked   = sum(1 for s in slots_in_layer if s.get('state') == 'BLOCKED')
+            s_na        = sum(1 for s in slots_in_layer if s.get('state') == 'NOT_APPLICABLE')
+
+            slot_ids_str = ','.join(s.get('slot_id', '') for s in slots_in_layer)
+            slot_values_str = ','.join(
+                str(s.get('value', ''))
+                for s in slots_in_layer
+                if s.get('value') is not None
+            )
+            slot_states_detail = ','.join(
+                f"{s.get('slot_id', '')}:{s.get('state', '')}"
+                for s in slots_in_layer
+            )
+
+            writer.writerow({
+                # Token identity
+                'token_index':              idx,
+                'original_surface':         orig,
+                'normalized_surface':       norm_surface,
+                'segment_host':             seg_host,
+                'word_class':               wc.get('class') or '',
+                'word_class_verdict':       wc.get('verdict') or '',
+                'inflection_skipped_reason': wc.get('inflection_skipped_reason') or '',
+                'pipeline_verdict':         token.get('pipeline_verdict') or '',
+                'evaluation_id':            token.get('evaluation_id') or '',
+                'claim_key':                token.get('claim_key') or '',
+                # Registry identity
+                'layer_id':                 layer_sort,
+                'layer_name':               layer_name,
+                # Reachability
+                'layer_state':              layer_state,
+                'layer_state_reason':       state_reason,
+                # Slot snapshot
+                'slot_count':               len(slots_in_layer),
+                'filled_count':             s_filled,
+                'empty_count':              s_empty,
+                'deferred_count':           s_deferred,
+                'unknown_count':            s_unknown,
+                'ambiguous_count':          s_ambiguous,
+                'blocked_count':            s_blocked,
+                'not_applicable_count':     s_na,
+                'slot_ids':                 slot_ids_str,
+                'slot_values':              slot_values_str,
+                'slot_states_detail':       slot_states_detail,
+                # H11-H15
+                'h11_h15_reached':          str(h11.get('reached', False)),
+                'h11_h15_filled_slots':     ','.join(h11.get('filled_slots', [])),
+                # Taaqol gateway
+                'taaqol_available':         str(taaqol.get('available', False)),
+                'taaqol_verdict':           taaqol.get('taaqol_verdict') or '',
+                'upstream_verdict':         taaqol.get('upstream_verdict') or '',
+                'effective_verdict':        taaqol.get('effective_verdict') or '',
+                'gamma_state':              taaqol.get('gamma_result') or '',
+                'gate_verdict':             taaqol.get('transition_gate_result') or '',
+                'slot_graph_digest':        taaqol.get('slot_graph_digest') or '',
+                'taaqol_center_scope':      taaqol.get('center_scope') or '',
+                'bridge_id':                taaqol.get('bridge_id') or '',
+                'taaqol_trace_steps':       trace_steps,
+                # Bridge SlotGraph
+                'bridge_slot_count':        bridge_slot_count,
+                'bridge_slot_names':        bridge_slot_names,
+                'bridge_slot_states':       bridge_slot_states,
+                # Runtime integrity
+                'runtime_active':           str(rt.get('active', False)),
+                'runtime_kernel_loaded':    str(rt.get('kernel_loaded', False)),
+                'runtime_slot_graph_created': str(rt.get('slot_graph_created', False)),
+                'runtime_gamma_executed':   str(rt.get('gamma_executed', False)),
+                'runtime_gate_executed':    str(rt.get('gate_executed', False)),
+                'runtime_failure_code':     rt.get('failure_code') or '',
+                'runtime_failure_detail':   failure_detail_clean,
+                'runtime_trace_event_count': rt.get('trace_event_count', 0),
+                'runtime_vendor_sha':       rt.get('vendor_sha') or '',
+                'runtime_taaqol_commit':    taaqol.get('taaqol_commit') or '',
+                'runtime_hokom_commit':     taaqol.get('hokom_commit') or '',
+                # Error
+                'token_error':              (err.get('type', '') if err else ''),
+            })
+
+    return buf.getvalue()
+
+
 # ── output writers ────────────────────────────────────────────────────────────
 REPORT_DIR = REPO_ROOT / 'reports' / 'ayat_al_dayn_demo'
 
 
-def write_outputs(results: list[dict], stats: dict, checks: dict, meta: dict) -> dict[str, Path]:
+def write_outputs(
+    results: list[dict],
+    stats: dict,
+    checks: dict,
+    meta: dict,
+    taaqol: bool = False,
+) -> dict[str, Path]:
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
     paths = {}
 
@@ -1773,14 +2047,31 @@ def write_outputs(results: list[dict], stats: dict, checks: dict, meta: dict) ->
     p.write_text(format_html(results, stats, checks, meta), encoding='utf-8')
     paths['html'] = p
 
+    if taaqol:
+        p = REPORT_DIR / 'ayat_al_dayn_taaqol_layers.csv'
+        p.write_text(generate_taaqol_layer_csv(results), encoding='utf-8')
+        paths['taaqol_layers'] = p
+
     return paths
 
 
 # ── main ─────────────────────────────────────────────────────────────────────
 def main() -> int:
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description='Hokom–Taaqol live demo over Ayat al-Dayn (Sūrat al-Baqara 2:282).',
+    )
     parser.add_argument('--format', choices=['terminal', 'json', 'csv', 'html'], default='terminal')
     parser.add_argument('--open', action='store_true')
+    parser.add_argument(
+        '--taaqol',
+        action='store_true',
+        help=(
+            'Generate per-layer Taaqol observability CSV '
+            '(reports/ayat_al_dayn_demo/ayat_al_dayn_taaqol_layers.csv). '
+            'One row per token × registered Taaqol layer (129 × 18 = 2322 rows). '
+            'Default command is byte-for-byte unchanged when this flag is absent.'
+        ),
+    )
     args = parser.parse_args()
 
     results = run_all(verbose=True)
@@ -1799,7 +2090,7 @@ def main() -> int:
         'token_count': len(TOKENS),
     }
 
-    paths = write_outputs(results, stats, checks, meta)
+    paths = write_outputs(results, stats, checks, meta, taaqol=args.taaqol)
 
     if args.open:
         import webbrowser
@@ -1807,6 +2098,8 @@ def main() -> int:
         print(f'JSON : {paths["json"]}')
         print(f'CSV  : {paths["csv"]}')
         print(f'HTML : {paths["html"]}')
+        if args.taaqol:
+            print(f'TAAQOL_LAYERS : {paths["taaqol_layers"]}')
         return 0
 
     if args.format == 'terminal':
@@ -1837,6 +2130,40 @@ def main() -> int:
     print(f'\n  JSON : {paths["json"]}', file=sys.stderr)
     print(f'  CSV  : {paths["csv"]}', file=sys.stderr)
     print(f'  HTML : {paths["html"]}', file=sys.stderr)
+    if args.taaqol:
+        print(f'  TAAQOL_LAYERS : {paths["taaqol_layers"]}', file=sys.stderr)
+        # Per-layer reconciliation summary
+        _taaqol_layers_csv = paths['taaqol_layers']
+        import csv as _csv2
+        with open(_taaqol_layers_csv, newline='', encoding='utf-8') as _f:
+            _rows = list(_csv2.DictReader(_f))
+        _total_rows = len(_rows)
+        _token_indices = {r['token_index'] for r in _rows}
+        _layer_ids = {r['layer_id'] for r in _rows}
+        _licensed_tokens = {
+            r['token_index'] for r in _rows if r.get('taaqol_verdict') == 'LICENSED'
+        }
+        _deferred_tokens = {
+            r['token_index'] for r in _rows if r.get('taaqol_verdict') == 'DEFERRED'
+        }
+        _live_tokens = {
+            r['token_index'] for r in _rows if r.get('runtime_active') == 'True'
+        }
+        _h11_tokens = {
+            r['token_index'] for r in _rows if r.get('h11_h15_reached') == 'True'
+        }
+        _early_stop_tokens = {
+            r['token_index'] for r in _rows if r.get('inflection_skipped_reason')
+        }
+        print(f'\n  ── Taaqol Layer Report Reconciliation ────────────────────', file=sys.stderr)
+        print(f'    TOTAL_ROWS             = {_total_rows}  (expected 2322 = 129×18)', file=sys.stderr)
+        print(f'    DISTINCT_TOKENS        = {len(_token_indices)}  (expected 129)', file=sys.stderr)
+        print(f'    DISTINCT_LAYERS        = {len(_layer_ids)}  (expected 18)', file=sys.stderr)
+        print(f'    LICENSED               = {len(_licensed_tokens)}', file=sys.stderr)
+        print(f'    DEFERRED               = {len(_deferred_tokens)}', file=sys.stderr)
+        print(f'    TAAQOL_LIVE_EVALUATIONS= {len(_live_tokens)}', file=sys.stderr)
+        print(f'    H11_H15_REACHED        = {len(_h11_tokens)}', file=sys.stderr)
+        print(f'    EARLY_STOPS            = {len(_early_stop_tokens)}', file=sys.stderr)
     print('─' * 65, file=sys.stderr)
     return 0
 

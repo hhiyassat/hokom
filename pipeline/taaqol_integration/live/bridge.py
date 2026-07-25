@@ -537,6 +537,8 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
         "trace_event_count": 0,
         "failure_code": None,
         "failure_detail": None,
+        # HOKOM-TAAQOL-PER-LAYER-OBSERVABILITY-REPORT-01: populated after SlotGraph build
+        "slot_graph_slots": [],
     }
 
     # ── Compute morphological center (before import so all paths can use it) ──
@@ -674,6 +676,27 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             strict_mode=True,
         ))
         _rt["slot_graph_created"] = True
+        # Extended trace contract: record bridge-level SlotGraph slots for
+        # per-layer observability (HOKOM-TAAQOL-PER-LAYER-OBSERVABILITY-REPORT-01).
+        # These are the slots the bridge actually passed to Taaqol — NOT the full
+        # 18-layer SGA bundle.  The CSV generator uses SGA typed_slots for that;
+        # this field exposes what the bridge evaluated at the SlotGraph boundary.
+        try:
+            _rt["slot_graph_slots"] = [
+                {
+                    "name":     str(getattr(slot, "name", "")),
+                    "state":    str(getattr(slot, "value_state", "")),
+                    "value":    (
+                        str(getattr(slot, "value", None))
+                        if getattr(slot, "value", None) is not None
+                        else None
+                    ),
+                    "required": bool(getattr(slot, "required", False)),
+                }
+                for slot in slot_graph.slots
+            ]
+        except Exception:
+            _rt["slot_graph_slots"] = []
     except Exception as e:
         trace.append(HokomTaaqolTraceEvent(
             step='slot_graph_construction',
