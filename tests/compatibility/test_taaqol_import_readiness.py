@@ -53,9 +53,12 @@ def test_taaqol_not_in_hokom_pipeline():
                     assert 'taaqol' not in alias.name.lower(), \
                         f"hokom_pipeline.py imports taaqol: {alias.name}"
             elif node.module and 'taaqol' in node.module.lower():
-                # Allow pipeline/taaqol_integration imports (claim adapter)
-                # but NOT direct taaqol vendor imports
-                if not node.module.startswith('pipeline.taaqol_integration'):
+                # Allow pipeline/taaqol_integration imports (claim adapter) and
+                # pipeline.governance.taaqol_judgment_enforcer (SCG hard gate —
+                # HOKOM-SCG-P0-P12-TAAQOL-HARD-GATING-CORRECTION-04).
+                # Block direct taaqqul_slot_geometry vendor imports only.
+                if not (node.module.startswith('pipeline.taaqol_integration') or
+                        node.module == 'pipeline.governance.taaqol_judgment_enforcer'):
                     pytest.fail(f"hokom_pipeline.py imports from taaqol vendor: {node.module}")
 
 def test_taaqol_live_integration_not_started():
@@ -79,8 +82,15 @@ def test_taaqol_live_integration_not_started():
     modules_after = set(sys.modules.keys())
     new_modules = modules_after - modules_before
 
-    # No taaqol vendor module should have been loaded
-    taaqol_loaded = [m for m in new_modules if 'taaqol' in m.lower()
-                     and 'taaqol_integration' not in m.lower()]
+    # No taaqol VENDOR module should have been loaded.
+    # Project governance modules (taaqol_judgment_enforcer) are allowed —
+    # they are project code wiring the SCG hard gate, not vendor code.
+    # Vendor code lives under taaqqul_slot_geometry (double-q spelling).
+    taaqol_loaded = [
+        m for m in new_modules
+        if 'taaqol' in m.lower()
+        and 'taaqol_integration' not in m.lower()
+        and 'taaqol_judgment_enforcer' not in m.lower()
+    ]
     assert taaqol_loaded == [], \
         f"Taaqol vendor modules loaded during pipeline call: {taaqol_loaded}"
