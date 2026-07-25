@@ -3,6 +3,7 @@
 # HOKOM-CANONICAL-AUDIT-RUNNER-BOOTSTRAP-CLOSURE-01
 # HOKOM-CANONICAL-AUDIT-NONMUTATING-RUNNER-CORRECTION-01
 # HOKOM-CANONICAL-AUDIT-LIVE-REGENERATION-RESTORATION-01
+# HOKOM-CANONICAL-AUDIT-MACOS-FINGERPRINT-PORTABILITY-FIX-01
 # Canonical closure audit — must run on macOS with .venv-py312
 # Usage: cd /path/to/hokom && bash scripts/run_canonical_final_audit.sh
 # Exits 0 only for VERIFIED_CLOSED; exits nonzero for any OPEN condition.
@@ -368,9 +369,54 @@ else
 fi
 
 # ── §9 Semantic tree fingerprint (before RUN1) ───────────────────────────────
+# Portable implementation — no GNU xargs flags, no BSD/GNU incompatibility.
+# Uses $VENV (Python 3.12.4) so the hash is deterministic across platforms.
+# Hashes: sorted tracked paths under pipeline/, tests/, golden_rules.md, vendor/.
+# The outer SHA-256 folds each file's path + its own SHA-256, so any content
+# change or path addition/removal changes the fingerprint.
+# Exits non-zero (and the audit aborts) if zero tracked files are selected.
 semantic_fingerprint() {
-    git ls-files -- pipeline/ tests/ golden_rules.md vendor/ \
-        | sort | xargs -d'\n' sha256sum 2>/dev/null | sha256sum | awk '{print $1}'
+    "$VENV" - <<'PY'
+import hashlib
+import subprocess
+from pathlib import Path
+
+roots = [
+    "pipeline",
+    "tests",
+    "golden_rules.md",
+    "vendor",
+]
+
+result = subprocess.run(
+    ["git", "ls-files", "-z", "--", *roots],
+    check=True,
+    stdout=subprocess.PIPE,
+)
+
+paths = sorted(
+    item.decode("utf-8")
+    for item in result.stdout.split(b"\0")
+    if item
+)
+
+if not paths:
+    raise SystemExit("semantic_fingerprint: no tracked files selected")
+
+outer = hashlib.sha256()
+
+for name in paths:
+    path = Path(name)
+    data = path.read_bytes()
+    digest = hashlib.sha256(data).hexdigest()
+
+    outer.update(name.encode("utf-8"))
+    outer.update(b"\0")
+    outer.update(digest.encode("ascii"))
+    outer.update(b"\n")
+
+print(outer.hexdigest())
+PY
 }
 FINGERPRINT_PRE="$(semantic_fingerprint)"
 

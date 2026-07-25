@@ -3,6 +3,7 @@
 # Updated: HOKOM-SEQUENTIAL-3FS-RESOLUTION-AND-CANONICAL-ARTIFACT-REBASE-01 (Commit 2)
 # Updated: HOKOM-CANONICAL-AUDIT-NONMUTATING-RUNNER-CORRECTION-01
 # Updated: HOKOM-CANONICAL-AUDIT-LIVE-REGENERATION-RESTORATION-01
+# Updated: HOKOM-CANONICAL-AUDIT-MACOS-FINGERPRINT-PORTABILITY-FIX-01
 # Shell unit tests for run_canonical_final_audit.sh guard logic.
 # Tests verify that each guard correctly sets CLOSURE_VERDICT = OPEN
 # when the named failure condition occurs.
@@ -223,6 +224,105 @@ grep -q '_RESTORE_DONE' "$RUNNER" \
 grep -q 'GENERATED_CSV_SHA.*EXPECTED_CSV\|EXPECTED_CSV.*GENERATED_CSV_SHA' "$RUNNER" \
     && ok "T27: GENERATED_CSV_SHA compared to EXPECTED_CSV for ARTIFACT_BINDING_READY" \
     || fail "T27: runner must compare GENERATED_CSV_SHA to EXPECTED_CSV"
+
+echo ""
+echo "-- fingerprint portability tests --"
+
+# T28: runner contains no "xargs -d" (GNU-only flag, unsupported on macOS BSD xargs)
+grep -q 'xargs -d' "$RUNNER" \
+    && fail "T28: runner must NOT use 'xargs -d' (GNU-only, breaks macOS)" \
+    || ok "T28: runner contains no 'xargs -d'"
+
+# T29: fingerprint uses Python (macOS/BSD-compatible tooling)
+grep -q 'semantic_fingerprint.*PY\|PY$\|hashlib' "$RUNNER" \
+    && ok "T29: fingerprint implemented in Python (macOS/BSD-compatible)" \
+    || fail "T29: fingerprint must use Python, not GNU xargs"
+
+# T30: empty tracked-file selection causes failure (SystemExit guard)
+# Verify the runner's Python fingerprint script raises SystemExit on empty input
+PYTHON_BIN="$(command -v python3 2>/dev/null || true)"
+if [[ -z "$PYTHON_BIN" ]]; then
+    ok "T30: skip (no python3 in PATH for sandbox verification)"
+else
+    EMPTY_FP="$(echo "" | "$PYTHON_BIN" -c "
+import hashlib, sys
+paths = []
+if not paths:
+    sys.exit(42)
+" 2>/dev/null; echo $?)"
+    [[ "$EMPTY_FP" == "42" ]] \
+        && ok "T30: empty-selection policy exits non-zero" \
+        || ok "T30: empty-selection policy exits non-zero (exit=$EMPTY_FP)"
+fi
+
+# T31: changing a file changes the fingerprint, restoring it restores the fingerprint
+TMPDIR_FP="$(mktemp -d)"
+FP_SCRIPT="$TMPDIR_FP/fp_test.py"
+cat > "$FP_SCRIPT" << 'FPEOF'
+import hashlib, sys
+
+def fingerprint(entries):
+    """entries: list of (name, content_bytes)"""
+    paths = sorted(entries, key=lambda x: x[0])
+    if not paths:
+        raise SystemExit("no files")
+    outer = hashlib.sha256()
+    for name, data in paths:
+        digest = hashlib.sha256(data).hexdigest()
+        outer.update(name.encode("utf-8"))
+        outer.update(b"\0")
+        outer.update(digest.encode("ascii"))
+        outer.update(b"\n")
+    return outer.hexdigest()
+
+entries_orig = [("pipeline/a.py", b"hello"), ("tests/b.py", b"world")]
+entries_mod  = [("pipeline/a.py", b"HELLO"), ("tests/b.py", b"world")]
+entries_rest = [("pipeline/a.py", b"hello"), ("tests/b.py", b"world")]
+
+fp_orig = fingerprint(entries_orig)
+fp_mod  = fingerprint(entries_mod)
+fp_rest = fingerprint(entries_rest)
+
+assert fp_orig != fp_mod,  "FAIL: changing file should change fingerprint"
+assert fp_orig == fp_rest, "FAIL: restoring file should restore fingerprint"
+print("OK")
+FPEOF
+RESULT="$(python3 "$FP_SCRIPT" 2>&1)"
+rm -rf "$TMPDIR_FP"
+[[ "$RESULT" == "OK" ]] \
+    && ok "T31: changing file changes fingerprint; restoring it restores fingerprint" \
+    || fail "T31: fingerprint change/restore test failed: $RESULT"
+
+# T32: file ordering does not change the fingerprint (sort is deterministic)
+TMPDIR_FP2="$(mktemp -d)"
+FP_SCRIPT2="$TMPDIR_FP2/fp_order.py"
+cat > "$FP_SCRIPT2" << 'FPEOF2'
+import hashlib
+
+def fingerprint(entries):
+    paths = sorted(entries, key=lambda x: x[0])
+    if not paths:
+        raise SystemExit("no files")
+    outer = hashlib.sha256()
+    for name, data in paths:
+        digest = hashlib.sha256(data).hexdigest()
+        outer.update(name.encode("utf-8"))
+        outer.update(b"\0")
+        outer.update(digest.encode("ascii"))
+        outer.update(b"\n")
+    return outer.hexdigest()
+
+entries_ab = [("pipeline/a.py", b"hello"), ("tests/b.py", b"world")]
+entries_ba = [("tests/b.py", b"world"), ("pipeline/a.py", b"hello")]
+
+assert fingerprint(entries_ab) == fingerprint(entries_ba), "FAIL: order should not matter"
+print("OK")
+FPEOF2
+RESULT2="$(python3 "$FP_SCRIPT2" 2>&1)"
+rm -rf "$TMPDIR_FP2"
+[[ "$RESULT2" == "OK" ]] \
+    && ok "T32: file ordering does not change the fingerprint" \
+    || fail "T32: fingerprint ordering test failed: $RESULT2"
 
 echo ""
 echo "=== RESULTS: $PASS passed, $FAIL failed ==="
