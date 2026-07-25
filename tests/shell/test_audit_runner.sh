@@ -7,6 +7,7 @@
 # Updated: HOKOM-CANONICAL-AUDIT-GITLINK-FINGERPRINT-FIX-01
 # Updated: HOKOM-CANONICAL-AUDIT-FINAL-GOVERNANCE-CORRECTION-01
 # Updated: HOKOM-CANONICAL-ARTIFACT-MANIFEST-BINDING-01
+# Updated: HOKOM-CANONICAL-AUDIT-HEAD-ALLOWLIST-EXPANSION-01
 # Shell unit tests for run_canonical_final_audit.sh guard logic.
 # Tests verify that each guard correctly sets CLOSURE_VERDICT = OPEN
 # when the named failure condition occurs.
@@ -766,6 +767,66 @@ assert applicable, "Manifest should be applicable regardless of how far HEAD has
 assert manifest['artifact_commit'] == AUDITED_ARTIFACT_HEAD
 print("OK")
 PYEOF
+
+# ── T65–T69: HOKOM-CANONICAL-AUDIT-HEAD-ALLOWLIST-EXPANSION-01 ───────────────
+echo ""
+echo "-- head allowlist expansion tests --"
+
+# T65: runner contains is_authorized_post_artifact_path function
+grep -q 'is_authorized_post_artifact_path' "$RUNNER" \
+    && ok "T65: runner contains is_authorized_post_artifact_path function" \
+    || fail "T65: runner must define is_authorized_post_artifact_path()"
+
+# T66: scripts/canonical_gate.py is in the authorized case list
+grep -q 'scripts/canonical_gate.py' "$RUNNER" \
+    && ok "T66: scripts/canonical_gate.py is authorized in allowlist" \
+    || fail "T66: scripts/canonical_gate.py must be authorized in runner allowlist"
+
+# T67: closure manifest regex is present in the runner
+grep -q 'closure_manifest.*\[0-9a-f\]' "$RUNNER" \
+    && ok "T67: closure manifest hash-bound regex present in runner" \
+    || fail "T67: runner must contain hash-bound closure manifest regex"
+
+# T68: closure_manifest.ed35d45.json matches the authorization regex
+bash -c '
+path="reports/canonical_gate/closure_manifest.ed35d45.json"
+if [[ "$path" =~ ^reports/canonical_gate/closure_manifest\.[0-9a-f]{7,40}\.json$ ]]; then
+    echo "OK"
+else
+    echo "NO MATCH"; exit 1
+fi
+' 2>&1 && ok "T68: closure_manifest.ed35d45.json matches hash-bound regex" \
+         || fail "T68: closure_manifest.ed35d45.json must match authorization regex"
+
+# T69: a non-governance path is rejected by is_authorized_post_artifact_path
+bash -c '
+is_authorized_post_artifact_path() {
+    local path="$1"
+    case "$path" in
+        scripts/canonical_gate.py) return 0 ;;
+        scripts/run_canonical_final_audit.sh) return 0 ;;
+        tests/governance/test_artifact_commit_binding.py) return 0 ;;
+        tests/shell/test_audit_runner.sh) return 0 ;;
+    esac
+    if [[ "$path" =~ ^reports/canonical_gate/closure_manifest\.[0-9a-f]{7,40}\.json$ ]]; then
+        return 0
+    fi
+    return 1
+}
+# Non-governance paths must be rejected
+is_authorized_post_artifact_path "pipeline/p5_inflection/subject_agreement.py" \
+    && { echo "SHOULD HAVE BEEN REJECTED"; exit 1; } \
+    || true
+is_authorized_post_artifact_path "hokom_pipeline.py" \
+    && { echo "SHOULD HAVE BEEN REJECTED"; exit 1; } \
+    || true
+# Governance paths must pass
+is_authorized_post_artifact_path "scripts/canonical_gate.py" || { echo "SHOULD PASS"; exit 1; }
+is_authorized_post_artifact_path "reports/canonical_gate/closure_manifest.d4d26c1.json" \
+    || { echo "SHOULD PASS (regex)"; exit 1; }
+echo "OK"
+' 2>&1 && ok "T69: is_authorized_post_artifact_path rejects non-governance, accepts governance" \
+         || fail "T69: authorization function must accept only authorized paths"
 
 echo ""
 echo "=== RESULTS: $PASS passed, $FAIL failed ==="

@@ -6,6 +6,7 @@
 # HOKOM-CANONICAL-AUDIT-MACOS-FINGERPRINT-PORTABILITY-FIX-01
 # HOKOM-CANONICAL-AUDIT-GITLINK-FINGERPRINT-FIX-01
 # HOKOM-CANONICAL-AUDIT-FINAL-GOVERNANCE-CORRECTION-01
+# HOKOM-CANONICAL-ARTIFACT-MANIFEST-BINDING-01
 # Canonical closure audit — must run on macOS with .venv-py312
 # Usage: cd /path/to/hokom && bash scripts/run_canonical_final_audit.sh
 # Exits 0 only for VERIFIED_CLOSED; exits nonzero for any OPEN condition.
@@ -77,17 +78,65 @@ echo "AUDITED_HEAD=$AUDITED_HEAD"
 
 # HEAD must be a descendant of LINGUISTIC_BASE_HEAD
 if git merge-base --is-ancestor "$LINGUISTIC_BASE_HEAD" HEAD 2>/dev/null; then
-    # Only governance runner files may differ from the linguistic baseline
-    DIFF_FROM_BASE="$(git diff "$LINGUISTIC_BASE_HEAD"..HEAD --name-only | sort)"
-    ALLOWED_DIFF="$(printf 'scripts/run_canonical_final_audit.sh\ntests/shell/test_audit_runner.sh')"
-    if [[ "$DIFF_FROM_BASE" == "$ALLOWED_DIFF" ]]; then
+    DIFF_FROM_BASE="$(
+        git diff "$LINGUISTIC_BASE_HEAD"..HEAD --name-only | sort
+    )"
+    is_authorized_post_artifact_path() {
+        local path="$1"
+        case "$path" in
+            scripts/canonical_gate.py) return 0 ;;
+            scripts/run_canonical_final_audit.sh) return 0 ;;
+            tests/governance/test_artifact_commit_binding.py) return 0 ;;
+            tests/shell/test_audit_runner.sh) return 0 ;;
+        esac
+        # Closure manifests are allowed only under the canonical,
+        # hash-bound naming contract.
+        if [[ "$path" =~ ^reports/canonical_gate/closure_manifest\.[0-9a-f]{7,40}\.json$ ]]; then
+            return 0
+        fi
+        return 1
+    }
+    HEAD_DIFF_VIOLATIONS=()
+    while IFS=$'\t' read -r status path second_path; do
+        [[ -z "$status" ]] && continue
+        # Only additions and modifications are permitted.
+        # Deletes, renames, copies and type changes remain forbidden.
+        case "$status" in
+            A|M) ;;
+            *)
+                if [[ -n "${second_path:-}" ]]; then
+                    HEAD_DIFF_VIOLATIONS+=( "$status $path -> $second_path" )
+                else
+                    HEAD_DIFF_VIOLATIONS+=( "$status $path" )
+                fi
+                continue
+                ;;
+        esac
+        if ! is_authorized_post_artifact_path "$path"; then
+            HEAD_DIFF_VIOLATIONS+=("$status $path")
+        fi
+    done < <(
+        git diff \
+            --name-status \
+            --find-renames \
+            "$LINGUISTIC_BASE_HEAD"..HEAD
+    )
+    if (( ${#HEAD_DIFF_VIOLATIONS[@]} == 0 )); then
         HEAD_OK=1
-        echo "HEAD_OK=1 (descendant of LINGUISTIC_BASE_HEAD; diff=$DIFF_FROM_BASE)"
+        echo "HEAD_OK=1"
+        echo "POST_ARTIFACT_DIFF=AUTHORIZED_GOVERNANCE_ONLY"
+        if [[ -n "$DIFF_FROM_BASE" ]]; then
+            echo "$DIFF_FROM_BASE"
+        else
+            echo "POST_ARTIFACT_CHANGED_PATHS=NONE"
+        fi
     else
-        fail_flag "HEAD_DIFF_VIOLATION: files changed beyond governance runner: $DIFF_FROM_BASE"
+        fail_flag "HEAD_DIFF_VIOLATION: unauthorized post-artifact changes"
+        printf '%s\n' "${HEAD_DIFF_VIOLATIONS[@]}"
     fi
 else
-    fail_flag "HEAD_NOT_DESCENDANT_OF_LINGUISTIC_BASE: $AUDITED_HEAD is not after $LINGUISTIC_BASE_HEAD"
+    fail_flag \
+        "HEAD_NOT_DESCENDANT_OF_LINGUISTIC_BASE: $AUDITED_HEAD is not after $LINGUISTIC_BASE_HEAD"
 fi
 
 # Require exactly clean working tree; caller must remove .DS_Store beforehand
