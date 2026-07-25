@@ -1,0 +1,267 @@
+{
+  "audit_id": "HOKOM-TAAQOL-INVENTORY-METRICS-NORMALIZATION-01",
+  "parent_audit_id": "HOKOM-TAAQOL-AUTHORITATIVE-STAGE-INVENTORY-AND-ARABIC-MIRROR-AUDIT-01",
+  "head": "fe352dd",
+  "taaqol_vendor_commit": "3538173",
+  "audit_note": "Metrics-normalization correction pass. No production changes, no commits, no tags.",
+  "executable_entity_counts": {
+    "CONSTITUTIONAL_ENTITY_COUNT": 55,
+    "EXECUTABLE_ENTITY_COUNT": 21,
+    "EXECUTABLE_ENTITY_COUNT_DERIVATION": "Counted from taaqol_stage_inventory_ar.csv rows where is_executable=TRUE",
+    "EXECUTABLE_ENTITY_BREAKDOWN": {
+      "ORDERED_DECISION_STEP": 16,
+      "LGE_RUNTIME_STAGE": 5
+    },
+    "GAMMA_ORDERED_STEP_COUNT": 10,
+    "TRANSITION_GATE_ORDERED_STEP_COUNT": 6,
+    "LGE_RUNTIME_STAGE_COUNT": 5,
+    "EXECUTABLE_COUNT_RECONCILED": "YES",
+    "EXECUTABLE_COUNT_DIVERGENCE": 0,
+    "CORE_RUNTIME_OPERATION_COUNT": 4,
+    "CORE_RUNTIME_OPERATIONS": [
+      "slot_graph_construction",
+      "gamma_evaluation",
+      "evidence_contract_build",
+      "transition_gate_decision"
+    ],
+    "BRIDGE_OPERATION_CLASSIFICATION": "ORCHESTRATION_WRAPPER",
+    "BRIDGE_OPERATION_DOUBLE_COUNT_PREVENTION": "Bridge operations excluded from EXECUTABLE_ENTITY_COUNT. They orchestrate the Taaqol ordered steps; counting both would double-count the same computation."
+  },
+  "coverage_domains": {
+    "GAMMA_CLOSURE_STATE_COVERAGE": {
+      "description": "Which ClosureState verdicts were witnessed in the corpus — outcome coverage only.",
+      "GAMMA_CLOSURE_STATE_COUNT": 6,
+      "GAMMA_CLOSURE_STATES_WITNESSED": 3,
+      "witnessed": [
+        "OPEN",
+        "MINIMALLY_CLOSED",
+        "PERFORATED_CLOSED"
+      ],
+      "not_witnessed": [
+        "BLOCKED",
+        "INVALID",
+        "FORBIDDEN_LEAP"
+      ],
+      "verdict": "3/6 — PARTIAL"
+    },
+    "GAMMA_ORDERED_STEP_COVERAGE": {
+      "description": "Whether all 10 gamma() ordered steps had BOTH happy-path and failure-path witnesses.",
+      "total_steps": 10,
+      "steps_with_happy_path_proven": 10,
+      "steps_with_failure_path_proven": 1,
+      "failure_path_proven_detail": "Step 8 failure (REQUIRED_SLOT_EMPTY → OPEN) witnessed for 7 tokens",
+      "steps_with_failure_path_not_proven": [
+        "STEP_1",
+        "STEP_2",
+        "STEP_3",
+        "STEP_4",
+        "STEP_5",
+        "STEP_6",
+        "STEP_7",
+        "STEP_9"
+      ],
+      "verdict": "NOT_PROVEN",
+      "reason": "Trace exposes final ClosureState only; which ordered step fired its failure branch is not independently observable from corpus CSV columns."
+    },
+    "GAMMA_DECISION_PATH_COVERAGE": {
+      "description": "Whether all decision sub-paths within each gamma() step were exercised.",
+      "verdict": "NOT_PROVEN",
+      "reason": "Per-step internal branching is not exposed in corpus trace; only the resulting ClosureState is recorded."
+    },
+    "TRANSITION_STATE_COVERAGE": {
+      "description": "Which TransitionState verdicts were witnessed — outcome coverage only.",
+      "TRANSITION_STATE_COUNT": 5,
+      "TRANSITION_STATES_WITNESSED": 2,
+      "witnessed": {
+        "APPROVED": 73,
+        "DEFERRED": 55
+      },
+      "not_witnessed": [
+        "BLOCKED",
+        "REJECTED",
+        "FORBIDDEN_LEAP"
+      ],
+      "verdict": "2/5 — PARTIAL"
+    },
+    "TRANSITION_GATE_ORDERED_STEP_COVERAGE": {
+      "description": "Whether all 6 TransitionGate.decide() ordered steps had both happy-path and refusal-path witnesses.",
+      "total_steps": 6,
+      "steps_with_refusal_witness": [
+        "STEP_1 (OPEN→DEFERRED via gamma refusal, 7 tokens)",
+        "STEP_4 (no evidence→DEFERRED, 48 tokens)"
+      ],
+      "steps_with_happy_path_witness": [
+        "STEP_1 (gamma passed)",
+        "STEP_4 (evidence present, 73 tokens)",
+        "STEP_5 (meet executed, 73 tokens)",
+        "STEP_6 (APPROVED, 73 tokens)"
+      ],
+      "steps_with_no_refusal_witness": [
+        "STEP_2 (forbidden registry — no FORBIDDEN_LEAP in corpus)",
+        "STEP_3 (ungated rank — no REJECTED in corpus)"
+      ],
+      "verdict": "NOT_PROVEN",
+      "reason": "Steps 2 and 3 refusal branches not witnessed; internal step dispatch not exposed in corpus trace."
+    },
+    "TRANSITION_GATE_DECISION_PATH_COVERAGE": {
+      "description": "Whether all internal decision sub-paths within each gate step were exercised.",
+      "verdict": "NOT_PROVEN",
+      "reason": "gate_transition_state field records final verdict per token; internal 6-step dispatch is not independently observable."
+    }
+  },
+  "worktree_status": {
+    "TRACKED_WORKTREE_STATUS": "CLEAN",
+    "UNTRACKED_AUDIT_FILE_COUNT": 4,
+    "UNTRACKED_AUDIT_FILES": [
+      "docs/ar/TAAQOL_REFERENCE_AR.md",
+      "reports/taaqol_stage_coverage/taaqol_stage_inventory_ar.csv",
+      "reports/taaqol_stage_coverage/taaqol_hokom_mapping_ar.csv",
+      "reports/taaqol_stage_coverage/taaqol_coverage_audit_ar.json"
+    ],
+    "WORKTREE_STATUS": "DIRTY_UNTRACKED_DOCUMENTATION_ONLY"
+  },
+  "normalized_coverage_counts": {
+    "HOKOM_LAYERS_FULLY_EXECUTED_FOR_ALL_TOKENS": 4,
+    "HOKOM_LAYERS_WITH_ANY_EXECUTION_WITNESS": 9,
+    "HOKOM_LAYERS_WITHOUT_EXECUTION_WITNESS": 9,
+    "CORE_RUNTIME_OPERATIONS_INVOKED": 4,
+    "CORE_RUNTIME_OPERATION_COUNT": 4,
+    "GAMMA_CLOSURE_STATE_COUNT": 6,
+    "GAMMA_CLOSURE_STATES_WITNESSED": 3,
+    "TRANSITION_STATE_COUNT": 5,
+    "TRANSITION_STATES_WITNESSED": 2,
+    "LGE_RUNTIME_STAGE_COUNT": 5,
+    "LGE_RUNTIME_STAGES_USED_BY_HOKOM": 0,
+    "derivation_note": "All counts above derived from corpus CSV, inventory CSV, and vendor source reads. No value is hard-coded."
+  },
+  "corpus_bridge_operations": {
+    "slot_graph_construction": {
+      "invoked": 129,
+      "successful": 128,
+      "failed": 1,
+      "failure_code": "SEGMENTATION_NO_LEXICAL_HOST"
+    },
+    "gamma_evaluation": {
+      "invoked": 128,
+      "successful": 128,
+      "failed": 0
+    },
+    "evidence_contract_build": {
+      "invoked": 128,
+      "successful": 128,
+      "failed": 0
+    },
+    "transition_gate_decision": {
+      "invoked": 128,
+      "successful": 128,
+      "failed": 0
+    }
+  },
+  "hokom_layer_execution_counts": {
+    "ARTICLE": {
+      "executed": 0,
+      "not_reached": 129,
+      "skipped": 0
+    },
+    "BAB": {
+      "executed": 0,
+      "not_reached": 33,
+      "skipped": 96
+    },
+    "BOUNDARY": {
+      "executed": 129,
+      "not_reached": 0,
+      "skipped": 0
+    },
+    "DERIVATIVE": {
+      "executed": 0,
+      "not_reached": 33,
+      "skipped": 96
+    },
+    "EVIDENCE": {
+      "executed": 0,
+      "not_reached": 129,
+      "skipped": 0
+    },
+    "INFLECTIONAL": {
+      "executed": 0,
+      "not_reached": 33,
+      "skipped": 96
+    },
+    "LEXICAL_FUNCTIONAL": {
+      "executed": 0,
+      "not_reached": 129,
+      "skipped": 0
+    },
+    "MASDAR": {
+      "executed": 0,
+      "not_reached": 33,
+      "skipped": 96
+    },
+    "MORPHOSYNTAX": {
+      "executed": 33,
+      "not_reached": 0,
+      "skipped": 96
+    },
+    "NORMALIZATION": {
+      "executed": 129,
+      "not_reached": 0,
+      "skipped": 0
+    },
+    "PARADIGM": {
+      "executed": 9,
+      "not_reached": 24,
+      "skipped": 96
+    },
+    "PATTERN": {
+      "executed": 27,
+      "not_reached": 25,
+      "skipped": 77
+    },
+    "PHONOLOGICAL": {
+      "executed": 0,
+      "not_reached": 129,
+      "skipped": 0
+    },
+    "RADICAL": {
+      "executed": 37,
+      "not_reached": 16,
+      "skipped": 76
+    },
+    "RESIDUAL": {
+      "executed": 0,
+      "not_reached": 129,
+      "skipped": 0
+    },
+    "SEGMENTATION": {
+      "executed": 129,
+      "not_reached": 0,
+      "skipped": 0
+    },
+    "SURFACE_IDENTITY": {
+      "executed": 129,
+      "not_reached": 0,
+      "skipped": 0
+    },
+    "WORD_CLASS": {
+      "executed": 108,
+      "not_reached": 21,
+      "skipped": 0
+    }
+  },
+  "final_conclusions": {
+    "ALL_HOKOM_REPORT_LAYERS_REPRESENTED": "YES",
+    "ALL_HOKOM_REPORT_LAYERS_EXECUTED": "NO",
+    "ALL_TAAQOL_CORE_RUNTIME_OPERATIONS_INVOKED": "YES",
+    "ALL_TAAQOL_GAMMA_OUTCOMES_COVERED": "NO",
+    "ALL_TAAQOL_GAMMA_ORDERED_STEPS_COVERED": "NOT_PROVEN",
+    "ALL_TAAQOL_GAMMA_DECISION_PATHS_COVERED": "NOT_PROVEN",
+    "ALL_TAAQOL_TRANSITION_STATES_COVERED": "NO",
+    "ALL_TAAQOL_TRANSITION_GATE_ORDERED_STEPS_COVERED": "NOT_PROVEN",
+    "ALL_TAAQOL_TRANSITION_GATE_DECISION_PATHS_COVERED": "NOT_PROVEN",
+    "ALL_TAAQOL_LGE_RUNTIMES_COVERED": "NO",
+    "ALL_TAAQOL_EXECUTABLE_PATHS_COVERED": "NO",
+    "ALL_TAAQOL_WITHOUT_EXCEPTION_COVERED": "NO",
+    "CLOSURE_VERDICT": "OPEN_PENDING_CATEGORY_SPECIFIC_COVERAGE_TESTS"
+  }
+}
