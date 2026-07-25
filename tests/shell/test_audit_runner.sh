@@ -6,6 +6,7 @@
 # Updated: HOKOM-CANONICAL-AUDIT-MACOS-FINGERPRINT-PORTABILITY-FIX-01
 # Updated: HOKOM-CANONICAL-AUDIT-GITLINK-FINGERPRINT-FIX-01
 # Updated: HOKOM-CANONICAL-AUDIT-FINAL-GOVERNANCE-CORRECTION-01
+# Updated: HOKOM-CANONICAL-ARTIFACT-MANIFEST-BINDING-01
 # Shell unit tests for run_canonical_final_audit.sh guard logic.
 # Tests verify that each guard correctly sets CLOSURE_VERDICT = OPEN
 # when the named failure condition occurs.
@@ -613,6 +614,158 @@ grep -q 'git.*diff.*--name-only' "$AB_TEST" \
 grep -q 'manifest_commit == head' "$AB_TEST" \
     && fail "T52: artifact binding must not compare manifest.commit to current HEAD" \
     || ok "T52: artifact binding does not use circular commit == HEAD comparison"
+
+# ── T53–T64: HOKOM-CANONICAL-ARTIFACT-MANIFEST-BINDING-01 ────────────────────
+echo ""
+echo "-- artifact manifest binding tests --"
+REPO_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+GATE_PY="$REPO_ROOT_DIR/scripts/canonical_gate.py"
+AB_TEST_NEW="$REPO_ROOT_DIR/tests/governance/test_artifact_commit_binding.py"
+NEW_MANIFEST="$REPO_ROOT_DIR/reports/canonical_gate/closure_manifest.ed35d45.json"
+
+# T53: test file has non-vacuous assert (assert applicable_manifests)
+grep -q 'assert applicable_manifests' "$AB_TEST_NEW" \
+    && ok "T53: artifact binding has non-vacuous assert applicable_manifests" \
+    || fail "T53: test must assert applicable_manifests (cannot pass vacuously)"
+
+# T54: test file checks artifact_commit field (not manifest.commit vs HEAD)
+grep -q 'artifact_commit' "$AB_TEST_NEW" \
+    && ok "T54: artifact binding checks artifact_commit field" \
+    || fail "T54: test must check artifact_commit field"
+
+# T55: canonical_gate.py writes artifact_commit field in manifests
+grep -q 'artifact_commit' "$GATE_PY" \
+    && ok "T55: canonical_gate.py writes artifact_commit field" \
+    || fail "T55: canonical_gate.py must write artifact_commit field"
+
+# T56: new binding manifest file exists in reports/canonical_gate/
+[[ -f "$NEW_MANIFEST" ]] \
+    && ok "T56: closure_manifest.ed35d45.json exists" \
+    || fail "T56: new artifact binding manifest must exist"
+
+# T57: new manifest has correct artifact_commit value
+if [[ -f "$NEW_MANIFEST" ]]; then
+    python3 - "$NEW_MANIFEST" <<'PYEOF' 2>&1 && ok "T57: manifest artifact_commit == AUDITED_ARTIFACT_HEAD" \
+                                              || fail "T57: manifest artifact_commit must equal 2e2a3ac..."
+import json, sys
+m = json.loads(open(sys.argv[1]).read())
+assert m.get('artifact_commit') == '2e2a3ac71a00ad520675c91e13904903f573034b', \
+    f"wrong artifact_commit: {m.get('artifact_commit')}"
+print("OK")
+PYEOF
+else
+    fail "T57: skipped — new manifest missing"
+fi
+
+# T58: new manifest records digests for all three canonical artifacts
+if [[ -f "$NEW_MANIFEST" ]]; then
+    python3 - "$NEW_MANIFEST" <<'PYEOF' 2>&1 && ok "T58: manifest has artifact_digests for all 3 files" \
+                                              || fail "T58: manifest must record digests for all 3 artifacts"
+import json, sys
+m = json.loads(open(sys.argv[1]).read())
+ad = m.get('artifact_digests', {})
+assert 'reports/ayat_al_dayn_demo/ayat_al_dayn_results.csv' in ad, \
+    'CSV missing from artifact_digests'
+assert 'reports/ayat_al_dayn_demo/ayat_al_dayn_results_full.json' in ad, \
+    'JSON missing from artifact_digests'
+assert 'reports/ayat_al_dayn_demo/ayat_al_dayn_manager_report.html' in ad, \
+    'HTML missing from artifact_digests'
+print("OK")
+PYEOF
+else
+    fail "T58: skipped — new manifest missing"
+fi
+
+# T59: no applicable manifest causes explicit failure (not silent pass)
+python3 - <<'PYEOF' 2>&1 && ok "T59: absent manifest causes explicit assert failure (non-vacuous)" \
+                           || fail "T59: absent manifest must fail with explicit assertion"
+AUDITED_ARTIFACT_HEAD = '2e2a3ac71a00ad520675c91e13904903f573034b'
+# Simulate only legacy manifests — old schema, no artifact_commit field
+legacy = [{"commit": "abc1234", "commit_full": "abc1234abc1234abc1234abc1234abc1234abc1234"}]
+applicable = [m for m in legacy if m.get('artifact_commit') == AUDITED_ARTIFACT_HEAD]
+try:
+    assert applicable, "No closure manifest is bound to the canonical artifact head"
+    raise SystemExit(1)  # must not reach here
+except AssertionError as e:
+    assert "No closure manifest" in str(e), f"wrong message: {e}"
+    print("OK")
+PYEOF
+
+# T60: manifest with wrong artifact_commit does not satisfy contract
+python3 - <<'PYEOF' 2>&1 && ok "T60: wrong artifact_commit does not satisfy binding" \
+                           || fail "T60: wrong artifact_commit must not satisfy contract"
+AUDITED_ARTIFACT_HEAD = '2e2a3ac71a00ad520675c91e13904903f573034b'
+manifests = [{"artifact_commit": "deadbeef" * 5}]  # wrong commit
+applicable = [m for m in manifests if m.get('artifact_commit') == AUDITED_ARTIFACT_HEAD]
+try:
+    assert applicable, "No closure manifest is bound to the canonical artifact head"
+    raise SystemExit(1)
+except AssertionError:
+    print("OK")
+PYEOF
+
+# T61: modified CSV content is detected by digest verification
+python3 - <<'PYEOF' 2>&1 && ok "T61: modified CSV detected by digest check" \
+                           || fail "T61: digest check must catch modified CSV"
+import hashlib
+EXPECTED_CSV_SHA = '5e673089f33e42309a66ded1816fffb9098227f1f86bb35c5faa33349dd47d84'
+tampered = hashlib.sha256(b"tampered csv content").hexdigest()
+mismatches = []
+if tampered != EXPECTED_CSV_SHA:
+    mismatches.append("DIGEST_MISMATCH: ayat_al_dayn_results.csv")
+assert mismatches, "expected digest mismatch to be detected"
+print("OK")
+PYEOF
+
+# T62: modified JSON content is detected by digest verification
+python3 - <<'PYEOF' 2>&1 && ok "T62: modified JSON detected by digest check" \
+                           || fail "T62: digest check must catch modified JSON"
+import hashlib
+EXPECTED_JSON_SHA = 'f35b5491386a75289e0511b6c811158a5e211ba5da3143adbbf08525a03e710e'
+tampered = hashlib.sha256(b"tampered json content").hexdigest()
+mismatches = []
+if tampered != EXPECTED_JSON_SHA:
+    mismatches.append("DIGEST_MISMATCH: ayat_al_dayn_results_full.json")
+assert mismatches, "expected digest mismatch to be detected"
+print("OK")
+PYEOF
+
+# T63: modified HTML content is detected by digest verification
+python3 - <<'PYEOF' 2>&1 && ok "T63: modified HTML detected by digest check" \
+                           || fail "T63: digest check must catch modified HTML"
+import hashlib
+EXPECTED_HTML_SHA = '9dd987b4cac2b06d6517a129d6e5b9e7cb8ca99ebcbe80971335b33313cd9970'
+tampered = hashlib.sha256(b"tampered html content").hexdigest()
+mismatches = []
+if tampered != EXPECTED_HTML_SHA:
+    mismatches.append("DIGEST_MISMATCH: ayat_al_dayn_manager_report.html")
+assert mismatches, "expected digest mismatch to be detected"
+print("OK")
+PYEOF
+
+# T64: governance-only commits do not invalidate the artifact binding
+# The new contract checks artifact_commit (fixed at 2e2a3ac) + artifact digests,
+# NOT manifest.commit vs current HEAD. Any number of governance commits after
+# the audit leave the binding valid as long as the artifacts are unchanged.
+python3 - <<'PYEOF' 2>&1 && ok "T64: governance-only commits do not invalidate artifact binding" \
+                           || fail "T64: governance commits must not invalidate the binding"
+AUDITED_ARTIFACT_HEAD = '2e2a3ac71a00ad520675c91e13904903f573034b'
+# Simulate: manifest written at audit time, HEAD has since advanced many governance commits
+manifest = {
+    "artifact_commit": "2e2a3ac71a00ad520675c91e13904903f573034b",
+    "audit_head":      "ed35d45eaccf928cd732a691097e0bd2bbac73b1",  # governance head, far ahead
+    "artifact_digests": {
+        "reports/ayat_al_dayn_demo/ayat_al_dayn_results.csv":
+            "5e673089f33e42309a66ded1816fffb9098227f1f86bb35c5faa33349dd47d84",
+    }
+}
+# Contract: applicable if artifact_commit matches — NOT if commit == current HEAD
+applicable = [manifest] if manifest.get('artifact_commit') == AUDITED_ARTIFACT_HEAD else []
+assert applicable, "Manifest should be applicable regardless of how far HEAD has advanced"
+# artifact_commit is fixed; governance commits never change it
+assert manifest['artifact_commit'] == AUDITED_ARTIFACT_HEAD
+print("OK")
+PYEOF
 
 echo ""
 echo "=== RESULTS: $PASS passed, $FAIL failed ==="

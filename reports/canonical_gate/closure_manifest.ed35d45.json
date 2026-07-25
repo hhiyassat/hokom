@@ -1,0 +1,16 @@
+{
+  "_schema_version": "2",
+  "stage": "HOKOM-CANONICAL-ARTIFACT-MANIFEST-BINDING-01",
+  "artifact_commit": "2e2a3ac71a00ad520675c91e13904903f573034b",
+  "audit_head": "ed35d45eaccf928cd732a691097e0bd2bbac73b1",
+  "commit": "ed35d45",
+  "commit_full": "ed35d45eaccf928cd732a691097e0bd2bbac73b1",
+  "timestamp": "2026-07-25T00:00:00+00:00",
+  "artifact_digests": {
+    "reports/ayat_al_dayn_demo/ayat_al_dayn_results.csv": "5e673089f33e42309a66ded1816fffb9098227f1f86bb35c5faa33349dd47d84",
+    "reports/ayat_al_dayn_demo/ayat_al_dayn_results_full.json": "f35b5491386a75289e0511b6c811158a5e211ba5da3143adbbf08525a03e710e",
+    "reports/ayat_al_dayn_demo/ayat_al_dayn_manager_report.html": "9dd987b4cac2b06d6517a129d6e5b9e7cb8ca99ebcbe80971335b33313cd9970"
+  },
+  "closure_eligible": false,
+  "note": "Governance binding manifest — artifact_commit records the last commit that changed canonical artifacts (reports/ayat_al_dayn_demo/**). The full canonical audit (closure_eligible=true) requires running: bash scripts/run_canonical_final_audit.sh on macOS with Python 3.12.4."
+}

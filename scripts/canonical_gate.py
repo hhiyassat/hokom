@@ -27,6 +27,37 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 GOVERNANCE_DIR = REPO_ROOT / 'governance'
 REPORTS_DIR = REPO_ROOT / 'reports' / 'canonical_gate'
 
+# ── Canonical artifact binding (HOKOM-CANONICAL-ARTIFACT-MANIFEST-BINDING-01) ──
+
+_CANONICAL_ARTIFACT_DIR = 'reports/ayat_al_dayn_demo/'
+_CANONICAL_ARTIFACT_PATHS = [
+    REPO_ROOT / 'reports' / 'ayat_al_dayn_demo' / 'ayat_al_dayn_results.csv',
+    REPO_ROOT / 'reports' / 'ayat_al_dayn_demo' / 'ayat_al_dayn_results_full.json',
+    REPO_ROOT / 'reports' / 'ayat_al_dayn_demo' / 'ayat_al_dayn_manager_report.html',
+]
+
+
+def _get_artifact_commit() -> str:
+    """Return the full hash of the last commit that changed reports/ayat_al_dayn_demo/."""
+    try:
+        result = subprocess.run(
+            ['git', 'log', '--follow', '-1', '--format=%H', '--', _CANONICAL_ARTIFACT_DIR],
+            capture_output=True, text=True, cwd=REPO_ROOT, check=True,
+        )
+        return result.stdout.strip() or 'UNKNOWN'
+    except Exception:
+        return 'UNKNOWN'
+
+
+def _get_artifact_digests() -> dict:
+    """Return SHA-256 digests for the three canonical artifact files."""
+    import hashlib as _h
+    result = {}
+    for p in _CANONICAL_ARTIFACT_PATHS:
+        rel = str(p.relative_to(REPO_ROOT))
+        result[rel] = _h.sha256(p.read_bytes()).hexdigest() if p.exists() else 'MISSING'
+    return result
+
 
 # ── Environment verification ──────────────────────────────────────────────────
 
@@ -1199,11 +1230,14 @@ def generate_closure_manifest(stage_id, git, env_result, python, plt,
         run1.get('skips', 999) == 0 and run2.get('skips', 999) == 0
     )
     return {
-        "_schema_version": "1",
-        "stage_id":    stage_id,
-        "commit":      git['head_short'],
-        "commit_full": git['head_full'],
-        "timestamp":   datetime.now(timezone.utc).isoformat(),
+        "_schema_version":  "2",
+        "stage_id":         stage_id,
+        "commit":           git['head_short'],
+        "commit_full":      git['head_full'],
+        "audit_head":       git['head_full'],
+        "artifact_commit":  _get_artifact_commit(),
+        "artifact_digests": _get_artifact_digests(),
+        "timestamp":        datetime.now(timezone.utc).isoformat(),
         "runtime": {
             "platform":   platform.system(),
             "python":     python['actual'],
@@ -1677,6 +1711,8 @@ def run_live_corpus_expansion_stage() -> int:
         "stage":            "HOKOM-TAAQOL-SGA-LIVE-CORPUS-EXPANSION-01",
         "commit":           _short,
         "commit_full":      _full,
+        "audit_head":       _full,
+        "artifact_commit":  _get_artifact_commit(),
         "closure_eligible": closure_eligible,
         "fatal_violations": fatal,
         "documented_non_blocking": {
@@ -1811,6 +1847,8 @@ def main():
             "stage":            args.stage,
             "commit":           git['head_short'],
             "commit_full":      git['head_full'],
+            "audit_head":       git['head_full'],
+            "artifact_commit":  _get_artifact_commit(),
             "closure_eligible": False,
             "status":           "RUNNING",
             "timestamp":        datetime.now(timezone.utc).isoformat(),
