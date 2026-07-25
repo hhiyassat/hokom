@@ -1772,10 +1772,10 @@ def _sanitize_failure_detail(detail: str) -> str:
     return detail[:200]
 
 
-def _derive_layer_state(layer_sort: int, token: dict) -> tuple[str, str]:
+def _derive_layer_state(layer_sort: int, token: dict) -> tuple[str, str, str]:
     """
     Derive the per-layer state for one token × one registered Taaqol layer.
-    Returns (state_str, reason_str).
+    Returns (state_str, reason_str, state_source_str).
 
     States (exhaustive):
       EXECUTED           — Layer ran and produced ≥1 FILLED slot.
@@ -1788,12 +1788,19 @@ def _derive_layer_state(layer_sort: int, token: dict) -> tuple[str, str]:
                            (inflection-dependent layer for an early-stop token).
       ERROR              — Token pipeline raised an exception.
 
+    state_source (two values, no overlap):
+      SLOT_GRAPH_DERIVATION — state read directly from SGA typed_slots data
+                              (actual runtime-observed slot states).
+      CONTRACT_DERIVATION   — state inferred from inflection_skipped_reason or
+                              failure_code (contract-level signals, not slot data).
+
     All values derived from actual pipeline data — nothing invented.
     """
     # Token pipeline error → ERROR for all layers
+    # Source: contract-level signal (error dict, not slot data)
     if token.get('error'):
         err = token['error']
-        return 'ERROR', f"pipeline_error:{err.get('type', 'unknown')}"
+        return 'ERROR', f"pipeline_error:{err.get('type', 'unknown')}", 'CONTRACT_DERIVATION'
 
     taaqol = token.get('taaqol', {})
     rt = taaqol.get('runtime', {})
@@ -1809,20 +1816,26 @@ def _derive_layer_state(layer_sort: int, token: dict) -> tuple[str, str]:
 
     # SKIPPED_BY_CONTRACT: inflection-dependent layer + early-stop token
     # Only if no FILLED data exists — if filled, the layer ran despite early stop.
+    # Source: inflection_skipped_reason from word_class contract (not slot data)
     if inflection_skipped and layer_sort in _INFLECTION_DEPENDENT_LAYERS:
         has_filled = any(s.get('state') == 'FILLED' for s in slots_in_layer)
         if not has_filled:
-            return 'SKIPPED_BY_CONTRACT', f'inflection_skipped:{inflection_skipped}'
+            return (
+                'SKIPPED_BY_CONTRACT',
+                f'inflection_skipped:{inflection_skipped}',
+                'CONTRACT_DERIVATION',
+            )
 
     # No slots produced for this layer
+    # Source: failure_code from runtime contract (not slot data)
     if not slots_in_layer:
         if failure_code == 'TAAQOL_RUNTIME_UNAVAILABLE':
-            return 'NOT_REACHED', 'taaqol_runtime_unavailable'
+            return 'NOT_REACHED', 'taaqol_runtime_unavailable', 'CONTRACT_DERIVATION'
         if failure_code == 'SEGMENTATION_NO_LEXICAL_HOST':
-            return 'NOT_REACHED', 'clitic_only_no_center'
-        return 'NOT_REACHED', 'no_slots_produced'
+            return 'NOT_REACHED', 'clitic_only_no_center', 'CONTRACT_DERIVATION'
+        return 'NOT_REACHED', 'no_slots_produced', 'CONTRACT_DERIVATION'
 
-    # Aggregate slot states
+    # From here: slots exist → state derived from actual SGA slot data
     states = [s.get('state', 'UNKNOWN') for s in slots_in_layer]
     s_filled    = sum(1 for s in states if s == 'FILLED')
     s_blocked   = sum(1 for s in states if s == 'BLOCKED')
@@ -1834,18 +1847,19 @@ def _derive_layer_state(layer_sort: int, token: dict) -> tuple[str, str]:
 
     if total > 0 and s_na == total:
         # All NOT_APPLICABLE — layer evaluated, does not apply to this token
-        return 'NOT_REACHED', 'all_not_applicable'
+        # Still SLOT_GRAPH_DERIVATION: we read slot states to conclude NOT_REACHED
+        return 'NOT_REACHED', 'all_not_applicable', 'SLOT_GRAPH_DERIVATION'
     if s_blocked > 0:
-        return 'BLOCKED', 'blocking_residual_in_slot'
+        return 'BLOCKED', 'blocking_residual_in_slot', 'SLOT_GRAPH_DERIVATION'
     if s_filled > 0:
-        return 'EXECUTED', 'slots_filled'
+        return 'EXECUTED', 'slots_filled', 'SLOT_GRAPH_DERIVATION'
     if s_ambiguous > 0:
-        return 'DEFERRED', 'ambiguous_candidate_set'
+        return 'DEFERRED', 'ambiguous_candidate_set', 'SLOT_GRAPH_DERIVATION'
     if s_deferred > 0:
-        return 'DEFERRED', 'slot_explicitly_deferred'
+        return 'DEFERRED', 'slot_explicitly_deferred', 'SLOT_GRAPH_DERIVATION'
     if s_unknown > 0:
-        return 'NOT_REACHED', 'slots_unknown_no_value'
-    return 'NOT_REACHED', 'no_meaningful_slot_data'
+        return 'NOT_REACHED', 'slots_unknown_no_value', 'SLOT_GRAPH_DERIVATION'
+    return 'NOT_REACHED', 'no_meaningful_slot_data', 'SLOT_GRAPH_DERIVATION'
 
 
 def generate_taaqol_layer_csv(results: list[dict]) -> str:
@@ -1874,7 +1888,7 @@ def generate_taaqol_layer_csv(results: list[dict]) -> str:
         # Registry identity
         'layer_id', 'layer_name',
         # Reachability
-        'layer_state', 'layer_state_reason',
+        'layer_state', 'layer_state_reason', 'state_source',
         # Slot snapshot
         'slot_count', 'filled_count', 'empty_count', 'deferred_count',
         'unknown_count', 'ambiguous_count', 'blocked_count', 'not_applicable_count',
@@ -1929,7 +1943,7 @@ def generate_taaqol_layer_csv(results: list[dict]) -> str:
 
         for layer_sort in LAYERS:
             layer_name = _LAYER_NAME[layer_sort]
-            layer_state, state_reason = _derive_layer_state(layer_sort, token)
+            layer_state, state_reason, state_source = _derive_layer_state(layer_sort, token)
 
             slots_in_layer = [
                 s for s in token.get('typed_slots', [])
@@ -1972,6 +1986,7 @@ def generate_taaqol_layer_csv(results: list[dict]) -> str:
                 # Reachability
                 'layer_state':              layer_state,
                 'layer_state_reason':       state_reason,
+                'state_source':             state_source,
                 # Slot snapshot
                 'slot_count':               len(slots_in_layer),
                 'filled_count':             s_filled,

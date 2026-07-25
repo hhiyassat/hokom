@@ -4,7 +4,7 @@ tests/demo/test_taaqol_layer_report.py
 
 HOKOM-TAAQOL-PER-LAYER-OBSERVABILITY-REPORT-01
 
-15 invariant tests for the per-layer Taaqol observability CSV generated
+18 invariant tests for the per-layer Taaqol observability CSV generated
 by ``python scripts/demo_ayat_al_dayn.py --taaqol``.
 
 Shape: 129 tokens × 18 registered layers = 2322 rows (+ 1 header).
@@ -41,7 +41,7 @@ _EARLY_STOPS_TARGET           = 96
 _EXPECTED_ROWS                = 2322   # 129 × 18
 _EXPECTED_TOKENS              = 129
 _EXPECTED_LAYERS              = 18
-_MIN_COLUMNS                  = 50
+_MIN_COLUMNS                  = 51   # updated: +1 for state_source column
 
 # Registered layer IDs (SlotSort enum values)
 _REGISTERED_LAYER_IDS = {0, 10, 20, 30, 35, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 900, 910}
@@ -136,7 +136,7 @@ def test_required_columns_present(rows):
         # Registry identity
         'layer_id', 'layer_name',
         # Reachability
-        'layer_state', 'layer_state_reason',
+        'layer_state', 'layer_state_reason', 'state_source',
         # Slot snapshot
         'slot_count', 'filled_count', 'empty_count', 'deferred_count',
         'unknown_count', 'ambiguous_count', 'blocked_count', 'not_applicable_count',
@@ -422,4 +422,94 @@ def test_reconciliation_targets_when_live(rows):
 
     assert not errors, (
         "Reconciliation targets not met:\n" + "\n".join(f"  {e}" for e in errors)
+    )
+
+
+# ── T16: state_source validity ────────────────────────────────────────────────
+
+def test_state_source_valid(rows):
+    """
+    T16: Every row must have state_source ∈ {SLOT_GRAPH_DERIVATION, CONTRACT_DERIVATION}.
+
+    This distinguishes runtime-observed slot states (SLOT_GRAPH_DERIVATION) from
+    states inferred via contract-level signals such as inflection_skipped_reason
+    or failure_code (CONTRACT_DERIVATION). No other values are permitted.
+    """
+    if not rows:
+        pytest.skip("no rows")
+    _VALID_SOURCES = {'SLOT_GRAPH_DERIVATION', 'CONTRACT_DERIVATION'}
+    violations = []
+    for r in rows:
+        src = r.get('state_source', '')
+        if src not in _VALID_SOURCES:
+            violations.append(
+                f"token={r.get('token_index')} layer={r.get('layer_id')}: "
+                f"state_source={src!r}"
+            )
+    assert not violations, (
+        f"{len(violations)} rows have invalid state_source:\n"
+        + "\n".join(f"  {v}" for v in violations[:20])
+    )
+
+
+# ── T17: FINAL_VERDICT_DIVERGENCES = 0 ───────────────────────────────────────
+
+def test_final_verdict_divergences_zero(rows):
+    """
+    T17: For every token, taaqol_verdict and effective_verdict must agree
+    (FINAL_VERDICT_DIVERGENCES = 0).
+
+    Divergence means the pipeline declared a final verdict that contradicts the
+    Taaqol gate result — a silent override that must never occur.
+    Only rows where both fields are non-empty are checked.
+    """
+    if not rows:
+        pytest.skip("no rows")
+    divergences = []
+    # One check per token is sufficient; aggregate by token_index
+    seen: dict[str, bool] = {}
+    for r in rows:
+        tok = r.get('token_index', '')
+        if tok in seen:
+            continue
+        tv = r.get('taaqol_verdict', '')
+        ev = r.get('effective_verdict', '')
+        if tv and ev and tv != ev:
+            # Only flag cases where both are terminal verdicts (LICENSED / DEFERRED)
+            if tv in {'LICENSED', 'DEFERRED'} and ev in {'LICENSED', 'DEFERRED'}:
+                divergences.append(
+                    f"token={tok}: taaqol_verdict={tv!r} ≠ effective_verdict={ev!r}"
+                )
+        seen[tok] = True
+    assert not divergences, (
+        f"FINAL_VERDICT_DIVERGENCES={len(divergences)} (expected 0):\n"
+        + "\n".join(f"  {d}" for d in divergences)
+    )
+
+
+# ── T18: SILENT_FALLBACKS = 0 ─────────────────────────────────────────────────
+
+def test_silent_fallbacks_zero(rows):
+    """
+    T18: No row may combine layer_state=EXECUTED with state_source=CONTRACT_DERIVATION
+    (SILENT_FALLBACKS = 0).
+
+    EXECUTED must only be asserted when actual slot data (SGA typed_slots) was
+    observed (SLOT_GRAPH_DERIVATION). Asserting EXECUTED via a contract signal
+    (e.g. failure_code or inflection_skipped_reason) would be a silent fallback —
+    claiming execution was observed when it was only inferred.
+    """
+    if not rows:
+        pytest.skip("no rows")
+    violations = []
+    for r in rows:
+        if (r.get('layer_state') == 'EXECUTED'
+                and r.get('state_source') == 'CONTRACT_DERIVATION'):
+            violations.append(
+                f"token={r.get('token_index')} layer={r.get('layer_id')}: "
+                f"EXECUTED asserted via CONTRACT_DERIVATION"
+            )
+    assert not violations, (
+        f"SILENT_FALLBACKS={len(violations)} (expected 0):\n"
+        + "\n".join(f"  {v}" for v in violations[:20])
     )
