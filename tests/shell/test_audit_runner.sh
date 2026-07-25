@@ -888,11 +888,11 @@ grep -q '_sanitize_failure_detail' scripts/demo_ayat_al_dayn.py \
     && ok "T80: _sanitize_failure_detail() present (determinism guard)" \
     || fail "T80: _sanitize_failure_detail() must exist for CSV determinism"
 
-# T81: test_taaqol_layer_report.py contains 15 test functions
+# T81: test_taaqol_layer_report.py contains ≥21 test functions
 test_count="$(grep -c '^def test_' tests/demo/test_taaqol_layer_report.py 2>/dev/null || echo 0)"
-[ "$test_count" -ge 15 ] \
-    && ok "T81: test_taaqol_layer_report.py has $test_count test functions (≥15)" \
-    || fail "T81: test_taaqol_layer_report.py must have ≥15 test functions (found $test_count)"
+[ "$test_count" -ge 21 ] \
+    && ok "T81: test_taaqol_layer_report.py has $test_count test functions (≥21)" \
+    || fail "T81: test_taaqol_layer_report.py must have ≥21 test functions (found $test_count)"
 
 # T82: write_outputs() accepts taaqol parameter (bool = False default)
 grep -q 'taaqol.*bool.*=.*False\|taaqol=False' scripts/demo_ayat_al_dayn.py \

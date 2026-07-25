@@ -106,6 +106,38 @@ def _digest(text: str) -> str:
     return hashlib.sha256(text.encode('utf-8')).hexdigest()[:16]
 
 
+def _canonical_slot_graph_digest(slots: list[dict]) -> str:
+    """Canonical SHA-256 digest of bridge-level SlotGraph slots.
+
+    Computes a process-stable, hash-randomization-immune digest from the
+    actual slot data captured in _rt["slot_graph_slots"].  Python's built-in
+    hash() is explicitly NOT used — it is salted per-process and will produce
+    different values across Python invocations even for identical data.
+
+    Canonicalization rules:
+      - Each slot dict is serialised with sorted keys.
+      - Slots are sorted by (name, state) so insertion order does not matter.
+      - JSON separators=(',', ':') — no whitespace that could vary.
+      - None values are represented as JSON null (not the string 'None').
+      - Result is truncated to 16 hex chars to match the existing field width.
+
+    Input contract (from _rt["slot_graph_slots"] population block):
+      [{"name": str, "state": str, "value": str | None, "required": bool}, ...]
+    """
+    import json as _json
+    canonical = sorted(
+        slots,
+        key=lambda s: (str(s.get("name", "")), str(s.get("state", ""))),
+    )
+    payload = _json.dumps(
+        canonical,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()[:16]
+
+
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # Deferred verdict helper (fail-closed template)
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -659,22 +691,9 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
     # ── Step 1: Build SlotGraph ───────────────────────────────────────────────
     try:
         slot_graph = _build_slot_graph(bundle, _taaqol, sga_bundle=_sga_bundle)
-        graph_digest = _digest(
-            f'{getattr(bundle, "claim_id", "")}:'
-            f'{getattr(bundle, "domain_directive", "")}:'
-            f'{sorted(str(e) for e in getattr(bundle, "evidence_ids", ()) or ())}'
-        )
-        trace.append(HokomTaaqolTraceEvent(
-            step='slot_graph_construction',
-            component='SlotGraph',
-            input_digest=_digest(str(getattr(bundle, 'claim_id', ''))),
-            output=(
-                f'SlotGraph(center={_morphological_center!r},'
-                f'rank={slot_graph.rank},'
-                f'original={_original_surface!r})'
-            ),
-            strict_mode=True,
-        ))
+        # graph_digest is computed AFTER slot capture (below) so it can use
+        # canonical slot data instead of bundle metadata that may include
+        # runtime-generated claim_id UUIDs (non-deterministic across processes).
         _rt["slot_graph_created"] = True
         # Extended trace contract: record bridge-level SlotGraph slots for
         # per-layer observability (HOKOM-TAAQOL-PER-LAYER-OBSERVABILITY-REPORT-01).
@@ -697,6 +716,20 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             ]
         except Exception:
             _rt["slot_graph_slots"] = []
+        # Canonical digest: SHA-256 over sorted slot data.
+        # Python hash() is salted per-process and is not used here.
+        graph_digest = _canonical_slot_graph_digest(_rt["slot_graph_slots"])
+        trace.append(HokomTaaqolTraceEvent(
+            step='slot_graph_construction',
+            component='SlotGraph',
+            input_digest=_digest(str(getattr(bundle, 'claim_id', ''))),
+            output=(
+                f'SlotGraph(center={_morphological_center!r},'
+                f'rank={slot_graph.rank},'
+                f'original={_original_surface!r})'
+            ),
+            strict_mode=True,
+        ))
     except Exception as e:
         trace.append(HokomTaaqolTraceEvent(
             step='slot_graph_construction',

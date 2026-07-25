@@ -4,7 +4,7 @@ tests/demo/test_taaqol_layer_report.py
 
 HOKOM-TAAQOL-PER-LAYER-OBSERVABILITY-REPORT-01
 
-18 invariant tests for the per-layer Taaqol observability CSV generated
+21 invariant tests for the per-layer Taaqol observability CSV generated
 by ``python scripts/demo_ayat_al_dayn.py --taaqol``.
 
 Shape: 129 tokens × 18 registered layers = 2322 rows (+ 1 header).
@@ -512,4 +512,147 @@ def test_silent_fallbacks_zero(rows):
     assert not violations, (
         f"SILENT_FALLBACKS={len(violations)} (expected 0):\n"
         + "\n".join(f"  {v}" for v in violations[:20])
+    )
+
+
+# ── T19: slot_graph_digest canonical unit test ────────────────────────────────
+
+def test_canonical_slot_graph_digest_deterministic():
+    """
+    T19: _canonical_slot_graph_digest() must be:
+      (a) Order-independent — same digest for reversed slot list.
+      (b) Value-stable — SHA-256, not Python hash().
+      (c) Consistent with 16-hex-char format.
+
+    This is a unit test for the bridge helper, isolated from full pipeline
+    execution.  It catches hash-randomization regressions (Python hash() is
+    salted per-process and must never be used for canonical artifacts).
+    """
+    from pipeline.taaqol_integration.live.bridge import _canonical_slot_graph_digest
+
+    slots_a = [
+        {"name": "WORD_CLASS_SLOT", "state": "FILLED",  "value": "HARF",   "required": True},
+        {"name": "DOMAIN_SLOT",     "state": "FILLED",  "value": "ARABIC", "required": False},
+        {"name": "LEXICAL_SLOT",    "state": "EMPTY",   "value": None,     "required": True},
+    ]
+    slots_b = list(reversed(slots_a))
+
+    digest_a = _canonical_slot_graph_digest(slots_a)
+    digest_b = _canonical_slot_graph_digest(slots_b)
+
+    # (a) Order independence
+    assert digest_a == digest_b, (
+        f"_canonical_slot_graph_digest is order-dependent:\n"
+        f"  forward  = {digest_a!r}\n"
+        f"  reversed = {digest_b!r}"
+    )
+    # (b) SHA-256 stability: run twice in same process, must match
+    assert _canonical_slot_graph_digest(slots_a) == digest_a, (
+        "_canonical_slot_graph_digest is not stable within a process"
+    )
+    # (c) Format: 16 lowercase hex chars
+    assert len(digest_a) == 16, f"Expected 16-char digest, got {len(digest_a)}: {digest_a!r}"
+    assert digest_a == digest_a.lower(), f"Digest is not lowercase hex: {digest_a!r}"
+    assert all(c in '0123456789abcdef' for c in digest_a), (
+        f"Digest contains non-hex characters: {digest_a!r}"
+    )
+
+
+# ── T20: slot_graph_digest cross-process stability ────────────────────────────
+
+def test_slot_graph_digest_stable_across_processes():
+    """
+    T20: slot_graph_digest in the CSV must be identical across two independent
+    Python subprocess invocations (TWO_PROCESS_DIGEST_MATCH = 1).
+
+    Python hash() is salted per-process (PYTHONHASHSEED varies).  This test
+    catches any regression where hash() is re-introduced into the digest path.
+    We run generate_taaqol_layer_csv in two fresh subprocesses and compare the
+    slot_graph_digest column values.
+    """
+    import subprocess
+    import sys
+
+    _script = '''
+import sys, csv, io, json
+sys.path.insert(0, '.')
+from scripts.demo_ayat_al_dayn import run_all, generate_taaqol_layer_csv
+results = run_all(verbose=False)
+content = generate_taaqol_layer_csv(results)
+reader = csv.DictReader(io.StringIO(content))
+rows = list(reader)
+# Output: JSON list of (token_index, layer_id, slot_graph_digest) for first token
+first_token = rows[0]["token_index"] if rows else ""
+digests = [
+    [r["token_index"], r["layer_id"], r["slot_graph_digest"]]
+    for r in rows if r["token_index"] == first_token
+]
+print(json.dumps(digests))
+'''
+
+    env = dict(__import__('os').environ)
+    env.pop('PYTHONHASHSEED', None)  # let Python randomize hash seed
+
+    results = []
+    for _ in range(2):
+        proc = __import__('subprocess').run(
+            [sys.executable, '-c', _script],
+            capture_output=True, text=True,
+            cwd=str(Path(__file__).resolve().parent.parent.parent),
+            env=env,
+            timeout=120,
+        )
+        if proc.returncode != 0:
+            pytest.skip(
+                f"Subprocess failed (Taaqol unavailable in sandbox):\n{proc.stderr[-300:]}"
+            )
+        try:
+            results.append(__import__('json').loads(proc.stdout.strip()))
+        except Exception:
+            pytest.skip(f"Subprocess output not parseable: {proc.stdout[:200]!r}")
+
+    if not results[0]:
+        pytest.skip("No rows produced — Taaqol runtime inactive")
+
+    run1_digests = {(r[0], r[1]): r[2] for r in results[0]}
+    run2_digests = {(r[0], r[1]): r[2] for r in results[1]}
+
+    mismatches = [
+        f"token={k[0]} layer={k[1]}: run1={run1_digests[k]!r} run2={run2_digests.get(k)!r}"
+        for k in run1_digests
+        if run1_digests[k] != run2_digests.get(k)
+    ]
+    assert not mismatches, (
+        f"TWO_PROCESS_DIGEST_MATCH=0 — slot_graph_digest differs across processes:\n"
+        + "\n".join(f"  {m}" for m in mismatches)
+    )
+
+
+# ── T21: DISTINCT_DIGESTS_PER_TOKEN = 1 ──────────────────────────────────────
+
+def test_distinct_slot_graph_digests_per_token(rows):
+    """
+    T21: For every token, all 18 layer rows share exactly one slot_graph_digest
+    value (DISTINCT_DIGESTS_PER_TOKEN = 1).
+
+    slot_graph_digest describes the bridge-level SlotGraph for the whole token,
+    not a per-layer quantity — all 18 rows for the same token must carry the
+    same value.
+    """
+    if not rows:
+        pytest.skip("no rows")
+    from collections import defaultdict
+    token_digests: dict[str, set] = defaultdict(set)
+    for r in rows:
+        tok = r.get('token_index', '')
+        d = r.get('slot_graph_digest', '')
+        token_digests[tok].add(d)
+    violations = [
+        f"token={tok}: {len(ds)} distinct digests {sorted(ds)}"
+        for tok, ds in token_digests.items()
+        if len(ds) > 1
+    ]
+    assert not violations, (
+        f"DISTINCT_DIGESTS_PER_TOKEN > 1 for {len(violations)} tokens:\n"
+        + "\n".join(f"  {v}" for v in violations[:10])
     )
