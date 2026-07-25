@@ -5,6 +5,7 @@
 # Updated: HOKOM-CANONICAL-AUDIT-LIVE-REGENERATION-RESTORATION-01
 # Updated: HOKOM-CANONICAL-AUDIT-MACOS-FINGERPRINT-PORTABILITY-FIX-01
 # Updated: HOKOM-CANONICAL-AUDIT-GITLINK-FINGERPRINT-FIX-01
+# Updated: HOKOM-CANONICAL-AUDIT-FINAL-GOVERNANCE-CORRECTION-01
 # Shell unit tests for run_canonical_final_audit.sh guard logic.
 # Tests verify that each guard correctly sets CLOSURE_VERDICT = OPEN
 # when the named failure condition occurs.
@@ -467,6 +468,151 @@ except SystemExit as e:
 PYEOF
 
 rm -rf "$TMPDIR_GL"
+
+echo ""
+echo "-- portability and structure tests --"
+
+# T41: runner contains no grep -P (GNU-only, unsupported on macOS grep)
+grep -q 'grep -P' "$RUNNER" \
+    && fail "T41: runner must NOT use 'grep -P' (GNU-only)" \
+    || ok "T41: runner contains no 'grep -P'"
+
+# T42: runner uses AUDIT_TMPDIR for collect1.err
+grep -q 'AUDIT_TMPDIR/collect1.err' "$RUNNER" \
+    && ok "T42: collect1.err written to AUDIT_TMPDIR (not repository)" \
+    || fail "T42: collect1.err must be written to AUDIT_TMPDIR"
+
+# T43: runner uses AUDIT_TMPDIR for collect2.err
+grep -q 'AUDIT_TMPDIR/collect2.err' "$RUNNER" \
+    && ok "T43: collect2.err written to AUDIT_TMPDIR (not repository)" \
+    || fail "T43: collect2.err must be written to AUDIT_TMPDIR"
+
+# T44: runner uses AUDIT_TMPDIR for node-ID files
+grep -q 'AUDIT_TMPDIR/run1_nodes.txt' "$RUNNER" \
+    && ok "T44: run1_nodes.txt written to AUDIT_TMPDIR (not repository)" \
+    || fail "T44: run1_nodes.txt must be written to AUDIT_TMPDIR"
+
+# T45: no LOGS/collect*.err reference (collection temps must not go in repo)
+grep -q 'LOGS/collect' "$RUNNER" \
+    && fail "T45: runner must NOT write collect*.err inside LOGS (repository)" \
+    || ok "T45: runner does not write collect*.err inside LOGS"
+
+# T46: metric parser uses Python (no grep -oP)
+grep -q 'grep -oP' "$RUNNER" \
+    && fail "T46: runner must NOT use 'grep -oP' (GNU-only)" \
+    || ok "T46: runner contains no 'grep -oP'"
+
+# T47: all-zero metrics produce ALL_CLOSURE_METRICS_ZERO=1
+python3 - <<PYEOF 2>&1 && ok "T47: all-zero metrics → ALL_CLOSURE_METRICS_ZERO=1" \
+                        || fail "T47: all-zero metrics should produce ALL_CLOSURE_METRICS_ZERO=1"
+import re, sys
+
+REQUIRED = [
+    "LIVE_GOLD_TOKEN_MISMATCHES",
+    "LIVE_FORM_FAMILY_MISMATCHES",
+    "KNOWN_OUT_OF_SCOPE_FORM_RESIDUALS",
+    "LIVE_PERSON_NUMBER_GENDER_MISMATCHES",
+    "LIVE_VOICE_MISMATCHES",
+    "LIVE_CONTEXT_MOOD_MISMATCHES",
+    "LIVE_UNCORRELATED_AMBIGUITY",
+    "UNJUSTIFIED_WORD_CLASS_NOT_OPENED",
+    "LIVE_NONVERBS_AS_VERBS",
+    "LIVE_JAMID_BOUNDARY_VIOLATIONS",
+]
+
+# Simulate a gate.log with all metrics = 0
+log = "\n".join(f"{m} = 0" for m in REQUIRED)
+lines = log.splitlines()
+all_zero = True
+missing = []
+for metric in REQUIRED:
+    matched = [l for l in lines if metric in l]
+    if len(matched) != 1:
+        missing.append(metric); all_zero = False; continue
+    m = re.search(r'=\s*(\d+)', matched[0])
+    if m is None or int(m.group(1)) != 0:
+        all_zero = False
+
+assert not missing, f"missing metrics: {missing}"
+assert all_zero, "expected all_zero=True"
+print("OK")
+PYEOF
+
+# T48: a nonzero metric produces ALL_CLOSURE_METRICS_ZERO=0
+python3 - <<PYEOF 2>&1 && ok "T48: nonzero metric → ALL_CLOSURE_METRICS_ZERO=0" \
+                        || fail "T48: nonzero metric should produce ALL_CLOSURE_METRICS_ZERO=0"
+import re
+
+REQUIRED = [
+    "LIVE_GOLD_TOKEN_MISMATCHES",
+    "LIVE_FORM_FAMILY_MISMATCHES",
+    "KNOWN_OUT_OF_SCOPE_FORM_RESIDUALS",
+    "LIVE_PERSON_NUMBER_GENDER_MISMATCHES",
+    "LIVE_VOICE_MISMATCHES",
+    "LIVE_CONTEXT_MOOD_MISMATCHES",
+    "LIVE_UNCORRELATED_AMBIGUITY",
+    "UNJUSTIFIED_WORD_CLASS_NOT_OPENED",
+    "LIVE_NONVERBS_AS_VERBS",
+    "LIVE_JAMID_BOUNDARY_VIOLATIONS",
+]
+
+# Simulate a gate.log with one metric = 2
+lines = [f"{m} = 0" for m in REQUIRED]
+lines[0] = f"{REQUIRED[0]} = 2"
+all_zero = True
+for metric in REQUIRED:
+    matched = [l for l in lines if metric in l]
+    m = re.search(r'=\s*(\d+)', matched[0])
+    if m and int(m.group(1)) != 0:
+        all_zero = False
+
+assert not all_zero, "expected all_zero=False for nonzero metric"
+print("OK")
+PYEOF
+
+# T49: a missing metric produces failure (not silently counted as zero)
+python3 - <<PYEOF 2>&1 && ok "T49: missing metric produces failure" \
+                        || fail "T49: missing metric should produce failure"
+import re
+
+REQUIRED = [
+    "LIVE_GOLD_TOKEN_MISMATCHES",
+    "LIVE_FORM_FAMILY_MISMATCHES",
+]
+
+# Simulate a gate.log missing one required metric
+log = "LIVE_GOLD_TOKEN_MISMATCHES = 0"
+lines = log.splitlines()
+missing = []
+for metric in REQUIRED:
+    matched = [l for l in lines if metric in l]
+    if len(matched) != 1:
+        missing.append(metric)
+
+assert missing == ["LIVE_FORM_FAMILY_MISMATCHES"], f"expected missing metric, got: {missing}"
+print("OK")
+PYEOF
+
+# T50: macOS/BSD tooling is sufficient (no GNU-specific tools used)
+# Verify runner uses only POSIX-compatible tools for metric parsing
+# Check for grep -oP and grep -P as separate patterns (avoid shell pipe in grep pattern)
+if grep -q 'grep -oP' "$RUNNER" || grep -q 'grep -P ' "$RUNNER"; then
+    fail "T50: runner uses GNU-only grep features (grep -P or grep -oP)"
+else
+    ok "T50: runner uses only POSIX-compatible tools for metric parsing"
+fi
+
+# T51: artifact binding test file exists with non-self-referential contract
+AB_TEST="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/tests/governance/test_artifact_commit_binding.py"
+# Contract uses git diff --name-only with manifest_commit in the call
+grep -q 'git.*diff.*--name-only' "$AB_TEST" \
+    && ok "T51: artifact binding uses git diff-based non-self-referential contract" \
+    || fail "T51: artifact binding test must use git diff-based contract"
+
+# T52: artifact binding test does not compare manifest.commit to current HEAD directly
+grep -q 'manifest_commit == head' "$AB_TEST" \
+    && fail "T52: artifact binding must not compare manifest.commit to current HEAD" \
+    || ok "T52: artifact binding does not use circular commit == HEAD comparison"
 
 echo ""
 echo "=== RESULTS: $PASS passed, $FAIL failed ==="

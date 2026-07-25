@@ -5,6 +5,7 @@
 # HOKOM-CANONICAL-AUDIT-LIVE-REGENERATION-RESTORATION-01
 # HOKOM-CANONICAL-AUDIT-MACOS-FINGERPRINT-PORTABILITY-FIX-01
 # HOKOM-CANONICAL-AUDIT-GITLINK-FINGERPRINT-FIX-01
+# HOKOM-CANONICAL-AUDIT-FINAL-GOVERNANCE-CORRECTION-01
 # Canonical closure audit — must run on macOS with .venv-py312
 # Usage: cd /path/to/hokom && bash scripts/run_canonical_final_audit.sh
 # Exits 0 only for VERIFIED_CLOSED; exits nonzero for any OPEN condition.
@@ -484,15 +485,16 @@ PY
 FINGERPRINT_PRE="$(semantic_fingerprint)"
 
 # ── §8 Collect RUN1 node IDs ─────────────────────────────────────────────────
+# Temp files written to AUDIT_TMPDIR — never inside the repository.
 echo "--- §8 collect RUN1 ---"
 if "$VENV" -m pytest tests/ --import-mode=importlib --collect-only -q \
-   2>"$LOGS/collect1.err" | grep "::" | sort > "$LOGS/run1_nodes.txt"; then
+   2>"$AUDIT_TMPDIR/collect1.err" | grep "::" | sort > "$AUDIT_TMPDIR/run1_nodes.txt"; then
     RUN1_COLLECT_EXIT=0
-    RUN1_COLLECTED_COUNT="$(wc -l < "$LOGS/run1_nodes.txt" | tr -d ' ')"
+    RUN1_COLLECTED_COUNT="$(wc -l < "$AUDIT_TMPDIR/run1_nodes.txt" | tr -d ' ')"
     echo "RUN1_COLLECT_EXIT=0  RUN1_COLLECTED_COUNT=$RUN1_COLLECTED_COUNT"
 else
     RUN1_COLLECT_EXIT=$?
-    fail_flag "RUN1_COLLECT_EXIT=$RUN1_COLLECT_EXIT ($(cat "$LOGS/collect1.err" | tail -3))"
+    fail_flag "RUN1_COLLECT_EXIT=$RUN1_COLLECT_EXIT ($(tail -3 "$AUDIT_TMPDIR/collect1.err"))"
 fi
 
 # ── §7 Full suite RUN1 ───────────────────────────────────────────────────────
@@ -517,9 +519,9 @@ fi
 # ── §8 Collect RUN2 node IDs ─────────────────────────────────────────────────
 echo "--- §8 collect RUN2 ---"
 if "$VENV" -m pytest tests/ --import-mode=importlib --collect-only -q \
-   2>"$LOGS/collect2.err" | grep "::" | sort > "$LOGS/run2_nodes.txt"; then
+   2>"$AUDIT_TMPDIR/collect2.err" | grep "::" | sort > "$AUDIT_TMPDIR/run2_nodes.txt"; then
     RUN2_COLLECT_EXIT=0
-    RUN2_COLLECTED_COUNT="$(wc -l < "$LOGS/run2_nodes.txt" | tr -d ' ')"
+    RUN2_COLLECTED_COUNT="$(wc -l < "$AUDIT_TMPDIR/run2_nodes.txt" | tr -d ' ')"
     echo "RUN2_COLLECT_EXIT=0  RUN2_COLLECTED_COUNT=$RUN2_COLLECTED_COUNT"
 else
     RUN2_COLLECT_EXIT=$?
@@ -527,12 +529,12 @@ else
 fi
 
 if [[ "$RUN1_COLLECT_EXIT" == 0 && "$RUN2_COLLECT_EXIT" == 0 ]]; then
-    if diff -q "$LOGS/run1_nodes.txt" "$LOGS/run2_nodes.txt" > /dev/null; then
+    if diff -q "$AUDIT_TMPDIR/run1_nodes.txt" "$AUDIT_TMPDIR/run2_nodes.txt" > /dev/null; then
         NODE_IDS_EQUAL=1
         echo "NODE_IDS_EQUAL=1  COUNT=$RUN1_COLLECTED_COUNT"
     else
         fail_flag "NODE_IDS_DIFFER"
-        diff "$LOGS/run1_nodes.txt" "$LOGS/run2_nodes.txt" | head -20
+        diff "$AUDIT_TMPDIR/run1_nodes.txt" "$AUDIT_TMPDIR/run2_nodes.txt" | head -20
     fi
 fi
 
@@ -566,34 +568,78 @@ else
 fi
 echo "CLOSURE_GATE_EXIT=$CLOSURE_GATE_EXIT"
 
-# Verify each required metric appears exactly once
-REQUIRED_METRICS=(
-    LIVE_GOLD_TOKEN_MISMATCHES
-    LIVE_FORM_FAMILY_MISMATCHES
-    KNOWN_OUT_OF_SCOPE_FORM_RESIDUALS
-    LIVE_PERSON_NUMBER_GENDER_MISMATCHES
-    LIVE_VOICE_MISMATCHES
-    LIVE_CONTEXT_MOOD_MISMATCHES
-    LIVE_UNCORRELATED_AMBIGUITY
-    UNJUSTIFIED_WORD_CLASS_NOT_OPENED
-    LIVE_NONVERBS_AS_VERBS
-    LIVE_JAMID_BOUNDARY_VIOLATIONS
-)
-ALL_METRICS_OK=1
-ALL_ZERO=1
-for METRIC in "${REQUIRED_METRICS[@]}"; do
-    COUNT="$(grep -c "$METRIC" "$LOGS/gate.log" 2>/dev/null || echo 0)"
-    if [[ "$COUNT" != 1 ]]; then
-        fail_flag "METRIC_NOT_EXACTLY_ONCE: $METRIC appears $COUNT times"
-        ALL_METRICS_OK=0
-    fi
-    VAL="$(grep "$METRIC" "$LOGS/gate.log" | grep -oP '= \K\d+' || echo -1)"
-    if [[ "$VAL" != "0" ]]; then ALL_ZERO=0; fi
-done
-[[ "$ALL_METRICS_OK" == 1 ]] && ALL_REQUIRED_METRICS_PRESENT=1
-[[ "$ALL_ZERO" == 1 ]] && ALL_CLOSURE_METRICS_ZERO=1
-[[ "$ALL_METRICS_OK" != 1 ]] && fail_flag "ALL_REQUIRED_METRICS_PRESENT=0"
-[[ "$ALL_ZERO" != 1 ]] && fail_flag "ALL_CLOSURE_METRICS_ZERO=0"
+# Verify each required metric appears exactly once and is zero.
+# Uses $VENV Python — POSIX-compatible, no GNU-only flags.
+METRIC_PARSE_OUTPUT="$("$VENV" - "$LOGS/gate.log" <<'METRIC_PY'
+import sys, re, pathlib
+
+REQUIRED = [
+    "LIVE_GOLD_TOKEN_MISMATCHES",
+    "LIVE_FORM_FAMILY_MISMATCHES",
+    "KNOWN_OUT_OF_SCOPE_FORM_RESIDUALS",
+    "LIVE_PERSON_NUMBER_GENDER_MISMATCHES",
+    "LIVE_VOICE_MISMATCHES",
+    "LIVE_CONTEXT_MOOD_MISMATCHES",
+    "LIVE_UNCORRELATED_AMBIGUITY",
+    "UNJUSTIFIED_WORD_CLASS_NOT_OPENED",
+    "LIVE_NONVERBS_AS_VERBS",
+    "LIVE_JAMID_BOUNDARY_VIOLATIONS",
+]
+
+log_path = pathlib.Path(sys.argv[1])
+text = log_path.read_text(encoding="utf-8")
+lines = text.splitlines()
+
+missing = []
+nonzero = []
+all_zero = True
+
+for metric in REQUIRED:
+    # Find lines containing the metric name
+    matched = [l for l in lines if metric in l]
+    if len(matched) != 1:
+        missing.append(f"METRIC_NOT_EXACTLY_ONCE: {metric} appears {len(matched)} times")
+        all_zero = False
+        continue
+    # Extract integer value: look for "= <digits>" anywhere on the line
+    m = re.search(r'=\s*(\d+)', matched[0])
+    if m is None:
+        missing.append(f"METRIC_NO_VALUE: {metric} in line: {matched[0]!r}")
+        all_zero = False
+        continue
+    val = int(m.group(1))
+    if val != 0:
+        nonzero.append(f"METRIC_NONZERO: {metric} = {val}")
+        all_zero = False
+
+for msg in missing + nonzero:
+    print(f"FAIL: {msg}")
+
+if missing:
+    print("ALL_REQUIRED_METRICS_PRESENT=0")
+else:
+    print("ALL_REQUIRED_METRICS_PRESENT=1")
+
+if all_zero:
+    print("ALL_CLOSURE_METRICS_ZERO=1")
+else:
+    print("ALL_CLOSURE_METRICS_ZERO=0")
+METRIC_PY
+)"
+echo "$METRIC_PARSE_OUTPUT"
+
+# Parse the Python output into shell variables
+if echo "$METRIC_PARSE_OUTPUT" | grep -q 'ALL_REQUIRED_METRICS_PRESENT=1'; then
+    ALL_REQUIRED_METRICS_PRESENT=1
+else
+    ALL_METRICS_OK=0
+    fail_flag "ALL_REQUIRED_METRICS_PRESENT=0"
+fi
+if echo "$METRIC_PARSE_OUTPUT" | grep -q 'ALL_CLOSURE_METRICS_ZERO=1'; then
+    ALL_CLOSURE_METRICS_ZERO=1
+else
+    fail_flag "ALL_CLOSURE_METRICS_ZERO=0"
+fi
 
 # ── §11 Final verdict conjunction ─────────────────────────────────────────────
 FINAL_HEAD="$(git rev-parse HEAD)"
