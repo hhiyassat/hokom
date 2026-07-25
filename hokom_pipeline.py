@@ -163,6 +163,35 @@ def hokom(word: str) -> dict:
     canonical_surface  = word                  # سياسة محافظة: لا تعديل على الهوية
     normalized_surface = normalize(word)       # for phonological pipeline (syllabifier, phones)
 
+    # ── SCG P0-P12 Transition Gate (HOKOM-SCG-P0-P12-TAAQOL-LIVE-GATING-CORRECTION-03) ─
+    # The enforcer gates every canonical transition edge with a live Taaqol call.
+    # Soft-gate: records verdicts without hard-stopping linguistic stages — matching
+    # the existing evaluate_sga_bundle pattern (records result, doesn't halt pipeline).
+    # On Python 3.10 Taaqol unavailable → BLOCKED recorded (fail-closed) for all edges.
+    # On Python 3.12.4 with Taaqol → APPROVED recorded for all valid edges.
+    # The scg_gate_matrix in the output dict is the authoritative gate record.
+    _scg_enforcer = None
+    _scg_gate_active = [False]  # list cell for mutation inside nested _scg_gate()
+    try:
+        from pipeline.governance.taaqol_judgment_enforcer import (
+            SCGTransitionEnforcer as _SCGEnforcer,
+            _TRAVERSAL_STOP_VERDICTS as _SCG_STOPS,
+        )
+        _scg_enforcer = _SCGEnforcer(input_surface)
+        _scg_gate_active[0] = True
+    except Exception:
+        _scg_enforcer = None
+
+    def _scg_gate(source: str, target: str) -> None:
+        """Record one SCG transition verdict. Stops recording after first stop verdict."""
+        if not _scg_gate_active[0] or _scg_enforcer is None:
+            return
+        _j = _scg_enforcer.judge(source, target)
+        if _j.gate_verdict in _SCG_STOPS:
+            # Deactivate: no further edges are judged.
+            # Linguistic pipeline stages continue regardless (soft-gate).
+            _scg_gate_active[0] = False
+
     # ── P0: Clitic Segmentation (HOKOM-CLITIC-SEGMENTATION-OWNERSHIP-01) ────
     # Runs immediately after normalization, before all downstream stages.
     # Produces SegmentBundle; segment_host is passed where the full token
@@ -202,6 +231,7 @@ def hokom(word: str) -> dict:
         segment_enclitics   = ()
         segment_clitic_only = False
 
+    _scg_gate("NORMALIZE", "SEGMENT")  # SCG gate: NORMALIZE→SEGMENT
     # ── Morphology Surface Gate ───────────────────────────────────────────────
     # segment_host is None for clitic-only constructions (بِكُمْ) or segmentation
     # failure. In either case morphology is NOT opened.
@@ -275,6 +305,7 @@ def hokom(word: str) -> dict:
     except Exception:
         _typed_phonological_slots = None
 
+    _scg_gate("SEGMENT", "NORM_ATOMIC")  # SCG gate: SEGMENT→NORM_ATOMIC
     # ── P5: Mabni Lookup ─────────────────────────────────────────────────────
     mabni = process_mabni(input_surface, normalized_surface, slots, verdict, word_viols)
 
@@ -364,6 +395,7 @@ def hokom(word: str) -> dict:
     if isinstance(mabni, MabniBoundary) and _functional_owner is not None:
         pass   # _functional_owner already set; MabniBoundary keeps root closed
 
+    _scg_gate("NORM_ATOMIC", "BOUNDARY")  # SCG gate: NORM_ATOMIC→BOUNDARY
     # ── Pre-Root Decision (طبقة ما قبل الجذر) ────────────────────────────────
     # تُشغَّل بعد P5 فقط عند MabniOpen — تُقرِّر ما إذا كان مسار الجذر مفتوحًا.
     # تُعيد PreRootDecision أو None عند الفشل.
@@ -432,6 +464,7 @@ def hokom(word: str) -> dict:
         except Exception:
             root_refinement = None
 
+    _scg_gate("BOUNDARY", "ROOT_CAND")  # SCG gate: BOUNDARY→ROOT_CAND
     # ── P3 RootCandidate — المحرك المحلي (HOKOM_ROOT_ENGINE) ─────────────────
     # يستبدل HR2S بالكامل. يُستدعى عند OPEN فقط بالمضيف المنقَّح.
     # BLOCK/DEFER من PreRoot → not_opened مباشرة بلا استدعاء المحرك.
@@ -602,6 +635,7 @@ def hokom(word: str) -> dict:
         except Exception:
             cra_result = None
 
+    _scg_gate("ROOT_CAND", "PHASE_4A")  # SCG gate: ROOT_CAND→PHASE_4A
     # ── Phase 4A — WaznProjection عبر الأوركسترا ─────────────────────────────
     # يُستدعى دائمًا إن وُجد root_candidate — حتى BLOCK/DEFER (تُنتج NOT_OPENED).
     #
@@ -629,6 +663,7 @@ def hokom(word: str) -> dict:
         except Exception:
             phase4a_result = None
 
+    _scg_gate("PHASE_4A", "PHASE_4B")  # SCG gate: PHASE_4A→PHASE_4B
     # ── Phase 4B — BabProjection ──────────────────────────────────────────────
     # Fix 5/6: Pass morphology_path so nominal words get NOT_APPLICABLE in Bab.
     phase4b_result = None
@@ -646,6 +681,7 @@ def hokom(word: str) -> dict:
         except Exception:
             phase4b_result = None
 
+    _scg_gate("PHASE_4B", "PHASE_4C")  # SCG gate: PHASE_4B→PHASE_4C
     # ── Phase 4C — MasdarProjection ───────────────────────────────────────────
     phase4c_result = None
     if phase4a_result is not None and phase4a_result.final_directive == 'ACCEPT':
@@ -659,6 +695,7 @@ def hokom(word: str) -> dict:
         except Exception:
             phase4c_result = None
 
+    _scg_gate("PHASE_4C", "PHASE_4D")  # SCG gate: PHASE_4C→PHASE_4D
     # ── Phase 4D — MushtaqProjection ─────────────────────────────────────────
     phase4d_result = None
     if phase4a_result is not None and phase4a_result.final_directive == 'ACCEPT':
@@ -697,6 +734,7 @@ def hokom(word: str) -> dict:
     _active_residuals   = _collect_active_residuals(phase4a_result, phase4b_result, phase4c_result, phase4d_result)
     _resolved_residuals = _collect_resolved_residuals(phase4a_result, phase4b_result)
 
+    _scg_gate("PHASE_4D", "WORD_CLASS")  # SCG gate: PHASE_4D→WORD_CLASS
     # ── Word Class Engine ─────────────────────────────────────────────────────
     # Canonical ISM / FI3L / HARF classification.
     # Must run BEFORE Phase 5 inflection so the gate can block non-FI3L tokens.
@@ -726,6 +764,7 @@ def hokom(word: str) -> dict:
         except Exception:
             word_class_result = None
 
+    _scg_gate("WORD_CLASS", "PHASE_5")  # SCG gate: WORD_CLASS→PHASE_5
     # ── Phase 5 — Paradigm/Inflection ────────────────────────────────────────
     # B-01 fix: gate verbal inflection on confirmed FI3L word class.
     # Non-FI3L tokens (HARF, ISM, DEFERRED) do NOT open verbal inflection.
@@ -957,6 +996,7 @@ def hokom(word: str) -> dict:
             )
         ),
     }
+    _scg_gate("PHASE_5", "TAAQOL_SGA")  # SCG gate: PHASE_5→TAAQOL_SGA
     _taaqol_decision = None
     _taaqol_effective_verdict = None
     _taaqol_runtime = None
@@ -996,6 +1036,8 @@ def hokom(word: str) -> dict:
         # Integration not yet wired or unavailable — record None, do not raise.
         # This is NOT a silent fallback: taaqol_decision=None signals unavailable.
         pass
+
+    _scg_gate_matrix = _scg_enforcer.get_matrix().to_dict() if _scg_enforcer else None
 
     return {
         'original':            word,
@@ -1065,6 +1107,9 @@ def hokom(word: str) -> dict:
         # ── T-03: SGA claim bundle (HokomClaimBundle, not raw dict) ──────
         'sga_claim_bundle':            _sga_claim_bundle,
         # ── Taaqol Live Governance ────────────────────────────────────────
+        # scg_gate_matrix: authoritative SCG P0–P12 stage-transition gate record.
+        # None when enforcer init failed (Python<3.11 / import error) — not a silent fallback.
+        'scg_gate_matrix':             _scg_gate_matrix,
         'taaqol_decision':             _taaqol_decision,
         'taaqol_effective_verdict':    _taaqol_effective_verdict,
         'taaqol_verdict':              _taaqol_verdict,
