@@ -1,0 +1,162 @@
+{
+  "report_id": "HOKOM-SCG-P0-P12-TAAQOL-TRANSITION-JUDGMENT-MATRIX-01",
+  "mandate_id": "HOKOM-SCG-P0-P12-CANONICAL-CONFORMANCE-OWNERSHIP-AND-TAAQOL-JUDGMENT-CLOSURE-01",
+  "generator": "pipeline/governance/taaqol_judgment_enforcer.py",
+  "python_version": "3.10.12 (main, Jun 22 2026, 18:55:27) [GCC 11.4.0]",
+  "taaqol_vendor_available": false,
+  "taaqol_unavailable_reason": "ImportError: cannot import name 'StrEnum' from 'enum' (/usr/lib/python3.10/enum.py)",
+  "sandbox_note": "Sandbox runs Python 3.10; Taaqol vendor requires Python 3.11+ (StrEnum). Canonical runs must use macOS/Python 3.12.4/.venv-py312.",
+  "DISCOVERED_CANONICAL_TRANSITION_EDGE_COUNT": 11,
+  "CANONICAL_EDGE_SEQUENCE": [
+    "NORMALIZE→SEGMENT",
+    "SEGMENT→NORM_ATOMIC",
+    "NORM_ATOMIC→BOUNDARY",
+    "BOUNDARY→ROOT_CAND",
+    "ROOT_CAND→PHASE_4A",
+    "PHASE_4A→PHASE_4B",
+    "PHASE_4B→PHASE_4C",
+    "PHASE_4C→PHASE_4D",
+    "PHASE_4D→WORD_CLASS",
+    "WORD_CLASS→PHASE_5",
+    "PHASE_5→TAAQOL_SGA"
+  ],
+  "SCG_CLOSURE_CONDITIONS": {
+    "TRANSITIONS_WITHOUT_TAAQOL": 0,
+    "LOCAL_TRANSITION_DECISIONS": 0,
+    "SILENT_TAAQOL_FALLBACKS": 0,
+    "P13_OR_POST_IFADAH_STAGE_CREATED": 0
+  },
+  "sandbox_verdict": {
+    "taaqol_called": true,
+    "fallback_used": false,
+    "all_edges_gated": "BLOCKED_AT_FIRST_EDGE_FAIL_CLOSED (Taaqol unavailable in Python 3.10)",
+    "note": "Fail-closed behavior verified: 287 tests passed, 2 skipped (skipif Taaqol unavailable)"
+  },
+  "surface_matrices": {
+    "كَتَبَ": {
+      "surface": "كَتَبَ",
+      "DISCOVERED_CANONICAL_TRANSITION_EDGE_COUNT": 11,
+      "edge_count": 1,
+      "taaqol_called_count": 1,
+      "transitions_without_taaqol": 0,
+      "local_decisions": 0,
+      "silent_fallbacks": 0,
+      "blocked_count": 1,
+      "rejected_count": 0,
+      "judgments": [
+        {
+          "edge_id": "NORMALIZE→SEGMENT",
+          "source_stage": "NORMALIZE",
+          "target_stage": "SEGMENT",
+          "taaqol_called": true,
+          "taaqol_runtime_active": false,
+          "gamma_closure_state": "UNAVAILABLE",
+          "gate_verdict": "BLOCKED",
+          "failure_code": "TAAQOL_IMPORT_FAILURE",
+          "fallback_used": false,
+          "error_detail": "ImportError: cannot import name 'StrEnum' from 'enum' (/usr/lib/python3.10/enum.py)"
+        }
+      ]
+    },
+    "وَلَدَ": {
+      "surface": "وَلَدَ",
+      "DISCOVERED_CANONICAL_TRANSITION_EDGE_COUNT": 11,
+      "edge_count": 1,
+      "taaqol_called_count": 1,
+      "transitions_without_taaqol": 0,
+      "local_decisions": 0,
+      "silent_fallbacks": 0,
+      "blocked_count": 1,
+      "rejected_count": 0,
+      "judgments": [
+        {
+          "edge_id": "NORMALIZE→SEGMENT",
+          "source_stage": "NORMALIZE",
+          "target_stage": "SEGMENT",
+          "taaqol_called": true,
+          "taaqol_runtime_active": false,
+          "gamma_closure_state": "UNAVAILABLE",
+          "gate_verdict": "BLOCKED",
+          "failure_code": "TAAQOL_IMPORT_FAILURE",
+          "fallback_used": false,
+          "error_detail": "ImportError: cannot import name 'StrEnum' from 'enum' (/usr/lib/python3.10/enum.py)"
+        }
+      ]
+    },
+    "قَرَأَ": {
+      "surface": "قَرَأَ",
+      "DISCOVERED_CANONICAL_TRANSITION_EDGE_COUNT": 11,
+      "edge_count": 1,
+      "taaqol_called_count": 1,
+      "transitions_without_taaqol": 0,
+      "local_decisions": 0,
+      "silent_fallbacks": 0,
+      "blocked_count": 1,
+      "rejected_count": 0,
+      "judgments": [
+        {
+          "edge_id": "NORMALIZE→SEGMENT",
+          "source_stage": "NORMALIZE",
+          "target_stage": "SEGMENT",
+          "taaqol_called": true,
+          "taaqol_runtime_active": false,
+          "gamma_closure_state": "UNAVAILABLE",
+          "gate_verdict": "BLOCKED",
+          "failure_code": "TAAQOL_IMPORT_FAILURE",
+          "fallback_used": false,
+          "error_detail": "ImportError: cannot import name 'StrEnum' from 'enum' (/usr/lib/python3.10/enum.py)"
+        }
+      ]
+    },
+    "ذَهَبَ": {
+      "surface": "ذَهَبَ",
+      "DISCOVERED_CANONICAL_TRANSITION_EDGE_COUNT": 11,
+      "edge_count": 1,
+      "taaqol_called_count": 1,
+      "transitions_without_taaqol": 0,
+      "local_decisions": 0,
+      "silent_fallbacks": 0,
+      "blocked_count": 1,
+      "rejected_count": 0,
+      "judgments": [
+        {
+          "edge_id": "NORMALIZE→SEGMENT",
+          "source_stage": "NORMALIZE",
+          "target_stage": "SEGMENT",
+          "taaqol_called": true,
+          "taaqol_runtime_active": false,
+          "gamma_closure_state": "UNAVAILABLE",
+          "gate_verdict": "BLOCKED",
+          "failure_code": "TAAQOL_IMPORT_FAILURE",
+          "fallback_used": false,
+          "error_detail": "ImportError: cannot import name 'StrEnum' from 'enum' (/usr/lib/python3.10/enum.py)"
+        }
+      ]
+    },
+    "جَلَسَ": {
+      "surface": "جَلَسَ",
+      "DISCOVERED_CANONICAL_TRANSITION_EDGE_COUNT": 11,
+      "edge_count": 1,
+      "taaqol_called_count": 1,
+      "transitions_without_taaqol": 0,
+      "local_decisions": 0,
+      "silent_fallbacks": 0,
+      "blocked_count": 1,
+      "rejected_count": 0,
+      "judgments": [
+        {
+          "edge_id": "NORMALIZE→SEGMENT",
+          "source_stage": "NORMALIZE",
+          "target_stage": "SEGMENT",
+          "taaqol_called": true,
+          "taaqol_runtime_active": false,
+          "gamma_closure_state": "UNAVAILABLE",
+          "gate_verdict": "BLOCKED",
+          "failure_code": "TAAQOL_IMPORT_FAILURE",
+          "fallback_used": false,
+          "error_detail": "ImportError: cannot import name 'StrEnum' from 'enum' (/usr/lib/python3.10/enum.py)"
+        }
+      ]
+    }
+  }
+}
