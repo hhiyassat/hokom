@@ -1,300 +1,285 @@
 {
-  "audit_id": "HOKOM-SCG-P0-P12-SOURCE-BACKED-OWNERSHIP-AUDIT-01",
-  "mandate_id": "HOKOM-SCG-P0-P12-CANONICAL-CONFORMANCE-OWNERSHIP-AND-TAAQOL-JUDGMENT-CLOSURE-01",
-  "start_head": "e96a510",
-  "audit_date": "2026-07-25",
-  "auditor": "source-code read + marker-based line-order discovery",
-
-  "CANONICAL_CANDIDATE_COUNT": 19,
-  "CANONICAL_CANDIDATE_IDS": [
-    "UnicodeCandidate",
-    "NormalizationCandidate",
-    "SegmentationCandidate",
-    "BoundaryCandidate",
-    "PatternCandidate",
-    "BabCandidate",
-    "InflectionCandidate",
-    "WordClassCandidate",
-    "RadicalCandidate",
-    "MasdarCandidate",
-    "DerivativeCandidate",
-    "EvidenceCandidate",
-    "ResidualCandidate",
-    "IfadahCandidate",
-    "MorphoSyntaxCandidate",
-    "ParadigmCandidate",
-    "PhonologicalCandidate",
-    "LexicalFunctionalCandidate",
-    "ArticleCandidate"
-  ],
-
-  "CANONICAL_EDGE_COUNT": 11,
-  "CANONICAL_EDGE_DISCOVERY_METHOD": "Line-number scan of hokom_pipeline.py stage invocation sites",
-  "CANONICAL_EDGES": [
-    "NORMALIZE → SEGMENT",
-    "SEGMENT → NORM_ATOMIC",
-    "NORM_ATOMIC → BOUNDARY",
-    "BOUNDARY → ROOT_CAND",
-    "ROOT_CAND → PHASE_4A",
-    "PHASE_4A → PHASE_4B",
-    "PHASE_4B → PHASE_4C",
-    "PHASE_4C → PHASE_4D",
-    "PHASE_4D → WORD_CLASS",
-    "WORD_CLASS → PHASE_5",
-    "PHASE_5 → TAAQOL_SGA"
-  ],
-
-  "ENTRY_AND_TERMINAL_JUDGMENTS": {
-    "entry_judge": "TAAQOL_SGA (evaluate_sga_bundle) — currently ONE call at PHASE_5→TAAQOL_SGA edge only",
-    "terminal_judge": "IfadahCandidate at P12 — class defined in constitutional_contracts.py but NOT produced in main pipeline flow",
-    "gap": "10 of 11 edges have NO live Taaqol judgment; only the final PHASE_5→TAAQOL_SGA edge is covered"
-  },
-
-  "OWNERSHIP_MATRIX": [
-    {
-      "candidate": "UnicodeCandidate",
-      "mandate_owner": "HOKOM_NATIVE_OWNER",
-      "actual_module": "pipeline/p0_unicode/unicode_candidate.py",
-      "actual_class": "UnicodeCandidate",
-      "source_owner": "HOKOM_NATIVE_OWNER",
-      "divergence": "NONE",
-      "implementation_status": "EXISTS"
+    "audit_id": "HOKOM-SCG-P0-P12-SOURCE-BACKED-OWNERSHIP-AUDIT-01",
+    "mandate_id": "HOKOM-SCG-P0-P12-CANONICAL-CONFORMANCE-OWNERSHIP-AND-TAAQOL-JUDGMENT-CLOSURE-01",
+    "start_head": "e96a510",
+    "audit_date": "2026-07-25",
+    "auditor": "source-code read + marker-based line-order discovery",
+    "CANONICAL_CANDIDATE_COUNT": 19,
+    "CANONICAL_CANDIDATE_IDS": [
+        "UnicodeCandidate",
+        "NormalizationCandidate",
+        "SegmentationCandidate",
+        "BoundaryCandidate",
+        "PatternCandidate",
+        "BabCandidate",
+        "InflectionCandidate",
+        "WordClassCandidate",
+        "RadicalCandidate",
+        "MasdarCandidate",
+        "DerivativeCandidate",
+        "EvidenceCandidate",
+        "ResidualCandidate",
+        "IfadahCandidate",
+        "MorphoSyntaxCandidate",
+        "ParadigmCandidate",
+        "PhonologicalCandidate",
+        "LexicalFunctionalCandidate",
+        "ArticleCandidate"
+    ],
+    "CANONICAL_EDGE_COUNT": 11,
+    "CANONICAL_EDGE_DISCOVERY_METHOD": "Line-number scan of hokom_pipeline.py stage invocation sites",
+    "CANONICAL_EDGES": [
+        "NORMALIZE → SEGMENT",
+        "SEGMENT → NORM_ATOMIC",
+        "NORM_ATOMIC → BOUNDARY",
+        "BOUNDARY → ROOT_CAND",
+        "ROOT_CAND → PHASE_4A",
+        "PHASE_4A → PHASE_4B",
+        "PHASE_4B → PHASE_4C",
+        "PHASE_4C → PHASE_4D",
+        "PHASE_4D → WORD_CLASS",
+        "WORD_CLASS → PHASE_5",
+        "PHASE_5 → TAAQOL_SGA"
+    ],
+    "ENTRY_AND_TERMINAL_JUDGMENTS": {
+        "entry_judge": "TAAQOL_SGA (evaluate_sga_bundle) — currently ONE call at PHASE_5→TAAQOL_SGA edge only",
+        "terminal_judge": "IfadahCandidate at P12 — class defined in constitutional_contracts.py but NOT produced in main pipeline flow",
+        "gap": "10 of 11 edges have NO live Taaqol judgment; only the final PHASE_5→TAAQOL_SGA edge is covered"
     },
-    {
-      "candidate": "NormalizationCandidate",
-      "mandate_owner": "HOKOM_NATIVE_OWNER",
-      "actual_module": "normalizer.py + hokom_pipeline.py:164",
-      "actual_class": "None (implicit — normalized_surface string)",
-      "source_owner": "HOKOM_NATIVE_OWNER",
-      "divergence": "NO_DEDICATED_CLASS",
-      "implementation_status": "EXISTS_NO_CLASS"
+    "OWNERSHIP_MATRIX": [
+        {
+            "candidate": "UnicodeCandidate",
+            "mandate_owner": "HOKOM_NATIVE_OWNER",
+            "actual_module": "pipeline/p0_unicode/unicode_candidate.py",
+            "actual_class": "UnicodeCandidate",
+            "source_owner": "HOKOM_NATIVE_OWNER",
+            "divergence": "NONE",
+            "implementation_status": "EXISTS"
+        },
+        {
+            "candidate": "NormalizationCandidate",
+            "mandate_owner": "HOKOM_NATIVE_OWNER",
+            "actual_module": "normalizer.py + hokom_pipeline.py:164",
+            "actual_class": "None (implicit — normalized_surface string)",
+            "source_owner": "HOKOM_NATIVE_OWNER",
+            "divergence": "NO_DEDICATED_CLASS",
+            "implementation_status": "EXISTS_NO_CLASS"
+        },
+        {
+            "candidate": "SegmentationCandidate",
+            "mandate_owner": "HOKOM_NATIVE_OWNER",
+            "actual_module": "pipeline/p0_segmentation/models.py",
+            "actual_class": "SegmentBundle",
+            "source_owner": "HOKOM_NATIVE_OWNER",
+            "divergence": "CLASS_NAME_DIFFERS",
+            "implementation_status": "EXISTS"
+        },
+        {
+            "candidate": "BoundaryCandidate",
+            "mandate_owner": "HOKOM_NATIVE_OWNER",
+            "actual_module": "boundary/models.py",
+            "actual_class": "RootEligibilityDecision",
+            "source_owner": "HOKOM_NATIVE_OWNER",
+            "divergence": "CLASS_NAME_DIFFERS",
+            "implementation_status": "EXISTS"
+        },
+        {
+            "candidate": "PatternCandidate",
+            "mandate_owner": "SALEH_QIYAS_CANONICAL_OWNER",
+            "actual_module": "pipeline/p4_wazn/models.py",
+            "actual_class": "Phase4AResult / WaznProjection",
+            "source_owner": "HOKOM_NATIVE_OWNER",
+            "divergence": "OWNER_MISMATCH — mandate says SALEH_QIYAS, source is HOKOM_NATIVE",
+            "implementation_status": "EXISTS",
+            "blocking": false,
+            "resolution": "Binding rule 6: native implementation allowed"
+        },
+        {
+            "candidate": "BabCandidate",
+            "mandate_owner": "SALEH_QIYAS_CANONICAL_OWNER",
+            "actual_module": "pipeline/p4_bab/models.py",
+            "actual_class": "Phase4BResult / BabProjection",
+            "source_owner": "HOKOM_NATIVE_OWNER",
+            "divergence": "OWNER_MISMATCH — mandate says SALEH_QIYAS, source is HOKOM_NATIVE",
+            "implementation_status": "EXISTS",
+            "blocking": false,
+            "resolution": "Binding rule 6: native implementation allowed"
+        },
+        {
+            "candidate": "InflectionCandidate",
+            "mandate_owner": "HOKOM_NATIVE_OWNER",
+            "actual_module": "pipeline/p5_inflection/models.py",
+            "actual_class": "Phase5Result",
+            "source_owner": "HOKOM_NATIVE_OWNER",
+            "divergence": "CLASS_NAME_DIFFERS",
+            "implementation_status": "EXISTS"
+        },
+        {
+            "candidate": "WordClassCandidate",
+            "mandate_owner": "HOKOM_NATIVE_OWNER",
+            "actual_module": "pipeline/word_class/models.py",
+            "actual_class": "WordClassVerdict",
+            "source_owner": "HOKOM_NATIVE_OWNER",
+            "divergence": "CLASS_NAME_DIFFERS",
+            "implementation_status": "EXISTS"
+        },
+        {
+            "candidate": "RadicalCandidate",
+            "mandate_owner": "ARABIC_VERIFIER_CANONICAL_OWNER",
+            "actual_module": "pipeline/p3_candidate/root_candidate.py",
+            "actual_class": "RootCandidate",
+            "source_owner": "HOKOM_NATIVE_OWNER",
+            "divergence": "OWNER_MISMATCH — mandate says ARABIC_VERIFIER, source is HOKOM_NATIVE",
+            "implementation_status": "EXISTS",
+            "blocking": false,
+            "resolution": "Binding rule 6: native implementation allowed; HR2S is research-only adapter"
+        },
+        {
+            "candidate": "MasdarCandidate",
+            "mandate_owner": "SALEH_QIYAS_CANONICAL_OWNER",
+            "actual_module": "pipeline/p4_masdar/ + pipeline/p5_masdar/",
+            "actual_class": "Phase4CResult + MasdarCandidate (p5_masdar/models.py)",
+            "source_owner": "HOKOM_NATIVE_OWNER",
+            "divergence": "OWNER_MISMATCH",
+            "implementation_status": "EXISTS",
+            "blocking": false,
+            "resolution": "Binding rule 6: native implementation allowed"
+        },
+        {
+            "candidate": "DerivativeCandidate",
+            "mandate_owner": "SALEH_QIYAS_CANONICAL_OWNER",
+            "actual_module": "pipeline/p4_mushtaqat/ + pipeline/p6_derivatives/",
+            "actual_class": "Phase4DResult + DerivativeCandidate (p6_derivatives/models.py)",
+            "source_owner": "HOKOM_NATIVE_OWNER",
+            "divergence": "OWNER_MISMATCH",
+            "implementation_status": "EXISTS",
+            "blocking": false,
+            "resolution": "Binding rule 6: native implementation allowed"
+        },
+        {
+            "candidate": "EvidenceCandidate",
+            "mandate_owner": "TAAQOL_ABSTRACT_GATE_OWNER",
+            "actual_module": "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/core/",
+            "actual_class": "EvidenceContract",
+            "source_owner": "TAAQOL_ABSTRACT_GATE_OWNER",
+            "divergence": "CLASS_NAME_DIFFERS",
+            "implementation_status": "EXISTS_IN_VENDOR"
+        },
+        {
+            "candidate": "ResidualCandidate",
+            "mandate_owner": "TAAQOL_ABSTRACT_GATE_OWNER",
+            "actual_module": "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/core/",
+            "actual_class": "ResidualBundle (in GammaResult)",
+            "source_owner": "TAAQOL_ABSTRACT_GATE_OWNER",
+            "divergence": "CLASS_NAME_DIFFERS",
+            "implementation_status": "EXISTS_IN_VENDOR"
+        },
+        {
+            "candidate": "IfadahCandidate",
+            "mandate_owner": "HOKOM_NATIVE_OWNER",
+            "actual_module": "pipeline/taaqol_integration/constitutional_contracts.py",
+            "actual_class": "IfadahCandidate",
+            "source_owner": "HOKOM_NATIVE_OWNER",
+            "divergence": "NOT_PRODUCED_BY_MAIN_PIPELINE",
+            "implementation_status": "CLASS_EXISTS_NOT_WIRED",
+            "note": "IfadahCandidate defined but never instantiated in hokom_pipeline.py"
+        },
+        {
+            "candidate": "MorphoSyntaxCandidate",
+            "mandate_owner": "BRIDGE_ADAPTER_OWNED_BY_HOKOM",
+            "actual_module": "hokom_pipeline.py (dict field 'morpho_syntax')",
+            "actual_class": "None — implicit dict",
+            "source_owner": "HOKOM_NATIVE_OWNER",
+            "divergence": "NO_DEDICATED_CLASS",
+            "implementation_status": "EXISTS_NO_CLASS"
+        },
+        {
+            "candidate": "ParadigmCandidate",
+            "mandate_owner": "HOKOM_NATIVE_OWNER",
+            "actual_module": "pipeline/p5_inflection/models.py:137",
+            "actual_class": "ParadigmCandidate",
+            "source_owner": "HOKOM_NATIVE_OWNER",
+            "divergence": "NONE",
+            "implementation_status": "EXISTS",
+            "note": "Found at pipeline/p5_inflection/models.py:137 — frozen dataclass. Built in phase5_orchestrator.py:184. Previously mislabelled UNOWNED_GAP."
+        },
+        {
+            "candidate": "PhonologicalCandidate",
+            "mandate_owner": "HOKOM_NATIVE_OWNER",
+            "actual_module": "pipeline/p1_atomic_structure/phonological_slot.py",
+            "actual_class": "PhonologicalSlot (typed_phonological_slots)",
+            "source_owner": "HOKOM_NATIVE_OWNER",
+            "divergence": "CLASS_NAME_DIFFERS",
+            "implementation_status": "EXISTS"
+        },
+        {
+            "candidate": "LexicalFunctionalCandidate",
+            "mandate_owner": "HOKOM_NATIVE_OWNER",
+            "actual_module": "pipeline/p5_lexical/",
+            "actual_class": "functional_lexical_lookup results (dict)",
+            "source_owner": "HOKOM_NATIVE_OWNER",
+            "divergence": "NO_DEDICATED_CANDIDATE_CLASS",
+            "implementation_status": "EXISTS_NO_CLASS"
+        },
+        {
+            "candidate": "ArticleCandidate",
+            "mandate_owner": "HOKOM_NATIVE_OWNER",
+            "actual_module": "pipeline/p0_segmentation/ (article in SegmentBundle)",
+            "actual_class": "article_slot in SegmentBundle",
+            "source_owner": "HOKOM_NATIVE_OWNER",
+            "divergence": "NO_DEDICATED_CANDIDATE_CLASS",
+            "implementation_status": "EXISTS_NO_CLASS"
+        }
+    ],
+    "UNOWNED_GAPS": 0,
+    "MULTIPLE_CANONICAL_OWNERS": [],
+    "LEGACY_DUPLICATES": [],
+    "REQUIRED_LIVE_ADAPTERS": [
+        {
+            "adapter": "taaqol_judgment_enforcer",
+            "purpose": "Gate each of the 11 canonical transition edges with a live Taaqol gamma()+TransitionGate call",
+            "status": "MISSING — must be implemented",
+            "module": "pipeline/governance/taaqol_judgment_enforcer.py"
+        }
+    ],
+    "CURRENTLY_MISSING_ADAPTERS": [
+        "pipeline/governance/taaqol_judgment_enforcer.py (per-transition Taaqol gate)"
+    ],
+    "TAAQOL_JUDGMENT_MODEL": {
+        "current": "Single evaluate_sga_bundle call at PHASE_5→TAAQOL_SGA (1 of 11 edges judged)",
+        "required": "11 per-transition calls — one for each discovered edge",
+        "edges_currently_judged": 1,
+        "edges_requiring_judgment": 11,
+        "gap": 10,
+        "implementation_approach": "taaqol_judgment_enforcer.py wraps each stage call; records TaaqolTransitionJudgment per edge; FAIL_CLOSED on any Taaqol exception"
     },
-    {
-      "candidate": "SegmentationCandidate",
-      "mandate_owner": "HOKOM_NATIVE_OWNER",
-      "actual_module": "pipeline/p0_segmentation/models.py",
-      "actual_class": "SegmentBundle",
-      "source_owner": "HOKOM_NATIVE_OWNER",
-      "divergence": "CLASS_NAME_DIFFERS",
-      "implementation_status": "EXISTS"
+    "OWNER_DISCREPANCIES": {
+        "P4a_PatternCandidate": "MANDATE=SALEH_QIYAS_CANONICAL_OWNER / SOURCE=HOKOM_NATIVE_OWNER",
+        "P4b_BabCandidate": "MANDATE=SALEH_QIYAS_CANONICAL_OWNER / SOURCE=HOKOM_NATIVE_OWNER",
+        "P7_RadicalCandidate": "MANDATE=ARABIC_VERIFIER_CANONICAL_OWNER / SOURCE=HOKOM_NATIVE_OWNER",
+        "P8_MasdarCandidate": "MANDATE=SALEH_QIYAS_CANONICAL_OWNER / SOURCE=HOKOM_NATIVE_OWNER",
+        "P9_DerivativeCandidate": "MANDATE=SALEH_QIYAS_CANONICAL_OWNER / SOURCE=HOKOM_NATIVE_OWNER",
+        "resolution": "Binding rule 6 allows native implementation. No external engine to duplicate. No blocking conflict."
     },
-    {
-      "candidate": "BoundaryCandidate",
-      "mandate_owner": "HOKOM_NATIVE_OWNER",
-      "actual_module": "boundary/models.py",
-      "actual_class": "RootEligibilityDecision",
-      "source_owner": "HOKOM_NATIVE_OWNER",
-      "divergence": "CLASS_NAME_DIFFERS",
-      "implementation_status": "EXISTS"
-    },
-    {
-      "candidate": "PatternCandidate",
-      "mandate_owner": "SALEH_QIYAS_CANONICAL_OWNER",
-      "actual_module": "pipeline/p4_wazn/models.py",
-      "actual_class": "Phase4AResult / WaznProjection",
-      "source_owner": "HOKOM_NATIVE_OWNER",
-      "divergence": "OWNER_MISMATCH — mandate says SALEH_QIYAS, source is HOKOM_NATIVE",
-      "implementation_status": "EXISTS",
-      "blocking": false,
-      "resolution": "Binding rule 6: native implementation allowed"
-    },
-    {
-      "candidate": "BabCandidate",
-      "mandate_owner": "SALEH_QIYAS_CANONICAL_OWNER",
-      "actual_module": "pipeline/p4_bab/models.py",
-      "actual_class": "Phase4BResult / BabProjection",
-      "source_owner": "HOKOM_NATIVE_OWNER",
-      "divergence": "OWNER_MISMATCH — mandate says SALEH_QIYAS, source is HOKOM_NATIVE",
-      "implementation_status": "EXISTS",
-      "blocking": false,
-      "resolution": "Binding rule 6: native implementation allowed"
-    },
-    {
-      "candidate": "InflectionCandidate",
-      "mandate_owner": "HOKOM_NATIVE_OWNER",
-      "actual_module": "pipeline/p5_inflection/models.py",
-      "actual_class": "Phase5Result",
-      "source_owner": "HOKOM_NATIVE_OWNER",
-      "divergence": "CLASS_NAME_DIFFERS",
-      "implementation_status": "EXISTS"
-    },
-    {
-      "candidate": "WordClassCandidate",
-      "mandate_owner": "HOKOM_NATIVE_OWNER",
-      "actual_module": "pipeline/word_class/models.py",
-      "actual_class": "WordClassVerdict",
-      "source_owner": "HOKOM_NATIVE_OWNER",
-      "divergence": "CLASS_NAME_DIFFERS",
-      "implementation_status": "EXISTS"
-    },
-    {
-      "candidate": "RadicalCandidate",
-      "mandate_owner": "ARABIC_VERIFIER_CANONICAL_OWNER",
-      "actual_module": "pipeline/p3_candidate/root_candidate.py",
-      "actual_class": "RootCandidate",
-      "source_owner": "HOKOM_NATIVE_OWNER",
-      "divergence": "OWNER_MISMATCH — mandate says ARABIC_VERIFIER, source is HOKOM_NATIVE",
-      "implementation_status": "EXISTS",
-      "blocking": false,
-      "resolution": "Binding rule 6: native implementation allowed; HR2S is research-only adapter"
-    },
-    {
-      "candidate": "MasdarCandidate",
-      "mandate_owner": "SALEH_QIYAS_CANONICAL_OWNER",
-      "actual_module": "pipeline/p4_masdar/ + pipeline/p5_masdar/",
-      "actual_class": "Phase4CResult + MasdarCandidate (p5_masdar/models.py)",
-      "source_owner": "HOKOM_NATIVE_OWNER",
-      "divergence": "OWNER_MISMATCH",
-      "implementation_status": "EXISTS",
-      "blocking": false,
-      "resolution": "Binding rule 6: native implementation allowed"
-    },
-    {
-      "candidate": "DerivativeCandidate",
-      "mandate_owner": "SALEH_QIYAS_CANONICAL_OWNER",
-      "actual_module": "pipeline/p4_mushtaqat/ + pipeline/p6_derivatives/",
-      "actual_class": "Phase4DResult + DerivativeCandidate (p6_derivatives/models.py)",
-      "source_owner": "HOKOM_NATIVE_OWNER",
-      "divergence": "OWNER_MISMATCH",
-      "implementation_status": "EXISTS",
-      "blocking": false,
-      "resolution": "Binding rule 6: native implementation allowed"
-    },
-    {
-      "candidate": "EvidenceCandidate",
-      "mandate_owner": "TAAQOL_ABSTRACT_GATE_OWNER",
-      "actual_module": "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/core/",
-      "actual_class": "EvidenceContract",
-      "source_owner": "TAAQOL_ABSTRACT_GATE_OWNER",
-      "divergence": "CLASS_NAME_DIFFERS",
-      "implementation_status": "EXISTS_IN_VENDOR"
-    },
-    {
-      "candidate": "ResidualCandidate",
-      "mandate_owner": "TAAQOL_ABSTRACT_GATE_OWNER",
-      "actual_module": "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/core/",
-      "actual_class": "ResidualBundle (in GammaResult)",
-      "source_owner": "TAAQOL_ABSTRACT_GATE_OWNER",
-      "divergence": "CLASS_NAME_DIFFERS",
-      "implementation_status": "EXISTS_IN_VENDOR"
-    },
-    {
-      "candidate": "IfadahCandidate",
-      "mandate_owner": "HOKOM_NATIVE_OWNER",
-      "actual_module": "pipeline/taaqol_integration/constitutional_contracts.py",
-      "actual_class": "IfadahCandidate",
-      "source_owner": "HOKOM_NATIVE_OWNER",
-      "divergence": "NOT_PRODUCED_BY_MAIN_PIPELINE",
-      "implementation_status": "CLASS_EXISTS_NOT_WIRED",
-      "note": "IfadahCandidate defined but never instantiated in hokom_pipeline.py"
-    },
-    {
-      "candidate": "MorphoSyntaxCandidate",
-      "mandate_owner": "BRIDGE_ADAPTER_OWNED_BY_HOKOM",
-      "actual_module": "hokom_pipeline.py (dict field 'morpho_syntax')",
-      "actual_class": "None — implicit dict",
-      "source_owner": "HOKOM_NATIVE_OWNER",
-      "divergence": "NO_DEDICATED_CLASS",
-      "implementation_status": "EXISTS_NO_CLASS"
-    },
-    {
-      "candidate": "ParadigmCandidate",
-      "mandate_owner": "BRIDGE_ADAPTER_OWNED_BY_HOKOM",
-      "actual_module": "None discovered",
-      "actual_class": "None",
-      "source_owner": "UNOWNED_GAP",
-      "divergence": "MISSING",
-      "implementation_status": "NOT_FOUND"
-    },
-    {
-      "candidate": "PhonologicalCandidate",
-      "mandate_owner": "HOKOM_NATIVE_OWNER",
-      "actual_module": "pipeline/p1_atomic_structure/phonological_slot.py",
-      "actual_class": "PhonologicalSlot (typed_phonological_slots)",
-      "source_owner": "HOKOM_NATIVE_OWNER",
-      "divergence": "CLASS_NAME_DIFFERS",
-      "implementation_status": "EXISTS"
-    },
-    {
-      "candidate": "LexicalFunctionalCandidate",
-      "mandate_owner": "HOKOM_NATIVE_OWNER",
-      "actual_module": "pipeline/p5_lexical/",
-      "actual_class": "functional_lexical_lookup results (dict)",
-      "source_owner": "HOKOM_NATIVE_OWNER",
-      "divergence": "NO_DEDICATED_CANDIDATE_CLASS",
-      "implementation_status": "EXISTS_NO_CLASS"
-    },
-    {
-      "candidate": "ArticleCandidate",
-      "mandate_owner": "HOKOM_NATIVE_OWNER",
-      "actual_module": "pipeline/p0_segmentation/ (article in SegmentBundle)",
-      "actual_class": "article_slot in SegmentBundle",
-      "source_owner": "HOKOM_NATIVE_OWNER",
-      "divergence": "NO_DEDICATED_CANDIDATE_CLASS",
-      "implementation_status": "EXISTS_NO_CLASS"
-    }
-  ],
-
-  "UNOWNED_GAPS": [
-    {
-      "candidate": "ParadigmCandidate",
-      "reason": "No dedicated class or module found; paradigm data is embedded in hokom result dict under 'paradigm_result'"
-    }
-  ],
-
-  "MULTIPLE_CANONICAL_OWNERS": [],
-
-  "LEGACY_DUPLICATES": [],
-
-  "REQUIRED_LIVE_ADAPTERS": [
-    {
-      "adapter": "taaqol_judgment_enforcer",
-      "purpose": "Gate each of the 11 canonical transition edges with a live Taaqol gamma()+TransitionGate call",
-      "status": "MISSING — must be implemented",
-      "module": "pipeline/governance/taaqol_judgment_enforcer.py"
-    }
-  ],
-
-  "CURRENTLY_MISSING_ADAPTERS": [
-    "pipeline/governance/taaqol_judgment_enforcer.py (per-transition Taaqol gate)"
-  ],
-
-  "TAAQOL_JUDGMENT_MODEL": {
-    "current": "Single evaluate_sga_bundle call at PHASE_5→TAAQOL_SGA (1 of 11 edges judged)",
-    "required": "11 per-transition calls — one for each discovered edge",
-    "edges_currently_judged": 1,
-    "edges_requiring_judgment": 11,
-    "gap": 10,
-    "implementation_approach": "taaqol_judgment_enforcer.py wraps each stage call; records TaaqolTransitionJudgment per edge; FAIL_CLOSED on any Taaqol exception"
-  },
-
-  "OWNER_DISCREPANCIES": {
-    "P4a_PatternCandidate": "MANDATE=SALEH_QIYAS_CANONICAL_OWNER / SOURCE=HOKOM_NATIVE_OWNER",
-    "P4b_BabCandidate":     "MANDATE=SALEH_QIYAS_CANONICAL_OWNER / SOURCE=HOKOM_NATIVE_OWNER",
-    "P7_RadicalCandidate":  "MANDATE=ARABIC_VERIFIER_CANONICAL_OWNER / SOURCE=HOKOM_NATIVE_OWNER",
-    "P8_MasdarCandidate":   "MANDATE=SALEH_QIYAS_CANONICAL_OWNER / SOURCE=HOKOM_NATIVE_OWNER",
-    "P9_DerivativeCandidate":"MANDATE=SALEH_QIYAS_CANONICAL_OWNER / SOURCE=HOKOM_NATIVE_OWNER",
-    "resolution": "Binding rule 6 allows native implementation. No external engine to duplicate. No blocking conflict."
-  },
-
-  "BLOCKING_CONSTITUTIONAL_CONFLICT": "NONE",
-
-  "IMPLEMENTATION_PLAN": [
-    "commit 1: pipeline/governance/taaqol_judgment_enforcer.py — per-transition Taaqol gate + transition matrix recorder",
-    "commit 2: tests/scg/__init__.py + tests/scg/test_taaqol_judgment_all_edges.py",
-    "commit 3: tests/scg/test_taaqol_fail_closed.py + tests/scg/test_taaqol_terminal_guards.py",
-    "commit 4: tests/scg/test_taaqol_transition_determinism.py",
-    "commit 5: reports/scg_p0_p12/taaqol_transition_judgment_matrix.json",
-    "canonical runs on macOS/Python 3.12.4 → then final commit with updated mandate closure status"
-  ],
-
-  "CLOSURE_BLOCKERS": [
-    "10 of 11 canonical transition edges lack live Taaqol judgment (gap = 10)",
-    "ParadigmCandidate has UNOWNED_GAP status — no dedicated class",
-    "IfadahCandidate defined but not produced by main pipeline (P12 not wired)",
-    "Canonical runs on macOS/Python 3.12.4 not yet performed",
-    "Taaqol vendor requires Python 3.11+ (StrEnum) — sandbox runs Python 3.10"
-  ],
-
-  "VERDICT_AT_AUDIT": "NO_BLOCKING_OWNERSHIP_CONFLICT — proceed with implementation"
+    "BLOCKING_CONSTITUTIONAL_CONFLICT": "NONE",
+    "IMPLEMENTATION_PLAN": [
+        "commit 1: pipeline/governance/taaqol_judgment_enforcer.py — per-transition Taaqol gate + transition matrix recorder",
+        "commit 2: tests/scg/__init__.py + tests/scg/test_taaqol_judgment_all_edges.py",
+        "commit 3: tests/scg/test_taaqol_fail_closed.py + tests/scg/test_taaqol_terminal_guards.py",
+        "commit 4: tests/scg/test_taaqol_transition_determinism.py",
+        "commit 5: reports/scg_p0_p12/taaqol_transition_judgment_matrix.json",
+        "canonical runs on macOS/Python 3.12.4 → then final commit with updated mandate closure status"
+    ],
+    "CLOSURE_BLOCKERS": [
+        "10 of 11 canonical transition edges lack live Taaqol judgment (gap = 10)",
+        "ParadigmCandidate has UNOWNED_GAP status — no dedicated class",
+        "IfadahCandidate defined but not produced by main pipeline (P12 not wired)",
+        "Canonical runs on macOS/Python 3.12.4 not yet performed",
+        "Taaqol vendor requires Python 3.11+ (StrEnum) — sandbox runs Python 3.10"
+    ],
+    "VERDICT_AT_AUDIT": "NO_BLOCKING_OWNERSHIP_CONFLICT — proceed with implementation. ParadigmCandidate ownership resolved: pipeline/p5_inflection/models.py:137.",
+    "CANDIDATES_WITH_EXPLICIT_OWNER": 19,
+    "UNOWNED_GAP_DETAIL": [],
+    "OPEN_ISSUES": [],
+    "CORRECTION_NOTE": "HOKOM-SCG-P0-P12-TAAQOL-HARD-GATING-CORRECTION-04: ParadigmCandidate found in pipeline/p5_inflection/models.py:137 (frozen dataclass). Originally mislabelled UNOWNED_GAP — corrected. UNOWNED_GAPS now 0."
 }
