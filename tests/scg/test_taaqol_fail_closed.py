@@ -154,26 +154,53 @@ class TestRuntimeErrorFailClosed:
     """
 
     class _FakeHandles:
-        class SlotBoundary:
+        """Stub handles compatible with the corrected judge_transition() API.
+
+        The corrected enforcer calls:
+          gate.decide(slot_graph, Layer.CANDIDATE, evidence_contract)
+        and does NOT call gamma() directly. All construction stubs succeed;
+        TransitionGate.decide() raises RuntimeError to exercise the
+        TAAQOL_RUNTIME_ERROR fail-closed path.
+        """
+        class TraceRef:
             def __init__(self, **kwargs): pass
         class Center:
             def __init__(self, **kwargs): pass
+        class SlotBoundary:
+            def __init__(self, **kwargs): pass
+        class OpeningPolicy:
+            def __init__(self, **kwargs): pass
+        class Slot:
+            def __init__(self, **kwargs): pass
         class SlotGraph:
             def __init__(self, **kwargs): pass
+        class OutputBoundary:
+            def __init__(self, **kwargs): pass
+        class EvidenceSource:
+            def __init__(self, **kwargs): pass
+        class EvidenceContract:
+            def __init__(self, **kwargs): pass
 
-        @staticmethod
-        def gamma(_slot_graph):
-            raise RuntimeError("simulated Taaqol runtime failure")
+        class Layer:
+            CANDIDATE = 3
+            SLOT = 2
+
+        class Rank:
+            HYPOTHESIS = 3
+
+        class GenerationSource:
+            CANDIDATE = "CANDIDATE"
+
+        class SlotState:
+            FILLED = "FILLED"
+
+        class FailureCode:
+            GATE_REQUIRED = "GATE_REQUIRED"
 
         class TransitionGate:
             def __init__(self, **kwargs): pass
-            def decide(self, _gamma_result):
-                raise RuntimeError("should not reach TransitionGate.decide")
-
-        class Rank:
-            def __new__(cls, *args, **kwargs):
-                raise RuntimeError("simulated Rank failure")
-            HYPOTHESIS = 3
+            def decide(self, *args, **kwargs):
+                raise RuntimeError("simulated Taaqol runtime failure")
 
     def _mock_available_runtime_fails(self):
         return (True, self._FakeHandles(), None)

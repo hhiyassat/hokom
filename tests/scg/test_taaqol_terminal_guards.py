@@ -182,11 +182,16 @@ class TestNoP13Stage:
         # The enforcer itself legitimately contains p13_or_post_ifadah_opened
         # as a guard parameter.  We exclude the enforcer from this scan.
         forbidden_patterns = [
-            r"\bclass\s+P13\w*",           # class P13Candidate, class P13Stage …
-            r"\bSTAGE_P13\s*=",            # STAGE_P13 = …
-            r"\bP13_STAGE\b",              # P13_STAGE constant
-            r"\bPostIfadahCandidate\b",    # PostIfadahCandidate class name
-            r"\bclass\s+PostIfadah\w*",    # class PostIfadah…
+            r"\bclass\s+P13\w*",              # class P13Candidate, class P13Stage …
+            r"\bSTAGE_P13\s*=",               # STAGE_P13 = …
+            r"\bP13_STAGE\b",                 # P13_STAGE constant
+            r"\bPostIfadahCandidate\b",       # PostIfadahCandidate class name
+            r"\bclass\s+PostIfadah\w*",       # class PostIfadah…
+            # B6: functional and string forms (HOKOM-SCG-P0-P12-TAAQOL-LIVE-GATING-CORRECTION-03)
+            r"\bbuild_p13\s*\(",              # build_p13(...) function call
+            r"\bopen_p13\s*\(",               # open_p13(...) function call
+            r'NEXT_STAGE\s*=\s*["\']P13',     # NEXT_STAGE = "P13" or 'P13'
+            r'target_stage\s*=\s*["\']P13',   # target_stage="P13" or 'P13'
         ]
         # Files to skip: the enforcer's purpose is to block P13, so it mentions it.
         skip_files = {"taaqol_judgment_enforcer.py"}

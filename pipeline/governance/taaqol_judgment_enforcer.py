@@ -5,13 +5,15 @@ pipeline/governance/taaqol_judgment_enforcer.py
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 HOKOM-SCG-P0-P12-CANONICAL-CONFORMANCE-OWNERSHIP-AND-TAAQOL-JUDGMENT-CLOSURE-01
+HOKOM-SCG-P0-P12-TAAQOL-LIVE-GATING-CORRECTION-03
 
 Constitutional rule enforced here:
   NO_CANONICAL_CANDIDATE_TRANSITION_WITHOUT_LIVE_TAAQOL_JUDGMENT
 
 Every transition in the SCG P0→P12 candidate chain must be judged by a live
-Taaqol call (gamma() + TransitionGate.decide()).  This module provides:
+Taaqol call (TransitionGate.decide(), which calls gamma() internally).
 
+This module provides:
   1. TaaqolTransitionJudgment  — immutable record of one edge judgment.
   2. SCGTransitionEnforcer     — callable that gates a named transition and
                                  records the result in the matrix.
@@ -27,6 +29,15 @@ Architecture rules:
   - No vendor modification: this module only calls the vendor's public API.
   - P12 IfadahCandidate is terminal: enforce_terminal_guard() verifies that
     no stage was opened after P12.
+  - Constitutional call order: TransitionGate.decide() calls gamma() internally.
+    This module must NOT call gamma() before decide().
+
+Correction applied (HOKOM-SCG-P0-P12-TAAQOL-LIVE-GATING-CORRECTION-03):
+  B1. gate.decide(gamma_result) → gate.decide(slot_graph, Layer.CANDIDATE, evidence)
+  B2. Empty SlotGraph → properly constructed with Center, TraceRef, Slot,
+      SlotBoundary(refusal_codes=...), OutputBoundary, GenerationSource, Rank
+  B7. DEFERRED continues traversal → judge_all_canonical_edges() now stops on
+      DEFERRED (mandate rule 12: DEFERRED must not open target candidate)
 
 Python compatibility:
   - This module itself is Python 3.10+ compatible.
@@ -76,11 +87,20 @@ assert len(CANONICAL_EDGE_SEQUENCE) == DISCOVERED_CANONICAL_TRANSITION_EDGE_COUN
     f"!= DISCOVERED_CANONICAL_TRANSITION_EDGE_COUNT {DISCOVERED_CANONICAL_TRANSITION_EDGE_COUNT}"
 )
 
-#: Rank to use for each transition gate (HYPOTHESIS = Rank(3) — ungated ceiling).
-_GATE_RANK_NAME = "HYPOTHESIS"
-
 #: Gate name prefix for each transition.
 _GATE_NAME_PREFIX = "HOKOM_SCG_TRANSITION_GATE"
+
+#: Verdicts that stop traversal in judge_all_canonical_edges().
+#: BLOCKED/REJECTED/FORBIDDEN_LEAP/INVALID are hard stops.
+#: DEFERRED is a soft stop: mandate rule 12 says DEFERRED must not open the
+#: target candidate — so traversal halts at the first DEFERRED too.
+_TRAVERSAL_STOP_VERDICTS = frozenset({
+    "BLOCKED",
+    "REJECTED",
+    "FORBIDDEN_LEAP",
+    "DEFERRED",
+    "INVALID",
+})
 
 
 # ── Data model ─────────────────────────────────────────────────────────────────
@@ -97,13 +117,19 @@ class TaaqolTransitionJudgment:
     target_stage         : Target stage label (e.g. "PHASE_4B").
     taaqol_called        : True if and only if a live Taaqol call was attempted.
     taaqol_runtime_active: True if the Taaqol vendor was importable and ran.
-    gamma_closure_state  : String representation of GammaResult.state, or
-                           "UNAVAILABLE" if vendor failed to import.
-    gate_verdict         : String representation of TransitionState, or
-                           "BLOCKED" (fail-closed) if vendor failed.
+    gamma_closure_state  : ClosureState string from TransitionVerdict.gamma_state,
+                           or "UNAVAILABLE" if vendor failed to import,
+                           or "RUNTIME_ERROR" if vendor ran but raised at runtime.
+    gate_verdict         : TransitionState string from TransitionVerdict.state,
+                           or "BLOCKED" (fail-closed) if vendor failed.
     failure_code         : FailureCode string or None.
     fallback_used        : Always False — fail-closed; never a silent fallback.
     error_detail         : Exception message on Taaqol failure, or None.
+
+    Constitutional invariant
+    -----------------------
+    fallback_used must always be False. Construction with fallback_used=True
+    raises ValueError immediately — a fallback is a constitutional violation.
     """
     edge_id:               str
     source_stage:          str
@@ -130,12 +156,13 @@ class TaaqolJudgmentMatrix:
     """
     Accumulates all transition judgments for one token's pipeline pass.
 
-    After all stages have run, this matrix must satisfy:
-      len(judgments) == DISCOVERED_CANONICAL_TRANSITION_EDGE_COUNT
+    After all stages have run (when Taaqol is available), this matrix satisfies:
+      edge_count == DISCOVERED_CANONICAL_TRANSITION_EDGE_COUNT
       all(j.taaqol_called for j in judgments)
       all(not j.fallback_used for j in judgments)
-      sum(1 for j in judgments if j.gate_verdict not in ("APPROVED","DEFERRED"))
-        == 0  (on a successful token)
+      transitions_without_taaqol == 0
+      local_decisions == 0
+      silent_fallbacks == 0
     """
     surface: str
     judgments: List[TaaqolTransitionJudgment] = field(default_factory=list)
@@ -202,29 +229,49 @@ class TaaqolJudgmentMatrix:
 
 def _try_import_taaqol() -> tuple[bool, Optional[object], Optional[str]]:
     """
-    Attempt to import Taaqol vendor.
+    Attempt to import all Taaqol vendor classes needed for the gate call.
 
     Returns
     -------
-    (available, taaqol_module, error_message)
-      available = True  → vendor imported; taaqol_module has .SlotGraph, .gamma,
-                          .TransitionGate, .Rank
-      available = False → vendor unavailable (Python 3.10 StrEnum issue or path
-                          problem); error_message describes why.
+    (available, handles, error_message)
+      available = True  → vendor imported; handles exposes .SlotGraph,
+                          .SlotBoundary, .Center, .TraceRef, .Slot,
+                          .OpeningPolicy, .OutputBoundary, .SlotState,
+                          .Layer, .GenerationSource, .EvidenceContract,
+                          .EvidenceSource, .TransitionGate, .Rank, .FailureCode
+      available = False → vendor unavailable (Python 3.10 StrEnum issue or
+                          path problem); error_message describes why.
+
+    The vendor requires Python 3.11+ for StrEnum. On Python 3.10 this
+    function returns (False, None, error_message) and the caller emits
+    a fail-closed BLOCKED verdict.
     """
     try:
         import taaqqul_slot_geometry.core.slot_graph as _sg_mod
-        import taaqqul_slot_geometry.core.gamma as _gamma_mod
         import taaqqul_slot_geometry.core.transition_gate as _gate_mod
-        from taaqqul_slot_geometry.core.rank import Rank
+        from taaqqul_slot_geometry.core.rank_lattice import Rank
+        from taaqqul_slot_geometry.core.evidence_contract import (
+            EvidenceContract,
+            EvidenceSource,
+        )
+        from taaqqul_slot_geometry.core.failure_taxonomy import FailureCode
 
         class _TaaqolHandles:
-            SlotGraph     = _sg_mod.SlotGraph
-            SlotBoundary  = _sg_mod.SlotBoundary
-            Center        = _sg_mod.Center
-            gamma         = staticmethod(_gamma_mod.gamma)
-            TransitionGate= _gate_mod.TransitionGate
-            Rank          = Rank
+            SlotGraph        = _sg_mod.SlotGraph
+            SlotBoundary     = _sg_mod.SlotBoundary
+            Center           = _sg_mod.Center
+            TraceRef         = _sg_mod.TraceRef
+            Slot             = _sg_mod.Slot
+            OpeningPolicy    = _sg_mod.OpeningPolicy
+            OutputBoundary   = _sg_mod.OutputBoundary
+            SlotState        = _sg_mod.SlotState
+            Layer            = _sg_mod.Layer
+            GenerationSource = _sg_mod.GenerationSource
+            TransitionGate   = _gate_mod.TransitionGate
+            EvidenceContract = EvidenceContract
+            EvidenceSource   = EvidenceSource
+            Rank             = Rank
+            FailureCode      = FailureCode
 
         return True, _TaaqolHandles(), None
     except Exception as exc:
@@ -245,17 +292,29 @@ def judge_transition(
 
     Behavior
     --------
-    1. Attempt to import Taaqol vendor.
+    1. Attempt to import Taaqol vendor (all required classes).
     2. On failure → BLOCKED (fail-closed); taaqol_runtime_active=False;
        fallback_used=False (never).
-    3. On success → build a minimal SlotGraph for this edge, call gamma(),
-       call TransitionGate.decide(), record result.
+    3. On success → build a structural SlotGraph for this edge with all
+       required fields populated (Center, TraceRef, Slot with FILLED state,
+       SlotBoundary with refusal_codes, OutputBoundary, Rank, GenerationSource).
+    4. Build EvidenceContract with one real EvidenceSource (stage transition
+       structural evidence).
+    5. Call TransitionGate.decide(slot_graph, Layer.CANDIDATE, evidence_contract).
+       decide() calls gamma() internally — this module must NOT call gamma()
+       before decide() (constitutional call order).
+    6. Extract verdict fields from TransitionVerdict and return judgment.
 
     The gate_name encodes the edge identity for traceability:
       "HOKOM_SCG_TRANSITION_GATE:PHASE_4A→PHASE_4B"
 
     This function is PURE — it does not modify any pipeline state.
     The caller decides whether to continue based on gate_verdict.
+
+    Corrections applied (HOKOM-SCG-P0-P12-TAAQOL-LIVE-GATING-CORRECTION-03):
+      B1: Was gate.decide(gamma_result) → now gate.decide(slot_graph, Layer, evidence)
+      B2: Was SlotBoundary(domain, scope) with empty center/graph →
+          now full SlotGraph with all required fields
     """
     edge_id = f"{source_stage}→{target_stage}"
     gate_name = f"{_GATE_NAME_PREFIX}:{edge_id}"
@@ -279,32 +338,90 @@ def judge_transition(
 
     # ── Live Taaqol call ───────────────────────────────────────────────────────
     try:
-        # Build the minimal SlotGraph for this transition edge.
-        # The center identity encodes the edge; domain/scope encode the pipeline
-        # stage context.  Slots are empty (this is a structural gate, not a
-        # content-evaluation gate — the content evaluation is the full SGA
-        # bundle evaluated at PHASE_5→TAAQOL_SGA).
-        boundary = taaqol.SlotBoundary(domain=domain, scope=scope)
-        center   = taaqol.Center(identity_claim=edge_id)
-        slot_graph = taaqol.SlotGraph(center=center, boundary=boundary)
-
-        gamma_result = taaqol.gamma(slot_graph)
-        gamma_state_str = str(gamma_result.state).split(".")[-1]  # e.g. "OPEN"
-        failure_code_str = (
-            str(gamma_result.failure_code).split(".")[-1]
-            if gamma_result.failure_code is not None
-            else None
+        # ── Build structural SlotGraph for this canonical transition edge ──────
+        #
+        # Every required field is populated (B2 fix). The graph represents the
+        # structural gate for this named transition. The single FILLED slot
+        # records that the source stage is being structurally evaluated.
+        #
+        # SlotBoundary requires refusal_codes (non-empty tuple) — GATE_REQUIRED
+        # is the appropriate code for a transition gate boundary.
+        slot_boundary = taaqol.SlotBoundary(
+            domain=domain,
+            scope=scope,
+            refusal_codes=(taaqol.FailureCode.GATE_REQUIRED,),
+        )
+        center = taaqol.Center(
+            identity_claim=edge_id,
+            domain=domain,
+            scope=scope,
+            trace_ref=taaqol.TraceRef(
+                anchor=f"hokom:{source_stage}:transition-gate",
+                kind="STAGE_TRANSITION",
+            ),
+        )
+        completion_slot = taaqol.Slot(
+            name=f"{source_stage}_COMPLETED",
+            value_state=taaqol.SlotState.FILLED,
+            boundary=slot_boundary,
+            opening=taaqol.OpeningPolicy(allowed_potentials=frozenset({"COMPLETED"})),
+            required=True,
+            value="COMPLETED",
+        )
+        slot_graph = taaqol.SlotGraph(
+            center=center,
+            slots=(completion_slot,),
+            boundary=slot_boundary,
+            residuals=(),
+            rank=taaqol.Rank.HYPOTHESIS,
+            output_boundary=taaqol.OutputBoundary(
+                declared_layer=taaqol.Layer.CANDIDATE,
+                output_layer=taaqol.Layer.SLOT,
+            ),
+            generation_source=taaqol.GenerationSource.CANDIDATE,
         )
 
-        # Gate rank ceiling: HYPOTHESIS (ungated).
-        try:
-            gate_rank = taaqol.Rank(3)  # HYPOTHESIS
-        except Exception:
-            gate_rank = taaqol.Rank.HYPOTHESIS  # fallback enum access
+        # ── Build EvidenceContract with real structural evidence ───────────────
+        #
+        # The evidence records the structural fact of this stage transition.
+        # Rank.HYPOTHESIS is the ungated rank ceiling — appropriate for a
+        # structural pipeline gate (not a certified linguistic judgment).
+        evidence_contract = taaqol.EvidenceContract(sources=(
+            taaqol.EvidenceSource(
+                name=f"HOKOM_{source_stage}_STAGE_TRANSITION",
+                kind="hokom-pipeline-stage-transition",
+                rank=taaqol.Rank.HYPOTHESIS,
+                trace_ref=taaqol.TraceRef(
+                    anchor=f"hokom:{source_stage}:{edge_id}",
+                    kind="STAGE_TRANSITION",
+                ),
+            ),
+        ))
 
-        gate = taaqol.TransitionGate(name=gate_name, gate_rank=gate_rank)
-        verdict = gate.decide(gamma_result)
-        verdict_state_str = str(verdict.state).split(".")[-1]
+        # ── Live gate decision ─────────────────────────────────────────────────
+        #
+        # TransitionGate.decide(input_graph, target_layer, evidence) is the
+        # only legal call. decide() calls gamma(input_graph) internally at
+        # step 1 — this module must NOT call gamma() before decide().
+        # Calling gamma() here before decide() would violate the constitutional
+        # call order (gamma is called twice, once by the enforcer and once by
+        # decide()) and would also pass the wrong type to decide().
+        gate = taaqol.TransitionGate(
+            name=gate_name,
+            gate_rank=taaqol.Rank.HYPOTHESIS,
+        )
+        verdict = gate.decide(slot_graph, taaqol.Layer.CANDIDATE, evidence_contract)
+
+        # Extract verdict fields.
+        # TransitionState and ClosureState are StrEnum in Python 3.11+:
+        # str(enum_member) returns the string value directly (e.g. "APPROVED").
+        verdict_state_str = str(verdict.state)
+        gamma_state_str   = str(verdict.gamma_state)
+        failure_code_str  = (
+            str(verdict.failure_code)
+            if verdict.failure_code is not None
+            else None
+        )
 
         return TaaqolTransitionJudgment(
             edge_id               = edge_id,
@@ -321,12 +438,15 @@ def judge_transition(
 
     except Exception as exc:
         # Runtime failure → FAIL_CLOSED, not a silent fallback.
+        # This branch covers construction errors (wrong field values) and
+        # any Taaqol RuntimeError. Infrastructure failures are distinguished
+        # from constitutional Taaqol verdicts by failure_code=TAAQOL_RUNTIME_ERROR.
         return TaaqolTransitionJudgment(
             edge_id               = edge_id,
             source_stage          = source_stage,
             target_stage          = target_stage,
             taaqol_called         = True,
-            taaqol_runtime_active = True,  # vendor was available; runtime error occurred
+            taaqol_runtime_active = True,  # vendor was importable; runtime error occurred
             gamma_closure_state   = "RUNTIME_ERROR",
             gate_verdict          = "BLOCKED",
             failure_code          = "TAAQOL_RUNTIME_ERROR",
@@ -344,7 +464,7 @@ class SCGTransitionEnforcer:
     enforcer = SCGTransitionEnforcer(surface)
     for source, target in CANONICAL_EDGE_SEQUENCE:
         judgment = enforcer.judge(source, target)
-        if judgment.gate_verdict in ("BLOCKED", "REJECTED"):
+        if judgment.gate_verdict in _TRAVERSAL_STOP_VERDICTS:
             break  # pipeline halts — do not open next candidate
     matrix = enforcer.get_matrix()
     """
@@ -364,12 +484,23 @@ class SCGTransitionEnforcer:
     def judge_all_canonical_edges(self) -> TaaqolJudgmentMatrix:
         """
         Judge every edge in CANONICAL_EDGE_SEQUENCE in order.
-        Stops at the first BLOCKED or REJECTED verdict (fail-closed).
-        Returns the matrix with all judgments recorded so far.
+
+        Stops at the first verdict in _TRAVERSAL_STOP_VERDICTS:
+          - BLOCKED / REJECTED / FORBIDDEN_LEAP / INVALID — hard stops.
+          - DEFERRED — soft stop: mandate rule 12 prohibits opening the
+            target candidate when the transition is deferred. No subsequent
+            edge is judged once a DEFERRED verdict is issued.
+
+        B7 correction: the original implementation only stopped on
+        BLOCKED/REJECTED/FORBIDDEN_LEAP. DEFERRED and INVALID are now
+        included in the stop set.
+
+        Returns the matrix with all judgments recorded up to and including
+        the first stop verdict (or all 11 if all APPROVED).
         """
         for source, target in CANONICAL_EDGE_SEQUENCE:
             j = self.judge(source, target)
-            if j.gate_verdict in ("BLOCKED", "REJECTED", "FORBIDDEN_LEAP"):
+            if j.gate_verdict in _TRAVERSAL_STOP_VERDICTS:
                 break
         return self._matrix
 
@@ -384,9 +515,13 @@ def enforce_terminal_guard(
 
     Returns True (guard passed) if:
       - p13_or_post_ifadah_opened is False, AND
-      - no judgment after a BLOCKED/REJECTED/FORBIDDEN_LEAP verdict exists in matrix.
+      - no judgment after a BLOCKED/REJECTED/FORBIDDEN_LEAP verdict exists.
 
     Returns False (guard violated) otherwise.
+
+    Note: DEFERRED is NOT a terminal for this guard — DEFERRED's stop behavior
+    is enforced at traversal time in judge_all_canonical_edges(). The guard
+    checks for the hard-stop terminals only.
     """
     if p13_or_post_ifadah_opened:
         return False
@@ -416,8 +551,8 @@ def build_judgment_matrix_for_surface(surface: str) -> TaaqolJudgmentMatrix:
     Run the enforcer over all canonical edges for a given surface.
 
     This is the canonical integration entry point used by tests and the
-    report generator.  It does NOT run the Hokom linguistic pipeline —
-    it gates the structural transition edges only.  The full content
+    report generator. It does NOT run the Hokom linguistic pipeline —
+    it gates the structural transition edges only. The full content
     evaluation happens inside the existing evaluate_sga_bundle call.
     """
     enforcer = SCGTransitionEnforcer(surface)
