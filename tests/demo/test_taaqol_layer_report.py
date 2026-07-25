@@ -4,7 +4,7 @@ tests/demo/test_taaqol_layer_report.py
 
 HOKOM-TAAQOL-PER-LAYER-OBSERVABILITY-REPORT-01
 
-21 invariant tests for the per-layer Taaqol observability CSV generated
+23 invariant tests for the per-layer Taaqol observability CSV generated
 by ``python scripts/demo_ayat_al_dayn.py --taaqol``.
 
 Shape: 129 tokens × 18 registered layers = 2322 rows (+ 1 header).
@@ -387,15 +387,27 @@ def test_default_command_unchanged():
 
 def test_reconciliation_targets_when_live(rows):
     """
-    T15: When Taaqol runtime is active (Python ≥ 3.11, macOS),
-    LICENSED / DEFERRED / TAAQOL_LIVE_EVALUATIONS counts must match targets.
-    Skipped when Taaqol is inactive (Python 3.10 / CI sandbox).
+    T15: Full reconciliation of all per-layer metrics against canonical targets.
+
+    Skipped when Taaqol runtime is inactive (Python 3.10 / CI sandbox).
+    The skip guard reads runtime_active from the CSV — the authoritative field
+    sourced from taaqol['available'] → bridge._rt['active'].
+
+    Canonical targets (macOS Python 3.12):
+      LICENSED                  = 73
+      DEFERRED                  = 56
+      TAAQOL_LIVE_EVALUATIONS   = 128   (tokens where runtime_active='True')
+      H11_H15_REACHED           = 33
+      EARLY_STOPS               = 96
+      FINAL_VERDICT_DIVERGENCES = 0
+      SILENT_FALLBACKS          = 0
     """
     live_tokens = {r['token_index'] for r in rows if r.get('runtime_active') == 'True'}
     if not live_tokens:
         pytest.skip(
             "Taaqol runtime not active (Python 3.10 / CI sandbox — expected). "
-            "Reconciliation targets are verified on macOS Python 3.12."
+            "Reconciliation targets are verified on macOS Python 3.12 with "
+            "runtime_active sourced from taaqol[available] (bridge._rt[active])."
         )
 
     licensed_tokens = {
@@ -404,21 +416,49 @@ def test_reconciliation_targets_when_live(rows):
     deferred_tokens = {
         r['token_index'] for r in rows if r.get('taaqol_verdict') == 'DEFERRED'
     }
+    h11_tokens = {
+        r['token_index'] for r in rows if r.get('h11_h15_reached') == 'True'
+    }
+    early_stop_tokens = {
+        r['token_index'] for r in rows if r.get('inflection_skipped_reason')
+    }
+    # FINAL_VERDICT_DIVERGENCES: taaqol_verdict ≠ effective_verdict (terminal only)
+    seen_div: set[str] = set()
+    divergences = 0
+    for r in rows:
+        tok = r.get('token_index', '')
+        if tok in seen_div:
+            continue
+        tv, ev = r.get('taaqol_verdict', ''), r.get('effective_verdict', '')
+        if (tv in {'LICENSED', 'DEFERRED'} and ev in {'LICENSED', 'DEFERRED'}
+                and tv != ev):
+            divergences += 1
+        seen_div.add(tok)
+    # SILENT_FALLBACKS: EXECUTED with CONTRACT_DERIVATION
+    silent_fallbacks = sum(
+        1 for r in rows
+        if r.get('layer_state') == 'EXECUTED'
+        and r.get('state_source') == 'CONTRACT_DERIVATION'
+    )
 
     errors = []
     if len(licensed_tokens) != _LICENSED_TARGET:
-        errors.append(
-            f"LICENSED: expected {_LICENSED_TARGET}, got {len(licensed_tokens)}"
-        )
+        errors.append(f"LICENSED: expected {_LICENSED_TARGET}, got {len(licensed_tokens)}")
     if len(deferred_tokens) != _DEFERRED_TARGET:
-        errors.append(
-            f"DEFERRED: expected {_DEFERRED_TARGET}, got {len(deferred_tokens)}"
-        )
+        errors.append(f"DEFERRED: expected {_DEFERRED_TARGET}, got {len(deferred_tokens)}")
     if len(live_tokens) != _TAAQOL_LIVE_TARGET:
         errors.append(
             f"TAAQOL_LIVE_EVALUATIONS: expected {_TAAQOL_LIVE_TARGET}, "
             f"got {len(live_tokens)}"
         )
+    if len(h11_tokens) != _H11_H15_TARGET:
+        errors.append(f"H11_H15_REACHED: expected {_H11_H15_TARGET}, got {len(h11_tokens)}")
+    if len(early_stop_tokens) != _EARLY_STOPS_TARGET:
+        errors.append(f"EARLY_STOPS: expected {_EARLY_STOPS_TARGET}, got {len(early_stop_tokens)}")
+    if divergences != 0:
+        errors.append(f"FINAL_VERDICT_DIVERGENCES: expected 0, got {divergences}")
+    if silent_fallbacks != 0:
+        errors.append(f"SILENT_FALLBACKS: expected 0, got {silent_fallbacks}")
 
     assert not errors, (
         "Reconciliation targets not met:\n" + "\n".join(f"  {e}" for e in errors)
@@ -655,4 +695,65 @@ def test_distinct_slot_graph_digests_per_token(rows):
     assert not violations, (
         f"DISTINCT_DIGESTS_PER_TOKEN > 1 for {len(violations)} tokens:\n"
         + "\n".join(f"  {v}" for v in violations[:10])
+    )
+
+
+# ── T22: DISTINCT_RUNTIME_ACTIVE_VALUES_PER_TOKEN <= 1 ────────────────────────
+
+def test_distinct_runtime_active_values_per_token(rows):
+    """
+    T22: For every token, all 18 layer rows must share exactly one runtime_active
+    value (DISTINCT_RUNTIME_ACTIVE_VALUES_PER_TOKEN = 1).
+
+    runtime_active is a token-level signal (taaqol['available'] from bridge._rt['active'])
+    repeated across all layer rows for the same token.  If it varies within a token,
+    the CSV population loop is incorrectly reading a per-layer rather than per-token field.
+    """
+    if not rows:
+        pytest.skip("no rows")
+    from collections import defaultdict
+    token_actives: dict[str, set] = defaultdict(set)
+    for r in rows:
+        tok = r.get('token_index', '')
+        token_actives[tok].add(r.get('runtime_active', ''))
+    violations = [
+        f"token={tok}: {sorted(vs)}"
+        for tok, vs in token_actives.items()
+        if len(vs) > 1
+    ]
+    assert not violations, (
+        f"DISTINCT_RUNTIME_ACTIVE_VALUES_PER_TOKEN > 1 for {len(violations)} tokens:\n"
+        + "\n".join(f"  {v}" for v in violations[:10])
+    )
+
+
+# ── T23: per-layer runtime_active agrees with token-level results ─────────────
+
+def test_per_layer_live_matches_token_level(rows):
+    """
+    T23: PER_LAYER_TAAQOL_LIVE_EVALUATIONS must equal TOKEN_LEVEL_TAAQOL_LIVE_EVALUATIONS.
+
+    Derives both counts from actual runtime output — no hardcoded values.
+    The per-layer count comes from runtime_active='True' in the CSV.
+    The token-level count comes from taaqol['available'] in the raw pipeline results.
+    Both must agree, proving the CSV faithfully propagates the bridge liveness signal.
+    """
+    if not rows:
+        pytest.skip("no rows")
+    from scripts.demo_ayat_al_dayn import run_all
+    results = run_all(verbose=False)
+
+    # Token-level count: authoritative source
+    token_level_live = sum(
+        1 for r in results if r.get('taaqol', {}).get('available')
+    )
+    # Per-layer count: distinct tokens where runtime_active='True' in CSV
+    per_layer_live = len({
+        r['token_index'] for r in rows if r.get('runtime_active') == 'True'
+    })
+
+    assert per_layer_live == token_level_live, (
+        f"PER_LAYER_TAAQOL_LIVE_EVALUATIONS={per_layer_live} "
+        f"≠ TOKEN_LEVEL_TAAQOL_LIVE_EVALUATIONS={token_level_live}\n"
+        f"runtime_active in CSV is not faithfully propagated from taaqol['available']"
     )

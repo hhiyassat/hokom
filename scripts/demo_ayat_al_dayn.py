@@ -2018,7 +2018,12 @@ def generate_taaqol_layer_csv(results: list[dict]) -> str:
                 'bridge_slot_names':        bridge_slot_names,
                 'bridge_slot_states':       bridge_slot_states,
                 # Runtime integrity
-                'runtime_active':           str(rt.get('active', False)),
+                # Authoritative liveness field: taaqol['available'] ← _decompose_taaqol()
+                # ← hr['taaqol_runtime']['active'] ← bridge._rt["active"].
+                # _rt["active"] is set True ONLY after ALL bridge steps succeed.
+                # The decomposed `rt` dict (taaqol['runtime']) intentionally omits
+                # 'active'; reading rt.get('active') here would ALWAYS return False.
+                'runtime_active':           str(taaqol.get('available', False)),
                 'runtime_kernel_loaded':    str(rt.get('kernel_loaded', False)),
                 'runtime_slot_graph_created': str(rt.get('slot_graph_created', False)),
                 'runtime_gamma_executed':   str(rt.get('gamma_executed', False)),
