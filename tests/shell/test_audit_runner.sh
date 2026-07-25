@@ -4,6 +4,7 @@
 # Updated: HOKOM-CANONICAL-AUDIT-NONMUTATING-RUNNER-CORRECTION-01
 # Updated: HOKOM-CANONICAL-AUDIT-LIVE-REGENERATION-RESTORATION-01
 # Updated: HOKOM-CANONICAL-AUDIT-MACOS-FINGERPRINT-PORTABILITY-FIX-01
+# Updated: HOKOM-CANONICAL-AUDIT-GITLINK-FINGERPRINT-FIX-01
 # Shell unit tests for run_canonical_final_audit.sh guard logic.
 # Tests verify that each guard correctly sets CLOSURE_VERDICT = OPEN
 # when the named failure condition occurs.
@@ -323,6 +324,149 @@ rm -rf "$TMPDIR_FP2"
 [[ "$RESULT2" == "OK" ]] \
     && ok "T32: file ordering does not change the fingerprint" \
     || fail "T32: fingerprint ordering test failed: $RESULT2"
+
+echo ""
+echo "-- gitlink fingerprint tests --"
+
+# Shared Python fingerprint logic for unit testing
+FP_IMPL='
+import hashlib, os, sys
+from pathlib import Path
+
+def fingerprint(entries):
+    """
+    entries: list of (path, mode, object_id, stage, content)
+      content:
+        regular file (mode 100xxx): bytes of file
+        symlink     (mode 120000): bytes of link target string
+        gitlink     (mode 160000): (object_id_str, head_str, status_str)
+    """
+    if not entries:
+        raise SystemExit("semantic_fingerprint: no tracked entries selected")
+    outer = hashlib.sha256()
+    for path, mode, object_id, stage, content in sorted(entries, key=lambda x: x[0]):
+        outer.update(path.encode("utf-8"))
+        outer.update(b"\0")
+        outer.update(mode.encode("ascii"))
+        outer.update(b"\0")
+        outer.update(stage.encode("ascii"))
+        outer.update(b"\0")
+        if mode == "160000":
+            oid, head, status = content
+            outer.update(b"GITLINK\0")
+            outer.update(oid.encode("ascii"))
+            outer.update(b"\0")
+            outer.update(head.encode("ascii") if isinstance(head, str) else head)
+            outer.update(b"\0")
+            outer.update(status.encode("ascii") if isinstance(status, str) else status)
+            outer.update(b"\n")
+        elif mode == "120000":
+            outer.update(b"SYMLINK\0")
+            outer.update(content)
+            outer.update(b"\n")
+        else:
+            digest = hashlib.sha256(content).hexdigest()
+            outer.update(b"FILE\0")
+            outer.update(digest.encode("ascii"))
+            outer.update(b"\n")
+    return outer.hexdigest()
+'
+
+TMPDIR_GL="$(mktemp -d)"
+
+# T33: mode 160000 entry does not cause IsADirectoryError
+# (fingerprint() uses GITLINK branch, never calls read_bytes on a directory)
+python3 - <<PYEOF 2>&1 && ok "T33: mode 160000 entry does not cause IsADirectoryError" \
+                        || fail "T33: mode 160000 should not raise IsADirectoryError"
+$FP_IMPL
+entries = [("vendor/Taaqol-GPT", "160000", "abc123def456", "0",
+            ("abc123def456", "abc123def456", ""))]
+fp = fingerprint(entries)
+assert fp, "fingerprint must be non-empty"
+print("OK")
+PYEOF
+
+# T34: gitlink indexed object ID is included in fingerprint
+python3 - <<PYEOF 2>&1 && ok "T34: gitlink indexed object ID is included in fingerprint" \
+                        || fail "T34: different object IDs must produce different fingerprints"
+$FP_IMPL
+e1 = [("vendor/X", "160000", "aaa000", "0", ("aaa000", "aaa000", ""))]
+e2 = [("vendor/X", "160000", "bbb111", "0", ("bbb111", "bbb111", ""))]
+assert fingerprint(e1) != fingerprint(e2), "different object IDs must differ"
+print("OK")
+PYEOF
+
+# T35: current submodule HEAD is included in fingerprint
+python3 - <<PYEOF 2>&1 && ok "T35: current submodule HEAD is included in fingerprint" \
+                        || fail "T35: different submodule HEADs must produce different fingerprints"
+$FP_IMPL
+e1 = [("vendor/X", "160000", "abc", "0", ("abc", "HEAD_A", ""))]
+e2 = [("vendor/X", "160000", "abc", "0", ("abc", "HEAD_B", ""))]
+assert fingerprint(e1) != fingerprint(e2), "different HEADs must differ"
+print("OK")
+PYEOF
+
+# T36: submodule dirty status affects fingerprint
+python3 - <<PYEOF 2>&1 && ok "T36: submodule dirty status affects fingerprint" \
+                        || fail "T36: dirty vs clean submodule must produce different fingerprints"
+$FP_IMPL
+e_clean = [("vendor/X", "160000", "abc", "0", ("abc", "HEAD_A", ""))]
+e_dirty = [("vendor/X", "160000", "abc", "0", ("abc", "HEAD_A", " M some_file\n"))]
+assert fingerprint(e_clean) != fingerprint(e_dirty), "dirty status must change fingerprint"
+print("OK")
+PYEOF
+
+# T37: regular-file changes affect fingerprint
+python3 - <<PYEOF 2>&1 && ok "T37: regular-file content changes affect fingerprint" \
+                        || fail "T37: different file content must produce different fingerprints"
+$FP_IMPL
+e1 = [("pipeline/a.py", "100644", "x", "0", b"hello")]
+e2 = [("pipeline/a.py", "100644", "x", "0", b"HELLO")]
+assert fingerprint(e1) != fingerprint(e2), "file content change must differ"
+print("OK")
+PYEOF
+
+# T38: restoring all changes returns the original fingerprint
+python3 - <<PYEOF 2>&1 && ok "T38: restoring all changes returns the original fingerprint" \
+                        || fail "T38: restored state must equal original fingerprint"
+$FP_IMPL
+orig = [("pipeline/a.py", "100644", "x", "0", b"hello"),
+        ("vendor/X",      "160000", "abc", "0", ("abc", "HEAD_A", ""))]
+mod  = [("pipeline/a.py", "100644", "x", "0", b"HELLO"),
+        ("vendor/X",      "160000", "abc", "0", ("abc", "HEAD_B", " M f\n"))]
+rest = [("pipeline/a.py", "100644", "x", "0", b"hello"),
+        ("vendor/X",      "160000", "abc", "0", ("abc", "HEAD_A", ""))]
+assert fingerprint(orig) != fingerprint(mod),  "modification must change fp"
+assert fingerprint(orig) == fingerprint(rest), "restoration must equal original"
+print("OK")
+PYEOF
+
+# T39: symbolic links are handled without following their targets
+python3 - <<PYEOF 2>&1 && ok "T39: symbolic links handled without following their targets" \
+                        || fail "T39: symlink entries must use SYMLINK branch"
+$FP_IMPL
+e1 = [("some/link", "120000", "x", "0", b"../target_a")]
+e2 = [("some/link", "120000", "x", "0", b"../target_b")]
+assert fingerprint(e1) != fingerprint(e2), "different symlink targets must differ"
+print("OK")
+PYEOF
+
+# T40: empty selection fails (SystemExit)
+python3 - <<PYEOF 2>&1 && ok "T40: empty selection raises SystemExit" \
+                        || fail "T40: empty selection must fail"
+$FP_IMPL
+try:
+    fingerprint([])
+    print("FAIL: should have raised SystemExit")
+    raise SystemExit(1)
+except SystemExit as e:
+    if "no tracked entries" in str(e):
+        print("OK")
+    else:
+        raise
+PYEOF
+
+rm -rf "$TMPDIR_GL"
 
 echo ""
 echo "=== RESULTS: $PASS passed, $FAIL failed ==="

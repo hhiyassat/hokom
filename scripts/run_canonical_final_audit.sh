@@ -4,6 +4,7 @@
 # HOKOM-CANONICAL-AUDIT-NONMUTATING-RUNNER-CORRECTION-01
 # HOKOM-CANONICAL-AUDIT-LIVE-REGENERATION-RESTORATION-01
 # HOKOM-CANONICAL-AUDIT-MACOS-FINGERPRINT-PORTABILITY-FIX-01
+# HOKOM-CANONICAL-AUDIT-GITLINK-FINGERPRINT-FIX-01
 # Canonical closure audit — must run on macOS with .venv-py312
 # Usage: cd /path/to/hokom && bash scripts/run_canonical_final_audit.sh
 # Exits 0 only for VERIFIED_CLOSED; exits nonzero for any OPEN condition.
@@ -369,15 +370,15 @@ else
 fi
 
 # ── §9 Semantic tree fingerprint (before RUN1) ───────────────────────────────
-# Portable implementation — no GNU xargs flags, no BSD/GNU incompatibility.
-# Uses $VENV (Python 3.12.4) so the hash is deterministic across platforms.
-# Hashes: sorted tracked paths under pipeline/, tests/, golden_rules.md, vendor/.
-# The outer SHA-256 folds each file's path + its own SHA-256, so any content
-# change or path addition/removal changes the fingerprint.
-# Exits non-zero (and the audit aborts) if zero tracked files are selected.
+# Portable implementation — uses git ls-files -s to expose per-entry mode so
+# gitlinks (mode 160000) and symlinks (mode 120000) are handled explicitly.
+# vendor/Taaqol-GPT is fingerprinted via its indexed object ID + submodule HEAD
+# + submodule worktree status; Path.read_bytes() is never called on a directory.
+# Exits non-zero if zero tracked entries are selected.
 semantic_fingerprint() {
     "$VENV" - <<'PY'
 import hashlib
+import os
 import subprocess
 from pathlib import Path
 
@@ -389,29 +390,91 @@ roots = [
 ]
 
 result = subprocess.run(
-    ["git", "ls-files", "-z", "--", *roots],
+    ["git", "ls-files", "-s", "-z", "--", *roots],
     check=True,
     stdout=subprocess.PIPE,
 )
 
-paths = sorted(
-    item.decode("utf-8")
-    for item in result.stdout.split(b"\0")
-    if item
-)
+entries = []
 
-if not paths:
-    raise SystemExit("semantic_fingerprint: no tracked files selected")
+for raw in result.stdout.split(b"\0"):
+    if not raw:
+        continue
+
+    metadata, encoded_path = raw.split(b"\t", 1)
+    mode, object_id, stage = metadata.decode("ascii").split()
+    path = encoded_path.decode("utf-8")
+
+    entries.append((path, mode, object_id, stage))
+
+if not entries:
+    raise SystemExit("semantic_fingerprint: no tracked entries selected")
 
 outer = hashlib.sha256()
 
-for name in paths:
-    path = Path(name)
-    data = path.read_bytes()
-    digest = hashlib.sha256(data).hexdigest()
+for path, mode, object_id, stage in sorted(entries):
+    fs_path = Path(path)
 
-    outer.update(name.encode("utf-8"))
+    outer.update(path.encode("utf-8"))
     outer.update(b"\0")
+    outer.update(mode.encode("ascii"))
+    outer.update(b"\0")
+    outer.update(stage.encode("ascii"))
+    outer.update(b"\0")
+
+    if mode == "160000":
+        if not fs_path.is_dir():
+            raise SystemExit(
+                f"semantic_fingerprint: missing gitlink directory: {path}"
+            )
+
+        head = subprocess.run(
+            ["git", "-C", path, "rev-parse", "HEAD"],
+            check=True,
+            stdout=subprocess.PIPE,
+        ).stdout.strip()
+
+        status = subprocess.run(
+            [
+                "git",
+                "-C",
+                path,
+                "status",
+                "--porcelain",
+                "--untracked-files=all",
+            ],
+            check=True,
+            stdout=subprocess.PIPE,
+        ).stdout
+
+        outer.update(b"GITLINK\0")
+        outer.update(object_id.encode("ascii"))
+        outer.update(b"\0")
+        outer.update(head)
+        outer.update(b"\0")
+        outer.update(status)
+        outer.update(b"\n")
+        continue
+
+    if mode == "120000":
+        if not fs_path.is_symlink():
+            raise SystemExit(
+                f"semantic_fingerprint: expected symbolic link: {path}"
+            )
+
+        target = os.readlink(fs_path)
+        outer.update(b"SYMLINK\0")
+        outer.update(target.encode("utf-8"))
+        outer.update(b"\n")
+        continue
+
+    if not fs_path.is_file():
+        raise SystemExit(
+            f"semantic_fingerprint: expected regular file: {path}"
+        )
+
+    digest = hashlib.sha256(fs_path.read_bytes()).hexdigest()
+    outer.update(b"FILE\0")
     outer.update(digest.encode("ascii"))
     outer.update(b"\n")
 
