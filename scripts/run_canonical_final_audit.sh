@@ -88,10 +88,12 @@ if git merge-base --is-ancestor "$LINGUISTIC_BASE_HEAD" HEAD 2>/dev/null; then
             scripts/run_canonical_final_audit.sh) return 0 ;;
             tests/governance/test_artifact_commit_binding.py) return 0 ;;
             tests/shell/test_audit_runner.sh) return 0 ;;
-            # HOKOM-TAAQOL-PER-LAYER-OBSERVABILITY-REPORT-01
-            scripts/demo_ayat_al_dayn.py) return 0 ;;
-            pipeline/taaqol_integration/live/bridge.py) return 0 ;;
-            tests/demo/test_taaqol_layer_report.py) return 0 ;;
+            # NOTE: Only governance/audit files belong here.
+            # Production implementation files (bridge.py, demo_ayat_al_dayn.py,
+            # test_taaqol_layer_report.py) are NOT authorized under this
+            # governance-only allowlist — they belong to a separate phase
+            # (HOKOM-TAAQOL-PER-LAYER-OBSERVABILITY-REPORT-01) with its own
+            # baseline at f531bf6 and independent closure gate.
         esac
         # Closure manifests are allowed only under the canonical,
         # hash-bound naming contract.

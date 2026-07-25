@@ -830,20 +830,23 @@ echo "OK"
 
 # ── HOKOM-TAAQOL-PER-LAYER-OBSERVABILITY-REPORT-01 ─────────────────────────────
 
-# T70: demo_ayat_al_dayn.py is authorized in the post-artifact allowlist
-grep -q 'scripts/demo_ayat_al_dayn.py' "$RUNNER" \
-    && ok "T70: scripts/demo_ayat_al_dayn.py is authorized in allowlist" \
-    || fail "T70: scripts/demo_ayat_al_dayn.py must be in post-artifact allowlist"
+# T70: CONSTITUTIONAL GUARD — demo_ayat_al_dayn.py must NOT appear as an allowlist case entry
+# is_authorized_post_artifact_path() is governance-only; production files must be
+# excluded to preserve PREVIOUS_CLOSURE (VERIFIED_CLOSED at f531bf6).
+# Pattern: allowlist entries have the form 'path) return 0 ;;'
+grep -q 'scripts/demo_ayat_al_dayn\.py) return 0' "$RUNNER" \
+    && fail "T70: CONSTITUTIONAL VIOLATION — scripts/demo_ayat_al_dayn.py must NOT be an allowlist entry in governance function" \
+    || ok "T70: scripts/demo_ayat_al_dayn.py correctly excluded from governance allowlist"
 
-# T71: bridge.py is authorized in the post-artifact allowlist
-grep -q 'pipeline/taaqol_integration/live/bridge.py' "$RUNNER" \
-    && ok "T71: pipeline/taaqol_integration/live/bridge.py is authorized in allowlist" \
-    || fail "T71: bridge.py must be in post-artifact allowlist"
+# T71: CONSTITUTIONAL GUARD — bridge.py must NOT appear as an allowlist case entry
+grep -q 'pipeline/taaqol_integration/live/bridge\.py) return 0' "$RUNNER" \
+    && fail "T71: CONSTITUTIONAL VIOLATION — pipeline/taaqol_integration/live/bridge.py must NOT be an allowlist entry in governance function" \
+    || ok "T71: pipeline/taaqol_integration/live/bridge.py correctly excluded from governance allowlist"
 
-# T72: test_taaqol_layer_report.py is authorized in the post-artifact allowlist
-grep -q 'tests/demo/test_taaqol_layer_report.py' "$RUNNER" \
-    && ok "T72: tests/demo/test_taaqol_layer_report.py is authorized in allowlist" \
-    || fail "T72: test_taaqol_layer_report.py must be in post-artifact allowlist"
+# T72: CONSTITUTIONAL GUARD — test_taaqol_layer_report.py must NOT appear as an allowlist case entry
+grep -q 'tests/demo/test_taaqol_layer_report\.py) return 0' "$RUNNER" \
+    && fail "T72: CONSTITUTIONAL VIOLATION — tests/demo/test_taaqol_layer_report.py must NOT be an allowlist entry in governance function" \
+    || ok "T72: tests/demo/test_taaqol_layer_report.py correctly excluded from governance allowlist"
 
 # T73: demo_ayat_al_dayn.py contains --taaqol argument definition
 grep -q '\-\-taaqol' scripts/demo_ayat_al_dayn.py \
@@ -901,7 +904,9 @@ grep -q '_INFLECTION_DEPENDENT_LAYERS' scripts/demo_ayat_al_dayn.py \
     && ok "T83: _INFLECTION_DEPENDENT_LAYERS constant defined in demo script" \
     || fail "T83: _INFLECTION_DEPENDENT_LAYERS must be defined in demo script"
 
-# T84: non-authorized path is rejected by updated is_authorized_post_artifact_path
+# T84: is_authorized_post_artifact_path governs governance-only paths and rejects all others
+# Constitutional requirement: production files from HOKOM-TAAQOL-PER-LAYER-OBSERVABILITY-REPORT-01
+# must NOT be in the allowlist. Only the 4 original governance paths + closure manifests are valid.
 bash -c '
 is_authorized_post_artifact_path() {
     local path="$1"
@@ -910,20 +915,29 @@ is_authorized_post_artifact_path() {
         scripts/run_canonical_final_audit.sh) return 0 ;;
         tests/governance/test_artifact_commit_binding.py) return 0 ;;
         tests/shell/test_audit_runner.sh) return 0 ;;
-        scripts/demo_ayat_al_dayn.py) return 0 ;;
-        pipeline/taaqol_integration/live/bridge.py) return 0 ;;
-        tests/demo/test_taaqol_layer_report.py) return 0 ;;
     esac
     if [[ "$path" =~ ^reports/canonical_gate/closure_manifest\.[0-9a-f]{7,40}\.json$ ]]; then
         return 0
     fi
     return 1
 }
-# Governance paths must all pass
-is_authorized_post_artifact_path "scripts/demo_ayat_al_dayn.py" || { echo "SHOULD PASS"; exit 1; }
-is_authorized_post_artifact_path "pipeline/taaqol_integration/live/bridge.py" || { echo "SHOULD PASS"; exit 1; }
-is_authorized_post_artifact_path "tests/demo/test_taaqol_layer_report.py" || { echo "SHOULD PASS"; exit 1; }
-# Non-governance paths must be rejected
+# Core governance paths must pass
+is_authorized_post_artifact_path "scripts/canonical_gate.py" || { echo "SHOULD PASS: canonical_gate.py"; exit 1; }
+is_authorized_post_artifact_path "scripts/run_canonical_final_audit.sh" || { echo "SHOULD PASS: run_canonical_final_audit.sh"; exit 1; }
+is_authorized_post_artifact_path "tests/governance/test_artifact_commit_binding.py" || { echo "SHOULD PASS: test_artifact_commit_binding.py"; exit 1; }
+is_authorized_post_artifact_path "tests/shell/test_audit_runner.sh" || { echo "SHOULD PASS: test_audit_runner.sh"; exit 1; }
+is_authorized_post_artifact_path "reports/canonical_gate/closure_manifest.ed35d45.json" || { echo "SHOULD PASS: closure_manifest pattern"; exit 1; }
+# CONSTITUTIONAL: production implementation files must be REJECTED
+is_authorized_post_artifact_path "scripts/demo_ayat_al_dayn.py" \
+    && { echo "CONSTITUTIONAL VIOLATION: demo_ayat_al_dayn.py must be rejected"; exit 1; } \
+    || true
+is_authorized_post_artifact_path "pipeline/taaqol_integration/live/bridge.py" \
+    && { echo "CONSTITUTIONAL VIOLATION: bridge.py must be rejected"; exit 1; } \
+    || true
+is_authorized_post_artifact_path "tests/demo/test_taaqol_layer_report.py" \
+    && { echo "CONSTITUTIONAL VIOLATION: test_taaqol_layer_report.py must be rejected"; exit 1; } \
+    || true
+# Other non-governance paths must be rejected
 is_authorized_post_artifact_path "pipeline/p5_inflection/engine.py" \
     && { echo "SHOULD HAVE BEEN REJECTED"; exit 1; } \
     || true
@@ -931,8 +945,8 @@ is_authorized_post_artifact_path "hokom_pipeline.py" \
     && { echo "SHOULD HAVE BEEN REJECTED"; exit 1; } \
     || true
 echo "OK"
-' 2>&1 && ok "T84: updated allowlist accepts all HOKOM-TAAQOL-PER-LAYER paths, rejects others" \
-         || fail "T84: updated is_authorized_post_artifact_path must authorize new phase paths"
+' 2>&1 && ok "T84: governance allowlist is constitutional (production files rejected, governance paths accepted)" \
+         || fail "T84: is_authorized_post_artifact_path constitutional check failed"
 
 echo ""
 echo "=== RESULTS: $PASS passed, $FAIL failed ==="
