@@ -35,7 +35,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import os
 import platform
 import subprocess
 import sys
@@ -210,11 +209,9 @@ CANDIDATE_EDGE_MAP: dict[str, dict] = {
 }
 
 
-def _git_rev(path: Path | None = None) -> str:
-    """Return git HEAD SHA for the given repo path (or cwd)."""
-    cmd = ["git", "rev-parse", "HEAD"]
-    if path:
-        cmd = ["git", "-C", str(path), "rev-parse", "HEAD"]
+def _git_rev_vendor(path: Path) -> str:
+    """Return git HEAD SHA for a submodule path (vendor-only; never self-referential)."""
+    cmd = ["git", "-C", str(path), "rev-parse", "HEAD"]
     try:
         return subprocess.check_output(cmd, text=True, stderr=subprocess.DEVNULL).strip()
     except Exception:
@@ -241,13 +238,23 @@ def _require_live_vendor() -> None:
         ) from exc
 
 
-def _build_deterministic_metadata() -> dict:
+def _build_deterministic_metadata(implementation_head: str) -> dict:
+    """Build report metadata.
+
+    implementation_head must be passed explicitly by the caller (e.g. the SHA
+    of the last implementation commit before reports were generated).  It must
+    NOT be derived from ``git rev-parse HEAD`` inside this function: once
+    report files are committed, HEAD advances and a second invocation would
+    produce a different source_commit field, violating:
+
+        POST_COMMIT_REGENERATION_CHANGES_REPORT = 0
+    """
     vendor_path = REPO_ROOT / "vendor" / "Taaqol-GPT"
     return {
         "report_generator_id": GENERATOR_ID,
         "generator_version": GENERATOR_VERSION,
-        "source_commit": _git_rev(),
-        "vendor_commit": _git_rev(vendor_path),
+        "source_commit": implementation_head,
+        "vendor_commit": _git_rev_vendor(vendor_path),
         "corpus_sha256": _corpus_sha256(),
         "python_version": sys.version,
         "platform": platform.platform(),
@@ -366,7 +373,7 @@ _EDGE_CANDIDATE_MAP: list[tuple[str, str, str, str]] = [
 ]
 
 
-def generate_live_edge_witness_matrix(corpus: dict) -> dict:
+def generate_live_edge_witness_matrix(corpus: dict, implementation_head: str) -> dict:
     """
     Run each witness case through the pipeline and record live judgment rows.
     Returns the complete witness matrix dict.
@@ -391,7 +398,7 @@ def generate_live_edge_witness_matrix(corpus: dict) -> dict:
     return {
         "report_id": "HOKOM-SCG-P0-P12-LIVE-EDGE-WITNESS-MATRIX-01",
         "mandate_id": "HOKOM-SCG-P0-P12-TAAQOL-HARD-GATING-MACOS-CANONICAL-VALIDATION-05",
-        **_build_deterministic_metadata(),
+        **_build_deterministic_metadata(implementation_head),
         "CANONICAL_EDGE_COUNT": len(CANONICAL_EDGE_SEQUENCE),
         "WITNESSES_COLLECTED": len(witness_rows),
         "EDGES_WITH_POSITIVE_LIVE_WITNESS": len(edges_with_witness),
@@ -409,7 +416,7 @@ def generate_live_edge_witness_matrix(corpus: dict) -> dict:
     }
 
 
-def generate_transition_judgment_matrix() -> dict:
+def generate_transition_judgment_matrix(implementation_head: str) -> dict:
     """
     Run the canonical `كَتَبَ` surface through the full pipeline and
     capture all 11 edge judgments from the gate matrix.
@@ -446,7 +453,7 @@ def generate_transition_judgment_matrix() -> dict:
     return {
         "report_id": "HOKOM-SCG-P0-P12-TAAQOL-TRANSITION-JUDGMENT-MATRIX-01",
         "mandate_id": "HOKOM-SCG-P0-P12-TAAQOL-HARD-GATING-MACOS-CANONICAL-VALIDATION-05",
-        **_build_deterministic_metadata(),
+        **_build_deterministic_metadata(implementation_head),
         "DISCOVERED_CANONICAL_TRANSITION_EDGE_COUNT": len(CANONICAL_EDGE_SEQUENCE),
         "CANONICAL_EDGE_SEQUENCE": [f"{s}→{t}" for s, t in CANONICAL_EDGE_SEQUENCE],
         "ALL_EDGES_APPROVED": all_approved,
@@ -511,14 +518,24 @@ def validate_reports_deterministic(
     return ok
 
 
-def main(verify: bool = False) -> None:
+def main(implementation_head: str, verify: bool = False) -> None:
+    """Generate SCG live judgment reports.
+
+    Args:
+        implementation_head: Explicit git SHA of the implementation commit
+            (the last commit before reports are generated).  Must NOT be
+            ``git rev-parse HEAD`` at call time — pass the known baseline SHA
+            so that re-running after committing the reports produces identical
+            output (POST_COMMIT_REGENERATION_CHANGES_REPORT = 0).
+        verify: If True, run twice and assert byte-identical output.
+    """
     _require_live_vendor()
 
     corpus = _load_corpus()
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
 
     print("Generating taaqol_transition_judgment_matrix.json ...")
-    matrix_data = generate_transition_judgment_matrix()
+    matrix_data = generate_transition_judgment_matrix(implementation_head)
     matrix_bytes = json.dumps(matrix_data, ensure_ascii=False,
                                indent=2, sort_keys=True).encode("utf-8")
     MATRIX_REPORT.write_bytes(matrix_bytes)
@@ -526,7 +543,7 @@ def main(verify: bool = False) -> None:
     print(f"  SHA256 : {hashlib.sha256(matrix_bytes).hexdigest()}")
 
     print("Generating live_edge_witness_matrix.json ...")
-    witness_data = generate_live_edge_witness_matrix(corpus)
+    witness_data = generate_live_edge_witness_matrix(corpus, implementation_head)
     candidate_plan = generate_candidate_witness_plan()
     witness_data.update(candidate_plan)
     witness_bytes = json.dumps(witness_data, ensure_ascii=False,
@@ -537,10 +554,10 @@ def main(verify: bool = False) -> None:
 
     if verify:
         print("\nRunning second pass for determinism verification ...")
-        matrix_data2 = generate_transition_judgment_matrix()
+        matrix_data2 = generate_transition_judgment_matrix(implementation_head)
         matrix_bytes2 = json.dumps(matrix_data2, ensure_ascii=False,
                                     indent=2, sort_keys=True).encode("utf-8")
-        witness_data2 = generate_live_edge_witness_matrix(corpus)
+        witness_data2 = generate_live_edge_witness_matrix(corpus, implementation_head)
         witness_data2.update(candidate_plan)
         witness_bytes2 = json.dumps(witness_data2, ensure_ascii=False,
                                      indent=2, sort_keys=True).encode("utf-8")
@@ -565,7 +582,17 @@ def main(verify: bool = False) -> None:
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Generate SCG live judgment reports")
+    parser.add_argument(
+        "--implementation-head",
+        required=True,
+        metavar="SHA",
+        help=(
+            "Explicit git SHA of the implementation commit (e.g. acbadf0). "
+            "Must be the known baseline SHA, NOT `git rev-parse HEAD`, to satisfy "
+            "POST_COMMIT_REGENERATION_CHANGES_REPORT=0."
+        ),
+    )
     parser.add_argument("--verify", action="store_true",
                         help="Run twice and verify byte-identical determinism")
     args = parser.parse_args()
-    main(verify=args.verify)
+    main(implementation_head=args.implementation_head, verify=args.verify)
