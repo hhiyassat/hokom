@@ -1,0 +1,218 @@
+{
+  "mandate": "HOKOM-SALEH-QIYAS-SCG-CROSS-REPOSITORY-OWNERSHIP-RESOLUTION-07",
+  "section": "2 — Canonical Registry Discovery and Set Comparison",
+  "generated_at": "2026-07-26",
+  "resolves_blocker": "REGISTRY_SOURCE_MISMATCH (REALIGNMENT-06)",
+
+  "registry_location": {
+    "repository": "fractal/algebra/Saleh-",
+    "remote": "https://github.com/sonaiso/Saleh-.git",
+    "head_sha": "d24f44a",
+    "registry_source_file": "src/qiyas_core/slot_geometry_core/master_registry_seed.py",
+    "registry_source_symbol": "build_p12_implemented_registry()",
+    "registry_return_type": "MasterLayerRegistry",
+    "total_layers": 19,
+    "all_layers_status": "implemented"
+  },
+
+  "verdict": {
+    "CANONICAL_REGISTRY_MODEL": "SET_A",
+    "SET_A_IS_CORRECT": true,
+    "SET_B_IS_CORRECT": false,
+    "SET_B_CLASSIFICATION": "HOKOM_MORPHOLOGICAL_PIPELINE_STAGES — not SCG canonical candidates",
+    "REGISTRY_SOURCE_MISMATCH_RESOLVED": true,
+    "REGISTRY_SOURCE_FILE": "src/qiyas_core/slot_geometry_core/master_registry_seed.py",
+    "REGISTRY_SOURCE_SYMBOL": "build_p12_implemented_registry()"
+  },
+
+  "set_a_candidates": [
+    {
+      "layer_id": "P0_UNICODE_CANDIDATE",
+      "phase": "SCG-P0",
+      "candidate_type": "UnicodeCandidate",
+      "origin": "ROOT",
+      "status": "implemented",
+      "single_token_eligible": true
+    },
+    {
+      "layer_id": "P0_TYPED_CODEPOINT",
+      "phase": "SCG-P0",
+      "candidate_type": "TypedCodePoint",
+      "origin": "P0_UNICODE_CANDIDATE",
+      "status": "implemented",
+      "single_token_eligible": true
+    },
+    {
+      "layer_id": "P0_GLYPH_CLASSIFICATION",
+      "phase": "SCG-P0",
+      "candidate_type": "GlyphClassificationCandidate",
+      "origin": "P0_TYPED_CODEPOINT",
+      "status": "implemented",
+      "single_token_eligible": true
+    },
+    {
+      "layer_id": "P1_LETTER_IDENTITY_CARRIER",
+      "phase": "SCG-P1",
+      "candidate_type": "LetterIdentityCarrier",
+      "origin": "P0_TYPED_CODEPOINT",
+      "status": "implemented",
+      "single_token_eligible": true
+    },
+    {
+      "layer_id": "P1_HARAKA_MARK_IDENTITY_CARRIER",
+      "phase": "SCG-P1",
+      "candidate_type": "HarakaMarkIdentityCarrier",
+      "origin": "P0_TYPED_CODEPOINT",
+      "status": "implemented",
+      "single_token_eligible": true
+    },
+    {
+      "layer_id": "P1_CONDITIONED_TYPED_SEQUENCE",
+      "phase": "SCG-P1",
+      "candidate_type": "ConditionedTypedSequence",
+      "origin": "P0_TYPED_CODEPOINT",
+      "status": "implemented",
+      "single_token_eligible": true
+    },
+    {
+      "layer_id": "P1_POSITION_CARRIER",
+      "phase": "SCG-P1",
+      "candidate_type": "PositionCarrier",
+      "origin": "P1_CONDITIONED_TYPED_SEQUENCE",
+      "status": "implemented",
+      "single_token_eligible": true
+    },
+    {
+      "layer_id": "P1_SLOT_CANDIDATE",
+      "phase": "SCG-P1",
+      "candidate_type": "SlotCandidate",
+      "origin": "P1_LETTER_IDENTITY_CARRIER",
+      "status": "implemented",
+      "single_token_eligible": true
+    },
+    {
+      "layer_id": "P2_REGISTRY_PROJECTION",
+      "phase": "SCG-P2",
+      "candidate_type": "RegistryProjectionCandidate",
+      "origin": "P1_SLOT_CANDIDATE",
+      "status": "implemented",
+      "single_token_eligible": true
+    },
+    {
+      "layer_id": "P3_ROOT_STEM_CLOSURE",
+      "phase": "SCG-P3",
+      "candidate_type": "RootStemCandidate",
+      "origin": "P2_REGISTRY_PROJECTION",
+      "status": "implemented",
+      "single_token_eligible": true
+    },
+    {
+      "layer_id": "P4_JAMID_MUSHTAQ",
+      "phase": "SCG-P4",
+      "candidate_type": "JamidMushtaqCandidate",
+      "origin": "P3_ROOT_STEM_CLOSURE",
+      "status": "implemented",
+      "single_token_eligible": true
+    },
+    {
+      "layer_id": "P5_MUFRAD_WORD_CONTRACTS",
+      "phase": "SCG-P5",
+      "candidate_type": "MufradWordCandidate",
+      "origin": "P4_JAMID_MUSHTAQ",
+      "status": "implemented",
+      "single_token_eligible": true
+    },
+    {
+      "layer_id": "P6_VERBAL_SIGNIFIED_ALONE",
+      "phase": "SCG-P6",
+      "candidate_type": "VerbalSignifiedCandidate",
+      "origin": "P5_MUFRAD_WORD_CONTRACTS",
+      "status": "implemented",
+      "single_token_eligible": true,
+      "note": "Reads verbal-carrier CV geometry from P5 trace; single-word"
+    },
+    {
+      "layer_id": "P7_COMPOSITION_READINESS",
+      "phase": "SCG-P7",
+      "candidate_type": "CompositionReadinessCandidate",
+      "origin": "P6_VERBAL_SIGNIFIED_ALONE",
+      "status": "implemented",
+      "single_token_eligible": true,
+      "note": "Attests structural readiness to enter composition; single-word"
+    },
+    {
+      "layer_id": "P8_AMIL_MAMUL",
+      "phase": "SCG-P8",
+      "candidate_type": "AmilMamulCandidate",
+      "origin": "P7_COMPOSITION_READINESS",
+      "status": "implemented",
+      "single_token_eligible": true,
+      "note": "Opens dependency-relation possibilities from single composition-ready word"
+    },
+    {
+      "layer_id": "P9_SENTENCE_GEOMETRY",
+      "phase": "SCG-P9",
+      "candidate_type": "SentenceGeometryCandidate",
+      "origin": "P8_AMIL_MAMUL",
+      "status": "implemented",
+      "single_token_eligible": false,
+      "input_cardinality": "MULTI_UNIT_GE_2",
+      "note": "FIRST multi-unit layer; requires >=2 distinct words each with accepted P8 AmilMamulCandidate"
+    },
+    {
+      "layer_id": "P10_RELATION_GEOMETRY",
+      "phase": "SCG-P10",
+      "candidate_type": "RelationGeometryCandidate",
+      "origin": "P9_SENTENCE_GEOMETRY",
+      "status": "implemented",
+      "single_token_eligible": false,
+      "input_cardinality": "REQUIRES_SENTENCE_GEOMETRY"
+    },
+    {
+      "layer_id": "P11_IRAB_GEOMETRY",
+      "phase": "SCG-P11",
+      "candidate_type": "IrabGeometryCandidate",
+      "origin": "P10_RELATION_GEOMETRY",
+      "status": "implemented",
+      "single_token_eligible": false,
+      "input_cardinality": "REQUIRES_RELATION_GEOMETRY"
+    },
+    {
+      "layer_id": "P12_IFADAH_SPEECH_FORCE",
+      "phase": "SCG-P12",
+      "candidate_type": "IfadahCandidate",
+      "origin": "P11_IRAB_GEOMETRY",
+      "status": "implemented",
+      "single_token_eligible": false,
+      "input_cardinality": "REQUIRES_IRAB_GEOMETRY",
+      "terminal": true,
+      "target_boundary_opens": []
+    }
+  ],
+
+  "set_b_candidates_reclassified": {
+    "set_b_names": [
+      "NormalizationCandidate",
+      "SegmentationCandidate",
+      "BoundaryCandidate",
+      "RootCandidate",
+      "PatternCandidate",
+      "BabCandidate",
+      "MasdarCandidate",
+      "DerivativeCandidate",
+      "WordClassCandidate",
+      "InflectionCandidate",
+      "TaaqolSGACandidate"
+    ],
+    "correct_classification": "HOKOM_MORPHOLOGICAL_PIPELINE_STAGES",
+    "source": "docs/ar/HOKOM_SCG_P0_P12_TAAQOL_JUDGMENT_CLOSURE_AR.md (Hokom project documentation)",
+    "note": "These names appear in Hokom documentation as internal pipeline stage labels. They are NOT defined as Python classes in Hokom source. They are NOT in the Saleh/Qiyas canonical registry. They are NOT SCG candidates."
+  },
+
+  "multi_unit_boundary": {
+    "first_multi_unit_layer": "P9_SENTENCE_GEOMETRY",
+    "single_token_layers": ["P0_UNICODE_CANDIDATE","P0_TYPED_CODEPOINT","P0_GLYPH_CLASSIFICATION","P1_LETTER_IDENTITY_CARRIER","P1_HARAKA_MARK_IDENTITY_CARRIER","P1_CONDITIONED_TYPED_SEQUENCE","P1_POSITION_CARRIER","P1_SLOT_CANDIDATE","P2_REGISTRY_PROJECTION","P3_ROOT_STEM_CLOSURE","P4_JAMID_MUSHTAQ","P5_MUFRAD_WORD_CONTRACTS","P6_VERBAL_SIGNIFIED_ALONE","P7_COMPOSITION_READINESS","P8_AMIL_MAMUL"],
+    "multi_unit_layers": ["P9_SENTENCE_GEOMETRY","P10_RELATION_GEOMETRY","P11_IRAB_GEOMETRY","P12_IFADAH_SPEECH_FORCE"],
+    "hokom_pipeline_ceiling": "P8_AMIL_MAMUL — Hokom single-token execution can produce at most AmilMamulCandidate evidence per word; P9+ require multi-word orchestration outside Hokom"
+  }
+}

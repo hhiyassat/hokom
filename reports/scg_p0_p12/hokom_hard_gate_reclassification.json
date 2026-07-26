@@ -1,0 +1,160 @@
+{
+  "mandate": "HOKOM-SALEH-QIYAS-SCG-CROSS-REPOSITORY-OWNERSHIP-RESOLUTION-07",
+  "section": "7 — Hokom Hard Gate Reclassification",
+  "generated_at": "2026-07-26",
+  "note": "Each of the 11 Hokom _scg_gate() calls is classified against the canonical SCG P0-P12 ladder from Saleh/Qiyas. The gate labels (NORMALIZE, SEGMENT, etc.) are Hokom-internal stage identifiers, NOT canonical SCG candidate names.",
+
+  "hard_stop_set": ["BLOCKED", "REJECTED", "FORBIDDEN_LEAP", "DEFERRED", "INVALID"],
+  "gate_function": "_scg_gate(source, target) in hokom_pipeline.py — calls TaaqolJudgmentEnforcer; returns None (continue) or stopped-result dict on hard stop",
+  "enforcer_file": "hokom/pipeline/governance/taaqol_judgment_enforcer.py",
+  "enforcer_fail_closed": true,
+
+  "gates": [
+    {
+      "GATE_ID": "GATE_01",
+      "HOKOM_EDGE": "NORMALIZE→SEGMENT",
+      "GATE_LOCATION_LINE": "248",
+      "SCG_LAYER_APPROXIMATE": "pre-P0 → P0 range",
+      "SCG_CANDIDATE_CORRESPONDENCE": "None — 'NORMALIZE' and 'SEGMENT' are not SCG candidate types",
+      "SCG_MAPPING_CONFIDENCE": "NONE",
+      "CLASSIFICATION": "HOKOM_INTERNAL_MORPHOLOGY_GATE",
+      "ACTION": "KEEP — legitimate internal gate enforcing Taaqol judgment before clitic segmentation",
+      "RELABELING_REQUIRED": true,
+      "SUGGESTED_LABEL": "HOKOM_GATE_01: pre-normalization → post-segmentation (covers pre-P0 through P1 clitic decomposition)",
+      "NOTE": "Gate fires before segment_token() executes; enforces fail-closed judgment at segmentation boundary. No correspondence to a named SCG candidate transition."
+    },
+    {
+      "GATE_ID": "GATE_02",
+      "HOKOM_EDGE": "SEGMENT→NORM_ATOMIC",
+      "GATE_LOCATION_LINE": "353",
+      "SCG_LAYER_APPROXIMATE": "P0-P1 → P1 range",
+      "SCG_CANDIDATE_CORRESPONDENCE": "None",
+      "SCG_MAPPING_CONFIDENCE": "NONE",
+      "CLASSIFICATION": "HOKOM_INTERNAL_MORPHOLOGY_GATE",
+      "ACTION": "KEEP",
+      "RELABELING_REQUIRED": true,
+      "SUGGESTED_LABEL": "HOKOM_GATE_02: post-segmentation → before mabni/functional/jamid boundary",
+      "NOTE": "Fires before mabni/functional/jamid boundary stages; enforces judgment before atomic normalization."
+    },
+    {
+      "GATE_ID": "GATE_03",
+      "HOKOM_EDGE": "NORM_ATOMIC→BOUNDARY",
+      "GATE_LOCATION_LINE": "446",
+      "SCG_LAYER_APPROXIMATE": "P1 boundary range",
+      "SCG_CANDIDATE_CORRESPONDENCE": "Loosely: P1_POSITION_CARRIER boundary decision",
+      "SCG_MAPPING_CONFIDENCE": "LOW",
+      "CLASSIFICATION": "HOKOM_INTERNAL_MORPHOLOGY_GATE",
+      "ACTION": "KEEP",
+      "RELABELING_REQUIRED": true,
+      "SUGGESTED_LABEL": "HOKOM_GATE_03: atomic normalization → boundary type decision (OPERATOR/MABNI/JAMID_AALAM)",
+      "NOTE": "Covers OPERATOR_BOUNDARY / MABNI_BOUNDARY / JAMID_AALAM_BOUNDARY determination before root admission."
+    },
+    {
+      "GATE_ID": "GATE_04",
+      "HOKOM_EDGE": "BOUNDARY→ROOT_CAND",
+      "GATE_LOCATION_LINE": "518",
+      "SCG_LAYER_APPROXIMATE": "P1 → P2-P3 range",
+      "SCG_CANDIDATE_CORRESPONDENCE": "Loosely: boundary → RegistryProjectionCandidate (P2)",
+      "SCG_MAPPING_CONFIDENCE": "LOW",
+      "CLASSIFICATION": "HOKOM_INTERNAL_MORPHOLOGY_GATE",
+      "ACTION": "KEEP",
+      "RELABELING_REQUIRED": true,
+      "SUGGESTED_LABEL": "HOKOM_GATE_04: boundary decision → root-candidate engine (P2 registry-projection entry)"
+    },
+    {
+      "GATE_ID": "GATE_05",
+      "HOKOM_EDGE": "ROOT_CAND→PHASE_4A",
+      "GATE_LOCATION_LINE": "692",
+      "SCG_LAYER_APPROXIMATE": "P3 → P4 range",
+      "SCG_CANDIDATE_CORRESPONDENCE": "Loosely: RootStemCandidate (P3) → JamidMushtaq (P4) / wazn-projection",
+      "SCG_MAPPING_CONFIDENCE": "LOW",
+      "CLASSIFICATION": "HOKOM_INTERNAL_MORPHOLOGY_GATE",
+      "ACTION": "KEEP",
+      "RELABELING_REQUIRED": true,
+      "SUGGESTED_LABEL": "HOKOM_GATE_05: root-stem closure → wazn/pattern projection (P3→P4)"
+    },
+    {
+      "GATE_ID": "GATE_06",
+      "HOKOM_EDGE": "PHASE_4A→PHASE_4B",
+      "GATE_LOCATION_LINE": "723",
+      "SCG_LAYER_APPROXIMATE": "P4 internal",
+      "SCG_CANDIDATE_CORRESPONDENCE": "None — sub-phases within P4 JamidMushtaq domain",
+      "SCG_MAPPING_CONFIDENCE": "NONE",
+      "CLASSIFICATION": "HOKOM_INTERNAL_MORPHOLOGY_GATE",
+      "ACTION": "KEEP",
+      "RELABELING_REQUIRED": true,
+      "SUGGESTED_LABEL": "HOKOM_GATE_06: wazn projection → bab/paradigm projection (P4 internal)"
+    },
+    {
+      "GATE_ID": "GATE_07",
+      "HOKOM_EDGE": "PHASE_4B→PHASE_4C",
+      "GATE_LOCATION_LINE": "744",
+      "SCG_LAYER_APPROXIMATE": "P4-P5 boundary",
+      "SCG_CANDIDATE_CORRESPONDENCE": "None — bab → masdar projection; sub-phase within P4-P5 region",
+      "SCG_MAPPING_CONFIDENCE": "NONE",
+      "CLASSIFICATION": "HOKOM_INTERNAL_MORPHOLOGY_GATE",
+      "ACTION": "KEEP",
+      "RELABELING_REQUIRED": true,
+      "SUGGESTED_LABEL": "HOKOM_GATE_07: bab projection → masdar projection (P4-P5 internal)"
+    },
+    {
+      "GATE_ID": "GATE_08",
+      "HOKOM_EDGE": "PHASE_4C→PHASE_4D",
+      "GATE_LOCATION_LINE": "761",
+      "SCG_LAYER_APPROXIMATE": "P4-P5 boundary",
+      "SCG_CANDIDATE_CORRESPONDENCE": "None — masdar → mushtaq/derivative; sub-phase",
+      "SCG_MAPPING_CONFIDENCE": "NONE",
+      "CLASSIFICATION": "HOKOM_INTERNAL_MORPHOLOGY_GATE",
+      "ACTION": "KEEP",
+      "RELABELING_REQUIRED": true,
+      "SUGGESTED_LABEL": "HOKOM_GATE_08: masdar projection → derivative classification (P4-P5 internal)"
+    },
+    {
+      "GATE_ID": "GATE_09",
+      "HOKOM_EDGE": "PHASE_4D→WORD_CLASS",
+      "GATE_LOCATION_LINE": "803",
+      "SCG_LAYER_APPROXIMATE": "P4 → P5",
+      "SCG_CANDIDATE_CORRESPONDENCE": "JamidMushtaqCandidate (P4) → MufradWordCandidate (P5) — first meaningful SCG mapping",
+      "SCG_MAPPING_CONFIDENCE": "MEDIUM",
+      "CLASSIFICATION": "HOKOM_INTERNAL_MORPHOLOGY_GATE",
+      "ACTION": "KEEP — highest SCG correspondence confidence in the Hokom gate set",
+      "RELABELING_REQUIRED": true,
+      "SUGGESTED_LABEL": "HOKOM_GATE_09: JamidMushtaq closure → word-class determination (P4→P5 entry)"
+    },
+    {
+      "GATE_ID": "GATE_10",
+      "HOKOM_EDGE": "WORD_CLASS→PHASE_5",
+      "GATE_LOCATION_LINE": "836",
+      "SCG_LAYER_APPROXIMATE": "P5 internal",
+      "SCG_CANDIDATE_CORRESPONDENCE": "Within P5 MufradWordCandidate: word-class classification → paradigm/inflection",
+      "SCG_MAPPING_CONFIDENCE": "MEDIUM",
+      "CLASSIFICATION": "HOKOM_INTERNAL_MORPHOLOGY_GATE",
+      "ACTION": "KEEP",
+      "RELABELING_REQUIRED": true,
+      "SUGGESTED_LABEL": "HOKOM_GATE_10: word-class verdict → paradigm/inflection (P5 internal)"
+    },
+    {
+      "GATE_ID": "GATE_11",
+      "HOKOM_EDGE": "PHASE_5→TAAQOL_SGA",
+      "GATE_LOCATION_LINE": "1071",
+      "SCG_LAYER_APPROXIMATE": "P5 → P6+ boundary (Hokom terminal → Saleh/Qiyas entry)",
+      "SCG_CANDIDATE_CORRESPONDENCE": "MufradWordCandidate (P5) terminal in Hokom; P6 VerbalSignifiedCandidate requires Saleh/Qiyas",
+      "SCG_MAPPING_CONFIDENCE": "HIGH — this is the actual Hokom/SCG cross-repository handoff gate",
+      "CLASSIFICATION": "HOKOM_CROSS_REPOSITORY_HANDOFF_GATE",
+      "ACTION": "KEEP — critical boundary gate. P5 is the last layer Hokom can produce. P6+ belongs to Saleh/Qiyas.",
+      "RELABELING_REQUIRED": true,
+      "SUGGESTED_LABEL": "HOKOM_GATE_11: MufradWordCandidate (P5) → Taaqol SGA / Saleh-Qiyas P6+ handoff boundary",
+      "NOTE": "This gate's name TAAQOL_SGA is correct: it marks the boundary where Hokom hands off to Taaqol judgment enforcement. The P6-P12 continuation is Saleh/Qiyas territory; Hokom cannot satisfy it."
+    }
+  ],
+
+  "reclassification_summary": {
+    "total_gates": 11,
+    "gates_with_scg_mapping": 3,
+    "gates_without_scg_mapping": 8,
+    "action_keep_all": true,
+    "relabeling_recommended_count": 11,
+    "critical_finding": "No Hokom gate label corresponds to a canonical SCG P0-P12 candidate name. The gates guard Hokom-internal morphology stage transitions, not SCG candidate-chain transitions. Gate_11 (PHASE_5→TAAQOL_SGA) is the sole cross-repository handoff point.",
+    "naming_contamination": "Use of '_scg_gate' as function name creates false impression that Hokom gates ARE the SCG P0-P12 gate mechanism. They are Hokom-internal enforcement points that happen to invoke TaaqolJudgmentEnforcer before each stage transition."
+  }
+}

@@ -1,0 +1,342 @@
+{
+  "mandate": "HOKOM-SALEH-QIYAS-SCG-CROSS-REPOSITORY-OWNERSHIP-RESOLUTION-07",
+  "section": "3 — Cross-Repository Entity Classification",
+  "generated_at": "2026-07-26",
+  "classification_taxonomy": [
+    "SCG_CANONICAL_CANDIDATE",
+    "HOKOM_PIPELINE_STAGE",
+    "HOKOM_SLOT_OR_REPORT_LAYER",
+    "HOKOM_MORPHOLOGICAL_OUTPUT",
+    "TAAQOL_CONSTITUTIONAL_ENTITY",
+    "ARABIC_VERIFIER_CLAIM_TYPE",
+    "HR2S_RESEARCH_ENTITY",
+    "NON_CANONICAL_HELPER"
+  ],
+
+  "entities": [
+    {
+      "entity": "UnicodeCandidate",
+      "class": "SCG_CANONICAL_CANDIDATE",
+      "layer_id": "P0_UNICODE_CANDIDATE",
+      "canonical_owner": "SALEH_QIYAS",
+      "defined_in": "fractal/algebra/Saleh-/src/qiyas_core/candidate.py",
+      "note": "Root entry into the SCG chain; every Arabic codepoint"
+    },
+    {
+      "entity": "TypedCodePoint",
+      "class": "SCG_CANONICAL_CANDIDATE",
+      "layer_id": "P0_TYPED_CODEPOINT",
+      "canonical_owner": "SALEH_QIYAS",
+      "defined_in": "fractal/algebra/Saleh-/src/qiyas_core/typed_codepoint_adapter.py"
+    },
+    {
+      "entity": "GlyphClassificationCandidate",
+      "class": "SCG_CANONICAL_CANDIDATE",
+      "layer_id": "P0_GLYPH_CLASSIFICATION",
+      "canonical_owner": "SALEH_QIYAS",
+      "defined_in": "fractal/algebra/Saleh-/src/qiyas_core/slot_geometry_core/master_registry_seed.py",
+      "note": "Registry name; minor variant GlyphClassification also appears"
+    },
+    {
+      "entity": "LetterIdentityCarrier",
+      "class": "SCG_CANONICAL_CANDIDATE",
+      "layer_id": "P1_LETTER_IDENTITY_CARRIER",
+      "canonical_owner": "SALEH_QIYAS",
+      "defined_in": "fractal/algebra/Saleh-/src/qiyas_core/letter_identity_adapter.py"
+    },
+    {
+      "entity": "HarakaMarkIdentityCarrier",
+      "class": "SCG_CANONICAL_CANDIDATE",
+      "layer_id": "P1_HARAKA_MARK_IDENTITY_CARRIER",
+      "canonical_owner": "SALEH_QIYAS",
+      "defined_in": "fractal/algebra/Saleh-/src/qiyas_core/haraka_function_adapter.py"
+    },
+    {
+      "entity": "ConditionedTypedSequence",
+      "class": "SCG_CANONICAL_CANDIDATE",
+      "layer_id": "P1_CONDITIONED_TYPED_SEQUENCE",
+      "canonical_owner": "SALEH_QIYAS",
+      "defined_in": "fractal/algebra/Saleh-/src/qiyas_core/conditioned_typed_sequence_adapter.py"
+    },
+    {
+      "entity": "PositionCarrier",
+      "class": "SCG_CANONICAL_CANDIDATE",
+      "layer_id": "P1_POSITION_CARRIER",
+      "canonical_owner": "SALEH_QIYAS",
+      "defined_in": "fractal/algebra/Saleh-/src/qiyas_core/position_adapter.py"
+    },
+    {
+      "entity": "SlotCandidate",
+      "class": "SCG_CANONICAL_CANDIDATE",
+      "layer_id": "P1_SLOT_CANDIDATE",
+      "canonical_owner": "SALEH_QIYAS",
+      "defined_in": "fractal/algebra/Saleh-/src/qiyas_core/slot_adapter.py"
+    },
+    {
+      "entity": "RegistryProjectionCandidate",
+      "class": "SCG_CANONICAL_CANDIDATE",
+      "layer_id": "P2_REGISTRY_PROJECTION",
+      "canonical_owner": "SALEH_QIYAS",
+      "defined_in": "fractal/algebra/Saleh-/src/qiyas_core/registry_projection_adapter.py"
+    },
+    {
+      "entity": "RootStemCandidate",
+      "class": "SCG_CANONICAL_CANDIDATE",
+      "layer_id": "P3_ROOT_STEM_CLOSURE",
+      "canonical_owner": "SALEH_QIYAS",
+      "defined_in": "fractal/algebra/Saleh-/src/qiyas_core/root_stem_adapter.py"
+    },
+    {
+      "entity": "JamidMushtaqCandidate",
+      "class": "SCG_CANONICAL_CANDIDATE",
+      "layer_id": "P4_JAMID_MUSHTAQ",
+      "canonical_owner": "SALEH_QIYAS",
+      "defined_in": "fractal/algebra/Saleh-/src/qiyas_core/jamid_mushtaq_adapter.py"
+    },
+    {
+      "entity": "MufradWordCandidate",
+      "class": "SCG_CANONICAL_CANDIDATE",
+      "layer_id": "P5_MUFRAD_WORD_CONTRACTS",
+      "canonical_owner": "SALEH_QIYAS",
+      "defined_in": "fractal/algebra/Saleh-/src/qiyas_core/mufrad_word_adapter.py",
+      "note": "Also the OUTPUT of the Hokom pipeline (via TAAQOL_SGA stage); the cross-repo handoff point"
+    },
+    {
+      "entity": "VerbalSignifiedCandidate",
+      "class": "SCG_CANONICAL_CANDIDATE",
+      "layer_id": "P6_VERBAL_SIGNIFIED_ALONE",
+      "canonical_owner": "SALEH_QIYAS",
+      "defined_in": "fractal/algebra/Saleh-/src/qiyas_core/verbal_signified_adapter.py"
+    },
+    {
+      "entity": "CompositionReadinessCandidate",
+      "class": "SCG_CANONICAL_CANDIDATE",
+      "layer_id": "P7_COMPOSITION_READINESS",
+      "canonical_owner": "SALEH_QIYAS",
+      "defined_in": "fractal/algebra/Saleh-/src/qiyas_core/composition_readiness_adapter.py"
+    },
+    {
+      "entity": "AmilMamulCandidate",
+      "class": "SCG_CANONICAL_CANDIDATE",
+      "layer_id": "P8_AMIL_MAMUL",
+      "canonical_owner": "SALEH_QIYAS",
+      "defined_in": "fractal/algebra/Saleh-/src/qiyas_core/amil_mamul_adapter.py"
+    },
+    {
+      "entity": "SentenceGeometryCandidate",
+      "class": "SCG_CANONICAL_CANDIDATE",
+      "layer_id": "P9_SENTENCE_GEOMETRY",
+      "canonical_owner": "SALEH_QIYAS",
+      "defined_in": "fractal/algebra/Saleh-/src/qiyas_core/sentence_geometry_adapter.py",
+      "note": "MULTI-UNIT: requires >=2 distinct words with accepted P8 evidence"
+    },
+    {
+      "entity": "RelationGeometryCandidate",
+      "class": "SCG_CANONICAL_CANDIDATE",
+      "layer_id": "P10_RELATION_GEOMETRY",
+      "canonical_owner": "SALEH_QIYAS",
+      "defined_in": "fractal/algebra/Saleh-/src/qiyas_core/relation_geometry_adapter.py"
+    },
+    {
+      "entity": "IrabGeometryCandidate",
+      "class": "SCG_CANONICAL_CANDIDATE",
+      "layer_id": "P11_IRAB_GEOMETRY",
+      "canonical_owner": "SALEH_QIYAS",
+      "defined_in": "fractal/algebra/Saleh-/src/qiyas_core/irab_geometry_adapter.py"
+    },
+    {
+      "entity": "IfadahCandidate (SCG P12)",
+      "class": "SCG_CANONICAL_CANDIDATE",
+      "layer_id": "P12_IFADAH_SPEECH_FORCE",
+      "canonical_owner": "SALEH_QIYAS",
+      "defined_in": "fractal/algebra/Saleh-/src/qiyas_core/ifadah_adapter.py",
+      "note": "TERMINAL; opens no downstream boundary"
+    },
+
+    {
+      "entity": "NORMALIZE (Hokom stage)",
+      "class": "HOKOM_PIPELINE_STAGE",
+      "hokom_gate_position": "stage_0",
+      "defined_in": "hokom/hokom_pipeline.py",
+      "scg_layer_approximate": "pre-P0 (Unicode normalization before SCG entry)"
+    },
+    {
+      "entity": "SEGMENT (Hokom stage)",
+      "class": "HOKOM_PIPELINE_STAGE",
+      "hokom_gate_position": "stage_1 (gate 1 exit)",
+      "defined_in": "hokom/hokom_pipeline.py",
+      "scg_layer_approximate": "P0-P1 range (clitic decomposition)"
+    },
+    {
+      "entity": "NORM_ATOMIC (Hokom stage)",
+      "class": "HOKOM_PIPELINE_STAGE",
+      "hokom_gate_position": "stage_2 (gate 2 exit)",
+      "defined_in": "hokom/hokom_pipeline.py",
+      "scg_layer_approximate": "P1 range (mabni/functional/jamid boundary classification)"
+    },
+    {
+      "entity": "BOUNDARY (Hokom stage)",
+      "class": "HOKOM_PIPELINE_STAGE",
+      "hokom_gate_position": "stage_3 (gate 3 exit)",
+      "defined_in": "hokom/hokom_pipeline.py",
+      "scg_layer_approximate": "P1 (OPERATOR/MABNI/JAMID_AALAM boundary decision)"
+    },
+    {
+      "entity": "ROOT_CAND (Hokom stage)",
+      "class": "HOKOM_PIPELINE_STAGE",
+      "hokom_gate_position": "stage_4 (gate 4 exit)",
+      "defined_in": "hokom/hokom_pipeline.py",
+      "scg_layer_approximate": "P2-P3 (registry projection + root-stem candidates)"
+    },
+    {
+      "entity": "PHASE_4A (Hokom stage)",
+      "class": "HOKOM_PIPELINE_STAGE",
+      "hokom_gate_position": "stage_5 (gate 5 exit)",
+      "defined_in": "hokom/hokom_pipeline.py",
+      "scg_layer_approximate": "P3-P4 (wazn/pattern projection)"
+    },
+    {
+      "entity": "PHASE_4B (Hokom stage)",
+      "class": "HOKOM_PIPELINE_STAGE",
+      "hokom_gate_position": "stage_6 (gate 6 exit)",
+      "defined_in": "hokom/hokom_pipeline.py",
+      "scg_layer_approximate": "P4 (bab/paradigm projection)"
+    },
+    {
+      "entity": "PHASE_4C (Hokom stage)",
+      "class": "HOKOM_PIPELINE_STAGE",
+      "hokom_gate_position": "stage_7 (gate 7 exit)",
+      "defined_in": "hokom/hokom_pipeline.py",
+      "scg_layer_approximate": "P4-P5 (masdar projection)"
+    },
+    {
+      "entity": "PHASE_4D (Hokom stage)",
+      "class": "HOKOM_PIPELINE_STAGE",
+      "hokom_gate_position": "stage_8 (gate 8 exit)",
+      "defined_in": "hokom/hokom_pipeline.py",
+      "scg_layer_approximate": "P4-P5 (derivative/mushtaq classification)"
+    },
+    {
+      "entity": "WORD_CLASS (Hokom stage)",
+      "class": "HOKOM_PIPELINE_STAGE",
+      "hokom_gate_position": "stage_9 (gate 9 exit)",
+      "defined_in": "hokom/hokom_pipeline.py",
+      "scg_layer_approximate": "P5 (word-class determination: ism/fi'l/harf)"
+    },
+    {
+      "entity": "PHASE_5 (Hokom stage)",
+      "class": "HOKOM_PIPELINE_STAGE",
+      "hokom_gate_position": "stage_10 (gate 10 exit)",
+      "defined_in": "hokom/hokom_pipeline.py",
+      "scg_layer_approximate": "P5 (paradigm/inflection → MufradWordCandidate)"
+    },
+    {
+      "entity": "TAAQOL_SGA (Hokom stage)",
+      "class": "HOKOM_PIPELINE_STAGE",
+      "hokom_gate_position": "stage_11 (gate 11 exit — terminal)",
+      "defined_in": "hokom/hokom_pipeline.py",
+      "scg_layer_approximate": "P5 terminal → Taaqol judgment enforcement boundary"
+    },
+
+    {
+      "entity": "SlotId / SlotContract (SGA slots)",
+      "class": "HOKOM_SLOT_OR_REPORT_LAYER",
+      "defined_in": "hokom/pipeline/sga/contracts.py, slot_registry.py",
+      "note": "Hokom's internal slot geometry layer — NORMALIZED_SURFACE, SEGMENT_HOST, BOUNDARY_TYPE_SLOT, WORD_CLASS_SLOT, ROOT_CANDIDATE_SET, etc."
+    },
+    {
+      "entity": "CandidateSet / CandidateStatus (Hokom runtime)",
+      "class": "HOKOM_MORPHOLOGICAL_OUTPUT",
+      "defined_in": "hokom/pipeline/sga/contracts.py",
+      "note": "Hokom runtime output container; distinct from Saleh/Qiyas CandidateSet"
+    },
+
+    {
+      "entity": "IfadahCandidate (Taaqol constitutional)",
+      "class": "TAAQOL_CONSTITUTIONAL_ENTITY",
+      "defined_in": "hokom/pipeline/taaqol_integration/constitutional_contracts.py",
+      "hokom_eligibility": "FORBIDDEN",
+      "note": "Hokom defines a constitutional IfadahCandidate stub (not the SCG P12 candidate) to enforce the law: IfadahCandidate→Action is a FORBIDDEN_LEAP"
+    },
+    {
+      "entity": "RelationCandidate (Taaqol)",
+      "class": "TAAQOL_CONSTITUTIONAL_ENTITY",
+      "defined_in": "hokom/pipeline/taaqol_integration/native_stage_registry.py",
+      "hokom_eligibility": "FORBIDDEN"
+    },
+    {
+      "entity": "RelationClosure (Taaqol)",
+      "class": "TAAQOL_CONSTITUTIONAL_ENTITY",
+      "defined_in": "hokom/pipeline/taaqol_integration/native_stage_registry.py",
+      "hokom_eligibility": "FORBIDDEN"
+    },
+    {
+      "entity": "TaaqolJudgmentEnforcer",
+      "class": "TAAQOL_CONSTITUTIONAL_ENTITY",
+      "defined_in": "hokom/pipeline/governance/taaqol_judgment_enforcer.py",
+      "note": "Enforces live Taaqol judgments on all 11 Hokom gate transitions; fail-closed on import/runtime failure"
+    },
+    {
+      "entity": "JudgmentCandidate / LicensedJudgment / AuthorityCheck",
+      "class": "TAAQOL_CONSTITUTIONAL_ENTITY",
+      "defined_in": "hokom/pipeline/taaqol_integration/constitutional_contracts.py",
+      "note": "Taaqol judgment chain: IfadahCandidate→JudgmentCandidate→LicensedJudgment→AuthorityCheck→AuthorizedAction"
+    },
+
+    {
+      "entity": "ROOT_CLAIM / WORD_CLASS_CLAIM / PATTERN_CLAIM",
+      "class": "ARABIC_VERIFIER_CLAIM_TYPE",
+      "defined_in": "hokom/pipeline/sga/license_registry.py",
+      "note": "Claim profiles for Hokom's slot-geometry license audit"
+    },
+    {
+      "entity": "HR2S (root verification system)",
+      "class": "HR2S_RESEARCH_ENTITY",
+      "defined_in": "hokom/pipeline/ (referenced in root projection)",
+      "note": "Research-stage root-verification system; produces OPENED/DEFERRED/BLOCKED root projection verdicts"
+    },
+
+    {
+      "entity": "NormalizationCandidate",
+      "class": "NON_CANONICAL_HELPER",
+      "source": "Hokom docs only (docs/ar/HOKOM_SCG_P0_P12_TAAQOL_JUDGMENT_CLOSURE_AR.md)",
+      "note": "Set B label — NOT a Python class; NOT in Saleh/Qiyas registry; Hokom stage documentation name only"
+    },
+    {
+      "entity": "SegmentationCandidate",
+      "class": "NON_CANONICAL_HELPER",
+      "source": "Hokom docs only",
+      "note": "Set B label — documentation name for SEGMENT stage output; not a class"
+    },
+    {
+      "entity": "BoundaryCandidate",
+      "class": "NON_CANONICAL_HELPER",
+      "source": "Hokom docs only",
+      "note": "Set B label — documentation name for BOUNDARY stage output"
+    },
+    {
+      "entity": "RootCandidate",
+      "class": "NON_CANONICAL_HELPER",
+      "source": "Hokom docs only",
+      "note": "Set B label — documentation name for ROOT_CAND stage output"
+    },
+    {
+      "entity": "WordClassCandidate",
+      "class": "NON_CANONICAL_HELPER",
+      "source": "Hokom docs only",
+      "note": "Set B label — documentation name for WORD_CLASS stage output"
+    },
+    {
+      "entity": "InflectionCandidate",
+      "class": "NON_CANONICAL_HELPER",
+      "source": "Hokom docs only",
+      "note": "Set B label — documentation name for PHASE_5 output"
+    },
+    {
+      "entity": "TaaqolSGACandidate",
+      "class": "NON_CANONICAL_HELPER",
+      "source": "Hokom docs only",
+      "note": "Set B label — documentation name; not a class in any repository"
+    }
+  ]
+}

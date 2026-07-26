@@ -1,0 +1,120 @@
+{
+  "mandate": "HOKOM-SALEH-QIYAS-SCG-CROSS-REPOSITORY-OWNERSHIP-RESOLUTION-07",
+  "section": "9 — Corpus Capability Audit",
+  "generated_at": "2026-07-26",
+  "corpus_file": "hokom/data/test-data/hokom_taaqol_sga_live_corpus_150.json",
+  "corpus_id": "LCX",
+  "total_cases": 150,
+
+  "structural_distribution": {
+    "TOKEN_ONLY_CASES": 150,
+    "TOKEN_ONLY_PERCENTAGE": "100%",
+    "PHRASE_CASES": 0,
+    "COMPLETE_SENTENCE_CASES": 0
+  },
+
+  "section_distribution": {
+    "A_COMPOUND_CLITICS": 40,
+    "B_WEAK_VERBS": 60,
+    "C_H11_H15_LIVE": 30,
+    "D_AMBIGUITY_CONTROLS": 20
+  },
+
+  "focus_distribution": {
+    "MULTI_CLITIC_COMPOUND": 40,
+    "WEAK_VERB_ALL_CLASSES": 60,
+    "H11_H15_TYPED_MORPHOLOGY": 30,
+    "MULTI_CANDIDATE_AMBIGUITY": 20
+  },
+
+  "scg_gold_annotation_coverage": [
+    {
+      "LAYER_RANGE": "P0_UNICODE_CANDIDATE → P0_TYPED_CODEPOINT → P0_GLYPH_CLASSIFICATION",
+      "GOLD_ANNOTATIONS_PRESENT": true,
+      "COVERAGE": "Implied by surface form; all 150 cases have Arabic codepoints suitable for P0-P1 processing"
+    },
+    {
+      "LAYER_RANGE": "P1 (LetterIdentityCarrier, HarakaMarkIdentityCarrier, ConditionedTypedSequence, PositionCarrier, SlotCandidate)",
+      "GOLD_ANNOTATIONS_PRESENT": true,
+      "COVERAGE": "Diacritized surfaces in corpus support P1 slot/position/haraka annotation; verified in LCX-001 (target_surface='وَبِكِتَابِهِمْ')"
+    },
+    {
+      "LAYER_RANGE": "P2_REGISTRY_PROJECTION (RegistryProjectionCandidate)",
+      "GOLD_ANNOTATIONS_PRESENT": true,
+      "COVERAGE": "Root candidate sets implicit in word-class and root gold data"
+    },
+    {
+      "LAYER_RANGE": "P3_ROOT_STEM_CLOSURE (RootStemCandidate)",
+      "GOLD_ANNOTATIONS_PRESENT": true,
+      "COVERAGE": "Sections B (weak verbs) and A (clitics) carry root-level gold; H11/H15 patterns (section C) reference root-pattern alignment"
+    },
+    {
+      "LAYER_RANGE": "P4_JAMID_MUSHTAQ (JamidMushtaqCandidate)",
+      "GOLD_ANNOTATIONS_PRESENT": true,
+      "COVERAGE": "Derivative/jamid classification captured in section D ambiguity controls"
+    },
+    {
+      "LAYER_RANGE": "P5_MUFRAD_WORD_CONTRACTS (MufradWordCandidate)",
+      "GOLD_ANNOTATIONS_PRESENT": true,
+      "COVERAGE": "Word-class verdicts (ism/fi'l/harf), inflection paradigms, and H11-H15 morphological types annotated in sections B, C"
+    },
+    {
+      "LAYER_RANGE": "P6_VERBAL_SIGNIFIED_ALONE (VerbalSignifiedCandidate)",
+      "GOLD_ANNOTATIONS_PRESENT": false,
+      "COVERAGE": "0/150 — No verbal-signified carrier geometry annotations found in corpus",
+      "FINDING": "CORPUS_CAPABILITY_INSUFFICIENT_FOR_P6_VERIFICATION"
+    },
+    {
+      "LAYER_RANGE": "P7_COMPOSITION_READINESS (CompositionReadinessCandidate)",
+      "GOLD_ANNOTATIONS_PRESENT": false,
+      "COVERAGE": "0/150",
+      "FINDING": "CORPUS_CAPABILITY_INSUFFICIENT_FOR_P7_VERIFICATION"
+    },
+    {
+      "LAYER_RANGE": "P8_AMIL_MAMUL (AmilMamulCandidate)",
+      "GOLD_ANNOTATIONS_PRESENT": false,
+      "COVERAGE": "0/150",
+      "FINDING": "CORPUS_CAPABILITY_INSUFFICIENT_FOR_P8_VERIFICATION"
+    },
+    {
+      "LAYER_RANGE": "P9_SENTENCE_GEOMETRY (SentenceGeometryCandidate)",
+      "GOLD_ANNOTATIONS_PRESENT": false,
+      "COVERAGE": "0/150 — STRUCTURAL IMPOSSIBILITY: corpus is single-token; P9 requires >=2 distinct word units",
+      "FINDING": "CORPUS_STRUCTURALLY_INCAPABLE_OF_P9_COVERAGE"
+    },
+    {
+      "LAYER_RANGE": "P10_RELATION_GEOMETRY (RelationGeometryCandidate)",
+      "GOLD_ANNOTATIONS_PRESENT": false,
+      "COVERAGE": "0/150",
+      "FINDING": "CORPUS_STRUCTURALLY_INCAPABLE_OF_P10_COVERAGE"
+    },
+    {
+      "LAYER_RANGE": "P11_IRAB_GEOMETRY (IrabGeometryCandidate)",
+      "GOLD_ANNOTATIONS_PRESENT": false,
+      "COVERAGE": "0/150",
+      "FINDING": "CORPUS_STRUCTURALLY_INCAPABLE_OF_P11_COVERAGE"
+    },
+    {
+      "LAYER_RANGE": "P12_IFADAH_SPEECH_FORCE (IfadahCandidate)",
+      "GOLD_ANNOTATIONS_PRESENT": false,
+      "COVERAGE": "0/150",
+      "FINDING": "CORPUS_STRUCTURALLY_INCAPABLE_OF_P12_COVERAGE"
+    }
+  ],
+
+  "witness_verdict": {
+    "SENTENCE_LEVEL_WITNESS_FOUND": false,
+    "WITNESS_CASES_FOR_P9_P12": 0,
+    "SYNTHETIC_WITNESS_REMOVED": true,
+    "SYNTHETIC_WITNESS_NOTE": "REALIGNMENT-06 gate_10 WITNESS_PLAN entry for IfadahCandidate (LCX-001) was identified as SYNTHETIC. LCX-001 is a multi-clitic compound test (section=A_COMPOUND_CLITICS, primary_focus=MULTI_CLITIC_COMPOUND) with no sentence-level annotations.",
+    "VERIFIED_WITNESS_COUNT": 0
+  },
+
+  "corpus_adequacy_summary": {
+    "ADEQUATE_FOR_P0_P5": true,
+    "ADEQUATE_FOR_P6_P8": false,
+    "ADEQUATE_FOR_P9_P12": false,
+    "CORPUS_EXTENSION_REQUIRED": "A sentence-level Arabic corpus is required to cover P6-P12. Minimum requirement: >=2-word sentences with P8 AmilMamulCandidate gold annotation per word unit. P9-P12 require full sentence-boundary closed cases.",
+    "CURRENT_CLOSURE_VERDICT": "OPEN — P0-P5 are corpus-supported; P6-P12 lack both gold annotation and structural coverage"
+  }
+}
