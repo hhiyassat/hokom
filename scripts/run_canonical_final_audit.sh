@@ -115,7 +115,15 @@ if git merge-base --is-ancestor "$LINGUISTIC_BASE_HEAD" HEAD 2>/dev/null; then
             reports/taaqol_stage_coverage/taaqol_stage_inventory_ar.csv) return 0 ;;
             # ── HOKOM-SCG-P0-P12-TAAQOL-HARD-GATING-MACOS-CANONICAL-VALIDATION-05
             scripts/generate_scg_live_judgment_report.py) return 0 ;;
+            # ── HOKOM-TAAQOL-QUARTER-CLOSURE / vendor coverage tests ──────
+            reports/taaqol_quarter_closure/taaqol_quarter_closure.csv) return 0 ;;
+            reports/taaqol_quarter_closure/taaqol_quarter_closure.json) return 0 ;;
+            reports/taaqol_quarter_closure/taaqol_quarter_closure_ar.md) return 0 ;;
         esac
+        # Taaqol vendor coverage tests (tests/taaqol_coverage/)
+        if [[ "$path" =~ ^tests/taaqol_coverage/[^/]+\.py$ ]]; then
+            return 0
+        fi
         # SCG P0-P12 canonical edge + witness reports
         if [[ "$path" =~ ^reports/scg_p0_p12/[^/]+\.(json|csv)$ ]]; then
             return 0
