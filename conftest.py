@@ -10,31 +10,29 @@ if _root not in sys.path:
 import pytest
 
 
-@pytest.fixture(autouse=True)
-def _scg_explicit_test_judgment_provider(request, monkeypatch):
+@pytest.fixture
+def scg_approved_judgment_provider(monkeypatch):
     """
-    Explicit SCG test judgment provider — approves all SCG transitions for
-    non-SCG unit tests (HOKOM-SCG-P0-P12-TAAQOL-HARD-GATING-CORRECTION-04).
+    Named SCG judgment provider — approves all SCG transitions.
 
-    This is EXPLICIT dependency injection, not a silent fallback:
-      - Written here in conftest.py (not hidden inside production code).
-      - Function-scoped: each test gets its own monkeypatch context.
-      - SCG-specific tests opt out automatically (path-based exclusion below)
-        so they exercise the real enforcer logic with their own mocking.
+    HOKOM-SCG-P0-P12-TAAQOL-HARD-GATING-MACOS-CANONICAL-VALIDATION-05:
+    This fixture is NOT autouse (AUTOUSE_JUDGMENT_FIXTURES=0).
 
-    Production path: live SCGTransitionEnforcer + Taaqol vendor, fail-closed.
-    Test path (non-SCG): explicit APPROVED pass-through injected here.
-    Final integration tests (tests/scg/): use real enforcer + vendor mocking.
+    Permitted model:
+      unit tests:    explicit fixture request via parameter list
+      live tests:    real vendor only — do NOT request this fixture
 
-    IMPLICIT_TEST_FALLBACKS = 0
+    On the canonical macOS/Python 3.12.4 environment the real Taaqol vendor
+    is available and returns APPROVED for valid transitions, so no explicit
+    injection is required for integration tests.  This fixture exists for
+    isolated sub-component unit tests that run on Python 3.10 (no vendor)
+    and need APPROVED pass-through to exercise linguistic logic in isolation.
+
+    AUTOUSE_JUDGMENT_FIXTURES = 0
+    IMPLICIT_TEST_JUDGMENT_INJECTION = 0
+    LIVE_TESTS_RECEIVING_INJECTED_JUDGMENTS = 0
     FINAL_INTEGRATION_MOCK_DECISIONS = 0
     """
-    # SCG-specific tests (tests/scg/) own their own judgment providers.
-    # They mock _try_import_taaqol directly and must see the real judge_transition.
-    if "tests/scg" in str(request.fspath):
-        yield
-        return
-
     import pipeline.governance.taaqol_judgment_enforcer as _enf
     from pipeline.governance.taaqol_judgment_enforcer import TaaqolTransitionJudgment
 
