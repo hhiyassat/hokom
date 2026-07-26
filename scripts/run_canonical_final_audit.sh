@@ -7,7 +7,6 @@
 # HOKOM-CANONICAL-AUDIT-GITLINK-FINGERPRINT-FIX-01
 # HOKOM-CANONICAL-AUDIT-FINAL-GOVERNANCE-CORRECTION-01
 # HOKOM-CANONICAL-ARTIFACT-MANIFEST-BINDING-01
-# HOKOM-SCG-P0-P12-TAAQOL-HARD-GATING-MACOS-CANONICAL-VALIDATION-05
 # Canonical closure audit — must run on macOS with .venv-py312
 # Usage: cd /path/to/hokom && bash scripts/run_canonical_final_audit.sh
 # Exits 0 only for VERIFIED_CLOSED; exits nonzero for any OPEN condition.
@@ -85,49 +84,17 @@ if git merge-base --is-ancestor "$LINGUISTIC_BASE_HEAD" HEAD 2>/dev/null; then
     is_authorized_post_artifact_path() {
         local path="$1"
         case "$path" in
-            # ── Pre-SCG governance / audit ────────────────────────────────
             scripts/canonical_gate.py) return 0 ;;
             scripts/run_canonical_final_audit.sh) return 0 ;;
             tests/governance/test_artifact_commit_binding.py) return 0 ;;
             tests/shell/test_audit_runner.sh) return 0 ;;
-            # ── HOKOM-TAAQOL-PER-LAYER-OBSERVABILITY-REPORT-01 ───────────
-            scripts/demo_ayat_al_dayn.py) return 0 ;;
-            tests/demo/test_taaqol_layer_report.py) return 0 ;;
-            pipeline/taaqol_integration/live/bridge.py) return 0 ;;
-            # ── HOKOM-SCG-P0-P12-TAAQOL-HARD-GATING-CORRECTION-04 ────────
-            conftest.py) return 0 ;;
-            hokom_pipeline.py) return 0 ;;
-            pipeline/governance/taaqol_judgment_enforcer.py) return 0 ;;
-            tests/compatibility/test_taaqol_import_readiness.py) return 0 ;;
-            tests/scg/__init__.py) return 0 ;;
-            tests/scg/test_taaqol_fail_closed.py) return 0 ;;
-            tests/scg/test_taaqol_hard_gating.py) return 0 ;;
-            tests/scg/test_taaqol_judgment_all_edges.py) return 0 ;;
-            tests/scg/test_taaqol_terminal_guards.py) return 0 ;;
-            tests/scg/test_taaqol_transition_determinism.py) return 0 ;;
-            # ── HOKOM-SCG-P0-P12-CANONICAL-EDGE-AUDIT-01 ────────────────
-            data/test-data/hokom_taaqol_sga_live_corpus_150.json) return 0 ;;
-            data/test-data/hokom_taaqol_sga_live_corpus_150.manifest.json) return 0 ;;
-            docs/ar/HOKOM_SCG_P0_P12_TAAQOL_JUDGMENT_CLOSURE_AR.md) return 0 ;;
-            docs/ar/TAAQOL_REFERENCE_AR.md) return 0 ;;
-            reports/taaqol_stage_coverage/taaqol_coverage_audit_ar.json) return 0 ;;
-            reports/taaqol_stage_coverage/taaqol_hokom_mapping_ar.csv) return 0 ;;
-            reports/taaqol_stage_coverage/taaqol_stage_inventory_ar.csv) return 0 ;;
-            # ── HOKOM-SCG-P0-P12-TAAQOL-HARD-GATING-MACOS-CANONICAL-VALIDATION-05
-            scripts/generate_scg_live_judgment_report.py) return 0 ;;
-            # ── HOKOM-TAAQOL-QUARTER-CLOSURE / vendor coverage tests ──────
-            reports/taaqol_quarter_closure/taaqol_quarter_closure.csv) return 0 ;;
-            reports/taaqol_quarter_closure/taaqol_quarter_closure.json) return 0 ;;
-            reports/taaqol_quarter_closure/taaqol_quarter_closure_ar.md) return 0 ;;
+            # NOTE: Only governance/audit files belong here.
+            # Production implementation files (bridge.py, demo_ayat_al_dayn.py,
+            # test_taaqol_layer_report.py) are NOT authorized under this
+            # governance-only allowlist — they belong to a separate phase
+            # (HOKOM-TAAQOL-PER-LAYER-OBSERVABILITY-REPORT-01) with its own
+            # baseline at f531bf6 and independent closure gate.
         esac
-        # Taaqol vendor coverage tests (tests/taaqol_coverage/)
-        if [[ "$path" =~ ^tests/taaqol_coverage/[^/]+\.py$ ]]; then
-            return 0
-        fi
-        # SCG P0-P12 canonical edge + witness reports
-        if [[ "$path" =~ ^reports/scg_p0_p12/[^/]+\.(json|csv)$ ]]; then
-            return 0
-        fi
         # Closure manifests are allowed only under the canonical,
         # hash-bound naming contract.
         if [[ "$path" =~ ^reports/canonical_gate/closure_manifest\.[0-9a-f]{7,40}\.json$ ]]; then
