@@ -2,10 +2,15 @@
   "mandate": "HOKOM-SALEH-QIYAS-TAAQOL-CURRENT-REALITY-AND-INTEGRATION-GAP-AUDIT-01",
   "report_id": "09_P0_P5_RUNTIME_STATUS",
   "generated_at": "2026-07-26",
+  "version": "v2_corrected",
   "audit_type": "READ_ONLY",
   "IMPLEMENTATION_AUTHORIZED": "NO",
 
-  "note": "Runtime status for P0-P5 canonical SCG candidates. All 19 candidates registered as status=implemented in Saleh/Qiyas MasterLayerRegistry. This audit classifies their actual runtime capability.",
+  "corpus_caveat": {
+    "LCX_TOKEN_EVIDENCE_SUPPORT": "PRESENT — 150 token cases support Hokom P5-equivalent morphology analysis",
+    "SCG_P0_P5_CANONICAL_GOLD": "NOT_YET_PROVEN — LCX corpus proves Hokom single-token evidence production, NOT Saleh/Qiyas P0-P5 candidate construction from Hokom output",
+    "distinction": "150 tokens passing Hokom analysis ≠ 150 Saleh/Qiyas P0-P5 canonical candidates built and verified from Hokom output (no runtime bridge exists)"
+  },
 
   "candidates": [
     {
@@ -13,19 +18,20 @@
       "type": "UnicodeCandidate",
       "registry_status": "implemented",
       "saleh_adapter": "src/qiyas_core/unicode_adapter.py",
-      "hokom_stage": "NORMALIZE (pre-P0 pipeline start)",
-      "corpus_coverage": "150/150 (all cases have Arabic codepoints)",
-      "runtime_status": "DEFINED + ADAPTER_PRESENT + CORPUS_SUPPORTED",
-      "hokom_runtime_link": "NONE — Saleh/Qiyas adapter processes independently"
+      "hokom_stage_approximate": "NORMALIZE (pre-P0 pipeline start)",
+      "LCX_token_evidence_support": true,
+      "SCG_canonical_gold_from_hokom_output": false,
+      "runtime_status": "DEFINED + ADAPTER_PRESENT",
+      "hokom_runtime_link": "NONE"
     },
     {
       "id": "P0_TYPED_CODEPOINT",
       "type": "TypedCodepoint",
       "registry_status": "implemented",
       "saleh_adapter": "src/qiyas_core/typed_codepoint_adapter.py",
-      "hokom_stage": "SEGMENT / NORM_ATOMIC (clitic decomposition)",
-      "corpus_coverage": "150/150",
-      "runtime_status": "DEFINED + ADAPTER_PRESENT + CORPUS_SUPPORTED",
+      "LCX_token_evidence_support": true,
+      "SCG_canonical_gold_from_hokom_output": false,
+      "runtime_status": "DEFINED + ADAPTER_PRESENT",
       "hokom_runtime_link": "NONE"
     },
     {
@@ -33,9 +39,9 @@
       "type": "GlyphClassificationCandidate",
       "registry_status": "implemented",
       "saleh_adapter": "src/qiyas_core/slot_geometry_adapter.py",
-      "hokom_stage": "BOUNDARY (glyph/boundary type)",
-      "corpus_coverage": "150/150",
-      "runtime_status": "DEFINED + ADAPTER_PRESENT + CORPUS_SUPPORTED",
+      "LCX_token_evidence_support": true,
+      "SCG_canonical_gold_from_hokom_output": false,
+      "runtime_status": "DEFINED + ADAPTER_PRESENT",
       "hokom_runtime_link": "NONE"
     },
     {
@@ -43,8 +49,9 @@
       "type": "LetterIdentityCarrier",
       "registry_status": "implemented",
       "saleh_adapter": "src/qiyas_core/letter_identity_adapter.py",
-      "corpus_coverage": "150/150 (diacritized surfaces)",
-      "runtime_status": "DEFINED + ADAPTER_PRESENT + CORPUS_SUPPORTED",
+      "LCX_token_evidence_support": true,
+      "SCG_canonical_gold_from_hokom_output": false,
+      "runtime_status": "DEFINED + ADAPTER_PRESENT",
       "hokom_runtime_link": "NONE"
     },
     {
@@ -52,8 +59,9 @@
       "type": "HarakaMarkIdentityCarrier",
       "registry_status": "implemented",
       "saleh_adapter": "src/qiyas_core/haraka_function_adapter.py",
-      "corpus_coverage": "150/150",
-      "runtime_status": "DEFINED + ADAPTER_PRESENT + CORPUS_SUPPORTED",
+      "LCX_token_evidence_support": true,
+      "SCG_canonical_gold_from_hokom_output": false,
+      "runtime_status": "DEFINED + ADAPTER_PRESENT",
       "hokom_runtime_link": "NONE"
     },
     {
@@ -61,7 +69,8 @@
       "type": "ConditionedTypedSequence",
       "registry_status": "implemented",
       "saleh_adapter": "src/qiyas_core/conditioned_typed_sequence_adapter.py",
-      "corpus_coverage": "partial (section A compound clitics)",
+      "LCX_token_evidence_support": "partial (section A compound clitics)",
+      "SCG_canonical_gold_from_hokom_output": false,
       "runtime_status": "DEFINED + ADAPTER_PRESENT",
       "hokom_runtime_link": "NONE"
     },
@@ -70,8 +79,9 @@
       "type": "PositionCarrier",
       "registry_status": "implemented",
       "saleh_adapter": "src/qiyas_core/position_adapter.py",
-      "corpus_coverage": "150/150",
-      "runtime_status": "DEFINED + ADAPTER_PRESENT + CORPUS_SUPPORTED",
+      "LCX_token_evidence_support": true,
+      "SCG_canonical_gold_from_hokom_output": false,
+      "runtime_status": "DEFINED + ADAPTER_PRESENT",
       "hokom_runtime_link": "NONE"
     },
     {
@@ -79,8 +89,9 @@
       "type": "SlotCandidate",
       "registry_status": "implemented",
       "saleh_adapter": "src/qiyas_core/slot_adapter.py",
-      "corpus_coverage": "150/150",
-      "runtime_status": "DEFINED + ADAPTER_PRESENT + CORPUS_SUPPORTED",
+      "LCX_token_evidence_support": true,
+      "SCG_canonical_gold_from_hokom_output": false,
+      "runtime_status": "DEFINED + ADAPTER_PRESENT",
       "hokom_runtime_link": "NONE"
     },
     {
@@ -88,9 +99,10 @@
       "type": "RegistryProjectionCandidate",
       "registry_status": "implemented",
       "saleh_adapter": "src/qiyas_core/registry_projection_adapter.py",
-      "corpus_coverage": "150/150 (root candidate sets)",
-      "runtime_status": "DEFINED + ADAPTER_PRESENT + CORPUS_SUPPORTED",
       "test_file": "tests/qiyas_core/test_registry_projection.py",
+      "LCX_token_evidence_support": true,
+      "SCG_canonical_gold_from_hokom_output": false,
+      "runtime_status": "DEFINED + ADAPTER_PRESENT + UNIT_TESTED",
       "hokom_runtime_link": "NONE"
     },
     {
@@ -98,9 +110,10 @@
       "type": "RootStemCandidate",
       "registry_status": "implemented",
       "saleh_adapter": "src/qiyas_core/root_stem_adapter.py",
-      "corpus_coverage": "150/150 (sections B weak verbs, A clitics carry root gold)",
-      "runtime_status": "DEFINED + ADAPTER_PRESENT + CORPUS_SUPPORTED",
       "test_file": "tests/qiyas_core/test_root_stem.py",
+      "LCX_token_evidence_support": true,
+      "SCG_canonical_gold_from_hokom_output": false,
+      "runtime_status": "DEFINED + ADAPTER_PRESENT + UNIT_TESTED",
       "hokom_runtime_link": "NONE"
     },
     {
@@ -108,7 +121,8 @@
       "type": "JamidMushtaqCandidate",
       "registry_status": "implemented",
       "saleh_adapter": "src/qiyas_core/jamid_mushtaq_adapter.py",
-      "corpus_coverage": "partial (section D ambiguity controls)",
+      "LCX_token_evidence_support": "partial (section D)",
+      "SCG_canonical_gold_from_hokom_output": false,
       "runtime_status": "DEFINED + ADAPTER_PRESENT",
       "hokom_runtime_link": "NONE"
     },
@@ -117,19 +131,22 @@
       "type": "MufradWordCandidate",
       "registry_status": "implemented",
       "saleh_adapter": "src/qiyas_core/mufrad_word_adapter.py",
-      "corpus_coverage": "150/150 (word-class, inflection, H11-H15 types)",
-      "runtime_status": "DEFINED + ADAPTER_PRESENT + CORPUS_SUPPORTED",
-      "hokom_role": "EVIDENCE_PROVIDER — Hokom produces P5 output in its own pipeline; no runtime bridge to Saleh/Qiyas",
-      "hokom_runtime_link": "NONE — HOKOM CEILING (single-token, produces P5 equivalent independently)"
+      "LCX_token_evidence_support": true,
+      "SCG_canonical_gold_from_hokom_output": false,
+      "hokom_native_equivalent": "Hokom produces P5-equivalent fields (phase5_result, word_class_result, final_root, final_wazn) in its own dict format — NOT a Saleh/Qiyas MufradWordCandidate object",
+      "runtime_status": "DEFINED + ADAPTER_PRESENT + UNIT_TESTED (Saleh standalone); HOKOM_EQUIVALENT_OUTPUT_EXISTS",
+      "hokom_runtime_link": "NONE — P5-equivalent Hokom output never passed to Saleh/Qiyas MufradWordLayerAdapter"
     }
   ],
 
   "summary": {
-    "P0_P5_total": 12,
+    "P0_P5_total_candidates": 12,
     "all_registry_status": "implemented",
     "all_adapters_present": true,
-    "corpus_coverage": "ADEQUATE for P0-P5 (150 token cases in LCX)",
-    "runtime_bridge_to_Hokom": "NONE — both systems process P0-P5 independently",
-    "HOKOM_ceiling_confirmed": "P5_MUFRAD_WORD_CONTRACTS"
+    "LCX_TOKEN_EVIDENCE_SUPPORT": "PRESENT (150 token cases)",
+    "SCG_P0_P5_CANONICAL_GOLD": "NOT_YET_PROVEN",
+    "HOKOM_NATIVE_CEILING": "P5_EQUIVALENT — Hokom produces P5-level fields independently; not a Saleh/Qiyas MufradWordCandidate",
+    "runtime_bridge_exists": false,
+    "CLOSURE_STATUS": "OPEN"
   }
 }

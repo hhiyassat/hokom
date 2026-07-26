@@ -2,10 +2,27 @@
   "mandate": "HOKOM-SALEH-QIYAS-TAAQOL-CURRENT-REALITY-AND-INTEGRATION-GAP-AUDIT-01",
   "report_id": "10_P6_P8_RUNTIME_STATUS",
   "generated_at": "2026-07-26",
+  "version": "v2_corrected",
   "audit_type": "READ_ONLY",
   "IMPLEMENTATION_AUTHORIZED": "NO",
 
-  "note": "P6-P8 are SINGLE_WORD layers owned by Saleh/Qiyas. Hokom is an evidence provider for these layers (reads P5 trace geometry). All adapters exist; no runtime bridge to Hokom output exists.",
+  "P8_ceiling_correction": {
+    "prior_claim": "HOKOM_CEILING=P8_AMIL_MAMUL",
+    "corrected_claim": "HOKOM_NATIVE_CEILING=P5_EQUIVALENT — Hokom does NOT construct AmilMamulCandidate",
+    "HOKOM_PROVIDES_P8_EVIDENCE": "YES — via P5 morphology trace feeding the P6→P7→P8 chain IF a bridge existed",
+    "P8_CANONICAL_CONSTRUCTOR": "SALEH_QIYAS (AmilMamulLayerAdapter)",
+    "P8_INPUT_CARDINALITY": "SINGLE_WORD (reads CompositionReadinessCandidate per word)",
+    "P8_PREDECESSOR": "P7_COMPOSITION_READINESS (CompositionReadinessCandidate)",
+    "P8_REQUIRED_EVIDENCE": "cv_geometry, n_consonants, vowel_count, has_short_vowel_cadence from P7 trace",
+    "P8_OUTPUT_SEMANTICS": "STRUCTURAL_RELATION_POSSIBILITY — opens grammatical_relation_priors + irab_priors on ACCEPT; NEVER a grammatical/case label; NOT multi-word",
+    "P8_VERDICT_DISCRIMINATION": {
+      "ACCEPT": "P7 ACCEPT AND n_consonants >= 3 AND has_short_vowel_cadence AND vowel_count >= 3 — opens relation priors",
+      "DEFER": "P7-accepted but compact/single-vowel skeleton — relation geometry underspecified",
+      "BLOCK": "P7 was DEFER/BLOCK, or no usable geometry"
+    },
+    "P8_IS_SINGLE_WORD": true,
+    "P9_COLLECTS_P8_UNITS": "P9 collects >=2 distinct P8 AmilMamulCandidate units from separate words — this is the multi-unit boundary"
+  },
 
   "candidates": [
     {
@@ -15,15 +32,13 @@
       "canonical_owner": "SALEH_QIYAS",
       "input_cardinality": "SINGLE_WORD",
       "adapter_file": "src/qiyas_core/verbal_signified_adapter.py",
-      "adapter_class": "VerbalSignifiedLayerAdapter",
       "adapter_present": true,
       "test_file": "tests/qiyas_core/test_verbal_signified.py",
-      "test_present": true,
-      "hokom_evidence_role": "Reads P5 CV-geometry (n_consonants, vowel cadence, gemination) from MufradWordCandidate trace",
+      "hokom_evidence_role": "Reads P5 CV-geometry (n_consonants, vowel cadence, gemination) from MufradWordCandidate trace — IF bridge existed",
       "hokom_native_producer": false,
+      "P8_ceiling_applies": false,
       "runtime_bridge_to_hokom": "NONE",
-      "corpus_gold_in_LCX": "0/150",
-      "corpus_gold_in_saleh_tests": "unit tests only (no sentence corpus gold)",
+      "LCX_corpus_gold": "0/150",
       "runtime_status": "DEFINED + ADAPTER_PRESENT + UNIT_TESTED",
       "runtime_gap": "NO_HOKOM_BRIDGE + NO_SENTENCE_CORPUS_GOLD",
       "closure_status": "OPEN"
@@ -35,13 +50,11 @@
       "canonical_owner": "SALEH_QIYAS",
       "input_cardinality": "SINGLE_WORD",
       "adapter_file": "src/qiyas_core/composition_readiness_adapter.py",
-      "adapter_class": "CompositionReadinessLayerAdapter",
       "adapter_present": true,
-      "test_file": "NONE identified",
-      "hokom_evidence_role": "Reads P6 VerbalSignifiedCandidate verbal-carrier geometry (inherited from P5 via P6)",
+      "hokom_evidence_role": "Reads P6 VerbalSignifiedCandidate verbal-carrier geometry — IF bridge existed",
       "hokom_native_producer": false,
       "runtime_bridge_to_hokom": "NONE",
-      "corpus_gold_in_LCX": "0/150",
+      "LCX_corpus_gold": "0/150",
       "runtime_status": "DEFINED + ADAPTER_PRESENT",
       "runtime_gap": "NO_HOKOM_BRIDGE + NO_CORPUS_GOLD + NO_DEDICATED_TEST",
       "closure_status": "OPEN"
@@ -51,32 +64,41 @@
       "type": "AmilMamulCandidate",
       "registry_status": "implemented",
       "canonical_owner": "SALEH_QIYAS",
-      "input_cardinality": "SINGLE_WORD",
+      "input_cardinality": "SINGLE_WORD (reads CompositionReadinessCandidate per word)",
       "adapter_file": "src/qiyas_core/amil_mamul_adapter.py",
       "adapter_class": "AmilMamulLayerAdapter",
       "adapter_present": true,
       "test_file": "tests/qiyas_core/test_amil_mamul.py",
-      "test_present": true,
-      "hokom_evidence_role": "HOKOM_CEILING — provides morphology trace via P5→P6→P7 chain for amil/mamul dependency-relation POSSIBILITIES (not decisions)",
+      "hokom_evidence_role": "Hokom P5 trace feeds P6→P7→P8 chain indirectly — IF bridge existed",
       "hokom_native_producer": false,
+      "hokom_constructs_AmilMamulCandidate": false,
+      "P8_constructed_by": "SALEH_QIYAS AmilMamulLayerAdapter from CompositionReadinessCandidate",
+      "P8_output_semantics": "STRUCTURAL_RELATION_POSSIBILITY — opens grammatical_relation_priors + irab_priors (ACCEPT only); NOT a syntactic judgment; NOT multi-word",
       "runtime_bridge_to_hokom": "NONE",
-      "corpus_gold_in_LCX": "0/150",
-      "downstream_consumer": "P9_SENTENCE_GEOMETRY (collected as SentenceUnit from >=2 words)",
+      "LCX_corpus_gold": "0/150",
+      "downstream_consumer": "P9_SENTENCE_GEOMETRY — collects >=2 P8 AmilMamulCandidate units from DISTINCT words",
       "runtime_status": "DEFINED + ADAPTER_PRESENT + UNIT_TESTED",
       "runtime_gap": "NO_HOKOM_BRIDGE + NO_SENTENCE_CORPUS_GOLD",
       "closure_status": "OPEN",
-      "architectural_note": "P8 is the HOKOM CEILING. Hokom can contribute evidence per word for P8. P9 requires collecting >=2 such P8 units — this collection is Saleh/Qiyas run_qiyas.py responsibility."
+      "note": "P8 is SINGLE_WORD. The multi-unit boundary is at P9. Hokom provides upstream morphological evidence; Saleh/Qiyas constructs the canonical AmilMamulCandidate."
     }
   ],
+
+  "hokom_ceiling_resolved": {
+    "HOKOM_NATIVE_CEILING": "P5_EQUIVALENT (Hokom produces P5-level fields but not a Saleh/Qiyas MufradWordCandidate object)",
+    "HOKOM_EVIDENCE_REACHES_P8_VIA_CHAIN": "YES — P5→P6→P7→P8 chain depends on Hokom morphology IF bridge exists",
+    "HOKOM_CONSTRUCTS_P8_CANDIDATE": false,
+    "P8_CANONICAL_CONSTRUCTOR": "SALEH_QIYAS",
+    "MULTI_UNIT_BOUNDARY": "P9_SENTENCE_GEOMETRY (first layer requiring >=2 distinct word units)"
+  },
 
   "summary": {
     "P6_P8_total": 3,
     "all_adapters_present": true,
-    "all_registry_status": "implemented",
-    "unit_tests_present": "P6 and P8 (P7 not confirmed)",
-    "corpus_gold": "0/150 in all P6-P8 layers",
-    "runtime_bridge": "NONE — Saleh/Qiyas adapter code exists but receives no Hokom output",
-    "overall_runtime_status": "DEFINED + ADAPTER_PRESENT + PARTIAL_UNIT_TESTS — NOT_EXERCISED_END_TO_END",
+    "unit_tests_present": "P6 and P8 confirmed; P7 not confirmed",
+    "LCX_corpus_gold": "0/150 for all P6-P8 layers",
+    "runtime_bridge": "NONE",
+    "overall_status": "DEFINED + ADAPTER_PRESENT + PARTIAL_UNIT_TESTS — NOT_EXECUTED_END_TO_END",
     "closure_status": "OPEN"
   }
 }

@@ -2,12 +2,14 @@
   "mandate": "HOKOM-SALEH-QIYAS-TAAQOL-CURRENT-REALITY-AND-INTEGRATION-GAP-AUDIT-01",
   "report_id": "02_TAAQOL_API_SURFACE_AUDIT",
   "generated_at": "2026-07-26",
+  "version": "v2_corrected",
   "audit_type": "READ_ONLY",
   "IMPLEMENTATION_AUTHORIZED": "NO",
 
   "vendor_path": "hokom/vendor/Taaqol-GPT/",
   "vendor_commit": "3538173940071ac21dd96702ecbb2acb493f90d",
-  "access_method": "sys.path injection into taaqqul_slot_geometry.core.*",
+  "access_method": "sys.path injection — Python 3.11+ required (StrEnum); Python 3.10 cannot import",
+  "access_verified_in_sandbox": "PARTIAL — Python 3.10 sandbox cannot import full vendor; source-read confirmed",
 
   "public_api_modules": [
     "taaqqul_slot_geometry.core.slot_graph",
@@ -23,69 +25,64 @@
     "source_file": "hokom/vendor/Taaqol-GPT/src/taaqqul_slot_geometry/core/transition_gate.py",
     "source_line": 356,
     "ordered_decision_steps": [
-      "1. Gamma consultation (Γ runs FIRST — Γ refusal maps to gate verdict table)",
-      "2. Forbidden Straight-Line Registry check (CANONICAL_REGISTRY — CERTIFICATE target = FORBIDDEN_LEAP)",
-      "3. Ungated rank claim: generation_source != TRANSITION_VERDICT above UNGATED_RANK_CEILING = REJECTED/RANK_PROMOTION_WITHOUT_GATE",
-      "4. Evidence presence: empty evidence surface = DEFERRED/GATE_REQUIRED (retryable)",
-      "5. §8 meet: granted = meet(evidence_rank, identity_rank, gate_rank, residual_ceiling) — can only keep or lower rank",
-      "6. Approval: APPROVED with granted_rank set to meet result"
+      "1. Gamma consultation — gamma(graph: SlotGraph) called INTERNALLY; Γ refusal maps to gate verdict table",
+      "2. Forbidden Straight-Line Registry — CERTIFICATE target through generic gate = FORBIDDEN_LEAP (fatal)",
+      "3. Ungated rank claim — generation_source != TRANSITION_VERDICT above UNGATED_RANK_CEILING = REJECTED",
+      "4. Evidence presence — empty evidence surface = DEFERRED/GATE_REQUIRED (retryable)",
+      "5. §8 meet — granted = meet(evidence_rank, identity_rank, gate_rank, residual_ceiling) — can only keep or lower",
+      "6. Approval — APPROVED with granted_rank; failure_code = None"
     ],
-    "short_circuit_on": "First refusal at step k stops all subsequent steps",
-    "gamma_call_order": "gamma() is called INTERNALLY by decide() — callers must NOT call gamma() before decide()",
-    "return_type": "TransitionVerdict",
-    "TypeError_on": "input_graph not isinstance SlotGraph"
+    "short_circuit": "First refusal at step k stops all subsequent steps",
+    "gamma_call_order": "gamma() called INTERNALLY by decide() via SlotGraph — callers must NOT call gamma() separately before decide()",
+    "return_type": "TransitionVerdict"
   },
 
-  "TransitionVerdict_fields": {
-    "stage": "always 'gate'",
-    "gamma_state": "ClosureState (GammaStatus enum member)",
-    "consulted_gamma_state": "gamma consultation result",
-    "gate_transition_state": "gate decision after gamma",
-    "granted_rank": "Rank enum member (bounded by meet)",
-    "failure_code": "FailureCode or None on APPROVED"
+  "Taaqol_gamma": {
+    "signature": "gamma(graph: SlotGraph) -> GammaResult",
+    "source_file": "hokom/vendor/Taaqol-GPT/src/taaqqul_slot_geometry/core/gamma.py",
+    "source_line": 135,
+    "input_type": "SlotGraph",
+    "output_type": "GammaResult",
+    "ClosureState_values": ["MINIMALLY_CLOSED", "PERFORATED_CLOSED", "OPEN", "BLOCKED", "FORBIDDEN_LEAP"]
   },
 
-  "failure_taxonomy": {
-    "FORBIDDEN_STRAIGHT_LINE": "CERTIFICATE-rank target through generic gate — fatal, no retry",
-    "RANK_PROMOTION_WITHOUT_GATE": "UNGATED graph claiming rank above ceiling",
-    "GATE_REQUIRED": "empty evidence surface — retryable",
-    "FORBIDDEN_LEAP": "Gamma refusal (FORBIDDEN_LEAP) or straight-line registry hit",
-    "BLOCKED": "Blocking residual — not retryable",
-    "DEFERRED": "Retryable — evidence not yet present"
+  "Saleh_Qiyas_gamma_comparison": {
+    "file": "fractal/algebra/Saleh-/src/qiyas_core/slot_geometry_core/gamma.py",
+    "signature": "gamma(candidate_type: str, candidate_fields: frozenset[str], candidate_has_residuals: bool, candidate_identity_ids: frozenset[str], candidate_trace_ids: frozenset[str], layer_spec: LayerSpec, target_boundary: TargetBoundary) -> GammaResult",
+    "input_type": "EXPLICIT_CANDIDATE_FIELDS + LayerSpec + TargetBoundary",
+    "GammaStatus_values": ["minimally_closed", "perforated_closed", "open", "blocked", "forbidden_leap"],
+    "classification": "PARALLEL_IMPLEMENTATION",
+    "distinction": "Same status vocabulary, entirely different input domain — Taaqol takes SlotGraph; Saleh/Qiyas takes decomposed candidate fields + LayerSpec + TargetBoundary",
+    "is_same_function": false,
+    "constitutional_question": "If Taaqol is the authoritative judgment algebra, Saleh/Qiyas owning a parallel gamma.py is an architectural ownership question requiring explicit governance decision",
+    "GAMMA_DUPLICATION_CLASSIFICATION": "PARALLEL_IMPLEMENTATION — not candidate_transformation_utility"
   },
 
   "rank_lattice": {
-    "ZERO": 0,
-    "TRACE": 1,
-    "CANDIDATE": 2,
-    "HYPOTHESIS": 3,
-    "LICENSED": 4,
-    "STRONG": 5,
-    "CERTIFICATE": 6,
-    "note": "meet() can only keep or lower rank — NEVER raises it"
+    "ZERO": 0, "TRACE": 1, "CANDIDATE": 2, "HYPOTHESIS": 3,
+    "LICENSED": 4, "STRONG": 5, "CERTIFICATE": 6,
+    "note": "meet() can only keep or lower rank"
   },
 
-  "Taaqol_Gamma_relationship": {
-    "gamma_imported_by_transition_gate": true,
-    "gamma_import_source": "taaqqul_slot_geometry.core.gamma",
-    "gamma_call_location": "TransitionGate.decide() step 1 internally",
-    "caller_must_not_call_gamma_directly": true,
-    "constitutional_call_order": "TransitionGate.decide() calls gamma() internally (PR-6.1 binding)"
+  "failure_taxonomy": {
+    "FORBIDDEN_STRAIGHT_LINE": "CERTIFICATE-rank target through generic gate — fatal",
+    "RANK_PROMOTION_WITHOUT_GATE": "ungated graph claiming rank above ceiling",
+    "GATE_REQUIRED": "empty evidence — retryable",
+    "FORBIDDEN_LEAP": "Gamma refusal or straight-line registry hit",
+    "BLOCKED": "blocking residual — not retryable",
+    "DEFERRED": "retryable — evidence not yet present"
   },
 
   "Hokom_usage_pattern": {
     "enforcer_file": "hokom/pipeline/governance/taaqol_judgment_enforcer.py",
     "call_site": "_scg_gate(source, target) → TaaqolJudgmentEnforcer.judge() → TransitionGate.decide()",
     "gate_count": 11,
-    "fail_closed": true,
-    "import_failure_verdict": "BLOCKED (no fallback)"
-  },
-
-  "Saleh_Qiyas_usage": {
-    "imports_taaqqul_slot_geometry": false,
-    "uses_own_gamma": true,
-    "own_gamma_path": "src/qiyas_core/slot_geometry_core/gamma.py",
-    "own_GammaStatus_values": ["MINIMALLY_CLOSED", "PERFORATED_CLOSED", "OPEN", "BLOCKED", "FORBIDDEN_LEAP"],
-    "note": "Saleh/Qiyas GammaStatus is a DISTINCT enum from Taaqol vendor GammaStatus"
+    "gate_classification": "HOKOM_INTERNAL_GATE_CALLS — not canonical SCG P0-P12 edge judgments",
+    "terminal_guard": "enforce_terminal_guard() — verifies no stage opened after P12 BLOCKED/REJECTED/FORBIDDEN_LEAP",
+    "HOKOM_TAAQOL_SOURCE_INTEGRATION": "YES",
+    "HOKOM_TAAQOL_GATE_CALLS": 11,
+    "HOKOM_TAAQOL_PREFLIGHT_TESTED": "YES (in Hokom test suite)",
+    "HOKOM_TAAQOL_MACOS_3_12_4_VALIDATED": "NO",
+    "fail_closed": true
   }
 }
