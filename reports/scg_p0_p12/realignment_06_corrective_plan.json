@@ -1,0 +1,366 @@
+{
+  "report_id": "HOKOM-SCG-P0-P12-CANONICAL-REGISTRY-REALIGNMENT-06-CORRECTIVE-PLAN",
+  "mandate_id": "HOKOM-SCG-P0-P12-CANONICAL-REGISTRY-REALIGNMENT-06",
+  "supersedes": "HOKOM-SCG-P0-P12-TAAQOL-HARD-GATING-MACOS-CANONICAL-VALIDATION-05",
+  "report_type": "CORRECTED_PLAN_PRE_MACOS",
+  "head_at_report_time": "ad5396f",
+  "MACOS_VALIDATION_AUTHORIZED": "NO",
+  "HOKOM_SCG_P0_P12_CONFORMANCE": "OPEN",
+  "CLOSURE_VERDICT": "OPEN",
+
+  "corrective_commits": [
+    {
+      "sha": "48eb31b",
+      "message": "fix: restore canonical audit runner governance to d2f7055 state",
+      "gate": "gate-01",
+      "files_changed": ["scripts/run_canonical_final_audit.sh"],
+      "add_method": "git add scripts/run_canonical_final_audit.sh",
+      "GOVERNANCE_CONTAMINATION_REMOVED": true,
+      "CANONICAL_RUNNER_BASELINE": "d2f7055",
+      "SELF_AUTHORIZATION_PURGED": true
+    },
+    {
+      "sha": "acbadf0",
+      "message": "fix: remove dead scg_approved_judgment_provider fixture",
+      "gate": "gate-13",
+      "files_changed": ["conftest.py"],
+      "add_method": "git add conftest.py",
+      "DEAD_FIXTURE_REMOVED": "scg_approved_judgment_provider",
+      "AUTOUSE_JUDGMENT_FIXTURES": 0,
+      "FIXTURE_CONSUMERS": 0
+    },
+    {
+      "sha": "ad5396f",
+      "message": "fix: remove self-referential git rev-parse HEAD from report generator",
+      "gate": "gate-12",
+      "files_changed": ["scripts/generate_scg_live_judgment_report.py"],
+      "add_method": "git add scripts/generate_scg_live_judgment_report.py",
+      "SELF_REFERENTIAL_HEAD_BINDING_REMOVED": true,
+      "POST_COMMIT_REGENERATION_CHANGES_REPORT": 0,
+      "new_cli_arg": "--implementation-head <SHA>"
+    }
+  ],
+
+  "gate_assessments": {
+    "gate_01_restore_runner": {
+      "status": "COMPLETED",
+      "sha": "48eb31b",
+      "detail": "scripts/run_canonical_final_audit.sh restored verbatim to d2f7055 state. 39 self-authorizing lines removed."
+    },
+    "gate_02_registry_source": {
+      "status": "FOUND",
+      "REGISTRY_SOURCE_FILE": "docs/ar/HOKOM_SCG_P0_P12_TAAQOL_JUDGMENT_CLOSURE_AR.md",
+      "REGISTRY_SOURCE_SYMBOL": "Section 2 — المرشحون التسعة عشر الكنونيكاليون (P0–P12)",
+      "detail": "Authoritative SCG registry is the Hokom governance document, not a vendor symbol.",
+      "actual_19_candidates": [
+        "UnicodeCandidate",
+        "NormalizationCandidate",
+        "SegmentationCandidate",
+        "BoundaryCandidate",
+        "PatternCandidate",
+        "BabCandidate",
+        "InflectionCandidate",
+        "WordClassCandidate",
+        "RadicalCandidate",
+        "MasdarCandidate",
+        "DerivativeCandidate",
+        "EvidenceCandidate",
+        "ResidualCandidate",
+        "IfadahCandidate",
+        "MorphoSyntaxCandidate",
+        "ParadigmCandidate",
+        "PhonologicalCandidate",
+        "LexicalFunctionalCandidate",
+        "ArticleCandidate"
+      ]
+    },
+    "gate_03_candidate_ontology": {
+      "status": "REGISTRY_SOURCE_MISMATCH_BLOCKER",
+      "detail": "Mandate-06 specifies 19 candidates (TypedCodePoint, GlyphClassification, LetterIdentityCarrier, HarakaMarkIdentityCarrier, ConditionedTypedSequence, PositionCarrier, SlotCandidate, RegistryProjectionCandidate, RootStemCandidate, JamidMushtaqCandidate, MufradWordCandidate, VerbalSignifiedCandidate, CompositionReadinessCandidate, AmilMamulCandidate, SentenceGeometryCandidate, RelationGeometryCandidate, IrabGeometryCandidate, IfadahCandidate, UnicodeCandidate). Grep across entire repository (vendor + Hokom source) finds ZERO definitions for 15 of these names. They do not exist in the repo. The current ownership_audit.json and canonical_edge_mapping.json use the ACTUAL authoritative source candidates — these cannot be corrected to names that don't exist in source.",
+      "candidates_not_found_in_repo": [
+        "TypedCodePoint",
+        "GlyphClassification",
+        "LetterIdentityCarrier",
+        "HarakaMarkIdentityCarrier",
+        "ConditionedTypedSequence",
+        "PositionCarrier",
+        "SlotCandidate",
+        "RegistryProjectionCandidate",
+        "JamidMushtaqCandidate",
+        "MufradWordCandidate",
+        "VerbalSignifiedCandidate",
+        "AmilMamulCandidate",
+        "SentenceGeometryCandidate",
+        "RelationGeometryCandidate",
+        "IrabGeometryCandidate"
+      ],
+      "REQUIRES": "CONSTITUTIONAL_AMENDMENT or updated mandate with correct registry source reference"
+    },
+    "gate_04_canonical_edges_from_registry": {
+      "status": "ASSESSED",
+      "detail": "Canonical edges from pre_weight.py (vendor) follow the mu-chain: SyllableCandidate -> SyllableSequenceCandidate -> WordBoundaryCandidate -> WordCarrierCandidate -> PathCandidate -> RootStemCandidate -> OriginalExtraMap -> OperationTraceCandidate -> WeightReadinessCandidate. These are DEFERRED for Hokom (Hokom does not produce LicensingBoundaryVerdict per native_stage_registry.py). The 11 Hokom execution boundary edges (NORMALIZE->SEGMENT through PHASE_5->TAAQOL_SGA) are correctly documented in canonical_edge_mapping.json using the authoritative source candidate names.",
+      "vendor_registry_stage_eligibility": {
+        "CoreSlotGraph_Gamma": "ELIGIBLE_WITH_BACKPORT",
+        "DalOnly": "DEFERRED",
+        "VerbalMadlul": "DEFERRED",
+        "ContractableUnit": "DEFERRED",
+        "RelationCandidate": "FORBIDDEN",
+        "MufradDalalahClosure": "DEFERRED",
+        "RelationClosure": "FORBIDDEN",
+        "Ifadah": "FORBIDDEN",
+        "Hukm": "FORBIDDEN",
+        "AnswerAudit": "DEFERRED"
+      }
+    },
+    "gate_05_witness_metrics_corrected": {
+      "status": "CORRECTED",
+      "VERIFIED_PRE_MACOS": 0,
+      "WITNESSES_PLANNED": 11,
+      "WITNESSES_WITH_LIVE_EXECUTION": 0,
+      "detail": "taaqol_transition_judgment_matrix.json has all-null values — correct pre-execution state. No macOS execution has occurred."
+    },
+    "gate_06_corpus_audit": {
+      "status": "AUDITED",
+      "corpus_file": "data/test-data/hokom_taaqol_sga_live_corpus_150.json",
+      "total_cases": 150,
+      "sections": {
+        "A_COMPOUND_CLITICS": 40,
+        "B_WEAK_VERBS": 60,
+        "C_H11_H15_LIVE": 30,
+        "D_AMBIGUITY_CONTROLS": 20
+      },
+      "cases_with_ifadah_annotation": 0,
+      "cases_with_sentence_geometry_annotation": 0,
+      "cases_with_relation_geometry_annotation": 0,
+      "cases_with_verbal_signified_annotation": 0
+    },
+    "gate_07_lcx001_verbatim": {
+      "status": "VERIFIED",
+      "case_id": "LCX-001",
+      "context_verbatim": "قُلْتُ: وَبِكِتَابِهِمْ شَوَاهِدُ مُهِمَّةٌ.",
+      "target_surface": "وَبِكِتَابِهِمْ",
+      "section": "A_COMPOUND_CLITICS",
+      "primary_focus": "MULTI_CLITIC_COMPOUND",
+      "secondary_focus": "SEGMENTATION_SENSITIVE",
+      "h11_h15_live": "NO",
+      "ambiguity_expected": "NO",
+      "sentence_level_assertions_in_record": "NONE",
+      "conclusion": "LCX-001 is a word-level compound clitic segmentation test. The corpus record contains no sentence-level candidate assertions."
+    },
+    "gate_08_synthetic_ifadah_witness": {
+      "status": "SYNTHETIC_WITNESS_CONFIRMED_REMOVED_FROM_PLAN",
+      "detail": "WITNESS_PLAN gate_10 entry in generate_scg_live_judgment_report.py attributes IfadahCandidate, SentenceGeometry, RelationGeometry, IrabGeometry, and Ifadah to LCX-001. The corpus record for LCX-001 contains NONE of these assertions. The linguistic analysis in the note field (ʿĀmil: وَ, Maʿmūl: كِتَابِهِمْ, SentenceGeometry: verb-of-speech) is synthetic — authored by the previous session, not derived from the corpus record verbatim. Gate 10 witness must be marked SYNTHETIC_UNVERIFIABLE.",
+      "SYNTHETIC_WITNESS_IN_WITNESS_PLAN": "gate_10 / LCX-001 / IfadahCandidate",
+      "ACTION_REQUIRED": "Remove gate_10 witness OR replace with corpus-backed case that explicitly annotates IfadahCandidate"
+    },
+    "gate_09_real_sentence_witness": {
+      "status": "NOT_FOUND",
+      "detail": "Searched all 150 corpus cases for any field referencing IfadahCandidate, VerbalSignifiedCandidate, AmilMamulCandidate, SentenceGeometryCandidate, RelationGeometryCandidate, or IrabGeometryCandidate. Zero matches found. The 150-case corpus contains NO sentence-level canonical witness for P6-P12 candidates.",
+      "SENTENCE_LEVEL_WITNESS_NOT_FOUND": true,
+      "GOVERNANCE_BLOCKER": "SENTENCE_LEVEL_WITNESS_NOT_FOUND — corpus must be extended or P6-P12 must be classified as DEFERRED"
+    },
+    "gate_10_p6_p12_assessment": {
+      "status": "ASSESSED_NOT_LIVE",
+      "detail": "Hokom is a single-token pipeline. Per pipeline/taaqol_integration/native_stage_registry.py: RelationCandidate, RelationClosure, Ifadah, Hukm are all classified hokom_eligibility=FORBIDDEN with deferred_reason='Single token cannot produce binary RelationCandidate (requires 2+ tokens)'. P6-P12 candidates per mandate-06's list (VerbalSignifiedCandidate, CompositionReadinessCandidate, AmilMamulCandidate, SentenceGeometryCandidate, RelationGeometryCandidate, IrabGeometryCandidate, IfadahCandidate) are NOT live-integrated in Hokom.",
+      "HOKOM_REACHES_P6_P12": "NO",
+      "reason": "Hokom is single-token; sentence-level candidates require 2+ token relational analysis",
+      "vendor_source": "pipeline/taaqol_integration/native_stage_registry.py"
+    },
+    "gate_11_ownership_audit_reassessment": {
+      "status": "CORRECT_PER_AUTHORITATIVE_SOURCE",
+      "detail": "reports/scg_p0_p12/ownership_audit.json uses 19 candidates from the authoritative registry source (docs/ar/HOKOM_SCG_P0_P12_TAAQOL_JUDGMENT_CLOSURE_AR.md). These cannot be replaced with mandate-06's listed candidates because those candidates (TypedCodePoint etc.) do not exist in the repository. The audit is correct per the actual source.",
+      "REGENERATION_NEEDED": "NO — unless REGISTRY_SOURCE_MISMATCH blocker is resolved via constitutional amendment"
+    },
+    "gate_12_report_binding": {
+      "status": "COMPLETED",
+      "sha": "ad5396f",
+      "detail": "generate_scg_live_judgment_report.py no longer calls git rev-parse HEAD for source_commit. Now requires explicit --implementation-head <SHA> CLI argument."
+    },
+    "gate_13_dead_fixture": {
+      "status": "COMPLETED",
+      "sha": "acbadf0",
+      "detail": "scg_approved_judgment_provider removed from conftest.py. Zero consumers confirmed."
+    },
+    "gate_14_untracked_files": {
+      "status": "CLASSIFIED",
+      "files": [
+        {
+          "path": "reports/taaqol_quarter_closure/taaqol_quarter_closure.json",
+          "classification": "HOKOM_REPORT_ARTIFACT",
+          "mandate": "HOKOM-TAAQOL-EXECUTABLE-CONSTITUTION-QUARTER-CLOSURE-01",
+          "action": "DO_NOT_COMMIT_INTO_SCG_REALIGNMENT_06",
+          "reason": "Separate-quarter file — constitutional constraint prohibits bulk-committing into SCG closure"
+        },
+        {
+          "path": "reports/taaqol_quarter_closure/taaqol_quarter_closure_ar.md",
+          "classification": "HOKOM_REPORT_ARTIFACT",
+          "mandate": "HOKOM-TAAQOL-EXECUTABLE-CONSTITUTION-QUARTER-CLOSURE-01",
+          "action": "DO_NOT_COMMIT_INTO_SCG_REALIGNMENT_06",
+          "reason": "Separate-quarter file"
+        },
+        {
+          "path": "tests/taaqol_coverage/__init__.py",
+          "classification": "TAAQOL_VENDOR_COVERAGE_TEST",
+          "mandate": "HOKOM-TAAQOL-EXECUTABLE-CONSTITUTION-QUARTER-CLOSURE-01",
+          "action": "DO_NOT_COMMIT_INTO_SCG_REALIGNMENT_06",
+          "reason": "Q1-Q8 test suite belongs to QUARTER-CLOSURE-01 mandate"
+        },
+        {
+          "path": "tests/taaqol_coverage/conftest.py",
+          "classification": "TAAQOL_VENDOR_COVERAGE_TEST",
+          "mandate": "HOKOM-TAAQOL-EXECUTABLE-CONSTITUTION-QUARTER-CLOSURE-01",
+          "action": "DO_NOT_COMMIT_INTO_SCG_REALIGNMENT_06",
+          "reason": "Shared fixtures for QUARTER-CLOSURE-01 suite"
+        },
+        {
+          "path": "tests/taaqol_coverage/test_failure_taxonomy_reachability.py",
+          "classification": "TAAQOL_VENDOR_COVERAGE_TEST",
+          "suite_label": "Q7",
+          "action": "DO_NOT_COMMIT_INTO_SCG_REALIGNMENT_06"
+        },
+        {
+          "path": "tests/taaqol_coverage/test_forbidden_registry_exhaustive.py",
+          "classification": "TAAQOL_VENDOR_COVERAGE_TEST",
+          "suite_label": "Q6",
+          "action": "DO_NOT_COMMIT_INTO_SCG_REALIGNMENT_06"
+        },
+        {
+          "path": "tests/taaqol_coverage/test_gamma_exhaustive.py",
+          "classification": "TAAQOL_VENDOR_COVERAGE_TEST",
+          "suite_label": "Q1",
+          "action": "DO_NOT_COMMIT_INTO_SCG_REALIGNMENT_06"
+        },
+        {
+          "path": "tests/taaqol_coverage/test_hokom_bridge_reconciliation.py",
+          "classification": "TAAQOL_VENDOR_COVERAGE_TEST",
+          "suite_label": "Q8",
+          "action": "DO_NOT_COMMIT_INTO_SCG_REALIGNMENT_06"
+        },
+        {
+          "path": "tests/taaqol_coverage/test_lge_runtime_chain.py",
+          "classification": "TAAQOL_VENDOR_COVERAGE_TEST",
+          "suite_label": "Q3",
+          "action": "DO_NOT_COMMIT_INTO_SCG_REALIGNMENT_06"
+        },
+        {
+          "path": "tests/taaqol_coverage/test_rank_lattice_exhaustive.py",
+          "classification": "TAAQOL_VENDOR_COVERAGE_TEST",
+          "suite_label": "Q4",
+          "action": "DO_NOT_COMMIT_INTO_SCG_REALIGNMENT_06"
+        },
+        {
+          "path": "tests/taaqol_coverage/test_residual_policy_exhaustive.py",
+          "classification": "TAAQOL_VENDOR_COVERAGE_TEST",
+          "suite_label": "Q5",
+          "action": "DO_NOT_COMMIT_INTO_SCG_REALIGNMENT_06"
+        },
+        {
+          "path": "tests/taaqol_coverage/test_transition_gate_exhaustive.py",
+          "classification": "TAAQOL_VENDOR_COVERAGE_TEST",
+          "suite_label": "Q2",
+          "action": "DO_NOT_COMMIT_INTO_SCG_REALIGNMENT_06"
+        }
+      ]
+    },
+    "gate_15_atomic_commits": {
+      "status": "COMPLETED",
+      "method": "git add <explicit-path> only — no git add . or git add -A",
+      "commits": ["48eb31b", "acbadf0", "ad5396f"]
+    },
+    "gate_16_stop_before_macos": {
+      "status": "STOPPED",
+      "detail": "Returning corrected plan only. macOS closure not authorized."
+    }
+  },
+
+  "canonical_runner_analysis": {
+    "runner_baseline": "d2f7055",
+    "linguistic_base_head": "2e2a3ac71a00ad520675c91e13904903f573034b",
+    "current_head": "ad5396f",
+    "files_changed_since_linguistic_base": 28,
+    "authorized_by_runner": [
+      "scripts/canonical_gate.py",
+      "scripts/run_canonical_final_audit.sh",
+      "tests/governance/test_artifact_commit_binding.py",
+      "tests/shell/test_audit_runner.sh",
+      "reports/canonical_gate/closure_manifest.ed35d45.json"
+    ],
+    "unauthorized_by_runner": [
+      "conftest.py",
+      "data/test-data/hokom_taaqol_sga_live_corpus_150.manifest.json",
+      "docs/ar/HOKOM_SCG_P0_P12_TAAQOL_JUDGMENT_CLOSURE_AR.md",
+      "docs/ar/TAAQOL_REFERENCE_AR.md",
+      "hokom_pipeline.py",
+      "pipeline/governance/taaqol_judgment_enforcer.py",
+      "pipeline/taaqol_integration/live/bridge.py",
+      "reports/scg_p0_p12/canonical_edge_mapping.json",
+      "reports/scg_p0_p12/ownership_audit.json",
+      "reports/scg_p0_p12/taaqol_transition_judgment_matrix.json",
+      "reports/taaqol_stage_coverage/taaqol_coverage_audit_ar.json",
+      "reports/taaqol_stage_coverage/taaqol_hokom_mapping_ar.csv",
+      "reports/taaqol_stage_coverage/taaqol_stage_inventory_ar.csv",
+      "scripts/demo_ayat_al_dayn.py",
+      "scripts/generate_scg_live_judgment_report.py",
+      "tests/compatibility/test_taaqol_import_readiness.py",
+      "tests/demo/test_taaqol_layer_report.py",
+      "tests/scg/__init__.py",
+      "tests/scg/test_taaqol_fail_closed.py",
+      "tests/scg/test_taaqol_hard_gating.py",
+      "tests/scg/test_taaqol_judgment_all_edges.py",
+      "tests/scg/test_taaqol_terminal_guards.py",
+      "tests/scg/test_taaqol_transition_determinism.py"
+    ],
+    "expected_runner_verdict": "HEAD_DIFF_VIOLATION",
+    "HEAD_OK_EXPECTED": 0,
+    "action": "REPORT_AS_GOVERNANCE_BLOCKER — do not weaken the runner"
+  },
+
+  "open_governance_blockers": [
+    {
+      "id": "BLOCKER-01",
+      "name": "CANONICAL_RUNNER_REJECTION",
+      "severity": "CRITICAL",
+      "detail": "23 files changed since LINGUISTIC_BASE_HEAD are not in the canonical runner authorized path list. Runner will emit HEAD_DIFF_VIOLATION. All implementation work (hokom_pipeline.py, tests/scg/*, reports/scg_p0_p12/*, etc.) is outside the runner's sanctioned scope.",
+      "resolution": "New governance mandate required to expand canonical runner authorized paths via a sanctioned amendment process"
+    },
+    {
+      "id": "BLOCKER-02",
+      "name": "REGISTRY_SOURCE_MISMATCH",
+      "severity": "CRITICAL",
+      "detail": "Mandate-06 requires 15 candidate identities that do not exist anywhere in the repository (TypedCodePoint, GlyphClassification, LetterIdentityCarrier, HarakaMarkIdentityCarrier, ConditionedTypedSequence, PositionCarrier, SlotCandidate, RegistryProjectionCandidate, JamidMushtaqCandidate, MufradWordCandidate, VerbalSignifiedCandidate, AmilMamulCandidate, SentenceGeometryCandidate, RelationGeometryCandidate, IrabGeometryCandidate). The authoritative registry source uses different names.",
+      "resolution": "Mandate must be corrected to reference the actual authoritative source, or the authoritative source must be amended via CONSTITUTIONAL_AMENDMENT_ID"
+    },
+    {
+      "id": "BLOCKER-03",
+      "name": "SENTENCE_LEVEL_WITNESS_NOT_FOUND",
+      "severity": "HIGH",
+      "detail": "Zero corpus cases in the 150-case set contain P6-P12 sentence-level assertions. No real witness exists for IfadahCandidate, SentenceGeometryCandidate, RelationGeometryCandidate, IrabGeometryCandidate.",
+      "resolution": "Extend corpus with sentence-level annotated cases, or classify P6-P12 as DEFERRED"
+    },
+    {
+      "id": "BLOCKER-04",
+      "name": "P6_P12_NOT_LIVE_IN_HOKOM",
+      "severity": "HIGH",
+      "detail": "Hokom is a single-token pipeline. native_stage_registry.py classifies RelationCandidate, RelationClosure, Ifadah as FORBIDDEN (hokom_bundle_qualifies=False). P6-P12 candidates require 2+ token relational analysis.",
+      "resolution": "Classify P6-P12 as HOKOM_DEFERRED_MULTI_TOKEN and remove from single-token conformance scope, or extend Hokom to sentence-level processing"
+    },
+    {
+      "id": "BLOCKER-05",
+      "name": "SYNTHETIC_WITNESS_IN_WITNESS_PLAN",
+      "severity": "MEDIUM",
+      "detail": "generate_scg_live_judgment_report.py WITNESS_PLAN gate_10 entry attributes IfadahCandidate to LCX-001 with synthetic linguistic analysis not backed by the corpus record. Must be removed or replaced.",
+      "resolution": "Remove gate_10 entry from WITNESS_PLAN and add --implementation-head <SHA> to invocation. Then commit the fix as a separate corrective commit."
+    }
+  ],
+
+  "final_status": {
+    "MACOS_VALIDATION_AUTHORIZED": "NO",
+    "HOKOM_SCG_P0_P12_CONFORMANCE": "OPEN",
+    "CLOSURE_VERDICT": "OPEN",
+    "CORRECTIVE_COMMITS_MADE": 3,
+    "OPEN_BLOCKERS": 5,
+    "UNTRACKED_FILES_CLASSIFIED": 12,
+    "UNTRACKED_FILES_COMMITTED": 0,
+    "NEXT_REQUIRED_ACTION": "Resolve BLOCKER-01 (canonical runner rejection) via new governance mandate before any macOS execution"
+  }
+}
