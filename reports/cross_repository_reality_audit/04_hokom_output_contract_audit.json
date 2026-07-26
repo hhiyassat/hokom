@@ -1,0 +1,84 @@
+{
+  "mandate": "HOKOM-SALEH-QIYAS-TAAQOL-CURRENT-REALITY-AND-INTEGRATION-GAP-AUDIT-01",
+  "report_id": "04_HOKOM_OUTPUT_CONTRACT_AUDIT",
+  "generated_at": "2026-07-26",
+  "audit_type": "READ_ONLY",
+  "IMPLEMENTATION_AUTHORIZED": "NO",
+
+  "source_file": "hokom_pipeline.py",
+  "main_function": "hokom(word: str) -> dict",
+  "execution_cardinality": "SINGLE_TOKEN — one Arabic word per call",
+  "scg_gate_count": 11,
+  "pipeline_stages": 12,
+  "pipeline_edges": 11,
+
+  "return_sites": [
+    {
+      "site_id": "RETURN_GATE_STOP",
+      "trigger": "Any _scg_gate() returns hard-stop (gate verdict in _SCG_HARD_STOPS)",
+      "stage_value": "_SCG_STOPPED_STAGE",
+      "key_fields": [
+        "original", "input_surface", "canonical_surface", "normalized_surface",
+        "scg_status", "last_completed_stage", "blocked_target_stage",
+        "judgment_executed", "infrastructure_failure", "gamma_state",
+        "transition_state", "transition_allowed", "terminal", "failure_code",
+        "evaluation_id", "claim_key", "target_stage_opened", "scg_gate_matrix"
+      ],
+      "linguistic_fields": "all None (pre-computation stop)"
+    },
+    {
+      "site_id": "RETURN_LICENSING_BLOCKED",
+      "trigger": "Licensing violations before slot engineering",
+      "stage_value": "licensing",
+      "key_fields": [
+        "original", "input_surface", "canonical_surface", "normalized_surface",
+        "normalized", "stage", "licensing", "slots", "verdict", "violations",
+        "segment_bundle", "segment_host", "segment_proclitics", "segment_enclitics",
+        "segment_clitic_only", "morphology_surface", "morphology_blocked", "morphology_block_reason"
+      ]
+    },
+    {
+      "site_id": "RETURN_SUCCESS",
+      "trigger": "All 11 SCG gates approved — full pipeline completion",
+      "stage_value": "slot_engineering",
+      "key_fields": [
+        "original", "input_surface", "canonical_surface", "normalized_surface", "normalized",
+        "stage", "licensing", "slots", "verdict", "violations",
+        "mabni", "attachment", "boundary_type", "jamid_boundary", "jamid_verdict",
+        "jamid_category", "aalam_category",
+        "pre_root", "cra_result", "root_refinement", "augmented_analysis",
+        "root_projection", "root_candidate",
+        "phase4a_result", "phase4b_result", "phase4c_result", "phase4d_result", "phase5_result",
+        "inflectional_form",
+        "final_root", "final_wazn", "final_form", "final_masdar", "final_masdar_pattern",
+        "accepted_mushtaqat", "active_residuals", "resolved_residuals",
+        "paradigm_id", "tense_aspect", "mood", "voice", "person", "number", "gender",
+        "ambiguity_candidates", "lemma_surface",
+        "word_class_result", "word_class_verdict", "word_class", "word_class_subclass",
+        "inflection_skipped_reason",
+        "typed_phonological_slots",
+        "sga_claim_bundle",
+        "scg_gate_matrix", "taaqol_decision", "taaqol_effective_verdict",
+        "taaqol_verdict", "taaqol_runtime", "taaqol_center_scope",
+        "segment_bundle", "segment_host", "segment_proclitics", "segment_enclitics"
+      ]
+    }
+  ],
+
+  "highest_canonical_output": {
+    "layer": "P5_MUFRAD_WORD_CONTRACTS",
+    "candidate_type": "MufradWordCandidate",
+    "evidence_fields_in_output": [
+      "phase5_result (paradigm, inflection)",
+      "word_class_result (ISM/FI3L/HARF)",
+      "final_root, final_wazn, final_form, final_masdar",
+      "sga_claim_bundle (T-03 HokomClaimBundle)"
+    ],
+    "note": "P5 is the HIGHEST SCG layer Hokom can produce. P6+ belongs exclusively to Saleh/Qiyas."
+  },
+
+  "scg_hard_stops": ["BLOCKED", "REJECTED", "FORBIDDEN_LEAP", "DEFERRED", "INVALID"],
+  "taaqol_fail_closed": true,
+  "P6_P12_in_output": false,
+  "sentence_level_fields": "NONE — single-token architecture"
+}

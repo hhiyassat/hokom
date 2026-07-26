@@ -1,0 +1,64 @@
+{
+  "mandate": "HOKOM-SALEH-QIYAS-TAAQOL-CURRENT-REALITY-AND-INTEGRATION-GAP-AUDIT-01",
+  "report_id": "12_SENTENCE_ORCHESTRATOR_CAPABILITY_AUDIT",
+  "generated_at": "2026-07-26",
+  "audit_type": "READ_ONLY",
+  "IMPLEMENTATION_AUTHORIZED": "NO",
+
+  "orchestrator_found": true,
+  "orchestrator_repository": "fractal/algebra/Saleh-",
+  "orchestrator_file": "run_qiyas.py",
+  "orchestrator_class": "PipelineLayers",
+  "orchestrator_build_method": "PipelineLayers.build(kernel)",
+
+  "adapter_chain_in_PipelineLayers": [
+    "P0: unicode_layer (UnicodeLayerAdapter)",
+    "P0: typed_codepoint_layer",
+    "P1: letter_identity_layer",
+    "P1: haraka_function_layer",
+    "P1: position_layer",
+    "P1: conditioned_typed_sequence_layer",
+    "P1: slot_layer",
+    "P2: registry_projection_layer",
+    "P3: root_stem_layer",
+    "P4: jamid_mushtaq_layer",
+    "P5: mufrad_word_layer",
+    "P5.1: inflectional_closure_layer (InflectionalClosureQiyas)",
+    "P6: verbal_signified_layer (VerbalSignifiedLayerAdapter)",
+    "P7: composition_readiness_layer",
+    "P8: amil_mamul_layer (AmilMamulLayerAdapter)",
+    "P9: sentence_geometry_layer (SentenceGeometryLayerAdapter)",
+    "P10: relation_geometry_layer (RelationGeometryLayerAdapter)",
+    "P11: irab_geometry_layer (IrabGeometryLayerAdapter)",
+    "P12: ifadah_layer (IfadahSpeechForceLayerAdapter)"
+  ],
+
+  "P9_P12_orchestration_logic": {
+    "trigger": "if accepted_p8_by_segment (dict of segment_id → AmilMamulCandidate)",
+    "P9_step": "sentence_units = [SentenceUnit(candidate=cand, position=pos) for pos, (_seg, cand) in sorted(accepted_p8_by_segment)]; sg_set = sentence_geometry_layer.compose(sentence_units)",
+    "P10_step": "if sg_accepted → rg_set = relation_geometry_layer.compose(sg_accepted)",
+    "P11_step": "if rg_accepted → ig_set = irab_geometry_layer.compose(rg_accepted)",
+    "P12_step": "if ig_accepted → if_set = ifadah_layer.compose(ig_accepted) — TERMINAL",
+    "minimum_input_requirement": ">=2 distinct word/segment units each with accepted P8 AmilMamulCandidate",
+    "single_word_forms_P9": false,
+    "note": "A single word even with multiple internal P8 accepts does NOT form a P9 sentence"
+  },
+
+  "capability_gaps": {
+    "requires_multi_word_input": true,
+    "current_corpus": "NONE — no sentence-level gold corpus exists in any repository",
+    "Hokom_as_input_source": false,
+    "runtime_pipeline_integration": "run_qiyas.py processes text input INDEPENDENTLY of Hokom — no Hokom bridge",
+    "end_to_end_test_exists": false
+  },
+
+  "SentenceUnit": {
+    "fields": ["candidate (AmilMamulCandidate)", "position (int)"],
+    "imported_from": "src/qiyas_core/sentence_geometry_adapter.py"
+  },
+
+  "orchestrator_runtime_status": "IMPLEMENTED_IN_CODE — NOT_EXERCISED (no sentence corpus, no integration tests)",
+  "SENTENCE_ORCHESTRATOR_FOUND": true,
+  "SENTENCE_CORPUS_REQUIRED": true,
+  "closure_status": "OPEN"
+}

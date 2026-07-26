@@ -1,0 +1,44 @@
+{
+  "mandate": "HOKOM-SALEH-QIYAS-TAAQOL-CURRENT-REALITY-AND-INTEGRATION-GAP-AUDIT-01",
+  "report_id": "06_SALEH_QIYAS_TAAQOL_INTEGRATION_GAP",
+  "generated_at": "2026-07-26",
+  "audit_type": "READ_ONLY",
+  "IMPLEMENTATION_AUTHORIZED": "NO",
+
+  "integration_status": "DISCONNECTED — Saleh/Qiyas does NOT import or use Taaqol vendor",
+
+  "findings": {
+    "taaqqul_slot_geometry_imported": false,
+    "vendor_directory_in_saleh_qiyas": false,
+    "sys_path_injection_of_taaqol": false,
+    "TransitionGate_used": false,
+    "Taaqol_gamma_used": false
+  },
+
+  "own_gamma": {
+    "file": "src/qiyas_core/slot_geometry_core/gamma.py",
+    "function": "gamma(candidate_type, candidate_fields, candidate_has_residuals, candidate_identity_ids, candidate_trace_ids, layer_spec, target_boundary) -> GammaResult",
+    "GammaStatus_values": ["MINIMALLY_CLOSED", "PERFORATED_CLOSED", "OPEN", "BLOCKED", "FORBIDDEN_LEAP"],
+    "is_same_as_taaqol_gamma": false,
+    "note": "Saleh/Qiyas GammaStatus is a DISTINCT implementation from Taaqol vendor GammaStatus. Same conceptual names, different codebases."
+  },
+
+  "QiyasKernel": {
+    "file": "src/qiyas_core/kernel.py",
+    "class": "QiyasKernel",
+    "method": "apply(request: QiyasRequest) -> CandidateSet",
+    "checks_count": 12,
+    "checks": [
+      "_check_context_layer", "_check_node_types", "_check_asl_established",
+      "_check_far_determined", "_check_effective_wasf", "_check_illah",
+      "_check_wadi", "_check_fariq", "_check_defer", "_check_identity",
+      "_check_rank", "_check_forbidden_outputs_declared"
+    ],
+    "WADI_REQUIRED_CLAIMS": "6 Arabic wadi gates (cause, condition, obstacle, validity, corruption, nullity) — internal to Saleh/Qiyas, NOT Arabic Verifier"
+  },
+
+  "gap_classification": "ARCHITECTURAL_GAP",
+  "gap_description": "Saleh/Qiyas P6-P12 candidate processing uses its own algebraic judgment system (QiyasKernel + own gamma) independently of Taaqol vendor. There is no live Taaqol judgment enforced on Saleh/Qiyas candidate transitions. This is by design — two separate judgment algebras exist in the project.",
+  "gap_severity": "DOCUMENTED — not a defect requiring immediate fix, but a cross-system architectural boundary that must be explicit in integration plans",
+  "implementation_required_to_close": "A live Taaqol judgment bridge for Saleh/Qiyas P6-P12 candidate transitions would require a new architectural component not currently specified"
+}

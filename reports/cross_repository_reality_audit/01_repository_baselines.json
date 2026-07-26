@@ -1,0 +1,81 @@
+{
+  "mandate": "HOKOM-SALEH-QIYAS-TAAQOL-CURRENT-REALITY-AND-INTEGRATION-GAP-AUDIT-01",
+  "report_id": "01_REPOSITORY_BASELINES",
+  "generated_at": "2026-07-26",
+  "audit_type": "READ_ONLY",
+  "IMPLEMENTATION_AUTHORIZED": "NO",
+
+  "repositories": [
+    {
+      "name": "Hokom",
+      "path": "hokom/",
+      "remote": "https://github.com/hhiyassat/hokom.git",
+      "branch": "main",
+      "HEAD": "d5bc7a1",
+      "HEAD_full": "d5bc7a1 (HOKOM-SALEH-QIYAS-SCG-CROSS-REPOSITORY-OWNERSHIP-RESOLUTION-07: 6 deliverable reports)",
+      "untracked_paths": [
+        "reports/taaqol_quarter_closure/",
+        "tests/taaqol_coverage/"
+      ],
+      "stash": "stash@{0} — UNTOUCHED per mandate constraint",
+      "python_version": "3.12 (.venv-py312)",
+      "governance_file": "pipeline/governance/gold_manifest.py",
+      "canonical_runner": "scripts/run_canonical_final_audit.sh",
+      "baseline_frozen": true
+    },
+    {
+      "name": "Saleh/Qiyas",
+      "path": "fractal/algebra/Saleh-/",
+      "remote": "https://github.com/sonaiso/Saleh-.git",
+      "branch": "main",
+      "HEAD": "d24f44a",
+      "HEAD_full": "d24f44a (Merge pull request #197: docs/canonical-project-constitution-v2)",
+      "untracked_paths": [
+        ".DS_Store",
+        "*.docx files",
+        "output .txt files",
+        "weight_pattern_adapter.py"
+      ],
+      "python_version": "3.10.12 (.venv present)",
+      "canonical_registry_source": "src/qiyas_core/slot_geometry_core/master_registry_seed.py",
+      "canonical_registry_symbol": "build_p12_implemented_registry()",
+      "baseline_frozen": true
+    },
+    {
+      "name": "Taaqol vendor",
+      "path": "hokom/vendor/Taaqol-GPT/",
+      "type": "VENDOR_SUBDIRECTORY",
+      "HEAD_commit": "3538173940071ac21dd96702ecbb2acb493f90d",
+      "installation_method": "sys.path injection (NOT pip, NOT installed as package)",
+      "sys_path_injection_file": "hokom/pipeline/governance/taaqol_judgment_enforcer.py",
+      "sys_path_value": "hokom/vendor/Taaqol-GPT/src",
+      "imported_by_saleh_qiyas": false,
+      "imported_by_arabic_verifier": false,
+      "python_requirement": "3.11+ (StrEnum usage)",
+      "modification_prohibited": true,
+      "baseline_frozen": true
+    },
+    {
+      "name": "Arabic Verifier",
+      "path": "fractal/arabic-july/arabic_verifier/",
+      "parent_repo": "fractal/arabic-july/",
+      "parent_repo_HEAD": "c5f19845261d56dbc876380acbe200e9817f490a",
+      "parent_repo_branch": "main",
+      "type": "SEPARATE_REPOSITORY",
+      "imported_by_hokom": false,
+      "imported_by_saleh_qiyas": false,
+      "imported_by_taaqol": false,
+      "adapter_scope": "P1-P4 ONLY (entrance_adapter.py)",
+      "baseline_frozen": true
+    }
+  ],
+
+  "cross_repository_runtime_links": {
+    "Hokom_to_Saleh_Qiyas": "NONE",
+    "Saleh_Qiyas_to_Hokom": "NONE",
+    "Hokom_to_ArabicVerifier": "NONE",
+    "Saleh_Qiyas_to_ArabicVerifier": "NONE",
+    "Hokom_to_Taaqol": "sys.path injection in taaqol_judgment_enforcer.py",
+    "Saleh_Qiyas_to_Taaqol": "NONE — Saleh/Qiyas uses own gamma.py"
+  }
+}

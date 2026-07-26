@@ -1,0 +1,133 @@
+{
+  "mandate": "HOKOM-SALEH-QIYAS-TAAQOL-CURRENT-REALITY-AND-INTEGRATION-GAP-AUDIT-01",
+  "report_id": "16_MASTER_INTEGRATION_GAP_SUMMARY",
+  "generated_at": "2026-07-26",
+  "audit_type": "READ_ONLY",
+
+  "CURRENT_REALITY_AUDIT": "COMPLETE",
+  "IMPLEMENTATION_AUTHORIZED": "NO",
+  "P0_P12_CLOSURE": "OPEN",
+  "OVERALL_HOKOM_PROJECT_CLOSURE": "OPEN",
+
+  "repository_baselines": {
+    "Hokom_HEAD": "d5bc7a1",
+    "Saleh_Qiyas_HEAD": "d24f44a",
+    "Taaqol_vendor_commit": "3538173940071ac21dd96702ecbb2acb493f90d",
+    "Arabic_Verifier_parent_HEAD": "c5f19845"
+  },
+
+  "canonical_registry": {
+    "CANONICAL_REGISTRY_MODEL": "SET_A",
+    "source_file": "src/qiyas_core/slot_geometry_core/master_registry_seed.py",
+    "source_symbol": "build_p12_implemented_registry()",
+    "total_candidates": 19,
+    "all_status": "implemented",
+    "canonical_edges": 19
+  },
+
+  "integration_matrix": {
+    "Hokom_to_Taaqol":         "CONNECTED (sys.path injection, 11 live gates)",
+    "Hokom_to_Saleh_Qiyas":    "DISCONNECTED (no runtime link)",
+    "Saleh_Qiyas_to_Taaqol":   "DISCONNECTED (uses own gamma.py)",
+    "Saleh_Qiyas_to_Hokom":    "DISCONNECTED (no runtime link)",
+    "Arabic_Verifier_to_all":  "ISOLATED (no import by any system)"
+  },
+
+  "runtime_status_by_layer_group": {
+    "P0_P5": "DEFINED + ADAPTERS_PRESENT + CORPUS_SUPPORTED — both systems process independently, no runtime bridge",
+    "P6_P8": "DEFINED + ADAPTERS_PRESENT + PARTIAL_UNIT_TESTS — no runtime bridge, no sentence corpus gold",
+    "P9_P12": "DEFINED + ADAPTERS_PRESENT + ORCHESTRATOR_EXISTS — not executable without sentence corpus, not end-to-end tested"
+  },
+
+  "critical_gaps": [
+    {
+      "gap_id": "GAP_01",
+      "gap": "Hokom ↔ Saleh/Qiyas runtime bridge",
+      "description": "No HokomTokenEvidenceBundle or equivalent adapter connects Hokom P5 output to Saleh/Qiyas P6 input at runtime",
+      "severity": "CRITICAL_BLOCKER",
+      "required_for_closure": true
+    },
+    {
+      "gap_id": "GAP_02",
+      "gap": "Sentence-level corpus",
+      "description": "Zero sentence-level gold cases exist across all repositories. P9-P12 are structurally impossible to test without >=2-word sentences.",
+      "severity": "CRITICAL_BLOCKER",
+      "required_for_closure": true,
+      "SENTENCE_LEVEL_WITNESS_FOUND": false,
+      "VERIFIED_WITNESS_COUNT": 0
+    },
+    {
+      "gap_id": "GAP_03",
+      "gap": "Saleh/Qiyas ↔ Taaqol live judgment",
+      "description": "Saleh/Qiyas P6-P12 candidate processing uses its own algebraic kernel (QiyasKernel + own gamma), not Taaqol vendor TransitionGate.decide(). No live Taaqol judgment covers P6-P12 candidate transitions.",
+      "severity": "ARCHITECTURAL_GAP",
+      "required_for_closure": "pending architectural decision"
+    },
+    {
+      "gap_id": "GAP_04",
+      "gap": "Canonical runner HEAD_DIFF_VIOLATION",
+      "description": "Hokom canonical runner rejects current HEAD due to 23 unauthorized paths. Closure cannot be verified until unauthorized paths are licensed or removed.",
+      "severity": "RUNNER_BLOCKER",
+      "required_for_closure": true,
+      "unauthorized_path_count": 23
+    },
+    {
+      "gap_id": "GAP_05",
+      "gap": "P6-P8 corpus gold",
+      "description": "0/150 corpus cases have P6-P8 gold annotation. Even single-word P6-P8 verification requires a new corpus.",
+      "severity": "CORPUS_GAP",
+      "required_for_closure": true
+    }
+  ],
+
+  "what_is_working": [
+    "Hokom single-token pipeline (P0-P5 evidence production) — fully operational",
+    "Taaqol live judgment enforcement in Hokom (11 gates, fail-closed)",
+    "Saleh/Qiyas MasterLayerRegistry — 19 candidates, all status=implemented",
+    "Saleh/Qiyas adapter chain (P0-P12) — all adapter files present",
+    "Saleh/Qiyas sentence orchestrator (run_qiyas.py P9-P12 chain) — code exists",
+    "QiyasKernel 12-check algebra — operational within Saleh/Qiyas",
+    "Gold manifest (Ayat al-Dayn 129-token) — immutable, integrity verified",
+    "Canonical edge graph (19 directed edges) — fully mapped"
+  ],
+
+  "what_is_not_working": [
+    "End-to-end P0-P12 execution (no runtime bridge between any two repos)",
+    "P6-P12 gold verification (no corpus)",
+    "P9-P12 sentence orchestration (no sentence corpus input)",
+    "Canonical runner closure verification (23 unauthorized paths)"
+  ],
+
+  "closure_requirements": [
+    "Design and authorize a HokomTokenEvidenceBundle (or equivalent) bridge adapter",
+    "Create sentence-level Arabic corpus with >=2-word sentences and P8 gold per word",
+    "Run Saleh/Qiyas run_qiyas.py on sentence corpus to produce P9-P12 witnesses",
+    "License 23 unauthorized Hokom paths via canonical runner authorization mechanism",
+    "Optionally: define Taaqol live judgment scope for Saleh/Qiyas P6-P12 transitions"
+  ],
+
+  "canonical_registry_edge_graph": {
+    "total_edges": 19,
+    "edges": [
+      "ROOT → P0_UNICODE_CANDIDATE",
+      "P0_UNICODE_CANDIDATE → P0_TYPED_CODEPOINT",
+      "P0_TYPED_CODEPOINT → P0_GLYPH_CLASSIFICATION",
+      "P0_TYPED_CODEPOINT → P1_LETTER_IDENTITY_CARRIER",
+      "P0_TYPED_CODEPOINT → P1_HARAKA_MARK_IDENTITY_CARRIER",
+      "P0_TYPED_CODEPOINT → P1_CONDITIONED_TYPED_SEQUENCE",
+      "P1_CONDITIONED_TYPED_SEQUENCE → P1_POSITION_CARRIER",
+      "P1_LETTER_IDENTITY_CARRIER → P1_SLOT_CANDIDATE",
+      "P1_SLOT_CANDIDATE → P2_REGISTRY_PROJECTION",
+      "P2_REGISTRY_PROJECTION → P3_ROOT_STEM_CLOSURE",
+      "P3_ROOT_STEM_CLOSURE → P4_JAMID_MUSHTAQ",
+      "P4_JAMID_MUSHTAQ → P5_MUFRAD_WORD_CONTRACTS",
+      "P5_MUFRAD_WORD_CONTRACTS → P6_VERBAL_SIGNIFIED_ALONE",
+      "P6_VERBAL_SIGNIFIED_ALONE → P7_COMPOSITION_READINESS",
+      "P7_COMPOSITION_READINESS → P8_AMIL_MAMUL",
+      "P8_AMIL_MAMUL → P9_SENTENCE_GEOMETRY",
+      "P9_SENTENCE_GEOMETRY → P10_RELATION_GEOMETRY",
+      "P10_RELATION_GEOMETRY → P11_IRAB_GEOMETRY",
+      "P11_IRAB_GEOMETRY → P12_IFADAH_SPEECH_FORCE"
+    ]
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "mandate": "HOKOM-SALEH-QIYAS-TAAQOL-CURRENT-REALITY-AND-INTEGRATION-GAP-AUDIT-01",
+  "report_id": "05_HOKOM_TAAQOL_INTEGRATION_AUDIT",
+  "generated_at": "2026-07-26",
+  "audit_type": "READ_ONLY",
+  "IMPLEMENTATION_AUTHORIZED": "NO",
+
+  "integration_status": "CONNECTED — sys.path injection, live runtime dependency",
+  "enforcer_file": "hokom/pipeline/governance/taaqol_judgment_enforcer.py",
+  "sys_path_injection": "vendor/Taaqol-GPT/src prepended to sys.path at module load",
+  "python_requirement": "Python 3.11+ required for Taaqol StrEnum; Hokom uses Python 3.12",
+
+  "gate_architecture": {
+    "function": "_scg_gate(source: str, target: str)",
+    "defined_at_line": 186,
+    "invocations": 11,
+    "enforcer_class": "TaaqolJudgmentEnforcer (via SCGTransitionEnforcer)",
+    "matrix_class": "TaaqolJudgmentMatrix",
+    "fail_closed": true,
+    "import_failure_verdict": "BLOCKED",
+    "approved_return": "None (caller continues)",
+    "stopped_return": "full dict with scg_status, scg_gate_matrix, all linguistic fields = None"
+  },
+
+  "gate_sequence": [
+    {"gate": "GATE_01", "edge": "NORMALIZE→SEGMENT",   "line": 248, "scg_correspondence": "pre-P0"},
+    {"gate": "GATE_02", "edge": "SEGMENT→NORM_ATOMIC",  "line": 353, "scg_correspondence": "P0-P1"},
+    {"gate": "GATE_03", "edge": "NORM_ATOMIC→BOUNDARY", "line": 446, "scg_correspondence": "P1"},
+    {"gate": "GATE_04", "edge": "BOUNDARY→ROOT_CAND",   "line": 518, "scg_correspondence": "P1→P2"},
+    {"gate": "GATE_05", "edge": "ROOT_CAND→PHASE_4A",   "line": 692, "scg_correspondence": "P3→P4"},
+    {"gate": "GATE_06", "edge": "PHASE_4A→PHASE_4B",    "line": 723, "scg_correspondence": "P4 internal"},
+    {"gate": "GATE_07", "edge": "PHASE_4B→PHASE_4C",    "line": 744, "scg_correspondence": "P4-P5 internal"},
+    {"gate": "GATE_08", "edge": "PHASE_4C→PHASE_4D",    "line": 761, "scg_correspondence": "P4-P5 internal"},
+    {"gate": "GATE_09", "edge": "PHASE_4D→WORD_CLASS",  "line": 803, "scg_correspondence": "P4→P5"},
+    {"gate": "GATE_10", "edge": "WORD_CLASS→PHASE_5",   "line": 836, "scg_correspondence": "P5 internal"},
+    {"gate": "GATE_11", "edge": "PHASE_5→TAAQOL_SGA",   "line": 1071, "scg_correspondence": "P5→HANDOFF (cross-repository boundary)"}
+  ],
+
+  "gate11_architectural_significance": "GATE_11 is the CROSS-REPOSITORY HANDOFF GATE. It marks the boundary where Hokom P5 MufradWordCandidate evidence is closed and handed off for Saleh/Qiyas P6+ processing. No runtime bridge currently exists.",
+
+  "integration_gaps": [
+    "Hokom gates guard INTERNAL morphology stages (NORMALIZE/SEGMENT/etc.), NOT the canonical SCG P0-P12 candidate names",
+    "No Hokom gate label corresponds to a canonical SCG P0-P12 candidate type name",
+    "GATE_11 marks the P5→handoff boundary but there is no actual runtime bridge to Saleh/Qiyas"
+  ],
+
+  "what_is_working": [
+    "Taaqol vendor imports successfully via sys.path",
+    "All 11 gates fire live TransitionGate.decide() calls",
+    "TaaqolJudgmentMatrix accumulates all 11 gate judgments per token",
+    "scg_gate_matrix is included in all return dicts (including stopped returns)",
+    "Fail-closed enforced: any Taaqol runtime failure → BLOCKED"
+  ]
+}

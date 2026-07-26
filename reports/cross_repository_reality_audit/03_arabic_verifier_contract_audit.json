@@ -1,0 +1,71 @@
+{
+  "mandate": "HOKOM-SALEH-QIYAS-TAAQOL-CURRENT-REALITY-AND-INTEGRATION-GAP-AUDIT-01",
+  "report_id": "03_ARABIC_VERIFIER_CONTRACT_AUDIT",
+  "generated_at": "2026-07-26",
+  "audit_type": "READ_ONLY",
+  "IMPLEMENTATION_AUTHORIZED": "NO",
+
+  "repository_path": "fractal/arabic-july/arabic_verifier/",
+  "parent_repo_HEAD": "c5f19845261d56dbc876380acbe200e9817f490a",
+  "type": "SEPARATE_REPOSITORY",
+
+  "claim_contract": {
+    "class": "JudgmentClaim",
+    "source_file": "arabic_verifier/src/contract/claim.py",
+    "fields": ["id", "band", "kind", "payload", "sink", "rank"],
+    "ClaimKind": {
+      "ISM_FAEL": "اسم فاعل — oracle: ضارب",
+      "ISM_MAKAN": "اسم مكان — oracle: مَضرِب",
+      "ISM_ISHARA": "اسم إشارة",
+      "GENERIC": "generic surface — cannot claim LICENSED sink"
+    },
+    "ClaimBand": {
+      "MORPHOLOGICAL": "coarse morphological layer",
+      "SYNTACTIC": "syntactic layer",
+      "SEMANTIC": "semantic layer"
+    },
+    "Sink": {
+      "LICENSED": "fully licensed verdict (GENERIC kind CANNOT use LICENSED)",
+      "RESIDUAL": "residual — not yet licensed",
+      "DEFERRED": "deferred to further processing"
+    }
+  },
+
+  "entrance_adapter": {
+    "file": "arabic_verifier/adapter/entrance_adapter.py",
+    "scope": "P1-P4 ONLY",
+    "output_type": "EntranceRecord",
+    "status_vocabulary": [
+      "catalog_attested",
+      "candidate",
+      "generic_surface",
+      "residual_candidate",
+      "deferred_to_verifier"
+    ],
+    "FORBIDDEN_outputs": [
+      "root", "wazn", "bab", "iʿrab", "syntactic role", "relations",
+      "meaning", "truth", "hukm", "Licensed status"
+    ],
+    "note": "entrance_adapter does NOT produce or license verdicts — it surfaces morphological attestation only"
+  },
+
+  "integration_status": {
+    "imported_by_Hokom": false,
+    "imported_by_Saleh_Qiyas": false,
+    "imported_by_Taaqol_vendor": false,
+    "runtime_connection_count": 0,
+    "WADI_REQUIRED_CLAIMS_in_QiyasKernel": {
+      "description": "QiyasKernel._check_wadi uses WADI_REQUIRED_CLAIMS (internal Saleh/Qiyas cause/condition/obstacle/validity/corruption/nullity gates)",
+      "is_Arabic_Verifier": false,
+      "note": "WADI_REQUIRED_CLAIMS in kernel.py are INTERNAL Saleh/Qiyas claims, NOT Arabic Verifier JudgmentClaim objects"
+    }
+  },
+
+  "architectural_position": {
+    "role": "Standalone morphological attestation verifier — separate repository",
+    "P_range_covered": "P1-P4 (entrance adapter scope)",
+    "P9_P12_coverage": "NONE",
+    "sentence_corpus": "NONE",
+    "closure_status": "NOT CONNECTED TO ANY PIPELINE SYSTEM"
+  }
+}

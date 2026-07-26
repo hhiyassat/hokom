@@ -1,0 +1,45 @@
+{
+  "mandate": "HOKOM-SALEH-QIYAS-TAAQOL-CURRENT-REALITY-AND-INTEGRATION-GAP-AUDIT-01",
+  "report_id": "07_HOKOM_SALEH_QIYAS_INTEGRATION_GAP",
+  "generated_at": "2026-07-26",
+  "audit_type": "READ_ONLY",
+  "IMPLEMENTATION_AUTHORIZED": "NO",
+
+  "integration_status": "ARCHITECTURALLY_DISCONNECTED — no runtime link of any kind",
+
+  "evidence": {
+    "Hokom_imports_Saleh_Qiyas": false,
+    "Saleh_Qiyas_imports_Hokom": false,
+    "shared_runtime_objects": false,
+    "shared_data_files": false,
+    "shared_test_fixtures": false,
+    "API_bridge_exists": false,
+    "HokomTokenEvidenceBundle_exists": false
+  },
+
+  "conceptual_handoff_point": {
+    "layer": "P5_MUFRAD_WORD_CONTRACTS",
+    "Hokom_output_field": "phase5_result (+ word_class_result, final_root, final_wazn, sga_claim_bundle)",
+    "Saleh_Qiyas_input_expected": "P5 MufradWordCandidate evidence consumed by VerbalSignifiedLayerAdapter (P6)",
+    "actual_runtime_bridge": "NONE",
+    "status": "CONCEPTUAL_ONLY — the design intent exists in documentation, not in code"
+  },
+
+  "gate11_handoff": {
+    "gate": "GATE_11: PHASE_5→TAAQOL_SGA",
+    "architectural_role": "Marks the P5 terminal boundary in Hokom pipeline",
+    "cross_repository_bridge": "DOES NOT EXIST",
+    "what_happens_after_gate11": "Hokom returns success dict with all P5 fields; Saleh/Qiyas is never called"
+  },
+
+  "gap_impact": {
+    "P0_P5": "Hokom processes independently; Saleh/Qiyas processes independently with own adapters — PARALLEL IMPLEMENTATIONS, not connected",
+    "P6_P8": "Saleh/Qiyas has adapters (verbal_signified, composition_readiness, amil_mamul) but they receive NO Hokom output at runtime",
+    "P9_P12": "Saleh/Qiyas has full orchestration code in run_qiyas.py but it is never called with Hokom output"
+  },
+
+  "gap_severity": "CRITICAL_BLOCKER for P0-P12 end-to-end closure",
+  "closure_requirement": "A runtime bridge (HokomTokenEvidenceBundle or equivalent) must be designed and authorized before P6-P12 closure is possible",
+  "IMPLEMENTATION_AUTHORIZED": "NO — this gap is documented here; implementation is prohibited under current mandate",
+  "P0_P12_CLOSURE": "OPEN"
+}

@@ -1,0 +1,82 @@
+{
+  "mandate": "HOKOM-SALEH-QIYAS-TAAQOL-CURRENT-REALITY-AND-INTEGRATION-GAP-AUDIT-01",
+  "report_id": "10_P6_P8_RUNTIME_STATUS",
+  "generated_at": "2026-07-26",
+  "audit_type": "READ_ONLY",
+  "IMPLEMENTATION_AUTHORIZED": "NO",
+
+  "note": "P6-P8 are SINGLE_WORD layers owned by Saleh/Qiyas. Hokom is an evidence provider for these layers (reads P5 trace geometry). All adapters exist; no runtime bridge to Hokom output exists.",
+
+  "candidates": [
+    {
+      "id": "P6_VERBAL_SIGNIFIED_ALONE",
+      "type": "VerbalSignifiedCandidate",
+      "registry_status": "implemented",
+      "canonical_owner": "SALEH_QIYAS",
+      "input_cardinality": "SINGLE_WORD",
+      "adapter_file": "src/qiyas_core/verbal_signified_adapter.py",
+      "adapter_class": "VerbalSignifiedLayerAdapter",
+      "adapter_present": true,
+      "test_file": "tests/qiyas_core/test_verbal_signified.py",
+      "test_present": true,
+      "hokom_evidence_role": "Reads P5 CV-geometry (n_consonants, vowel cadence, gemination) from MufradWordCandidate trace",
+      "hokom_native_producer": false,
+      "runtime_bridge_to_hokom": "NONE",
+      "corpus_gold_in_LCX": "0/150",
+      "corpus_gold_in_saleh_tests": "unit tests only (no sentence corpus gold)",
+      "runtime_status": "DEFINED + ADAPTER_PRESENT + UNIT_TESTED",
+      "runtime_gap": "NO_HOKOM_BRIDGE + NO_SENTENCE_CORPUS_GOLD",
+      "closure_status": "OPEN"
+    },
+    {
+      "id": "P7_COMPOSITION_READINESS",
+      "type": "CompositionReadinessCandidate",
+      "registry_status": "implemented",
+      "canonical_owner": "SALEH_QIYAS",
+      "input_cardinality": "SINGLE_WORD",
+      "adapter_file": "src/qiyas_core/composition_readiness_adapter.py",
+      "adapter_class": "CompositionReadinessLayerAdapter",
+      "adapter_present": true,
+      "test_file": "NONE identified",
+      "hokom_evidence_role": "Reads P6 VerbalSignifiedCandidate verbal-carrier geometry (inherited from P5 via P6)",
+      "hokom_native_producer": false,
+      "runtime_bridge_to_hokom": "NONE",
+      "corpus_gold_in_LCX": "0/150",
+      "runtime_status": "DEFINED + ADAPTER_PRESENT",
+      "runtime_gap": "NO_HOKOM_BRIDGE + NO_CORPUS_GOLD + NO_DEDICATED_TEST",
+      "closure_status": "OPEN"
+    },
+    {
+      "id": "P8_AMIL_MAMUL",
+      "type": "AmilMamulCandidate",
+      "registry_status": "implemented",
+      "canonical_owner": "SALEH_QIYAS",
+      "input_cardinality": "SINGLE_WORD",
+      "adapter_file": "src/qiyas_core/amil_mamul_adapter.py",
+      "adapter_class": "AmilMamulLayerAdapter",
+      "adapter_present": true,
+      "test_file": "tests/qiyas_core/test_amil_mamul.py",
+      "test_present": true,
+      "hokom_evidence_role": "HOKOM_CEILING — provides morphology trace via P5→P6→P7 chain for amil/mamul dependency-relation POSSIBILITIES (not decisions)",
+      "hokom_native_producer": false,
+      "runtime_bridge_to_hokom": "NONE",
+      "corpus_gold_in_LCX": "0/150",
+      "downstream_consumer": "P9_SENTENCE_GEOMETRY (collected as SentenceUnit from >=2 words)",
+      "runtime_status": "DEFINED + ADAPTER_PRESENT + UNIT_TESTED",
+      "runtime_gap": "NO_HOKOM_BRIDGE + NO_SENTENCE_CORPUS_GOLD",
+      "closure_status": "OPEN",
+      "architectural_note": "P8 is the HOKOM CEILING. Hokom can contribute evidence per word for P8. P9 requires collecting >=2 such P8 units — this collection is Saleh/Qiyas run_qiyas.py responsibility."
+    }
+  ],
+
+  "summary": {
+    "P6_P8_total": 3,
+    "all_adapters_present": true,
+    "all_registry_status": "implemented",
+    "unit_tests_present": "P6 and P8 (P7 not confirmed)",
+    "corpus_gold": "0/150 in all P6-P8 layers",
+    "runtime_bridge": "NONE — Saleh/Qiyas adapter code exists but receives no Hokom output",
+    "overall_runtime_status": "DEFINED + ADAPTER_PRESENT + PARTIAL_UNIT_TESTS — NOT_EXERCISED_END_TO_END",
+    "closure_status": "OPEN"
+  }
+}

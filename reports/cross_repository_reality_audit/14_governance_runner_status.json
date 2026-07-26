@@ -1,0 +1,60 @@
+{
+  "mandate": "HOKOM-SALEH-QIYAS-TAAQOL-CURRENT-REALITY-AND-INTEGRATION-GAP-AUDIT-01",
+  "report_id": "14_GOVERNANCE_RUNNER_STATUS",
+  "generated_at": "2026-07-26",
+  "audit_type": "READ_ONLY",
+  "IMPLEMENTATION_AUTHORIZED": "NO",
+
+  "canonical_runner": {
+    "file": "hokom/scripts/run_canonical_final_audit.sh",
+    "mandates": [
+      "HOKOM-CANONICAL-FINAL-AUDIT-RUNNER-HARDENING-01",
+      "HOKOM-CANONICAL-AUDIT-RUNNER-BOOTSTRAP-CLOSURE-01",
+      "HOKOM-CANONICAL-AUDIT-NONMUTATING-RUNNER-CORRECTION-01",
+      "HOKOM-CANONICAL-AUDIT-LIVE-REGENERATION-RESTORATION-01",
+      "HOKOM-CANONICAL-AUDIT-MACOS-FINGERPRINT-PORTABILITY-FIX-01",
+      "HOKOM-CANONICAL-AUDIT-GITLINK-FINGERPRINT-FIX-01",
+      "HOKOM-CANONICAL-AUDIT-FINAL-GOVERNANCE-CORRECTION-01",
+      "HOKOM-CANONICAL-ARTIFACT-MANIFEST-BINDING-01"
+    ],
+    "requires_macos": true,
+    "requires_venv": ".venv-py312",
+    "LINGUISTIC_BASE_HEAD": "2e2a3ac71a00ad520675c91e13904903f573034b",
+    "AUDITED_HEAD": "d5bc7a1",
+    "HEAD_OK": "to be verified by runner",
+    "current_runner_status": "REJECTING — HEAD_DIFF_VIOLATION: 23 unauthorized paths",
+    "exit_code_on_open": "nonzero",
+    "exit_code_on_verified_closed": 0,
+    "modification_prohibited": true
+  },
+
+  "gold_manifest": {
+    "file": "hokom/pipeline/governance/gold_manifest.py",
+    "governing_mandate": "HOKOM-LIVE-GOLD-ORACLE-COVERAGE-AND-GATE-HARDENING-02",
+    "supersedes": "HOKOM-LIVE-GOLD-ORACLE-AND-METRICS-CORRECTION-01",
+    "start_head": "988d00f",
+    "corpus": "Ayat al-Dayn 129-token corpus",
+    "immutable": true,
+    "change_requires": ["CONSTITUTIONAL_AMENDMENT_ID", "old/new expectation diff", "updated MANIFEST_DIGEST"],
+    "csv_sha256": "5e673089f33e42309a66ded1816fffb9098227f1f86bb35c5faa33349dd47d84",
+    "csv_file": "reports/ayat_al_dayn_demo/ayat_al_dayn_results.csv",
+    "taaqol_layers_csv_sha256": "b4614e71a840d0de3b21b697fed00233be97f1dc121dbfe1751a582ac2b62644",
+    "taaqol_layers_csv_file": "reports/ayat_al_dayn_demo/ayat_al_dayn_taaqol_layers.csv",
+    "FORM_X_PROTECTION": "explicit — FORM_REOPENING = FORBIDDEN",
+    "modification_prohibited": true
+  },
+
+  "open_conditions": [
+    "HEAD_DIFF_VIOLATION: 23 unauthorized paths in Hokom working tree",
+    "MACOS_VALIDATION_AUTHORIZED = NO",
+    "HOKOM_SCG_P0_P12_CONFORMANCE = OPEN",
+    "CLOSURE_VERDICT = OPEN",
+    "SENTENCE_LEVEL_WITNESS_FOUND = NO",
+    "CORPUS_ADEQUATE_FOR_P6_P12 = NO",
+    "SENTENCE_CORPUS_REQUIRED = YES"
+  ],
+
+  "closure_blockers_count": 7,
+  "CLOSURE_VERDICT": "OPEN",
+  "OVERALL_HOKOM_PROJECT_CLOSURE": "OPEN"
+}

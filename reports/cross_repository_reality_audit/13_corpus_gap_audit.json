@@ -1,0 +1,67 @@
+{
+  "mandate": "HOKOM-SALEH-QIYAS-TAAQOL-CURRENT-REALITY-AND-INTEGRATION-GAP-AUDIT-01",
+  "report_id": "13_CORPUS_GAP_AUDIT",
+  "generated_at": "2026-07-26",
+  "audit_type": "READ_ONLY",
+  "IMPLEMENTATION_AUTHORIZED": "NO",
+
+  "corpora_surveyed": [
+    {
+      "repository": "Hokom",
+      "corpus_id": "LCX",
+      "file": "hokom/data/test-data/hokom_taaqol_sga_live_corpus_150.json",
+      "total_cases": 150,
+      "structure": "TOKEN_ONLY",
+      "TOKEN_ONLY_percentage": "100%",
+      "PHRASE_CASES": 0,
+      "SENTENCE_CASES": 0,
+      "P0_P5_gold": true,
+      "P6_P8_gold": false,
+      "P9_P12_gold": false,
+      "P9_P12_structurally_possible": false,
+      "sentence_level_witnesses": 0,
+      "synthetic_witness_removed": "LCX-001 (REALIGNMENT-06 — previously classified as SYNTHETIC, removed)"
+    },
+    {
+      "repository": "Saleh/Qiyas",
+      "corpus_type": "UNIT_TEST_FIXTURES",
+      "fixture_files": [
+        "tests/qiyas_core/legacy_fixtures/classification.json"
+      ],
+      "fixture_content": "registry/spec classification tests only",
+      "sentence_level_gold_JSON": false,
+      "P9_sentence_cases": 0,
+      "P10_P12_cases": 0,
+      "note": "All Saleh/Qiyas tests are unit tests (adapter-level or registry-spec-level); no sentence-level gold corpus exists"
+    },
+    {
+      "repository": "Arabic Verifier",
+      "corpus_type": "NONE",
+      "sentence_level_gold": false,
+      "note": "Arabic Verifier has no corpus; entrance adapter handles P1-P4 morphological attestation only"
+    }
+  ],
+
+  "gap_summary": {
+    "SENTENCE_CORPUS_EXISTS": false,
+    "MIN_REQUIRED_STRUCTURE": ">=2-word sentences with P8 AmilMamulCandidate gold per word unit",
+    "P6_GOLD_CASES": 0,
+    "P7_GOLD_CASES": 0,
+    "P8_GOLD_CASES": 0,
+    "P9_GOLD_CASES": 0,
+    "P10_GOLD_CASES": 0,
+    "P11_GOLD_CASES": 0,
+    "P12_GOLD_CASES": 0,
+    "SENTENCE_LEVEL_WITNESS_FOUND": false,
+    "VERIFIED_WITNESS_COUNT": 0
+  },
+
+  "corpus_adequacy": {
+    "ADEQUATE_FOR_P0_P5": true,
+    "ADEQUATE_FOR_P6_P8": false,
+    "ADEQUATE_FOR_P9_P12": false,
+    "STRUCTURALLY_INCAPABLE_OF_P9_P12": true,
+    "CORPUS_EXTENSION_REQUIRED": "A sentence-level Arabic corpus is required. Minimum: >=2-word sentences with gold P8 AmilMamulCandidate annotation per word. P9-P12 require sentence-boundary closed cases.",
+    "CORPUS_EXTENSION_AUTHORIZED": false
+  }
+}

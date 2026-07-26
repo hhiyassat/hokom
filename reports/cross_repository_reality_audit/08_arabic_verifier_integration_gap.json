@@ -1,0 +1,44 @@
+{
+  "mandate": "HOKOM-SALEH-QIYAS-TAAQOL-CURRENT-REALITY-AND-INTEGRATION-GAP-AUDIT-01",
+  "report_id": "08_ARABIC_VERIFIER_INTEGRATION_GAP",
+  "generated_at": "2026-07-26",
+  "audit_type": "READ_ONLY",
+  "IMPLEMENTATION_AUTHORIZED": "NO",
+
+  "integration_status": "COMPLETELY_ISOLATED — not connected to Hokom, Saleh/Qiyas, or Taaqol at runtime",
+
+  "isolation_evidence": {
+    "imported_by_Hokom": false,
+    "imported_by_Saleh_Qiyas": false,
+    "imported_by_Taaqol_vendor": false,
+    "referenced_in_any_test": false,
+    "runtime_connection_count": 0
+  },
+
+  "what_Arabic_Verifier_provides": {
+    "repository": "fractal/arabic-july/arabic_verifier/",
+    "entrance_adapter_scope": "P1-P4 ONLY",
+    "output": "EntranceRecord (morphological attestation surface)",
+    "claim_types": ["ISM_FAEL", "ISM_MAKAN", "ISM_ISHARA", "GENERIC"],
+    "bands": ["MORPHOLOGICAL", "SYNTACTIC", "SEMANTIC"],
+    "sinks": ["LICENSED", "RESIDUAL", "DEFERRED"],
+    "forbidden_outputs": ["root", "wazn", "bab", "iʿrab", "syntactic role", "relations", "meaning", "truth", "hukm", "Licensed status"],
+    "GENERIC_cannot_claim_LICENSED": true
+  },
+
+  "prior_report_reference": {
+    "report": "p6_p12_ownership_audit.json",
+    "field": "P6 ARABIC_VERIFIER_ROLE",
+    "value": "HR2S root verdicts contribute to P5 RootStemCandidate which feeds P6 verbal-carrier discrimination",
+    "current_reality": "This note describes a CONCEPTUAL role, not a runtime connection. Arabic Verifier is not called by any system at runtime."
+  },
+
+  "HR2S_note": {
+    "HR2S_in_Hokom": "optional import (try/except) — research comparator only",
+    "HR2S_is_Arabic_Verifier": false,
+    "HR2S_in_Saleh_Qiyas": false
+  },
+
+  "gap_severity": "INFORMATIONAL — Arabic Verifier is a standalone research tool. Its integration would be a new design decision.",
+  "P_range_gap": "P5-P12 — entrance adapter covers only P1-P4; no Arabic Verifier coverage exists for P5 or above"
+}

@@ -1,0 +1,135 @@
+{
+  "mandate": "HOKOM-SALEH-QIYAS-TAAQOL-CURRENT-REALITY-AND-INTEGRATION-GAP-AUDIT-01",
+  "report_id": "09_P0_P5_RUNTIME_STATUS",
+  "generated_at": "2026-07-26",
+  "audit_type": "READ_ONLY",
+  "IMPLEMENTATION_AUTHORIZED": "NO",
+
+  "note": "Runtime status for P0-P5 canonical SCG candidates. All 19 candidates registered as status=implemented in Saleh/Qiyas MasterLayerRegistry. This audit classifies their actual runtime capability.",
+
+  "candidates": [
+    {
+      "id": "P0_UNICODE_CANDIDATE",
+      "type": "UnicodeCandidate",
+      "registry_status": "implemented",
+      "saleh_adapter": "src/qiyas_core/unicode_adapter.py",
+      "hokom_stage": "NORMALIZE (pre-P0 pipeline start)",
+      "corpus_coverage": "150/150 (all cases have Arabic codepoints)",
+      "runtime_status": "DEFINED + ADAPTER_PRESENT + CORPUS_SUPPORTED",
+      "hokom_runtime_link": "NONE — Saleh/Qiyas adapter processes independently"
+    },
+    {
+      "id": "P0_TYPED_CODEPOINT",
+      "type": "TypedCodepoint",
+      "registry_status": "implemented",
+      "saleh_adapter": "src/qiyas_core/typed_codepoint_adapter.py",
+      "hokom_stage": "SEGMENT / NORM_ATOMIC (clitic decomposition)",
+      "corpus_coverage": "150/150",
+      "runtime_status": "DEFINED + ADAPTER_PRESENT + CORPUS_SUPPORTED",
+      "hokom_runtime_link": "NONE"
+    },
+    {
+      "id": "P0_GLYPH_CLASSIFICATION",
+      "type": "GlyphClassificationCandidate",
+      "registry_status": "implemented",
+      "saleh_adapter": "src/qiyas_core/slot_geometry_adapter.py",
+      "hokom_stage": "BOUNDARY (glyph/boundary type)",
+      "corpus_coverage": "150/150",
+      "runtime_status": "DEFINED + ADAPTER_PRESENT + CORPUS_SUPPORTED",
+      "hokom_runtime_link": "NONE"
+    },
+    {
+      "id": "P1_LETTER_IDENTITY_CARRIER",
+      "type": "LetterIdentityCarrier",
+      "registry_status": "implemented",
+      "saleh_adapter": "src/qiyas_core/letter_identity_adapter.py",
+      "corpus_coverage": "150/150 (diacritized surfaces)",
+      "runtime_status": "DEFINED + ADAPTER_PRESENT + CORPUS_SUPPORTED",
+      "hokom_runtime_link": "NONE"
+    },
+    {
+      "id": "P1_HARAKA_MARK_IDENTITY_CARRIER",
+      "type": "HarakaMarkIdentityCarrier",
+      "registry_status": "implemented",
+      "saleh_adapter": "src/qiyas_core/haraka_function_adapter.py",
+      "corpus_coverage": "150/150",
+      "runtime_status": "DEFINED + ADAPTER_PRESENT + CORPUS_SUPPORTED",
+      "hokom_runtime_link": "NONE"
+    },
+    {
+      "id": "P1_CONDITIONED_TYPED_SEQUENCE",
+      "type": "ConditionedTypedSequence",
+      "registry_status": "implemented",
+      "saleh_adapter": "src/qiyas_core/conditioned_typed_sequence_adapter.py",
+      "corpus_coverage": "partial (section A compound clitics)",
+      "runtime_status": "DEFINED + ADAPTER_PRESENT",
+      "hokom_runtime_link": "NONE"
+    },
+    {
+      "id": "P1_POSITION_CARRIER",
+      "type": "PositionCarrier",
+      "registry_status": "implemented",
+      "saleh_adapter": "src/qiyas_core/position_adapter.py",
+      "corpus_coverage": "150/150",
+      "runtime_status": "DEFINED + ADAPTER_PRESENT + CORPUS_SUPPORTED",
+      "hokom_runtime_link": "NONE"
+    },
+    {
+      "id": "P1_SLOT_CANDIDATE",
+      "type": "SlotCandidate",
+      "registry_status": "implemented",
+      "saleh_adapter": "src/qiyas_core/slot_adapter.py",
+      "corpus_coverage": "150/150",
+      "runtime_status": "DEFINED + ADAPTER_PRESENT + CORPUS_SUPPORTED",
+      "hokom_runtime_link": "NONE"
+    },
+    {
+      "id": "P2_REGISTRY_PROJECTION",
+      "type": "RegistryProjectionCandidate",
+      "registry_status": "implemented",
+      "saleh_adapter": "src/qiyas_core/registry_projection_adapter.py",
+      "corpus_coverage": "150/150 (root candidate sets)",
+      "runtime_status": "DEFINED + ADAPTER_PRESENT + CORPUS_SUPPORTED",
+      "test_file": "tests/qiyas_core/test_registry_projection.py",
+      "hokom_runtime_link": "NONE"
+    },
+    {
+      "id": "P3_ROOT_STEM_CLOSURE",
+      "type": "RootStemCandidate",
+      "registry_status": "implemented",
+      "saleh_adapter": "src/qiyas_core/root_stem_adapter.py",
+      "corpus_coverage": "150/150 (sections B weak verbs, A clitics carry root gold)",
+      "runtime_status": "DEFINED + ADAPTER_PRESENT + CORPUS_SUPPORTED",
+      "test_file": "tests/qiyas_core/test_root_stem.py",
+      "hokom_runtime_link": "NONE"
+    },
+    {
+      "id": "P4_JAMID_MUSHTAQ",
+      "type": "JamidMushtaqCandidate",
+      "registry_status": "implemented",
+      "saleh_adapter": "src/qiyas_core/jamid_mushtaq_adapter.py",
+      "corpus_coverage": "partial (section D ambiguity controls)",
+      "runtime_status": "DEFINED + ADAPTER_PRESENT",
+      "hokom_runtime_link": "NONE"
+    },
+    {
+      "id": "P5_MUFRAD_WORD_CONTRACTS",
+      "type": "MufradWordCandidate",
+      "registry_status": "implemented",
+      "saleh_adapter": "src/qiyas_core/mufrad_word_adapter.py",
+      "corpus_coverage": "150/150 (word-class, inflection, H11-H15 types)",
+      "runtime_status": "DEFINED + ADAPTER_PRESENT + CORPUS_SUPPORTED",
+      "hokom_role": "EVIDENCE_PROVIDER — Hokom produces P5 output in its own pipeline; no runtime bridge to Saleh/Qiyas",
+      "hokom_runtime_link": "NONE — HOKOM CEILING (single-token, produces P5 equivalent independently)"
+    }
+  ],
+
+  "summary": {
+    "P0_P5_total": 12,
+    "all_registry_status": "implemented",
+    "all_adapters_present": true,
+    "corpus_coverage": "ADEQUATE for P0-P5 (150 token cases in LCX)",
+    "runtime_bridge_to_Hokom": "NONE — both systems process P0-P5 independently",
+    "HOKOM_ceiling_confirmed": "P5_MUFRAD_WORD_CONTRACTS"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "mandate": "HOKOM-SALEH-QIYAS-TAAQOL-CURRENT-REALITY-AND-INTEGRATION-GAP-AUDIT-01",
+  "report_id": "15_SUSPENDED_WORK_CLASSIFICATION",
+  "generated_at": "2026-07-26",
+  "audit_type": "READ_ONLY",
+  "IMPLEMENTATION_AUTHORIZED": "NO",
+
+  "constitutional_constraint": "Do NOT declare commits 9adbea5, 40a3420, 988d00f, b0fca1e closed",
+
+  "suspended_commits": [
+    {
+      "sha": "9adbea5",
+      "mandate": "HOKOM-AYAT-AL-DAYN-LIVE-PATH-GOLD-CONFORMANCE-01",
+      "summary": "All 31 integration tests pass — pipeline/p5_inflection/feature_system.py dual-noun suffix guard",
+      "closure_declared": false,
+      "classification": "OPEN — integration tests pass but canonical runner has not verified closure",
+      "modification_prohibited": true
+    },
+    {
+      "sha": "40a3420",
+      "mandate": "HOKOM-AYAT-AL-DAYN-LIVE-CONTEXT-BOUNDARY-SAFETY-AND-GOLD-REMEDIATION-01 Phase 3",
+      "summary": "12/12 required integration tests pass — gold defects fixed",
+      "closure_declared": false,
+      "classification": "OPEN — gold remediation complete but canonical runner closure not verified",
+      "modification_prohibited": true
+    },
+    {
+      "sha": "988d00f",
+      "mandate": "HOKOM-LIVE-GOLD-ORACLE-AND-METRICS-CORRECTION-01",
+      "summary": "Immutable gold manifest, correlated ambiguity bundles, FORM_X protection, 19 oracle tests",
+      "closure_declared": false,
+      "classification": "OPEN — gold manifest established but canonical runner closure not verified",
+      "modification_prohibited": true,
+      "note": "MANIFEST_DIGEST in gold_manifest.py was set at this commit; any CORPUS_GOLD change requires CONSTITUTIONAL_AMENDMENT_ID"
+    },
+    {
+      "sha": "b0fca1e",
+      "mandate": "HOKOM-AYAT-AL-DAYN-PROTECTED-GOLD-REMEDIATION-01",
+      "summary": "All 10 closure-gate metrics = 0 — canonical_radical_accounting.py + feature_system.py fixes",
+      "closure_declared": false,
+      "classification": "OPEN — closure-gate metrics satisfied but canonical runner has HEAD_DIFF_VIOLATION (23 unauthorized paths)",
+      "modification_prohibited": true
+    }
+  ],
+
+  "prior_audit_reports": [
+    {
+      "mandate": "HOKOM-SALEH-QIYAS-SCG-CROSS-REPOSITORY-OWNERSHIP-RESOLUTION-07",
+      "commit": "d5bc7a1",
+      "reports_created": [
+        "reports/scg_p0_p12/canonical_registry_resolution.json",
+        "reports/scg_p0_p12/cross_repository_entity_classification.json",
+        "reports/scg_p0_p12/p6_p12_ownership_audit.json",
+        "reports/scg_p0_p12/hokom_hard_gate_reclassification.json",
+        "reports/scg_p0_p12/corpus_capability_audit.json",
+        "reports/scg_p0_p12/cross_repository_architecture_ar.md"
+      ],
+      "status": "COMMITTED — not suspended, not claimed closed"
+    },
+    {
+      "mandate": "HOKOM-CANONICAL-AUDIT-REALIGNMENT-06",
+      "report": "reports/scg_p0_p12/ (via commit 161211e)",
+      "status": "CORRECTIVE_PLAN_COMMITTED — blockers documented"
+    }
+  ],
+
+  "suspended_mandate": {
+    "id": "HOKOM-SALEH-QIYAS-TAAQOL-CROSS-REPOSITORY-P0-P12-LIVE-ORCHESTRATION-CLOSURE-01",
+    "status": "SUSPENDED — explicitly stopped by user; zero files created or modified",
+    "reason": "Implementation mandate rejected pending this source-audit-first mandate",
+    "resumption_condition": "Corrected implementation mandate authorized after AUDIT-01 is complete"
+  },
+
+  "stash": {
+    "ref": "stash@{0}",
+    "status": "UNTOUCHED — manipulation prohibited by constitutional constraint",
+    "git_stash_pop_prohibited": true
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "mandate": "HOKOM-SALEH-QIYAS-TAAQOL-CURRENT-REALITY-AND-INTEGRATION-GAP-AUDIT-01",
+  "report_id": "02_TAAQOL_API_SURFACE_AUDIT",
+  "generated_at": "2026-07-26",
+  "audit_type": "READ_ONLY",
+  "IMPLEMENTATION_AUTHORIZED": "NO",
+
+  "vendor_path": "hokom/vendor/Taaqol-GPT/",
+  "vendor_commit": "3538173940071ac21dd96702ecbb2acb493f90d",
+  "access_method": "sys.path injection into taaqqul_slot_geometry.core.*",
+
+  "public_api_modules": [
+    "taaqqul_slot_geometry.core.slot_graph",
+    "taaqqul_slot_geometry.core.transition_gate",
+    "taaqqul_slot_geometry.core.rank_lattice",
+    "taaqqul_slot_geometry.core.evidence_contract",
+    "taaqqul_slot_geometry.core.failure_taxonomy",
+    "taaqqul_slot_geometry.core.gamma"
+  ],
+
+  "TransitionGate_decide": {
+    "signature": "decide(self, input_graph: SlotGraph, target_layer: Layer, evidence: EvidenceContract) -> TransitionVerdict",
+    "source_file": "hokom/vendor/Taaqol-GPT/src/taaqqul_slot_geometry/core/transition_gate.py",
+    "source_line": 356,
+    "ordered_decision_steps": [
+      "1. Gamma consultation (Γ runs FIRST — Γ refusal maps to gate verdict table)",
+      "2. Forbidden Straight-Line Registry check (CANONICAL_REGISTRY — CERTIFICATE target = FORBIDDEN_LEAP)",
+      "3. Ungated rank claim: generation_source != TRANSITION_VERDICT above UNGATED_RANK_CEILING = REJECTED/RANK_PROMOTION_WITHOUT_GATE",
+      "4. Evidence presence: empty evidence surface = DEFERRED/GATE_REQUIRED (retryable)",
+      "5. §8 meet: granted = meet(evidence_rank, identity_rank, gate_rank, residual_ceiling) — can only keep or lower rank",
+      "6. Approval: APPROVED with granted_rank set to meet result"
+    ],
+    "short_circuit_on": "First refusal at step k stops all subsequent steps",
+    "gamma_call_order": "gamma() is called INTERNALLY by decide() — callers must NOT call gamma() before decide()",
+    "return_type": "TransitionVerdict",
+    "TypeError_on": "input_graph not isinstance SlotGraph"
+  },
+
+  "TransitionVerdict_fields": {
+    "stage": "always 'gate'",
+    "gamma_state": "ClosureState (GammaStatus enum member)",
+    "consulted_gamma_state": "gamma consultation result",
+    "gate_transition_state": "gate decision after gamma",
+    "granted_rank": "Rank enum member (bounded by meet)",
+    "failure_code": "FailureCode or None on APPROVED"
+  },
+
+  "failure_taxonomy": {
+    "FORBIDDEN_STRAIGHT_LINE": "CERTIFICATE-rank target through generic gate — fatal, no retry",
+    "RANK_PROMOTION_WITHOUT_GATE": "UNGATED graph claiming rank above ceiling",
+    "GATE_REQUIRED": "empty evidence surface — retryable",
+    "FORBIDDEN_LEAP": "Gamma refusal (FORBIDDEN_LEAP) or straight-line registry hit",
+    "BLOCKED": "Blocking residual — not retryable",
+    "DEFERRED": "Retryable — evidence not yet present"
+  },
+
+  "rank_lattice": {
+    "ZERO": 0,
+    "TRACE": 1,
+    "CANDIDATE": 2,
+    "HYPOTHESIS": 3,
+    "LICENSED": 4,
+    "STRONG": 5,
+    "CERTIFICATE": 6,
+    "note": "meet() can only keep or lower rank — NEVER raises it"
+  },
+
+  "Taaqol_Gamma_relationship": {
+    "gamma_imported_by_transition_gate": true,
+    "gamma_import_source": "taaqqul_slot_geometry.core.gamma",
+    "gamma_call_location": "TransitionGate.decide() step 1 internally",
+    "caller_must_not_call_gamma_directly": true,
+    "constitutional_call_order": "TransitionGate.decide() calls gamma() internally (PR-6.1 binding)"
+  },
+
+  "Hokom_usage_pattern": {
+    "enforcer_file": "hokom/pipeline/governance/taaqol_judgment_enforcer.py",
+    "call_site": "_scg_gate(source, target) → TaaqolJudgmentEnforcer.judge() → TransitionGate.decide()",
+    "gate_count": 11,
+    "fail_closed": true,
+    "import_failure_verdict": "BLOCKED (no fallback)"
+  },
+
+  "Saleh_Qiyas_usage": {
+    "imports_taaqqul_slot_geometry": false,
+    "uses_own_gamma": true,
+    "own_gamma_path": "src/qiyas_core/slot_geometry_core/gamma.py",
+    "own_GammaStatus_values": ["MINIMALLY_CLOSED", "PERFORATED_CLOSED", "OPEN", "BLOCKED", "FORBIDDEN_LEAP"],
+    "note": "Saleh/Qiyas GammaStatus is a DISTINCT enum from Taaqol vendor GammaStatus"
+  }
+}
