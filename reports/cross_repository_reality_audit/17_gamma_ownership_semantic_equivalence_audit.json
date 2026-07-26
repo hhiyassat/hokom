@@ -1,0 +1,236 @@
+{
+  "mandate_source": "HOKOM-SALEH-QIYAS-TAAQOL-CURRENT-REALITY-AND-INTEGRATION-GAP-AUDIT-01",
+  "audit_id": "SALEH-QIYAS-TAAQOL-GAMMA-OWNERSHIP-AND-SEMANTIC-EQUIVALENCE-AUDIT-01",
+  "report_id": "17_GAMMA_OWNERSHIP_SEMANTIC_EQUIVALENCE_AUDIT",
+  "generated_at": "2026-07-26",
+  "audit_type": "READ_ONLY",
+  "IMPLEMENTATION_AUTHORIZED": "NO",
+
+  "question": "Are Taaqol gamma and Saleh/Qiyas gamma the same operation on different representations, or distinct operations?",
+
+  "inputs": {
+    "Taaqol_gamma": {
+      "signature": "gamma(graph: SlotGraph) -> GammaResult",
+      "source_file": "hokom/vendor/Taaqol-GPT/src/taaqqul_slot_geometry/core/gamma.py",
+      "input_type": "SlotGraph — unified composition object containing Center, TraceRef, Slots, OutputBoundary, Rank, Residuals, GenerationSource"
+    },
+    "Saleh_Qiyas_gamma": {
+      "signature": "gamma(candidate_type, candidate_fields, candidate_has_residuals, candidate_identity_ids, candidate_trace_ids, layer_spec, target_boundary) -> GammaResult",
+      "source_file": "fractal/algebra/Saleh-/src/qiyas_core/slot_geometry_core/gamma.py",
+      "input_type": "7 DECOMPOSED candidate properties + LayerSpec + TargetBoundary — NOT a SlotGraph"
+    }
+  },
+
+  "outputs": {
+    "Taaqol_GammaResult": {
+      "fields": ["state: ClosureState", "failure_code: FailureCode|None", "rank: Rank", "residuals: tuple[Residual,...]", "residual_visibility: bool", "trace_event_candidate: TraceEntryCandidate"],
+      "rank_in_output": true,
+      "trace_in_output": true
+    },
+    "Saleh_Qiyas_GammaResult": {
+      "fields": ["status: GammaStatus", "layer_id: str", "target_boundary_closes: tuple[str,...]", "violations: tuple[str,...]", "residual_keys: tuple[str,...]"],
+      "rank_in_output": false,
+      "trace_in_output": false
+    }
+  },
+
+  "state_vocabulary": {
+    "Taaqol_ClosureState": ["INVALID", "FORBIDDEN_LEAP", "BLOCKED", "OPEN", "PERFORATED_CLOSED", "MINIMALLY_CLOSED"],
+    "Saleh_Qiyas_GammaStatus": ["FORBIDDEN_LEAP", "BLOCKED", "OPEN", "PERFORATED_CLOSED", "MINIMALLY_CLOSED"],
+    "INVALID_state_in_Taaqol": true,
+    "INVALID_state_in_Saleh_Qiyas": false,
+    "shared_values": ["FORBIDDEN_LEAP", "BLOCKED", "OPEN", "PERFORATED_CLOSED", "MINIMALLY_CLOSED"]
+  },
+
+  "state_semantics": {
+    "FORBIDDEN_LEAP": {
+      "Taaqol": "output_boundary.output_layer > declared_layer — SlotGraph output exceeds its declared layer ceiling",
+      "Saleh_Qiyas": "candidate_type NOT in target_boundary.closes — candidate type is outside allowed boundary",
+      "semantically_equivalent": true,
+      "note": "Both represent a boundary violation; expressed on different domain objects"
+    },
+    "BLOCKED": {
+      "Taaqol": "blocking residual present (ResidualKind.BLOCKING) — constitutional residual blocks closure",
+      "Saleh_Qiyas": "any of: missing required fields, forbidden output type, no identity_ids, no trace_ids, identity∩trace overlap, active blockers",
+      "semantically_equivalent": false,
+      "note": "Taaqol BLOCKED = specifically blocking residual; Saleh BLOCKED = general structural violation accumulation"
+    },
+    "OPEN": {
+      "Taaqol": "a required slot is not FILLED — graph is incomplete, more evidence needed",
+      "Saleh_Qiyas": "never directly returned — conditions map to residual_keys only",
+      "semantically_equivalent": false
+    },
+    "PERFORATED_CLOSED": {
+      "Taaqol": "all required slots filled, rank within ceiling, but visible non-blocking residuals remain",
+      "Saleh_Qiyas": "no violations, but residual_keys present (unmet conditions from LayerSpec.conditions)",
+      "semantically_equivalent": "PARTIAL — both mean 'closed with caveats' but the caveats are different objects"
+    },
+    "MINIMALLY_CLOSED": {
+      "Taaqol": "all required slots filled, rank within ceiling, no perforating residuals",
+      "Saleh_Qiyas": "no violations, no residual_keys — all checks pass",
+      "semantically_equivalent": "PARTIAL — same intent but Taaqol includes rank algebra"
+    },
+    "INVALID": {
+      "Taaqol": "structural construction errors: CENTER_MISSING, TRACE_MISSING, DOMAIN_MISSING, SCOPE_MISSING, IDENTITY_BROKEN, HIDDEN_RESIDUAL, RANK_EXCEEDS_CEILING",
+      "Saleh_Qiyas": "NOT PRESENT — these map to BLOCKED in Saleh/Qiyas",
+      "semantically_equivalent": false
+    }
+  },
+
+  "rank_effects": {
+    "Taaqol": "Carries rank from SlotGraph; enforces residual ceiling (PR-3 — step 9); returns rank in GammaResult; refuses if rank > ceiling",
+    "Saleh_Qiyas": "NO rank parameter, NO rank check, NO rank in output — rank algebra is completely absent",
+    "RANK_PRESENT_IN_BOTH": false,
+    "critical_difference": "Taaqol gamma enforces the rank lattice as a constitutional invariant; Saleh/Qiyas gamma has no rank concept"
+  },
+
+  "residual_effects": {
+    "Taaqol": "Full Residual objects (kind: BLOCKING/PERFORATING/HIDDEN_FORBIDDEN, visible: bool); ResidualPolicy.ceiling(); determines PERFORATED_CLOSED vs MINIMALLY_CLOSED",
+    "Saleh_Qiyas": "String residual_keys only (e.g. 'condition_not_met:X'); no kind/visibility classification",
+    "RESIDUAL_OBJECTS_COMPARABLE": false
+  },
+
+  "failure_codes": {
+    "Taaqol": "Named FailureCode enum: CENTER_MISSING, TRACE_MISSING, DOMAIN_MISSING, SCOPE_MISSING, IDENTITY_BROKEN, OUTPUT_EXCEEDS_LAYER, HIDDEN_RESIDUAL, BLOCKING_RESIDUAL_PRESENT, REQUIRED_SLOT_EMPTY, RANK_EXCEEDS_CEILING",
+    "Saleh_Qiyas": "None — uses plain violation strings (e.g. 'missing required fields: [...]')"
+  },
+
+  "branch_conditions": {
+    "Taaqol_10_ordered_steps": [
+      "1. CENTER_MISSING → INVALID",
+      "2. TRACE_MISSING → INVALID",
+      "3. DOMAIN_MISSING / SCOPE_MISSING → INVALID",
+      "4. Slot BROKEN → INVALID",
+      "5. output_layer > declared_layer → FORBIDDEN_LEAP",
+      "6. HIDDEN_FORBIDDEN residual → INVALID",
+      "7. BLOCKING residual → BLOCKED",
+      "8. Required slot not FILLED → OPEN",
+      "9. rank > ceiling → INVALID/RANK_EXCEEDS_CEILING",
+      "10. PERFORATED_CLOSED or MINIMALLY_CLOSED"
+    ],
+    "Taaqol_short_circuit": "TRUE — step k refusal stops all subsequent steps",
+    "Saleh_Qiyas_8_checks": [
+      "1. TargetBoundary.check_output(candidate_type) → FORBIDDEN_LEAP (early return — only true short-circuit)",
+      "2. missing_fields = required_fields - candidate_fields → violation",
+      "3. candidate_type in forbidden_outputs → violation",
+      "4. no candidate_identity_ids → violation",
+      "5. no candidate_trace_ids → violation",
+      "6. identity_ids ∩ trace_ids ≠ ∅ → violation",
+      "7. unmet conditions → residual_keys only (soft)",
+      "8. active_blockers = blockers ∩ candidate_fields → violation",
+      "Final: violations? → BLOCKED; residual_keys? → PERFORATED_CLOSED; else → MINIMALLY_CLOSED"
+    ],
+    "Saleh_Qiyas_short_circuit": "ONLY for FORBIDDEN_LEAP — remaining checks accumulate all violations"
+  },
+
+  "transition_authority": {
+    "Taaqol": "YES — gamma_result.state drives _GAMMA_REFUSAL_TO_TRANSITION mapping inside TransitionGate.decide(); gamma is the constitutional gating authority",
+    "Saleh_Qiyas": "NO — GammaResult is returned but never consumed by any transition mechanism in production code"
+  },
+
+  "call_sites": {
+    "Taaqol_production": ["transition_gate.py line 422: gamma_result = gamma(input_graph)"],
+    "Taaqol_authority": "SINGLE — TransitionGate.decide() is the sole caller",
+    "Saleh_Qiyas_production": "ZERO — never called in any src/ production file",
+    "Saleh_Qiyas_tests": "12 direct calls in tests/qiyas_core/test_slot_geometry_core.py (SGC-GAMMA-01 through SGC-GAMMA-08+)",
+    "Saleh_Qiyas_exported_via": "src/qiyas_core/slot_geometry_core/__init__.py exports gamma, GammaResult, GammaStatus"
+  },
+
+  "downstream_consumers": {
+    "Taaqol": "TransitionGate.decide() → TransitionVerdict → TaaqolJudgmentEnforcer → _scg_gate() → hokom pipeline stop/continue",
+    "Saleh_Qiyas": "NONE in production — gamma() return value is consumed only by unit tests"
+  },
+
+  "what_Saleh_Qiyas_gamma_checks": [
+    "candidate_type within TargetBoundary.closes (boundary compliance)",
+    "LayerSpec.minimum_required_fields present in candidate_fields (field completeness)",
+    "candidate_type not in LayerSpec.forbidden_outputs (output prohibition)",
+    "candidate_identity_ids non-empty (identity presence)",
+    "candidate_trace_ids non-empty (trace presence)",
+    "candidate_identity_ids ∩ candidate_trace_ids = ∅ (Constitutional Invariant #1: identity ≠ trace)",
+    "LayerSpec.conditions met (soft — residual_keys only)",
+    "LayerSpec.blockers not triggered (hard — violation)"
+  ],
+
+  "what_Taaqol_gamma_checks": [
+    "SlotGraph.center present with non-empty identity_claim",
+    "SlotGraph.center.trace_ref present with non-empty anchor",
+    "SlotGraph.boundary.domain and .scope non-empty",
+    "No slot in BROKEN state",
+    "SlotGraph.output_boundary.output_layer ≤ declared_layer",
+    "No HIDDEN_FORBIDDEN or invisible residual",
+    "No BLOCKING residual",
+    "All required slots FILLED",
+    "SlotGraph.rank ≤ ResidualPolicy.ceiling(residuals)",
+    "→ PERFORATED_CLOSED or MINIMALLY_CLOSED"
+  ],
+
+  "VERDICT": "DISTINCT_OPERATIONS",
+
+  "verdict_rationale": [
+    "Rank algebra: Taaqol enforces rank ceiling (PR-3); Saleh/Qiyas has no rank concept — they cannot be the same operation",
+    "Residual algebra: Taaqol uses full Residual objects (kind/visibility); Saleh/Qiyas uses string keys — incompatible types",
+    "INVALID state: Taaqol has 5 distinct INVALID failure codes; Saleh/Qiyas maps all structural problems to BLOCKED",
+    "Trace: Taaqol produces TraceEntryCandidate for TraceLedger integration; Saleh/Qiyas produces no trace output",
+    "Call sites: Taaqol gamma has constitutional authority at TransitionGate; Saleh/Qiyas gamma is NEVER called in production",
+    "Domain: Taaqol operates on SlotGraph (post-construction composition); Saleh/Qiyas operates on raw candidate fields (pre-construction validation)",
+    "Evaluation logic: Taaqol strictly short-circuits; Saleh/Qiyas accumulates all violations"
+  ],
+
+  "what_Saleh_Qiyas_gamma_IS": "CANDIDATE_PRE_CONSTRUCTION_COMPLETENESS_VALIDATOR — verifies that a candidate produced by a Saleh/Qiyas adapter satisfies its LayerSpec and TargetBoundary before a SlotGraph would be built",
+
+  "what_Saleh_Qiyas_gamma_IS_NOT": [
+    "A replacement for Taaqol gamma",
+    "A parallel constitutional closure verifier",
+    "A transition authority"
+  ],
+
+  "double_evaluation_risk": {
+    "risk": "LOW",
+    "reason": "Saleh/Qiyas gamma runs at candidate-field level BEFORE SlotGraph construction; Taaqol gamma runs AFTER SlotGraph construction via TransitionGate.decide(). They operate at different stages of the pipeline with no overlap if integrated correctly."
+  },
+
+  "recommended_actions": [
+    {
+      "action_id": "REC_01",
+      "action": "RENAME Saleh/Qiyas gamma to remove naming ambiguity",
+      "suggested_name": "validate_candidate_completeness() or verify_layer_boundary()",
+      "rationale": "The name 'gamma' creates a false impression that it is the constitutional Gamma of Taaqol; it is not"
+    },
+    {
+      "action_id": "REC_02",
+      "action": "INTEGRATE as pre-construction validator in Saleh/Qiyas adapter chain",
+      "call_site": "adapter.compose() → validate_candidate_completeness(candidate_fields, layer_spec, target_boundary) → IF COMPLETE: build SlotGraph → TransitionGate.decide() → gamma(SlotGraph)",
+      "rationale": "Its checks (required fields, boundary type, blockers, identity/trace presence) are valuable pre-conditions for SlotGraph construction"
+    },
+    {
+      "action_id": "REC_03",
+      "action": "DO NOT replace Taaqol gamma with Saleh/Qiyas function",
+      "rationale": "Taaqol gamma is the constitutional authority with rank algebra, residual objects, and TraceLedger integration — none of which Saleh/Qiyas gamma provides"
+    },
+    {
+      "action_id": "REC_04",
+      "action": "GOVERNANCE DECISION: classify Saleh/Qiyas gamma as pre-construction validator with explicit scope",
+      "scope": "CANDIDATE_FIELD_COMPLETENESS at adapter level — NOT transition judgment"
+    }
+  ],
+
+  "correct_integration_flow": {
+    "step_1": "Saleh/Qiyas adapter.compose(inputs) → builds raw candidate fields",
+    "step_2": "validate_candidate_completeness(candidate_fields, layer_spec, target_boundary) → Saleh/Qiyas renamed gamma",
+    "step_3": "IF COMPLETE: construct SlotGraph from candidate",
+    "step_4": "TransitionGate.decide(slot_graph, target_layer, evidence) → calls gamma(SlotGraph) internally → TransitionVerdict",
+    "step_5": "Saleh/Qiyas adapter emits candidate or blocks on TransitionVerdict"
+  },
+
+  "constitutional_findings": {
+    "GAMMA_CANONICAL_OWNER": "TAAQOL — Taaqol gamma(SlotGraph) is the constitutional closure authority",
+    "SALEH_QIYAS_GAMMA_SCOPE": "CANDIDATE_COMPLETENESS_VALIDATION — pre-construction only",
+    "GAMMA_DUPLICATION_CLASSIFICATION": "DISTINCT_OPERATIONS (not PARALLEL_DUPLICATE, not MIXED)",
+    "DOUBLE_EVALUATION_RISK": "NONE if integrated correctly",
+    "RENAME_REQUIRED": true,
+    "PRODUCTION_CALL_SITES_REQUIRED": "YES — Saleh/Qiyas function currently has zero production call sites",
+    "GOVERNANCE_DECISION_REQUIRED": false,
+    "note": "Classification is DISTINCT_OPERATIONS — no constitutional conflict. Integration path is clear. Rename and explicit scope required before implementation."
+  }
+}
