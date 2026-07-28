@@ -274,6 +274,9 @@ class TestNoExternalEngine:
 
     def test_accepted_roots_use_hokom_engine(self):
         """الجذور المقبولة يجب أن تأتي من HOKOM_ROOT_ENGINE."""
+        import sys as _sys
+        if _sys.version_info < (3, 11):
+            pytest.skip("Requires Python 3.11+ — root acceptance needs Taaqol StrEnum")
         records = self._token_records('كَتَبَ ضَرَبَ نَصَرَ قَرَأَ مَدَّ')
         accepted = [r for r in records if r.get('root_directive') == 'ACCEPT']
         assert len(accepted) >= 1, "no ACCEPT records found in test corpus"

@@ -183,6 +183,17 @@ def hokom(word: str) -> dict:
 
     _SCG_STOPPED_STAGE = 'SCG_STOPPED'
 
+    # Pre-initialize segmentation / morphology closure variables so that any
+    # _scg_gate() call that fires before P0 completes can still include them
+    # in the stopped-result dict (values will be None at that point).
+    segment_host          = None
+    segment_proclitics    = ()
+    segment_enclitics     = ()
+    segment_clitic_only   = False
+    morphology_surface    = None
+    morphology_blocked    = False
+    morphology_block_reason = None
+
     def _scg_gate(source: str, target: str):
         """
         Hard SCG gate. Returns None when the transition is APPROVED and the target
@@ -219,6 +230,14 @@ def hokom(word: str) -> dict:
             'claim_key':               None,
             'target_stage_opened':     False,
             'scg_gate_matrix':         _scg_enforcer.get_matrix().to_dict(),
+            # ── Segmentation fields (closure variables; None before P0 runs) ─
+            'segment_host':            segment_host,
+            'segment_proclitics':      segment_proclitics,
+            'segment_enclitics':       segment_enclitics,
+            'segment_clitic_only':     segment_clitic_only,
+            'morphology_surface':      morphology_surface,
+            'morphology_blocked':      morphology_blocked,
+            'morphology_block_reason': morphology_block_reason,
             # ── Explicitly None for all uncomputed linguistic fields ───────
             'verdict': None, 'licensing': None, 'slots': None,
             'violations': None, 'mabni': None, 'attachment': None,
@@ -809,6 +828,7 @@ def hokom(word: str) -> dict:
     # Word class uses morphology_surface (segment_host), not the full token.
     # When morphology is blocked (clitic-only or segmentation failure), skip.
     word_class_result = None
+    _word_class_exception = None
     # TERMINAL BOUNDARY GUARD: JAMID_AALAM_BOUNDARY closes the pipeline.
     # A terminal record must NOT enter the word class engine, identify_tense,
     # extract_all_features, or verbal reconciliation.
@@ -829,8 +849,9 @@ def hokom(word: str) -> dict:
                 _final_masdar      = _final_masdar,
                 augmented_analysis = augmented_analysis,
             )
-        except Exception:
+        except Exception as _wc_exc:
             word_class_result = None
+            _word_class_exception = f'{type(_wc_exc).__name__}: {_wc_exc}'
 
     # SCG Gate 10: WORD_CLASS→PHASE_5 — before paradigm/inflection stage.
     _r = _scg_gate("WORD_CLASS", "PHASE_5")
@@ -1078,12 +1099,17 @@ def hokom(word: str) -> dict:
     # T-03: build HokomClaimBundle (SGA typed) first — it is the required bridge input.
     # build_claim_bundle() is the ONLY way to build the bundle; no raw dict accepted.
     _sga_claim_bundle = None
+    _sga_build_exception = None
     try:
         from pipeline.sga.adapters import build_claim_bundle as _build_sga_bundle
         _sga_claim_bundle = _build_sga_bundle(
             _hokom_result_partial, "ROOT_CLAIM", "ROOT_CLAIM"
         )
-    except Exception:
+    except Exception as _exc:
+        # Record the exception — do NOT swallow silently.
+        # The legacy adapter path below will run; if THAT also fails the outer
+        # handler records the escape so downstream can find failure_code.
+        _sga_build_exception = f'{type(_exc).__name__}: {_exc}'
         _sga_claim_bundle = None
 
     try:
@@ -1093,7 +1119,7 @@ def hokom(word: str) -> dict:
             _taaqol_decision = evaluate_sga_bundle(_sga_claim_bundle)
         else:
             # Fallback: legacy adapter path (claim_adapter + evaluate_hokom_claim_bundle)
-            # Used only when SGA bundle construction fails; deprecated — not silent.
+            # Used only when SGA bundle construction fails; documented — not silent.
             from pipeline.taaqol_integration.claim_adapter import bundle_from_hokom_result
             from pipeline.taaqol_integration.live.bridge import evaluate_hokom_claim_bundle
             _claim_bundle = bundle_from_hokom_result(_hokom_result_partial)
@@ -1106,10 +1132,26 @@ def hokom(word: str) -> dict:
         if _taaqol_runtime is not None and _taaqol_runtime.get('active'):
             _taaqol_verdict = _taaqol_decision.taaqol_verdict
         # else: _taaqol_verdict remains None — runtime did not execute
-    except Exception:
-        # Integration not yet wired or unavailable — record None, do not raise.
-        # This is NOT a silent fallback: taaqol_decision=None signals unavailable.
-        pass
+    except Exception as _exc:
+        # The bridge is fail-closed and should never raise.
+        # If an exception escapes here, record it with a failure_code so downstream
+        # can distinguish this from a silent fallback (taaqol_decision=None with
+        # no failure_code is a silent fallback; this path always sets failure_code).
+        # SILENT_FALLBACK = IMPOSSIBLE: failure_code is always set in this branch.
+        _taaqol_runtime = {
+            'active': False,
+            'failure_code': 'BRIDGE_UNEXPECTED_EXCEPTION',
+            'failure_detail': (
+                f'bridge: {type(_exc).__name__}: {_exc}'
+                + (f'; sga_build: {_sga_build_exception}' if _sga_build_exception else '')
+            ),
+            'kernel_loaded': False,
+            'slot_graph_created': False,
+            'gamma_executed': False,
+            'gate_executed': False,
+            'slot_graph_slots': [],
+            'trace_event_count': 0,
+        }
 
     # All 11 SCG gates approved — build the complete matrix for the success result.
     _scg_gate_matrix = _scg_enforcer.get_matrix().to_dict()
@@ -1244,6 +1286,22 @@ def hokom(word: str) -> dict:
                 else None
             )
         ),
+        # ── Post-boundary routing diagnostics ─────────────────────────────
+        'post_boundary_routing_executed': (
+            word_class_result is not None
+            or morphology_blocked
+            or _is_jamid_aalam
+            or _functional_owner in ('OPERATOR_BOUNDARY', 'MABNI_BOUNDARY')
+        ),
+        'post_boundary_routing_failure': (
+            'POST_BOUNDARY_ROUTING_NOT_EXECUTED'
+            if (not morphology_blocked
+                and not _is_jamid_aalam
+                and _functional_owner not in ('OPERATOR_BOUNDARY', 'MABNI_BOUNDARY')
+                and word_class_result is None)
+            else None
+        ),
+        'word_class_exception': _word_class_exception,
     }
 
 

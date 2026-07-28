@@ -681,7 +681,7 @@ def evaluate_hokom_claim_bundle(bundle) -> HokomTaaqolDecision:
             taaqol_commit=taaqol_commit,
             hokom_commit=hokom_commit,
             upstream_verdict=upstream_verdict,
-            reason_codes=('SEGMENTATION_NO_LEXICAL_HOST', _block_reason),
+            reason_codes=tuple(dict.fromkeys(('SEGMENTATION_NO_LEXICAL_HOST', _block_reason))),
             residuals=('defer:taaqol:clitic_only_no_center',),
             trace=tuple(trace),
             taaqol_center_scope=None,

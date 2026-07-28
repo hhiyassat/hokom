@@ -312,14 +312,14 @@ def _build_record(meta: dict, r: dict, show_trace: bool) -> dict:
 
     # P4
     p4_verdict = r.get('verdict', 'UNKNOWN')
-    slots_raw  = r.get('slots', [])
+    slots_raw  = r.get('slots') or []
     p4_slots   = [
         {'surface': s['surface'], 'pattern': s['pattern'], 'gate': s['gate']}
         for s in slots_raw if s['surface'] != ' '
     ]
 
     # P1/P2/P3
-    lic = r.get('licensing', [])
+    lic = r.get('licensing') or []
     p0_status  = 'ARABIC' if lic else 'NON_ARABIC_OR_PUNCT'
     p1_license = [lr['cell'] for lr in lic]
     p2_diacs   = 'LICENSED' if all(lr.get('passed', True) for lr in lic) else 'VIOLATION'

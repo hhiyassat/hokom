@@ -256,24 +256,29 @@ def _try_import_taaqol() -> tuple[bool, Optional[object], Optional[str]]:
         )
         from taaqqul_slot_geometry.core.failure_taxonomy import FailureCode
 
-        class _TaaqolHandles:
-            SlotGraph        = _sg_mod.SlotGraph
-            SlotBoundary     = _sg_mod.SlotBoundary
-            Center           = _sg_mod.Center
-            TraceRef         = _sg_mod.TraceRef
-            Slot             = _sg_mod.Slot
-            OpeningPolicy    = _sg_mod.OpeningPolicy
-            OutputBoundary   = _sg_mod.OutputBoundary
-            SlotState        = _sg_mod.SlotState
-            Layer            = _sg_mod.Layer
-            GenerationSource = _sg_mod.GenerationSource
-            TransitionGate   = _gate_mod.TransitionGate
-            EvidenceContract = EvidenceContract
-            EvidenceSource   = EvidenceSource
-            Rank             = Rank
-            FailureCode      = FailureCode
+        # Use SimpleNamespace — class bodies do NOT inherit enclosing function
+        # locals, so `EvidenceContract = EvidenceContract` inside a class body
+        # raises NameError. SimpleNamespace is assigned in function scope where
+        # all locals are visible.
+        import types as _types
+        _handles = _types.SimpleNamespace()
+        _handles.SlotGraph        = _sg_mod.SlotGraph
+        _handles.SlotBoundary     = _sg_mod.SlotBoundary
+        _handles.Center           = _sg_mod.Center
+        _handles.TraceRef         = _sg_mod.TraceRef
+        _handles.Slot             = _sg_mod.Slot
+        _handles.OpeningPolicy    = _sg_mod.OpeningPolicy
+        _handles.OutputBoundary   = _sg_mod.OutputBoundary
+        _handles.SlotState        = _sg_mod.SlotState
+        _handles.Layer            = _sg_mod.Layer
+        _handles.GenerationSource = _sg_mod.GenerationSource
+        _handles.TransitionGate   = _gate_mod.TransitionGate
+        _handles.EvidenceContract = EvidenceContract
+        _handles.EvidenceSource   = EvidenceSource
+        _handles.Rank             = Rank
+        _handles.FailureCode      = FailureCode
 
-        return True, _TaaqolHandles(), None
+        return True, _handles, None
     except Exception as exc:
         return False, None, f"{type(exc).__name__}: {exc}"
 

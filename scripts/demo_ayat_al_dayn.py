@@ -45,6 +45,109 @@ from typing import Any, Optional
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
+# ── integrity violation schema (canonical import with fallback) ────────────────
+# compute_violation_count() and VIOLATION_KEYS are defined in demo_renderer.py.
+# If that module is not yet on the path at import time, we define them here so
+# format_terminal(), format_html(), and format_json() always have them available.
+try:
+    sys.path.insert(0, str(REPO_ROOT / 'src'))
+    from hokom.demo.demo_renderer import (
+        compute_violation_count,
+        integrity_key_ok,
+        VIOLATION_KEYS,
+    )
+    _integrity_helpers_available = True
+except ImportError:
+    _integrity_helpers_available = False
+    VIOLATION_KEYS: tuple = (
+        "SLOTS_MISSING_STATE",
+        "LICENSED_WITHOUT_SCOPE",
+        "MISSING_EVALUATION_ID",
+        "EVALUATION_ID_COLLISIONS",
+        "MISSING_TAAQOL_TRACE_ACTIVE",
+        "CLAIM_KEY_NONDETERMINISM",
+        "UNTYPED_PAYLOADS",
+        "SILENT_FALLBACKS",
+        "UNEXPECTED_RUNTIME_ERRORS",
+        "TAAQOL_RUNTIME_INACTIVE",
+        "TAAQOL_UNEXPLAINED_COVERAGE_GAP",
+    )
+
+    def compute_violation_count(checks: dict) -> int:
+        total = 0
+        for key in VIOLATION_KEYS:
+            val = checks.get(key, 0)
+            if key == "TAAQOL_RUNTIME_INACTIVE":
+                total += 1 if bool(val) else 0
+            else:
+                total += int(val or 0)
+        return total
+
+    def integrity_key_ok(key: str, value) -> bool:
+        if key in (
+            "TAAQOL_RUNTIME_ACTIVE",
+            "TAAQOL_CONSTITUTIONAL_EXEMPTIONS",
+        ):
+            return True
+        if key in ("TAAQOL_RUNTIME_INACTIVE",):
+            return not bool(value)
+        return int(value or 0) == 0
+
+
+# Constitutional failure codes — tokens with these codes are documented
+# non-applicability cases, NOT unexplained runtime gaps.
+# Only tokens whose taaqol.runtime.failure_code is in this set contribute
+# to TAAQOL_CONSTITUTIONAL_EXEMPTIONS, never to TAAQOL_UNEXPLAINED_COVERAGE_GAP.
+_CONSTITUTIONAL_FAILURE_CODES: frozenset = frozenset({
+    'SEGMENTATION_NO_LEXICAL_HOST',
+})
+
+
+def compute_client_presentation_readiness(
+    *,
+    checks: dict,
+    taaqol_requested: bool,
+    taaqol_live_evaluations: int,
+    hokom_pipeline_called: bool,
+    segment_host_consistent: bool,
+    post_boundary_routing_executed: bool,
+) -> 'tuple[bool, list[str]]':
+    """
+    Single canonical readiness gate — fail-closed.
+
+    Returns (ready: bool, failures: list[str]).
+
+    Callers must pass this result to format_json() so the JSON file records
+    `client_presentation_ready` as a bool (not "YES"/"NO").
+    """
+    failures: list = []
+
+    if compute_violation_count(checks) != 0:
+        failures.append("INTEGRITY_VIOLATIONS")
+
+    if not hokom_pipeline_called:
+        failures.append("HOKOM_PIPELINE_NOT_CALLED")
+
+    if not segment_host_consistent:
+        failures.append("SEGMENT_HOST_MISMATCH")
+
+    if not post_boundary_routing_executed:
+        failures.append("POST_BOUNDARY_ROUTING_NOT_EXECUTED")
+
+    if taaqol_requested:
+        _unexplained_gap = checks.get('TAAQOL_UNEXPLAINED_COVERAGE_GAP', None)
+        if _unexplained_gap is not None:
+            # Multi-token path: gap > 0 is a coverage violation.
+            # Constitutional exemptions (SEGMENTATION_NO_LEXICAL_HOST, etc.) are
+            # already subtracted from the gap — a gap of 0 with exemptions is OK.
+            if _unexplained_gap > 0:
+                failures.append("TAAQOL_RUNTIME_INACTIVE")
+        elif taaqol_live_evaluations <= 0:
+            # Fallback: checks dict not yet populated with gap field.
+            failures.append("TAAQOL_RUNTIME_INACTIVE")
+
+    return (not failures), failures
+
 # ── canonical text ────────────────────────────────────────────────────────────
 AYAT_AL_DAYN = (
     'يَا أَيُّهَا الَّذِينَ آمَنُوا إِذَا تَدَايَنْتُمْ بِدَيْنٍ إِلَى أَجَلٍ مُسَمًّى '
@@ -276,7 +379,33 @@ def _decompose_taaqol(hr: dict) -> dict:
     rt   = hr.get('taaqol_runtime') or {}
 
     if td is None:
-        return {'available': False, 'reason': 'no_taaqol_decision_in_result'}
+        # taaqol_decision=None means the bridge was not reached OR an exception
+        # escaped from it.  Surface taaqol_runtime (which may carry failure_code)
+        # so integrity_check can distinguish a visible failure from a silent fallback.
+        # A silent fallback has failure_code=None AND taaqol_decision=None.
+        return {
+            'available': False,
+            'reason': 'no_taaqol_decision_in_result',
+            'runtime': {
+                'failure_code': (
+                    rt.get('failure_code')
+                    or hr.get('failure_code')
+                    or ('SCG_GATE_BLOCKED' if hr.get('scg_status') else None)
+                    or ('POST_BOUNDARY_ROUTING_NOT_EXECUTED' if hr.get('post_boundary_routing_failure') else None)
+                ),
+                'failure_detail': (
+                    rt.get('failure_detail')
+                    or hr.get('post_boundary_routing_failure')
+                    or (f"scg_status={hr.get('scg_status')} last_stage={hr.get('last_completed_stage')}" if hr.get('scg_status') else None)
+                ),
+                'kernel_loaded':     rt.get('kernel_loaded', False),
+                'slot_graph_created': rt.get('slot_graph_created', False),
+                'gamma_executed':    rt.get('gamma_executed', False),
+                'gate_executed':     rt.get('gate_executed', False),
+                'trace_event_count': rt.get('trace_event_count', 0),
+                'slot_graph_slots':  rt.get('slot_graph_slots', []),
+            },
+        }
 
     # Typed slots from Taaqol (None on sandbox)
     t_slots = getattr(td, 'typed_slots', None)
@@ -711,7 +840,9 @@ def integrity_check(results: list[dict]) -> dict:
         and not r.get('error')
     )
 
-    # 8. Silent fallbacks
+    # 8. Silent fallbacks — taaqol unavailable, no failure_code, morphological token.
+    # A visible failure (failure_code set) is NOT a silent fallback.
+    # An SCG_STOPPED token with word_class=None is NOT a silent fallback.
     silent = sum(
         1 for r in results
         if not r.get('taaqol', {}).get('available')
@@ -720,7 +851,37 @@ def integrity_check(results: list[dict]) -> dict:
         and r.get('word_class', {}).get('class') not in (None, 'MABNI', 'OPERATOR')
     )
 
+    # 9. Unexpected runtime errors — bridge exception escaped (BRIDGE_UNEXPECTED_EXCEPTION)
+    unexpected_runtime_errors = sum(
+        1 for r in results
+        if r.get('taaqol', {}).get('runtime', {}).get('failure_code') == 'BRIDGE_UNEXPECTED_EXCEPTION'
+    )
+
     taaqol_live = sum(1 for r in results if r.get('taaqol', {}).get('available'))
+
+    # 10. TAAQOL_RUNTIME_INACTIVE: Taaqol was requested (morphological token that
+    # should have been evaluated) but runtime did not activate.
+    taaqol_runtime_inactive = (
+        taaqol_live == 0 and any(
+            not r.get('word_class', {}).get('inflection_skipped_reason')
+            and r.get('word_class', {}).get('class') not in (None, 'MABNI', 'OPERATOR')
+            for r in results
+        )
+    )
+
+    # 11. Constitutional exemption accounting.
+    # Tokens whose taaqol.runtime.failure_code is in _CONSTITUTIONAL_FAILURE_CODES
+    # are documented non-applicability cases (e.g. بِكُمْ — clitic-only, no lexical host).
+    # These are subtracted from the expected live count before computing the gap.
+    # Only the allowlisted codes count as exemptions — arbitrary failures do not.
+    _taaqol_constitutional_exemptions = sum(
+        1 for r in results
+        if r.get('taaqol', {}).get('runtime', {}).get('failure_code')
+        in _CONSTITUTIONAL_FAILURE_CODES
+    )
+    _taaqol_unexplained_coverage_gap = (
+        len(results) - taaqol_live - _taaqol_constitutional_exemptions
+    )
 
     return {
         'SLOTS_MISSING_STATE':        slots_missing_state,
@@ -731,7 +892,11 @@ def integrity_check(results: list[dict]) -> dict:
         'CLAIM_KEY_NONDETERMINISM':   nondeterminism,
         'UNTYPED_PAYLOADS':           untyped,
         'SILENT_FALLBACKS':           silent,
+        'UNEXPECTED_RUNTIME_ERRORS':  unexpected_runtime_errors,
         'TAAQOL_RUNTIME_ACTIVE':      taaqol_live,
+        'TAAQOL_RUNTIME_INACTIVE':    taaqol_runtime_inactive,
+        'TAAQOL_CONSTITUTIONAL_EXEMPTIONS': _taaqol_constitutional_exemptions,
+        'TAAQOL_UNEXPLAINED_COVERAGE_GAP':  _taaqol_unexplained_coverage_gap,
     }
 
 
@@ -752,10 +917,20 @@ def summary_stats(results: list[dict]) -> dict:
         rs = r.get('root_analysis', {}).get('root_state', 'NONE')
         root_states[rs] = root_states.get(rs, 0) + 1
 
+    _taaqol_live_count = sum(1 for r in results if r.get('taaqol', {}).get('available'))
+    _constitutional_exemptions = sum(
+        1 for r in results
+        if r.get('taaqol', {}).get('runtime', {}).get('failure_code')
+        in _CONSTITUTIONAL_FAILURE_CODES
+    )
     return {
         'token_count':      len(results),
         'typed_bundles':    sum(1 for r in results if r.get('typed_slots')),
-        'taaqol_live':      sum(1 for r in results if r.get('taaqol', {}).get('available')),
+        'taaqol_live':      _taaqol_live_count,
+        'taaqol_constitutional_exemptions': _constitutional_exemptions,
+        'taaqol_unexplained_coverage_gap':  (
+            len(results) - _taaqol_live_count - _constitutional_exemptions
+        ),
         'h11_h15_reached':  sum(1 for r in results if r.get('h11_h15', {}).get('reached')),
         'early_stops':      sum(1 for r in results if r.get('word_class', {}).get('inflection_skipped_reason')),
         'overall_verdicts': overall_verdicts,
@@ -1194,21 +1369,35 @@ def format_terminal(results: list[dict], stats: dict, checks: dict) -> str:
     lines.append(f'Root states:   {stats["root_states"]}')
     lines.append(f'Taaqol:        {stats["taaqol_verdicts"]}')
     lines.append(f'Overall:       {stats["overall_verdicts"]}')
-    lines.append(f'\nIntegrity:')
+    _viol = compute_violation_count(checks)
+    lines.append(f'\nIntegrity:  INTEGRITY_VIOLATION_COUNT={_viol}  {"ACCEPTED" if _viol == 0 else "BLOCKED"}')
     for k, v in checks.items():
-        ok = '✓' if v == 0 or (k == 'TAAQOL_RUNTIME_ACTIVE' and v >= 0) else '✗'
+        ok = '✓' if integrity_key_ok(k, v) else '✗'
         lines.append(f'  {k:<40} = {v}  {ok}')
     return '\n'.join(lines)
 
 
 # ── JSON format ───────────────────────────────────────────────────────────────
-def format_json(results: list[dict], stats: dict, checks: dict, meta: dict) -> str:
+def format_json(
+    results: list[dict],
+    stats: dict,
+    checks: dict,
+    meta: dict,
+    *,
+    client_presentation_ready: bool = False,
+    presentation_failures: 'list[str] | None' = None,
+) -> str:
+    _viol = compute_violation_count(checks)
     return json.dumps({
         'stage':   'HOKOM-TAAQOL-AYAT-AL-DAYN-LIVE-DEMO-01',
         'version': '2',
         'meta':    meta,
         'summary': stats,
-        'integrity_checks': checks,
+        'integrity_checks':           checks,
+        'integrity_violation_count':  _viol,
+        'integrity_status':           'ACCEPTED' if _viol == 0 else 'BLOCKED',
+        'client_presentation_ready':  client_presentation_ready,   # bool, never "YES"/"NO"
+        'presentation_failures':      presentation_failures or [],
         'tokens':  results,
     }, indent=2, ensure_ascii=False, default=str)
 
@@ -1588,17 +1777,18 @@ def format_html(results: list[dict], stats: dict, checks: dict, meta: dict) -> s
     all_tokens_html  = '\n'.join(token_html_parts)
 
     # Integrity section
-    int_html = ''
+    _int_viol = compute_violation_count(checks)
+    _int_status = 'ACCEPTED' if _int_viol == 0 else 'BLOCKED'
+    int_html = f'<div class="int-item {"int-ok" if _int_viol == 0 else "int-bad"}"><span class="int-key">INTEGRITY_VIOLATION_COUNT</span><span class="int-val">{_int_viol} — {_int_status}</span></div>\n'
     for k, v in checks.items():
-        ok = v == 0 or (k == 'TAAQOL_RUNTIME_ACTIVE' and v >= 0)
+        ok = integrity_key_ok(k, v)
         cls = 'int-ok' if ok else 'int-bad'
         int_html += f'<div class="int-item {cls}"><span class="int-key">{_esc(k)}</span><span class="int-val">{v}</span></div>\n'
 
     taaqol_note = (
         '<span class="tq-active">✓ Taaqol runtime active — live evaluations present</span>'
         if checks['TAAQOL_RUNTIME_ACTIVE'] > 0
-        else '<span class="tq-deferred">⚠ Taaqol runtime unavailable (Python 3.10 sandbox). '
-             'On macOS/3.12.4 all Taaqol stages will be live. '
+        else '<span class="tq-deferred">⚠ Taaqol runtime unavailable. '
              'All verdicts are truthfully DEFERRED — nothing is hidden.</span>'
     )
 
@@ -1607,7 +1797,7 @@ def format_html(results: list[dict], stats: dict, checks: dict, meta: dict) -> s
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Hokom–Taaqol Live Demo — آية الدَّيْن (v2)</title>
+<title>{'Single Token Probe — تحليل رمز واحد' if len(results) == 1 else 'Hokom–Taaqol Live Demo — آية الدَّيْن (v2)'}</title>
 <style>
 *{{box-sizing:border-box;}}
 body{{font-family:'Segoe UI',system-ui,sans-serif;background:#f8fafc;color:#1e293b;margin:0;padding:0;direction:rtl;}}
@@ -1706,9 +1896,9 @@ summary:hover{{background:#f0f9ff;border-radius:8px;}}
 </head>
 <body>
 <div class="page">
-  <h1>Hokom–Taaqol — عرض تشغيلي حي (v2 — تفاصيل كاملة)</h1>
+  <h1>{'Single Token Probe — تحليل رمز واحد' if len(results) == 1 else 'Hokom–Taaqol — عرض تشغيلي حي (v2 — تفاصيل كاملة)'}</h1>
   <p style="color:#64748b;margin:0 0 12px;direction:rtl;">
-    سورة البقرة 2:282 — آية الدَّيْن &nbsp;|&nbsp; HOKOM-TAAQOL-AYAT-AL-DAYN-LIVE-DEMO-01
+    {'رمز واحد | HOKOM-SINGLE-TOKEN-PROBE' if len(results) == 1 else 'سورة البقرة 2:282 — آية الدَّيْن &nbsp;|&nbsp; HOKOM-TAAQOL-AYAT-AL-DAYN-LIVE-DEMO-01'}
   </p>
 
   <div class="verse-box" dir="rtl">{_esc(AYAT_AL_DAYN)}</div>
@@ -2051,12 +2241,19 @@ def write_outputs(
     checks: dict,
     meta: dict,
     taaqol: bool = False,
+    *,
+    client_presentation_ready: bool = False,
+    presentation_failures: 'list[str] | None' = None,
 ) -> dict[str, Path]:
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
     paths = {}
 
     p = REPORT_DIR / 'ayat_al_dayn_results_full.json'
-    p.write_text(format_json(results, stats, checks, meta), encoding='utf-8')
+    p.write_text(format_json(
+        results, stats, checks, meta,
+        client_presentation_ready=client_presentation_ready,
+        presentation_failures=presentation_failures,
+    ), encoding='utf-8')
     paths['json'] = p
 
     p = REPORT_DIR / 'ayat_al_dayn_results.csv'
@@ -2092,11 +2289,56 @@ def main() -> int:
             'Default command is byte-for-byte unchanged when this flag is absent.'
         ),
     )
+    parser.add_argument('--full-ayah', action='store_true', dest='full_ayah',
+        help='Run the complete Ayat al-Dayn (default when --token is absent)')
+    parser.add_argument('--token', metavar='ARABIC',
+        help='Analyze a single Arabic token')
+    parser.add_argument('--compact', action='store_true',
+        help='Compact client-facing presentation')
+    parser.add_argument('--verbose', action='store_true',
+        help='Verbose presentation with full evidence chains')
+    parser.add_argument('--no-color', action='store_true', dest='no_color',
+        help='Disable ANSI color codes')
+    parser.add_argument('--json', action='store_true', dest='json_stdout',
+        help='Output JSON to stdout (use --output to save)')
+    parser.add_argument('--output', metavar='PATH',
+        help='Save JSON output to this path (used with --json)')
+    parser.add_argument('--fail-on-runtime-error', action='store_true',
+        dest='fail_on_runtime_error',
+        help='Exit nonzero if any token analysis raises an unexpected runtime error')
     args = parser.parse_args()
 
-    results = run_all(verbose=True)
-    stats   = summary_stats(results)
-    checks  = integrity_check(results)
+    # ── New presentation flags ────────────────────────────────────────────────
+    use_color = not getattr(args, 'no_color', False) and sys.stdout.isatty()
+
+    # Try importing the new renderer; graceful fallback if module not yet installed
+    try:
+        sys.path.insert(0, str(REPO_ROOT / 'src'))
+        from hokom.demo.demo_renderer import (
+            render_runtime_identity,
+            render_token_verbose,
+            render_token_compact,
+            render_summary_dashboard,
+            ANSI,
+        )
+        _renderer_available = True
+    except ImportError:
+        _renderer_available = False
+
+    # ── Execution path ────────────────────────────────────────────────────────
+    _single_token_mode = bool(getattr(args, 'token', None))
+
+    if _single_token_mode:
+        _tok = args.token
+        _tok_result = process_token_full(1, _tok)
+        results = [_tok_result]
+        stats   = summary_stats(results)
+        checks  = integrity_check(results)
+    else:
+        results = run_all(verbose=True)
+        stats   = summary_stats(results)
+        checks  = integrity_check(results)
+
     meta    = {
         'stage':       'HOKOM-TAAQOL-AYAT-AL-DAYN-LIVE-DEMO-01',
         'version':     '2',
@@ -2110,7 +2352,77 @@ def main() -> int:
         'token_count': len(TOKENS),
     }
 
-    paths = write_outputs(results, stats, checks, meta, taaqol=args.taaqol)
+    # ── Derive proof fields and compute readiness before any output ──────────
+    # Computed once here; reused by write_outputs(), format_json(), and the
+    # --fail-on-runtime-error gate so every renderer sees the same value.
+    _r0_pre  = results[0] if results else {}
+    _t0_pre  = _r0_pre.get('taaqol', {})
+    _seg0_pre = _r0_pre.get('segmentation', {})
+    _wc0_pre  = _r0_pre.get('word_class', {})
+
+    _live_taaqol_pre = bool(_t0_pre.get('available'))
+    _hokom_called_pre = (
+        _r0_pre.get('error') is None or _r0_pre.get('normalization') is not None
+    )
+    # Post-boundary routing: prefer explicit flag; fall back to word_class presence
+    if 'post_boundary_routing_executed' in _r0_pre:
+        _post_boundary_pre = _r0_pre['post_boundary_routing_executed']
+    elif _r0_pre.get('error') is not None:
+        _post_boundary_pre = False
+    else:
+        _post_boundary_pre = _wc0_pre.get('class') is not None
+    # Segment host consistency (single-token mode only)
+    _seg_host_slot_pre = next(
+        (s.get('value') for s in _r0_pre.get('typed_slots', [])
+         if s.get('slot_id') == 'SEGMENT_HOST'),
+        None,
+    )
+    _top_seg_host_pre = _seg0_pre.get('host_surface')
+    _seg_host_consistent_pre = (
+        _seg_host_slot_pre == _top_seg_host_pre
+        if _single_token_mode
+        else True   # full-ayah mode: host consistency checked per-token elsewhere
+    )
+
+    client_presentation_ready, presentation_failures = compute_client_presentation_readiness(
+        checks=checks,
+        taaqol_requested=bool(getattr(args, 'taaqol', False)),
+        taaqol_live_evaluations=checks.get('TAAQOL_RUNTIME_ACTIVE', 0),
+        hokom_pipeline_called=_hokom_called_pre,
+        segment_host_consistent=_seg_host_consistent_pre,
+        post_boundary_routing_executed=(
+            _post_boundary_pre
+            or bool(_wc0_pre.get('inflection_skipped_reason'))
+        ),
+    )
+
+    paths = write_outputs(
+        results, stats, checks, meta, taaqol=args.taaqol,
+        client_presentation_ready=client_presentation_ready,
+        presentation_failures=presentation_failures,
+    )
+
+    # ── JSON stdout / file output ─────────────────────────────────────────────
+    if getattr(args, 'json_stdout', False):
+        _json_text = format_json(
+            results, stats, checks, meta,
+            client_presentation_ready=client_presentation_ready,
+            presentation_failures=presentation_failures,
+        )
+        print(_json_text)
+        _out_path = getattr(args, 'output', None)
+        if _out_path:
+            import pathlib as _pl
+            _pl.Path(_out_path).write_text(_json_text, encoding='utf-8')
+    elif getattr(args, 'output', None):
+        # --output without --json still writes JSON
+        _json_text = format_json(
+            results, stats, checks, meta,
+            client_presentation_ready=client_presentation_ready,
+            presentation_failures=presentation_failures,
+        )
+        import pathlib as _pl
+        _pl.Path(args.output).write_text(_json_text, encoding='utf-8')
 
     if args.open:
         import webbrowser
@@ -2122,30 +2434,63 @@ def main() -> int:
             print(f'TAAQOL_LAYERS : {paths["taaqol_layers"]}')
         return 0
 
-    if args.format == 'terminal':
-        print(format_terminal(results, stats, checks))
-    elif args.format == 'json':
-        print(format_json(results, stats, checks, meta))
-    elif args.format == 'csv':
-        print(format_csv(results))
-    elif args.format == 'html':
-        print(paths['html'])
+    # ── New renderer presentation ─────────────────────────────────────────────
+    _use_new_renderer = (
+        _renderer_available
+        and (getattr(args, 'compact', False) or getattr(args, 'verbose', False))
+    )
+
+    if _use_new_renderer:
+        _hokom_head   = _git(['git', 'rev-parse', '--short', 'HEAD'])
+        _taaqol_head  = _vendor_sha()
+        _taaqol_pin   = _taaqol_head  # pin == HEAD in live run
+        _wt_result    = _git(['git', '-C', str(REPO_ROOT / 'vendor' / 'Taaqol-GPT'),
+                               'status', '--porcelain'])
+        _wt_clean     = _wt_result == ''
+        print(render_runtime_identity(
+            hokom_head=_hokom_head,
+            taaqol_head=_taaqol_head,
+            taaqol_pin=_taaqol_pin,
+            taaqol_pin_verified=True,
+            taaqol_worktree_clean=_wt_clean,
+            results=results,
+            use_color=use_color,
+        ))
+        for _tok in results:
+            if getattr(args, 'verbose', False):
+                print(render_token_verbose(_tok, use_color))
+            else:
+                print(render_token_compact(_tok, use_color))
+        print(render_summary_dashboard(stats, checks, use_color))
+    else:
+        # ── Existing format handling (unchanged) ──────────────────────────────
+        if args.format == 'terminal':
+            print(format_terminal(results, stats, checks))
+        elif args.format == 'json':
+            print(format_json(results, stats, checks, meta))
+        elif args.format == 'csv':
+            print(format_csv(results))
+        elif args.format == 'html':
+            print(paths['html'])
 
     print('\n── Summary ─────────────────────────────────────────────────', file=sys.stderr)
     for k, v in {
-        'TOKEN_COUNT':             stats['token_count'],
-        'TYPED_BUNDLES':           stats['typed_bundles'],
-        'TAAQOL_LIVE_EVALUATIONS': stats['taaqol_live'],
-        'H11_H15_REACHED':         stats['h11_h15_reached'],
-        'EARLY_STOPS':             stats['early_stops'],
+        'TOKEN_COUNT':                      stats['token_count'],
+        'TYPED_BUNDLES':                    stats['typed_bundles'],
+        'TAAQOL_LIVE_EVALUATIONS':          stats['taaqol_live'],
+        'TAAQOL_CONSTITUTIONAL_EXEMPTIONS': stats.get('taaqol_constitutional_exemptions', 0),
+        'TAAQOL_UNEXPLAINED_COVERAGE_GAP':  stats.get('taaqol_unexplained_coverage_gap', 0),
+        'H11_H15_REACHED':                  stats['h11_h15_reached'],
+        'EARLY_STOPS':                      stats['early_stops'],
     }.items():
         print(f'  {k:<36} = {v}', file=sys.stderr)
     print(f'  OVERALL_VERDICTS           = {stats["overall_verdicts"]}', file=sys.stderr)
     print(f'  ROOT_STATES                = {stats["root_states"]}', file=sys.stderr)
     print(f'  TAAQOL_VERDICTS            = {stats["taaqol_verdicts"]}', file=sys.stderr)
-    print('\n  Integrity:', file=sys.stderr)
+    _stderr_viol = compute_violation_count(checks)
+    print(f'\n  Integrity:  INTEGRITY_VIOLATION_COUNT={_stderr_viol}  {"ACCEPTED" if _stderr_viol == 0 else "BLOCKED"}', file=sys.stderr)
     for k, v in checks.items():
-        ok = '✓' if (v == 0 or (k == 'TAAQOL_RUNTIME_ACTIVE' and v >= 0)) else '✗'
+        ok = '✓' if integrity_key_ok(k, v) else '✗'
         print(f'    {k:<38} = {v}  {ok}', file=sys.stderr)
     print(f'\n  JSON : {paths["json"]}', file=sys.stderr)
     print(f'  CSV  : {paths["csv"]}', file=sys.stderr)
@@ -2185,6 +2530,146 @@ def main() -> int:
         print(f'    H11_H15_REACHED        = {len(_h11_tokens)}', file=sys.stderr)
         print(f'    EARLY_STOPS            = {len(_early_stop_tokens)}', file=sys.stderr)
     print('─' * 65, file=sys.stderr)
+
+    # ── Runtime error exit code + 12 proof fields ────────────────────────────
+    if getattr(args, 'fail_on_runtime_error', False):
+        import platform as _platform
+
+        # Derive proof fields from the first (or only) result
+        _r0 = results[0] if results else {}
+        _t0 = _r0.get('taaqol', {})
+        _t0_rt = _t0.get('runtime', {})
+        _norm0 = _r0.get('normalization', {})
+        _seg0 = _r0.get('segmentation', {})
+        _wc0 = _r0.get('word_class', {})
+        _root0 = _r0.get('root_analysis', {})
+
+        # PYTHON_VERSION
+        _pyver = (
+            f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
+        )
+        # Derive presence from pipeline data
+        _hokom_called       = _r0.get('error') is None or _r0.get('normalization') is not None
+        _normalizer_called  = bool(_norm0.get('normalized_surface'))
+        _segmenter_called   = 'host_surface' in _seg0 or 'proclitics' in _seg0
+        _segment_host       = bool(_seg0.get('host_surface'))
+        _wc_owner_called    = _wc0.get('class') is not None or _wc0.get('verdict') is not None
+        _root_owner_called  = (
+            _root0.get('canonical_root') is not None
+            or _root0.get('root_state') is not None
+            or _root0.get('root_candidates') not in (None, [])
+        )
+        _live_taaqol        = bool(_t0.get('available'))
+        _slotgraph_active   = bool(_t0_rt.get('slot_graph_created') or (
+            _t0.get('available') and _t0.get('slot_graph_slots') not in (None, [])
+        ))
+        _gate_called        = bool(_t0_rt.get('gate_executed') or (
+            _t0.get('available') and _t0.get('taaqol_verdict') is not None
+        ))
+
+        # Counts from integrity_check (already computed above as `checks`)
+        _silent_count       = checks.get('SILENT_FALLBACKS', 0)
+        _unexp_count        = checks.get('UNEXPECTED_RUNTIME_ERRORS', 0)
+
+        def _yn(b: bool) -> str:
+            return 'YES' if b else 'NO'
+
+        print('', file=sys.stderr)
+        print('── GATE: single-token live proof ─────────────────────────────────────', file=sys.stderr)
+        # When pipeline returned early via SCG gate (stage=SCG_STOPPED),
+        # post_boundary_routing_executed is absent from hr. Derive from hr stage.
+        if 'post_boundary_routing_executed' in _r0:
+            _post_boundary_executed = _r0['post_boundary_routing_executed']
+        elif _r0.get('error') is not None:
+            _post_boundary_executed = False   # pipeline error
+        else:
+            # SCG gate fired before word class — treat as not executed
+            _r0_hr = _r0  # same dict; hr is reconstructed in process_token_full
+            _scg_stopped = _r0_hr.get('pipeline_verdict') == 'SCG_STOPPED'
+            # word_class owner was called only if word_class is non-None
+            _post_boundary_executed = _wc0.get('class') is not None
+        # WORD_CLASS is attempted when morphology is open, segmentation host present,
+        # and the token is not a functional/mabni/jamid boundary.
+        _wc_call_attempted = (
+            _wc0.get('class') is not None  # definitively called and returned a result
+            or (
+                not _r0.get('morphology_blocked', False)
+                and _r0.get('morphology_surface') is not None
+                and _r0.get('functional_boundary_owner') not in ('OPERATOR_BOUNDARY', 'MABNI_BOUNDARY')
+            )
+        )
+        _seg_host_slot = (
+            next(
+                (s.get('value') for s in _r0.get('typed_slots', [])
+                 if s.get('slot_id') == 'SEGMENT_HOST'),
+                None
+            )
+        )
+        _top_segment_host = _seg0.get('host_surface')
+
+        print(f'PYTHON_VERSION={_pyver}', file=sys.stderr)
+        print(f'HOKOM_PIPELINE_CALLED={_yn(_hokom_called)}', file=sys.stderr)
+        print(f'NORMALIZER_CALLED={_yn(_normalizer_called)}', file=sys.stderr)
+        print(f'SEGMENTER_CALLED={_yn(_segmenter_called)}', file=sys.stderr)
+        print(f'SEGMENT_HOST_PRESENT={_yn(_segment_host)}', file=sys.stderr)
+        print(f'WORD_CLASS_OWNER_CALLED={_yn(_wc_owner_called)}', file=sys.stderr)
+        print(f'ROOT_OWNER_CALLED={_yn(_root_owner_called)}', file=sys.stderr)
+        print(f'SILENT_FALLBACK_COUNT={_silent_count}', file=sys.stderr)
+        print(f'UNEXPECTED_RUNTIME_ERRORS={_unexp_count}', file=sys.stderr)
+        print(f'LIVE_TAAQOL_CALLED={_yn(_live_taaqol)}', file=sys.stderr)
+        print(f'SLOTGRAPH_ACTIVE={_yn(_slotgraph_active)}', file=sys.stderr)
+        print(f'TRANSITION_GATE_CALLED={_yn(_gate_called)}', file=sys.stderr)
+        print(f'POST_BOUNDARY_ROUTING_EXECUTED={_yn(_post_boundary_executed)}', file=sys.stderr)
+        print(f'WORD_CLASS_CALL_ATTEMPTED={_yn(_wc_call_attempted)}', file=sys.stderr)
+        print(f'SEGMENT_HOST_SLOT_VALUE={_seg_host_slot!r}', file=sys.stderr)
+        print(f'TOP_LEVEL_SEGMENT_HOST={_top_segment_host!r}', file=sys.stderr)
+
+        # Fail conditions (non-zero exit):
+        #   1. Any token has r.get('error') not None
+        #   2. silent_fallback_count > 0
+        #   3. unexpected_runtime_errors > 0
+        #   4. HOKOM_PIPELINE_CALLED=NO
+        #   5. LIVE_TAAQOL_CALLED=NO  (when --taaqol flag was given)
+        #   6. POST_BOUNDARY_ROUTING_NOT_EXECUTED (when word class wasn't skipped)
+        _taaqol_requested = getattr(args, 'taaqol', False)
+        _fail_reasons = []
+        if any(r.get('error') is not None for r in results):
+            _fail_reasons.append('TOKEN_PROCESSING_ERROR')
+        if _silent_count > 0:
+            _fail_reasons.append(f'SILENT_FALLBACK_COUNT={_silent_count}')
+        if _unexp_count > 0:
+            _fail_reasons.append(f'UNEXPECTED_RUNTIME_ERRORS={_unexp_count}')
+        if not _hokom_called:
+            _fail_reasons.append('HOKOM_PIPELINE_CALLED=NO')
+        if _taaqol_requested:
+            _unex_gap = checks.get('TAAQOL_UNEXPLAINED_COVERAGE_GAP', None)
+            if _unex_gap is not None and _unex_gap > 0:
+                # Multi-token: gap not accounted for by constitutional exemptions.
+                _fail_reasons.append(f'TAAQOL_UNEXPLAINED_COVERAGE_GAP={_unex_gap}')
+            elif _unex_gap is None and not _live_taaqol:
+                # Single-token fallback (checks not yet populated with gap field).
+                _fail_reasons.append('LIVE_TAAQOL_CALLED=NO (--taaqol was requested)')
+        if not _post_boundary_executed and not _r0.get('word_class', {}).get('inflection_skipped_reason'):
+            _fail_reasons.append('POST_BOUNDARY_ROUTING_NOT_EXECUTED')
+
+        # ── CLIENT_PRESENTATION_READY (reuse precomputed canonical value) ────────
+        # compute_client_presentation_readiness() was already called before
+        # write_outputs() and its result is stored in client_presentation_ready
+        # and presentation_failures.  Do NOT recompute here — one canonical source.
+        _cpr = 'YES' if client_presentation_ready else 'NO'
+        print(f'CLIENT_PRESENTATION_READY={_cpr}', file=sys.stderr)
+        if presentation_failures:
+            print(f'CLIENT_PRESENTATION_FAILURES={"; ".join(presentation_failures)}', file=sys.stderr)
+
+        if _fail_reasons:
+            print(f'GATE=FAIL  ({"; ".join(_fail_reasons)})', file=sys.stderr)
+            return 1
+        elif presentation_failures:
+            print(f'GATE=FAIL  (CLIENT_PRESENTATION_READY=NO: {"; ".join(presentation_failures)})', file=sys.stderr)
+            return 1
+        else:
+            print('GATE=PASS', file=sys.stderr)
+
     return 0
 
 

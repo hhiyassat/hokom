@@ -1,3 +1,6 @@
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
 """
 tests/scg/test_taaqol_terminal_guards.py
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -220,7 +223,7 @@ class TestNoP13Stage:
         )
 
     def test_no_p13_in_hokom_pipeline_py(self):
-        with open("/sessions/lucid-gifted-planck/mnt/hokom/hokom_pipeline.py") as f:
+        with open(REPO_ROOT / "hokom_pipeline.py", encoding="utf-8") as f:
             src = f.read()
         assert "P13" not in src, "hokom_pipeline.py must not reference P13"
         assert "PostIfadah" not in src, "hokom_pipeline.py must not reference PostIfadah"

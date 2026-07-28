@@ -127,7 +127,7 @@ def _build_bundle_dict(hr: dict) -> dict:
 
     d: dict = {
         "word": hr.get("input_surface", ""),
-        "segment_host": hr.get("segment_host") or hr.get("morphology_surface") or hr.get("input_surface", ""),
+        "segment_host": hr.get("segment_host") or hr.get("morphology_surface"),
         "word_class": hr.get("word_class"),
         "wazn": hr.get("final_wazn"),
         "number": hr.get("number"),

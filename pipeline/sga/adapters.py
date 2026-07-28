@@ -119,8 +119,24 @@ def adapt_boundary(hokom_result: dict) -> tuple[TypedSlot, TypedSlot]:
     elif boundary in ("JAMID_AALAM_BOUNDARY",):
         btype = BoundaryType.JAMID_AALAM_BOUNDARY
 
+    # Clitic-only: no lexical host → path cannot proceed to root analysis.
+    # ROOT_PATH_BLOCKED is the canonical "skip root layer" identifier.
+    _segment_host = hokom_result.get("segment_host")
+    _proclitics = hokom_result.get("proclitics") or hokom_result.get("proclitic") or []
+    _enclitics = hokom_result.get("enclitics") or hokom_result.get("enclitic") or []
+
+    _clitic_only = bool(
+        hokom_result.get("segment_clitic_only")
+        or hokom_result.get("morphology_block_reason")
+           == "SEGMENTATION_NO_LEXICAL_HOST"
+        or (
+            _segment_host is None
+            and bool(_proclitics or _enclitics)
+        )
+    )
+
     # Path directive
-    if btype is not None:
+    if btype is not None or _clitic_only:
         path_state = SlotState.BLOCKED
         path_value = "ROOT_PATH_BLOCKED"
     else:
