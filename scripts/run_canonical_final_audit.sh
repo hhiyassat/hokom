@@ -19,7 +19,7 @@ LOGS="$REPO_DIR/reports/canonical_gate"
 mkdir -p "$LOGS"
 
 # LINGUISTIC_BASE_HEAD: last linguistic commit — immutable
-LINGUISTIC_BASE_HEAD="ce44687dcde3c9f552de2c80201ebd9c96f96ce8"
+LINGUISTIC_BASE_HEAD="b19cd9a97aea18b355529e7ec97fd16ecf2f9caa"
 # AUDITED_HEAD: computed dynamically — the actual HEAD being audited
 AUDITED_HEAD="$(git rev-parse HEAD)"
 
@@ -365,7 +365,7 @@ else
     echo "GENERATED_HTML_SHA256=sha256:$GENERATED_HTML_SHA  (non-deterministic: run evidence only)"
 
     # 5. Verify generated CSV SHA against canonical binding
-    EXPECTED_CSV="5e673089f33e42309a66ded1816fffb9098227f1f86bb35c5faa33349dd47d84"
+    EXPECTED_CSV="f9d2410e22f6964c79867048b8f899d4d86632f33f5634422e90b1544fd52fa4"
     if [[ "$GENERATED_CSV_SHA" == "$EXPECTED_CSV" ]]; then
         echo "CSV_DETERMINISM=OK"
         ARTIFACT_BINDING_READY=1

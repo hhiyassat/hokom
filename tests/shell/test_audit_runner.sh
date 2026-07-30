@@ -13,8 +13,8 @@
 # when the named failure condition occurs.
 #
 # Governance binding:
-#   NEW_LINGUISTIC_BASE_HEAD = 2e2a3ac71a00ad520675c91e13904903f573034b
-#   EXPECTED_CANONICAL_CSV_SHA = 5e673089f33e42309a66ded1816fffb9098227f1f86bb35c5faa33349dd47d84
+#   NEW_LINGUISTIC_BASE_HEAD = b19cd9a97aea18b355529e7ec97fd16ecf2f9caa
+#   EXPECTED_CANONICAL_CSV_SHA = f9d2410e22f6964c79867048b8f899d4d86632f33f5634422e90b1544fd52fa4
 #
 # Usage: bash tests/shell/test_audit_runner.sh
 set -uo pipefail
@@ -622,7 +622,7 @@ echo "-- artifact manifest binding tests --"
 REPO_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 GATE_PY="$REPO_ROOT_DIR/scripts/canonical_gate.py"
 AB_TEST_NEW="$REPO_ROOT_DIR/tests/governance/test_artifact_commit_binding.py"
-NEW_MANIFEST="$REPO_ROOT_DIR/reports/canonical_gate/closure_manifest.ed35d45.json"
+NEW_MANIFEST="$REPO_ROOT_DIR/reports/canonical_gate/closure_manifest.b19cd9a.json"
 
 # T53: test file has non-vacuous assert (assert applicable_manifests)
 grep -q 'assert applicable_manifests' "$AB_TEST_NEW" \
@@ -641,16 +641,16 @@ grep -q 'artifact_commit' "$GATE_PY" \
 
 # T56: new binding manifest file exists in reports/canonical_gate/
 [[ -f "$NEW_MANIFEST" ]] \
-    && ok "T56: closure_manifest.ed35d45.json exists" \
+    && ok "T56: closure_manifest.b19cd9a.json exists" \
     || fail "T56: new artifact binding manifest must exist"
 
 # T57: new manifest has correct artifact_commit value
 if [[ -f "$NEW_MANIFEST" ]]; then
     python3 - "$NEW_MANIFEST" <<'PYEOF' 2>&1 && ok "T57: manifest artifact_commit == AUDITED_ARTIFACT_HEAD" \
-                                              || fail "T57: manifest artifact_commit must equal 2e2a3ac..."
+                                              || fail "T57: manifest artifact_commit must equal b19cd9a..."
 import json, sys
 m = json.loads(open(sys.argv[1]).read())
-assert m.get('artifact_commit') == '2e2a3ac71a00ad520675c91e13904903f573034b', \
+assert m.get('artifact_commit') == 'b19cd9a97aea18b355529e7ec97fd16ecf2f9caa', \
     f"wrong artifact_commit: {m.get('artifact_commit')}"
 print("OK")
 PYEOF
@@ -680,7 +680,7 @@ fi
 # T59: no applicable manifest causes explicit failure (not silent pass)
 python3 - <<'PYEOF' 2>&1 && ok "T59: absent manifest causes explicit assert failure (non-vacuous)" \
                            || fail "T59: absent manifest must fail with explicit assertion"
-AUDITED_ARTIFACT_HEAD = '2e2a3ac71a00ad520675c91e13904903f573034b'
+AUDITED_ARTIFACT_HEAD = 'b19cd9a97aea18b355529e7ec97fd16ecf2f9caa'
 # Simulate only legacy manifests — old schema, no artifact_commit field
 legacy = [{"commit": "abc1234", "commit_full": "abc1234abc1234abc1234abc1234abc1234abc1234"}]
 applicable = [m for m in legacy if m.get('artifact_commit') == AUDITED_ARTIFACT_HEAD]
@@ -695,7 +695,7 @@ PYEOF
 # T60: manifest with wrong artifact_commit does not satisfy contract
 python3 - <<'PYEOF' 2>&1 && ok "T60: wrong artifact_commit does not satisfy binding" \
                            || fail "T60: wrong artifact_commit must not satisfy contract"
-AUDITED_ARTIFACT_HEAD = '2e2a3ac71a00ad520675c91e13904903f573034b'
+AUDITED_ARTIFACT_HEAD = 'b19cd9a97aea18b355529e7ec97fd16ecf2f9caa'
 manifests = [{"artifact_commit": "deadbeef" * 5}]  # wrong commit
 applicable = [m for m in manifests if m.get('artifact_commit') == AUDITED_ARTIFACT_HEAD]
 try:
@@ -709,7 +709,7 @@ PYEOF
 python3 - <<'PYEOF' 2>&1 && ok "T61: modified CSV detected by digest check" \
                            || fail "T61: digest check must catch modified CSV"
 import hashlib
-EXPECTED_CSV_SHA = '5e673089f33e42309a66ded1816fffb9098227f1f86bb35c5faa33349dd47d84'
+EXPECTED_CSV_SHA = 'f9d2410e22f6964c79867048b8f899d4d86632f33f5634422e90b1544fd52fa4'
 tampered = hashlib.sha256(b"tampered csv content").hexdigest()
 mismatches = []
 if tampered != EXPECTED_CSV_SHA:
@@ -722,7 +722,7 @@ PYEOF
 python3 - <<'PYEOF' 2>&1 && ok "T62: modified JSON detected by digest check" \
                            || fail "T62: digest check must catch modified JSON"
 import hashlib
-EXPECTED_JSON_SHA = 'f35b5491386a75289e0511b6c811158a5e211ba5da3143adbbf08525a03e710e'
+EXPECTED_JSON_SHA = 'cbe9c31fe179f08e8b31c174101e5f07ab0c03255cc086ec04595959df5c1f7e'
 tampered = hashlib.sha256(b"tampered json content").hexdigest()
 mismatches = []
 if tampered != EXPECTED_JSON_SHA:
@@ -735,7 +735,7 @@ PYEOF
 python3 - <<'PYEOF' 2>&1 && ok "T63: modified HTML detected by digest check" \
                            || fail "T63: digest check must catch modified HTML"
 import hashlib
-EXPECTED_HTML_SHA = '9dd987b4cac2b06d6517a129d6e5b9e7cb8ca99ebcbe80971335b33313cd9970'
+EXPECTED_HTML_SHA = '85baa9098f7576973adfbcbf719a9d13a7ed15ce2f262bf0914d05e00d3d3f78'
 tampered = hashlib.sha256(b"tampered html content").hexdigest()
 mismatches = []
 if tampered != EXPECTED_HTML_SHA:
@@ -745,19 +745,19 @@ print("OK")
 PYEOF
 
 # T64: governance-only commits do not invalidate the artifact binding
-# The new contract checks artifact_commit (fixed at 2e2a3ac) + artifact digests,
+# The new contract checks artifact_commit (fixed at b19cd9a) + artifact digests,
 # NOT manifest.commit vs current HEAD. Any number of governance commits after
 # the audit leave the binding valid as long as the artifacts are unchanged.
 python3 - <<'PYEOF' 2>&1 && ok "T64: governance-only commits do not invalidate artifact binding" \
                            || fail "T64: governance commits must not invalidate the binding"
-AUDITED_ARTIFACT_HEAD = '2e2a3ac71a00ad520675c91e13904903f573034b'
+AUDITED_ARTIFACT_HEAD = 'b19cd9a97aea18b355529e7ec97fd16ecf2f9caa'
 # Simulate: manifest written at audit time, HEAD has since advanced many governance commits
 manifest = {
-    "artifact_commit": "2e2a3ac71a00ad520675c91e13904903f573034b",
-    "audit_head":      "ed35d45eaccf928cd732a691097e0bd2bbac73b1",  # governance head, far ahead
+    "artifact_commit": "b19cd9a97aea18b355529e7ec97fd16ecf2f9caa",
+    "audit_head":      "32beb7a817d21d3dcc42825c515887e70f077dc1",  # governance head, far ahead
     "artifact_digests": {
         "reports/ayat_al_dayn_demo/ayat_al_dayn_results.csv":
-            "5e673089f33e42309a66ded1816fffb9098227f1f86bb35c5faa33349dd47d84",
+            "f9d2410e22f6964c79867048b8f899d4d86632f33f5634422e90b1544fd52fa4",
     }
 }
 # Contract: applicable if artifact_commit matches — NOT if commit == current HEAD
@@ -787,16 +787,16 @@ grep -q 'closure_manifest.*\[0-9a-f\]' "$RUNNER" \
     && ok "T67: closure manifest hash-bound regex present in runner" \
     || fail "T67: runner must contain hash-bound closure manifest regex"
 
-# T68: closure_manifest.ed35d45.json matches the authorization regex
+# T68: closure_manifest.b19cd9a.json matches the authorization regex
 bash -c '
-path="reports/canonical_gate/closure_manifest.ed35d45.json"
+path="reports/canonical_gate/closure_manifest.b19cd9a.json"
 if [[ "$path" =~ ^reports/canonical_gate/closure_manifest\.[0-9a-f]{7,40}\.json$ ]]; then
     echo "OK"
 else
     echo "NO MATCH"; exit 1
 fi
-' 2>&1 && ok "T68: closure_manifest.ed35d45.json matches hash-bound regex" \
-         || fail "T68: closure_manifest.ed35d45.json must match authorization regex"
+' 2>&1 && ok "T68: closure_manifest.b19cd9a.json matches hash-bound regex" \
+         || fail "T68: closure_manifest.b19cd9a.json must match authorization regex"
 
 # T69: a non-governance path is rejected by is_authorized_post_artifact_path
 bash -c '
@@ -926,7 +926,7 @@ is_authorized_post_artifact_path "scripts/canonical_gate.py" || { echo "SHOULD P
 is_authorized_post_artifact_path "scripts/run_canonical_final_audit.sh" || { echo "SHOULD PASS: run_canonical_final_audit.sh"; exit 1; }
 is_authorized_post_artifact_path "tests/governance/test_artifact_commit_binding.py" || { echo "SHOULD PASS: test_artifact_commit_binding.py"; exit 1; }
 is_authorized_post_artifact_path "tests/shell/test_audit_runner.sh" || { echo "SHOULD PASS: test_audit_runner.sh"; exit 1; }
-is_authorized_post_artifact_path "reports/canonical_gate/closure_manifest.ed35d45.json" || { echo "SHOULD PASS: closure_manifest pattern"; exit 1; }
+is_authorized_post_artifact_path "reports/canonical_gate/closure_manifest.b19cd9a.json" || { echo "SHOULD PASS: closure_manifest pattern"; exit 1; }
 # CONSTITUTIONAL: production implementation files must be REJECTED
 is_authorized_post_artifact_path "scripts/demo_ayat_al_dayn.py" \
     && { echo "CONSTITUTIONAL VIOLATION: demo_ayat_al_dayn.py must be rejected"; exit 1; } \

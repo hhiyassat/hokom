@@ -1,0 +1,16 @@
+{
+  "_schema_version": "2",
+  "stage": "HOKOM-CANONICAL-ARTIFACT-MANIFEST-BINDING-01",
+  "artifact_commit": "b19cd9a97aea18b355529e7ec97fd16ecf2f9caa",
+  "audit_head": "b19cd9a97aea18b355529e7ec97fd16ecf2f9caa",
+  "commit": "b19cd9a",
+  "commit_full": "b19cd9a97aea18b355529e7ec97fd16ecf2f9caa",
+  "timestamp": "2026-07-30T11:00:37+00:00",
+  "artifact_digests": {
+    "reports/ayat_al_dayn_demo/ayat_al_dayn_results.csv": "f9d2410e22f6964c79867048b8f899d4d86632f33f5634422e90b1544fd52fa4",
+    "reports/ayat_al_dayn_demo/ayat_al_dayn_results_full.json": "cbe9c31fe179f08e8b31c174101e5f07ab0c03255cc086ec04595959df5c1f7e",
+    "reports/ayat_al_dayn_demo/ayat_al_dayn_manager_report.html": "85baa9098f7576973adfbcbf719a9d13a7ed15ce2f262bf0914d05e00d3d3f78"
+  },
+  "closure_eligible": false,
+  "note": "Governance binding manifest — artifact_commit records the last commit that changed canonical artifacts (reports/ayat_al_dayn_demo/**). Token 121 (بِكُمْ) constitutional correction: removed unlawful SEGMENT_HOST and PATH_DIRECTIVE_SLOT licensing for clitic-only input; deduplicated SEGMENTATION_NO_LEXICAL_HOST. The full canonical audit (closure_eligible=true) requires running: bash scripts/run_canonical_final_audit.sh on macOS with Python 3.12.4."
+}
