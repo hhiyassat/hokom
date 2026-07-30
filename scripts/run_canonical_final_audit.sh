@@ -19,7 +19,7 @@ LOGS="$REPO_DIR/reports/canonical_gate"
 mkdir -p "$LOGS"
 
 # LINGUISTIC_BASE_HEAD: last linguistic commit — immutable
-LINGUISTIC_BASE_HEAD="2e2a3ac71a00ad520675c91e13904903f573034b"
+LINGUISTIC_BASE_HEAD="ce44687dcde3c9f552de2c80201ebd9c96f96ce8"
 # AUDITED_HEAD: computed dynamically — the actual HEAD being audited
 AUDITED_HEAD="$(git rev-parse HEAD)"
 
