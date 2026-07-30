@@ -1,0 +1,733 @@
+{
+  "corpus_id": "HOKOM-SALEH-TAAQOL-SENTENCE-GEOMETRY-CORPUS-01",
+  "schema_version": "1.0",
+  "description": "Sentence geometry test cases for P9-P12 stage adapters. Each case specifies the expected constitutional status at each sentence-level stage based on the Saleh/Qiyas adapter rules.",
+  "total_cases": 30,
+  "sections": {
+    "A_single_word_defers_at_p9": {"count": 10, "description": "Single Arabic words — reach P8 but DEFER at P9 (< 2 units)"},
+    "B_two_word_sentences": {"count": 10, "description": "Two-word Arabic sentences — P9 SAHIH if adjacency established"},
+    "C_complex_sentences": {"count": 5, "description": "Multi-word sentences with grammatical relations"},
+    "D_function_words": {"count": 5, "description": "Function words (بِ، كَ، وَ، لِ، مِن) — ROOT_PATH_BLOCKED at P3"}
+  },
+  "cases": [
+    {
+      "case_id": "SGC-A-001",
+      "section": "A_single_word_defers_at_p9",
+      "surface": "كَتَبَ",
+      "description": "Single verb — reaches P8 ACCEPTED (single unit), DEFERS at P9",
+      "expected": {
+        "P3_ROOT_STEM_CLOSURE": "sahih",
+        "P4_JAMID_MUSHTAQ": "sahih",
+        "P5_MUFRAD_WORD_CONTRACTS": "sahih",
+        "P8_AMIL_MAMUL": "deferred",
+        "P9_SENTENCE_GEOMETRY": "deferred"
+      },
+      "expected_p9_blocker": "insufficient_units",
+      "hokom_evidence": {
+        "P0_UNICODE_CANDIDATE": {
+          "codepoints": [
+            {"position": 0, "codepoint": 1603, "char": "ك"},
+            {"position": 1, "codepoint": 1614, "char": "َ"},
+            {"position": 2, "codepoint": 1578, "char": "ت"},
+            {"position": 3, "codepoint": 1614, "char": "َ"},
+            {"position": 4, "codepoint": 1576, "char": "ب"},
+            {"position": 5, "codepoint": 1614, "char": "َ"}
+          ]
+        },
+        "P3_ROOT_STEM_CLOSURE": {
+          "consonant_count": 3,
+          "root_radicals": ["ك", "ت", "ب"],
+          "stem": "كَتَبَ",
+          "root_path": ""
+        },
+        "P4_JAMID_MUSHTAQ": {
+          "jamid_mushtaq": "mushtaq",
+          "wazn": "فَعَلَ",
+          "bab_id": "bab_nasara"
+        },
+        "P5_MUFRAD_WORD_CONTRACTS": {
+          "word_geometry": "resolved",
+          "word_class": "verb"
+        },
+        "P6_VERBAL_SIGNIFIED_ALONE": {
+          "verbal_cadence": "fa3ala",
+          "signified_type": "verb",
+          "cadence_confidence": 0.92
+        },
+        "P7_COMPOSITION_READINESS": {
+          "closure_readiness": "mabni_closure_ready",
+          "composition_ready": true,
+          "word_class": "verb"
+        },
+        "P8_AMIL_MAMUL": {
+          "amil_role": "amil",
+          "amil_unit_id": "w0-kataba",
+          "unit_count": 1
+        }
+      },
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {
+          "amil_mamul_units": [
+            {"unit_id": "w0-p8", "word_index": 0, "role": "amil", "candidate_id": ""}
+          ],
+          "adjacency_relation": "underspecified",
+          "sentence_boundary": "open"
+        }
+      }
+    },
+    {
+      "case_id": "SGC-A-002",
+      "section": "A_single_word_defers_at_p9",
+      "surface": "الرَّجُلُ",
+      "description": "Single noun with definite article — DEFERS at P9",
+      "expected": {
+        "P3_ROOT_STEM_CLOSURE": "sahih",
+        "P8_AMIL_MAMUL": "deferred",
+        "P9_SENTENCE_GEOMETRY": "deferred"
+      },
+      "expected_p9_blocker": "insufficient_units",
+      "hokom_evidence": {
+        "P3_ROOT_STEM_CLOSURE": {
+          "consonant_count": 2,
+          "root_radicals": ["ر", "ج", "ل"],
+          "stem": "رَجُل",
+          "root_path": ""
+        },
+        "P4_JAMID_MUSHTAQ": {
+          "jamid_mushtaq": "jamid",
+          "wazn": "فَعُل",
+          "bab_id": ""
+        },
+        "P5_MUFRAD_WORD_CONTRACTS": {
+          "word_geometry": "resolved",
+          "word_class": "noun"
+        },
+        "P6_VERBAL_SIGNIFIED_ALONE": {
+          "verbal_cadence": "non_verbal",
+          "signified_type": "noun",
+          "cadence_confidence": 0.85
+        },
+        "P7_COMPOSITION_READINESS": {
+          "closure_readiness": "murab_closure_deferred",
+          "composition_ready": true,
+          "word_class": "noun"
+        },
+        "P8_AMIL_MAMUL": {
+          "amil_role": "mamul",
+          "amil_unit_id": "w0-rajul",
+          "unit_count": 1
+        }
+      },
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {
+          "amil_mamul_units": [
+            {"unit_id": "w0-p8", "word_index": 0, "role": "mamul", "candidate_id": ""}
+          ],
+          "adjacency_relation": "underspecified",
+          "sentence_boundary": "open"
+        }
+      }
+    },
+    {
+      "case_id": "SGC-A-003",
+      "section": "A_single_word_defers_at_p9",
+      "surface": "عَلِمَ",
+      "description": "Single verb علم — DEFERS at P9",
+      "expected": {
+        "P3_ROOT_STEM_CLOSURE": "sahih",
+        "P9_SENTENCE_GEOMETRY": "deferred"
+      },
+      "expected_p9_blocker": "insufficient_units",
+      "hokom_evidence": {
+        "P3_ROOT_STEM_CLOSURE": {
+          "consonant_count": 3,
+          "root_radicals": ["ع", "ل", "م"],
+          "stem": "عَلِمَ",
+          "root_path": ""
+        },
+        "P4_JAMID_MUSHTAQ": {"jamid_mushtaq": "mushtaq", "wazn": "فَعِلَ", "bab_id": "bab_alima"},
+        "P5_MUFRAD_WORD_CONTRACTS": {"word_geometry": "resolved", "word_class": "verb"},
+        "P6_VERBAL_SIGNIFIED_ALONE": {"verbal_cadence": "fa3ila", "signified_type": "verb", "cadence_confidence": 0.9},
+        "P7_COMPOSITION_READINESS": {"closure_readiness": "mabni_closure_ready", "composition_ready": true, "word_class": "verb"},
+        "P8_AMIL_MAMUL": {"amil_role": "amil", "amil_unit_id": "w0-alima", "unit_count": 1}
+      },
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {
+          "amil_mamul_units": [{"unit_id": "w0-p8", "word_index": 0, "role": "amil", "candidate_id": ""}],
+          "adjacency_relation": "underspecified",
+          "sentence_boundary": "open"
+        }
+      }
+    },
+    {
+      "case_id": "SGC-A-004",
+      "section": "A_single_word_defers_at_p9",
+      "surface": "قَرَأَ",
+      "description": "Single verb قرأ — DEFERS at P9",
+      "expected": {"P9_SENTENCE_GEOMETRY": "deferred"},
+      "expected_p9_blocker": "insufficient_units",
+      "hokom_evidence": {
+        "P3_ROOT_STEM_CLOSURE": {"consonant_count": 3, "root_radicals": ["ق", "ر", "أ"], "stem": "قَرَأَ", "root_path": ""},
+        "P4_JAMID_MUSHTAQ": {"jamid_mushtaq": "mushtaq", "wazn": "فَعَلَ", "bab_id": "bab_nasara"},
+        "P5_MUFRAD_WORD_CONTRACTS": {"word_geometry": "resolved", "word_class": "verb"},
+        "P6_VERBAL_SIGNIFIED_ALONE": {"verbal_cadence": "fa3ala", "signified_type": "verb", "cadence_confidence": 0.9},
+        "P7_COMPOSITION_READINESS": {"closure_readiness": "mabni_closure_ready", "composition_ready": true, "word_class": "verb"},
+        "P8_AMIL_MAMUL": {"amil_role": "amil", "amil_unit_id": "w0-qara2a", "unit_count": 1}
+      },
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {"amil_mamul_units": [{"unit_id": "w0-p8", "word_index": 0, "role": "amil", "candidate_id": ""}], "adjacency_relation": "underspecified", "sentence_boundary": "open"}
+      }
+    },
+    {
+      "case_id": "SGC-A-005",
+      "section": "A_single_word_defers_at_p9",
+      "surface": "كِتَابٌ",
+      "description": "Single noun كتاب — DEFERS at P9",
+      "expected": {"P9_SENTENCE_GEOMETRY": "deferred"},
+      "expected_p9_blocker": "insufficient_units",
+      "hokom_evidence": {
+        "P3_ROOT_STEM_CLOSURE": {"consonant_count": 3, "root_radicals": ["ك", "ت", "ب"], "stem": "كِتَاب", "root_path": ""},
+        "P4_JAMID_MUSHTAQ": {"jamid_mushtaq": "jamid", "wazn": "فِعَال", "bab_id": ""},
+        "P5_MUFRAD_WORD_CONTRACTS": {"word_geometry": "resolved", "word_class": "noun"},
+        "P6_VERBAL_SIGNIFIED_ALONE": {"verbal_cadence": "non_verbal", "signified_type": "noun", "cadence_confidence": 0.9},
+        "P7_COMPOSITION_READINESS": {"closure_readiness": "murab_closure_deferred", "composition_ready": true, "word_class": "noun"},
+        "P8_AMIL_MAMUL": {"amil_role": "mamul", "amil_unit_id": "w0-kitab", "unit_count": 1}
+      },
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {"amil_mamul_units": [{"unit_id": "w0-p8", "word_index": 0, "role": "mamul", "candidate_id": ""}], "adjacency_relation": "underspecified", "sentence_boundary": "open"}
+      }
+    },
+    {
+      "case_id": "SGC-A-006",
+      "section": "A_single_word_defers_at_p9",
+      "surface": "ذَهَبَ",
+      "description": "Single verb ذهب — DEFERS at P9",
+      "expected": {"P9_SENTENCE_GEOMETRY": "deferred"},
+      "expected_p9_blocker": "insufficient_units",
+      "hokom_evidence": {
+        "P3_ROOT_STEM_CLOSURE": {"consonant_count": 3, "root_radicals": ["ذ", "ه", "ب"], "stem": "ذَهَبَ", "root_path": ""},
+        "P4_JAMID_MUSHTAQ": {"jamid_mushtaq": "mushtaq", "wazn": "فَعَلَ", "bab_id": "bab_nasara"},
+        "P5_MUFRAD_WORD_CONTRACTS": {"word_geometry": "resolved", "word_class": "verb"},
+        "P6_VERBAL_SIGNIFIED_ALONE": {"verbal_cadence": "fa3ala", "signified_type": "verb", "cadence_confidence": 0.9},
+        "P7_COMPOSITION_READINESS": {"closure_readiness": "mabni_closure_ready", "composition_ready": true, "word_class": "verb"},
+        "P8_AMIL_MAMUL": {"amil_role": "amil", "amil_unit_id": "w0-dhahaba", "unit_count": 1}
+      },
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {"amil_mamul_units": [{"unit_id": "w0-p8", "word_index": 0, "role": "amil", "candidate_id": ""}], "adjacency_relation": "underspecified", "sentence_boundary": "open"}
+      }
+    },
+    {
+      "case_id": "SGC-A-007",
+      "section": "A_single_word_defers_at_p9",
+      "surface": "الْبَيْتُ",
+      "description": "Single noun بيت — DEFERS at P9",
+      "expected": {"P9_SENTENCE_GEOMETRY": "deferred"},
+      "expected_p9_blocker": "insufficient_units",
+      "hokom_evidence": {
+        "P3_ROOT_STEM_CLOSURE": {"consonant_count": 3, "root_radicals": ["ب", "ي", "ت"], "stem": "بَيْت", "root_path": ""},
+        "P4_JAMID_MUSHTAQ": {"jamid_mushtaq": "jamid", "wazn": "فَعْل", "bab_id": ""},
+        "P5_MUFRAD_WORD_CONTRACTS": {"word_geometry": "resolved", "word_class": "noun"},
+        "P6_VERBAL_SIGNIFIED_ALONE": {"verbal_cadence": "non_verbal", "signified_type": "noun", "cadence_confidence": 0.9},
+        "P7_COMPOSITION_READINESS": {"closure_readiness": "murab_closure_deferred", "composition_ready": true, "word_class": "noun"},
+        "P8_AMIL_MAMUL": {"amil_role": "mamul", "amil_unit_id": "w0-bayt", "unit_count": 1}
+      },
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {"amil_mamul_units": [{"unit_id": "w0-p8", "word_index": 0, "role": "mamul", "candidate_id": ""}], "adjacency_relation": "underspecified", "sentence_boundary": "open"}
+      }
+    },
+    {
+      "case_id": "SGC-A-008",
+      "section": "A_single_word_defers_at_p9",
+      "surface": "جَاءَ",
+      "description": "Single weak verb جاء — DEFERS at P9",
+      "expected": {"P9_SENTENCE_GEOMETRY": "deferred"},
+      "expected_p9_blocker": "insufficient_units",
+      "hokom_evidence": {
+        "P3_ROOT_STEM_CLOSURE": {"consonant_count": 2, "root_radicals": ["ج", "ي", "ء"], "stem": "جَاءَ", "root_path": ""},
+        "P4_JAMID_MUSHTAQ": {"jamid_mushtaq": "mushtaq", "wazn": "فَاعَ", "bab_id": "bab_ajwaf"},
+        "P5_MUFRAD_WORD_CONTRACTS": {"word_geometry": "resolved", "word_class": "verb"},
+        "P6_VERBAL_SIGNIFIED_ALONE": {"verbal_cadence": "fa3ala", "signified_type": "verb", "cadence_confidence": 0.85},
+        "P7_COMPOSITION_READINESS": {"closure_readiness": "mabni_closure_ready", "composition_ready": true, "word_class": "verb"},
+        "P8_AMIL_MAMUL": {"amil_role": "amil", "amil_unit_id": "w0-jaa2a", "unit_count": 1}
+      },
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {"amil_mamul_units": [{"unit_id": "w0-p8", "word_index": 0, "role": "amil", "candidate_id": ""}], "adjacency_relation": "underspecified", "sentence_boundary": "open"}
+      }
+    },
+    {
+      "case_id": "SGC-A-009",
+      "section": "A_single_word_defers_at_p9",
+      "surface": "مُحَمَّدٌ",
+      "description": "Single proper noun محمد — DEFERS at P9",
+      "expected": {"P9_SENTENCE_GEOMETRY": "deferred"},
+      "expected_p9_blocker": "insufficient_units",
+      "hokom_evidence": {
+        "P3_ROOT_STEM_CLOSURE": {"consonant_count": 3, "root_radicals": ["ح", "م", "د"], "stem": "مُحَمَّد", "root_path": ""},
+        "P4_JAMID_MUSHTAQ": {"jamid_mushtaq": "mushtaq", "wazn": "مُفَعَّل", "bab_id": ""},
+        "P5_MUFRAD_WORD_CONTRACTS": {"word_geometry": "resolved", "word_class": "noun"},
+        "P6_VERBAL_SIGNIFIED_ALONE": {"verbal_cadence": "non_verbal", "signified_type": "noun", "cadence_confidence": 0.9},
+        "P7_COMPOSITION_READINESS": {"closure_readiness": "murab_closure_deferred", "composition_ready": true, "word_class": "noun"},
+        "P8_AMIL_MAMUL": {"amil_role": "mamul", "amil_unit_id": "w0-muhammad", "unit_count": 1}
+      },
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {"amil_mamul_units": [{"unit_id": "w0-p8", "word_index": 0, "role": "mamul", "candidate_id": ""}], "adjacency_relation": "underspecified", "sentence_boundary": "open"}
+      }
+    },
+    {
+      "case_id": "SGC-A-010",
+      "section": "A_single_word_defers_at_p9",
+      "surface": "نَصَرَ",
+      "description": "Single verb نصر — DEFERS at P9",
+      "expected": {"P9_SENTENCE_GEOMETRY": "deferred"},
+      "expected_p9_blocker": "insufficient_units",
+      "hokom_evidence": {
+        "P3_ROOT_STEM_CLOSURE": {"consonant_count": 3, "root_radicals": ["ن", "ص", "ر"], "stem": "نَصَرَ", "root_path": ""},
+        "P4_JAMID_MUSHTAQ": {"jamid_mushtaq": "mushtaq", "wazn": "فَعَلَ", "bab_id": "bab_nasara"},
+        "P5_MUFRAD_WORD_CONTRACTS": {"word_geometry": "resolved", "word_class": "verb"},
+        "P6_VERBAL_SIGNIFIED_ALONE": {"verbal_cadence": "fa3ala", "signified_type": "verb", "cadence_confidence": 0.92},
+        "P7_COMPOSITION_READINESS": {"closure_readiness": "mabni_closure_ready", "composition_ready": true, "word_class": "verb"},
+        "P8_AMIL_MAMUL": {"amil_role": "amil", "amil_unit_id": "w0-nasara", "unit_count": 1}
+      },
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {"amil_mamul_units": [{"unit_id": "w0-p8", "word_index": 0, "role": "amil", "candidate_id": ""}], "adjacency_relation": "underspecified", "sentence_boundary": "open"}
+      }
+    },
+    {
+      "case_id": "SGC-B-001",
+      "section": "B_two_word_sentences",
+      "surface": "كَتَبَ الطَّالِبُ",
+      "description": "VSO: verb + subject — P9 SAHIH with 2 units",
+      "words": [
+        {"surface": "كَتَبَ", "word_index": 0},
+        {"surface": "الطَّالِبُ", "word_index": 1}
+      ],
+      "expected": {
+        "P9_SENTENCE_GEOMETRY": "sahih",
+        "P10_RELATION_GEOMETRY": "sahih",
+        "P11_IRAB_GEOMETRY": "sahih"
+      },
+      "hokom_evidence_by_word": {
+        "0": {
+          "P3_ROOT_STEM_CLOSURE": {"consonant_count": 3, "root_radicals": ["ك", "ت", "ب"], "stem": "كَتَبَ", "root_path": ""},
+          "P4_JAMID_MUSHTAQ": {"jamid_mushtaq": "mushtaq", "wazn": "فَعَلَ", "bab_id": "bab_nasara"},
+          "P5_MUFRAD_WORD_CONTRACTS": {"word_geometry": "resolved", "word_class": "verb"},
+          "P6_VERBAL_SIGNIFIED_ALONE": {"verbal_cadence": "fa3ala", "signified_type": "verb", "cadence_confidence": 0.92},
+          "P7_COMPOSITION_READINESS": {"closure_readiness": "mabni_closure_ready", "composition_ready": true, "word_class": "verb"},
+          "P8_AMIL_MAMUL": {"amil_role": "amil", "amil_unit_id": "w0-kataba", "unit_count": 2}
+        },
+        "1": {
+          "P3_ROOT_STEM_CLOSURE": {"consonant_count": 3, "root_radicals": ["ط", "ل", "ب"], "stem": "طَالِب", "root_path": ""},
+          "P4_JAMID_MUSHTAQ": {"jamid_mushtaq": "mushtaq", "wazn": "فَاعِل", "bab_id": ""},
+          "P5_MUFRAD_WORD_CONTRACTS": {"word_geometry": "resolved", "word_class": "noun"},
+          "P6_VERBAL_SIGNIFIED_ALONE": {"verbal_cadence": "non_verbal", "signified_type": "noun", "cadence_confidence": 0.9},
+          "P7_COMPOSITION_READINESS": {"closure_readiness": "murab_closure_deferred", "composition_ready": true, "word_class": "noun"},
+          "P8_AMIL_MAMUL": {"amil_role": "mamul", "amil_unit_id": "w1-talib", "unit_count": 2}
+        }
+      },
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {
+          "amil_mamul_units": [
+            {"unit_id": "w0-p8", "word_index": 0, "role": "amil", "candidate_id": ""},
+            {"unit_id": "w1-p8", "word_index": 1, "role": "mamul", "candidate_id": ""}
+          ],
+          "adjacency_relation": "established",
+          "sentence_boundary": "closed"
+        },
+        "P10_RELATION_GEOMETRY": {
+          "relations": [{"relation_type": "verb_subject", "amil_unit_id": "w0-p8", "mamul_unit_id": "w1-p8"}],
+          "relation_confidence": 0.85
+        },
+        "P11_IRAB_GEOMETRY": {
+          "irab_positions": [
+            {"word_id": "w0", "possible_cases": ["marfu_fi3l"]},
+            {"word_id": "w1", "possible_cases": ["marfu_fa3il"]}
+          ],
+          "irab_confidence": 0.82
+        },
+        "P12_IFADAH_SPEECH_FORCE": {
+          "speech_force": "khabar",
+          "ifadah_basis": "verb_subject_pair",
+          "force_confidence": 0.85
+        }
+      }
+    },
+    {
+      "case_id": "SGC-B-002",
+      "section": "B_two_word_sentences",
+      "surface": "الرَّجُلُ عَالِمٌ",
+      "description": "Nominal sentence: mubtada + khabar — P9 SAHIH",
+      "words": [
+        {"surface": "الرَّجُلُ", "word_index": 0},
+        {"surface": "عَالِمٌ", "word_index": 1}
+      ],
+      "expected": {
+        "P9_SENTENCE_GEOMETRY": "sahih",
+        "P10_RELATION_GEOMETRY": "sahih",
+        "P12_IFADAH_SPEECH_FORCE": "sahih"
+      },
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {
+          "amil_mamul_units": [
+            {"unit_id": "w0-p8", "word_index": 0, "role": "mamul", "candidate_id": ""},
+            {"unit_id": "w1-p8", "word_index": 1, "role": "mamul", "candidate_id": ""}
+          ],
+          "adjacency_relation": "established",
+          "sentence_boundary": "closed"
+        },
+        "P10_RELATION_GEOMETRY": {
+          "relations": [{"relation_type": "mubtada_khabar", "amil_unit_id": "w0-p8", "mamul_unit_id": "w1-p8"}],
+          "relation_confidence": 0.88
+        },
+        "P11_IRAB_GEOMETRY": {
+          "irab_positions": [
+            {"word_id": "w0", "possible_cases": ["marfu_mubtada"]},
+            {"word_id": "w1", "possible_cases": ["marfu_khabar"]}
+          ],
+          "irab_confidence": 0.85
+        },
+        "P12_IFADAH_SPEECH_FORCE": {
+          "speech_force": "khabar",
+          "ifadah_basis": "mubtada_khabar_pair",
+          "force_confidence": 0.9
+        }
+      }
+    },
+    {
+      "case_id": "SGC-B-003",
+      "section": "B_two_word_sentences",
+      "surface": "قَرَأَ زَيْدٌ",
+      "description": "Verb + proper noun subject — P9 SAHIH",
+      "words": [
+        {"surface": "قَرَأَ", "word_index": 0},
+        {"surface": "زَيْدٌ", "word_index": 1}
+      ],
+      "expected": {"P9_SENTENCE_GEOMETRY": "sahih"},
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {
+          "amil_mamul_units": [
+            {"unit_id": "w0-p8", "word_index": 0, "role": "amil", "candidate_id": ""},
+            {"unit_id": "w1-p8", "word_index": 1, "role": "mamul", "candidate_id": ""}
+          ],
+          "adjacency_relation": "established",
+          "sentence_boundary": "closed"
+        },
+        "P10_RELATION_GEOMETRY": {
+          "relations": [{"relation_type": "verb_subject", "amil_unit_id": "w0-p8", "mamul_unit_id": "w1-p8"}],
+          "relation_confidence": 0.85
+        },
+        "P11_IRAB_GEOMETRY": {
+          "irab_positions": [
+            {"word_id": "w0", "possible_cases": ["marfu_fi3l"]},
+            {"word_id": "w1", "possible_cases": ["marfu_fa3il"]}
+          ],
+          "irab_confidence": 0.82
+        },
+        "P12_IFADAH_SPEECH_FORCE": {
+          "speech_force": "khabar",
+          "ifadah_basis": "verb_subject_pair",
+          "force_confidence": 0.85
+        }
+      }
+    },
+    {
+      "case_id": "SGC-B-004",
+      "section": "B_two_word_sentences",
+      "surface": "هَلْ كَتَبَ",
+      "description": "Question particle + verb — P9 SAHIH, P12 insha",
+      "words": [
+        {"surface": "هَلْ", "word_index": 0},
+        {"surface": "كَتَبَ", "word_index": 1}
+      ],
+      "expected": {
+        "P9_SENTENCE_GEOMETRY": "sahih",
+        "P12_IFADAH_SPEECH_FORCE": "sahih"
+      },
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {
+          "amil_mamul_units": [
+            {"unit_id": "w0-p8", "word_index": 0, "role": "amil", "candidate_id": ""},
+            {"unit_id": "w1-p8", "word_index": 1, "role": "amil", "candidate_id": ""}
+          ],
+          "adjacency_relation": "established",
+          "sentence_boundary": "closed"
+        },
+        "P10_RELATION_GEOMETRY": {
+          "relations": [{"relation_type": "interrogative_verb", "amil_unit_id": "w0-p8", "mamul_unit_id": "w1-p8"}],
+          "relation_confidence": 0.8
+        },
+        "P11_IRAB_GEOMETRY": {
+          "irab_positions": [
+            {"word_id": "w0", "possible_cases": ["mabni_particle"]},
+            {"word_id": "w1", "possible_cases": ["marfu_fi3l"]}
+          ],
+          "irab_confidence": 0.8
+        },
+        "P12_IFADAH_SPEECH_FORCE": {
+          "speech_force": "insha",
+          "ifadah_basis": "interrogative_particle",
+          "force_confidence": 0.85
+        }
+      }
+    },
+    {
+      "case_id": "SGC-B-005",
+      "section": "B_two_word_sentences",
+      "surface": "عَلِمَ زَيْدٌ",
+      "description": "علم + proper noun — P9 SAHIH",
+      "words": [
+        {"surface": "عَلِمَ", "word_index": 0},
+        {"surface": "زَيْدٌ", "word_index": 1}
+      ],
+      "expected": {"P9_SENTENCE_GEOMETRY": "sahih"},
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {
+          "amil_mamul_units": [
+            {"unit_id": "w0-p8", "word_index": 0, "role": "amil", "candidate_id": ""},
+            {"unit_id": "w1-p8", "word_index": 1, "role": "mamul", "candidate_id": ""}
+          ],
+          "adjacency_relation": "established",
+          "sentence_boundary": "closed"
+        },
+        "P10_RELATION_GEOMETRY": {"relations": [{"relation_type": "verb_subject", "amil_unit_id": "w0-p8", "mamul_unit_id": "w1-p8"}], "relation_confidence": 0.85},
+        "P11_IRAB_GEOMETRY": {"irab_positions": [{"word_id": "w0", "possible_cases": ["marfu_fi3l"]}, {"word_id": "w1", "possible_cases": ["marfu_fa3il"]}], "irab_confidence": 0.82},
+        "P12_IFADAH_SPEECH_FORCE": {"speech_force": "khabar", "ifadah_basis": "verb_subject_pair", "force_confidence": 0.85}
+      }
+    },
+    {
+      "case_id": "SGC-B-006",
+      "section": "B_two_word_sentences",
+      "surface": "ذَهَبَ زَيْدٌ",
+      "description": "ذهب + proper noun — P9 SAHIH",
+      "words": [{"surface": "ذَهَبَ", "word_index": 0}, {"surface": "زَيْدٌ", "word_index": 1}],
+      "expected": {"P9_SENTENCE_GEOMETRY": "sahih"},
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {"amil_mamul_units": [{"unit_id": "w0-p8", "word_index": 0, "role": "amil", "candidate_id": ""}, {"unit_id": "w1-p8", "word_index": 1, "role": "mamul", "candidate_id": ""}], "adjacency_relation": "established", "sentence_boundary": "closed"},
+        "P10_RELATION_GEOMETRY": {"relations": [{"relation_type": "verb_subject", "amil_unit_id": "w0-p8", "mamul_unit_id": "w1-p8"}], "relation_confidence": 0.85},
+        "P11_IRAB_GEOMETRY": {"irab_positions": [{"word_id": "w0", "possible_cases": ["marfu_fi3l"]}, {"word_id": "w1", "possible_cases": ["marfu_fa3il"]}], "irab_confidence": 0.82},
+        "P12_IFADAH_SPEECH_FORCE": {"speech_force": "khabar", "ifadah_basis": "verb_subject_pair", "force_confidence": 0.85}
+      }
+    },
+    {
+      "case_id": "SGC-B-007",
+      "section": "B_two_word_sentences",
+      "surface": "اكْتُبْ كِتَاباً",
+      "description": "Imperative verb + object — P12 talab",
+      "words": [{"surface": "اكْتُبْ", "word_index": 0}, {"surface": "كِتَاباً", "word_index": 1}],
+      "expected": {"P9_SENTENCE_GEOMETRY": "sahih", "P12_IFADAH_SPEECH_FORCE": "sahih"},
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {"amil_mamul_units": [{"unit_id": "w0-p8", "word_index": 0, "role": "amil", "candidate_id": ""}, {"unit_id": "w1-p8", "word_index": 1, "role": "mamul", "candidate_id": ""}], "adjacency_relation": "established", "sentence_boundary": "closed"},
+        "P10_RELATION_GEOMETRY": {"relations": [{"relation_type": "verb_object", "amil_unit_id": "w0-p8", "mamul_unit_id": "w1-p8"}], "relation_confidence": 0.85},
+        "P11_IRAB_GEOMETRY": {"irab_positions": [{"word_id": "w0", "possible_cases": ["mabni_amr"]}, {"word_id": "w1", "possible_cases": ["mansub_maf3ul"]}], "irab_confidence": 0.82},
+        "P12_IFADAH_SPEECH_FORCE": {"speech_force": "talab", "ifadah_basis": "imperative_verb", "force_confidence": 0.9}
+      }
+    },
+    {
+      "case_id": "SGC-B-008",
+      "section": "B_two_word_sentences",
+      "surface": "نَصَرَ اللَّهُ",
+      "description": "نصر + divine subject — P9 SAHIH",
+      "words": [{"surface": "نَصَرَ", "word_index": 0}, {"surface": "اللَّهُ", "word_index": 1}],
+      "expected": {"P9_SENTENCE_GEOMETRY": "sahih"},
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {"amil_mamul_units": [{"unit_id": "w0-p8", "word_index": 0, "role": "amil", "candidate_id": ""}, {"unit_id": "w1-p8", "word_index": 1, "role": "mamul", "candidate_id": ""}], "adjacency_relation": "established", "sentence_boundary": "closed"},
+        "P10_RELATION_GEOMETRY": {"relations": [{"relation_type": "verb_subject", "amil_unit_id": "w0-p8", "mamul_unit_id": "w1-p8"}], "relation_confidence": 0.9},
+        "P11_IRAB_GEOMETRY": {"irab_positions": [{"word_id": "w0", "possible_cases": ["marfu_fi3l"]}, {"word_id": "w1", "possible_cases": ["marfu_fa3il"]}], "irab_confidence": 0.88},
+        "P12_IFADAH_SPEECH_FORCE": {"speech_force": "khabar", "ifadah_basis": "verb_subject_pair", "force_confidence": 0.9}
+      }
+    },
+    {
+      "case_id": "SGC-B-009",
+      "section": "B_two_word_sentences",
+      "surface": "الْعِلْمُ نُورٌ",
+      "description": "Nominal sentence: knowledge is light — P9 SAHIH, P12 khabar",
+      "words": [{"surface": "الْعِلْمُ", "word_index": 0}, {"surface": "نُورٌ", "word_index": 1}],
+      "expected": {"P9_SENTENCE_GEOMETRY": "sahih", "P12_IFADAH_SPEECH_FORCE": "sahih"},
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {"amil_mamul_units": [{"unit_id": "w0-p8", "word_index": 0, "role": "mamul", "candidate_id": ""}, {"unit_id": "w1-p8", "word_index": 1, "role": "mamul", "candidate_id": ""}], "adjacency_relation": "established", "sentence_boundary": "closed"},
+        "P10_RELATION_GEOMETRY": {"relations": [{"relation_type": "mubtada_khabar", "amil_unit_id": "w0-p8", "mamul_unit_id": "w1-p8"}], "relation_confidence": 0.88},
+        "P11_IRAB_GEOMETRY": {"irab_positions": [{"word_id": "w0", "possible_cases": ["marfu_mubtada"]}, {"word_id": "w1", "possible_cases": ["marfu_khabar"]}], "irab_confidence": 0.85},
+        "P12_IFADAH_SPEECH_FORCE": {"speech_force": "khabar", "ifadah_basis": "mubtada_khabar_pair", "force_confidence": 0.9}
+      }
+    },
+    {
+      "case_id": "SGC-B-010",
+      "section": "B_two_word_sentences",
+      "surface": "جَاءَ زَيْدٌ",
+      "description": "جاء + subject — P9 SAHIH",
+      "words": [{"surface": "جَاءَ", "word_index": 0}, {"surface": "زَيْدٌ", "word_index": 1}],
+      "expected": {"P9_SENTENCE_GEOMETRY": "sahih"},
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {"amil_mamul_units": [{"unit_id": "w0-p8", "word_index": 0, "role": "amil", "candidate_id": ""}, {"unit_id": "w1-p8", "word_index": 1, "role": "mamul", "candidate_id": ""}], "adjacency_relation": "established", "sentence_boundary": "closed"},
+        "P10_RELATION_GEOMETRY": {"relations": [{"relation_type": "verb_subject", "amil_unit_id": "w0-p8", "mamul_unit_id": "w1-p8"}], "relation_confidence": 0.85},
+        "P11_IRAB_GEOMETRY": {"irab_positions": [{"word_id": "w0", "possible_cases": ["marfu_fi3l"]}, {"word_id": "w1", "possible_cases": ["marfu_fa3il"]}], "irab_confidence": 0.82},
+        "P12_IFADAH_SPEECH_FORCE": {"speech_force": "khabar", "ifadah_basis": "verb_subject_pair", "force_confidence": 0.85}
+      }
+    },
+    {
+      "case_id": "SGC-C-001",
+      "section": "C_complex_sentences",
+      "surface": "كَتَبَ الطَّالِبُ الدَّرْسَ",
+      "description": "VSO + object: verb, subject, object — P9/P10 SAHIH",
+      "words": [
+        {"surface": "كَتَبَ", "word_index": 0},
+        {"surface": "الطَّالِبُ", "word_index": 1},
+        {"surface": "الدَّرْسَ", "word_index": 2}
+      ],
+      "expected": {
+        "P9_SENTENCE_GEOMETRY": "sahih",
+        "P10_RELATION_GEOMETRY": "sahih"
+      },
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {
+          "amil_mamul_units": [
+            {"unit_id": "w0-p8", "word_index": 0, "role": "amil", "candidate_id": ""},
+            {"unit_id": "w1-p8", "word_index": 1, "role": "mamul", "candidate_id": ""},
+            {"unit_id": "w2-p8", "word_index": 2, "role": "mamul", "candidate_id": ""}
+          ],
+          "adjacency_relation": "established",
+          "sentence_boundary": "closed"
+        },
+        "P10_RELATION_GEOMETRY": {
+          "relations": [
+            {"relation_type": "verb_subject", "amil_unit_id": "w0-p8", "mamul_unit_id": "w1-p8"},
+            {"relation_type": "verb_object", "amil_unit_id": "w0-p8", "mamul_unit_id": "w2-p8"}
+          ],
+          "relation_confidence": 0.85
+        },
+        "P11_IRAB_GEOMETRY": {
+          "irab_positions": [
+            {"word_id": "w0", "possible_cases": ["marfu_fi3l"]},
+            {"word_id": "w1", "possible_cases": ["marfu_fa3il"]},
+            {"word_id": "w2", "possible_cases": ["mansub_maf3ul"]}
+          ],
+          "irab_confidence": 0.82
+        },
+        "P12_IFADAH_SPEECH_FORCE": {"speech_force": "khabar", "ifadah_basis": "verb_subject_object", "force_confidence": 0.88}
+      }
+    },
+    {
+      "case_id": "SGC-C-002",
+      "section": "C_complex_sentences",
+      "surface": "عَلِمَ زَيْدٌ الْحَقَّ",
+      "description": "علم + subject + object — P9/P10 SAHIH",
+      "words": [{"surface": "عَلِمَ", "word_index": 0}, {"surface": "زَيْدٌ", "word_index": 1}, {"surface": "الْحَقَّ", "word_index": 2}],
+      "expected": {"P9_SENTENCE_GEOMETRY": "sahih", "P10_RELATION_GEOMETRY": "sahih"},
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {"amil_mamul_units": [{"unit_id": "w0-p8", "word_index": 0, "role": "amil", "candidate_id": ""}, {"unit_id": "w1-p8", "word_index": 1, "role": "mamul", "candidate_id": ""}, {"unit_id": "w2-p8", "word_index": 2, "role": "mamul", "candidate_id": ""}], "adjacency_relation": "established", "sentence_boundary": "closed"},
+        "P10_RELATION_GEOMETRY": {"relations": [{"relation_type": "verb_subject", "amil_unit_id": "w0-p8", "mamul_unit_id": "w1-p8"}, {"relation_type": "verb_object", "amil_unit_id": "w0-p8", "mamul_unit_id": "w2-p8"}], "relation_confidence": 0.85},
+        "P11_IRAB_GEOMETRY": {"irab_positions": [{"word_id": "w0", "possible_cases": ["marfu_fi3l"]}, {"word_id": "w1", "possible_cases": ["marfu_fa3il"]}, {"word_id": "w2", "possible_cases": ["mansub_maf3ul"]}], "irab_confidence": 0.82},
+        "P12_IFADAH_SPEECH_FORCE": {"speech_force": "khabar", "ifadah_basis": "verb_subject_object", "force_confidence": 0.88}
+      }
+    },
+    {
+      "case_id": "SGC-C-003",
+      "section": "C_complex_sentences",
+      "surface": "إِنَّ اللَّهَ عَلِيمٌ",
+      "description": "inna + object + khabar — P9 SAHIH, P12 khabar",
+      "words": [{"surface": "إِنَّ", "word_index": 0}, {"surface": "اللَّهَ", "word_index": 1}, {"surface": "عَلِيمٌ", "word_index": 2}],
+      "expected": {"P9_SENTENCE_GEOMETRY": "sahih", "P12_IFADAH_SPEECH_FORCE": "sahih"},
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {"amil_mamul_units": [{"unit_id": "w0-p8", "word_index": 0, "role": "amil", "candidate_id": ""}, {"unit_id": "w1-p8", "word_index": 1, "role": "mamul", "candidate_id": ""}, {"unit_id": "w2-p8", "word_index": 2, "role": "mamul", "candidate_id": ""}], "adjacency_relation": "established", "sentence_boundary": "closed"},
+        "P10_RELATION_GEOMETRY": {"relations": [{"relation_type": "inna_subject", "amil_unit_id": "w0-p8", "mamul_unit_id": "w1-p8"}, {"relation_type": "inna_khabar", "amil_unit_id": "w0-p8", "mamul_unit_id": "w2-p8"}], "relation_confidence": 0.88},
+        "P11_IRAB_GEOMETRY": {"irab_positions": [{"word_id": "w0", "possible_cases": ["mabni_particle"]}, {"word_id": "w1", "possible_cases": ["mansub_ism_inna"]}, {"word_id": "w2", "possible_cases": ["marfu_khabar_inna"]}], "irab_confidence": 0.85},
+        "P12_IFADAH_SPEECH_FORCE": {"speech_force": "khabar", "ifadah_basis": "inna_construction", "force_confidence": 0.9}
+      }
+    },
+    {
+      "case_id": "SGC-C-004",
+      "section": "C_complex_sentences",
+      "surface": "ضَرَبَ زَيْدٌ عَمْراً",
+      "description": "ضرب + subject + object — classical triliteral VSO",
+      "words": [{"surface": "ضَرَبَ", "word_index": 0}, {"surface": "زَيْدٌ", "word_index": 1}, {"surface": "عَمْراً", "word_index": 2}],
+      "expected": {"P9_SENTENCE_GEOMETRY": "sahih"},
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {"amil_mamul_units": [{"unit_id": "w0-p8", "word_index": 0, "role": "amil", "candidate_id": ""}, {"unit_id": "w1-p8", "word_index": 1, "role": "mamul", "candidate_id": ""}, {"unit_id": "w2-p8", "word_index": 2, "role": "mamul", "candidate_id": ""}], "adjacency_relation": "established", "sentence_boundary": "closed"},
+        "P10_RELATION_GEOMETRY": {"relations": [{"relation_type": "verb_subject", "amil_unit_id": "w0-p8", "mamul_unit_id": "w1-p8"}, {"relation_type": "verb_object", "amil_unit_id": "w0-p8", "mamul_unit_id": "w2-p8"}], "relation_confidence": 0.88},
+        "P11_IRAB_GEOMETRY": {"irab_positions": [{"word_id": "w0", "possible_cases": ["marfu_fi3l"]}, {"word_id": "w1", "possible_cases": ["marfu_fa3il"]}, {"word_id": "w2", "possible_cases": ["mansub_maf3ul"]}], "irab_confidence": 0.85},
+        "P12_IFADAH_SPEECH_FORCE": {"speech_force": "khabar", "ifadah_basis": "verb_subject_object", "force_confidence": 0.88}
+      }
+    },
+    {
+      "case_id": "SGC-C-005",
+      "section": "C_complex_sentences",
+      "surface": "الدِّينُ النَّصِيحَةُ",
+      "description": "Nominal sentence with definite article on both — P9 SAHIH",
+      "words": [{"surface": "الدِّينُ", "word_index": 0}, {"surface": "النَّصِيحَةُ", "word_index": 1}],
+      "expected": {"P9_SENTENCE_GEOMETRY": "sahih", "P12_IFADAH_SPEECH_FORCE": "sahih"},
+      "sentence_evidence": {
+        "P9_SENTENCE_GEOMETRY": {"amil_mamul_units": [{"unit_id": "w0-p8", "word_index": 0, "role": "mamul", "candidate_id": ""}, {"unit_id": "w1-p8", "word_index": 1, "role": "mamul", "candidate_id": ""}], "adjacency_relation": "established", "sentence_boundary": "closed"},
+        "P10_RELATION_GEOMETRY": {"relations": [{"relation_type": "mubtada_khabar", "amil_unit_id": "w0-p8", "mamul_unit_id": "w1-p8"}], "relation_confidence": 0.85},
+        "P11_IRAB_GEOMETRY": {"irab_positions": [{"word_id": "w0", "possible_cases": ["marfu_mubtada"]}, {"word_id": "w1", "possible_cases": ["marfu_khabar"]}], "irab_confidence": 0.85},
+        "P12_IFADAH_SPEECH_FORCE": {"speech_force": "khabar", "ifadah_basis": "mubtada_khabar_pair", "force_confidence": 0.88}
+      }
+    },
+    {
+      "case_id": "SGC-D-001",
+      "section": "D_function_words",
+      "surface": "بِ",
+      "description": "بِ (preposition clitic) — ROOT_PATH_BLOCKED at P3, DEFERS all the way through",
+      "expected": {
+        "P3_ROOT_STEM_CLOSURE": "batil",
+        "P9_SENTENCE_GEOMETRY": "deferred"
+      },
+      "expected_p3_blocker": "root_path_blocked",
+      "hokom_evidence": {
+        "P3_ROOT_STEM_CLOSURE": {
+          "consonant_count": 1,
+          "root_radicals": [],
+          "stem": "",
+          "root_path": "ROOT_PATH_BLOCKED"
+        }
+      },
+      "note": "NativeClosedFunctionWordProvider: بِ is clitic-only, no lexical host"
+    },
+    {
+      "case_id": "SGC-D-002",
+      "section": "D_function_words",
+      "surface": "كَ",
+      "description": "كَ (comparison/vocative clitic) — ROOT_PATH_BLOCKED at P3",
+      "expected": {"P3_ROOT_STEM_CLOSURE": "batil"},
+      "expected_p3_blocker": "root_path_blocked",
+      "hokom_evidence": {
+        "P3_ROOT_STEM_CLOSURE": {"consonant_count": 1, "root_radicals": [], "stem": "", "root_path": "ROOT_PATH_BLOCKED"}
+      },
+      "note": "NativeClosedFunctionWordProvider: كَ is clitic-only"
+    },
+    {
+      "case_id": "SGC-D-003",
+      "section": "D_function_words",
+      "surface": "وَ",
+      "description": "وَ (conjunction clitic) — ROOT_PATH_BLOCKED at P3",
+      "expected": {"P3_ROOT_STEM_CLOSURE": "batil"},
+      "expected_p3_blocker": "root_path_blocked",
+      "hokom_evidence": {
+        "P3_ROOT_STEM_CLOSURE": {"consonant_count": 1, "root_radicals": [], "stem": "", "root_path": "ROOT_PATH_BLOCKED"}
+      },
+      "note": "NativeClosedFunctionWordProvider: وَ is clitic-only"
+    },
+    {
+      "case_id": "SGC-D-004",
+      "section": "D_function_words",
+      "surface": "لِ",
+      "description": "لِ (lam preposition clitic) — ROOT_PATH_BLOCKED at P3",
+      "expected": {"P3_ROOT_STEM_CLOSURE": "batil"},
+      "expected_p3_blocker": "root_path_blocked",
+      "hokom_evidence": {
+        "P3_ROOT_STEM_CLOSURE": {"consonant_count": 1, "root_radicals": [], "stem": "", "root_path": "ROOT_PATH_BLOCKED"}
+      },
+      "note": "NativeClosedFunctionWordProvider: لِ is clitic-only"
+    },
+    {
+      "case_id": "SGC-D-005",
+      "section": "D_function_words",
+      "surface": "مِن",
+      "description": "مِن (min preposition) — ROOT_PATH_BLOCKED at P3",
+      "expected": {"P3_ROOT_STEM_CLOSURE": "batil"},
+      "expected_p3_blocker": "root_path_blocked",
+      "hokom_evidence": {
+        "P3_ROOT_STEM_CLOSURE": {"consonant_count": 2, "root_radicals": [], "stem": "", "root_path": "ROOT_PATH_BLOCKED"}
+      },
+      "note": "NativeClosedFunctionWordProvider: مِن is function-word-only"
+    }
+  ]
+}

@@ -1,0 +1,190 @@
+{
+  "fixture_id": "HOKOM-TAAQOL-LIVE-POSITIVE-STAGE-CASES-01",
+  "description": "Technical live positive stage cases for SAHIH reachability evidence. IDs use LIVE-P*-001 format — these are NOT part of the canonical SCX-150 corpus. SCX-151..157 identifiers have been retired; these cases use LIVE-P3-001..LIVE-P11-001. Each case tests one stage with full evidence. Stages requiring predecessors (registry_projection_present, root_stem_present, etc.) use real adapter chains in the fixture test harness.",
+  "total_cases": 7,
+  "cases": [
+    {
+      "case_id": "LIVE-P3-001",
+      "section": "live_positive_stage_validation",
+      "surface": "كَتَبَ",
+      "description": "P3 sound trilateral root k-t-b — definitive root closure with full radical specification",
+      "expected": {
+        "P3_ROOT_STEM_CLOSURE": "sahih",
+        "P4_JAMID_MUSHTAQ": "sahih"
+      },
+      "constitutional_reason": "Sound trilateral root with 3 explicit consonants and verified soundness — definitive root closure without ambiguity or defect.",
+      "hokom_evidence": {
+        "P3_ROOT_STEM_CLOSURE": {
+          "root_class": "trilateral",
+          "root_r1": "ك",
+          "root_r2": "ت",
+          "root_r3": "ب",
+          "root_radicals": [
+            "ك",
+            "ت",
+            "ب"
+          ],
+          "stem": "كَتَبَ",
+          "root_soundness": "sound",
+          "stem_type": "verb_stem",
+          "root_path": "k-t-b:sound:trilateral",
+          "consonant_count": 3
+        },
+        "P4_JAMID_MUSHTAQ": {
+          "jamid_mushtaq": "mushtaq",
+          "wazn": "فَعَلَ",
+          "bab_id": "bab_fataHa"
+        }
+      },
+      "sentence_evidence": {},
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "LIVE-P5-001",
+      "section": "live_positive_stage_validation",
+      "surface": "الْكِتَابُ",
+      "description": "P5 mufrad word contract — noun with fully resolved geometry and closed boundary",
+      "expected": {
+        "P5_MUFRAD_WORD_CONTRACTS": "sahih"
+      },
+      "constitutional_reason": "Word geometry fully resolved (noun, closed boundary). Inflection class determinative with predecessor P4 verdict confirmed.",
+      "hokom_evidence": {
+        "P5_MUFRAD_WORD_CONTRACTS": {
+          "word_geometry": "resolved",
+          "word_class": "noun",
+          "masdar": "",
+          "inflection_set": [
+            "nominative",
+            "genitive",
+            "accusative"
+          ],
+          "inflection_class": "triptote",
+          "word_boundary": "closed",
+          "predecessor_p4_verdict": "jamid"
+        }
+      },
+      "sentence_evidence": {},
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "LIVE-P6-001",
+      "section": "live_positive_stage_validation",
+      "surface": "ذَهَبَ",
+      "description": "P6 verbal signified — clear fa3ala cadence with definitive verb classification",
+      "expected": {
+        "P6_VERBAL_SIGNIFIED_ALONE": "sahih"
+      },
+      "constitutional_reason": "Cadence matches fa3ala verbal pattern with high confidence (0.95). Signified type is definitively 'verb' with explicit verbal_form classification.",
+      "hokom_evidence": {
+        "P6_VERBAL_SIGNIFIED_ALONE": {
+          "verbal_cadence": "fa3ala",
+          "signified_type": "verb",
+          "cadence_confidence": 0.95,
+          "signified_class": "fi3l_madhi",
+          "cadence_type": "fa3ala",
+          "verbal_form": "past_tense_third_person_masculine_singular"
+        }
+      },
+      "sentence_evidence": {},
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "LIVE-P7-001",
+      "section": "live_positive_stage_validation",
+      "surface": "زَيْدٌ",
+      "description": "P7 composition readiness — mabni closure ready noun, fully composition-ready",
+      "expected": {
+        "P7_COMPOSITION_READINESS": "sahih"
+      },
+      "constitutional_reason": "Noun with mabni_closure_ready status and composition_ready=True. Word class determined as noun. Readiness class definitively established.",
+      "hokom_evidence": {
+        "P7_COMPOSITION_READINESS": {
+          "closure_readiness": "mabni_closure_ready",
+          "composition_ready": true,
+          "word_class": "noun",
+          "readiness_class": "mabni_closure_ready",
+          "composition_gate": "True",
+          "word_class_boundary": "noun"
+        }
+      },
+      "sentence_evidence": {},
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "LIVE-P8-001",
+      "section": "live_positive_stage_validation",
+      "surface": "كَتَبَ زَيْدٌ",
+      "description": "P8 amil-mamul — verb (amil) + noun (mamul), isnad relation, 2-unit composition",
+      "expected": {
+        "P8_AMIL_MAMUL": "sahih"
+      },
+      "constitutional_reason": "Two composition-ready units: verb as amil (governor) and noun as mamul (governed). Isnad relation class established in verbal predication domain.",
+      "hokom_evidence": {
+        "P8_AMIL_MAMUL": {
+          "amil_role": "amil",
+          "amil_unit_id": "w0-kataba",
+          "unit_count": 2,
+          "mamul_role": "mamul",
+          "relation_class": "isnad",
+          "domain": "verbal_predication"
+        }
+      },
+      "sentence_evidence": {},
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "LIVE-P10-001",
+      "section": "live_positive_stage_validation",
+      "surface": "ضَرَبَ زَيْدٌ عَمْرًا",
+      "description": "P10 relation geometry — subject (fa3il) and object (maf3ul) relations from closed sentence geometry",
+      "expected": {
+        "P10_RELATION_GEOMETRY": "sahih"
+      },
+      "constitutional_reason": "Two grammatical relations derived from closed sentence geometry: subject (verb-noun1) and object (verb-noun2). High relation confidence with no conflicts.",
+      "hokom_evidence": {
+        "P10_RELATION_GEOMETRY": {
+          "relations": [
+            {
+              "relation_type": "subject",
+              "amil_unit_id": "w0-daraba",
+              "mamul_unit_id": "w1-zaydun"
+            },
+            {
+              "relation_type": "object",
+              "amil_unit_id": "w0-daraba",
+              "mamul_unit_id": "w2-amran"
+            }
+          ],
+          "relation_confidence": 0.92
+        }
+      },
+      "sentence_evidence": {},
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "LIVE-P11-001",
+      "section": "live_positive_stage_validation",
+      "surface": "جَاءَ زَيْدٌ",
+      "description": "P11 irab geometry — nominative subject position from verbal sentence with sound trilateral verb",
+      "expected": {
+        "P11_IRAB_GEOMETRY": "sahih"
+      },
+      "constitutional_reason": "Clear irab position: zaydun takes nominative case as fa3il (agent) of the verb. Single unambiguous case position with no irab conflict.",
+      "hokom_evidence": {
+        "P11_IRAB_GEOMETRY": {
+          "irab_positions": [
+            {
+              "word_id": "w1-zaydun",
+              "possible_cases": [
+                "nominative"
+              ]
+            }
+          ],
+          "irab_confidence": 0.93
+        }
+      },
+      "sentence_evidence": {},
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    }
+  ]
+}

@@ -1,0 +1,193 @@
+{
+  "package_id": "HRP-001",
+  "schema_version": "1.0",
+  "description": "Human review package for Hokom-Saleh-Taaqol sentence corpus. All cases require human linguistic review before being promoted to GOLD status. This stub contains a 10-case sample (SCX-001 through SCX-010). The remaining cases follow the same schema.",
+  "total_cases": 157,
+  "pending_review_count": 157,
+  "gold_count": 0,
+  "review_instructions": "For each case: (1) verify the Arabic surface text is a valid Arabic form; (2) confirm stage_expectations align with classical Arabic grammar rules; (3) check hokom_evidence provides accurate morphological/syntactic data; (4) set review_decision to 'APPROVED' or 'REJECTED' with notes; (5) set reviewer to your name and review_timestamp to ISO-8601 datetime.",
+  "sample_cases_count": 10,
+  "sample_note": "This file contains SCX-001 through SCX-010 as a representative sample. Full review of all 157 cases should use the same schema applied to each entry in hokom_saleh_taaqol_sentence_corpus_150.json.",
+  "cases": [
+    {
+      "case_id": "SCX-001",
+      "surface": "ضَرَبَ",
+      "section": "A_word_level_p3_sahih",
+      "description": "Single word ضَرَبَ — P3 SAHIH (3 consonants), P9 DEFERRED",
+      "stage_expectations": {
+        "P3_ROOT_STEM_CLOSURE": "deferred",
+        "P4_JAMID_MUSHTAQ": "deferred",
+        "P5_MUFRAD_WORD_CONTRACTS": "deferred",
+        "P9_SENTENCE_GEOMETRY": "deferred"
+      },
+      "constitutional_reason": "Expected DEFERRED at stage(s): P3_ROOT_STEM_CLOSURE, P4_JAMID_MUSHTAQ, P5_MUFRAD_WORD_CONTRACTS, P9_SENTENCE_GEOMETRY. Human reviewer: confirm the deferral is constitutionally justified by insufficient evidence or unsatisfied shurut.",
+      "linguistic_reason": "Arabic surface: ضَرَبَ. Single word ضَرَبَ — P3 SAHIH (3 consonants), P9 DEFERRED. Reviewer: verify Arabic morphological and syntactic facts against classical grammar sources.",
+      "review_decision": null,
+      "review_notes": null,
+      "reviewer": null,
+      "review_timestamp": null
+    },
+    {
+      "case_id": "SCX-002",
+      "surface": "نَصَرَ",
+      "section": "A_word_level_p3_sahih",
+      "description": "Single word نَصَرَ — P3 SAHIH (3 consonants), P9 DEFERRED",
+      "stage_expectations": {
+        "P3_ROOT_STEM_CLOSURE": "deferred",
+        "P4_JAMID_MUSHTAQ": "deferred",
+        "P5_MUFRAD_WORD_CONTRACTS": "deferred",
+        "P9_SENTENCE_GEOMETRY": "deferred"
+      },
+      "constitutional_reason": "Expected DEFERRED at stage(s): P3_ROOT_STEM_CLOSURE, P4_JAMID_MUSHTAQ, P5_MUFRAD_WORD_CONTRACTS, P9_SENTENCE_GEOMETRY. Human reviewer: confirm the deferral is constitutionally justified by insufficient evidence or unsatisfied shurut.",
+      "linguistic_reason": "Arabic surface: نَصَرَ. Single word نَصَرَ — P3 SAHIH (3 consonants), P9 DEFERRED. Reviewer: verify Arabic morphological and syntactic facts against classical grammar sources.",
+      "review_decision": null,
+      "review_notes": null,
+      "reviewer": null,
+      "review_timestamp": null
+    },
+    {
+      "case_id": "SCX-003",
+      "surface": "خَرَجَ",
+      "section": "A_word_level_p3_sahih",
+      "description": "Single word خَرَجَ — P3 SAHIH (3 consonants), P9 DEFERRED",
+      "stage_expectations": {
+        "P3_ROOT_STEM_CLOSURE": "deferred",
+        "P4_JAMID_MUSHTAQ": "deferred",
+        "P5_MUFRAD_WORD_CONTRACTS": "deferred",
+        "P9_SENTENCE_GEOMETRY": "deferred"
+      },
+      "constitutional_reason": "Expected DEFERRED at stage(s): P3_ROOT_STEM_CLOSURE, P4_JAMID_MUSHTAQ, P5_MUFRAD_WORD_CONTRACTS, P9_SENTENCE_GEOMETRY. Human reviewer: confirm the deferral is constitutionally justified by insufficient evidence or unsatisfied shurut.",
+      "linguistic_reason": "Arabic surface: خَرَجَ. Single word خَرَجَ — P3 SAHIH (3 consonants), P9 DEFERRED. Reviewer: verify Arabic morphological and syntactic facts against classical grammar sources.",
+      "review_decision": null,
+      "review_notes": null,
+      "reviewer": null,
+      "review_timestamp": null
+    },
+    {
+      "case_id": "SCX-004",
+      "surface": "دَخَلَ",
+      "section": "A_word_level_p3_sahih",
+      "description": "Single word دَخَلَ — P3 SAHIH (3 consonants), P9 DEFERRED",
+      "stage_expectations": {
+        "P3_ROOT_STEM_CLOSURE": "deferred",
+        "P4_JAMID_MUSHTAQ": "deferred",
+        "P5_MUFRAD_WORD_CONTRACTS": "deferred",
+        "P9_SENTENCE_GEOMETRY": "deferred"
+      },
+      "constitutional_reason": "Expected DEFERRED at stage(s): P3_ROOT_STEM_CLOSURE, P4_JAMID_MUSHTAQ, P5_MUFRAD_WORD_CONTRACTS, P9_SENTENCE_GEOMETRY. Human reviewer: confirm the deferral is constitutionally justified by insufficient evidence or unsatisfied shurut.",
+      "linguistic_reason": "Arabic surface: دَخَلَ. Single word دَخَلَ — P3 SAHIH (3 consonants), P9 DEFERRED. Reviewer: verify Arabic morphological and syntactic facts against classical grammar sources.",
+      "review_decision": null,
+      "review_notes": null,
+      "reviewer": null,
+      "review_timestamp": null
+    },
+    {
+      "case_id": "SCX-005",
+      "surface": "قَرَأَ",
+      "section": "A_word_level_p3_sahih",
+      "description": "Single word قَرَأَ — P3 SAHIH (3 consonants), P9 DEFERRED",
+      "stage_expectations": {
+        "P3_ROOT_STEM_CLOSURE": "deferred",
+        "P4_JAMID_MUSHTAQ": "deferred",
+        "P5_MUFRAD_WORD_CONTRACTS": "deferred",
+        "P9_SENTENCE_GEOMETRY": "deferred"
+      },
+      "constitutional_reason": "Expected DEFERRED at stage(s): P3_ROOT_STEM_CLOSURE, P4_JAMID_MUSHTAQ, P5_MUFRAD_WORD_CONTRACTS, P9_SENTENCE_GEOMETRY. Human reviewer: confirm the deferral is constitutionally justified by insufficient evidence or unsatisfied shurut.",
+      "linguistic_reason": "Arabic surface: قَرَأَ. Single word قَرَأَ — P3 SAHIH (3 consonants), P9 DEFERRED. Reviewer: verify Arabic morphological and syntactic facts against classical grammar sources.",
+      "review_decision": null,
+      "review_notes": null,
+      "reviewer": null,
+      "review_timestamp": null
+    },
+    {
+      "case_id": "SCX-006",
+      "surface": "عَلِمَ",
+      "section": "A_word_level_p3_sahih",
+      "description": "Single word عَلِمَ — P3 SAHIH (3 consonants), P9 DEFERRED",
+      "stage_expectations": {
+        "P3_ROOT_STEM_CLOSURE": "deferred",
+        "P4_JAMID_MUSHTAQ": "deferred",
+        "P5_MUFRAD_WORD_CONTRACTS": "deferred",
+        "P9_SENTENCE_GEOMETRY": "deferred"
+      },
+      "constitutional_reason": "Expected DEFERRED at stage(s): P3_ROOT_STEM_CLOSURE, P4_JAMID_MUSHTAQ, P5_MUFRAD_WORD_CONTRACTS, P9_SENTENCE_GEOMETRY. Human reviewer: confirm the deferral is constitutionally justified by insufficient evidence or unsatisfied shurut.",
+      "linguistic_reason": "Arabic surface: عَلِمَ. Single word عَلِمَ — P3 SAHIH (3 consonants), P9 DEFERRED. Reviewer: verify Arabic morphological and syntactic facts against classical grammar sources.",
+      "review_decision": null,
+      "review_notes": null,
+      "reviewer": null,
+      "review_timestamp": null
+    },
+    {
+      "case_id": "SCX-007",
+      "surface": "حَسُنَ",
+      "section": "A_word_level_p3_sahih",
+      "description": "Single word حَسُنَ — P3 SAHIH (3 consonants), P9 DEFERRED",
+      "stage_expectations": {
+        "P3_ROOT_STEM_CLOSURE": "deferred",
+        "P4_JAMID_MUSHTAQ": "deferred",
+        "P5_MUFRAD_WORD_CONTRACTS": "deferred",
+        "P9_SENTENCE_GEOMETRY": "deferred"
+      },
+      "constitutional_reason": "Expected DEFERRED at stage(s): P3_ROOT_STEM_CLOSURE, P4_JAMID_MUSHTAQ, P5_MUFRAD_WORD_CONTRACTS, P9_SENTENCE_GEOMETRY. Human reviewer: confirm the deferral is constitutionally justified by insufficient evidence or unsatisfied shurut.",
+      "linguistic_reason": "Arabic surface: حَسُنَ. Single word حَسُنَ — P3 SAHIH (3 consonants), P9 DEFERRED. Reviewer: verify Arabic morphological and syntactic facts against classical grammar sources.",
+      "review_decision": null,
+      "review_notes": null,
+      "reviewer": null,
+      "review_timestamp": null
+    },
+    {
+      "case_id": "SCX-008",
+      "surface": "رَجَعَ",
+      "section": "A_word_level_p3_sahih",
+      "description": "Single word رَجَعَ — P3 SAHIH (3 consonants), P9 DEFERRED",
+      "stage_expectations": {
+        "P3_ROOT_STEM_CLOSURE": "deferred",
+        "P4_JAMID_MUSHTAQ": "deferred",
+        "P5_MUFRAD_WORD_CONTRACTS": "deferred",
+        "P9_SENTENCE_GEOMETRY": "deferred"
+      },
+      "constitutional_reason": "Expected DEFERRED at stage(s): P3_ROOT_STEM_CLOSURE, P4_JAMID_MUSHTAQ, P5_MUFRAD_WORD_CONTRACTS, P9_SENTENCE_GEOMETRY. Human reviewer: confirm the deferral is constitutionally justified by insufficient evidence or unsatisfied shurut.",
+      "linguistic_reason": "Arabic surface: رَجَعَ. Single word رَجَعَ — P3 SAHIH (3 consonants), P9 DEFERRED. Reviewer: verify Arabic morphological and syntactic facts against classical grammar sources.",
+      "review_decision": null,
+      "review_notes": null,
+      "reviewer": null,
+      "review_timestamp": null
+    },
+    {
+      "case_id": "SCX-009",
+      "surface": "سَمِعَ",
+      "section": "A_word_level_p3_sahih",
+      "description": "Single word سَمِعَ — P3 SAHIH (3 consonants), P9 DEFERRED",
+      "stage_expectations": {
+        "P3_ROOT_STEM_CLOSURE": "deferred",
+        "P4_JAMID_MUSHTAQ": "deferred",
+        "P5_MUFRAD_WORD_CONTRACTS": "deferred",
+        "P9_SENTENCE_GEOMETRY": "deferred"
+      },
+      "constitutional_reason": "Expected DEFERRED at stage(s): P3_ROOT_STEM_CLOSURE, P4_JAMID_MUSHTAQ, P5_MUFRAD_WORD_CONTRACTS, P9_SENTENCE_GEOMETRY. Human reviewer: confirm the deferral is constitutionally justified by insufficient evidence or unsatisfied shurut.",
+      "linguistic_reason": "Arabic surface: سَمِعَ. Single word سَمِعَ — P3 SAHIH (3 consonants), P9 DEFERRED. Reviewer: verify Arabic morphological and syntactic facts against classical grammar sources.",
+      "review_decision": null,
+      "review_notes": null,
+      "reviewer": null,
+      "review_timestamp": null
+    },
+    {
+      "case_id": "SCX-010",
+      "surface": "أَخَذَ",
+      "section": "A_word_level_p3_sahih",
+      "description": "Single word أَخَذَ — P3 SAHIH (3 consonants), P9 DEFERRED",
+      "stage_expectations": {
+        "P3_ROOT_STEM_CLOSURE": "deferred",
+        "P4_JAMID_MUSHTAQ": "deferred",
+        "P5_MUFRAD_WORD_CONTRACTS": "deferred",
+        "P9_SENTENCE_GEOMETRY": "deferred"
+      },
+      "constitutional_reason": "Expected DEFERRED at stage(s): P3_ROOT_STEM_CLOSURE, P4_JAMID_MUSHTAQ, P5_MUFRAD_WORD_CONTRACTS, P9_SENTENCE_GEOMETRY. Human reviewer: confirm the deferral is constitutionally justified by insufficient evidence or unsatisfied shurut.",
+      "linguistic_reason": "Arabic surface: أَخَذَ. Single word أَخَذَ — P3 SAHIH (3 consonants), P9 DEFERRED. Reviewer: verify Arabic morphological and syntactic facts against classical grammar sources.",
+      "review_decision": null,
+      "review_notes": null,
+      "reviewer": null,
+      "review_timestamp": null
+    }
+  ]
+}
