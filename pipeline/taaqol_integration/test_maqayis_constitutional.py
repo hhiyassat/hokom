@@ -901,12 +901,14 @@ def test_ag25_accounting_counter_drift():
 # ═══════════════════════════════════════════════════════════════════════════════
 
 class _MockBundleAccept:
-    """Simulates a HokomLinguisticClaimBundle with ACCEPT directive."""
+    """Simulates a HokomLinguisticClaimBundle with ACCEPT directive.
+    §5: Uses domain_directive and root_claim.radicals — real Hokom API.
+    """
     def __init__(self, root_letters: str) -> None:
         from types import SimpleNamespace
+        self.domain_directive = "ACCEPT"
         self.root_claim = SimpleNamespace(
-            canonical_root=list(root_letters),
-            directive="ACCEPT",
+            radicals=tuple(root_letters),
         )
 
 
@@ -914,9 +916,9 @@ class _MockBundleDefer:
     """Bundle with DEFER directive — should be rejected by §9."""
     def __init__(self, root_letters: str) -> None:
         from types import SimpleNamespace
+        self.domain_directive = "DEFER"
         self.root_claim = SimpleNamespace(
-            canonical_root=list(root_letters),
-            directive="DEFER",
+            radicals=tuple(root_letters),
         )
 
 
@@ -924,20 +926,22 @@ class _MockBundleBlock:
     """Bundle with BLOCK directive — should be rejected by §9."""
     def __init__(self, root_letters: str) -> None:
         from types import SimpleNamespace
+        self.domain_directive = "BLOCK"
         self.root_claim = SimpleNamespace(
-            canonical_root=list(root_letters),
-            directive="BLOCK",
+            radicals=tuple(root_letters),
         )
 
 
 class _MockBundleNoRoot:
+    """Bundle with no root_claim and no domain_directive."""
     root_claim = None
 
 
 class _MockBundleEmptyRoot:
+    """Bundle with ACCEPT but empty radicals — rejected at root level."""
+    domain_directive = "ACCEPT"
     class root_claim:
-        canonical_root = []
-        directive = "ACCEPT"
+        radicals = ()
 
 
 def test_kb01_bundle_returns_typed_result():
@@ -1041,39 +1045,80 @@ def test_ip10_no_root_letter_fallback_in_passage(identity_result, import_result)
                 f"R4: passage {p.id} has root letters as text: {p.raw_passage_candidate}"
 
 
-def test_kb07_hokom_root_claim_typed(registry):
-    """R11: HokomRootClaim dataclass is importable and structurally correct."""
-    from maqayis_constitutional_schemas import HokomRootClaim
-    hrc = HokomRootClaim(canonical_root=("ح", "د", "ر"), directive="ACCEPT")
-    assert hrc.directive == "ACCEPT"
-    assert hrc.canonical_root == ("ح", "د", "ر")
+def test_kb07_adapter_uses_real_hokom_types():
+    """§5: adapter reads domain_directive and radicals — not locally invented HokomRootClaim.
+    HokomRootClaim is REMOVED from schemas; adapter must use real Hokom types.
+    """
+    from maqayis_constitutional_evidence_adapter import augment_evidence_from_bundle
+    from maqayis_constitutional_schemas import MaqayisConstitutionalAugmentationResult
+    from types import SimpleNamespace
+
+    # Verify HokomRootClaim is gone from schemas
+    import maqayis_constitutional_schemas as sch
+    assert not hasattr(sch, "HokomRootClaim"), (
+        "§5: HokomRootClaim must not exist in constitutional schemas — "
+        "it is a locally invented type that must be replaced by real Hokom types."
+    )
+
+    # Verify adapter reads domain_directive (not root_claim.directive)
+    # A bundle with domain_directive='ACCEPT' and radicals but NO root_claim.directive
+    class _BundleRealApi:
+        domain_directive = "ACCEPT"
+        class root_claim:
+            radicals = ("ح", "د", "ر")  # LicensedRoot.radicals tuple
+
+    result = augment_evidence_from_bundle(_BundleRealApi())
+    assert isinstance(result, MaqayisConstitutionalAugmentationResult)
+    assert result.hokom_root_licensed, "ACCEPT + valid radicals → hokom_root_licensed=True"
+
+    # Verify adapter rejects DEFER on domain_directive
+    class _BundleDeferRealApi:
+        domain_directive = "DEFER"
+        class root_claim:
+            radicals = ("ح", "د", "ر")
+    result_defer = augment_evidence_from_bundle(_BundleDeferRealApi())
+    assert not result_defer.hokom_root_licensed, "DEFER → hokom_root_licensed=False"
 
 
 def test_kb08_augmentation_result_split_flags():
-    """R10: augment_evidence_from_bundle returns hokom/source/evidence split flags."""
+    """§5+§4: augment_evidence_from_bundle returns properly split flags.
+    §5: uses real Hokom API (domain_directive + radicals).
+    §4: lexical_evidence_licensed=False for machine candidates.
+    """
     from maqayis_constitutional_evidence_adapter import augment_evidence_from_bundle
     from maqayis_constitutional_schemas import MaqayisConstitutionalAugmentationResult
 
     class _Bundle:
+        domain_directive = "ACCEPT"
         class root_claim:
-            canonical_root = list("حدر")
-            directive = "ACCEPT"
+            radicals = ("ح", "د", "ر")
 
     result = augment_evidence_from_bundle(_Bundle())
-    assert hasattr(result, "hokom_root_licensed"), "R10: missing hokom_root_licensed"
-    assert hasattr(result, "source_candidate_found"), "R10: missing source_candidate_found"
-    assert hasattr(result, "lexical_evidence_licensed"), "R10: missing lexical_evidence_licensed"
+    assert hasattr(result, "hokom_root_licensed"), "§5: missing hokom_root_licensed"
+    assert hasattr(result, "source_candidate_found"), "§5: missing source_candidate_found"
+    assert hasattr(result, "lexical_evidence_licensed"), "§4: missing lexical_evidence_licensed"
+    # §4: lexical_evidence_licensed must NEVER be True for machine candidates
+    assert not result.lexical_evidence_licensed, (
+        "§4: lexical_evidence_licensed must be False for machine candidates "
+        "(only True for FOUND_LEXICALLY_REVIEWED + ReviewCertificate)"
+    )
 
 
 def test_kb09_deferred_root_hokom_not_licensed():
-    """R10: DEFER directive → hokom_root_licensed=False."""
+    """§9: DEFER directive → hokom_root_licensed=False.
+    §5: uses real Hokom API (domain_directive on the bundle).
+    """
     from maqayis_constitutional_evidence_adapter import augment_evidence_from_bundle
     from types import SimpleNamespace
+
     class _Bundle:
-        root_claim = SimpleNamespace(canonical_root=list("حدر"), directive="DEFER")
+        domain_directive = "DEFER"
+        class root_claim:
+            radicals = ("ح", "د", "ر")
+
     result = augment_evidence_from_bundle(_Bundle())
-    assert not result.hokom_root_licensed, "R10: DEFER → hokom_root_licensed must be False"
-    assert not result.lexical_evidence_licensed
+    assert not result.hokom_root_licensed, "§9: DEFER → hokom_root_licensed must be False"
+    assert not result.lexical_evidence_licensed, "§4: DEFER → lexical_evidence_licensed=False"
 
 
 def test_ea10_registry_failure_returns_load_failure():
@@ -1110,3 +1155,94 @@ def test_s07_residual_type_has_origin_not_extracted():
     from maqayis_constitutional_schemas import ResidualType
     assert ResidualType.ORIGIN_NOT_EXTRACTED is not None
     assert len(ResidualType) == 11, f"Expected 11 ResidualType values, got {len(ResidualType)}"
+
+
+def test_ea11_stage0_bypass_enforced():
+    """§6: _STAGE_0_BUNDLE_ONLY_ENFORCEMENT=True — direct string API returns () in production.
+    DIRECT_LOOKUP_BYPASS_COUNT increments on each direct call.
+    """
+    import maqayis_constitutional_evidence_adapter as adapter
+    assert adapter._STAGE_0_BUNDLE_ONLY_ENFORCEMENT is True, (
+        "§6: _STAGE_0_BUNDLE_ONLY_ENFORCEMENT must be True in production"
+    )
+    before = adapter.DIRECT_LOOKUP_BYPASS_COUNT
+    ids = adapter.get_constitutional_evidence_ids("حدر")
+    assert ids == (), "§6: direct API must return () when bypass enforcement is True"
+    assert adapter.DIRECT_LOOKUP_BYPASS_COUNT == before + 1, (
+        "§6: DIRECT_LOOKUP_BYPASS_COUNT must increment on each direct call"
+    )
+
+
+def test_kb10_lexical_evidence_never_true_for_machine():
+    """§4: lexical_evidence_licensed must be False for all machine/review-required/conflict kinds.
+    Only FOUND_LEXICALLY_REVIEWED + ReviewCertificate may set it True.
+    """
+    from maqayis_constitutional_schemas import (
+        MaqayisConstitutionalAugmentationResult,
+        LookupResultKind,
+        EvidenceStatus,
+        ReviewState,
+        ConstitutionalLookupResult,
+    )
+    # Simulate result for each machine-producible kind
+    machine_kinds = [
+        LookupResultKind.FOUND_MACHINE_CANDIDATE_ONLY,
+        LookupResultKind.FOUND_REVIEW_REQUIRED_UNRESOLVED,
+        LookupResultKind.FOUND_CONFLICT_REVIEW_REQUIRED,
+    ]
+    for kind in machine_kinds:
+        result = ConstitutionalLookupResult(
+            kind=kind,
+            root_letters="حدر",
+            evidence_status=EvidenceStatus.MACHINE_SOURCE_CLAIM_CANDIDATE,
+            review_state=ReviewState.MACHINE_CANDIDATE,
+        )
+        augment = MaqayisConstitutionalAugmentationResult.from_lookup_result(
+            result,
+            evidence_ids=("maqayis:root:حدر:bab:ح",),  # non-empty evidence_ids
+        )
+        assert not augment.lexical_evidence_licensed, (
+            f"§4: {kind.value} must produce lexical_evidence_licensed=False, "
+            f"got {augment.lexical_evidence_licensed}"
+        )
+
+
+def test_kb11_trace_ids_never_contain_residual_ids():
+    """§11: trace_ids must never contain Residual IDs.
+    from_lookup_result() must produce trace_ids=() (TRACE_PROPAGATION_NOT_AVAILABLE).
+    """
+    from maqayis_constitutional_schemas import (
+        MaqayisConstitutionalAugmentationResult,
+        ConstitutionalLookupResult,
+        LookupResultKind,
+        EvidenceStatus,
+        ReviewState,
+        Residual,
+        ResidualType,
+    )
+    residual = Residual(
+        id="maqayis:residual:ORIGIN_NOT_EXTRACTED:حدر",
+        target_id="maqayis:source-root-claim:حدر:0",
+        target_type="SourceRootClaim",
+        residual_type=ResidualType.ORIGIN_NOT_EXTRACTED,
+        description="test",
+        blocking_until=ReviewState.ORIGIN_CANDIDATE,
+        created_at="2026-08-03T00:00:00Z",
+    )
+    result = ConstitutionalLookupResult(
+        kind=LookupResultKind.FOUND_MACHINE_CANDIDATE_ONLY,
+        root_letters="حدر",
+        residuals=(residual,),
+        evidence_status=EvidenceStatus.MACHINE_SOURCE_CLAIM_CANDIDATE,
+        review_state=ReviewState.MACHINE_CANDIDATE,
+    )
+    augment = MaqayisConstitutionalAugmentationResult.from_lookup_result(result, evidence_ids=())
+    # §11: trace_ids must be () — Residual IDs must not appear in trace_ids
+    assert augment.trace_ids == (), (
+        f"§11: trace_ids must be () (TRACE_PROPAGATION_NOT_AVAILABLE), "
+        f"got: {augment.trace_ids}"
+    )
+    # Residual IDs must appear in residual_ids, not trace_ids
+    residual_id = "maqayis:residual:ORIGIN_NOT_EXTRACTED:حدر"
+    assert residual_id not in augment.trace_ids, "§11: residual ID must not appear in trace_ids"
+    assert residual_id in augment.residual_ids, "§11: residual ID must appear in residual_ids"
