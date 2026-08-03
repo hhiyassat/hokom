@@ -33,7 +33,7 @@ _REPO_ROOT   = _TESTS_DIR.parent                 # <repo>/
 _VENDOR_PATH = _REPO_ROOT / 'vendor' / 'Taaqol-GPT'
 _VENDOR_SRC  = _VENDOR_PATH / 'src'
 
-EXPECTED_PIN = '35381739410071ac21dd96702ecbb2acb493f90d'
+EXPECTED_PIN = '05c6668dfb95d9238cff5df1d8bc73d0664bccb3'
 
 # ── Taaqol availability guard ─────────────────────────────────────────────────
 _TAAQOL_AVAILABLE = False

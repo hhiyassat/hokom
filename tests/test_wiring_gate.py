@@ -271,7 +271,7 @@ def test_10_csv_top_level_agrees_with_typed_slots():
 
 
 # ── Test 11: --fail-on-runtime-error returns nonzero for failed conditions ─────
-def test_11_fail_on_runtime_error_nonzero():
+def test_11_fail_on_runtime_error_nonzero(tmp_path):
     """--fail-on-runtime-error must exit nonzero if WORD_CLASS not reached."""
     import subprocess
     hr = _hokom('يَكْتُبُ')
@@ -281,7 +281,9 @@ def test_11_fail_on_runtime_error_nonzero():
     if wc is None:
         result = subprocess.run(
             [sys.executable, 'scripts/demo_ayat_al_dayn.py',
-             '--token', 'يَكْتُبُ', '--taaqol', '--no-color', '--fail-on-runtime-error'],
+             '--token', 'يَكْتُبُ', '--taaqol', '--no-color',
+             '--fail-on-runtime-error',
+             '--output-dir', str(tmp_path)],
             capture_output=True, text=True,
             cwd=str(REPO_ROOT),
             env={**__import__('os').environ,
@@ -433,14 +435,15 @@ def test_17_renderers_use_canonical_violation_count():
 
 
 # ── Test 18: Live token remains GATE=PASS with integrity_violation_count=0 ────
-def test_18_live_token_gate_pass():
+def test_18_live_token_gate_pass(tmp_path):
     """A live يَكْتُبُ run must produce integrity_violation_count=0 and exit 0."""
     if sys.version_info < (3, 11):
         pytest.skip("Requires Python 3.11+ for Taaqol StrEnum")
     import subprocess
     result = subprocess.run(
         [sys.executable, 'scripts/demo_ayat_al_dayn.py',
-         '--token', 'يَكْتُبُ', '--taaqol', '--no-color', '--fail-on-runtime-error'],
+         '--token', 'يَكْتُبُ', '--taaqol', '--no-color', '--fail-on-runtime-error',
+         '--output-dir', str(tmp_path)],
         capture_output=True, text=True,
         cwd=str(REPO_ROOT),
         env={**__import__('os').environ,
@@ -456,7 +459,7 @@ def test_18_live_token_gate_pass():
     )
     # integrity_violation_count must be 0 in JSON output
     import json as _json
-    json_path = REPO_ROOT / 'reports' / 'ayat_al_dayn_demo' / 'ayat_al_dayn_results_full.json'
+    json_path = tmp_path / 'ayat_al_dayn_results_full.json'
     if json_path.exists():
         data = _json.loads(json_path.read_text(encoding='utf-8'))
         assert data.get('integrity_violation_count', -1) == 0, (
@@ -468,7 +471,7 @@ def test_18_live_token_gate_pass():
 
 
 # ── Test 19: JSON persists client_presentation_ready as bool ──────────────────
-def test_19_json_persists_client_presentation_ready():
+def test_19_json_persists_client_presentation_ready(tmp_path):
     """
     JSON output must include client_presentation_ready as a Python bool (True/False),
     never as the string 'YES'/'NO'.  presentation_failures must be an empty list
@@ -480,7 +483,8 @@ def test_19_json_persists_client_presentation_ready():
     # Run the live token to generate fresh JSON
     result = subprocess.run(
         [sys.executable, 'scripts/demo_ayat_al_dayn.py',
-         '--token', 'يَكْتُبُ', '--taaqol', '--no-color'],
+         '--token', 'يَكْتُبُ', '--taaqol', '--no-color',
+         '--output-dir', str(tmp_path)],
         capture_output=True, text=True,
         cwd=str(REPO_ROOT),
         env={**__import__('os').environ,
@@ -489,7 +493,7 @@ def test_19_json_persists_client_presentation_ready():
     assert result.returncode == 0, (
         f"Demo script failed:\n{result.stderr[-2000:]}"
     )
-    json_path = REPO_ROOT / 'reports' / 'ayat_al_dayn_demo' / 'ayat_al_dayn_results_full.json'
+    json_path = tmp_path / 'ayat_al_dayn_results_full.json'
     assert json_path.exists(), "JSON report not written"
     data = _json.loads(json_path.read_text(encoding='utf-8'))
 
@@ -611,7 +615,7 @@ def test_T08_bkum_failure_code():
 
 
 # T-09 ─ reason_codes contains SEGMENTATION_NO_LEXICAL_HOST exactly once ─────
-def test_T09_bkum_reason_codes_no_duplicate():
+def test_T09_bkum_reason_codes_no_duplicate(tmp_path):
     if sys.version_info < (3, 11):
         pytest.skip("Requires Python 3.11+ — Taaqol bridge returns reason_codes")
 
@@ -627,6 +631,8 @@ def test_T09_bkum_reason_codes_no_duplicate():
             _BKUM_TOKEN,
             "--taaqol",
             "--no-color",
+            "--output-dir",
+            str(tmp_path),
         ],
         capture_output=True,
         text=True,
@@ -641,12 +647,7 @@ def test_T09_bkum_reason_codes_no_duplicate():
         f"Demo script failed:\\n{result.stderr[-2000:]}"
     )
 
-    json_path = (
-        REPO_ROOT
-        / "reports"
-        / "ayat_al_dayn_demo"
-        / "ayat_al_dayn_results_full.json"
-    )
+    json_path = tmp_path / "ayat_al_dayn_results_full.json"
     data = _json.loads(json_path.read_text(encoding="utf-8"))
 
     token = data["tokens"][0]
@@ -724,7 +725,7 @@ def test_T17_bkum_no_unexpected_runtime_error():
 
 # T-10/T-11/T-12/T-15/T-18/T-19 ─ full-ayah subprocess tests ─────────────────
 # These tests require the full-ayah run with Taaqol (Python 3.11+).
-def test_T10_T12_T15_T18_T19_full_ayah_constitutional_accounting():
+def test_T10_T12_T15_T18_T19_full_ayah_constitutional_accounting(tmp_path):
     """
     T-10: constitutional_exemptions=1  T-11: live=128  T-12: gap=0
     T-15: JSON/terminal/HTML use identical counts  T-18: CPR=YES  T-19: exit=0
@@ -736,7 +737,8 @@ def test_T10_T12_T15_T18_T19_full_ayah_constitutional_accounting():
     result = subprocess.run(
         [sys.executable, 'scripts/demo_ayat_al_dayn.py',
          '--full-ayah', '--taaqol', '--compact', '--no-color',
-         '--fail-on-runtime-error'],
+         '--fail-on-runtime-error',
+         '--output-dir', str(tmp_path)],
         capture_output=True, text=True,
         cwd=str(REPO_ROOT),
         env={**_os.environ, 'PYTHONPATH': 'src:vendor/Taaqol-GPT/src'},
@@ -759,8 +761,8 @@ def test_T10_T12_T15_T18_T19_full_ayah_constitutional_accounting():
         combined,
     ), "Expected TAAQOL_UNEXPLAINED_COVERAGE_GAP=0"
 
-    # T-10/T-11 via JSON
-    json_path = REPO_ROOT / 'reports' / 'ayat_al_dayn_demo' / 'ayat_al_dayn_results_full.json'
+    # T-10/T-11 via JSON (from isolated output)
+    json_path = tmp_path / 'ayat_al_dayn_results_full.json'
     assert json_path.exists(), "JSON report not written"
     data = _json.loads(json_path.read_text(encoding='utf-8'))
     summary = data.get('summary', {})

@@ -41,7 +41,7 @@ except Exception:
 _SNAPSHOT_FAIL_MSG = (
     "CLOSURE FAILURE — registry snapshot not generated. "
     "Run using the canonical venv:\n"
-    "  cd /Users/husseinhiyassat/hokom\n"
+    "  cd <repo_root>\n"
     "  PYTHONPATH=src:vendor/Taaqol-GPT/src:../fractal/algebra/Saleh-/src"
     " .venv-py312/bin/python scripts/generate_canonical_registry_snapshot.py\n"
     "A missing snapshot is a closure failure, not an optional skip."

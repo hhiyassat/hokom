@@ -335,8 +335,9 @@ class TestInvariants:
     )
 
     @pytest.fixture(scope='class')
-    def all_results(self):
-        tokens = self.AYAT_AL_DAYN.split()
+    @classmethod
+    def all_results(cls):
+        tokens = cls.AYAT_AL_DAYN.split()
         return [(t, _hokom(t)) for t in tokens]
 
     def test_inv1_verbal_past_not_imperfect(self, all_results):

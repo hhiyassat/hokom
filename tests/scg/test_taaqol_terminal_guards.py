@@ -200,7 +200,7 @@ class TestNoP13Stage:
         skip_files = {"taaqol_judgment_enforcer.py"}
         violations = []
 
-        for root, dirs, files in os.walk("/sessions/lucid-gifted-planck/mnt/hokom/pipeline"):
+        for root, dirs, files in os.walk(str(REPO_ROOT / "pipeline")):
             dirs[:] = [d for d in dirs if d not in ("__pycache__",)]
             for fname in files:
                 if not fname.endswith(".py"):

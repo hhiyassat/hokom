@@ -219,7 +219,8 @@ class TestJamidAndNonVerbalNotRefined:
 class TestLiveVerseCorpus3FSResolution:
 
     @pytest.fixture(scope='class')
-    def live_metrics(self):
+    @classmethod
+    def live_metrics(cls):
         """Run compute_live_metrics() once for the whole test class."""
         import importlib.util
         import pathlib

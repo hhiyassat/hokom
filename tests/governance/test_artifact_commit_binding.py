@@ -135,10 +135,22 @@ def test_artifact_digests_match():
     if not applicable_manifests:
         return  # test_artifact_binding_exists will catch this
 
-    # Use the most recently modified applicable manifest.
-    latest_path, latest_data = sorted(
-        applicable_manifests, key=lambda x: x[0].stat().st_mtime
-    )[-1]
+    # Select the manifest for the current HEAD deterministically.
+    # The binding manifest is the one whose filename encodes the current HEAD short SHA.
+    # Historical manifests for earlier commits are ignored.
+    head = subprocess.run(
+        ['git', 'rev-parse', '--short=7', 'HEAD'],
+        capture_output=True, text=True, cwd=REPO_ROOT
+    ).stdout.strip()
+    head_manifest_name = f'closure_manifest.{head}.json'
+    head_matches = [(p, d) for p, d in applicable_manifests if p.name == head_manifest_name]
+    assert head_matches, (
+        f"No applicable manifest found for HEAD={head!r} "
+        f"(expected {head_manifest_name}).\n"
+        f"Applicable manifests (artifact_commit={AUDITED_ARTIFACT_HEAD[:12]}):\n"
+        + '\n'.join(str(p) for p, _ in applicable_manifests)
+    )
+    latest_path, latest_data = head_matches[0]
 
     artifact_digests = latest_data.get('artifact_digests', {})
 
@@ -201,4 +213,32 @@ def test_no_artifact_change_since_commit():
         f"{AUDITED_ARTIFACT_HEAD[:12]}.\n"
         f"Changed files:\n{changed}\n"
         f"Re-run the full canonical audit: bash scripts/run_canonical_final_audit.sh"
+    )
+
+
+def test_no_stale_report_artifacts():
+    """Closure manifest for current HEAD must exist and its commit field must match HEAD.
+
+    Selection is deterministic: the expected manifest is computed from the current
+    HEAD short SHA and must exist at the exact path
+    reports/canonical_gate/closure_manifest.<HEAD>.json.
+    mtime order is irrelevant — historical manifests for earlier commits are permitted.
+    """
+    gate_dir = REPO_ROOT / 'reports' / 'canonical_gate'
+    if not gate_dir.exists():
+        return
+    head = subprocess.run(
+        ['git', 'rev-parse', '--short=7', 'HEAD'],
+        capture_output=True, text=True, cwd=REPO_ROOT
+    ).stdout.strip()
+    expected_manifest = gate_dir / f'closure_manifest.{head}.json'
+    assert expected_manifest.exists(), (
+        f"Expected closure manifest not found: {expected_manifest.name}\n"
+        f"HEAD={head!r}. Re-run: python scripts/canonical_gate.py --stage <STAGE_ID>"
+    )
+    data = json.loads(expected_manifest.read_text(encoding='utf-8'))
+    manifest_commit = data.get('commit', '')
+    assert manifest_commit == head, (
+        f"Manifest {expected_manifest.name} internal commit mismatch: "
+        f"manifest.commit={manifest_commit!r} != HEAD={head!r}."
     )
