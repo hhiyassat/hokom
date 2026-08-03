@@ -96,8 +96,11 @@ _RESIDUAL_PREFIX = "maqayis:residual"
 def _build_claim(
     imp: LegacyCandidateImport,
     occurred_at: str,
-) -> SourceRootClaim:
-    """Build a SourceRootClaim from a LegacyCandidateImport."""
+) -> tuple["SourceRootClaim", list["Residual"]]:
+    """Build a SourceRootClaim from a LegacyCandidateImport.
+
+    Returns (claim, residuals) — residuals is non-empty when claim text is absent.
+    """
     origin_type = _normalize_origin_type(imp.legacy_semantic_origin_type)
 
     # Claims extracted from legacy data are MACHINE OCR extraction
@@ -106,21 +109,44 @@ def _build_claim(
     claim_review_state = ReviewState.TEXT_CANDIDATE
     claim_evidence_status = EvidenceStatus.MACHINE_SOURCE_CLAIM_CANDIDATE
 
-    return SourceRootClaim(
+    # §7: raw_claim_text = semantic_origin_text (the actual Ibn Faris claim text),
+    # NEVER root_heading_text (which is the chapter heading, not the claim).
+    # legacy_origin_text maps to semantic_origin_text field.
+    # legacy_heading_text maps to root_heading_text field — NOT a claim.
+    # CLAIM_WITH_ROOT_LETTERS_AS_CLAIM_TEXT_COUNT = 0 enforced here.
+    raw_claim = imp.legacy_origin_text  # None if absent — signals missing claim text
+
+    claim = SourceRootClaim(
         id=imp.claim_id,
         passage_id=imp.passage_id,
         identity_id=imp.candidate_id,
         claim_kind=_claim_kind_from_legacy(imp),
         origin_type=origin_type,
-        # §4: raw_claim_text = actual Ibn Faris OCR text, NEVER root letters.
-        # R4: no root-letter fallback.
-        # CLAIM_WITH_ROOT_LETTERS_AS_CLAIM_TEXT_COUNT = 0 enforced here.
-        raw_claim_text=imp.legacy_heading_text or "",  # R4: no root-letter fallback
+        raw_claim_text=raw_claim or "",
         review_state=claim_review_state,
         evidence_status=claim_evidence_status,
         extraction_method="MACHINE_OCR",
         supersedes_id=None,
     )
+
+    claim_residuals: list[Residual] = []
+    if not raw_claim:
+        # §7: No semantic_origin_text — emit MISSING_SOURCE_CLAIM_TEXT residual
+        res_id = f"{_RESIDUAL_PREFIX}:MISSING_SOURCE_CLAIM_TEXT:{imp.legacy_root_letters}"
+        claim_residuals.append(Residual(
+            id=res_id,
+            target_id=claim.id,
+            target_type="SourceRootClaim",
+            residual_type=ResidualType.MISSING_SOURCE_PASSAGE,
+            description=(
+                f"Root '{imp.legacy_root_letters}' has no semantic_origin_text in corpus entry. "
+                f"raw_claim_text is empty. Human review required to supply claim text."
+            ),
+            blocking_until=ReviewState.TEXT_CANDIDATE,
+            created_at=occurred_at,
+        ))
+
+    return claim, claim_residuals
 
 
 def _claim_kind_from_legacy(imp: LegacyCandidateImport) -> ClaimKind:
@@ -206,8 +232,11 @@ def _segment_origins(
 
     per_origin_type = origin_type  # no DUAL/TRIPLE splitting in legacy pipeline
 
+    # §12: IDs must be unique per entry, not just per root.
+    # Include entry_id (or passage_id) to differentiate multiple entries for same root.
+    entry_discriminator = imp.legacy_entry_id or imp.passage_id or root
     for i in range(n_origins):
-        origin_id = f"{_ORIGIN_PREFIX}:{root}:{i}"
+        origin_id = f"{_ORIGIN_PREFIX}:{root}:{entry_discriminator}:{i}"
         raw_origin = origin_text if origin_text else heading_text
         candidates.append(LexicalOriginCandidate(
             id=origin_id,
@@ -303,10 +332,14 @@ def _segment_origins(
 
 
 def _origin_desc(origin_type: OriginType) -> str:
+    # §9: NONE must NOT describe as "لا أصل له" — that is a positive semantic absence
+    # claim requiring explicit source text evidence. OCR NONE = extraction failure,
+    # not a confirmed negative claim.
+    # NONE_INTERPRETED_AS_NEGATIVE_SEMANTIC_CLAIM_COUNT = 0 enforced here.
     descs = {
         OriginType.SINGULAR:      "أصل واحد",
         OriginType.SOUND_ROOTS:   "أصول صحيحة",
-        OriginType.NONE:          "لا أصل له",
+        OriginType.NONE:          "غير مستخرج (لم تُحدَّد طبيعة الأصل من النص)",
         OriginType.UNKNOWN:       "غير معروف",
         OriginType.NOT_EXTRACTED: "لم يُستخرج",
     }
@@ -457,8 +490,9 @@ def run_claim_pipeline(import_result: LegacyImportResult) -> ClaimPipelineResult
                 skipped_noise += 1
                 continue
 
-            claim = _build_claim(imp, occurred_at)
+            claim, claim_residuals = _build_claim(imp, occurred_at)
             claims.append(claim)
+            residuals.extend(claim_residuals)
 
             origins, seg_residuals, origin_traces = _segment_origins(claim, imp, occurred_at)
             origin_candidates.extend(origins)
