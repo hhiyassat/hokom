@@ -8,7 +8,7 @@ READ-ONLY on all source JSON files.
 import json, csv, re, unicodedata, os, sys
 from pathlib import Path
 
-BASE = Path('/sessions/lucid-gifted-planck/mnt/hokom')
+BASE = Path(__file__).resolve().parent
 DATA = BASE / 'data/02_mabniyat'
 
 # DEPRECATED (Phase A): parallel diacritic pattern — will consolidate into

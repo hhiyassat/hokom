@@ -7,6 +7,16 @@ by process_token_full() and summary_stats(). Nothing is fabricated or hardcoded.
 
 import sys
 
+# ── localization for terminal labels ──────────────────────────────────────────
+try:
+    from hokom.demo.localization import get_terminal_label as _get_terminal_label
+    _terminal_loc_available = True
+except ImportError:
+    _terminal_loc_available = False
+
+    def _get_terminal_label(key: str, lang: str) -> str:  # type: ignore[misc]
+        return key
+
 # ── ANSI color helpers ────────────────────────────────────────────────────────
 
 class ANSI:
@@ -119,26 +129,37 @@ def render_runtime_identity(
     taaqol_worktree_clean,
     results,
     use_color,
+    lang: str = 'en',
 ):
+    """
+    Render the Runtime Identity block.
+
+    When lang='ar', row labels are localised via the terminal_labels YAML section.
+    Technical names (Python, Hokom, Taaqol, commit SHAs) are unchanged in every locale.
+    """
+    def _lbl(key: str) -> str:
+        return _get_terminal_label(key, lang)
+
     lines = []
     sep = '═' * 72
     lines.append(_c(ANSI.BOLD, sep, use_color))
-    lines.append(_c(ANSI.BOLD, '  هوية النظام — Runtime Identity', use_color))
+    _ri_title = _lbl('runtime_identity')
+    lines.append(_c(ANSI.BOLD, f'  {_ri_title}', use_color))
     lines.append(_c(ANSI.BOLD, sep, use_color))
 
     pv = f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
-    lines.append(f"  Python             : {pv}")
-    lines.append(f"  Hokom HEAD         : {hokom_head}")
-    lines.append(f"  Taaqol HEAD        : {taaqol_head}")
+    lines.append(f"  {_lbl('lbl_python'):<22} : {pv}")
+    lines.append(f"  {_lbl('lbl_hokom_head'):<22} : {hokom_head}")
+    lines.append(f"  {_lbl('lbl_taaqol_head'):<22} : {taaqol_head}")
 
     pin_display = taaqol_pin[:16] + '...' if len(taaqol_pin) > 16 else taaqol_pin
     pin_ok = taaqol_head.startswith(taaqol_pin[:8]) if taaqol_pin != 'UNKNOWN' else False
     pin_status = _verdict_color('ACCEPTED' if pin_ok else 'BLOCKED', use_color)
-    lines.append(f"  Taaqol pin         : {pin_display}")
-    lines.append(f"  Pin verified       : {pin_status}")
+    lines.append(f"  {_lbl('lbl_taaqol_pin'):<22} : {pin_display}")
+    lines.append(f"  {_lbl('lbl_pin_verified'):<22} : {pin_status}")
 
     wt_status = _verdict_color('ACCEPTED' if taaqol_worktree_clean else 'BLOCKED', use_color)
-    lines.append(f"  Taaqol worktree    : {'CLEAN' if taaqol_worktree_clean else 'DIRTY'} — {wt_status}")
+    lines.append(f"  {_lbl('lbl_taaqol_worktree'):<22} : {'CLEAN' if taaqol_worktree_clean else 'DIRTY'} — {wt_status}")
 
     if results:
         live_count = sum(1 for r in results if r.get('taaqol', {}).get('available'))
@@ -149,11 +170,11 @@ def render_runtime_identity(
                          and not r.get('taaqol', {}).get('runtime', {}).get('failure_code'))
         mode = 'LIVE' if live_count > 0 else 'BLOCKED'
         mode_str = _verdict_color('LICENSED' if mode == 'LIVE' else 'BLOCKED', use_color)
-        lines.append(f"  Taaqol mode        : {mode_str}")
-        lines.append(f"  Live evaluations   : {live_count} / {total}")
-        lines.append(f"  Silent fallbacks   : {fallbacks}")
+        lines.append(f"  {_lbl('lbl_taaqol_mode'):<22} : {mode_str}")
+        lines.append(f"  {_lbl('lbl_live_evaluations'):<22} : {live_count} / {total}")
+        lines.append(f"  {_lbl('lbl_silent_fallbacks'):<22} : {fallbacks}")
     else:
-        lines.append(f"  Taaqol mode        : {_c(ANSI.DIM, 'غير متاح', use_color)}")
+        lines.append(f"  {_lbl('lbl_taaqol_mode'):<22} : {_c(ANSI.DIM, 'غير متاح', use_color)}")
 
     lines.append('')
     return '\n'.join(lines)
@@ -375,12 +396,22 @@ def render_ownership_row(token, use_color):
 
 # ── Section 9: Summary dashboard ─────────────────────────────────────────────
 
-def render_summary_dashboard(stats, integrity, use_color):
+def render_summary_dashboard(stats, integrity, use_color, lang: str = 'en'):
+    """
+    Render the Summary Dashboard block.
+
+    When lang='ar', section headings are localised via the terminal_labels YAML
+    section.  All stat row labels are already in Arabic in the base renderer
+    (they were Arabic from the start); they are unchanged here.
+    """
+    def _lbl(key: str) -> str:
+        return _get_terminal_label(key, lang)
+
     lines = []
     sep = '═' * 72
     lines.append('')
     lines.append(_c(ANSI.BOLD, sep, use_color))
-    lines.append(_c(ANSI.BOLD, '  لوحة الملخص — Summary Dashboard', use_color))
+    lines.append(_c(ANSI.BOLD, f'  {_lbl("summary_dashboard")}', use_color))
     lines.append(_c(ANSI.BOLD, sep, use_color))
 
     def row(label, value):
@@ -420,7 +451,7 @@ def render_summary_dashboard(stats, integrity, use_color):
 
     if integrity:
         lines.append('')
-        lines.append(_c(ANSI.BOLD, '  فحص التكامل — Integrity Check', use_color))
+        lines.append(_c(ANSI.BOLD, f'  {_lbl("integrity_check")}', use_color))
         total_violations = compute_violation_count(integrity)
         ok = total_violations == 0
         lines.append(

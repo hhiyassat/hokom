@@ -8,6 +8,9 @@ version = "0.1.0"
 requires-python = ">=3.11"
 description = "Hokom Arabic morphology pipeline"
 
+[tool.setuptools.packages.find]
+where = ["src"]
+
 [tool.pytest.ini_options]
 testpaths = ["test_hokom.py", "tests"]
-pythonpath = ["."]
+pythonpath = [".", "src"]

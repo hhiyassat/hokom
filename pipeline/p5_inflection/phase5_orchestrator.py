@@ -18,7 +18,7 @@ Architecture:
 Security constraints (inherited from task spec):
   • Never modifies Phase4 DTOs
   • No new fields on existing frozen dataclasses
-  • Works only in /Users/husseinhiyassat/hokom
+  • Works within the HOKOM repository root
 """
 from __future__ import annotations
 from typing import Optional

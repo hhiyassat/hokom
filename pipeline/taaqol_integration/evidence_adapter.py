@@ -8,6 +8,7 @@ from .provider_models import HokomLinguisticClaimBundle
 
 EVIDENCE_TYPES = [
     'root_catalog_evidence',
+    'maqayis_root_catalog_evidence',  # Ibn Faris lexical evidence (Maqayis al-Lugha)
     'root_restoration_evidence',
     'root_slot_alignment',
     'wazn_pattern_evidence',
@@ -89,6 +90,12 @@ def map_evidence(bundle: HokomLinguisticClaimBundle) -> EvidenceMappingResult:
 
 def _classify_evidence_id(eid: str) -> str:
     eid_lower = eid.lower()
+    # Maqayis IDs: maqayis:root:{letters}:origin:{type}:count:{n}
+    #              maqayis:root:{letters}:bab:{letter}
+    # Must be checked BEFORE the generic 'root'+'catalog' branch below,
+    # because Maqayis IDs contain 'root' but not 'catalog'.
+    if eid_lower.startswith('maqayis:root:'):
+        return 'maqayis_root_catalog_evidence'
     if 'root' in eid_lower and 'catalog' in eid_lower:
         return 'root_catalog_evidence'
     if 'root' in eid_lower and ('restor' in eid_lower or 'host' in eid_lower):

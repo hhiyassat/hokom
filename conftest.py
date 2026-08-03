@@ -26,6 +26,24 @@ _HOKOM_CANONICAL_REPORT_BASELINE = {
     for artifact in _HOKOM_CANONICAL_REPORT_PATHS
 }
 
+# Lang-suffixed files are ephemeral (written by subprocess tests or lang-mode runs).
+# They are never tracked in git HEAD, so always treat baseline as None → always deleted
+# after each test, preventing UNTRACKED_ARTIFACT_COUNT accumulation.
+_HOKOM_EPHEMERAL_REPORT_PATHS = (
+    _HokomPath(__file__).resolve().parent
+    / "reports/ayat_al_dayn_demo/ayat_al_dayn_manager_report_en.html",
+    _HokomPath(__file__).resolve().parent
+    / "reports/ayat_al_dayn_demo/ayat_al_dayn_results_en.csv",
+    _HokomPath(__file__).resolve().parent
+    / "reports/ayat_al_dayn_demo/ayat_al_dayn_manager_report_ar.html",
+    _HokomPath(__file__).resolve().parent
+    / "reports/ayat_al_dayn_demo/ayat_al_dayn_results_ar.csv",
+)
+_HOKOM_CANONICAL_REPORT_BASELINE.update({
+    artifact: None  # Always delete — never restore
+    for artifact in _HOKOM_EPHEMERAL_REPORT_PATHS
+})
+
 
 def _restore_hokom_canonical_reports():
     for artifact, original in _HOKOM_CANONICAL_REPORT_BASELINE.items():
