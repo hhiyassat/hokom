@@ -157,10 +157,18 @@ class _ConstitutionalRegistry:
                     self._residuals_by_root.setdefault(root, []).append(residual)
 
             self._conflict_roots = frozenset(claim_result.conflict_map.keys())
-            self._loaded = True
 
-            # R9: Track partial load for malformed corpus accounting
+            # §10: Wire self._malformed_count from importer reconciliation dict.
+            # MALFORMED_JSON_LINE_COUNT is the authoritative measure of corpus quality.
+            # REGISTRY_PARTIAL_LOAD_COUNT is measured here at runtime (not hardcoded).
+            global REGISTRY_PARTIAL_LOAD_COUNT
+            malformed = import_result.reconciliation.get("MALFORMED_JSON_LINE_COUNT", 0)
+            self._malformed_count = malformed if isinstance(malformed, int) else 0
             self._partial_load = (self._malformed_count > 0)
+            if self._partial_load:
+                REGISTRY_PARTIAL_LOAD_COUNT += 1
+
+            self._loaded = True
 
         except Exception:
             self._failed = True
