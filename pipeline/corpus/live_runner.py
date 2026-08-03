@@ -105,7 +105,17 @@ def _extract_root_string(rc) -> tuple[Optional[str], Optional[str]]:
     if hasattr(rc, "directive"):
         directive = str(rc.directive) if rc.directive else None
     if hasattr(rc, "canonical_root") and rc.canonical_root is not None:
-        root_str = str(rc.canonical_root)
+        # Repair (HOKOM-AYAT-AL-DAYN-CANONICAL-BASELINE-REBIND-01 §PRE-REBIND):
+        # If canonical_root is a tuple/list of radicals (e.g. ('ء','م','ن')),
+        # str() would produce the malformed "('ء', 'م', 'ن')" tuple-repr, which
+        # downstream _parse_root_string would split into fragments like
+        # "('ء'," / "'م'," / "'ن')". Instead, join the radicals into a single
+        # proper root string.
+        cr = rc.canonical_root
+        if isinstance(cr, (list, tuple)):
+            root_str = ''.join(str(c) for c in cr)
+        else:
+            root_str = str(cr)
     elif hasattr(rc, "surface") and rc.surface:
         root_str = None  # surface is not the root
     return root_str, directive

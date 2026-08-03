@@ -94,6 +94,41 @@ except ImportError:
         return int(value or 0) == 0
 
 
+# ── localization (presentation-only) ─────────────────────────────────────────
+# Imported lazily; missing module falls back gracefully inside each function.
+try:
+    from hokom.demo.localization import (
+        translate_header as _translate_header,
+        translate_value as _translate_value,
+        translate_composite_value as _translate_composite_value,
+        get_html_label as _get_html_label,
+        get_terminal_label as _get_terminal_label,
+    )
+    _localization_available = True
+except ImportError:
+    _localization_available = False
+
+    def _translate_header(col_key: str, lang: str, section: str = 'results') -> str:  # type: ignore[misc]
+        return col_key
+
+    def _translate_value(category: str, value: str, lang: str) -> str:  # type: ignore[misc]
+        return value
+
+    def _translate_composite_value(  # type: ignore[misc]
+        category: str,
+        value: object,
+        lang: str,
+        separators: tuple = ('; ', ';', ' | ', '|'),
+    ) -> str:
+        return str(value) if value is not None else ''
+
+    def _get_html_label(key: str, lang: str) -> str:  # type: ignore[misc]
+        return key
+
+    def _get_terminal_label(key: str, lang: str) -> str:  # type: ignore[misc]
+        return key
+
+
 # Constitutional failure codes — tokens with these codes are documented
 # non-applicability cases, NOT unexplained runtime gaps.
 # Only tokens whose taaqol.runtime.failure_code is in this set contribute
@@ -737,6 +772,22 @@ def process_token_full(idx: int, surface: str) -> dict:
 
 
 # ── run all tokens ────────────────────────────────────────────────────────────
+def _ensure_hokom_pipeline_module() -> None:
+    """Delegate to the shared Hokom pipeline-identity boundary.
+
+    Elevated to src/hokom/runtime/pipeline_identity.py per C13 §6.
+    This local wrapper remains for backward compatibility.
+    """
+    # Ensure the Hokom repo root is importable so src/hokom/ can be loaded.
+    import os
+    import sys
+    _hokom_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    if _hokom_root not in sys.path:
+        sys.path.insert(0, _hokom_root)
+    from src.hokom.runtime.pipeline_identity import ensure_hokom_pipeline_identity
+    ensure_hokom_pipeline_identity()
+
+
 def run_all(verbose: bool = True) -> list[dict]:
     """
     Run all tokens through the pipeline with sequential governing-particle context.
@@ -751,6 +802,10 @@ def run_all(verbose: bool = True) -> list[dict]:
       - Before recording token N+1's result, consume any pending mood and inject
         it into the morphosyntax dict if token N+1 is an imperfect verb.
     """
+    # Repair for HOKOM-C12-IMPORT-ISOLATION-AND-NATIVE-CARRIER-REPAIR-02:
+    # Pin sys.modules['pipeline'] to the canonical Hokom package before any
+    # pipeline import, to protect against sys.path shadowing by OCR test collection.
+    _ensure_hokom_pipeline_module()
     from pipeline.p5_inflection.context_carrier import SequentialAnalysisContext
     ctx = SequentialAnalysisContext()
 
@@ -1403,7 +1458,90 @@ def format_json(
 
 
 # ── CSV (summary row per token) ───────────────────────────────────────────────
-def format_csv(results: list[dict]) -> str:
+
+# Columns whose values are translated when lang != 'en'.
+# Maps canonical fieldname → enum category key in the locale YAML.
+# Columns NOT listed here have values that must never be translated:
+#   original_surface, normalized_surface, host_surface, proclitics, enclitics,
+#   canonical_root, root_candidates, cra_suffix_stripped, ambiguity_candidates_json,
+#   h11_h15_filled_slots, not_opened_layers, active_residuals, licensed_claims,
+#   deferred_claims, taaqol_reason_codes, cra_reason_codes, phase4a_residuals,
+#   claim_key, evaluation_id (canonical identifiers).
+_CSV_RESULTS_ENUM_COLS: dict[str, str] = {
+    'word_class':               'word_class',
+    'word_class_subclass':      'word_class_subclass',
+    'word_class_verdict':       'word_class_verdict',
+    'inflection_skipped_reason': 'inflection_skipped_reason',
+    'root_state':               'root_state',
+    'overall_verdict':          'overall_verdict',
+    'taaqol_effective_verdict': 'taaqol_verdict',
+    'taaqol_failure_code':      'failure_code',
+    'pipeline_verdict':         'pipeline_verdict',
+    'tense_aspect':             'tense_aspect',
+    'mood':                     'mood',
+    'voice':                    'voice',
+    'number':                   'number',
+    'gender':                   'gender',
+    'person':                   'person',
+    'cra_form_family':          'cra_form_family',
+    'wazn':                     'wazn',
+    'masdar':                   'masdar',
+    'derivative_type':          'derivative_type',
+}
+
+# Boolean fields in the results CSV whose string values 'True'/'False'
+# must be translated to نعم/لا in Arabic.
+_BOOLEAN_COLS_RESULTS: frozenset[str] = frozenset({
+    'h11_h15_reached',
+    'has_unresolved_claims',
+})
+
+# Semicolon-separated list fields in the results CSV and their YAML enum category.
+# Values are joined with '; ' in English; Arabic output uses '؛ '.
+_SEMICOLON_LIST_COLS_RESULTS: dict[str, str] = {
+    'not_opened_layers':   'layer_name',
+    'taaqol_reason_codes': 'reason_code',
+    'cra_reason_codes':    'cra_reason_code',
+    'phase4a_residuals':   'cra_reason_code',
+    'active_residuals':    'reason_code',
+}
+
+# Space-separated list fields in the results CSV and their YAML enum category.
+# Slot ID lists (joined with ' ' in English; Arabic output also uses ' ').
+_SPACE_LIST_COLS_RESULTS: dict[str, str] = {
+    'h11_h15_filled_slots': 'slot_id',
+    'licensed_claims':      'slot_id',
+    'deferred_claims':      'slot_id',
+}
+
+# Boolean fields in the layers CSV.
+_BOOLEAN_COLS_LAYERS: frozenset[str] = frozenset({
+    'h11_h15_reached',
+    'taaqol_available',
+    'runtime_active',
+    'runtime_kernel_loaded',
+    'runtime_slot_graph_created',
+    'runtime_gamma_executed',
+    'runtime_gate_executed',
+})
+
+# Comma-separated list fields in the layers CSV and their YAML enum category.
+_COMMA_LIST_COLS_LAYERS: dict[str, str] = {
+    'slot_ids':             'slot_id',
+    'h11_h15_filled_slots': 'slot_id',
+}
+
+
+def format_csv(results: list[dict], lang: str = 'en') -> str:
+    """
+    Return the results CSV as a Unicode string.
+
+    When *lang* == 'ar', column headers are translated and display-facing
+    enum values are localised via the localization service.  Canonical
+    identifiers (claim_key, evaluation_id, etc.) are never translated.
+    The caller is responsible for writing with the correct encoding
+    (utf-8-sig for Arabic, utf-8 for English).
+    """
     buf = io.StringIO()
     fields = [
         'token_index', 'original_surface', 'normalized_surface',
@@ -1422,8 +1560,41 @@ def format_csv(results: list[dict]) -> str:
         'taaqol_effective_verdict', 'taaqol_failure_code', 'taaqol_reason_codes',
         'claim_key', 'evaluation_id', 'pipeline_verdict', 'error',
     ]
-    writer = csv_mod.DictWriter(buf, fieldnames=fields, extrasaction='ignore')
+
+    # Translate headers for non-English locales
+    if lang != 'en':
+        translated_fields = [_translate_header(f, lang, 'results') for f in fields]
+        field_map = dict(zip(fields, translated_fields))
+    else:
+        translated_fields = fields
+        field_map = {f: f for f in fields}
+
+    writer = csv_mod.DictWriter(buf, fieldnames=translated_fields, extrasaction='ignore',
+                               lineterminator="\n")
     writer.writeheader()
+
+    def _tcv_results(col: str, v) -> str:
+        """
+        Translate a single results-CSV value for *col* when lang != 'en'.
+
+        Handles booleans, semicolon-joined layer/reason lists, space-joined
+        slot-ID lists, and ordinary scalar enum values.  Falls through to the
+        raw string for columns with no localization mapping.
+        """
+        sv = str(v) if not isinstance(v, str) else v
+        if col in _BOOLEAN_COLS_RESULTS:
+            return _translate_composite_value('booleans', sv, lang)
+        if col in _SEMICOLON_LIST_COLS_RESULTS:
+            cat = _SEMICOLON_LIST_COLS_RESULTS[col]
+            return _translate_composite_value(cat, sv, lang, separators=('; ', ';'))
+        if col in _SPACE_LIST_COLS_RESULTS:
+            cat = _SPACE_LIST_COLS_RESULTS[col]
+            return _translate_composite_value(cat, sv, lang, separators=(' ',))
+        cat = _CSV_RESULTS_ENUM_COLS.get(col)
+        if cat and sv:
+            return _translate_value(cat, sv, lang)
+        return sv
+
     for r in results:
         seg = r.get('segmentation', {})
         ra  = r.get('root_analysis', {})
@@ -1434,7 +1605,7 @@ def format_csv(results: list[dict]) -> str:
         h   = r.get('h11_h15', {})
         ts  = r.get('typed_slots', [])
 
-        writer.writerow({
+        row_en = {
             'token_index':          r['token_index'],
             'original_surface':     r['original_surface'],
             'normalized_surface':   r.get('normalization', {}).get('normalized_surface', ''),
@@ -1483,7 +1654,23 @@ def format_csv(results: list[dict]) -> str:
             'evaluation_id':        r.get('evaluation_id', ''),
             'pipeline_verdict':     r.get('pipeline_verdict', ''),
             'error':                str(r.get('error') or ''),
-        })
+        }
+
+        if lang == 'en':
+            writer.writerow(row_en)
+        else:
+            # Translate each field using the correct handler (boolean/list/scalar),
+            # then remap to translated Arabic field names.
+            row_translated = {}
+            for k, v in row_en.items():
+                translated_key = field_map[k]
+                if isinstance(v, (int, float)) and k not in _BOOLEAN_COLS_RESULTS:
+                    # Numeric counts are never translated
+                    row_translated[translated_key] = v
+                else:
+                    row_translated[translated_key] = _tcv_results(k, v)
+            writer.writerow(row_translated)
+
     return buf.getvalue()
 
 
@@ -1766,7 +1953,7 @@ def _token_html(r: dict, open_detail: bool = False) -> str:
 
 
 # ── full HTML report ──────────────────────────────────────────────────────────
-def format_html(results: list[dict], stats: dict, checks: dict, meta: dict) -> str:
+def format_html(results: list[dict], stats: dict, checks: dict, meta: dict, lang: str = 'en') -> str:
     # Open first DEFERRED-root token by default for demo
     open_idx = next(
         (r['token_index'] for r in results if r.get('root_analysis', {}).get('root_state') == 'DEFERRED'),
@@ -1786,21 +1973,43 @@ def format_html(results: list[dict], stats: dict, checks: dict, meta: dict) -> s
         int_html += f'<div class="int-item {cls}"><span class="int-key">{_esc(k)}</span><span class="int-val">{v}</span></div>\n'
 
     taaqol_note = (
-        '<span class="tq-active">✓ Taaqol runtime active — live evaluations present</span>'
+        f'<span class="tq-active">{_get_html_label("tq_active", lang)}</span>'
         if checks['TAAQOL_RUNTIME_ACTIVE'] > 0
-        else '<span class="tq-deferred">⚠ Taaqol runtime unavailable. '
-             'All verdicts are truthfully DEFERRED — nothing is hidden.</span>'
+        else f'<span class="tq-deferred">{_get_html_label("tq_deferred", lang)}</span>'
     )
 
+    # Localization: HTML lang/dir and all static section labels
+    _is_single = len(results) == 1
+    _html_lang = 'ar' if lang == 'ar' else 'en'
+    _html_dir  = 'rtl' if lang == 'ar' else 'ltr'
+    _body_dir  = 'rtl' if lang == 'ar' else 'ltr'
+    _page_title = _get_html_label(
+        'page_title_single' if _is_single else 'page_title', lang
+    )
+    _subtitle = _get_html_label(
+        'subtitle_single' if _is_single else 'subtitle', lang
+    )
+    _h2_stats     = _get_html_label('h2_stats', lang)
+    _h2_integrity = _get_html_label('h2_integrity', lang)
+    _h2_tokens    = _get_html_label('h2_tokens', lang)
+    _h2_meta      = _get_html_label('h2_meta', lang)
+    _lbl = {k: _get_html_label(k, lang) for k in (
+        'stat_tokens', 'stat_typed_bundles', 'stat_taaqol_live',
+        'stat_h11_h15', 'stat_early_stops',
+        'stat_root_known', 'stat_root_deferred', 'stat_root_unknown', 'stat_root_ambiguous',
+        'defer_notice_title', 'defer_notice_body',
+        'tq_active', 'tq_deferred',
+    )}
+
     return f'''<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="{_html_lang}" dir="{_html_dir}">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{'Single Token Probe — تحليل رمز واحد' if len(results) == 1 else 'Hokom–Taaqol Live Demo — آية الدَّيْن (v2)'}</title>
+<title>{_page_title}</title>
 <style>
 *{{box-sizing:border-box;}}
-body{{font-family:'Segoe UI',system-ui,sans-serif;background:#f8fafc;color:#1e293b;margin:0;padding:0;direction:rtl;}}
+body{{font-family:'Segoe UI',system-ui,sans-serif;background:#f8fafc;color:#1e293b;margin:0;padding:0;direction:{_body_dir};}}
 .page{{max-width:1400px;margin:0 auto;padding:24px;}}
 h1{{font-size:1.6em;margin-bottom:4px;}}
 h2{{font-size:1.15em;color:#334155;margin:20px 0 6px;border-bottom:2px solid #e2e8f0;padding-bottom:4px;}}
@@ -1896,42 +2105,39 @@ summary:hover{{background:#f0f9ff;border-radius:8px;}}
 </head>
 <body>
 <div class="page">
-  <h1>{'Single Token Probe — تحليل رمز واحد' if len(results) == 1 else 'Hokom–Taaqol — عرض تشغيلي حي (v2 — تفاصيل كاملة)'}</h1>
-  <p style="color:#64748b;margin:0 0 12px;direction:rtl;">
-    {'رمز واحد | HOKOM-SINGLE-TOKEN-PROBE' if len(results) == 1 else 'سورة البقرة 2:282 — آية الدَّيْن &nbsp;|&nbsp; HOKOM-TAAQOL-AYAT-AL-DAYN-LIVE-DEMO-01'}
+  <h1>{_page_title}</h1>
+  <p style="color:#64748b;margin:0 0 12px;direction:{_html_dir};">
+    {_subtitle}
   </p>
 
   <div class="verse-box" dir="rtl">{_esc(AYAT_AL_DAYN)}</div>
 
-  <h2>إحصاءات</h2>
+  <h2>{_h2_stats}</h2>
   <div class="stat-row">
-    <div class="stat-card"><div class="val">{stats["token_count"]}</div><div class="lbl">توكنات</div></div>
-    <div class="stat-card"><div class="val">{stats["typed_bundles"]}</div><div class="lbl">Typed bundles</div></div>
-    <div class="stat-card"><div class="val">{stats["taaqol_live"]}</div><div class="lbl">Taaqol live</div></div>
-    <div class="stat-card"><div class="val">{stats["h11_h15_reached"]}</div><div class="lbl">H11-H15 reached</div></div>
-    <div class="stat-card"><div class="val">{stats["early_stops"]}</div><div class="lbl">توقفات دستورية</div></div>
-    <div class="stat-card"><div class="val">{stats["root_states"].get("KNOWN",0)}</div><div class="lbl">جذر معروف</div></div>
-    <div class="stat-card"><div class="val">{stats["root_states"].get("DEFERRED",0)}</div><div class="lbl">جذر مؤجَّل</div></div>
-    <div class="stat-card"><div class="val">{stats["root_states"].get("UNKNOWN",0)}</div><div class="lbl">جذر مجهول</div></div>
-    <div class="stat-card"><div class="val">{stats["root_states"].get("AMBIGUOUS",0)}</div><div class="lbl">جذر مبهم</div></div>
+    <div class="stat-card"><div class="val">{stats["token_count"]}</div><div class="lbl">{_lbl["stat_tokens"]}</div></div>
+    <div class="stat-card"><div class="val">{stats["typed_bundles"]}</div><div class="lbl">{_lbl["stat_typed_bundles"]}</div></div>
+    <div class="stat-card"><div class="val">{stats["taaqol_live"]}</div><div class="lbl">{_lbl["stat_taaqol_live"]}</div></div>
+    <div class="stat-card"><div class="val">{stats["h11_h15_reached"]}</div><div class="lbl">{_lbl["stat_h11_h15"]}</div></div>
+    <div class="stat-card"><div class="val">{stats["early_stops"]}</div><div class="lbl">{_lbl["stat_early_stops"]}</div></div>
+    <div class="stat-card"><div class="val">{stats["root_states"].get("KNOWN",0)}</div><div class="lbl">{_lbl["stat_root_known"]}</div></div>
+    <div class="stat-card"><div class="val">{stats["root_states"].get("DEFERRED",0)}</div><div class="lbl">{_lbl["stat_root_deferred"]}</div></div>
+    <div class="stat-card"><div class="val">{stats["root_states"].get("UNKNOWN",0)}</div><div class="lbl">{_lbl["stat_root_unknown"]}</div></div>
+    <div class="stat-card"><div class="val">{stats["root_states"].get("AMBIGUOUS",0)}</div><div class="lbl">{_lbl["stat_root_ambiguous"]}</div></div>
   </div>
 
-  <h2>صحة النظام</h2>
+  <h2>{_h2_integrity}</h2>
   <div class="int-grid">{int_html}</div>
   <p>{taaqol_note}</p>
 
   <div class="defer-notice">
-    <strong>النظام لا يخمّن عند غياب الدليل</strong><br>
-    عندما يكون الجذر أو الوزن أو المصدر مؤجَّلًا، لا يصدر النظام حكم LICENSED الشامل.
-    يُصدر بدلًا منه <strong>COMPOSITE</strong> مع قائمتين منفصلتين:
-    <strong>LICENSED_CLAIMS</strong> (الحقول المرخَّصة تحديدًا) و<strong>DEFERRED_CLAIMS</strong> (الحقول المؤجَّلة).
-    هذا ينطبق على <em>تَدَايَنْتُمْ</em>: word_class=FI3L مرخَّص، لكن الجذر والوزن والمصدر مؤجَّلة.
+    <strong>{_lbl["defer_notice_title"]}</strong><br>
+    {_lbl["defer_notice_body"]}
   </div>
 
-  <h2>الكلمات — انقر لتفاصيل كل طبقة</h2>
+  <h2>{_h2_tokens}</h2>
   {all_tokens_html}
 
-  <h2>بيانات البيئة</h2>
+  <h2>{_h2_meta}</h2>
   <div class="meta-box">
     HEAD: {_esc(meta.get("head",""))}<br>
     Vendor SHA: {_esc(meta.get("vendor_sha",""))}<br>
@@ -2052,7 +2258,7 @@ def _derive_layer_state(layer_sort: int, token: dict) -> tuple[str, str, str]:
     return 'NOT_REACHED', 'no_meaningful_slot_data', 'SLOT_GRAPH_DERIVATION'
 
 
-def generate_taaqol_layer_csv(results: list[dict]) -> str:
+def generate_taaqol_layer_csv(results: list[dict], lang: str = 'en') -> str:
     """
     Generate long-format per-layer Taaqol observability CSV.
 
@@ -2067,6 +2273,9 @@ def generate_taaqol_layer_csv(results: list[dict]) -> str:
     Determinism: no timestamps, no memory addresses, no machine-specific paths.
     failure_detail is sanitised to strip filesystem paths before inclusion.
     SHA-256 digest must be identical across clean runs on the same platform.
+
+    When *lang* == 'ar', column headers and display-facing enum values are
+    localised.  Canonical identifiers are never translated.
     """
     LAYERS = sorted(_LAYER_NAME.keys())  # canonical order
 
@@ -2101,8 +2310,46 @@ def generate_taaqol_layer_csv(results: list[dict]) -> str:
         'token_error',
     ]
 
+    # Translate column headers for non-English locales
+    if lang != 'en':
+        translated_fieldnames = [_translate_header(f, lang, 'layers') for f in fieldnames]
+        field_map_layers = dict(zip(fieldnames, translated_fieldnames))
+    else:
+        translated_fieldnames = fieldnames
+        field_map_layers = {f: f for f in fieldnames}
+
+    # Layers CSV enum columns and their YAML categories
+    _LAYERS_ENUM_COLS: dict[str, str] = {
+        'word_class':               'word_class',
+        'word_class_verdict':       'word_class_verdict',
+        'inflection_skipped_reason': 'inflection_skipped_reason',
+        'pipeline_verdict':         'pipeline_verdict',
+        'layer_name':               'layer_name',
+        'layer_state':              'layer_state',
+        'state_source':             'state_source',
+        'taaqol_verdict':           'taaqol_verdict',
+        'upstream_verdict':         'upstream_verdict',
+        'effective_verdict':        'effective_verdict',
+        'gamma_state':              'gamma_state',
+        'gate_verdict':             'gate_verdict',
+        'runtime_failure_code':     'failure_code',
+    }
+
+    def _ltv(col: str, value) -> str:
+        """Translate a single layers-CSV value for *col* when lang != 'en'."""
+        sv = str(value) if not isinstance(value, str) else value
+        if col in _BOOLEAN_COLS_LAYERS:
+            return _translate_composite_value('booleans', sv, lang)
+        if col in _COMMA_LIST_COLS_LAYERS:
+            cat = _COMMA_LIST_COLS_LAYERS[col]
+            return _translate_composite_value(cat, sv, lang, separators=(',',))
+        cat = _LAYERS_ENUM_COLS.get(col)
+        if cat and sv:
+            return _translate_value(cat, sv, lang)
+        return sv
+
     buf = io.StringIO()
-    writer = csv_mod.DictWriter(buf, fieldnames=fieldnames, lineterminator='\n')
+    writer = csv_mod.DictWriter(buf, fieldnames=translated_fieldnames, lineterminator='\n')
     writer.writeheader()
 
     for token in results:
@@ -2158,7 +2405,7 @@ def generate_taaqol_layer_csv(results: list[dict]) -> str:
                 for s in slots_in_layer
             )
 
-            writer.writerow({
+            row_layers_en = {
                 # Token identity
                 'token_index':              idx,
                 'original_surface':         orig,
@@ -2226,13 +2473,82 @@ def generate_taaqol_layer_csv(results: list[dict]) -> str:
                 'runtime_hokom_commit':     taaqol.get('hokom_commit') or '',
                 # Error
                 'token_error':              (err.get('type', '') if err else ''),
-            })
+            }
+
+            if lang == 'en':
+                writer.writerow(row_layers_en)
+            else:
+                row_layers_tr = {
+                    field_map_layers[k]: _ltv(k, str(v)) if isinstance(v, str) else v
+                    for k, v in row_layers_en.items()
+                }
+                writer.writerow(row_layers_tr)
 
     return buf.getvalue()
 
 
 # ── output writers ────────────────────────────────────────────────────────────
 REPORT_DIR = REPO_ROOT / 'reports' / 'ayat_al_dayn_demo'
+
+
+def _write_full_target_csvs(full_run, out_dir: Path) -> list:
+    """
+    Emit 5 CSVs partitioned by scope (mandate section 7 option B):
+
+      1. stage_records.csv            — all stage records
+      2. stage_records_token.csv      — TOKEN scope
+      3. stage_records_span.csv       — SPAN scope
+      4. stage_records_sentence.csv   — SENTENCE scope
+      5. stage_records_accounting.csv — REPOSITORY_ACCOUNTING scope
+    """
+    from pipeline.taaqol_integration.result_types import ScopeType
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+    columns = (
+        'stage_id', 'stage_name', 'scope_type', 'scope_id', 'owner',
+        'native_symbol', 'native_module', 'input_type', 'output_type',
+        'execution_status', 'verdict', 'rank',
+        'evidence_ids', 'provenance_ids', 'trace_ids',
+        'residual_codes', 'blocker_codes',
+        'error_code', 'duration_ms', 'applicability', 'closure_level',
+    )
+
+    def _dict_row(r):
+        d = r.to_dict()
+        # flatten list fields to '|' separated strings for CSV round-trip
+        for k in ('evidence_ids', 'provenance_ids', 'trace_ids',
+                  'residual_codes', 'blocker_codes'):
+            d[k] = '|'.join(str(x) for x in (d.get(k) or []))
+        return d
+
+    def _write(path: Path, records) -> Path:
+        with path.open('w', newline='', encoding='utf-8') as f:
+            w = csv_mod.DictWriter(f, fieldnames=list(columns))
+            w.writeheader()
+            for r in records:
+                w.writerow(_dict_row(r))
+        return path
+
+    paths_out: list = []
+    paths_out.append(_write(out_dir / 'stage_records.csv', full_run.stage_records))
+    paths_out.append(_write(
+        out_dir / 'stage_records_token.csv',
+        [r for r in full_run.stage_records if r.scope_type == ScopeType.TOKEN],
+    ))
+    paths_out.append(_write(
+        out_dir / 'stage_records_span.csv',
+        [r for r in full_run.stage_records if r.scope_type == ScopeType.SPAN],
+    ))
+    paths_out.append(_write(
+        out_dir / 'stage_records_sentence.csv',
+        [r for r in full_run.stage_records if r.scope_type == ScopeType.SENTENCE],
+    ))
+    paths_out.append(_write(
+        out_dir / 'stage_records_accounting.csv',
+        [r for r in full_run.stage_records
+         if r.scope_type == ScopeType.REPOSITORY_ACCOUNTING],
+    ))
+    return paths_out
 
 
 def write_outputs(
@@ -2244,11 +2560,31 @@ def write_outputs(
     *,
     client_presentation_ready: bool = False,
     presentation_failures: 'list[str] | None' = None,
+    lang: str = 'en',
+    output_dir: 'Path | None' = None,
 ) -> dict[str, Path]:
-    REPORT_DIR.mkdir(parents=True, exist_ok=True)
+    """
+    Write all report files to output_dir (default: REPORT_DIR).
+
+    When called from tests, pass output_dir=tmp_path to avoid writing into
+    the canonical repository artifact directory.  Production/canonical scripts
+    omit output_dir and receive REPORT_DIR (the repository path).
+
+    Always writes the canonical (unsuffixed) base files for backward
+    compatibility.  Also writes lang-suffixed files:
+      ayat_al_dayn_results_{lang}.csv
+      ayat_al_dayn_manager_report_{lang}.html
+      ayat_al_dayn_taaqol_layers_{lang}.csv  (when taaqol=True)
+
+    Arabic CSVs use utf-8-sig encoding (BOM) for Excel compatibility.
+    English CSVs use utf-8.
+    """
+    out = Path(output_dir) if output_dir is not None else REPORT_DIR
+    out.mkdir(parents=True, exist_ok=True)
     paths = {}
 
-    p = REPORT_DIR / 'ayat_al_dayn_results_full.json'
+    # ── canonical base files (backward compat, always English) ──────────────
+    p = out / 'ayat_al_dayn_results_full.json'
     p.write_text(format_json(
         results, stats, checks, meta,
         client_presentation_ready=client_presentation_ready,
@@ -2256,18 +2592,34 @@ def write_outputs(
     ), encoding='utf-8')
     paths['json'] = p
 
-    p = REPORT_DIR / 'ayat_al_dayn_results.csv'
-    p.write_text(format_csv(results), encoding='utf-8')
+    p = out / 'ayat_al_dayn_results.csv'
+    p.write_text(format_csv(results, lang='en'), encoding='utf-8')
     paths['csv'] = p
 
-    p = REPORT_DIR / 'ayat_al_dayn_manager_report.html'
-    p.write_text(format_html(results, stats, checks, meta), encoding='utf-8')
+    p = out / 'ayat_al_dayn_manager_report.html'
+    p.write_text(format_html(results, stats, checks, meta, lang='en'), encoding='utf-8')
     paths['html'] = p
 
     if taaqol:
-        p = REPORT_DIR / 'ayat_al_dayn_taaqol_layers.csv'
-        p.write_text(generate_taaqol_layer_csv(results), encoding='utf-8')
+        p = out / 'ayat_al_dayn_taaqol_layers.csv'
+        p.write_text(generate_taaqol_layer_csv(results, lang='en'), encoding='utf-8')
         paths['taaqol_layers'] = p
+
+    # ── lang-suffixed localized files ────────────────────────────────────────
+    csv_enc = 'utf-8-sig' if lang == 'ar' else 'utf-8'
+
+    p = out / f'ayat_al_dayn_results_{lang}.csv'
+    p.write_text(format_csv(results, lang=lang), encoding=csv_enc)
+    paths[f'csv_{lang}'] = p
+
+    p = out / f'ayat_al_dayn_manager_report_{lang}.html'
+    p.write_text(format_html(results, stats, checks, meta, lang=lang), encoding='utf-8')
+    paths[f'html_{lang}'] = p
+
+    if taaqol:
+        p = out / f'ayat_al_dayn_taaqol_layers_{lang}.csv'
+        p.write_text(generate_taaqol_layer_csv(results, lang=lang), encoding=csv_enc)
+        paths[f'taaqol_layers_{lang}'] = p
 
     return paths
 
@@ -2286,7 +2638,20 @@ def main() -> int:
             'Generate per-layer Taaqol observability CSV '
             '(reports/ayat_al_dayn_demo/ayat_al_dayn_taaqol_layers.csv). '
             'One row per token × registered Taaqol layer (129 × 18 = 2322 rows). '
-            'Default command is byte-for-byte unchanged when this flag is absent.'
+            'Additionally invokes the Full-Target orchestrator which produces '
+            'the canonical stage-record ledger and (when --format html --lang ar) '
+            'the 14-section Arabic RTL report.  Default command is byte-for-byte '
+            'unchanged when this flag is absent.'
+        ),
+    )
+    parser.add_argument(
+        '--taaqol-depth',
+        choices=('core', 'token', 'relation', 'full'),
+        default=None,
+        dest='taaqol_depth',
+        help=(
+            'Depth of the Full-Target Taaqol orchestrator. '
+            'Defaults to "full" when --taaqol is set.'
         ),
     )
     parser.add_argument('--full-ayah', action='store_true', dest='full_ayah',
@@ -2306,6 +2671,43 @@ def main() -> int:
     parser.add_argument('--fail-on-runtime-error', action='store_true',
         dest='fail_on_runtime_error',
         help='Exit nonzero if any token analysis raises an unexpected runtime error')
+    parser.add_argument(
+        '--lang', choices=('ar', 'en'), default='en',
+        help=(
+            'Report language for localized output files. '
+            '"en" (default) writes English-header CSVs and an LTR HTML report. '
+            '"ar" writes Arabic-header CSVs (utf-8-sig, Excel-compatible) '
+            'and an RTL HTML report.  Both runs also write the canonical '
+            'unsuffixed base files for backward compatibility.'
+        ),
+    )
+    parser.add_argument('--full-ledger', action='store_true',
+        help='Show full execution ledger for each token')
+    parser.add_argument('--show-hokom-19', action='store_true', dest='show_hokom_19',
+        help='Show all 19 Hokom stages with their status')
+    parser.add_argument('--show-taaqol-stages', action='store_true', dest='show_taaqol_stages',
+        help='Show Taaqol stage registry (7 proven core + blocker notice)')
+    parser.add_argument('--show-clauses', action='store_true', dest='show_clauses',
+        help='Show clause segmentation candidates')
+    parser.add_argument('--show-relations', action='store_true', dest='show_relations',
+        help='Show relation graph candidates')
+    parser.add_argument('--show-ifadah', action='store_true', dest='show_ifadah',
+        help='Show Ifadah candidates')
+    parser.add_argument('--show-hukm', action='store_true', dest='show_hukm',
+        help='Show Hukm candidates')
+    parser.add_argument('--show-trace', action='store_true', dest='show_trace',
+        help='Show full trace log')
+    parser.add_argument('--strict', action='store_true',
+        help='Enable strict mode: treat DEFERRED as failure')
+    parser.add_argument(
+        '--output-dir', dest='output_dir', metavar='PATH', default=None,
+        help=(
+            'Write every generated report (canonical demo files and Taaqol '
+            'full-target artifacts) under this directory instead of the '
+            'default reports/ayat_al_dayn_demo/.  Default behaviour is '
+            'unchanged when this flag is absent.'
+        ),
+    )
     args = parser.parse_args()
 
     # ── New presentation flags ────────────────────────────────────────────────
@@ -2339,11 +2741,22 @@ def main() -> int:
         stats   = summary_stats(results)
         checks  = integrity_check(results)
 
+    # C13 §7 governed provenance: read analysis_source_head from the
+    # governance file when present (stable across artifact-only commits);
+    # fall back to dynamic git HEAD for runtime/demo modes.
+    import os as _os
+    _repo_root = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+    if _repo_root not in sys.path:
+        sys.path.insert(0, _repo_root)
+    from src.hokom.runtime.provenance import (
+        canonical_source_head as _canonical_source_head,
+        canonical_source_head_full as _canonical_source_head_full,
+    )
     meta    = {
         'stage':       'HOKOM-TAAQOL-AYAT-AL-DAYN-LIVE-DEMO-01',
         'version':     '2',
-        'head':        _git(['git', 'rev-parse', '--short', 'HEAD']),
-        'head_full':   _git(['git', 'rev-parse', 'HEAD']),
+        'head':        _canonical_source_head(short=True),
+        'head_full':   _canonical_source_head_full(),
         'vendor_sha':  _vendor_sha(),
         'python':      f'{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}',
         'platform':    platform.system(),
@@ -2396,11 +2809,79 @@ def main() -> int:
         ),
     )
 
+    # Resolve the effective output directory: honour --output-dir when set,
+    # otherwise the canonical REPORT_DIR (backward compatible).  Every
+    # subsequent file write in this run uses _effective_out_dir.
+    _effective_out_dir = (
+        Path(args.output_dir).resolve() if getattr(args, 'output_dir', None)
+        else REPORT_DIR
+    )
+    _effective_out_dir.mkdir(parents=True, exist_ok=True)
+
     paths = write_outputs(
         results, stats, checks, meta, taaqol=args.taaqol,
         client_presentation_ready=client_presentation_ready,
         presentation_failures=presentation_failures,
+        lang=args.lang,
+        output_dir=_effective_out_dir if _effective_out_dir != REPORT_DIR else None,
     )
+
+    # ── Full-Target Taaqol orchestrator (when --taaqol is set) ────────────────
+    # Architecture: the orchestrator owns stage classification.  This script
+    # only invokes it, then routes its result to the appropriate renderer.
+    # Backward compat: without --taaqol, none of this executes.
+    if getattr(args, 'taaqol', False):
+        from pipeline.taaqol_integration.full_target_orchestrator import run_full_target
+        from pipeline.taaqol_integration.html_report_ar import render_taaqol_html_ar
+
+        _taaqol_depth = args.taaqol_depth or 'full'
+        meta['taaqol_depth'] = _taaqol_depth
+
+        _corpus_tokens = [r['original_surface'] for r in results]
+        _full_run = run_full_target(_corpus_tokens, depth=_taaqol_depth)
+
+        # Arabic RTL HTML — 14 sections
+        if args.format == 'html' and args.lang == 'ar':
+            _ar_html = render_taaqol_html_ar(_full_run)
+            _ar_path = _effective_out_dir / 'ayat_al_dayn_taaqol_full_ar.html'
+            _ar_path.parent.mkdir(parents=True, exist_ok=True)
+            _ar_path.write_text(_ar_html, encoding='utf-8')
+            paths['taaqol_full_html_ar'] = _ar_path
+
+        # JSON extension — write structured stage_records
+        if args.format == 'json':
+            _json_ext_path = _effective_out_dir / 'ayat_al_dayn_taaqol_full.json'
+            _json_ext_path.write_text(
+                json.dumps(_full_run.to_dict(), ensure_ascii=False, indent=2),
+                encoding='utf-8',
+            )
+            paths['taaqol_full_json'] = _json_ext_path
+
+        # Always emit the 5-CSV pack (per mandate section 7 option B)
+        _csv_paths = _write_full_target_csvs(_full_run, _effective_out_dir)
+        paths['taaqol_full_csvs'] = _csv_paths
+
+        # Always emit the canonical JSON (independent of --format json)
+        if 'taaqol_full_json' not in paths:
+            _json_path = _effective_out_dir / 'ayat_al_dayn_taaqol_full.json'
+            _json_path.write_text(
+                json.dumps(_full_run.to_dict(), ensure_ascii=False, indent=2),
+                encoding='utf-8',
+            )
+            paths['taaqol_full_json'] = _json_path
+
+        # Always emit the Arabic HTML report (independent of --format), so
+        # downstream inspection tools always have it available.
+        if 'taaqol_full_html_ar' not in paths:
+            _ar_html = render_taaqol_html_ar(_full_run)
+            _ar_path = _effective_out_dir / 'ayat_al_dayn_taaqol_full_ar.html'
+            _ar_path.write_text(_ar_html, encoding='utf-8')
+            paths['taaqol_full_html_ar'] = _ar_path
+
+        # Stash for stderr summary
+        _globals_full_run = _full_run
+    else:
+        _globals_full_run = None
 
     # ── JSON stdout / file output ─────────────────────────────────────────────
     if getattr(args, 'json_stdout', False):
@@ -2455,13 +2936,14 @@ def main() -> int:
             taaqol_worktree_clean=_wt_clean,
             results=results,
             use_color=use_color,
+            lang=args.lang,
         ))
         for _tok in results:
             if getattr(args, 'verbose', False):
                 print(render_token_verbose(_tok, use_color))
             else:
                 print(render_token_compact(_tok, use_color))
-        print(render_summary_dashboard(stats, checks, use_color))
+        print(render_summary_dashboard(stats, checks, use_color, lang=args.lang))
     else:
         # ── Existing format handling (unchanged) ──────────────────────────────
         if args.format == 'terminal':
@@ -2495,6 +2977,45 @@ def main() -> int:
     print(f'\n  JSON : {paths["json"]}', file=sys.stderr)
     print(f'  CSV  : {paths["csv"]}', file=sys.stderr)
     print(f'  HTML : {paths["html"]}', file=sys.stderr)
+
+    # ── Full-Target orchestrator summary (only when --taaqol) ─────────────────
+    if getattr(args, 'taaqol', False) and _globals_full_run is not None:
+        from pipeline.taaqol_integration.result_types import ExecutionStatus as _ES
+
+        _fr = _globals_full_run
+        _all_records = _fr.stage_records
+        _by_status: dict[str, int] = {}
+        for _r in _all_records:
+            _key = str(_r.execution_status)
+            _by_status[_key] = _by_status.get(_key, 0) + 1
+        _stages_executed = sorted({
+            _r.stage_id for _r in _all_records if _r.execution_status == _ES.EXECUTED
+        })
+        _stages_blocked = sorted({
+            _r.stage_id for _r in _all_records if _r.execution_status == _ES.BLOCKED
+        })
+        _stages_not_opened = sorted({
+            _r.stage_id for _r in _all_records if _r.execution_status == _ES.NOT_OPENED
+        })
+
+        print('\n  ── Full-Target Orchestrator ──────────────────────────────', file=sys.stderr)
+        print(f'    HTML_PATH                = {paths.get("taaqol_full_html_ar")}', file=sys.stderr)
+        print(f'    JSON_PATH                = {paths.get("taaqol_full_json")}', file=sys.stderr)
+        _csv_list = paths.get('taaqol_full_csvs') or []
+        print(f'    CSV_PATHS                = {[str(p) for p in _csv_list]}', file=sys.stderr)
+        print(f'    TOTAL_STAGE_RECORDS      = {len(_all_records)}', file=sys.stderr)
+        print(f'    NATIVE_RUNTIME_EXECUTED  = {_by_status.get("EXECUTED", 0)}', file=sys.stderr)
+        print(f'    BLOCKED                  = {_by_status.get("BLOCKED", 0)}', file=sys.stderr)
+        print(f'    DEFERRED                 = {_by_status.get("DEFERRED", 0)}', file=sys.stderr)
+        print(f'    NOT_OPENED               = {_by_status.get("NOT_OPENED", 0)}', file=sys.stderr)
+        print(f'    NOT_APPLICABLE           = {_by_status.get("NOT_APPLICABLE", 0)}', file=sys.stderr)
+        print(f'    ERRORS                   = {_by_status.get("ERROR", 0)}', file=sys.stderr)
+        print(f'    STAGES_EXECUTED          = {_stages_executed}', file=sys.stderr)
+        print(f'    STAGES_BLOCKED_UNIQUE    = {_stages_blocked}', file=sys.stderr)
+        print(f'    STAGES_NOT_OPENED_UNIQUE = {_stages_not_opened}', file=sys.stderr)
+        print(f'    FULL_VERTICAL_SLICE      = {_fr.full_vertical_slice_status}', file=sys.stderr)
+        print(f'    INTEGRITY_FLAGS          = {_fr.integrity_flags}', file=sys.stderr)
+
     if args.taaqol:
         print(f'  TAAQOL_LAYERS : {paths["taaqol_layers"]}', file=sys.stderr)
         # Per-layer reconciliation summary

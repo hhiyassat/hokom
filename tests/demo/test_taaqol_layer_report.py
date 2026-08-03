@@ -332,55 +332,94 @@ def test_csv_determinism():
 
 # ── T14: Default command byte-for-byte unchanged ──────────────────────────────
 
-def test_default_command_unchanged():
+def test_default_command_unchanged(tmp_path):
     """
     T14: Running write_outputs() without --taaqol must NOT create the
     taaqol layers CSV file (default command byte-for-byte unchanged).
 
     We verify the taaqol CSV is absent from paths and the file is not written.
-    Existing canonical artifacts are saved and restored so artifact digest
-    checks remain valid.
+    Writes are directed to tmp_path so canonical repository artifacts are
+    never mutated. TEST_SESSION_ARTIFACT_MUTATION_COUNT = 0.
     """
     from scripts.demo_ayat_al_dayn import (
-        run_all, summary_stats, integrity_check, write_outputs, REPORT_DIR,
+        run_all, summary_stats, integrity_check, write_outputs,
     )
-    taaqol_csv_path = REPORT_DIR / 'ayat_al_dayn_taaqol_layers.csv'
 
-    # Save existing canonical artifact bytes so we can restore after write_outputs()
-    _saved: dict[str, bytes] = {}
-    for fname in ('ayat_al_dayn_results.csv', 'ayat_al_dayn_results_full.json',
-                  'ayat_al_dayn_manager_report.html'):
-        p = REPORT_DIR / fname
-        if p.exists():
-            _saved[fname] = p.read_bytes()
+    results = run_all(verbose=False)
+    stats   = summary_stats(results)
+    checks  = integrity_check(results)
+    meta    = {
+        'stage': 'test', 'version': '2', 'head': 'test', 'head_full': 'test',
+        'vendor_sha': 'test', 'python': 'test', 'platform': 'test',
+        'timestamp': '2026-01-01T00:00:00+00:00', 'ayat_source': 'test',
+        'token_count': len(results),
+    }
+    paths = write_outputs(results, stats, checks, meta, taaqol=False, output_dir=tmp_path)
 
-    # Remove taaqol CSV if it exists from a previous --taaqol run
-    _taaqol_existed = taaqol_csv_path.exists()
-    if _taaqol_existed:
-        taaqol_csv_path.unlink()
+    assert 'taaqol_layers' not in paths, (
+        "write_outputs(taaqol=False) must NOT return 'taaqol_layers' in paths"
+    )
+    taaqol_csv_path = tmp_path / 'ayat_al_dayn_taaqol_layers.csv'
+    assert not taaqol_csv_path.exists(), (
+        f"write_outputs(taaqol=False) must NOT write {taaqol_csv_path}"
+    )
 
-    try:
-        results = run_all(verbose=False)
-        stats   = summary_stats(results)
-        checks  = integrity_check(results)
-        meta    = {
-            'stage': 'test', 'version': '2', 'head': 'test', 'head_full': 'test',
-            'vendor_sha': 'test', 'python': 'test', 'platform': 'test',
-            'timestamp': '2026-01-01T00:00:00+00:00', 'ayat_source': 'test',
-            'token_count': len(results),
-        }
-        paths = write_outputs(results, stats, checks, meta, taaqol=False)
 
-        assert 'taaqol_layers' not in paths, (
-            "write_outputs(taaqol=False) must NOT return 'taaqol_layers' in paths"
+def test_write_outputs_no_canonical_mutation(tmp_path):
+    """
+    R2 regression (repaired per C13 §7): write_outputs(output_dir=tmp_path)
+    must not mutate canonical repository artifacts on disk.
+
+    The prior implementation compared against `git diff HEAD`, which is
+    fundamentally self-referential: the analysis_source_head SHA embedded
+    in canonical artifacts changes with every commit that touches ANY file
+    (even a governance-only commit), so any post-commit regeneration
+    invalidates the just-committed baseline.
+
+    C13 §7 solution: verify the real invariant — canonical files on disk
+    are byte-identical BEFORE and AFTER the tmp_path write. No git
+    dependency; no self-reference.
+    """
+    from pathlib import Path
+    from scripts.demo_ayat_al_dayn import (
+        run_all, summary_stats, integrity_check, write_outputs,
+    )
+
+    _REPO_ROOT = Path(__file__).resolve().parents[2]
+    _AUDITED_ARTIFACTS = [
+        _REPO_ROOT / 'reports/ayat_al_dayn_demo/ayat_al_dayn_manager_report.html',
+        _REPO_ROOT / 'reports/ayat_al_dayn_demo/ayat_al_dayn_results_full.json',
+        _REPO_ROOT / 'reports/ayat_al_dayn_demo/ayat_al_dayn_results.csv',
+    ]
+
+    # Snapshot canonical files' bytes BEFORE the write.
+    before_bytes = {}
+    for p in _AUDITED_ARTIFACTS:
+        before_bytes[p] = p.read_bytes() if p.exists() else None
+
+    results = run_all(verbose=False)
+    stats   = summary_stats(results)
+    checks  = integrity_check(results)
+    meta    = {
+        'stage': 'test', 'version': '2', 'head': 'test', 'head_full': 'test',
+        'vendor_sha': 'test', 'python': 'test', 'platform': 'test',
+        'timestamp': '2026-01-01T00:00:00+00:00', 'ayat_source': 'test',
+        'token_count': len(results),
+    }
+    result_paths = write_outputs(results, stats, checks, meta, taaqol=False, output_dir=tmp_path)
+
+    # Verify tmp_path received the expected files (write_outputs actually wrote).
+    assert (tmp_path / 'ayat_al_dayn_results_full.json').is_file()
+    assert (tmp_path / 'ayat_al_dayn_results.csv').is_file()
+    assert (tmp_path / 'ayat_al_dayn_manager_report.html').is_file()
+
+    # Verify canonical files' bytes are UNCHANGED after the tmp_path write.
+    for p in _AUDITED_ARTIFACTS:
+        current = p.read_bytes() if p.exists() else None
+        assert current == before_bytes[p], (
+            f"write_outputs(output_dir=tmp_path) mutated canonical artifact {p.name}; "
+            f"tmp_path invocation must not touch canonical paths"
         )
-        assert not taaqol_csv_path.exists(), (
-            f"write_outputs(taaqol=False) must NOT write {taaqol_csv_path}"
-        )
-    finally:
-        # Restore canonical artifacts so artifact digest tests remain valid
-        for fname, data in _saved.items():
-            (REPORT_DIR / fname).write_bytes(data)
 
 
 # ── T15: Reconciliation targets (live Taaqol only) ───────────────────────────
