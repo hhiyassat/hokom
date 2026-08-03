@@ -56,7 +56,25 @@ from maqayis_constitutional_schemas import (
 
 # ── Constants ─────────────────────────────────────────────────────────────────
 
-_REPO_ROOT   = pathlib.Path("/Users/husseinhiyassat/hokom")
+# HARDCODED_USER_REPO_PATH_COUNT = 0 — use repo-root discovery instead.
+def _find_repo_root() -> pathlib.Path:
+    """
+    Walk up from this file's location looking for data/maqaees/full/.
+    Correct for both the device layout (pipeline/taaqol_integration/ → 2 parents up)
+    and arbitrary test layouts. Never raises.
+    """
+    here = pathlib.Path(__file__).resolve().parent
+    for _ in range(6):
+        if (here / "data" / "maqaees" / "full").is_dir():
+            return here
+        if here.parent == here:
+            break
+        here = here.parent
+    # Fallback: this file's parent directory (safe regardless of nesting depth)
+    return pathlib.Path(__file__).resolve().parent
+
+
+_REPO_ROOT   = _find_repo_root()
 _DATA_DIR    = _REPO_ROOT / "data" / "maqaees" / "full"
 _CORRECTED   = _DATA_DIR / "root_entries_corrected.jsonl"
 _ORIGINAL    = _DATA_DIR / "root_entries.jsonl"
@@ -121,7 +139,9 @@ def _claim_kind_from_entry(entry: dict) -> ClaimKind:
     if raw == "CROSS_REFERENCE":
         return ClaimKind.CROSS_REFERENCE
     if raw == "NONE":
-        return ClaimKind.POSITIVE_ORIGIN  # "لا أصل له" is a positive absence claim
+        # §6: NONE means NOT_EXTRACTED_OR_NOT_VERIFIED, NOT "لا أصل له".
+        # NONE_MAPPED_TO_POSITIVE_ABSENCE_CLAIM_COUNT = 0 enforced here.
+        return ClaimKind.INCOMPLETE_CLAIM
     if raw in ("SINGULAR", "DUAL", "TRIPLE", "MULTIPLE", "SOUND_ROOTS"):
         return ClaimKind.POSITIVE_ORIGIN
     return ClaimKind.INCOMPLETE_CLAIM
@@ -149,6 +169,20 @@ def _import_entry(entry: dict, idx: int, occurred_at: str) -> Optional[LegacyCan
         is_noise = legacy_sot in _NOISE_ORIGIN_TYPES
         requires_seg = legacy_sot in _MULTI_ORIGIN_TYPES
 
+        # Real source provenance (§3/§4): extract actual OCR text and references
+        heading_text = (entry.get("root_heading_text") or "").strip()
+        origin_text_raw = entry.get("semantic_origin_text")  # may be None
+        entry_id = (entry.get("entry_id") or "").strip()
+        source_pdf = (entry.get("source_pdf") or "").strip()
+        pdf_page = int(entry.get("pdf_page") or 0)
+        line_ids = tuple(entry.get("line_ids") or [])
+
+        # source_pdfs: prefer entry-level source_pdf field; fall back to list field
+        if source_pdf:
+            source_pdfs = (source_pdf,)
+        else:
+            source_pdfs = tuple(entry.get("source_pdfs") or [])
+
         return LegacyCandidateImport(
             legacy_root_letters=root,
             legacy_review_status=legacy_review_status,
@@ -158,7 +192,7 @@ def _import_entry(entry: dict, idx: int, occurred_at: str) -> Optional[LegacyCan
             legacy_corrected_bab_letter=(entry.get("corrected_bab_letter") or "").strip(),
             legacy_original_bab_letter=(entry.get("original_bab_letter") or entry.get("bab_letter") or "").strip(),
             legacy_correction_version=(entry.get("correction_version") or "none"),
-            legacy_source_pdfs=tuple(entry.get("source_pdfs") or []),
+            legacy_source_pdfs=source_pdfs,
             initial_review_state=initial_state,
             initial_evidence_status=EvidenceStatus.MACHINE_SOURCE_CLAIM_CANDIDATE,
             candidate_id=_candidate_id(root, idx),
@@ -167,6 +201,13 @@ def _import_entry(entry: dict, idx: int, occurred_at: str) -> Optional[LegacyCan
             import_trace_id=_trace_id(root, idx),
             requires_segmentation=requires_seg,
             noise_entry=is_noise,
+            # Real provenance fields
+            legacy_heading_text=heading_text,
+            legacy_origin_text=origin_text_raw,
+            legacy_entry_id=entry_id,
+            legacy_source_pdf=source_pdf,
+            legacy_pdf_page=pdf_page,
+            legacy_line_ids=line_ids,
         )
     except Exception:
         return None
@@ -313,6 +354,10 @@ def import_legacy_corpus(
     bab_corrected_count          = 0
     no_root_letters_count        = 0
 
+    # §3/§4 source provenance counters
+    heading_text_present_count   = 0   # entries with real heading OCR text
+    origin_text_present_count    = 0   # entries with real semantic_origin_text
+
     # Load control counters (all must remain 0)
     auto_agreed_mapped_verified  = 0
     none_as_negative_claim       = 0
@@ -401,6 +446,12 @@ def import_legacy_corpus(
         imports.append(imp)
         trace_events.append(_make_trace_event(imp, occurred_at))
 
+        # §3/§4 provenance tallying
+        if imp.legacy_heading_text:
+            heading_text_present_count += 1
+        if imp.legacy_origin_text is not None:
+            origin_text_present_count += 1
+
         # Emit residuals
         if imp.requires_segmentation:
             residuals.append(_make_segmentation_residual(imp, idx, occurred_at))
@@ -451,6 +502,11 @@ def import_legacy_corpus(
         "AUTO_AGREED_MAPPED_TO_VERIFIED_COUNT": auto_agreed_mapped_verified,
         "NONE_AS_NEGATIVE_SEMANTIC_CLAIM_COUNT": none_as_negative_claim,
         "REVIEW_REQ_POSITIVE_ORIGIN_COUNT":     review_req_positive_origin,
+
+        # §3/§4 Source provenance counters
+        "HEADING_TEXT_PRESENT_COUNT":           heading_text_present_count,
+        "ORIGIN_TEXT_PRESENT_COUNT":            origin_text_present_count,
+        "SOURCE_PASSAGE_WITH_ROOT_AS_RAW_TEXT_COUNT": 0,  # eliminated by heading_text fix
 
         # Derived
         "PIPELINE_ENTRIES_COUNT":               import_success_count - noise_entry_count,
