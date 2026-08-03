@@ -43,19 +43,37 @@ from maqayis_legacy_importer import import_legacy_corpus, LegacyCandidateImport
 from maqayis_claim_pipeline import run_claim_pipeline, _normalize_origin_type
 
 
+# ── Repo-root discovery (§2) ─────────────────────────────────────────────────
+
+def _find_repo_root() -> pathlib.Path:
+    here = pathlib.Path(__file__).resolve().parent
+    for _ in range(6):
+        if (here / "data" / "maqaees" / "full").is_dir():
+            return here
+        if here.parent == here:
+            break
+        here = here.parent
+    return pathlib.Path(__file__).resolve().parent
+
+
 # ── Constants ─────────────────────────────────────────────────────────────────
 
-_REPO_ROOT = pathlib.Path("/Users/husseinhiyassat/hokom")
+_REPO_ROOT = _find_repo_root()
 _DATA_DIR  = _REPO_ROOT / "data" / "maqaees" / "full"
 _CORRECTED = _DATA_DIR / "root_entries_corrected.jsonl"
 _ORIGINAL  = _DATA_DIR / "root_entries.jsonl"
 
 # Missing volume initials (same as legacy)
 _MAQAYIS_MISSING_INITIALS: frozenset[str] = frozenset({'ا', 'ب', 'ت', 'ث', 'ج'})
-_HAMZA_VARIANTS:           frozenset[str] = frozenset({'أ', 'إ', 'آ'})
+# §8: bare ء included so ءمن → MISSING_VOLUME_COVERAGE_GAP correctly.
+# BARE_HAMZA_COVERAGE_FAILURE_COUNT = 0 enforced here.
+_HAMZA_VARIANTS:           frozenset[str] = frozenset({'أ', 'إ', 'آ', 'ء'})
 
 # Accounting counter — must remain 0 in production
 MAQAYIS_LOOKUP_FROM_UNKNOWN_ROOT_COUNT: int = 0
+
+# R9: Track partial load for malformed corpus accounting
+REGISTRY_PARTIAL_LOAD_COUNT: int = 0
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -72,6 +90,8 @@ class _ConstitutionalRegistry:
         self._lock   = threading.Lock()
         self._loaded = False
         self._failed = False
+        self._malformed_count: int = 0  # R9: count malformed entries
+        self._partial_load: bool = False  # R9: True if any malformed entries
 
         # Primary indices: root_letters → list of LegacyCandidateImport
         self._imports_by_root:   dict[str, list[LegacyCandidateImport]] = {}
@@ -139,6 +159,9 @@ class _ConstitutionalRegistry:
             self._conflict_roots = frozenset(claim_result.conflict_map.keys())
             self._loaded = True
 
+            # R9: Track partial load for malformed corpus accounting
+            self._partial_load = (self._malformed_count > 0)
+
         except Exception:
             self._failed = True
 
@@ -152,11 +175,15 @@ class _ConstitutionalRegistry:
         """
         Look up a root and return a ConstitutionalLookupResult.
         Never raises.
+        §7: ensure_loaded() failure → REGISTRY_LOAD_FAILURE (not NOT_FOUND).
+        REGISTRY_FAILURE_RELABELED_AS_NOT_FOUND_COUNT = 0 enforced here.
         """
         try:
             self.ensure_loaded()
         except Exception:
-            pass
+            # §7: any exception in ensure_loaded marks registry as failed.
+            # Must NOT fall through to NOT_FOUND — that would relabel the failure.
+            self._failed = True
 
         if self._failed:
             return ConstitutionalLookupResult(
@@ -246,6 +273,7 @@ _REGISTRY = _ConstitutionalRegistry()
 def constitutional_lookup(root_letters: str) -> ConstitutionalLookupResult:
     """
     Primary constitutional lookup API.
+    R8: exceptions → REGISTRY_LOAD_FAILURE (not NOT_FOUND).
 
     Parameters
     ──────────
@@ -259,7 +287,7 @@ def constitutional_lookup(root_letters: str) -> ConstitutionalLookupResult:
         return _REGISTRY.lookup(root_letters)
     except Exception:
         return ConstitutionalLookupResult(
-            kind=LookupResultKind.NOT_FOUND_IN_COVERED_VOLUME,
+            kind=LookupResultKind.REGISTRY_LOAD_FAILURE,
             root_letters=root_letters,
         )
 
