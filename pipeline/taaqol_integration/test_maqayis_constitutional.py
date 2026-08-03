@@ -555,15 +555,32 @@ def test_cr09_bare_hamza_coverage_gap(registry):
 def test_ea01_found_root_emits_ids():
     if not _JSONL_PATH.exists():
         pytest.skip("Corpus not available: cannot test found-root evidence IDs without corpus")
-    from maqayis_constitutional_evidence_adapter import get_constitutional_evidence_ids
-    ids = get_constitutional_evidence_ids("حدر")
-    assert len(ids) > 0, "Found root must emit evidence IDs"
+    # §6: get_constitutional_evidence_ids() is bypassed in production (_STAGE_0_BUNDLE_ONLY_ENFORCEMENT=True).
+    # Test the licensed path: augment_evidence_from_bundle() with ACCEPT directive.
+    from maqayis_constitutional_evidence_adapter import augment_evidence_from_bundle
+    from types import SimpleNamespace
+    class _BundleAccept:
+        domain_directive = "ACCEPT"
+        root_claim = SimpleNamespace(radicals=tuple("حدر"))
+    result = augment_evidence_from_bundle(_BundleAccept())
+    assert len(result.evidence_ids) > 0, (
+        f"Found root via licensed bundle must emit evidence IDs. "
+        f"hokom_root_licensed={result.hokom_root_licensed}, "
+        f"source_candidate_found={result.source_candidate_found}, "
+        f"not_licensed_reason={result.not_licensed_reason}"
+    )
 
 
 def test_ea02_conflict_suppresses_origin_id():
-    from maqayis_constitutional_evidence_adapter import get_constitutional_evidence_ids
-    ids = get_constitutional_evidence_ids("حور")
-    origin_ids = [i for i in ids if ":origin:" in i]
+    # §6: licensed path only. Use augment_evidence_from_bundle() with ACCEPT directive.
+    # §8: conflict roots must not emit origin IDs (REVIEW_REQUIRED_POSITIVE_ORIGIN_EVIDENCE_COUNT=0).
+    from maqayis_constitutional_evidence_adapter import augment_evidence_from_bundle
+    from types import SimpleNamespace
+    class _BundleAccept:
+        domain_directive = "ACCEPT"
+        root_claim = SimpleNamespace(radicals=tuple("حور"))
+    result = augment_evidence_from_bundle(_BundleAccept())
+    origin_ids = [i for i in result.evidence_ids if ":origin:" in i]
     assert len(origin_ids) == 0, \
         f"Conflict root must not emit origin ID, got: {origin_ids}"
 
@@ -571,10 +588,19 @@ def test_ea02_conflict_suppresses_origin_id():
 def test_ea03_conflict_emits_bab_id():
     if not _JSONL_PATH.exists():
         pytest.skip("Corpus not available: cannot test conflict bab IDs without corpus")
-    from maqayis_constitutional_evidence_adapter import get_constitutional_evidence_ids
-    ids = get_constitutional_evidence_ids("حور")
-    bab_ids = [i for i in ids if ":bab:" in i]
-    assert len(bab_ids) >= 1, "Conflict root should emit bab ID"
+    # §6: licensed path only. Use augment_evidence_from_bundle() with ACCEPT directive.
+    from maqayis_constitutional_evidence_adapter import augment_evidence_from_bundle
+    from types import SimpleNamespace
+    class _BundleAccept:
+        domain_directive = "ACCEPT"
+        root_claim = SimpleNamespace(radicals=tuple("حور"))
+    result = augment_evidence_from_bundle(_BundleAccept())
+    bab_ids = [i for i in result.evidence_ids if ":bab:" in i]
+    assert len(bab_ids) >= 1, (
+        f"Conflict root should emit bab ID. "
+        f"evidence_ids={result.evidence_ids}, "
+        f"hokom_root_licensed={result.hokom_root_licensed}"
+    )
 
 
 def test_ea04_missing_volume_emits_nothing():
