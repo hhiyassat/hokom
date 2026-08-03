@@ -1,0 +1,74 @@
+{
+  "description": "30-page gold pilot sample — 5 pages per category across all 6 PDFs",
+  "version": "v2",
+  "categories": {
+    "CLEAR_ENTRIES": {
+      "description": "Clear dictionary entries with good scan quality",
+      "pages": [
+        {"pdf": "02.pdf", "page": 3,  "note": "Contains (حد) — gold anchor page"},
+        {"pdf": "01.pdf", "page": 5,  "note": "Clear entries from كتاب الهمزة"},
+        {"pdf": "01.pdf", "page": 12, "note": "Multiple clear roots"},
+        {"pdf": "03.pdf", "page": 8,  "note": "Clear mid-book entries"},
+        {"pdf": "04.pdf", "page": 6,  "note": "Clear entries كتاب الزاي"}
+      ]
+    },
+    "MULTIPLE_ROOTS": {
+      "description": "Pages with several root entries compressed together",
+      "pages": [
+        {"pdf": "01.pdf", "page": 20, "note": "Dense page multiple short roots"},
+        {"pdf": "02.pdf", "page": 15, "note": "Multiple roots كتاب الحاء"},
+        {"pdf": "03.pdf", "page": 22, "note": "Multiple roots mid-volume"},
+        {"pdf": "04.pdf", "page": 18, "note": "Multiple roots كتاب السين"},
+        {"pdf": "05.pdf", "page": 10, "note": "Multiple roots كتاب العين"}
+      ]
+    },
+    "DENSE_POETRY": {
+      "description": "Pages with dense embedded poetry / شعر",
+      "pages": [
+        {"pdf": "01.pdf", "page": 30, "note": "Poetry-heavy page vol 1"},
+        {"pdf": "02.pdf", "page": 25, "note": "Poetry page vol 2"},
+        {"pdf": "03.pdf", "page": 35, "note": "Poetry page vol 3"},
+        {"pdf": "05.pdf", "page": 20, "note": "Poetry page vol 5"},
+        {"pdf": "06.pdf", "page": 15, "note": "Poetry page vol 6"}
+      ]
+    },
+    "DENSE_FOOTNOTES": {
+      "description": "Pages with substantial footnote blocks",
+      "pages": [
+        {"pdf": "01.pdf", "page": 40, "note": "Footnote-heavy page vol 1"},
+        {"pdf": "02.pdf", "page": 35, "note": "Footnote-heavy page vol 2"},
+        {"pdf": "03.pdf", "page": 50, "note": "Footnote-heavy page vol 3"},
+        {"pdf": "04.pdf", "page": 30, "note": "Footnote-heavy page vol 4"},
+        {"pdf": "06.pdf", "page": 25, "note": "Footnote-heavy page vol 6"}
+      ]
+    },
+    "UNUSUAL_ROOTS": {
+      "description": "Rare or difficult roots; weak roots (ناقص/مهموز)",
+      "pages": [
+        {"pdf": "01.pdf", "page": 44, "note": "Weak roots hamza (p55 invalid — 01.pdf has 48 pp; using p44)"},
+        {"pdf": "02.pdf", "page": 45, "note": "Defective roots vol 2"},
+        {"pdf": "03.pdf", "page": 60, "note": "Rare roots vol 3"},
+        {"pdf": "05.pdf", "page": 40, "note": "Hollow roots vol 5"},
+        {"pdf": "06.pdf", "page": 35, "note": "Final-weak roots vol 6"}
+      ]
+    },
+    "POOR_SCAN": {
+      "description": "Pages with visible scan degradation / skew / staining",
+      "pages": [
+        {"pdf": "01.pdf", "page": 47, "note": "Degraded scan vol 1 (p70 invalid — 01.pdf has 48 pp; using p47)"},
+        {"pdf": "02.pdf", "page": 60, "note": "Poor contrast vol 2"},
+        {"pdf": "04.pdf", "page": 50, "note": "Skewed page vol 4"},
+        {"pdf": "05.pdf", "page": 55, "note": "Staining vol 5"},
+        {"pdf": "06.pdf", "page": 50, "note": "Poor scan vol 6"}
+      ]
+    }
+  },
+  "gold_anchor": {
+    "pdf": "02.pdf",
+    "page": 3,
+    "expected_root": "حد",
+    "expected_semantic_origin": "أصلان",
+    "expected_origin_type": "DUAL",
+    "note": "Verified in pilot v1; first gold entry"
+  }
+}

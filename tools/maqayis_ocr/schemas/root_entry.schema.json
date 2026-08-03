@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "maqayis/root_entry",
+  "title": "RootEntry",
+  "description": "A detected dictionary root entry from Maqayis al-Lugha",
+  "type": "object",
+  "required": [
+    "entry_id", "source_pdf", "pdf_page",
+    "root_heading_text", "root_letters",
+    "bab_letter",
+    "semantic_origin_text", "semantic_origin_type",
+    "line_ids", "review_status"
+  ],
+  "properties": {
+    "entry_id":           { "type": "string", "description": "'{pdf}:p{page}:r{n}'" },
+    "source_pdf":         { "type": "string" },
+    "pdf_page":           { "type": "integer", "minimum": 1 },
+    "root_heading_text":  {
+      "type": "string",
+      "description": "Full heading as it appears, e.g. '(حد) الحاء والدال أصلان'"
+    },
+    "root_letters":       { "type": "string", "description": "Extracted root consonants, e.g. 'حد'" },
+    "bab_letter":         { "type": "string", "description": "Chapter letter, e.g. 'الحاء'" },
+    "semantic_origin_text": {
+      "type": ["string", "null"],
+      "description": "Full phrase: 'أصل واحد', 'أصلان', 'ثلاثة أصول', etc."
+    },
+    "semantic_origin_type": {
+      "type": "string",
+      "enum": [
+        "SINGULAR",
+        "DUAL",
+        "TRIPLE",
+        "MULTIPLE",
+        "SOUND_ROOTS",
+        "UNKNOWN",
+        "NONE"
+      ]
+    },
+    "origin_count": {
+      "type": ["integer", "null"],
+      "description": "Numeric count when determinable"
+    },
+    "body_line_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "line_ids of MAIN_TEXT lines belonging to this entry"
+    },
+    "poetry_line_ids": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "footnote_line_ids": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "line_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "All line_ids that make up this entry"
+    },
+    "review_status": {
+      "type": "string",
+      "enum": ["AUTO_AGREED", "REVIEW_REQUIRED", "MANUALLY_CORRECTED", "APPROVED", "REJECTED"]
+    },
+    "human_verified": { "type": "boolean", "default": false },
+    "reviewer":       { "type": ["string", "null"], "default": null },
+    "review_date":    { "type": ["string", "null"], "format": "date", "default": null }
+  },
+  "additionalProperties": false
+}

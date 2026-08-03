@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "maqayis/page",
+  "title": "OcrPage",
+  "description": "Full OCR result for one PDF page",
+  "type": "object",
+  "required": ["source_pdf", "pdf_page", "dpi", "width_pt", "height_pt", "image_hash", "ocr_timestamp", "lines"],
+  "properties": {
+    "source_pdf":     { "type": "string", "description": "Basename of the source PDF, e.g. '02.pdf'" },
+    "pdf_page":       { "type": "integer", "minimum": 1, "description": "1-based page number within the PDF" },
+    "dpi":            { "type": "integer", "description": "Render resolution used for OCR" },
+    "width_pt":       { "type": "number",  "description": "Page width in PDF points" },
+    "height_pt":      { "type": "number",  "description": "Page height in PDF points" },
+    "image_hash":     { "type": "string",  "description": "SHA-256 of the rendered PNG used for OCR" },
+    "ocr_timestamp":  { "type": "string",  "format": "date-time" },
+    "swift_version":  { "type": "string" },
+    "lines": {
+      "type": "array",
+      "items": { "$ref": "line.schema.json" }
+    }
+  },
+  "additionalProperties": false
+}
