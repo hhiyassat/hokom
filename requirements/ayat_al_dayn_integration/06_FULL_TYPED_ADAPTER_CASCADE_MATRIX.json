@@ -1,0 +1,275 @@
+{
+  "schema_version": "1.0.0",
+  "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "generated_at_utc": "2026-08-02T20:17:44.224453+00:00",
+  "source_files": [
+    "reports/taaqol_full_integration/READY_ADAPTER_WIRING_INVENTORY.json",
+    "requirements/ayat_al_dayn_integration/08_HOKOM_TAAQOL_ADAPTER_MATRIX.csv"
+  ],
+  "source_hashes": {
+    "reports/taaqol_full_integration/READY_ADAPTER_WIRING_INVENTORY.json": "4fc9dad623cbc616c8207f6c0dc21001dc44bd1ffcc4134cb76b288661b52c53",
+    "requirements/ayat_al_dayn_integration/08_HOKOM_TAAQOL_ADAPTER_MATRIX.csv": "22b09bb9a8d81898cba055f850eceee9815389836fbd59e19eb6e4a13e001104"
+  },
+  "status": "NEWLY_CREATED",
+  "unresolved_items": [
+    "READY_INTEGRATION adapters (formal_shape, relation_candidate, maqam_context, chain_report) not wired in this session — see BLOCKED report."
+  ],
+  "owner_decision_required": false,
+  "validation_rules": [
+    "Every wired adapter must have a corresponding native symbol at target_taaqol_sha",
+    "Classifications must be one of READY_RUNTIME | READY_INTEGRATION | CARRIER_ONLY | LAW_ONLY"
+  ],
+  "authoritative_source_document": "requirements/ayat_al_dayn_integration/08_HOKOM_TAAQOL_ADAPTER_MATRIX.csv",
+  "cascade": [
+    {
+      "adapter": "chain_report_adapter",
+      "file": "pipeline/taaqol_integration/weight_layer/chain_report_adapter.py",
+      "builders": [
+        "build_chain_report"
+      ],
+      "classification": "READY_INTEGRATION",
+      "wired_by_orchestrator": false,
+      "availability_flags": {
+        "_CHAIN_REPORT_AVAILABLE": false
+      }
+    },
+    {
+      "adapter": "dal_only_adapter",
+      "file": "pipeline/taaqol_integration/weight_layer/dal_only_adapter.py",
+      "builders": [
+        "build_dal_only_candidate",
+        "build_dal_only_from_surface"
+      ],
+      "classification": "READY_RUNTIME",
+      "wired_by_orchestrator": true,
+      "availability_flags": {
+        "_DAL_ONLY_AVAILABLE": false,
+        "_E4C_AVAILABLE": false
+      }
+    },
+    {
+      "adapter": "formal_shape_adapter",
+      "file": "pipeline/taaqol_integration/weight_layer/formal_shape_adapter.py",
+      "builders": [
+        "build_formal_style_candidate"
+      ],
+      "classification": "READY_INTEGRATION",
+      "wired_by_orchestrator": false,
+      "availability_flags": {
+        "_FORMAL_SHAPE_AVAILABLE": false,
+        "_E6_AVAILABLE": false
+      }
+    },
+    {
+      "adapter": "hukm_candidate_adapter",
+      "file": "pipeline/taaqol_integration/weight_layer/hukm_candidate_adapter.py",
+      "builders": [
+        "build_hukm_candidate"
+      ],
+      "classification": "LAW_ONLY",
+      "wired_by_orchestrator": false,
+      "availability_flags": {
+        "_HUKM_AVAILABLE": false
+      }
+    },
+    {
+      "adapter": "ifadah_candidate_adapter",
+      "file": "pipeline/taaqol_integration/weight_layer/ifadah_candidate_adapter.py",
+      "builders": [
+        "build_ifadah_candidate"
+      ],
+      "classification": "LAW_ONLY",
+      "wired_by_orchestrator": false,
+      "availability_flags": {
+        "_IFADAH_AVAILABLE": false
+      }
+    },
+    {
+      "adapter": "licensing_boundary_adapter",
+      "file": "pipeline/taaqol_integration/weight_layer/licensing_boundary_adapter.py",
+      "builders": [
+        "build_licensing_boundary_verdict",
+        "build_licensing_verdict_from_surface"
+      ],
+      "classification": "READY_RUNTIME",
+      "wired_by_orchestrator": true,
+      "availability_flags": {
+        "_WEIGHT_LAYER_AVAILABLE": false,
+        "_E4C_PREWEIGHT_AVAILABLE": false,
+        "_E4B_MU_CHAIN_AVAILABLE": false
+      }
+    },
+    {
+      "adapter": "mafhum_closure_adapter",
+      "file": "pipeline/taaqol_integration/weight_layer/mafhum_closure_adapter.py",
+      "builders": [
+        "build_mafhum_closure"
+      ],
+      "classification": "LAW_ONLY",
+      "wired_by_orchestrator": false,
+      "availability_flags": {
+        "_MAFHUM_AVAILABLE": false
+      }
+    },
+    {
+      "adapter": "manat_candidate_adapter",
+      "file": "pipeline/taaqol_integration/weight_layer/manat_candidate_adapter.py",
+      "builders": [
+        "build_manat_candidate"
+      ],
+      "classification": "LAW_ONLY",
+      "wired_by_orchestrator": false,
+      "availability_flags": {
+        "_MANAT_AVAILABLE": false
+      }
+    },
+    {
+      "adapter": "mantuq_closure_adapter",
+      "file": "pipeline/taaqol_integration/weight_layer/mantuq_closure_adapter.py",
+      "builders": [
+        "build_mantuq_closure"
+      ],
+      "classification": "LAW_ONLY",
+      "wired_by_orchestrator": false,
+      "availability_flags": {
+        "_MANTUQ_AVAILABLE": false
+      }
+    },
+    {
+      "adapter": "maqam_context_adapter",
+      "file": "pipeline/taaqol_integration/weight_layer/maqam_context_adapter.py",
+      "builders": [
+        "build_maqam_context_boundary",
+        "build_maqam_from_surface"
+      ],
+      "classification": "READY_INTEGRATION",
+      "wired_by_orchestrator": false,
+      "availability_flags": {
+        "_MAQAM_CONTEXT_AVAILABLE": false,
+        "_E7_AVAILABLE": false
+      }
+    },
+    {
+      "adapter": "mufrad_semantic_slot_adapter",
+      "file": "pipeline/taaqol_integration/weight_layer/mufrad_semantic_slot_adapter.py",
+      "builders": [
+        "build_contractable_unit_geometry",
+        "build_mufrad_semantic_slot_geometry",
+        "build_e7_chain_from_e6_verdict",
+        "build_e7_from_surface"
+      ],
+      "classification": "READY_RUNTIME",
+      "wired_by_orchestrator": true,
+      "availability_flags": {
+        "_MUFRAD_SLOT_AVAILABLE": false,
+        "_E6_AVAILABLE": false,
+        "_FORMAL_SHAPE_ADAPTER_AVAILABLE": false,
+        "_E6_VENDOR_AVAILABLE": false,
+        "_FORMAL_SHAPE_AVAILABLE": false
+      }
+    },
+    {
+      "adapter": "preweight_chain_adapter",
+      "file": "pipeline/taaqol_integration/weight_layer/preweight_chain_adapter.py",
+      "builders": [
+        "build_weight_readiness_candidate"
+      ],
+      "classification": "CARRIER_ONLY",
+      "wired_by_orchestrator": false,
+      "availability_flags": {
+        "_MU_CHAIN_AVAILABLE": false
+      }
+    },
+    {
+      "adapter": "registry_adapter",
+      "file": "pipeline/taaqol_integration/weight_layer/registry_adapter.py",
+      "builders": [
+        "build_registry_evidence",
+        "build_registry_evidence_for_stage_input"
+      ],
+      "classification": "CARRIER_ONLY",
+      "wired_by_orchestrator": false,
+      "availability_flags": {
+        "_REGISTRY_CONTRACT_AVAILABLE": false
+      }
+    },
+    {
+      "adapter": "relation_candidate_adapter",
+      "file": "pipeline/taaqol_integration/weight_layer/relation_candidate_adapter.py",
+      "builders": [
+        "build_relation_candidate",
+        "build_e8_relation_from_surfaces"
+      ],
+      "classification": "READY_INTEGRATION",
+      "wired_by_orchestrator": false,
+      "availability_flags": {
+        "_RELATION_AVAILABLE": false,
+        "_E7_AVAILABLE": false
+      }
+    },
+    {
+      "adapter": "tanzil_candidate_adapter",
+      "file": "pipeline/taaqol_integration/weight_layer/tanzil_candidate_adapter.py",
+      "builders": [
+        "build_tanzil_candidate"
+      ],
+      "classification": "LAW_ONLY",
+      "wired_by_orchestrator": false,
+      "availability_flags": {
+        "_TANZIL_AVAILABLE": false
+      }
+    },
+    {
+      "adapter": "verbal_madlul_adapter",
+      "file": "pipeline/taaqol_integration/weight_layer/verbal_madlul_adapter.py",
+      "builders": [
+        "build_verbal_madlul_candidate",
+        "build_dal_madlul_binding",
+        "build_e6_chain_from_dal_verdict",
+        "build_e6_from_surface"
+      ],
+      "classification": "READY_RUNTIME",
+      "wired_by_orchestrator": true,
+      "availability_flags": {
+        "_VERBAL_MADLUL_AVAILABLE": false,
+        "_E5_AVAILABLE": false,
+        "_E5_DAL_ONLY_AVAILABLE": false
+      }
+    }
+  ],
+  "summary": {
+    "READY_INTEGRATION": 4,
+    "READY_RUNTIME": 4,
+    "LAW_ONLY": 6,
+    "CARRIER_ONLY": 2
+  },
+  "technical_validation_status": "VALIDATED_CURRENT",
+  "owner_review_status": "NOT_REVIEWED",
+  "c11_reconciled_at_utc": "2026-08-02T21:26:09.770314+00:00",
+  "c11_reconciled_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "c11_evidence_artifacts": [
+    "reports/taaqol_full_integration/HOKOM_EVIDENCE_PRODUCTION_INVENTORY.json",
+    "reports/taaqol_full_integration/HOKOM_LEXICAL_EVIDENCE_CLOSURE.json",
+    "reports/taaqol_full_integration/AYAT_CLAUSE_EVIDENCE.json",
+    "reports/taaqol_full_integration/AYAT_SOURCE_DERIVED_SPANS.json",
+    "reports/taaqol_full_integration/AYAT_EVIDENCE_PRODUCTION_MANIFEST.json",
+    "reports/taaqol_full_integration/LCX_150_EVIDENCE_PRODUCTION.json"
+  ],
+  "c12_reconciled_at_utc": "2026-08-03T03:25:34.323803+00:00",
+  "c12_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "c12_source_files": [
+    "reports/taaqol_full_integration/C12_NATIVE_VERTICAL_CONTRACTS.json",
+    "reports/taaqol_full_integration/C12_HOKOM_EVIDENCE_PRODUCERS.json",
+    "reports/taaqol_full_integration/C12_VERTICAL_STAGE_RECORDS.json"
+  ],
+  "c12_test_nodes": [
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_c12_contracts_manifest_shape",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_formal_shape_registry_producer",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_p8_amil_mamul_projector",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_span_producer_source_derived_only",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_relation_compatibility_needs_two_cu_tokens",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_vendor_relation_adapter_import_ok",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_vendor_relation_adapter_fails_closed_without_cu"
+  ]
+}

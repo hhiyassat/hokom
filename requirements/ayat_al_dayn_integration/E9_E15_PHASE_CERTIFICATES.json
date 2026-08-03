@@ -1,0 +1,227 @@
+{
+  "document_id": "E9-E15-PHASE-CERTIFICATES",
+  "date": "2026-08-02",
+  "APPROVED_TARGET_SHA": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "PYTHON_RUNTIME_SANDBOX": "3.10.12",
+  "status": "STRUCTURAL_CLOSED_FUNCTIONAL_PENDING_312",
+
+  "test_execution": {
+    "passed": 59,
+    "skipped": 13,
+    "failed": 0,
+    "command": "pytest tests/e9_ifadah_candidate/ tests/e10_hukm_candidate/ tests/e11_manat_candidate/ tests/e12_tanzil_candidate/ tests/e13_mantuq_closure/ tests/e14_mafhum_closure/ tests/e15_gpt_reasonableness/ -v --tb=short",
+    "duration": "6.59s"
+  },
+
+  "phases": {
+
+    "E9_IFADAH": {
+      "name": "IFADAH_CANDIDATE — RelationClosureVerdict → IfadahVerdict(COMPOSED)",
+      "adapter": "pipeline/taaqol_integration/weight_layer/ifadah_candidate_adapter.py",
+      "tests": "tests/e9_ifadah_candidate/test_e9_ifadah_candidate.py",
+      "structural_results": {
+        "test_available_false_on_310": "PASSED",
+        "test_builder_returns_none_on_310": "PASSED",
+        "test_wrong_type_inputs": "PASSED",
+        "test_none_inputs": "PASSED",
+        "test_module_invariants_ran": "PASSED",
+        "test_available_is_bool": "PASSED",
+        "test_vendor_sha_is_approved_target": "PASSED"
+      },
+      "functional_results": {
+        "test_placeholder_requires_prior_chain_inputs": "SKIPPED_REQUIRES_312"
+      },
+      "constitutional_properties": {
+        "FAIL_CLOSED_ON_310": true,
+        "VENDOR_SHA": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "NO_LIVE_PROVIDER": true,
+        "IFADAH_IS_COMPOSITION_NOT_MEANING": true
+      },
+      "disposition": "KEEP_PARTIAL_PENDING_312"
+    },
+
+    "E10_HUKM": {
+      "name": "HUKM_CANDIDATE — IfadahVerdict + TanzilBridgeInput → HukmVerdict",
+      "adapter": "pipeline/taaqol_integration/weight_layer/hukm_candidate_adapter.py",
+      "tests": "tests/e10_hukm_candidate/test_e10_hukm_candidate.py",
+      "structural_results": {
+        "test_available_false_on_310": "PASSED",
+        "test_builder_returns_none_on_310": "PASSED",
+        "test_wrong_type_inputs": "PASSED",
+        "test_none_inputs": "PASSED",
+        "test_module_invariants_ran": "PASSED",
+        "test_available_is_bool": "PASSED",
+        "test_vendor_sha_is_approved_target": "PASSED"
+      },
+      "functional_results": {
+        "test_placeholder_requires_prior_chain_inputs": "SKIPPED_REQUIRES_312"
+      },
+      "constitutional_properties": {
+        "FAIL_CLOSED_ON_310": true,
+        "HUKM_IS_BINDING_FORCE_NOT_TEXT": true,
+        "NO_LIVE_PROVIDER": true
+      },
+      "disposition": "KEEP_PARTIAL_PENDING_312"
+    },
+
+    "E11_MANAT": {
+      "name": "MANAT_CANDIDATE — HukmVerdict → ManatVerdict (operative ground)",
+      "adapter": "pipeline/taaqol_integration/weight_layer/manat_candidate_adapter.py",
+      "tests": "tests/e11_manat_candidate/test_e11_manat_candidate.py",
+      "structural_results": {
+        "test_available_false_on_310": "PASSED",
+        "test_builder_returns_none_on_310": "PASSED",
+        "test_wrong_type_inputs": "PASSED",
+        "test_none_inputs": "PASSED",
+        "test_module_invariants_ran": "PASSED",
+        "test_available_is_bool": "PASSED",
+        "test_vendor_sha_is_approved_target": "PASSED"
+      },
+      "functional_results": {
+        "test_placeholder_requires_prior_chain_inputs": "SKIPPED_REQUIRES_312"
+      },
+      "constitutional_properties": {
+        "FAIL_CLOSED_ON_310": true,
+        "MANAT_IS_OPERATIVE_NOT_VERDICT": true,
+        "NO_LIVE_PROVIDER": true
+      },
+      "disposition": "KEEP_PARTIAL_PENDING_312"
+    },
+
+    "E12_TANZIL": {
+      "name": "TANZIL_CANDIDATE — ManatVerdict → TanzilVerdict; NOT_EXECUTION_MARKER guard",
+      "adapter": "pipeline/taaqol_integration/weight_layer/tanzil_candidate_adapter.py",
+      "tests": "tests/e12_tanzil_candidate/test_e12_tanzil_candidate.py",
+      "structural_results": {
+        "test_available_false_on_310": "PASSED",
+        "test_builder_returns_none_on_310": "PASSED",
+        "test_wrong_type_inputs": "PASSED",
+        "test_none_inputs": "PASSED",
+        "test_not_execution_marker_false_returns_none": "PASSED",
+        "test_module_invariants_ran": "PASSED",
+        "test_available_is_bool": "PASSED",
+        "test_vendor_sha_is_approved_target": "PASSED"
+      },
+      "functional_results": {
+        "test_placeholder_requires_prior_chain_inputs": "SKIPPED_REQUIRES_312"
+      },
+      "constitutional_properties": {
+        "FAIL_CLOSED_ON_310": true,
+        "NOT_EXECUTION_MARKER_ALWAYS_TRUE_FOR_AYAT_AL_DAYN": true,
+        "NO_EXECUTION_AUTHORITY": true,
+        "NO_LIVE_PROVIDER": true
+      },
+      "disposition": "KEEP_PARTIAL_PENDING_312"
+    },
+
+    "E13_MANTUQ": {
+      "name": "MANTUQ_CLOSURE — TanzilVerdict → MantuqClosureReport (explicit textual denotation)",
+      "adapter": "pipeline/taaqol_integration/weight_layer/mantuq_closure_adapter.py",
+      "tests": "tests/e13_mantuq_closure/test_e13_mantuq_closure.py",
+      "structural_results": {
+        "test_available_false_on_310": "PASSED",
+        "test_builder_returns_none_on_310": "PASSED",
+        "test_wrong_type_inputs": "PASSED",
+        "test_none_inputs": "PASSED",
+        "test_module_invariants_ran": "PASSED",
+        "test_available_is_bool": "PASSED",
+        "test_vendor_sha_is_approved_target": "PASSED"
+      },
+      "functional_results": {
+        "test_placeholder_requires_prior_chain_inputs": "SKIPPED_REQUIRES_312"
+      },
+      "constitutional_properties": {
+        "FAIL_CLOSED_ON_310": true,
+        "MANTUQ_IS_EXPLICIT_TEXTUAL_NOT_LEGAL_RULING": true,
+        "NO_LIVE_PROVIDER": true
+      },
+      "disposition": "KEEP_PARTIAL_PENDING_312"
+    },
+
+    "E14_MAFHUM": {
+      "name": "MAFHUM_CLOSURE — MantuqClosureReport → MafhumClosureReport (implied concomitant)",
+      "adapter": "pipeline/taaqol_integration/weight_layer/mafhum_closure_adapter.py",
+      "tests": "tests/e14_mafhum_closure/test_e14_mafhum_closure.py",
+      "structural_results": {
+        "test_available_false_on_310": "PASSED",
+        "test_builder_returns_none_on_310": "PASSED",
+        "test_wrong_type_inputs": "PASSED",
+        "test_none_inputs": "PASSED",
+        "test_module_invariants_ran": "PASSED",
+        "test_available_is_bool": "PASSED",
+        "test_vendor_sha_is_approved_target": "PASSED"
+      },
+      "functional_results": {
+        "test_placeholder_requires_prior_chain_inputs": "SKIPPED_REQUIRES_312"
+      },
+      "constitutional_properties": {
+        "FAIL_CLOSED_ON_310": true,
+        "MAFHUM_IS_CONCOMITANT_NOT_RULING": true,
+        "NO_LIVE_PROVIDER": true
+      },
+      "disposition": "KEEP_PARTIAL_PENDING_312"
+    },
+
+    "E15_GPT_REASONABLENESS": {
+      "name": "GPT_REASONABLENESS — R1-R8 deterministic + live provider authorization guard",
+      "adapters": [
+        "pipeline/taaqol_integration/gpt_track_adapter.py",
+        "pipeline/taaqol_integration/weight_layer/chain_report_adapter.py"
+      ],
+      "tests": "tests/e15_gpt_reasonableness/test_e15_gpt_reasonableness.py",
+      "structural_results": {
+        "test_gpt_track_available_false_on_310": "PASSED",
+        "test_chain_report_available_false_on_310": "PASSED",
+        "test_run_reasonableness_gates_returns_none_on_310": "PASSED",
+        "test_build_chain_report_returns_none_on_310": "PASSED",
+        "test_live_provider_authorization_constant": "PASSED",
+        "test_get_live_provider_authorization_status": "PASSED",
+        "test_no_live_provider_in_deterministic_track": "PASSED",
+        "test_deterministic_track_available_is_bool": "PASSED",
+        "test_wrong_type_run_reasonableness_gates": "PASSED",
+        "test_none_build_chain_report": "PASSED",
+        "test_wrong_type_build_chain_report": "PASSED",
+        "test_gpt_track_vendor_sha": "PASSED",
+        "test_chain_report_vendor_sha": "PASSED"
+      },
+      "functional_results": {
+        "test_deterministic_track_available_true_on_312": "SKIPPED_REQUIRES_312",
+        "test_gpt_track_available_true_on_312": "SKIPPED_REQUIRES_312",
+        "test_run_reasonableness_gates_with_none_input": "SKIPPED_REQUIRES_312",
+        "test_no_live_provider_called": "SKIPPED_REQUIRES_312",
+        "test_chain_report_available_on_312": "SKIPPED_REQUIRES_312",
+        "test_chain_report_wrong_type_returns_none": "SKIPPED_REQUIRES_312",
+        "test_chain_report_with_real_e6_output": "SKIPPED_REQUIRES_312"
+      },
+      "constitutional_properties": {
+        "FAIL_CLOSED_ON_310": true,
+        "LIVE_PROVIDER_AUTHORIZATION": "OWNER_DECISION_REQUIRED",
+        "NO_LIVE_PROVIDER_IN_DETERMINISTIC_TRACK": true,
+        "NO_LIVE_PROVIDER_IN_ANY_TEST": true
+      },
+      "disposition": "KEEP_PARTIAL_PENDING_312",
+      "live_provider_gate": {
+        "status": "OWNER_DECISION_REQUIRED",
+        "is_constitutional_owner_boundary": true,
+        "note": "Activating live GPT-4 provider requires explicit owner authorization. Deterministic R1-R8 track can proceed without it; live track stops here."
+      }
+    }
+  },
+
+  "pending_gates": {
+    "GATE_1": {
+      "name": "PYTHON_312_FUNCTIONAL_TESTS",
+      "skipped_count": 13,
+      "is_owner_decision_boundary": false,
+      "resolution": "Run hokom adapter test suite under Python 3.12"
+    },
+    "GATE_2": {
+      "name": "E15_LIVE_PROVIDER_AUTHORIZATION",
+      "LIVE_PROVIDER_AUTHORIZATION": "OWNER_DECISION_REQUIRED",
+      "is_owner_decision_boundary": true,
+      "resolution": "Owner explicitly authorizes live GPT-4 provider access for E15 R1-R8 live track"
+    }
+  },
+
+  "E9_E15_STATUS": "STRUCTURAL_COMPLETE_FUNCTIONAL_PENDING_312_LIVE_PROVIDER_PENDING_OWNER"
+}

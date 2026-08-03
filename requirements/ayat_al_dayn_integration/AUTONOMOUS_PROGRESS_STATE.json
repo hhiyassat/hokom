@@ -1,0 +1,179 @@
+{
+  "document_id": "AUTONOMOUS-PROGRESS-STATE",
+  "date": "2026-08-02",
+  "APPROVED_TARGET_SHA": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "HOKOM_HEAD": "8e37b738ece7183818189146912cb14e3dce3a07",
+
+  "completed_milestones": {
+    "M0": "COMPLETE — APPROVED_TARGET_SHA frozen; POST_TARGET_UPSTREAM_DELTA recorded",
+    "M1": "CLEARED — 3003 passed / 0 failed; owner executed on Mac Python 3.12 @ /Users/husseinhiyassat/Taaqol-GPT-main-reference",
+    "M2": "COMPLETE — Full 200-symbol semantic audit; 05A/05B/05C rebuilt; M2_VENDOR_SHA_STAMP_MANIFEST.csv created",
+    "M3": "COMPLETE — vendor checkout to APPROVED_TARGET_SHA; 10 adapter SHA stamps updated; VENDOR_PATCH_COUNT=0",
+    "M4": "COMPLETE — test suite back to 237 passed/135 skipped/0 failed; NODE_ID_STABILITY=PASS; M4_BASELINE_REFREEZE.json created",
+    "M5": "COMPLETE — E0-E8 revalidated; E0: CLOSED; E1-E8: KEEP_PARTIAL_PENDING_312 (fail-closed verified, typed functional tests await 3.12); M5_E0_E8_REVALIDATION.json created",
+    "M6": "COMPLETE — 152 USM+X0R symbols → NOT_APPLICABLE_WITH_CONSTITUTIONAL_PROOF; constitutional proof: zero usm/x0r imports in hokom pipeline"
+  },
+
+  "m6_closure_proof": {
+    "ZERO_USM_IMPORTS": "grep -r 'from taaqqul_slot_geometry.usm' pipeline/ -> NO_RESULTS",
+    "ZERO_X0R_IMPORTS": "grep -r 'from taaqqul_slot_geometry.x0r' pipeline/ -> NO_RESULTS",
+    "PIPELINE_IMPORT_DOMAINS": ["core.*", "weight.*", "gpt.*", "audit.*"],
+    "VENDOR_SUITE_AT_TARGET": "3003 passed / 0 failed @ APPROVED_TARGET_SHA (M1)",
+    "ROWS_CLOSED": 152,
+    "FINAL_DISPOSITION_ALL": "NOT_APPLICABLE_WITH_CONSTITUTIONAL_PROOF"
+  },
+
+  "adapter_implementations": {
+    "E1_REGISTRY": {
+      "adapter": "pipeline/taaqol_integration/e1_lexical_registry/ayat_al_dayn_registry.py",
+      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "fail_closed_verified": true,
+      "available_flag": "_REGISTRY_CONTRACT_AVAILABLE",
+      "m5_disposition": "KEEP_PARTIAL_PENDING_312"
+    },
+    "E2_REGISTRY_ADAPTER": {
+      "adapter": "pipeline/taaqol_integration/weight_layer/registry_adapter.py",
+      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "fail_closed_verified": true,
+      "blocker_deactivated_on_310": true,
+      "m5_disposition": "KEEP_PARTIAL_PENDING_312"
+    },
+    "E4B_PREWEIGHT": {
+      "adapter": "pipeline/taaqol_integration/weight_layer/preweight_chain_adapter.py",
+      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "fail_closed_verified": true,
+      "decompose_arabic_available_on_310": true,
+      "m5_disposition": "KEEP_PARTIAL_PENDING_312"
+    },
+    "E4C_LICENSING": {
+      "adapter": "pipeline/taaqol_integration/weight_layer/licensing_boundary_adapter.py",
+      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "fail_closed_verified": true,
+      "m5_disposition": "KEEP_PARTIAL_PENDING_312"
+    },
+    "E5_DAL_ONLY": {
+      "adapter": "pipeline/taaqol_integration/weight_layer/dal_only_adapter.py",
+      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "fail_closed_verified": true,
+      "m5_disposition": "KEEP_PARTIAL_PENDING_312"
+    },
+    "E6_VERBAL_MADLUL": {
+      "adapter": "pipeline/taaqol_integration/weight_layer/verbal_madlul_adapter.py",
+      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "fail_closed_verified": true,
+      "m5_disposition": "KEEP_PARTIAL_PENDING_312"
+    },
+    "E7_FORMAL_SHAPE_MUFRAD": {
+      "adapters": [
+        "pipeline/taaqol_integration/weight_layer/formal_shape_adapter.py",
+        "pipeline/taaqol_integration/weight_layer/mufrad_semantic_slot_adapter.py"
+      ],
+      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "fail_closed_verified": true,
+      "m5_disposition": "KEEP_PARTIAL_PENDING_312"
+    },
+    "E8_MAQAM_RELATION": {
+      "adapters": [
+        "pipeline/taaqol_integration/weight_layer/maqam_context_adapter.py",
+        "pipeline/taaqol_integration/weight_layer/relation_candidate_adapter.py"
+      ],
+      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "fail_closed_verified": true,
+      "m5_disposition": "KEEP_PARTIAL_PENDING_312"
+    },
+    "E9_IFADAH": {
+      "adapter": "pipeline/taaqol_integration/weight_layer/ifadah_candidate_adapter.py",
+      "tests": "tests/e9_ifadah_candidate/test_e9_ifadah_candidate.py",
+      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "fail_closed_verified": true,
+      "tests_pass_on_310": true
+    },
+    "E10_HUKM": {
+      "adapter": "pipeline/taaqol_integration/weight_layer/hukm_candidate_adapter.py",
+      "tests": "tests/e10_hukm_candidate/test_e10_hukm_candidate.py",
+      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "fail_closed_verified": true,
+      "tests_pass_on_310": true
+    },
+    "E11_MANAT": {
+      "adapter": "pipeline/taaqol_integration/weight_layer/manat_candidate_adapter.py",
+      "tests": "tests/e11_manat_candidate/test_e11_manat_candidate.py",
+      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "fail_closed_verified": true,
+      "tests_pass_on_310": true
+    },
+    "E12_TANZIL": {
+      "adapter": "pipeline/taaqol_integration/weight_layer/tanzil_candidate_adapter.py",
+      "tests": "tests/e12_tanzil_candidate/test_e12_tanzil_candidate.py",
+      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "fail_closed_verified": true,
+      "constitutional_guard_NOT_EXECUTION_MARKER": true,
+      "tests_pass_on_310": true
+    },
+    "E13_MANTUQ": {
+      "adapter": "pipeline/taaqol_integration/weight_layer/mantuq_closure_adapter.py",
+      "tests": "tests/e13_mantuq_closure/test_e13_mantuq_closure.py",
+      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "fail_closed_verified": true,
+      "tests_pass_on_310": true
+    },
+    "E14_MAFHUM": {
+      "adapter": "pipeline/taaqol_integration/weight_layer/mafhum_closure_adapter.py",
+      "tests": "tests/e14_mafhum_closure/test_e14_mafhum_closure.py",
+      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "fail_closed_verified": true,
+      "tests_pass_on_310": true
+    },
+    "E15_GPT_TRACK": {
+      "adapter": "pipeline/taaqol_integration/gpt_track_adapter.py",
+      "chain_report_adapter": "pipeline/taaqol_integration/weight_layer/chain_report_adapter.py",
+      "tests": "tests/e15_gpt_reasonableness/test_e15_gpt_reasonableness.py",
+      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "fail_closed_verified": true,
+      "LIVE_PROVIDER_AUTHORIZATION": "OWNER_DECISION_REQUIRED",
+      "G_E15_02_documented": true,
+      "tests_pass_on_310": true
+    }
+  },
+
+  "test_summary": {
+    "hokom_adapter_suite_310": {
+      "passed": 237,
+      "skipped": 135,
+      "failed": 0,
+      "python_version": "3.10.12",
+      "node_id_stability": "PASS (372 nodes, 0 diff)"
+    },
+    "vendor_reference_suite_312": {
+      "passed": 3003,
+      "failed": 0,
+      "python_version": "3.12.x",
+      "sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+    }
+  },
+
+  "pending_gate": {
+    "GATE": "PYTHON_312_FUNCTIONAL_TESTS",
+    "SKIPPED_COUNT": 135,
+    "SKIP_REASON": "REQUIRES_312 — StrEnum not available on Python 3.10",
+    "IS_OWNER_DECISION_BOUNDARY": false,
+    "ACTION": "Run hokom adapter test suite on Python 3.12 (or activate 3.12 in sandbox)"
+  },
+
+  "prohibitions_respected": {
+    "NO_COMMIT": true,
+    "NO_TAG": true,
+    "NO_PUSH": true,
+    "NO_MERGE": true,
+    "NO_VENDOR_PATCH": true,
+    "NO_FROZEN_FILE_CHANGE": true,
+    "NO_SYSTEM_PYTHON_CHANGE": true,
+    "NO_LIVE_PROVIDER": true,
+    "NO_SYNTHETIC_EVIDENCE": true,
+    "NO_GOLD_LEAKAGE": true,
+    "TARGET_CHASE_DISABLED": true
+  },
+
+  "INTEGRATION_STATUS": "M0-M6_COMPLETE_E9_E15_STRUCTURAL_READY_FUNCTIONAL_PENDING_312",
+  "HOKOM_FULL_TAAQOL_TARGET_INTEGRATION": "IN_PROGRESS_PENDING_312_FUNCTIONAL_GATE"
+}

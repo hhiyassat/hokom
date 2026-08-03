@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0.0",
+  "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "generated_at_utc": "2026-08-02T20:17:44.224453+00:00",
+  "source_files": [
+    "pipeline/taaqol_integration/weight_layer/dal_only_adapter.py",
+    "pipeline/taaqol_integration/weight_layer/licensing_boundary_adapter.py",
+    "pipeline/taaqol_integration/native_stage_registry.py"
+  ],
+  "source_hashes": {
+    "pipeline/taaqol_integration/weight_layer/dal_only_adapter.py": "e57f1a811c3150ce755aaae3012897101a090e75a1fd11b46dd47e47e60335da",
+    "pipeline/taaqol_integration/weight_layer/licensing_boundary_adapter.py": "d66b19aedb8646471a0b5b98ff9b85f0bfd297aceacae8ab6716598b2cc2f9e0",
+    "pipeline/taaqol_integration/native_stage_registry.py": "f97ce1ec189e471cbcf2871d783007ce96e3e9288425904f3aeb9a65b7921482"
+  },
+  "status": "NEWLY_CREATED",
+  "unresolved_items": [],
+  "owner_decision_required": false,
+  "validation_rules": [
+    "DalOnly requires LicensingBoundaryVerdict predecessor",
+    "LicensingBoundary requires root_letters + segment_host + word_class + surface"
+  ],
+  "prerequisites": {
+    "LicensingBoundaryVerdict": {
+      "predecessor": "None (Taaqol admission entry)",
+      "required_bundle_fields": [
+        "root_letters",
+        "segment_host",
+        "word_class",
+        "surface"
+      ],
+      "required_hokom_stages": [
+        "P3 word class resolution",
+        "P3 canonical root resolution",
+        "P2 segmentation host construction",
+        "Surface normalization"
+      ]
+    },
+    "DalOnly": {
+      "predecessor": "LicensingBoundaryVerdict",
+      "required_bundle_fields": [
+        "licensing_boundary_verdict"
+      ]
+    },
+    "VerbalMadlul": {
+      "predecessor": "DalOnly",
+      "required_bundle_fields": [
+        "dal_only_candidate"
+      ]
+    },
+    "ContractableUnit": {
+      "predecessor": "VerbalMadlul",
+      "required_bundle_fields": [
+        "verbal_madlul_candidate"
+      ]
+    }
+  },
+  "runtime_execution_counts": {
+    "licensing_executed": 37,
+    "dal_only_executed": 37,
+    "verbal_madlul_executed": 37,
+    "contractable_unit_executed": 37
+  },
+  "technical_validation_status": "VALIDATED_CURRENT",
+  "owner_review_status": "NOT_REVIEWED",
+  "c11_reconciled_at_utc": "2026-08-02T21:26:09.770314+00:00",
+  "c11_reconciled_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "c11_evidence_artifacts": [
+    "reports/taaqol_full_integration/HOKOM_EVIDENCE_PRODUCTION_INVENTORY.json",
+    "reports/taaqol_full_integration/HOKOM_LEXICAL_EVIDENCE_CLOSURE.json",
+    "reports/taaqol_full_integration/AYAT_CLAUSE_EVIDENCE.json",
+    "reports/taaqol_full_integration/AYAT_SOURCE_DERIVED_SPANS.json",
+    "reports/taaqol_full_integration/AYAT_EVIDENCE_PRODUCTION_MANIFEST.json",
+    "reports/taaqol_full_integration/LCX_150_EVIDENCE_PRODUCTION.json"
+  ],
+  "c12_reconciled_at_utc": "2026-08-03T03:25:34.323803+00:00",
+  "c12_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "c12_source_files": [
+    "reports/taaqol_full_integration/C12_NATIVE_VERTICAL_CONTRACTS.json",
+    "reports/taaqol_full_integration/C12_HOKOM_EVIDENCE_PRODUCERS.json",
+    "reports/taaqol_full_integration/C12_VERTICAL_STAGE_RECORDS.json"
+  ],
+  "c12_test_nodes": [
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_c12_contracts_manifest_shape",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_formal_shape_registry_producer",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_p8_amil_mamul_projector",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_span_producer_source_derived_only",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_relation_compatibility_needs_two_cu_tokens",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_vendor_relation_adapter_import_ok",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_vendor_relation_adapter_fails_closed_without_cu"
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "document_id": "INTEGRATION-TERMINAL-STATE",
+  "date": "2026-08-02",
+  "APPROVED_TARGET_SHA": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "HOKOM_HEAD": "8e37b738ece7183818189146912cb14e3dce3a07",
+
+  "milestone_state": {
+    "M0": "COMPLETE",
+    "M1": "CLEARED — 3003 passed @ APPROVED_TARGET_SHA on Mac Python 3.12",
+    "M2": "COMPLETE — 200-symbol semantic audit; 05A/05B/05C CSVs built",
+    "M3": "COMPLETE — vendor checkout to APPROVED_TARGET_SHA; 10 SHA stamps updated; VENDOR_PATCH_COUNT=0",
+    "M4": "COMPLETE — 237 passed / 135 skipped / 0 failed; NODE_ID_STABILITY=PASS",
+    "M5": "COMPLETE — E0: CLOSED; E1-E8: KEEP_PARTIAL_PENDING_312; all repairs applied",
+    "M6": "COMPLETE — 152 USM+X0R symbols: NOT_APPLICABLE_WITH_CONSTITUTIONAL_PROOF"
+  },
+
+  "adapter_state": {
+    "TOTAL_ADAPTERS": 18,
+    "ALL_AT_APPROVED_TARGET_SHA": true,
+    "ALL_FAIL_CLOSED_ON_310": true,
+    "E0_BASELINE": "CLOSED",
+    "E1_E8": "KEEP_PARTIAL_PENDING_312",
+    "E9_E15_STRUCTURAL": "COMPLETE",
+    "E9_E15_FUNCTIONAL": "PENDING_312"
+  },
+
+  "test_counts": {
+    "hokom_310": {"passed": 237, "skipped": 135, "failed": 0},
+    "vendor_312": {"passed": 3003, "failed": 0},
+    "skip_reason": "REQUIRES_312 — StrEnum not available on Python 3.10"
+  },
+
+  "pending_gates": [
+    {
+      "gate": "PYTHON_312_FUNCTIONAL_EXECUTION",
+      "skips": 135,
+      "is_owner_decision_boundary": false,
+      "description": "Run hokom adapter test suite on Python 3.12; all tests written and structurally verified"
+    },
+    {
+      "gate": "E15_LIVE_PROVIDER_AUTHORIZATION",
+      "constant": "OWNER_DECISION_REQUIRED",
+      "is_owner_decision_boundary": true,
+      "description": "Live GPT-4 provider access for E15 R1-R8 live track requires explicit owner authorization"
+    }
+  ],
+
+  "prohibitions_maintained": {
+    "NO_COMMIT": true,
+    "NO_TAG": true,
+    "NO_PUSH": true,
+    "NO_MERGE": true,
+    "NO_VENDOR_PATCH": true,
+    "NO_FROZEN_FILE_CHANGE": true,
+    "NO_SYSTEM_PYTHON_CHANGE": true,
+    "NO_LIVE_PROVIDER": true,
+    "NO_SYNTHETIC_EVIDENCE": true,
+    "NO_GOLD_LEAKAGE": true,
+    "TARGET_CHASE_DISABLED": true
+  },
+
+  "artifacts_created_this_session": [
+    "requirements/ayat_al_dayn_integration/M5_E0_E8_REVALIDATION.json",
+    "requirements/ayat_al_dayn_integration/M6_CLOSURE_CERTIFICATE.json",
+    "requirements/ayat_al_dayn_integration/E9_E15_PHASE_CERTIFICATES.json",
+    "requirements/ayat_al_dayn_integration/INTEGRATION_TERMINAL_STATE.json"
+  ],
+
+  "artifacts_updated_this_session": [
+    "requirements/ayat_al_dayn_integration/M1_EXECUTION_REPORT.json",
+    "requirements/ayat_al_dayn_integration/M4_BASELINE_REFREEZE.json",
+    "requirements/ayat_al_dayn_integration/M6_E13_USM_X0R_DENOMINATOR.csv",
+    "requirements/ayat_al_dayn_integration/AUTONOMOUS_PROGRESS_STATE.json"
+  ],
+
+  "HOKOM_FULL_TAAQOL_TARGET_INTEGRATION": "IN_PROGRESS_PENDING_312_GATE",
+  "NOTE": "All owner-decision boundaries respected. Autonomous execution halted at: (1) PYTHON_312_FUNCTIONAL_GATE — runtime boundary, not owner decision; (2) E15_LIVE_PROVIDER_AUTHORIZATION — genuine constitutional owner-decision boundary. All repairable phases repaired autonomously. No synthetic evidence. No gold leakage. No prohibited operations performed."
+}

@@ -1,0 +1,40 @@
+{
+  "document_id": "M0-REVALIDATION-WITH-TARGET-FREEZE",
+  "date": "2026-08-01",
+  "status": "COMPLETE_TARGET_FROZEN",
+
+  "target_freeze": {
+    "TARGET_SELECTION_TIME": "2026-08-01T19:36:32Z",
+    "TARGET_SELECTION_TRIGGER": "§1 directive: freeze APPROVED_TARGET_SHA and do not chase origin/main",
+    "APPROVED_TARGET_SHA": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+    "APPROVED_TARGET_SHA_SHORT": "05c6668",
+    "ORIGIN_MAIN_SHA_AT_SELECTION": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+    "ORIGIN_MAIN_SHA_NOW": "670e5a454dc7c94f44522359874f386d9d972c02",
+    "COMMITS_ADDED_AFTER_SELECTION": 2,
+    "POST_TARGET_UPSTREAM_DELTA": {
+      "commits": 2,
+      "sha_range": "05c6668..670e5a4",
+      "action": "RECORDED_IN_REPORT_ONLY — does not reopen target selection — does not enter current denominator"
+    },
+    "TARGET_IS_FROZEN": true,
+    "TARGET_CHASE_DISABLED": true
+  },
+
+  "pinned_sha": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "merge_base": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "commits_ahead": 31,
+  "files_added": 40,
+  "files_modified": 11,
+  "files_removed": 0,
+  "python_files_added": 36,
+  "modules_added": 1,
+  "symbols_added_public": 103,
+
+  "hokom_critical_packages": {
+    "weight": {"changes": 0, "status": "IDENTICAL"},
+    "core": {"changes": 0, "status": "IDENTICAL"},
+    "gpt": {"changes": 0, "status": "IDENTICAL"},
+    "lge": {"changes": 0, "status": "IDENTICAL"}
+  }
+}

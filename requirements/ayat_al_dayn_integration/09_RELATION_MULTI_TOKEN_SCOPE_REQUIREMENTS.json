@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0.0",
+  "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "generated_at_utc": "2026-08-02T20:17:44.224453+00:00",
+  "source_files": [
+    "pipeline/taaqol_integration/weight_layer/relation_candidate_adapter.py",
+    "pipeline/taaqol_integration/native_stage_registry.py",
+    "reports/taaqol_full_integration/READY_ADAPTER_WIRING_INVENTORY.json"
+  ],
+  "source_hashes": {
+    "pipeline/taaqol_integration/weight_layer/relation_candidate_adapter.py": "27df2a7e4d3a8049640523e7f816a84b61cbddf954349f67f996c303f81cf56d",
+    "pipeline/taaqol_integration/native_stage_registry.py": "f97ce1ec189e471cbcf2871d783007ce96e3e9288425904f3aeb9a65b7921482",
+    "reports/taaqol_full_integration/READY_ADAPTER_WIRING_INVENTORY.json": "4fc9dad623cbc616c8207f6c0dc21001dc44bd1ffcc4134cb76b288661b52c53"
+  },
+  "status": "BLOCKED",
+  "unresolved_items": [
+    "relation_candidate_adapter classification: READY_INTEGRATION (not wired).",
+    "Native registry declares RelationCandidate as FORBIDDEN for single-token analysis.",
+    "SPAN construction requires structural evidence (clause boundaries / conjunction boundaries / predicate-modifier compatibility) that current runtime does not produce with source-derived provenance."
+  ],
+  "owner_decision_required": false,
+  "validation_rules": [
+    "no arbitrary adjacent-token relations",
+    "every SPAN must carry construction_rule + construction_evidence_ids + scope_provenance_ids",
+    "left_unit_type and right_unit_type must be ContractableUnitGeometry-compatible"
+  ],
+  "adapter_file": "pipeline/taaqol_integration/weight_layer/relation_candidate_adapter.py",
+  "adapter_classification": "READY_INTEGRATION",
+  "native_registry_eligibility_for_single_token": "FORBIDDEN",
+  "required_span_evidence_kinds": [
+    "clause_boundary_marker",
+    "conjunction_boundary_marker",
+    "predicate_compatible_unit_pair",
+    "modifier_head_compatible_unit_pair",
+    "explicit_operator_scope",
+    "source_defined_ContractableUnit_compatibility"
+  ],
+  "current_runtime_status": "READY_INTEGRATION_UNWIRED",
+  "ayat_al_dayn_relation_candidate_executed": 0,
+  "technical_validation_status": "VALIDATED_BLOCKED",
+  "owner_review_status": "NOT_REVIEWED",
+  "blocking_reason_category": "TECHNICAL_MISSING_EVIDENCE_OR_PREDECESSOR",
+  "c11_reconciled_at_utc": "2026-08-02T21:26:09.770314+00:00",
+  "c11_reconciled_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "c11_evidence_artifacts": [
+    "reports/taaqol_full_integration/HOKOM_EVIDENCE_PRODUCTION_INVENTORY.json",
+    "reports/taaqol_full_integration/HOKOM_LEXICAL_EVIDENCE_CLOSURE.json",
+    "reports/taaqol_full_integration/AYAT_CLAUSE_EVIDENCE.json",
+    "reports/taaqol_full_integration/AYAT_SOURCE_DERIVED_SPANS.json",
+    "reports/taaqol_full_integration/AYAT_EVIDENCE_PRODUCTION_MANIFEST.json",
+    "reports/taaqol_full_integration/LCX_150_EVIDENCE_PRODUCTION.json"
+  ],
+  "c12_reconciled_at_utc": "2026-08-03T03:25:34.323803+00:00",
+  "c12_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "c12_source_files": [
+    "reports/taaqol_full_integration/C12_NATIVE_VERTICAL_CONTRACTS.json",
+    "reports/taaqol_full_integration/C12_HOKOM_EVIDENCE_PRODUCERS.json",
+    "reports/taaqol_full_integration/C12_VERTICAL_STAGE_RECORDS.json"
+  ],
+  "c12_test_nodes": [
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_c12_contracts_manifest_shape",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_formal_shape_registry_producer",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_p8_amil_mamul_projector",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_span_producer_source_derived_only",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_relation_compatibility_needs_two_cu_tokens",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_vendor_relation_adapter_import_ok",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_vendor_relation_adapter_fails_closed_without_cu"
+  ]
+}

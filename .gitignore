@@ -15,3 +15,23 @@ build/
 
 .venv-py312/
 !data/operators_catalog_split_vocalized_corrected.csv
+
+# Canonical live corpus (150) — canonical test-data CSVs must be versioned
+!data/test-data/hokom_taaqol_sga_live_corpus_150.csv
+!data/test-data/hokom_taaqol_sga_live_corpus_150_ar.csv
+
+# C13 wave-03 derived outputs (reproducible from tools/maqayis_ocr + demo runners)
+data/maqaees/full/
+data/maqaees/pilot/
+/hokom_demo.jsonl
+/hokom_analysis_report.html
+/taaqol_analysis_report.html
+/maqayis_viewer.html
+/maqayis_viewer_v2.html
+# Stray browser-download duplicate of canonical manifest
+data/test-data/hokom_taaqol_sga_live_corpus_150.manifest(1).json
+# Wave-03 command-file execution logs and runtime output
+reports/taaqol_full_integration/*.log
+reports/taaqol_full_integration/*.txt
+reports/taaqol_full_integration/*.ids
+reports/taaqol_full_integration/*_runtime_output/

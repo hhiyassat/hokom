@@ -1,0 +1,109 @@
+{
+  "document_id": "M4-BASELINE-REFREEZE",
+  "date": "2026-08-02",
+  "status": "COMPLETE",
+
+  "baseline": {
+    "HOKOM_HEAD": "8e37b738ece7183818189146912cb14e3dce3a07",
+    "TARGET_TAAQOL_SHA": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+    "PINNED_SHA": "35381739410071ac21dd96702ecbb2acb493f90d",
+    "PYTHON_VERSION": "3.10.12",
+    "PYTEST_VERSION": "9.1.1",
+    "DATE": "2026-08-02"
+  },
+
+  "vendor_suite": {
+    "VENDOR_SUITE_BASELINE_SOURCE": "M1_REFERENCE_CLONE",
+    "VENDOR_SUITE_PASSED": 3003,
+    "VENDOR_SUITE_FAILED": 0,
+    "VENDOR_SUITE_EXIT": 0,
+    "VENDOR_SUITE_PYTHON": "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3.12",
+    "VENDOR_SUITE_WORKTREE": "/Users/husseinhiyassat/Taaqol-GPT-main-reference",
+    "VENDOR_HEAD_IN_HOKOM": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+    "VENDOR_PATCH_COUNT": 0,
+    "VENDOR_PATCH_AUDIT": "PASS",
+    "NOTE": "Vendor suite run from reference clone (same SHA as hokom vendor); sandbox Python 3.10 cannot execute vendor suite (requires >=3.11); M1 baseline applies"
+  },
+
+  "hokom_adapter_suite": {
+    "E1_E8_PASSED": 178,
+    "E1_E8_SKIPPED": 122,
+    "E1_E8_FAILED": 0,
+    "E9_E15_PASSED": 59,
+    "E9_E15_SKIPPED": 13,
+    "E9_E15_FAILED": 0,
+    "COMBINED_PASSED": 237,
+    "COMBINED_SKIPPED": 135,
+    "COMBINED_FAILED": 0,
+    "SKIPS_REASON": "REQUIRES_312 — functional tests activate on Python 3.12+ after M5"
+  },
+
+  "node_id_manifest": {
+    "COLLECTED_PASS_1": 372,
+    "COLLECTED_PASS_2": 372,
+    "NODE_ID_DIFF": 0,
+    "NODE_ID_STABILITY": "PASS"
+  },
+
+  "m4_repairs": {
+    "SHA_STAMP_TEST_UPDATES": {
+      "description": "7 test files had _VENDOR_SHA assertions hardcoded to PINNED_SHA; updated to APPROVED_TARGET_SHA post-M3",
+      "files_updated": [
+        "tests/e1_lexical_registry/test_ayat_al_dayn_registry.py",
+        "tests/e4b_preweight_chain/test_preweight_chain_e4b.py",
+        "tests/e4c_licensing_boundary/test_licensing_boundary_e4c.py",
+        "tests/e5_dal_only/test_dal_only_e5.py",
+        "tests/e6_verbal_madlul/test_verbal_madlul_e6.py",
+        "tests/e7_formal_shape_mufrad/test_e7_formal_shape_mufrad.py",
+        "tests/e8_maqam_relation/test_e8_maqam_relation.py"
+      ],
+      "old_value": "35381739410071ac21dd96702ecbb2acb493f90d",
+      "new_value": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "total_replacements": 18
+    }
+  },
+
+  "audits": {
+    "GIT_DIFF_CHECK": "PASS",
+    "WARNINGS_AS_ERRORS_E1_E8": "PASS (44 passed, 22 skipped)",
+    "VENDOR_PATCH_AUDIT": "PASS",
+    "FROZEN_FILE_AUDIT": "PASS (vendor/Taaqol-GPT pointer change is M3 operation, not a source patch)",
+    "STRAY_PINNED_SHA_IN_ADAPTERS": 0,
+    "PRE_EXISTING_COLLECTION_ERRORS": {
+      "count": 14,
+      "cause": "pipeline/execution_ledger/models.py uses StrEnum (Python 3.11+); pre-existing hokom issue, not introduced by M3",
+      "affected_dirs": ["tests/canonical/", "tests/test_closure_gate/", "tests/test_execution_ledger/"]
+    }
+  },
+
+  "frozen_file_hashes": {
+    "M2_VENDOR_SHA_STAMP_MANIFEST": "f52af6193cf478c1cbf9101eddb92fd472cb0b5b9883288dccd43bc4c413022f",
+    "M6_E13_USM_X0R_DENOMINATOR": "e0774fa3dd7d9ede68dc4b6aac3e3ed97070d9c6c4d96301122c4173197c105a",
+    "AUTONOMOUS_PROGRESS_STATE": "0fd7236114d72d21f117ddc04cee93fbf34fc0afead2dda8ea14260c4e156a6d",
+    "05A_HOKOM_IMPL_FILE_INVENTORY": "2bcc8d9650a641629eed80ce2f72923260c080355c75115498d1dedbce687669",
+    "API_COMPATIBILITY_MATRIX": "06e4fa1a5e83f56be00f2db5c825ed23b97f3376d9db8ec5c4e3ffcf3bad48e5"
+  },
+
+  "corpus_registry_hashes": {
+    "E1_REGISTRY_TREE": "1d01f6143180c1052694f5cc17cb6d3e6b25f02579b8cc8612cb85e9a80599ae",
+    "WEIGHT_LAYER_TREE": "a0c20a97b8c3a3d47ecda9c854c5dc7508c6dc21b82e6cbe1c95bd7494627f38"
+  },
+
+  "sha_stamps_all_at_target": {
+    "E0_E8_ADAPTERS_UPDATED": 10,
+    "E9_E15_ADAPTERS_ALREADY_AT_TARGET": 8,
+    "TOTAL_ADAPTERS_AT_APPROVED_TARGET_SHA": 18,
+    "STRAY_PINNED_SHA_IN_PIPELINE": 0
+  },
+
+  "prohibitions": {
+    "NO_COMMIT": true,
+    "NO_TAG": true,
+    "NO_PUSH": true,
+    "NO_MERGE": true,
+    "NO_VENDOR_PATCH": true
+  },
+
+  "M4_STATUS": "COMPLETE",
+  "NEXT": "M5 — E0-E8 semantic revalidation with strict closure criteria"
+}

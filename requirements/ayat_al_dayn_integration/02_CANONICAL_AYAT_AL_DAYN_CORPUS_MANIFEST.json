@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "generated_at_utc": "2026-08-02T20:17:44.224453+00:00",
+  "source_files": [
+    "requirements/ayat_al_dayn_integration/01_CANONICAL_CORPUS_MANIFEST.json",
+    "reports/taaqol_full_integration/AYAT_AL_DAYN_LEXICAL_COVERAGE.json"
+  ],
+  "source_hashes": {
+    "requirements/ayat_al_dayn_integration/01_CANONICAL_CORPUS_MANIFEST.json": "533fb65340582e2e92b0a1971be16d3bfd0376c1a1c3915f884829a44b75c84f",
+    "reports/taaqol_full_integration/AYAT_AL_DAYN_LEXICAL_COVERAGE.json": "60c2a91375e2ef76738b6ca68ee9efeb48a6187d3e3b55f0e4ac5a36f1f37d3a"
+  },
+  "status": "STALE_REGENERATED",
+  "unresolved_items": [
+    "Canonical corpus content is authoritative in sibling 01_CANONICAL_CORPUS_MANIFEST.json.",
+    "Runtime companion is AYAT_AL_DAYN_LEXICAL_COVERAGE.json (129 tokens accounted)."
+  ],
+  "owner_decision_required": false,
+  "validation_rules": [
+    "token count must be 129",
+    "corpus surfaces must round-trip through normalization"
+  ],
+  "authoritative_source_document": "requirements/ayat_al_dayn_integration/01_CANONICAL_CORPUS_MANIFEST.json",
+  "runtime_companion": "reports/taaqol_full_integration/AYAT_AL_DAYN_LEXICAL_COVERAGE.json",
+  "token_count": 129,
+  "existing_manifest_top_level_keys": [
+    "corpus_name",
+    "corpus_sha256",
+    "date",
+    "document_id",
+    "hokom_head",
+    "notes",
+    "phase",
+    "pipeline_defer_tokens",
+    "source",
+    "status",
+    "tokens",
+    "total_pipeline_accept",
+    "total_pipeline_defer",
+    "total_taaqol_deferred",
+    "total_taaqol_licensed",
+    "total_unique_tokens",
+    "vendor_sha_all_rows",
+    "word_class_empty",
+    "word_class_fi3l",
+    "word_class_harf",
+    "word_class_ism"
+  ],
+  "technical_validation_status": "VALIDATED_CURRENT",
+  "owner_review_status": "NOT_REVIEWED",
+  "c11_reconciled_at_utc": "2026-08-02T21:26:09.770314+00:00",
+  "c11_reconciled_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "c11_evidence_artifacts": [
+    "reports/taaqol_full_integration/HOKOM_EVIDENCE_PRODUCTION_INVENTORY.json",
+    "reports/taaqol_full_integration/HOKOM_LEXICAL_EVIDENCE_CLOSURE.json",
+    "reports/taaqol_full_integration/AYAT_CLAUSE_EVIDENCE.json",
+    "reports/taaqol_full_integration/AYAT_SOURCE_DERIVED_SPANS.json",
+    "reports/taaqol_full_integration/AYAT_EVIDENCE_PRODUCTION_MANIFEST.json",
+    "reports/taaqol_full_integration/LCX_150_EVIDENCE_PRODUCTION.json"
+  ],
+  "c12_reconciled_at_utc": "2026-08-03T03:25:34.323803+00:00",
+  "c12_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "c12_source_files": [
+    "reports/taaqol_full_integration/C12_NATIVE_VERTICAL_CONTRACTS.json",
+    "reports/taaqol_full_integration/C12_HOKOM_EVIDENCE_PRODUCERS.json",
+    "reports/taaqol_full_integration/C12_VERTICAL_STAGE_RECORDS.json"
+  ],
+  "c12_test_nodes": [
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_c12_contracts_manifest_shape",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_formal_shape_registry_producer",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_p8_amil_mamul_projector",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_span_producer_source_derived_only",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_relation_compatibility_needs_two_cu_tokens",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_vendor_relation_adapter_import_ok",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_vendor_relation_adapter_fails_closed_without_cu"
+  ]
+}

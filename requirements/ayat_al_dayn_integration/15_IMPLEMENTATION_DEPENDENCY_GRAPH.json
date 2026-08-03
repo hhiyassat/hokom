@@ -1,0 +1,140 @@
+{
+  "schema_version": "1.0.0",
+  "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "generated_at_utc": "2026-08-02T20:17:44.224453+00:00",
+  "source_files": [
+    "requirements/ayat_al_dayn_integration/14_IMPLEMENTATION_DEPENDENCY_GRAPH.md",
+    "pipeline/taaqol_integration/native_stage_registry.py",
+    "reports/taaqol_full_integration/READY_ADAPTER_WIRING_INVENTORY.json"
+  ],
+  "source_hashes": {
+    "requirements/ayat_al_dayn_integration/14_IMPLEMENTATION_DEPENDENCY_GRAPH.md": "61ac2a6f4029860912eb58d7c7974444d1aae4afd36a60ff23b4d07de59c0adc",
+    "pipeline/taaqol_integration/native_stage_registry.py": "f97ce1ec189e471cbcf2871d783007ce96e3e9288425904f3aeb9a65b7921482",
+    "reports/taaqol_full_integration/READY_ADAPTER_WIRING_INVENTORY.json": "4fc9dad623cbc616c8207f6c0dc21001dc44bd1ffcc4134cb76b288661b52c53"
+  },
+  "status": "NEWLY_CREATED",
+  "unresolved_items": [
+    "Downstream vertical (RelationClosure → AnswerAudit) is genuinely blocked at RelationCandidate (SPAN scope + source evidence gap)."
+  ],
+  "owner_decision_required": false,
+  "validation_rules": [
+    "TOKEN_TO_SENTENCE_DIRECT_LEAPS = 0",
+    "TOKEN_TO_RELATION_DIRECT_LEAPS = 0",
+    "INVALID_SCOPE_TRANSITIONS = 0"
+  ],
+  "authoritative_source_document": "requirements/ayat_al_dayn_integration/14_IMPLEMENTATION_DEPENDENCY_GRAPH.md",
+  "edges": [
+    {
+      "stage": "CoreSlotGraph_Gamma",
+      "predecessor": null
+    },
+    {
+      "stage": "LicensingBoundaryVerdict",
+      "predecessor": "CoreSlotGraph_Gamma"
+    },
+    {
+      "stage": "DalOnly",
+      "predecessor": "LicensingBoundaryVerdict"
+    },
+    {
+      "stage": "VerbalMadlul",
+      "predecessor": "DalOnly"
+    },
+    {
+      "stage": "ContractableUnit",
+      "predecessor": "VerbalMadlul"
+    },
+    {
+      "stage": "MufradSemanticSlotGeometry",
+      "predecessor": "ContractableUnit"
+    },
+    {
+      "stage": "MufradDalalahClosure",
+      "predecessor": "ContractableUnit"
+    },
+    {
+      "stage": "FormalShape",
+      "predecessor": "ContractableUnit"
+    },
+    {
+      "stage": "MaqamContextBoundary",
+      "predecessor": "SENTENCE_SCOPE_CARRIER (external)"
+    },
+    {
+      "stage": "RelationCandidate",
+      "predecessor": "ContractableUnit (2+)"
+    },
+    {
+      "stage": "RelationClosure",
+      "predecessor": "RelationCandidate"
+    },
+    {
+      "stage": "Ifadah",
+      "predecessor": "RelationClosure"
+    },
+    {
+      "stage": "Hukm",
+      "predecessor": "Ifadah"
+    },
+    {
+      "stage": "Manat",
+      "predecessor": "Hukm"
+    },
+    {
+      "stage": "Tanzil",
+      "predecessor": "Manat"
+    },
+    {
+      "stage": "Mantuq",
+      "predecessor": "Ifadah"
+    },
+    {
+      "stage": "Mafhum",
+      "predecessor": "Ifadah"
+    },
+    {
+      "stage": "TanzilBridge",
+      "predecessor": "Tanzil"
+    },
+    {
+      "stage": "AnswerAudit",
+      "predecessor": "TanzilBridge"
+    }
+  ],
+  "current_wired_frontier": "ContractableUnit (via READY_RUNTIME adapters)",
+  "next_ready_integration_frontier": [
+    "formal_shape",
+    "maqam_context",
+    "relation_candidate",
+    "chain_report"
+  ],
+  "technical_validation_status": "VALIDATED_CURRENT",
+  "owner_review_status": "NOT_REVIEWED",
+  "c11_reconciled_at_utc": "2026-08-02T21:26:09.770314+00:00",
+  "c11_reconciled_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "c11_evidence_artifacts": [
+    "reports/taaqol_full_integration/HOKOM_EVIDENCE_PRODUCTION_INVENTORY.json",
+    "reports/taaqol_full_integration/HOKOM_LEXICAL_EVIDENCE_CLOSURE.json",
+    "reports/taaqol_full_integration/AYAT_CLAUSE_EVIDENCE.json",
+    "reports/taaqol_full_integration/AYAT_SOURCE_DERIVED_SPANS.json",
+    "reports/taaqol_full_integration/AYAT_EVIDENCE_PRODUCTION_MANIFEST.json",
+    "reports/taaqol_full_integration/LCX_150_EVIDENCE_PRODUCTION.json"
+  ],
+  "c12_reconciled_at_utc": "2026-08-03T03:25:34.323803+00:00",
+  "c12_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "c12_source_files": [
+    "reports/taaqol_full_integration/C12_NATIVE_VERTICAL_CONTRACTS.json",
+    "reports/taaqol_full_integration/C12_HOKOM_EVIDENCE_PRODUCERS.json",
+    "reports/taaqol_full_integration/C12_VERTICAL_STAGE_RECORDS.json"
+  ],
+  "c12_test_nodes": [
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_c12_contracts_manifest_shape",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_formal_shape_registry_producer",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_p8_amil_mamul_projector",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_span_producer_source_derived_only",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_relation_compatibility_needs_two_cu_tokens",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_vendor_relation_adapter_import_ok",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_vendor_relation_adapter_fails_closed_without_cu"
+  ]
+}

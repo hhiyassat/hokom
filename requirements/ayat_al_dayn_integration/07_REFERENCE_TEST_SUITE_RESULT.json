@@ -1,0 +1,43 @@
+{
+  "section": "§7",
+  "title": "REFERENCE_TEST_SUITE_RESULT",
+  "reference_sha": "3e48cc14d677b8d4980a58cd3b84d4464cbf60dc",
+  "pinned_sha": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "sandbox_python": "3.10.12",
+  "reference_requires_python": ">=3.11",
+  "result": "BLOCKED_BY_PYTHON_VERSION",
+  "summary": {
+    "collected": 0,
+    "passed": 0,
+    "failed": 0,
+    "errors": 152,
+    "skipped": 0,
+    "warnings": 0
+  },
+  "root_cause": "ImportError: cannot import name 'StrEnum' from 'enum' (Python 3.10 stdlib). StrEnum was introduced in Python 3.11. All 152 test modules import from taaqqul_slot_geometry which uses StrEnum at module level. Collection halted — no tests ran.",
+  "error_uniformity": "ALL_152_ERRORS_IDENTICAL_ROOT_CAUSE",
+  "consistency_with_hokom": "CONSISTENT — Hokom adapters also detect this at import time and set _*_AVAILABLE=False; all vendor-backed functions return None on 3.10. Reference suite failure mode is the same underlying cause.",
+  "regression_signal": "NONE — blocked before collection; not a code regression",
+  "owner_action_required": "Run: cd /path/to/Taaqol-GPT && python3.12 -m pytest tests/ -q --tb=short on Python 3.11 or 3.12 to obtain REFERENCE_PASSED/FAILED/SKIPPED counts.",
+  "install_command": "pip install -e .[dev] --no-deps  (dependencies=[]; dev requires pytest>=8,ruff>=0.5)",
+  "verdict": "REFERENCE_SUITE_CANNOT_RUN_ON_PYTHON_310_PENDING_OWNER_311_PLUS",
+  "c12_reconciled_at_utc": "2026-08-03T03:25:34.323803+00:00",
+  "c12_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "c12_source_files": [
+    "reports/taaqol_full_integration/C12_NATIVE_VERTICAL_CONTRACTS.json",
+    "reports/taaqol_full_integration/C12_HOKOM_EVIDENCE_PRODUCERS.json",
+    "reports/taaqol_full_integration/C12_VERTICAL_STAGE_RECORDS.json"
+  ],
+  "c12_test_nodes": [
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_c12_contracts_manifest_shape",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_formal_shape_registry_producer",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_p8_amil_mamul_projector",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_span_producer_source_derived_only",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_relation_compatibility_needs_two_cu_tokens",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_vendor_relation_adapter_import_ok",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_vendor_relation_adapter_fails_closed_without_cu"
+  ],
+  "technical_validation_status": "VALIDATED_CURRENT",
+  "owner_review_status": "NOT_REVIEWED"
+}

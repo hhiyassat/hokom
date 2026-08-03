@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "generated_at_utc": "2026-08-02T20:17:44.224453+00:00",
+  "source_files": [
+    "pipeline/taaqol_integration/weight_layer/licensing_boundary_adapter.py",
+    "reports/taaqol_full_integration/c9_runtime_output/stage_records.csv"
+  ],
+  "source_hashes": {
+    "pipeline/taaqol_integration/weight_layer/licensing_boundary_adapter.py": "d66b19aedb8646471a0b5b98ff9b85f0bfd297aceacae8ab6716598b2cc2f9e0",
+    "reports/taaqol_full_integration/c9_runtime_output/stage_records.csv": "1fcc054e94719c65ca93c3dc5ee0958f7e68a0a2c5d6ba9cd04b8f9564b05fb8"
+  },
+  "status": "NEWLY_CREATED",
+  "unresolved_items": [
+    "Downstream verdict → hokm/tanzil semantic mapping requires owner semantic decision; not in scope for mechanical closure."
+  ],
+  "owner_decision_required": false,
+  "validation_rules": [
+    "Every LICENSED verdict must carry nonempty evidence_ids and provenance_ids",
+    "Every NOT_OPENED status must cite a first_missing_input from the observed blocker vocabulary"
+  ],
+  "observed_verdicts": [
+    "boundary_eligible:LEXICAL"
+  ],
+  "observed_blocker_vocabulary": [
+    "HOKOM_BUNDLE_MISSING_LICENSING_INPUTS",
+    "PREDECESSOR_NOT_EXECUTED::CoreSlotGraph_Gamma",
+    "root_letters=False",
+    "segment_host=True",
+    "surface=True",
+    "word_class=True"
+  ],
+  "required_licensing_inputs": [
+    "root_letters",
+    "segment_host",
+    "word_class",
+    "surface"
+  ],
+  "current_runtime_status": {
+    "licensing_executed": 37,
+    "licensing_not_opened": 92
+  },
+  "technical_validation_status": "VALIDATED_CURRENT",
+  "owner_review_status": "NOT_REVIEWED",
+  "c11_reconciled_at_utc": "2026-08-02T21:26:09.770314+00:00",
+  "c11_reconciled_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "c11_evidence_artifacts": [
+    "reports/taaqol_full_integration/HOKOM_EVIDENCE_PRODUCTION_INVENTORY.json",
+    "reports/taaqol_full_integration/HOKOM_LEXICAL_EVIDENCE_CLOSURE.json",
+    "reports/taaqol_full_integration/AYAT_CLAUSE_EVIDENCE.json",
+    "reports/taaqol_full_integration/AYAT_SOURCE_DERIVED_SPANS.json",
+    "reports/taaqol_full_integration/AYAT_EVIDENCE_PRODUCTION_MANIFEST.json",
+    "reports/taaqol_full_integration/LCX_150_EVIDENCE_PRODUCTION.json"
+  ],
+  "c12_reconciled_at_utc": "2026-08-03T03:25:34.323803+00:00",
+  "c12_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "c12_source_files": [
+    "reports/taaqol_full_integration/C12_NATIVE_VERTICAL_CONTRACTS.json",
+    "reports/taaqol_full_integration/C12_HOKOM_EVIDENCE_PRODUCERS.json",
+    "reports/taaqol_full_integration/C12_VERTICAL_STAGE_RECORDS.json"
+  ],
+  "c12_test_nodes": [
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_c12_contracts_manifest_shape",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_formal_shape_registry_producer",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_p8_amil_mamul_projector",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_span_producer_source_derived_only",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_relation_compatibility_needs_two_cu_tokens",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_vendor_relation_adapter_import_ok",
+    "tests/taaqol_integration/test_c12_evidence_producers.py::test_vendor_relation_adapter_fails_closed_without_cu"
+  ]
+}
