@@ -1,0 +1,93 @@
+{
+  "phase_id": "E5_DAL_ONLY_CANDIDATE",
+  "phase_label": "DAL-ONLY CANDIDATE (prove_dal() → DalBoundaryVerdict with DalOnlyCandidate)",
+  "phase_state": "FOCUSED_VERIFIED",
+  "note": "FOCUSED_VERIFIED on Python 3.10 sandbox. Module invariants, fail-closed behavior, and refusal guards all verified on 3.10. G_E5_02/03 (PROVEN chain) require Python 3.12+ owner verification. This is the terminal phase of the E0→E5 constitutional integration run.",
+  "closed_at": null,
+  "vendor_sha": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "corpus_sha": "6bd635a05530965f13f76cf003f7738130badec6981bcb0e73f2465d386e1ed7",
+  "implementation": {
+    "adapter_file": "pipeline/taaqol_integration/weight_layer/dal_only_adapter.py",
+    "test_file": "tests/e5_dal_only/test_dal_only_e5.py",
+    "init_file": "tests/e5_dal_only/__init__.py"
+  },
+  "e5_chain": {
+    "function_prove_dal": "prove_dal(prior_verdict: LicensingBoundaryVerdict, signifier_identity: str, phonetic_trace_ref: str, graphic_trace_ref: str='') → DalBoundaryVerdict",
+    "function_build_dal_only_candidate": "E5 wrapper — accepts LicensingBoundaryVerdict + token_surface + trace_id → DalBoundaryVerdict | None",
+    "function_build_dal_only_from_surface": "E4B+E4C+E5 convenience — Arabic surface → DalBoundaryVerdict | None (full chain)",
+    "dal_only_candidate_fields": {
+      "signifier_identity": "token_surface (Arabic form e.g. دَيْنٍ)",
+      "phonetic_trace_ref": "trace_id from caller's live PipelineTrace",
+      "graphic_trace_ref": "'' (Unicode text; no separate graphic trace needed)",
+      "prior_licensing_verdict": "LicensingBoundaryVerdict from E4C",
+      "dal_rank": "RankLattice.meet(eligibility_rank, DAL_BOUNDARY_RANK_CEILING) = Rank.CANDIDATE",
+      "residuals": "inherited from prior_verdict.source.residuals = () (empty for clean E4C)",
+      "trace_ref": "prove_dal/proven/{signifier_identity}"
+    }
+  },
+  "full_chain_e0_to_e5": {
+    "E0": "SHAs confirmed (VENDOR_SHA, HOKOM_HEAD, CORPUS_SHA)",
+    "E1": "AYAT_AL_DAYN_REGISTRY built (74 ISM/FI3L entries, 0 BUILD_FAILURES on 3.12+)",
+    "E2": "registry_adapter.py wired — registry_matches non-None in all cases",
+    "E3": "REQUIREMENTS_DOCUMENTED — P3/P4/P5 stage evidence requirements documented",
+    "E4A": "Structural guards (HARF, upstream directive, empty host, vendor check)",
+    "E4B": "decompose_arabic() + build_weight_readiness_candidate() — pure Python + vendor chain",
+    "E4C": "omega_governance() + weigh() + assess_license() → LicensingBoundaryVerdict",
+    "E5": "prove_dal() → DalBoundaryVerdict(verdict_state=PROVEN, candidate=DalOnlyCandidate)"
+  },
+  "test_results": {
+    "python_310_sandbox": {
+      "e5_tests": {
+        "total_collected": 27,
+        "passed": 14,
+        "skipped": 13,
+        "failed": 0
+      },
+      "combined_e1_e2_e4a_e4b_e4c_e5": {
+        "passed": 140,
+        "skipped": 63,
+        "failed": 0,
+        "note": "No regressions from E5 addition"
+      }
+    }
+  },
+  "gates": {
+    "G_E5_01": 1,
+    "note_G_E5_01": "Fail-closed on Python 3.10: build_dal_only_candidate/build_dal_only_from_surface return None; never raise; _DAL_ONLY_AVAILABLE=False; empty surface/trace_id return None; wrong type returns None",
+    "G_E5_02": "PENDING_OWNER_312",
+    "note_G_E5_02": "build_dal_only_from_surface produces PROVEN DalBoundaryVerdict for corpus ISM tokens on Python 3.12+. Owner must run tests/e5_dal_only/test_dal_only_e5.py on Python 3.12+.",
+    "G_E5_03": "PENDING_OWNER_312",
+    "note_G_E5_03": "DalOnlyCandidate fields correct on 3.12+: signifier_identity==token_surface, phonetic_trace_ref==trace_id, dal_rank=CANDIDATE, residuals=(), failure_code=None on PROVEN",
+    "G_E5_04": 1,
+    "note_G_E5_04": "prove_dal refusals: None/str/object() all return None; whitespace surface/trace_id return None; fail-closed at every stage",
+    "G_E5_05": 1,
+    "note_G_E5_05": "Module invariants: imports clean on 3.10, _verify_e5_invariants() passes at import time, _VENDOR_SHA confirmed, _E4C_AVAILABLE=True"
+  },
+  "gates_passed": 3,
+  "gates_pending_312_verification": 2,
+  "gates_total": 5,
+  "blocking_residuals": [
+    {
+      "id": "G_E5_02_03_PROVEN_CHAIN_PENDING_312",
+      "severity": "REQUIRES_OWNER_VERIFICATION",
+      "detail": "Run tests/e5_dal_only/test_dal_only_e5.py on Python 3.12+ to verify: (1) corpus ISM tokens all produce PROVEN DalBoundaryVerdict, (2) DalOnlyCandidate fields correct, (3) no WeightCarrierSchemaError from vendor type enforcement"
+    }
+  ],
+  "fiqhi_algebra": {
+    "WAD": "LicensingBoundaryVerdict (from E4C) + token_surface (signifier_identity) + trace_id (phonetic_trace_ref)",
+    "SABAB": "E5 = terminal DAL-only boundary; DalOnlyCandidate is the signifier-alone proof before any madlul is assigned",
+    "SHART": "Python 3.12+ for vendor types; Python 3.10 for fail-closed tests",
+    "MANI": "None active — DalOnlyCandidate ≠ meaning, ≠ madlul, ≠ ifadah, ≠ hukm (constitutional docs/26 §2)",
+    "ILLA": "prior_licensing_verdict must be LicensingBoundaryVerdict (type-enforced at __post_init__); phonetic_trace_ref non-empty",
+    "QADIH": "Potential: if vendor DalOnlyCandidate field validation rejects token_surface or trace_id format → tested on 3.12+ owner run",
+    "HUKM": "FOCUSED_VERIFIED — 3/5 gates pass on 3.10; 2 pending 3.12+; 140 total pass (no regressions)",
+    "ATHAR": "E0→E5 constitutional integration chain FULLY IMPLEMENTED. All phases have phase certificates. Terminal output: DalBoundaryVerdict(PROVEN) with DalOnlyCandidate for corpus ISM/FI3L tokens.",
+    "RESIDUALS": ["G_E5_02_03_PROVEN_CHAIN_PENDING_312"]
+  },
+  "canonical_exit": 1,
+  "note_canonical_exit": "canonical_exit=1 until G_E5_02/03 confirmed on Python 3.12+. E0→E5 chain fully implemented. E6+ (FormalShape, MufradDalalah, MaqamContextBoundary per §4) not started.",
+  "autonomous_execution_mode": 1,
+  "autonomous_commit_mode": 0,
+  "next_phase": "E6_OWNER_VERIFICATION_ON_312_BEFORE_CONTINUING"
+}

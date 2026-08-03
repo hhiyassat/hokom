@@ -1,0 +1,102 @@
+{
+  "phase_id": "E4B_PREWEIGHT_TYPED_CARRIERS",
+  "phase_label": "PRE-WEIGHT TYPED CARRIERS (μ-CHAIN: Arabic → WeightReadinessCandidate)",
+  "phase_state": "FOCUSED_VERIFIED",
+  "note": "FOCUSED_VERIFIED on Python 3.10 sandbox. decompose_arabic (pure Python) fully verified: 41/54 tests pass on Python 3.10; 13 skipped (Python 3.12+ vendor required for WeightReadinessCandidate construction). Owner must run tests/e4b_preweight_chain/test_preweight_chain_e4b.py on Python 3.12+ to close G_E4B_05 gates.",
+  "closed_at": null,
+  "vendor_sha": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "corpus_sha": "6bd635a05530965f13f76cf003f7738130badec6981bcb0e73f2465d386e1ed7",
+  "implementation": {
+    "adapter_file": "pipeline/taaqol_integration/weight_layer/preweight_chain_adapter.py",
+    "test_file": "tests/e4b_preweight_chain/test_preweight_chain_e4b.py",
+    "init_file": "tests/e4b_preweight_chain/__init__.py"
+  },
+  "mu_chain_implemented": {
+    "stage_1_mu_seq":            "decompose_arabic(text) → tuple[(letter,haraka),...] → SyllableCandidate",
+    "stage_2_mu_boundary":       "SyllableCandidate → SyllableSequenceCandidate",
+    "stage_3_mu_word_carrier":   "SyllableSequenceCandidate → WordBoundaryCandidate",
+    "stage_4_mu_path_gate":      "WordBoundaryCandidate → WordCarrierCandidate",
+    "stage_5_mu_root_stem":      "WordCarrierCandidate → PathCandidate(kind, carrier)",
+    "stage_6_mu_original_extra": "PathCandidate → OriginalExtraMap(underlying_form, assignments)",
+    "stage_7_mu_ops":            "OriginalExtraMap → OperationTraceCandidate(steps)",
+    "stage_8_mu_weight_readiness":"OperationTraceCandidate → PreWeightSurface → WeightReadinessCandidate"
+  },
+  "type_enforcement_notes": {
+    "TraceRef": "TraceRef(anchor=str, kind=str='') — frozen dataclass, anchor must be non-empty",
+    "WeightCarrierBase": "9 fields: value, type, origin, identity, domain, scope, rank, residuals, trace",
+    "BIRTH_RANK_CEILING": "Rank.CANDIDATE — all μ chain stages born at CANDIDATE rank",
+    "PreWeightSurface_invariant": "path.carrier MUST == carrier (structural equality check in __post_init__)",
+    "SyllableCandidate_units": "tuple[(letter, haraka),...] — produced by decompose_arabic()"
+  },
+  "decompose_arabic": {
+    "implementation": "Pure Python (stdlib only) — no vendor dependency",
+    "python_compat": "Python 3.10+",
+    "algorithm": "Iterate chars; collect following harakat per consonant; return tuple of (letter, haraka_str) pairs",
+    "harakat_count": 12,
+    "harakat_set": "U+064B-U+0652, U+0670, U+0653, U+0654, U+0655 (fathatan, dammatan, kasratan, fatha, damma, kasra, shadda, sukun, dagger-alef, maddah-above, hamza-above, hamza-below)",
+    "verified_cases": [
+      "دَيْنٍ → ((د,َ),(ي,ْ),(ن,ٍ))",
+      "دين (bare) → ((د,''),(ي,''),(ن,''))",
+      "'' (empty) → ()",
+      "الَّذِينَ → >= 4 pairs (shadda handled)",
+      "non-Arabic chars → (ch, '') pairs"
+    ]
+  },
+  "test_results": {
+    "python_310_sandbox": {
+      "e4b_tests": {
+        "total_collected": 54,
+        "passed": 41,
+        "skipped": 13,
+        "failed": 0
+      },
+      "combined_e1_e2_e4b": {
+        "passed": 78,
+        "skipped": 25,
+        "failed": 0,
+        "note": "No regressions from E4B addition"
+      }
+    }
+  },
+  "gates": {
+    "G_E4B_01": 1,
+    "note_G_E4B_01": "decompose_arabic correctness: دَيْنٍ→3 pairs, bare consonants, empty string, corpus ISM samples all correct",
+    "G_E4B_02": 1,
+    "note_G_E4B_02": "Haraka/letter separation: harakat never appear as letters; haraka string contains only harakat; _ARABIC_HARAKAT has 12 members",
+    "G_E4B_03": 1,
+    "note_G_E4B_03": "decompose_arabic never raises: verified for 10 input types including empty, whitespace, non-Arabic, complex shadda sequences",
+    "G_E4B_04": 1,
+    "note_G_E4B_04": "Fail-closed on Python 3.10: build_weight_readiness_candidate returns None; never raises; _MU_CHAIN_AVAILABLE=False; _VENDOR_SHA accessible",
+    "G_E4B_05": "PENDING_OWNER_312",
+    "note_G_E4B_05": "WeightReadinessCandidate type chain: 13 tests skipped (vendor not available on 3.10). Owner must run on Python 3.12+ to verify: result.value, result.rank=CANDIDATE, result.residuals=(), result.trace.anchor, surface.path.carrier==surface.carrier, corpus tokens produce chain",
+    "G_E4B_06": 1,
+    "note_G_E4B_06": "Module invariants hold: imports clean on 3.10, _verify_e4b_invariants() passes at import time, all __all__ exports accessible"
+  },
+  "gates_passed": 5,
+  "gates_pending_312_verification": 1,
+  "gates_total": 6,
+  "blocking_residuals": [
+    {
+      "id": "G_E4B_05_WEIGHT_READINESS_CHAIN_PENDING_312",
+      "severity": "REQUIRES_OWNER_VERIFICATION",
+      "detail": "Run tests/e4b_preweight_chain/test_preweight_chain_e4b.py on Python 3.12+ to verify WeightReadinessCandidate construction succeeds for corpus ISM tokens (دَيْنٍ, كَاتِبٌ, شَهِيدَيْنِ, أَجَلٍ)"
+    }
+  ],
+  "fiqhi_algebra": {
+    "WAD": "Arabic text (diacritical token surfaces from E1 corpus); vendor μ chain constructors (Python 3.12+)",
+    "SABAB": "E4B = pre-weight typed carriers; E4C (assess_license) requires WeightReadinessCandidate → weigh() → WeightFitCandidate",
+    "SHART": "Python 3.12+ for vendor constructors; Python 3.10 for decompose_arabic (pure Python)",
+    "MANI": "None active — decompose_arabic is pure Python and imposes no morphological meaning",
+    "ILLA": "path.carrier == carrier invariant (PreWeightSurface.__post_init__); BIRTH_RANK_CEILING = Rank.CANDIDATE",
+    "QADIH": "Potential: if vendor pre_weight.py constructor signatures differ from source analysis — tested on 3.12+ owner run",
+    "HUKM": "FOCUSED_VERIFIED — 41/54 tests pass on 3.10; 13 skip pending 3.12+ verification; 78 total pass (no regressions)",
+    "ATHAR": "decompose_arabic available for E4C to use; WeightReadinessCandidate builder ready for 3.12+ activation",
+    "RESIDUALS": ["G_E4B_05_WEIGHT_READINESS_CHAIN_PENDING_312"]
+  },
+  "canonical_exit": 1,
+  "note_canonical_exit": "canonical_exit=1 until G_E4B_05 confirmed on Python 3.12+. E4C may begin: decompose_arabic available; weigh() and assess_license() chain is the E4C scope.",
+  "autonomous_execution_mode": 1,
+  "autonomous_commit_mode": 0,
+  "next_phase": "E4C_NATIVE_LICENSING_BOUNDARY"
+}

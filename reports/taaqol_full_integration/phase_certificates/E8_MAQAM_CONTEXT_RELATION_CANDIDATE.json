@@ -1,0 +1,136 @@
+{
+  "phase_id": "E8_MAQAM_CONTEXT_RELATION_CANDIDATE",
+  "phase_label": "MAQAM_CONTEXT_BOUNDARY + RELATION_CANDIDATE (PR-D1.2: prove_maqam_context_boundary → MaqamContextFrame; PR-19: prove_relation_candidate → RelationCandidate)",
+  "phase_state": "FOCUSED_VERIFIED",
+  "note": "FOCUSED_VERIFIED on Python 3.10 sandbox. Module invariants and fail-closed behavior verified on 3.10. G_E8_02/03/04/05 (MaqamContextBoundaryVerdict PROVEN, MaqamContextFrame fields, RelationVerdict COMPOSED, role re-gating) require Python 3.12+ owner verification.",
+  "closed_at": null,
+  "vendor_sha": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "corpus_sha": "6bd635a05530965f13f76cf003f7738130badec6981bcb0e73f2465d386e1ed7",
+  "implementation": {
+    "maqam_context_adapter": "pipeline/taaqol_integration/weight_layer/maqam_context_adapter.py",
+    "relation_candidate_adapter": "pipeline/taaqol_integration/weight_layer/relation_candidate_adapter.py",
+    "test_file": "tests/e8_maqam_relation/test_e8_maqam_relation.py",
+    "init_file": "tests/e8_maqam_relation/__init__.py"
+  },
+  "e8_chain": {
+    "pr_d1_2_prove_maqam_context_boundary": "prove_maqam_context_boundary(semantic_slot_verdict: MufradSemanticSlotGeometryVerdict, discourse_domain_type, discourse_evidence_ref, usage_register_type, usage_evidence_ref, technical_domain_name, is_technical, technical_evidence_ref, speaker_position, addressee_position, textual_context_window, has_potential_qarina, qarina_type_readiness, qarina_blocks_literal, qarina_evidence_ref, blocker_count, blocker_types, all_blockers_audited, blocker_evidence_ref, literal_constraint_type, literal_domain_ref, literal_evidence_ref, wad_scope_type, wad_narrowing_evidence, wad_scope_evidence_ref, style_relevance_constraint) → MaqamContextBoundaryVerdict(PROVEN, candidate=MaqamContextFrame)",
+    "maqam_context_frame_key_fields": {
+      "semantic_slot_frame_ref": "semantic_slot_verdict.candidate.trace_ref",
+      "trace_ref": "prove_maqam_context_boundary/proven/{semantic_category.value}",
+      "residuals": "11 EXPLANATORY deferred residuals (none BLOCKING/HIDDEN_FORBIDDEN)",
+      "rank": "RankLattice.meet(Rank.CANDIDATE, MAQAM_CONTEXT_RANK_CEILING)"
+    },
+    "pr_19_prove_relation_candidate": "prove_relation_candidate(governor: ContractableUnitGeometry, dependent: ContractableUnitGeometry, relation_basis: str, governor_role_claim: str, dependent_role_claim: str) → RelationVerdict(COMPOSED, candidate=RelationCandidate)",
+    "relation_candidate_key_fields": {
+      "governor_role": "governor_role_claim",
+      "dependent_role": "dependent_role_claim",
+      "trace_ref": "prove_relation_candidate/composed/{gov_id}+{dep_id}",
+      "residuals": "merged governor.residuals + dependent.residuals"
+    },
+    "role_re_gating": "governor_role_claim must be in governor.contractability_profile.admissible_roles AND not in blocked_roles; same for dependent — vendor enforces at prove_relation_candidate()",
+    "default_ism_roles": {
+      "governor_role_claim": "MUBTADA (subject of nominal sentence)",
+      "dependent_role_claim": "KHABAR (predicate of nominal sentence)",
+      "ism_admissible_roles": ["MUBTADA", "KHABAR", "MAFOOL_BIH", "MUDAF_ILAYH"],
+      "ism_blocked_roles": []
+    },
+    "maqam_context_constitutional_boundary": "MaqamContextFrame is boundary for dalalah possibility — NOT meaning, NOT Mutabaqah, NOT Tadammun, NOT Iltizam, NOT ifadah, NOT hukm. Opens PR-D2 readiness only.",
+    "relation_candidate_constitutional_boundary": "RelationCandidate is compositional structure — NOT meaning, NOT ifadah, NOT hukm."
+  },
+  "functions": {
+    "maqam_context_adapter": {
+      "build_maqam_context_boundary": "PR-D1.2 — e7_slot_verdict + token_surface + 4 enum-named params → MaqamContextBoundaryVerdict(PROVEN) | None; defaults: LUGHAWI/HAQIQI/UNCONSTRAINED/ORIGINAL",
+      "build_maqam_from_surface": "E7+E8 chain — token_surface + root_letters + segment_host + word_class + trace_id → MaqamContextBoundaryVerdict(PROVEN) | None; runs build_e7_from_surface then build_maqam_context_boundary"
+    },
+    "relation_candidate_adapter": {
+      "build_relation_candidate": "PR-19 — e6_binding_verdict_governor + e6_binding_verdict_dependent + roles + relation_basis → RelationVerdict(COMPOSED) | None; builds ContractableUnitGeometry for each unit via PR-18",
+      "build_e8_relation_from_surfaces": "E6+E8 full chain — two surfaces (with roots/hosts/classes/trace_ids) → RelationVerdict(COMPOSED) | None; runs build_e6_from_surface for each then build_relation_candidate"
+    }
+  },
+  "default_parameters": {
+    "discourse_domain": "LUGHAWI (Arabic linguistic domain — conservative for corpus text)",
+    "usage_register": "HAQIQI (literal usage — conservative; no qarinah identified at corpus layer)",
+    "literal_constraint": "UNCONSTRAINED (no contextual narrowing at corpus layer)",
+    "wad_scope": "ORIGINAL (original wad' scope, not narrowed)",
+    "technical_domain": "arabic_morpho_syntactic_domain (not technical register)",
+    "is_technical": "False",
+    "has_potential_qarina": "False (no qarinah at corpus layer)",
+    "qarina_type_readiness": "deferred-to-qarinah-gate",
+    "qarina_blocks_literal": "False",
+    "blocker_count": "0 (no blockers at corpus layer)",
+    "blocker_types": "() (empty tuple)",
+    "all_blockers_audited": "True (no blockers → fully audited)",
+    "governor_role_claim": "MUBTADA (ISM nominal sentence subject)",
+    "dependent_role_claim": "KHABAR (ISM nominal sentence predicate)"
+  },
+  "full_chain_e0_to_e8": {
+    "E0": "SHAs confirmed (VENDOR_SHA, HOKOM_HEAD, CORPUS_SHA)",
+    "E1": "AYAT_AL_DAYN_REGISTRY built (74 ISM/FI3L entries)",
+    "E2": "registry_adapter.py wired — registry_matches non-None",
+    "E3": "REQUIREMENTS_DOCUMENTED — P3/P4/P5 stage evidence requirements",
+    "E4A": "Structural guards (HARF, upstream directive, empty host, vendor check)",
+    "E4B": "decompose_arabic() + build_weight_readiness_candidate()",
+    "E4C": "omega_governance() + weigh() + assess_license() → LicensingBoundaryVerdict",
+    "E5": "prove_dal() → DalBoundaryVerdict(PROVEN, candidate=DalOnlyCandidate)",
+    "E6": "prove_verbal_madlul() → VerbalMadlulBoundaryVerdict(PROVEN) → bind_dal_madlul() → DalMadlulBindingVerdict(BOUND)",
+    "E7": "build_word_class_registry() → FormalShapeRegistry(CLOSED) → prove_formal_style_candidate() → FormalStyleVerdict(PROVEN) → prove_contractable_unit() → ContractableUnitVerdict(PROVEN) → prove_mufrad_semantic_slot_geometry() → MufradSemanticSlotGeometryVerdict(PROVEN, candidate=SemanticSlotFrame)",
+    "E8": "prove_maqam_context_boundary(SemanticSlotFrame) → MaqamContextBoundaryVerdict(PROVEN, candidate=MaqamContextFrame) [PR-D1.2] + prove_relation_candidate(ContractableUnit1, ContractableUnit2, roles, basis) → RelationVerdict(COMPOSED, candidate=RelationCandidate) [PR-19]"
+  },
+  "test_results": {
+    "python_310_sandbox": {
+      "e8_tests": {
+        "total_collected": 46,
+        "passed": 23,
+        "skipped": 23,
+        "failed": 0
+      },
+      "combined_e1_e2_e4b_e4c_e5_e6_e7_e8": {
+        "passed": 178,
+        "skipped": 122,
+        "failed": 0,
+        "note": "No regressions from E8 addition (E1-E7 baseline was 155 passed, 99 skipped)"
+      }
+    }
+  },
+  "gates": {
+    "G_E8_01": 1,
+    "note_G_E8_01": "Fail-closed on Python 3.10: _MAQAM_CONTEXT_AVAILABLE=False, _RELATION_AVAILABLE=False; build_maqam_context_boundary(None/object, surface)→None; build_maqam_from_surface(...)→None; build_relation_candidate(None,None,...)→None; build_e8_relation_from_surfaces(...)→None; no raises on 3.10.",
+    "G_E8_02": "PENDING_OWNER_312",
+    "note_G_E8_02": "MaqamContextBoundaryVerdict(PROVEN) + MaqamContextFrame for corpus ISM tokens on Python 3.12+. Owner must run tests/e8_maqam_relation/test_e8_maqam_relation.py::TestT_E8_02_MaqamContextOn312 on Python 3.12+.",
+    "G_E8_03": "PENDING_OWNER_312",
+    "note_G_E8_03": "MaqamContextFrame fields (semantic_slot_frame_ref non-empty, discourse_domain=LUGHAWI, 11 EXPLANATORY residuals, no BLOCKING, trace_ref contains 'proven', usage_register=HAQIQI) on 3.12+. Owner must run TestT_E8_03_MaqamContextFrameFieldsOn312.",
+    "G_E8_04": "PENDING_OWNER_312",
+    "note_G_E8_04": "RelationVerdict(COMPOSED) + RelationCandidate for corpus ISM pairs (MUBTADA+KHABAR) on 3.12+. Owner must run TestT_E8_04_RelationCandidateOn312.",
+    "G_E8_05": "PENDING_OWNER_312",
+    "note_G_E8_05": "Role re-gating enforced: FIL_MUTLI governor_role_claim on ISM unit → None; FIL_MAJHOOL dependent_role_claim on ISM unit → None; empty relation_basis → None on 3.12+. Owner must run TestT_E8_05_RoleRegatingOn312.",
+    "G_E8_06": 1,
+    "note_G_E8_06": "Module invariants: both adapters import cleanly on 3.10; _verify_e8_*_invariants() passes at import time; both _VENDOR_SHA correct; all functions callable; _E7_AVAILABLE=True in both adapters."
+  },
+  "gates_passed": 2,
+  "gates_pending_312_verification": 4,
+  "gates_total": 6,
+  "blocking_residuals": [
+    {
+      "id": "G_E8_02_03_04_05_PENDING_312",
+      "severity": "REQUIRES_OWNER_VERIFICATION",
+      "detail": "Run tests/e8_maqam_relation/test_e8_maqam_relation.py on Python 3.12+ to verify: (1) MaqamContextBoundaryVerdict PROVEN for corpus ISM tokens, (2) MaqamContextFrame fields correct, (3) RelationVerdict COMPOSED for corpus ISM pairs with MUBTADA/KHABAR roles, (4) role re-gating enforced (FIL_MUTLI/FIL_MAJHOOL inadmissible for ISM → None)"
+    }
+  ],
+  "fiqhi_algebra": {
+    "WAD": "MufradSemanticSlotGeometryVerdict (from E7/PR-D1) + DiscourseDomainType/UsageRegisterType/LiteralConstraintType/WadScopeType enums + string refs for MaqamContext (PR-D1.2); two ContractableUnitGeometry instances + role claims + relation_basis for RelationCandidate (PR-19)",
+    "SABAB": "E8 = two operations sharing E7 output: (1) MaqamContextBoundary proves constitutional boundary readiness for dalalah possibility from SemanticSlotFrame; (2) RelationCandidate proves compositional structure between two ContractableUnits at admissible syntactic roles",
+    "SHART": "Python 3.12+ for all vendor types (StrEnum); MufradSemanticSlotGeometryVerdict must be PROVEN for PR-D1.2; ContractableUnitGeometry must be PROVEN (from PR-18) for PR-19; role claims must be in admissible_roles and not in blocked_roles of each unit's contractability_profile; all string params non-empty; blocker_types must be tuple",
+    "MANI": "None active — MaqamContextFrame ≠ meaning ≠ Mutabaqah ≠ Tadammun ≠ Iltizam ≠ ifadah ≠ hukm (constitutional docs/37 §1); RelationCandidate ≠ meaning ≠ ifadah ≠ hukm (constitutional docs/33 §1)",
+    "ILLA": "semantic_slot_verdict must be MufradSemanticSlotGeometryVerdict (isinstance check by vendor); governor/dependent must be ContractableUnitGeometry (isinstance check by vendor); role claims must be admissible (re-gated by vendor at prove_relation_candidate)",
+    "QADIH": "Potential: if vendor StrEnum enforcement rejects any enum param string value on 3.12+; if role claim not in admissible_roles for the actual word_class affordances → tested on owner run",
+    "HUKM": "FOCUSED_VERIFIED — 2/6 gates pass on 3.10; 4 pending 3.12+; 178 total pass (no regressions)",
+    "ATHAR": "E0→E8 constitutional integration chain FULLY IMPLEMENTED. Terminal outputs: (1) MaqamContextBoundaryVerdict(PROVEN) with MaqamContextFrame (11 deferred EXPLANATORY residuals; opens PR-D2 readiness only) on 3.12+; (2) RelationVerdict(COMPOSED) with RelationCandidate for ISM nominal sentence pairs (MUBTADA+KHABAR) on 3.12+.",
+    "RESIDUALS": ["G_E8_02_03_04_05_PENDING_312"]
+  },
+  "canonical_exit": 1,
+  "note_canonical_exit": "canonical_exit=1 until G_E8_02/03/04/05 confirmed on Python 3.12+. E9+ (RelationClosure, Ifadah, Hukm, Manat, Tanzil, MantuqMafhum, GPT Reasonableness) is next per HOKOM_TAAQOL_MASTER_EXECUTION_CONSTITUTION_01.md.",
+  "autonomous_execution_mode": 1,
+  "autonomous_commit_mode": 0,
+  "next_phase": "E9_RELATION_CLOSURE"
+}

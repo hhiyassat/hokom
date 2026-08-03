@@ -1,0 +1,291 @@
+{
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "orchestrator_source": "pipeline/taaqol_integration/full_target_orchestrator.py",
+  "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "generated_at_utc": "2026-08-02T20:40:30.838908+00:00",
+  "classification_legend": {
+    "READY_RUNTIME": "Adapter is wired into run_full_target and its native law runs.",
+    "READY_INTEGRATION": "Adapter and native law exist; not yet wired into orchestrator AND still producible in the current runtime.",
+    "CARRIER_ONLY": "Adapter provides typed carriers/registry only; no verdict.",
+    "LAW_ONLY": "Adapter exists but the native law needs upstream products not yet produced.",
+    "MISSING_TYPED_PREDECESSOR": "Native law exists but its exact typed predecessor is not currently produced in the runtime.",
+    "MISSING_EVIDENCE": "Adapter/law exist and predecessor exists but scope-required evidence not produced with source-derived provenance.",
+    "NOT_APPLICABLE_TO_CORPUS": "Stage does not apply to the current corpus.",
+    "REPORTING_ONLY": "Adapter is a report/accounting path; not counted as native execution.",
+    "NOT_IMPLEMENTED_IN_TARGET": "Native law absent at target vendor SHA.",
+    "OWNER_SEMANTIC_DECISION_REQUIRED": "Wiring requires new semantic knowledge that cannot be derived from typed evidence.",
+    "NATIVE_TAAQOL_LAW": "Adapter's native symbol is a vendor law/callable (subclassification may indicate INTEGRATION_AGGREGATOR)."
+  },
+  "adapters": {
+    "chain_report_adapter": {
+      "file": "pipeline/taaqol_integration/weight_layer/chain_report_adapter.py",
+      "builders": [
+        "build_chain_report"
+      ],
+      "availability_flags": {
+        "_CHAIN_REPORT_AVAILABLE": false
+      },
+      "classification": "NATIVE_TAAQOL_LAW",
+      "wired_by_orchestrator": false,
+      "closure_level": "LAW_ONLY",
+      "native_module": "taaqqul_slot_geometry.weight.chain_report",
+      "native_symbol": "assemble_chain_report",
+      "native_input_type": "VerbalMadlulCandidate",
+      "native_output_type": "ChainReportResult (contains PreSemanticChainReport)",
+      "required_predecessor": "VerbalMadlulCandidate (currently produced for 37 tokens)",
+      "required_scope": "TOKEN",
+      "subclassification": "INTEGRATION_AGGREGATOR — pure read-only assembler; adds no new linguistic claim; does not promote rank; does not open downstream stages.",
+      "first_blocker": "Adapter _CHAIN_REPORT_AVAILABLE=False at runtime — vendor import path incomplete; wiring would need a Hokom→vendor VerbalMadlulCandidate promoter, orthogonal to classification. Classification is LAW_ONLY (adapter and native exist; wiring path incomplete).",
+      "law_runtime_verifiable_with_nongold_fixture": true,
+      "ayat_executable_now": false,
+      "c12_status": "NATIVE_TAAQOL_LAW aggregator (unchanged from C11)"
+    },
+    "dal_only_adapter": {
+      "file": "pipeline/taaqol_integration/weight_layer/dal_only_adapter.py",
+      "builders": [
+        "build_dal_only_candidate",
+        "build_dal_only_from_surface"
+      ],
+      "availability_flags": {
+        "_DAL_ONLY_AVAILABLE": false,
+        "_E4C_AVAILABLE": false
+      },
+      "classification": "READY_RUNTIME",
+      "wired_by_orchestrator": true,
+      "closure_level": "RUNTIME_EXECUTED"
+    },
+    "formal_shape_adapter": {
+      "file": "pipeline/taaqol_integration/weight_layer/formal_shape_adapter.py",
+      "builders": [
+        "build_formal_style_candidate"
+      ],
+      "availability_flags": {
+        "_FORMAL_SHAPE_AVAILABLE": false,
+        "_E6_AVAILABLE": false
+      },
+      "classification": "MISSING_TYPED_PREDECESSOR",
+      "wired_by_orchestrator": false,
+      "closure_level": "LAW_ONLY",
+      "native_module": "taaqqul_slot_geometry.weight.formal_style_candidate",
+      "native_symbol": "prove_formal_style_candidate",
+      "native_input_type": "FormalStyleFamily (over a FormalShapeRegistry with closure_state=CLOSED)",
+      "native_output_type": "FormalStyleVerdict",
+      "required_predecessor": "FormalShapeRegistry(closure_state=CLOSED) — not currently produced by Hokom runtime for Ayat al-Dayn tokens",
+      "required_scope": "SENTENCE",
+      "first_blocker": "FormalShapeRegistry with closure_state=CLOSED absent from current Hokom bundle",
+      "law_runtime_verifiable_with_nongold_fixture": true,
+      "ayat_executable_now": false,
+      "c12_status": "HOKOM_PRODUCER_IMPLEMENTED_BUT_VENDOR_LAW_NOT_WIRED"
+    },
+    "hukm_candidate_adapter": {
+      "file": "pipeline/taaqol_integration/weight_layer/hukm_candidate_adapter.py",
+      "builders": [
+        "build_hukm_candidate"
+      ],
+      "availability_flags": {
+        "_HUKM_AVAILABLE": false
+      },
+      "classification": "LAW_ONLY",
+      "wired_by_orchestrator": false,
+      "closure_level": "LAW_ONLY"
+    },
+    "ifadah_candidate_adapter": {
+      "file": "pipeline/taaqol_integration/weight_layer/ifadah_candidate_adapter.py",
+      "builders": [
+        "build_ifadah_candidate"
+      ],
+      "availability_flags": {
+        "_IFADAH_AVAILABLE": false
+      },
+      "classification": "LAW_ONLY",
+      "wired_by_orchestrator": false,
+      "closure_level": "LAW_ONLY"
+    },
+    "licensing_boundary_adapter": {
+      "file": "pipeline/taaqol_integration/weight_layer/licensing_boundary_adapter.py",
+      "builders": [
+        "build_licensing_boundary_verdict",
+        "build_licensing_verdict_from_surface"
+      ],
+      "availability_flags": {
+        "_WEIGHT_LAYER_AVAILABLE": false,
+        "_E4C_PREWEIGHT_AVAILABLE": false,
+        "_E4B_MU_CHAIN_AVAILABLE": false
+      },
+      "classification": "READY_RUNTIME",
+      "wired_by_orchestrator": true,
+      "closure_level": "RUNTIME_EXECUTED"
+    },
+    "mafhum_closure_adapter": {
+      "file": "pipeline/taaqol_integration/weight_layer/mafhum_closure_adapter.py",
+      "builders": [
+        "build_mafhum_closure"
+      ],
+      "availability_flags": {
+        "_MAFHUM_AVAILABLE": false
+      },
+      "classification": "LAW_ONLY",
+      "wired_by_orchestrator": false,
+      "closure_level": "LAW_ONLY"
+    },
+    "manat_candidate_adapter": {
+      "file": "pipeline/taaqol_integration/weight_layer/manat_candidate_adapter.py",
+      "builders": [
+        "build_manat_candidate"
+      ],
+      "availability_flags": {
+        "_MANAT_AVAILABLE": false
+      },
+      "classification": "LAW_ONLY",
+      "wired_by_orchestrator": false,
+      "closure_level": "LAW_ONLY"
+    },
+    "mantuq_closure_adapter": {
+      "file": "pipeline/taaqol_integration/weight_layer/mantuq_closure_adapter.py",
+      "builders": [
+        "build_mantuq_closure"
+      ],
+      "availability_flags": {
+        "_MANTUQ_AVAILABLE": false
+      },
+      "classification": "LAW_ONLY",
+      "wired_by_orchestrator": false,
+      "closure_level": "LAW_ONLY"
+    },
+    "maqam_context_adapter": {
+      "file": "pipeline/taaqol_integration/weight_layer/maqam_context_adapter.py",
+      "builders": [
+        "build_maqam_context_boundary",
+        "build_maqam_from_surface"
+      ],
+      "availability_flags": {
+        "_MAQAM_CONTEXT_AVAILABLE": false,
+        "_E7_AVAILABLE": false
+      },
+      "classification": "MISSING_EVIDENCE",
+      "wired_by_orchestrator": false,
+      "closure_level": "LAW_ONLY",
+      "native_module": "taaqqul_slot_geometry.weight.maqam_context_boundary",
+      "native_symbol": "prove_maqam_context_boundary",
+      "native_input_type": "MufradSemanticSlotGeometryVerdict",
+      "native_output_type": "MaqamContextBoundaryVerdict",
+      "required_predecessor": "SemanticSlotFrame + SENTENCE-scope maqam evidence (register, discourse domain, technical scope, qarīnah)",
+      "required_scope": "SENTENCE",
+      "first_blocker": "SENTENCE-scope maqam evidence absent (LCX-150 has 0 MAQAM_EVIDENCE_READY cases; token-scope maqam is forbidden by mandate §9 / §11).",
+      "law_runtime_verifiable_with_nongold_fixture": true,
+      "ayat_executable_now": false,
+      "c12_status": "HOKOM_MAQAM_EVIDENCE_IMPLEMENTED; VENDOR_LAW_INPUT_MISSING (SemanticSlotFrame)"
+    },
+    "mufrad_semantic_slot_adapter": {
+      "file": "pipeline/taaqol_integration/weight_layer/mufrad_semantic_slot_adapter.py",
+      "builders": [
+        "build_contractable_unit_geometry",
+        "build_mufrad_semantic_slot_geometry",
+        "build_e7_chain_from_e6_verdict",
+        "build_e7_from_surface"
+      ],
+      "availability_flags": {
+        "_MUFRAD_SLOT_AVAILABLE": false,
+        "_E6_AVAILABLE": false,
+        "_FORMAL_SHAPE_ADAPTER_AVAILABLE": false,
+        "_E6_VENDOR_AVAILABLE": false,
+        "_FORMAL_SHAPE_AVAILABLE": false
+      },
+      "classification": "READY_RUNTIME",
+      "wired_by_orchestrator": true,
+      "closure_level": "RUNTIME_EXECUTED"
+    },
+    "preweight_chain_adapter": {
+      "file": "pipeline/taaqol_integration/weight_layer/preweight_chain_adapter.py",
+      "builders": [
+        "build_weight_readiness_candidate"
+      ],
+      "availability_flags": {
+        "_MU_CHAIN_AVAILABLE": false
+      },
+      "classification": "CARRIER_ONLY",
+      "wired_by_orchestrator": false,
+      "closure_level": "CARRIER_ONLY"
+    },
+    "registry_adapter": {
+      "file": "pipeline/taaqol_integration/weight_layer/registry_adapter.py",
+      "builders": [
+        "build_registry_evidence",
+        "build_registry_evidence_for_stage_input"
+      ],
+      "availability_flags": {
+        "_REGISTRY_CONTRACT_AVAILABLE": false
+      },
+      "classification": "CARRIER_ONLY",
+      "wired_by_orchestrator": false,
+      "closure_level": "CARRIER_ONLY"
+    },
+    "relation_candidate_adapter": {
+      "file": "pipeline/taaqol_integration/weight_layer/relation_candidate_adapter.py",
+      "builders": [
+        "build_relation_candidate",
+        "build_e8_relation_from_surfaces"
+      ],
+      "availability_flags": {
+        "_RELATION_AVAILABLE": false,
+        "_E7_AVAILABLE": false
+      },
+      "classification": "MISSING_EVIDENCE",
+      "wired_by_orchestrator": false,
+      "closure_level": "LAW_ONLY",
+      "native_module": "taaqqul_slot_geometry.weight.relation_candidate",
+      "native_symbol": "prove_relation_candidate",
+      "native_input_type": "ContractableUnitGeometry × 2 (E6 binding verdicts)",
+      "native_output_type": "RelationVerdict",
+      "required_predecessor": "Two ContractableUnitGeometry instances + source-derived SPAN compatibility evidence",
+      "required_scope": "CLAUSE",
+      "first_blocker": "No source-derived SPAN compatibility carrier for pairing 37 ContractableUnitGeometry instances into legitimate relations for Ayat al-Dayn. Arbitrary adjacency is forbidden by §8.",
+      "law_runtime_verifiable_with_nongold_fixture": true,
+      "ayat_executable_now": false,
+      "c12_status": "HOKOM_COMPATIBILITY_CARRIER_IMPLEMENTED; VENDOR_ADAPTER_IMPORT_VERIFIED; VENDOR_CU_INPUT_MISSING"
+    },
+    "tanzil_candidate_adapter": {
+      "file": "pipeline/taaqol_integration/weight_layer/tanzil_candidate_adapter.py",
+      "builders": [
+        "build_tanzil_candidate"
+      ],
+      "availability_flags": {
+        "_TANZIL_AVAILABLE": false
+      },
+      "classification": "LAW_ONLY",
+      "wired_by_orchestrator": false,
+      "closure_level": "LAW_ONLY"
+    },
+    "verbal_madlul_adapter": {
+      "file": "pipeline/taaqol_integration/weight_layer/verbal_madlul_adapter.py",
+      "builders": [
+        "build_verbal_madlul_candidate",
+        "build_dal_madlul_binding",
+        "build_e6_chain_from_dal_verdict",
+        "build_e6_from_surface"
+      ],
+      "availability_flags": {
+        "_VERBAL_MADLUL_AVAILABLE": false,
+        "_E5_AVAILABLE": false,
+        "_E5_DAL_ONLY_AVAILABLE": false
+      },
+      "classification": "READY_RUNTIME",
+      "wired_by_orchestrator": true,
+      "closure_level": "RUNTIME_EXECUTED"
+    }
+  },
+  "summary": {
+    "NATIVE_TAAQOL_LAW": 1,
+    "READY_RUNTIME": 4,
+    "MISSING_TYPED_PREDECESSOR": 1,
+    "LAW_ONLY": 6,
+    "MISSING_EVIDENCE": 2,
+    "CARRIER_ONLY": 2
+  },
+  "ready_integration_unwired_count": 0,
+  "notes": [
+    "4 formerly-unwired READY_INTEGRATION items now definitively re-classified from vendor source: formal_shape→MISSING_TYPED_PREDECESSOR, relation_candidate→MISSING_EVIDENCE, maqam_context→MISSING_EVIDENCE, chain_report→NATIVE_TAAQOL_LAW/LAW_ONLY (INTEGRATION_AGGREGATOR).",
+    "None remain classified as READY_INTEGRATION_UNWIRED.",
+    "All 4 native laws are runtime-verifiable via non-gold typed fixtures (see C10 targeted tests)."
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "phase_id": "E1_LEXICAL_REGISTRY",
+  "phase_label": "AYAT-AL-DAYN CANONICAL LEXICAL REGISTRY",
+  "phase_state": "FOCUSED_VERIFIED",
+  "note": "FOCUSED_VERIFIED on Python 3.10 sandbox. 26/34 tests pass; 8 skipped (Python 3.12+ vendor layer required: G_E1_04 rank enforcement and G_E1_07 BUILD_FAILURES on RegistryEntry objects). Owner must run tests/e1_lexical_registry/test_ayat_al_dayn_registry.py on Python 3.12+ to close G_E1_04 and G_E1_07.",
+  "closed_at": null,
+  "vendor_sha": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "corpus_sha": "6bd635a05530965f13f76cf003f7738130badec6981bcb0e73f2465d386e1ed7",
+  "corpus_size": 129,
+  "registry_size": 74,
+  "implementation": {
+    "registry_file": "pipeline/taaqol_integration/e1_lexical_registry/ayat_al_dayn_registry.py",
+    "test_file": "tests/e1_lexical_registry/test_ayat_al_dayn_registry.py",
+    "init_file": "pipeline/taaqol_integration/e1_lexical_registry/__init__.py",
+    "registry_size": 74,
+    "registry_distribution": {
+      "ism_fi3l_total_corpus": 87,
+      "unique_host_surfaces": 74,
+      "duplicates_merged": 13,
+      "harf_not_applicable": 21,
+      "empty_wc_deferred": 21
+    },
+    "non_meaning_proof_policy": "structural only: wazn + form_family + class + root_state + root (NO semantic meaning)"
+  },
+  "test_results": {
+    "python_310_sandbox": {
+      "total_collected": 34,
+      "passed": 26,
+      "skipped": 8,
+      "failed": 0,
+      "skip_reason": "REQUIRES_312: RegistryEntry object tests require vendor StrEnum (Python 3.12+)",
+      "regression_check": {
+        "tests_p2_augmented": {
+          "passed": 101,
+          "skipped": 28,
+          "failed": 0,
+          "note": "All prior tests still pass — no regressions from constitutional reconciliation"
+        }
+      }
+    }
+  },
+  "gates": {
+    "G_E1_01": 1,
+    "note_G_E1_01": "REGISTRY_SIZE=74 confirmed by test_registry_size_constant and test_raw_registry_length",
+    "G_E1_02": 1,
+    "note_G_E1_02": "All 74 entries have non_meaning_proof starting with 'structural pre-semantic'; no semantic vocabulary",
+    "G_E1_03": 1,
+    "note_G_E1_03": "All 74 entries have domain='DAL_ONLY' in _REGISTRY_RAW",
+    "G_E1_04": "PENDING_312",
+    "note_G_E1_04": "rank=CANDIDATE in _REGISTRY_RAW confirmed. RegistryEntry rank enforcement requires Python 3.12+ (test skipped on 3.10). Owner must verify on Python 3.12+.",
+    "G_E1_05": 1,
+    "note_G_E1_05": "HARF tokens absent: known HARF surfaces not in raw keys; all entries are ISM or FI3L",
+    "G_E1_06": 1,
+    "note_G_E1_06": "AYAT_AL_DAYN_REGISTRY=() on Python 3.10 (fail-closed). build_ayat_al_dayn_registry() returns tuple. Never raises.",
+    "G_E1_07": "PENDING_312",
+    "note_G_E1_07": "BUILD_FAILURES is list. BUILD_FAILURE_COUNT is int. BUILD_FAILURES==[] requires Python 3.12+ RegistryEntry construction. Owner must verify on Python 3.12+.",
+    "G_E1_08": 1,
+    "note_G_E1_08": "CORPUS_SHA='6bd635a05530965f13f76cf003f7738130badec6981bcb0e73f2465d386e1ed7' confirmed. VENDOR_SHA='35381739410071ac21dd96702ecbb2acb493f90d' confirmed.",
+    "G_E1_09": 1,
+    "note_G_E1_09": "E1 phase closure certificate (this document) emitted"
+  },
+  "gates_passed": 7,
+  "gates_pending_312_verification": 2,
+  "gates_total": 9,
+  "blocking_residuals": [
+    {
+      "id": "G_E1_04_G_E1_07_PENDING_312",
+      "severity": "REQUIRES_OWNER_VERIFICATION",
+      "detail": "Run tests/e1_lexical_registry/test_ayat_al_dayn_registry.py on Python 3.12+ to confirm RegistryEntry rank=CANDIDATE and BUILD_FAILURES=[]"
+    }
+  ],
+  "non_blocking_residuals": [],
+  "fiqhi_algebra": {
+    "WAD": "Corpus CSV (74 unique ISM/FI3L host surfaces from 129-token corpus)",
+    "SABAB": "E1 = canonical registry; E2 (P2 projection) requires this registry",
+    "SHART": "Python 3.12+ for RegistryEntry construction; Python 3.10 for raw data",
+    "MANI": "None active",
+    "ILLA": "Non-meaning proof must be structural (no semantic leakage before E5+)",
+    "QADIH": "None — structural non_meaning_proof verified clean",
+    "HUKM": "FOCUSED_VERIFIED — 26/34 tests pass; 8 skip pending 3.12+ verification",
+    "ATHAR": "Registry available for E2 wiring; P2 blocker will deactivate when E2 imports from E1",
+    "RESIDUALS": ["G_E1_04_G_E1_07_PENDING_312"]
+  },
+  "canonical_exit": 1,
+  "note_canonical_exit": "canonical_exit=1 until G_E1_04 and G_E1_07 confirmed on Python 3.12+. E2 may proceed in parallel (registry data is available via _REGISTRY_RAW even on 3.10).",
+  "autonomous_execution_mode": 1,
+  "autonomous_commit_mode": 0,
+  "next_phase": "E2_P2_REGISTRY_PROJECTION"
+}

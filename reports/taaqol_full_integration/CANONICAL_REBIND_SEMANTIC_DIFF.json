@@ -1,0 +1,41 @@
+{
+  "generated_at_utc": "2026-08-03T09:07:56.011117+00:00",
+  "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "old_canonical_path": "reports/ayat_al_dayn_demo/ayat_al_dayn_results_full.json",
+  "candidate_path": "reports/taaqol_full_integration/canonical_rebind_candidate/ayat_al_dayn_results_full.json",
+  "old_hash": "6d82c3b13492d6675be62e729384177cd9216027a535b0ed84526f49cb89c981",
+  "new_hash": "02364bcefc021fc913cdfb24a0efd05a2c6dd490340bc34fd160102752a79168",
+  "old_vendor_sha": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "new_vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "counts": {
+    "TOKEN_COUNT_OLD": 129,
+    "TOKEN_COUNT_NEW": 129,
+    "EARLY_STOPS_OLD": 96,
+    "EARLY_STOPS_NEW": 96,
+    "WORD_CLASS_CHANGED_COUNT": 0,
+    "ROOT_STATE_CHANGED_COUNT": 0,
+    "ROOT_CHANGED_COUNT": 0,
+    "WAZN_CHANGED_COUNT": 0,
+    "MASDAR_CHANGED_COUNT": 0,
+    "STAGE_STATUS_CHANGED_COUNT": 0,
+    "VERDICT_CHANGED_COUNT": 0,
+    "BLOCKER_CHANGED_COUNT": 0,
+    "UNEXPECTED_SEMANTIC_CHANGE_COUNT": 0
+  },
+  "unexpected_details_first_20": [],
+  "unexpected_details_total": 0,
+  "OPEN_LINGUISTIC_AUDIT_ITEMS": [
+    "آمَنُوا",
+    "أَلَّا",
+    "تِجَارَةً",
+    "وَأَقْوَمُ",
+    "وَأَدْنَى",
+    "فَلَيْسَ",
+    "عَلَيْكُمْ"
+  ],
+  "notes": [
+    "Metadata-only changes (vendor_sha, digests, timestamps) are allowed per §3.A.",
+    "Required-stable fields must not change (§3.B)."
+  ]
+}

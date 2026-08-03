@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0.0",
+  "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "generated_at_utc": "2026-08-03T03:22:31.412203+00:00",
+  "producers": {
+    "formal_shape_registry": {
+      "implemented": true,
+      "runtime_executed": true,
+      "ayat_carriers_total": 87,
+      "closed_count": 42,
+      "deferred_count": 45,
+      "false_closures": 0,
+      "direct_verdict_injections": 0,
+      "hokom_producer_implemented": true,
+      "native_law_wired": false,
+      "missing_adapter": "FormalStyleFamily construction from Hokom registry"
+    },
+    "p8_amil_mamul": {
+      "implemented": true,
+      "runtime_executed": true,
+      "ayat_carriers_total": 7,
+      "false_positives": 0,
+      "adjacency_only": 0
+    },
+    "span_producer": {
+      "implemented": true,
+      "runtime_executed": true,
+      "ayat_spans_total": 7,
+      "arbitrary_adjacency_spans": 0,
+      "spans_without_provenance": 0,
+      "spans_without_trace": 0,
+      "nondeterministic_span_ids": 0
+    },
+    "relation_compatibility": {
+      "implemented": true,
+      "runtime_executed": true,
+      "ayat_carriers_total": 5,
+      "expected_verdict_fields": 0,
+      "vendor_relation_law_executed": false,
+      "missing_adapter": "vendor ContractableUnitGeometry construction from Hokom bundle"
+    },
+    "p9_sentence_geometry": {
+      "implemented": true,
+      "runtime_executed": true,
+      "ayat_carriers_total": 1,
+      "token_to_sentence_direct_leaps": 0,
+      "inferred_sentence_mode_count": 0
+    },
+    "maqam_evidence": {
+      "implemented": true,
+      "runtime_executed": true,
+      "ayat_carriers_total": 1,
+      "explicit_markers_count": 8,
+      "closure_state": "DETECTED",
+      "token_only_maqam_count": 0,
+      "inferred_intention_count": 0,
+      "gold_context_lookup_count": 0
+    },
+    "p12_ifadah_candidate": {
+      "implemented": true,
+      "runtime_executed": true,
+      "ayat_carriers_total": 0,
+      "first_blocker": "No RelationClosureVerdict predecessor (native step 8 blocked)",
+      "direct_injection_count": 0,
+      "missing_upstream": [
+        "RelationClosureVerdict (needs MufradDalalahClosure)",
+        "MaqamContextBoundaryVerdict (needs SemanticSlotFrame)"
+      ]
+    }
+  },
+  "totals": {
+    "PRODUCERS_IMPLEMENTED": 7,
+    "PRODUCERS_RUNTIME_EXECUTED": 7
+  },
+  "accounting_correction": {
+    "note": "Per C12-REPAIR §7: honest accounting for missing vendor adapters",
+    "MISSING_TYPED_CARRIER_COUNT": 3,
+    "MISSING_PRODUCER_COUNT": 3,
+    "READY_ADAPTER_UNWIRED": 1,
+    "runtime_orchestrator_integration": false,
+    "runtime_orchestrator_note": "C12 producers exist as standalone modules; scripts/demo_ayat_al_dayn.py does NOT invoke them; the canonical full-target orchestrator still emits 128 adjacency SPAN opportunity rows, all blocked"
+  }
+}

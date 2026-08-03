@@ -1,0 +1,60 @@
+{
+  "phase_id": "E0_BASELINE_FREEZE",
+  "phase_label": "TARGET BASELINE FREEZE",
+  "phase_state": "CLOSED",
+  "constitutional_reconciliation": "CONSTITUTIONAL_RECONCILIATION_01 applied 2026-08-01",
+  "note": "E0 scope corrected per constitutional reclassification: E0 = SHAs only. No implementation gates. Old certificate E0_SCHEMA_FREEZE_PARTIAL.json had G_E0_04=1 (INCORRECT — BLOCKED adapter ≠ LicensingBoundaryVerdict produced). G_E0_07 (MaqamContextBoundary) REMOVED from E0 — transferred to E7.",
+  "closed_at": "2026-08-01",
+  "vendor_sha": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "corpus_sha": "6bd635a05530965f13f76cf003f7738130badec6981bcb0e73f2465d386e1ed7",
+  "corpus_size": 129,
+  "corpus_source": "البقرة 2:282",
+  "gates": {
+    "G_E0_01": 1,
+    "note_G_E0_01": "VENDOR_SHA = 35381739410071ac21dd96702ecbb2acb493f90d confirmed — pinned in all adapter files and registry module",
+    "G_E0_02": 1,
+    "note_G_E0_02": "HOKOM_HEAD = 8e37b738ece7183818189146912cb14e3dce3a07 confirmed",
+    "G_E0_03": 1,
+    "note_G_E0_03": "Corpus SHA = 6bd635a05530965f13f76cf003f7738130badec6981bcb0e73f2465d386e1ed7 confirmed; corpus_size = 129 unique tokens",
+    "G_E0_04": 1,
+    "note_G_E0_04": "Vendor public API signatures inventoried in 03_TAAQOL_RUNTIME_INVENTORY.csv; carrier type chain confirmed by source inspection of weight_fit.py, pre_weight.py, licensing_boundary.py, mu_chain.py",
+    "G_E0_05": 1,
+    "note_G_E0_05": "Adapter stub files created: registry_adapter.py (E1/E2), licensing_boundary_adapter.py (E4A). AYAT_AL_DAYN_REGISTRY=() in stub (no lexical content in E0). e1_lexical_registry/ayat_al_dayn_registry.py exists (E1 deliverable).",
+    "G_E0_06": 1,
+    "note_G_E0_06": "SOURCE_DERIVED_DEPENDENCY_AMENDMENT_01.md created; type-enforced chain documented from vendor source; divergences from old 14_IMPLEMENTATION_DEPENDENCY_GRAPH.md recorded",
+    "G_E0_07": 1,
+    "note_G_E0_07": "E0 phase closure certificate (this document) emitted"
+  },
+  "gates_passed": 7,
+  "gates_total": 7,
+  "blocking_residuals": [],
+  "non_blocking_residuals": [
+    {
+      "id": "OLD_E0_SCHEMA_FREEZE_PARTIAL_SUPERSEDED",
+      "severity": "NON_BLOCKING",
+      "detail": "E0_SCHEMA_FREEZE_PARTIAL.json is superseded by this certificate. G_E0_04 in old cert was incorrectly set to 1. G_E0_07 was removed from E0 scope. Both corrected here."
+    }
+  ],
+  "correction_of_prior_errors": {
+    "G_E0_04_prior_error": "Old cert claimed G_E0_04=1 with note 'A1_LICENSING_BOUNDARY adapter implemented — LicensingBoundaryVerdict produced'. INCORRECT: adapter returns BLOCKED_PHONOLOGICAL_CHAIN, not LicensingBoundaryVerdict. BLOCKED ≠ CLOSED.",
+    "G_E0_07_prior_error": "Old cert had G_E0_07=0 blocking residual for MaqamContextBoundary. CORRECTED: MaqamContextBoundary is E7 scope (requires SemanticSlotFrame). Not an E0 deliverable at all.",
+    "authority": "HOKOM_TAAQOL_MASTER_EXECUTION_CONSTITUTION_01 §2 and §4"
+  },
+  "reclassified_artifacts": {
+    "registry_adapter_py": {
+      "old_label": "E0_A0_REGISTRY_LOOKUP",
+      "new_label": "E1/E2_PROVISIONAL_IMPLEMENTATION_ARTIFACT",
+      "current_state": "E2_NOT_YET_WIRED — AYAT_AL_DAYN_REGISTRY=() (stub)"
+    },
+    "licensing_boundary_adapter_py": {
+      "old_label": "E0_A1_LICENSING_BOUNDARY",
+      "new_label": "E4A_PRECONDITION_GUARD_AND_TYPED_ENTRY_SURFACE",
+      "current_state": "E4A_CLOSED — all precondition guards implemented"
+    }
+  },
+  "canonical_exit": 0,
+  "autonomous_execution_mode": 1,
+  "autonomous_commit_mode": 0,
+  "next_phase": "E1_AYAT_AL_DAYN_CANONICAL_LEXICAL_REGISTRY"
+}

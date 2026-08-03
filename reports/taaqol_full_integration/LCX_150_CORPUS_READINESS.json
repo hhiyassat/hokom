@@ -1,0 +1,3866 @@
+{
+  "schema_version": "1.0.0",
+  "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "generated_at_utc": "2026-08-02T20:37:10.940933+00:00",
+  "source_files": [
+    "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+  ],
+  "source_hashes": {
+    "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json": "3d1988340d7d854eeda970e718ee528a58efe222584144b8a40618403815380c"
+  },
+  "corpus_id": "HOKOM-SALEH-TAAQOL-SENTENCE-CORPUS-150-01",
+  "total_cases": 150,
+  "totals": {
+    "LCX_TOTAL": 150,
+    "LCX_UNCLASSIFIED": 0,
+    "TOKEN_READY": 149,
+    "SPAN_READY": 127,
+    "CLAUSE_READY": 0,
+    "SENTENCE_READY": 57,
+    "RELATION_READY": 0,
+    "MAQAM_READY": 0,
+    "HUMAN_REVIEW_REQUIRED": 150,
+    "MISSING_REQUIRED_FIELDS": 0
+  },
+  "section_distribution": {
+    "A_word_level_p3_sahih": 20,
+    "B_word_level_p3_batil": 15,
+    "C_word_level_p4_p5": 15,
+    "D_composition_p6_p8": 20,
+    "E_sentence_geometry_p9_sahih": 20,
+    "F_sentence_geometry_p9_deferred": 15,
+    "G_sentence_relations_p10_p11": 15,
+    "H_ifadah_p12": 10,
+    "I_batil_cases": 10,
+    "J_complex_traces": 10
+  },
+  "readiness_property_distribution": {
+    "TOKEN_BOUNDARIES_READY": 149,
+    "CONTEXT_TEXT_READY": 150,
+    "SPAN_BOUNDARIES_READY": 127,
+    "HUMAN_REVIEW_REQUIRED": 150,
+    "SENTENCE_BOUNDARY_READY": 57,
+    "CLAUSE_BOUNDARIES_READY": 0,
+    "RELATION_EVIDENCE_READY": 0,
+    "MAQAM_EVIDENCE_READY": 0,
+    "MISSING_REQUIRED_FIELDS": 0
+  },
+  "rows": [
+    {
+      "case_id": "SCX-001",
+      "section": "A_word_level_p3_sahih",
+      "target_surface": "ضَرَبَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-002",
+      "section": "A_word_level_p3_sahih",
+      "target_surface": "نَصَرَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-003",
+      "section": "A_word_level_p3_sahih",
+      "target_surface": "خَرَجَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-004",
+      "section": "A_word_level_p3_sahih",
+      "target_surface": "دَخَلَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-005",
+      "section": "A_word_level_p3_sahih",
+      "target_surface": "قَرَأَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-006",
+      "section": "A_word_level_p3_sahih",
+      "target_surface": "عَلِمَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-007",
+      "section": "A_word_level_p3_sahih",
+      "target_surface": "حَسُنَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-008",
+      "section": "A_word_level_p3_sahih",
+      "target_surface": "رَجَعَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-009",
+      "section": "A_word_level_p3_sahih",
+      "target_surface": "سَمِعَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-010",
+      "section": "A_word_level_p3_sahih",
+      "target_surface": "أَخَذَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-011",
+      "section": "A_word_level_p3_sahih",
+      "target_surface": "كِتَابٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-012",
+      "section": "A_word_level_p3_sahih",
+      "target_surface": "رَجُلٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-013",
+      "section": "A_word_level_p3_sahih",
+      "target_surface": "بَيْتٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-014",
+      "section": "A_word_level_p3_sahih",
+      "target_surface": "عِلْمٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-015",
+      "section": "A_word_level_p3_sahih",
+      "target_surface": "قَلَمٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-016",
+      "section": "A_word_level_p3_sahih",
+      "target_surface": "مَدْرَسَةٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-017",
+      "section": "A_word_level_p3_sahih",
+      "target_surface": "مُعَلِّمٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-018",
+      "section": "A_word_level_p3_sahih",
+      "target_surface": "كَبِيرٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-019",
+      "section": "A_word_level_p3_sahih",
+      "target_surface": "صَغِيرٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-020",
+      "section": "A_word_level_p3_sahih",
+      "target_surface": "جَمِيلٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-021",
+      "section": "B_word_level_p3_batil",
+      "target_surface": "بِ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-022",
+      "section": "B_word_level_p3_batil",
+      "target_surface": "كَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-023",
+      "section": "B_word_level_p3_batil",
+      "target_surface": "وَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-024",
+      "section": "B_word_level_p3_batil",
+      "target_surface": "لِ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-025",
+      "section": "B_word_level_p3_batil",
+      "target_surface": "مِنْ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-026",
+      "section": "B_word_level_p3_batil",
+      "target_surface": "إِلَى",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-027",
+      "section": "B_word_level_p3_batil",
+      "target_surface": "عَلَى",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-028",
+      "section": "B_word_level_p3_batil",
+      "target_surface": "فِي",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-029",
+      "section": "B_word_level_p3_batil",
+      "target_surface": "عَنْ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-030",
+      "section": "B_word_level_p3_batil",
+      "target_surface": "مَعَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-031",
+      "section": "B_word_level_p3_batil",
+      "target_surface": "هَلْ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-032",
+      "section": "B_word_level_p3_batil",
+      "target_surface": "قَدْ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-033",
+      "section": "B_word_level_p3_batil",
+      "target_surface": "لَمْ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-034",
+      "section": "B_word_level_p3_batil",
+      "target_surface": "لَنْ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-035",
+      "section": "B_word_level_p3_batil",
+      "target_surface": "إِنَّ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-036",
+      "section": "C_word_level_p4_p5",
+      "target_surface": "قَرَأَ الْوَلَدُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-037",
+      "section": "C_word_level_p4_p5",
+      "target_surface": "كَتَبَتْ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-038",
+      "section": "C_word_level_p4_p5",
+      "target_surface": "يَدْرُسُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-039",
+      "section": "C_word_level_p4_p5",
+      "target_surface": "مَكْتُوبٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-040",
+      "section": "C_word_level_p4_p5",
+      "target_surface": "كَاتِبٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-041",
+      "section": "C_word_level_p4_p5",
+      "target_surface": "مَكْتَبٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-042",
+      "section": "C_word_level_p4_p5",
+      "target_surface": "فِعْلٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-043",
+      "section": "C_word_level_p4_p5",
+      "target_surface": "اسْمٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-044",
+      "section": "C_word_level_p4_p5",
+      "target_surface": "حَرْفٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-045",
+      "section": "C_word_level_p4_p5",
+      "target_surface": "حَسَّنَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-046",
+      "section": "C_word_level_p4_p5",
+      "target_surface": "تَعَلَّمَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-047",
+      "section": "C_word_level_p4_p5",
+      "target_surface": "اسْتَخْرَجَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-048",
+      "section": "C_word_level_p4_p5",
+      "target_surface": "مُدَرِّسٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-049",
+      "section": "C_word_level_p4_p5",
+      "target_surface": "مُتَعَلِّمٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-050",
+      "section": "C_word_level_p4_p5",
+      "target_surface": "مُسْتَخْرَجٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-051",
+      "section": "D_composition_p6_p8",
+      "target_surface": "ذَهَبَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-052",
+      "section": "D_composition_p6_p8",
+      "target_surface": "جَلَسَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-053",
+      "section": "D_composition_p6_p8",
+      "target_surface": "أَكَلَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-054",
+      "section": "D_composition_p6_p8",
+      "target_surface": "قَامَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-055",
+      "section": "D_composition_p6_p8",
+      "target_surface": "نَامَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-056",
+      "section": "D_composition_p6_p8",
+      "target_surface": "الْبَيْتُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-057",
+      "section": "D_composition_p6_p8",
+      "target_surface": "الطَّالِبُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-058",
+      "section": "D_composition_p6_p8",
+      "target_surface": "شَرِبَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-059",
+      "section": "D_composition_p6_p8",
+      "target_surface": "لَعِبَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-060",
+      "section": "D_composition_p6_p8",
+      "target_surface": "رَكَضَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-061",
+      "section": "D_composition_p6_p8",
+      "target_surface": "كَسَرَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-062",
+      "section": "D_composition_p6_p8",
+      "target_surface": "سَأَلَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-063",
+      "section": "D_composition_p6_p8",
+      "target_surface": "أَجَابَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-064",
+      "section": "D_composition_p6_p8",
+      "target_surface": "فَهِمَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-065",
+      "section": "D_composition_p6_p8",
+      "target_surface": "لَقِيَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-066",
+      "section": "D_composition_p6_p8",
+      "target_surface": "وَقَفَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-067",
+      "section": "D_composition_p6_p8",
+      "target_surface": "هَرَبَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-068",
+      "section": "D_composition_p6_p8",
+      "target_surface": "صَبَرَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-069",
+      "section": "D_composition_p6_p8",
+      "target_surface": "اصْبِرْ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-070",
+      "section": "D_composition_p6_p8",
+      "target_surface": "اذْهَبْ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-071",
+      "section": "E_sentence_geometry_p9_sahih",
+      "target_surface": "كَتَبَ الطَّالِبُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-072",
+      "section": "E_sentence_geometry_p9_sahih",
+      "target_surface": "ذَهَبَ الرَّجُلُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-073",
+      "section": "E_sentence_geometry_p9_sahih",
+      "target_surface": "فَتَحَ الرَّجُلُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-074",
+      "section": "E_sentence_geometry_p9_sahih",
+      "target_surface": "جَاءَ الضَّيْفُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-075",
+      "section": "E_sentence_geometry_p9_sahih",
+      "target_surface": "نَامَ الطِّفْلُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-076",
+      "section": "E_sentence_geometry_p9_sahih",
+      "target_surface": "أَكَلَ الْكَلْبُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-077",
+      "section": "E_sentence_geometry_p9_sahih",
+      "target_surface": "شَرِبَ الْعُصْفُورُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-078",
+      "section": "E_sentence_geometry_p9_sahih",
+      "target_surface": "لَعِبَ الصَّبِيُّ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-079",
+      "section": "E_sentence_geometry_p9_sahih",
+      "target_surface": "رَكَضَ الأَسَدُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-080",
+      "section": "E_sentence_geometry_p9_sahih",
+      "target_surface": "سَمِعَ الشَّيْخُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-081",
+      "section": "E_sentence_geometry_p9_sahih",
+      "target_surface": "عَلِمَ الْعَالِمُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-082",
+      "section": "E_sentence_geometry_p9_sahih",
+      "target_surface": "نَصَحَ الصَّدِيقُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-083",
+      "section": "E_sentence_geometry_p9_sahih",
+      "target_surface": "دَخَلَ الطَّبِيبُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-084",
+      "section": "E_sentence_geometry_p9_sahih",
+      "target_surface": "خَرَجَ الْمُسَافِرُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-085",
+      "section": "E_sentence_geometry_p9_sahih",
+      "target_surface": "رَجَعَ الطَّالِبُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-086",
+      "section": "E_sentence_geometry_p9_sahih",
+      "target_surface": "سَقَطَ الْمَطَرُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-087",
+      "section": "E_sentence_geometry_p9_sahih",
+      "target_surface": "طَلَعَ الْقَمَرُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-088",
+      "section": "E_sentence_geometry_p9_sahih",
+      "target_surface": "غَرَبَتْ الشَّمْسُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-089",
+      "section": "E_sentence_geometry_p9_sahih",
+      "target_surface": "بَكَى الرَّضِيعُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-090",
+      "section": "E_sentence_geometry_p9_sahih",
+      "target_surface": "ضَحِكَ الطِّفْلُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-091",
+      "section": "F_sentence_geometry_p9_deferred",
+      "target_surface": "سَقَطَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-092",
+      "section": "F_sentence_geometry_p9_deferred",
+      "target_surface": "حَمَلَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-093",
+      "section": "F_sentence_geometry_p9_deferred",
+      "target_surface": "جَاهَدَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-094",
+      "section": "F_sentence_geometry_p9_deferred",
+      "target_surface": "عَبَدَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-095",
+      "section": "F_sentence_geometry_p9_deferred",
+      "target_surface": "شَكَرَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-096",
+      "section": "F_sentence_geometry_p9_deferred",
+      "target_surface": "مَشَى",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-097",
+      "section": "F_sentence_geometry_p9_deferred",
+      "target_surface": "رَمَى",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-098",
+      "section": "F_sentence_geometry_p9_deferred",
+      "target_surface": "بَنَى",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-099",
+      "section": "F_sentence_geometry_p9_deferred",
+      "target_surface": "وَعَدَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-100",
+      "section": "F_sentence_geometry_p9_deferred",
+      "target_surface": "وَصَلَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-101",
+      "section": "F_sentence_geometry_p9_deferred",
+      "target_surface": "قَالَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-102",
+      "section": "F_sentence_geometry_p9_deferred",
+      "target_surface": "بَاعَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-103",
+      "section": "F_sentence_geometry_p9_deferred",
+      "target_surface": "صَامَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-104",
+      "section": "F_sentence_geometry_p9_deferred",
+      "target_surface": "ظَلَمَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-105",
+      "section": "F_sentence_geometry_p9_deferred",
+      "target_surface": "نَالَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-106",
+      "section": "G_sentence_relations_p10_p11",
+      "target_surface": "كَتَبَ التِّلْمِيذُ الدَّرْسَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-107",
+      "section": "G_sentence_relations_p10_p11",
+      "target_surface": "قَرَأَ الطَّالِبُ الْكِتَابَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-108",
+      "section": "G_sentence_relations_p10_p11",
+      "target_surface": "أَكَلَ الأَسَدُ الفَرِيسَةَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-109",
+      "section": "G_sentence_relations_p10_p11",
+      "target_surface": "رَأَى الشَّاهِدُ الْحَادِثَةَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-110",
+      "section": "G_sentence_relations_p10_p11",
+      "target_surface": "سَمِعَ الْجُمْهُورُ الْخَبَرَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-111",
+      "section": "G_sentence_relations_p10_p11",
+      "target_surface": "أَرْسَلَ الْمُعَلِّمُ الرِّسَالَةَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-112",
+      "section": "G_sentence_relations_p10_p11",
+      "target_surface": "فَتَحَ الطَّالِبُ الْكِتَابَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-113",
+      "section": "G_sentence_relations_p10_p11",
+      "target_surface": "شَرَحَ الأُسْتَاذُ الدَّرْسَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-114",
+      "section": "G_sentence_relations_p10_p11",
+      "target_surface": "حَفِظَ الْوَلَدُ الشِّعْرَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-115",
+      "section": "G_sentence_relations_p10_p11",
+      "target_surface": "نَقَلَ الصَّحَفِيُّ الْخَبَرَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-116",
+      "section": "G_sentence_relations_p10_p11",
+      "target_surface": "كَتَبَ زَيْدٌ رِسَالَةً",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-117",
+      "section": "G_sentence_relations_p10_p11",
+      "target_surface": "قَرَأَ مُحَمَّدٌ قُرْآنًا",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-118",
+      "section": "G_sentence_relations_p10_p11",
+      "target_surface": "فَهِمَ الطَّالِبُ الشَّرْحَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-119",
+      "section": "G_sentence_relations_p10_p11",
+      "target_surface": "رَفَعَ الرَّجُلُ الصَّوْتَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-120",
+      "section": "G_sentence_relations_p10_p11",
+      "target_surface": "وَضَعَ الطِّفْلُ الْكُرَةَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-121",
+      "section": "H_ifadah_p12",
+      "target_surface": "كَتَبَ زَيْدٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-122",
+      "section": "H_ifadah_p12",
+      "target_surface": "ذَهَبَ مُحَمَّدٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-123",
+      "section": "H_ifadah_p12",
+      "target_surface": "هَلْ كَتَبَ زَيْدٌ؟",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-124",
+      "section": "H_ifadah_p12",
+      "target_surface": "اكْتُبْ!",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-125",
+      "section": "H_ifadah_p12",
+      "target_surface": "لَيْتَ زَيْدًا كَاتِبٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-126",
+      "section": "H_ifadah_p12",
+      "target_surface": "إِنَّ زَيْدًا كَاتِبٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-127",
+      "section": "H_ifadah_p12",
+      "target_surface": "مَا كَتَبَ زَيْدٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-128",
+      "section": "H_ifadah_p12",
+      "target_surface": "جَاءَ الرَّجُلُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-129",
+      "section": "H_ifadah_p12",
+      "target_surface": "أَيْنَ زَيْدٌ؟",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-130",
+      "section": "H_ifadah_p12",
+      "target_surface": "لَعَلَّ زَيْدًا قَادِمٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-131",
+      "section": "I_batil_cases",
+      "target_surface": "بِزَيْدٍ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-132",
+      "section": "I_batil_cases",
+      "target_surface": "وَمُحَمَّدٍ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-133",
+      "section": "I_batil_cases",
+      "target_surface": "لِعَلِيٍّ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-134",
+      "section": "I_batil_cases",
+      "target_surface": "كَزَيْدٍ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-135",
+      "section": "I_batil_cases",
+      "target_surface": "فَرَسٌ ثُمَّ جَمَلٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-136",
+      "section": "I_batil_cases",
+      "target_surface": "ذَهَبَ جَاءَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-137",
+      "section": "I_batil_cases",
+      "target_surface": "",
+      "context_available": true,
+      "token_boundaries_available": false,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [],
+      "readiness_properties": [
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::TOKEN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-138",
+      "section": "I_batil_cases",
+      "target_surface": "مِنْكَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-139",
+      "section": "I_batil_cases",
+      "target_surface": "إِلَيْكَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-140",
+      "section": "I_batil_cases",
+      "target_surface": "عَلَيْنَا",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": false,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": false,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::SPAN_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-141",
+      "section": "J_complex_traces",
+      "target_surface": "كَتَبَ التِّلْمِيذُ الدَّرْسَ فِي الْمَدْرَسَةِ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-142",
+      "section": "J_complex_traces",
+      "target_surface": "ذَهَبَ الرَّجُلُ إِلَى الْمَسْجِدِ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-143",
+      "section": "J_complex_traces",
+      "target_surface": "قَرَأَ الشَّيْخُ الْقُرْآنَ بَعْدَ الصَّلَاةِ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-144",
+      "section": "J_complex_traces",
+      "target_surface": "أَكَلَ الضَّيْفُ وَشَرِبَ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-145",
+      "section": "J_complex_traces",
+      "target_surface": "جَلَسَ الْعَالِمُ يُعَلِّمُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-146",
+      "section": "J_complex_traces",
+      "target_surface": "مَنْ كَتَبَ هَذَا؟",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-147",
+      "section": "J_complex_traces",
+      "target_surface": "كَمْ طَالِبًا حَضَرَ؟",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-148",
+      "section": "J_complex_traces",
+      "target_surface": "مَا أَجْمَلَ الرَّبِيعَ!",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-149",
+      "section": "J_complex_traces",
+      "target_surface": "نِعْمَ الرَّجُلُ زَيْدٌ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    },
+    {
+      "case_id": "SCX-150",
+      "section": "J_complex_traces",
+      "target_surface": "بِئْسَ الظَّالِمُ الْكَذَّابُ",
+      "context_available": true,
+      "token_boundaries_available": true,
+      "span_boundaries_available": true,
+      "clause_boundaries_available": false,
+      "sentence_boundary_available": true,
+      "relation_evidence_available": false,
+      "maqam_evidence_available": false,
+      "human_review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW",
+      "usable_runtime_scopes": [
+        "TOKEN",
+        "SPAN",
+        "SENTENCE"
+      ],
+      "readiness_properties": [
+        "TOKEN_BOUNDARIES_READY",
+        "CONTEXT_TEXT_READY",
+        "SPAN_BOUNDARIES_READY",
+        "SENTENCE_BOUNDARY_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "first_missing_requirement": "MISSING::CLAUSE_BOUNDARIES_READY",
+      "source_path": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+    }
+  ]
+}

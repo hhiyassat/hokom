@@ -1,0 +1,94 @@
+{
+  "phase_id": "E3_HOKOM_P3_P4_P5_CONTINUITY",
+  "phase_label": "HOKOM P3/P4/P5 CONTINUITY",
+  "phase_state": "REQUIREMENTS_DOCUMENTED",
+  "note": "REQUIREMENTS_DOCUMENTED: P3/P4/P5 stage requirements extracted from vendor source (src/hokom/canonical/stages/p2_p5.py) and documented. All four E3 gates require owner to run full Hokom pipeline on Python 3.12+ to verify actual stage acceptance. Cannot be sandbox-verified without live Hokom NLP analysis (hokom_evidence_by_stage populated by caller). E4B proceeds in parallel.",
+  "closed_at": null,
+  "vendor_sha": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "corpus_sha": "6bd635a05530965f13f76cf003f7738130badec6981bcb0e73f2465d386e1ed7",
+  "source_read": [
+    "src/hokom/canonical/stages/p2_p5.py",
+    "src/hokom/canonical/pipeline.py"
+  ],
+  "stage_requirements": {
+    "P3_ROOT_STEM_CLOSURE": {
+      "condition_for_opening": "prior_output.accepted == True (P2 must ACCEPT before P3 runs)",
+      "required_evidence_keys": ["consonant_count", "root_radicals", "stem", "root_path"],
+      "decision_rules": {
+        "ACCEPT": "consonant_count >= 2",
+        "DEFER":  "consonant_count == 1",
+        "BLOCK":  "consonant_count == 0 OR root_path == 'ROOT_PATH_BLOCKED'"
+      },
+      "blocker_ids": ["consonant_count_zero", "root_path_blocked"],
+      "corpus_expectation": "Most 2:282 ISM/FI3L tokens are tri- or quadriliteral roots (consonant_count >= 2) → ACCEPT expected for most tokens"
+    },
+    "P4_JAMID_MUSHTAQ": {
+      "required_evidence_keys": ["jamid_mushtaq", "wazn", "bab_id"],
+      "decision_rules": {
+        "BLOCK_OR_DEFER": "jamid_mushtaq == 'unknown' (WARNING severity — unresolvable morphological class)",
+        "ACCEPT":         "jamid_mushtaq in ('jamid', 'mushtaq')"
+      },
+      "blocker_ids": ["jamid_mushtaq_unknown"],
+      "corpus_expectation": "2:282 has both jamid (حَقًّا, كِتَابٌ) and mushtaq (كَاتِبٌ, مَدِينَةٌ) tokens"
+    },
+    "P5_MUFRAD_WORD_CONTRACTS": {
+      "required_evidence_keys": ["word_geometry", "word_class", "inflection_set"],
+      "decision_rules": {
+        "BLOCK": "word_type_conflict == True (geometry conflicts with declared word class)",
+        "ACCEPT": "word_type_conflict == False AND word_geometry resolved"
+      },
+      "blocker_ids": ["word_type_conflict"],
+      "corpus_expectation": "Hokom NLP resolves word_geometry for known tokens from classical lexicons"
+    }
+  },
+  "pipeline_structure": {
+    "note": "CanonicalPipeline.build() in src/hokom/canonical/pipeline.py contains 19 adapters P0-P12. P3/P4/P5 are stages 3/4/5 of the 0-indexed sequence. Adapters run sequentially — each prior_output feeds the next stage.",
+    "p2_to_p3_handoff": "P2_REGISTRY_PROJECTION.prior_output.accepted must be True for P3 to open. registry_matches=[] (non-None) deactivates the blocker but does not guarantee P2 acceptance — the full Hokom P2 stage logic must accept.",
+    "evidence_structure": "WordInput.hokom_evidence_by_stage is a dict keyed by layer_id. Each stage reads its evidence via input.hokom_evidence.get(key, default)."
+  },
+  "gates": {
+    "G_E3_01": "PENDING_OWNER_312",
+    "note_G_E3_01": "P3_ROOT_STEM_CLOSURE accepts for at least one corpus token (consonant_count >= 2). Owner must run full Hokom pipeline on Python 3.12+ and verify P3 does not universally BLOCK.",
+    "G_E3_02": "PENDING_OWNER_312",
+    "note_G_E3_02": "P4_JAMID_MUSHTAQ accepts for at least one corpus token (jamid_mushtaq in ('jamid','mushtaq')). Owner must verify P4 is not universally DEFERRED with 'unknown' classification.",
+    "G_E3_03": "PENDING_OWNER_312",
+    "note_G_E3_03": "P5_MUFRAD_WORD_CONTRACTS accepts for at least one corpus token (word_type_conflict == False). Owner must verify P5 resolves word geometry for known tokens.",
+    "G_E3_04": "PENDING_OWNER_312",
+    "note_G_E3_04": "End-to-end: at least one corpus token flows P0→P2→P3→P4→P5 with all stages ACCEPT. This verifies the full continuity chain from E2 (registry wired) through E3 (P3/P4/P5 acceptance)."
+  },
+  "gates_passed": 0,
+  "gates_pending_312_verification": 4,
+  "gates_total": 4,
+  "blocking_residuals": [
+    {
+      "id": "G_E3_ALL_PENDING_312",
+      "severity": "REQUIRES_OWNER_VERIFICATION",
+      "detail": "Run full Hokom pipeline on Python 3.12+ with corpus tokens from AYAT_AL_DAYN_REGISTRY. Verify P3/P4/P5 stages do not universally block. Check consonant_count, jamid_mushtaq, word_geometry evidence keys are populated by Hokom NLP."
+    }
+  ],
+  "owner_verification_commands": {
+    "description": "Owner must run these on Python 3.12+ with full Hokom pipeline available",
+    "step1_p3_check": "Run pipeline on 'دَيْنٍ' (ISM, root دين, 3 consonants). Expect: P3 consonant_count=3 → ACCEPT",
+    "step2_p4_check": "Run pipeline on 'كَاتِبٌ' (ISM, mushtaq from كتب). Expect: P4 jamid_mushtaq='mushtaq' → ACCEPT",
+    "step3_p5_check": "Run pipeline on any resolved ISM. Expect: P5 word_type_conflict=False → ACCEPT",
+    "step4_e2e_check": "Verify at least one token flows P0→P5 with all ACCEPT verdicts"
+  },
+  "fiqhi_algebra": {
+    "WAD": "Stage evidence requirements extracted from vendor source (p2_p5.py line-by-line analysis)",
+    "SABAB": "E3 = P3/P4/P5 continuity; E4 (licensing boundary) requires P3 ACCEPT as precondition",
+    "SHART": "Python 3.12+ for full pipeline; hokom_evidence_by_stage populated by Hokom NLP",
+    "MANI": "Sandbox cannot run Hokom NLP — evidence keys cannot be artificially injected for gate verification",
+    "ILLA": "All three stages (P3/P4/P5) must ACCEPT for at least one corpus token",
+    "QADIH": "Potential: if Hokom NLP produces consonant_count=0 for all tokens → P3 universally BLOCKS → E4 cannot proceed",
+    "HUKM": "REQUIREMENTS_DOCUMENTED — stage logic understood; owner verification required for gate confirmation",
+    "ATHAR": "E4A/E4B/E4C can proceed in parallel (E4B does not require P3 ACCEPT, only WeightReadinessCandidate construction)",
+    "RESIDUALS": ["G_E3_ALL_PENDING_312"]
+  },
+  "parallel_progression_note": "E4B (PRE-WEIGHT TYPED CARRIERS) proceeds in parallel per constitutional §5. E4B does not require P3 ACCEPT — it operates on WeightReadinessCandidate constructed directly from token surface, independent of the Hokom pipeline stage state.",
+  "canonical_exit": 0,
+  "note_canonical_exit": "canonical_exit=0 — all 4 gates pending owner verification. E4B proceeds in parallel.",
+  "autonomous_execution_mode": 1,
+  "autonomous_commit_mode": 0,
+  "next_phase": "E4A_CLOSED_E4B_IN_PROGRESS"
+}

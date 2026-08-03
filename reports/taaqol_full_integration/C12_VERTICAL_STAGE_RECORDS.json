@@ -1,0 +1,184 @@
+{
+  "schema_version": "1.0.0",
+  "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "generated_at_utc": "2026-08-03T03:22:31.412203+00:00",
+  "totals": {
+    "STAGES_TOTAL": 21,
+    "STAGES_EXECUTED": 7,
+    "STAGES_RUNTIME_VERIFIED": 8,
+    "AYAT_STAGES_EXECUTED": 6,
+    "LIVE_PROVIDER_CALL_COUNT": 0,
+    "NETWORK_PROVIDER_CALL_COUNT": 0
+  },
+  "stages": [
+    {
+      "stage": "FormalShapeRegistry",
+      "layer": "H2_HOKOM",
+      "executed_count": 87,
+      "runtime_verified": true,
+      "ayat_executed": 87,
+      "blocker": null
+    },
+    {
+      "stage": "FormalStyleCandidate (native)",
+      "layer": "TAAQOL_NATIVE",
+      "executed_count": 0,
+      "runtime_verified": false,
+      "ayat_executed": 0,
+      "blocker": "Requires FormalShapeRegistry+FormalStyleFamily adapter (not authored this session); vendor law is import-callable"
+    },
+    {
+      "stage": "P8_AMIL_MAMUL",
+      "layer": "H4_HOKOM",
+      "executed_count": 7,
+      "runtime_verified": true,
+      "ayat_executed": 7,
+      "blocker": null
+    },
+    {
+      "stage": "SpanProducer",
+      "layer": "H4b_HOKOM",
+      "executed_count": 7,
+      "runtime_verified": true,
+      "ayat_executed": 7,
+      "blocker": null
+    },
+    {
+      "stage": "RelationCompatibilityCarrier",
+      "layer": "H5_HOKOM",
+      "executed_count": 5,
+      "runtime_verified": true,
+      "ayat_executed": 5,
+      "blocker": null
+    },
+    {
+      "stage": "HokomToVendorRelationAdapter",
+      "layer": "H6_ADAPTER",
+      "executed_count": 3,
+      "runtime_verified": true,
+      "ayat_executed": 0,
+      "blocker": "Vendor ContractableUnitGeometry instances not currently constructable from Hokom bundle for Ayat tokens; adapter fails closed with MISSING_NATIVE_CONTRACTABLE_UNIT"
+    },
+    {
+      "stage": "RelationCandidate (native)",
+      "layer": "TAAQOL_NATIVE",
+      "executed_count": 0,
+      "runtime_verified": false,
+      "ayat_executed": 0,
+      "blocker": "Adapter step blocked upstream"
+    },
+    {
+      "stage": "RelationClosure (native)",
+      "layer": "TAAQOL_NATIVE",
+      "executed_count": 0,
+      "runtime_verified": false,
+      "ayat_executed": 0,
+      "blocker": "Requires MufradDalalahClosureVerdict×2 — not produced by Hokom"
+    },
+    {
+      "stage": "P9_SentenceGeometry",
+      "layer": "H9_HOKOM",
+      "executed_count": 1,
+      "runtime_verified": true,
+      "ayat_executed": 1,
+      "blocker": null
+    },
+    {
+      "stage": "MaqamEvidenceProducer",
+      "layer": "H10_HOKOM",
+      "executed_count": 1,
+      "runtime_verified": true,
+      "ayat_executed": 1,
+      "blocker": null
+    },
+    {
+      "stage": "MaqamContextBoundary (native)",
+      "layer": "TAAQOL_NATIVE",
+      "executed_count": 0,
+      "runtime_verified": false,
+      "ayat_executed": 0,
+      "blocker": "Requires MufradSemanticSlotGeometryVerdict + SemanticSlotFrame — not currently emitted at SENTENCE scope by Hokom"
+    },
+    {
+      "stage": "P12_IfadahCandidate",
+      "layer": "H12_HOKOM",
+      "executed_count": 0,
+      "runtime_verified": true,
+      "ayat_executed": 0,
+      "blocker": "RelationClosureVerdict + MaqamContextBoundaryVerdict not available (fail-closed)"
+    },
+    {
+      "stage": "Ifadah (native)",
+      "layer": "TAAQOL_NATIVE",
+      "executed_count": 0,
+      "runtime_verified": false,
+      "ayat_executed": 0,
+      "blocker": "Depends on RelationClosure + FormalStyle + MaqamContextBoundary"
+    },
+    {
+      "stage": "Hukm (native)",
+      "layer": "TAAQOL_NATIVE",
+      "executed_count": 0,
+      "runtime_verified": false,
+      "ayat_executed": 0,
+      "blocker": "Depends on Ifadah"
+    },
+    {
+      "stage": "Manat (native)",
+      "layer": "TAAQOL_NATIVE",
+      "executed_count": 0,
+      "runtime_verified": false,
+      "ayat_executed": 0,
+      "blocker": "Depends on Hukm"
+    },
+    {
+      "stage": "Tanzil (native)",
+      "layer": "TAAQOL_NATIVE",
+      "executed_count": 0,
+      "runtime_verified": false,
+      "ayat_executed": 0,
+      "blocker": "Depends on Hukm + Manat"
+    },
+    {
+      "stage": "Mantuq (native)",
+      "layer": "TAAQOL_NATIVE",
+      "executed_count": 0,
+      "runtime_verified": false,
+      "ayat_executed": 0,
+      "blocker": "Depends on Ifadah + MaqamContextBoundary"
+    },
+    {
+      "stage": "Mafhum (native)",
+      "layer": "TAAQOL_NATIVE",
+      "executed_count": 0,
+      "runtime_verified": false,
+      "ayat_executed": 0,
+      "blocker": "Depends on Mantuq"
+    },
+    {
+      "stage": "TanzilBridge (native)",
+      "layer": "TAAQOL_NATIVE",
+      "executed_count": 0,
+      "runtime_verified": false,
+      "ayat_executed": 0,
+      "blocker": "Depends on Tanzil"
+    },
+    {
+      "stage": "AnswerAudit (native)",
+      "layer": "TAAQOL_NATIVE",
+      "executed_count": 0,
+      "runtime_verified": false,
+      "ayat_executed": 0,
+      "blocker": "Depends on full chain"
+    },
+    {
+      "stage": "DeterministicReasonableness_R1_R8",
+      "layer": "TAAQOL_NATIVE",
+      "executed_count": 0,
+      "runtime_verified": false,
+      "ayat_executed": 0,
+      "blocker": "Requires OriginBindingGateResult from GPT-R5 (not wired for Ayat)"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "generated_at_utc": "2026-08-02T21:24:44.129908+00:00",
+  "producer": {
+    "module": "pipeline.p8_amil_mamul (not implemented in Hokom pipeline)",
+    "status": "NOT_IMPLEMENTED_IN_HOKOM"
+  },
+  "totals": {
+    "SOURCE_DERIVED_SPAN_COUNT": 0,
+    "AYAT_SPAN_COUNT": 0,
+    "ARBITRARY_ADJACENCY_SPAN_COUNT": 0,
+    "SPAN_WITHOUT_PROVENANCE": 0,
+    "SPAN_WITHOUT_TRACE": 0,
+    "SPAN_WITH_UNKNOWN_BOUNDARIES": 0
+  },
+  "first_blocker": "No Hokom P8_AMIL_MAMUL producer runs for Ayat al-Dayn tokens. LCX-150 corpus has P8_AMIL_MAMUL for 127/150 cases (annotation-only, not runtime-consumable by Ayat demo). Arbitrary adjacency spans are forbidden by §10.",
+  "rejected_candidates": [],
+  "spans": []
+}

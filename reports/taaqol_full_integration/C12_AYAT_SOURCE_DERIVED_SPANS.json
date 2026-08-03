@@ -1,0 +1,829 @@
+{
+  "schema_version": "1.0.0",
+  "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "generated_at_utc": "2026-08-03T03:22:31.412203+00:00",
+  "totals": {
+    "SPAN_PRODUCER_IMPLEMENTED": 1,
+    "SOURCE_DERIVED_SPAN_COUNT": 7,
+    "AYAT_SPAN_COUNT": 7,
+    "ARBITRARY_ADJACENCY_SPAN_COUNT": 0,
+    "SPAN_WITHOUT_PROVENANCE": 0,
+    "SPAN_WITHOUT_TRACE": 0,
+    "NONDETERMINISTIC_SPAN_IDS": 0,
+    "DETERMINISTIC_ACROSS_RUNS": true
+  },
+  "amil_mamul_carriers": [
+    {
+      "p8_id": "P8-AYAT-CLAUSE-003-eccb39e3",
+      "clause_id": "AYAT-CLAUSE-003",
+      "operator_id": "OP-الَّذِينَ",
+      "amil_candidate_id": "TOKEN::0003",
+      "mamul_candidate_ids": [
+        "TOKEN::0004"
+      ],
+      "structural_basis": "relative_scope_scope",
+      "direction": "AMIL_TO_MAMUL",
+      "source_token_ids": [
+        "TOKEN::0003",
+        "TOKEN::0004"
+      ],
+      "evidence_ids": [
+        "operator_surface:الَّذِينَ",
+        "clause_boundary:AYAT-CLAUSE-003"
+      ],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-003"
+      ],
+      "residual_codes": [],
+      "ambiguity_state": "UNAMBIGUOUS",
+      "closure_state": "DETECTED",
+      "envelope": {
+        "producer_module": "pipeline.taaqol_integration.evidence_producers.producers",
+        "producer_symbol": "project_amil_mamul",
+        "producer_version": "c12.v1",
+        "schema_version": "1.0.0",
+        "registry_version": "c12.v1",
+        "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "input_digest": "bb856f24cff9caf8",
+        "output_digest": "eccb39e341929a3f"
+      }
+    },
+    {
+      "p8_id": "P8-AYAT-CLAUSE-004-d8f4a16a",
+      "clause_id": "AYAT-CLAUSE-004",
+      "operator_id": "OP-إِذَا",
+      "amil_candidate_id": "TOKEN::0005",
+      "mamul_candidate_ids": [
+        "TOKEN::0006",
+        "TOKEN::0007",
+        "TOKEN::0008",
+        "TOKEN::0009",
+        "TOKEN::0010",
+        "TOKEN::0011",
+        "TOKEN::0012",
+        "TOKEN::0013",
+        "TOKEN::0014",
+        "TOKEN::0015",
+        "TOKEN::0016",
+        "TOKEN::0017",
+        "TOKEN::0018",
+        "TOKEN::0019",
+        "TOKEN::0020",
+        "TOKEN::0021",
+        "TOKEN::0022",
+        "TOKEN::0023",
+        "TOKEN::0024",
+        "TOKEN::0025"
+      ],
+      "structural_basis": "conditional_scope",
+      "direction": "AMIL_TO_MAMUL",
+      "source_token_ids": [
+        "TOKEN::0005",
+        "TOKEN::0006",
+        "TOKEN::0007",
+        "TOKEN::0008",
+        "TOKEN::0009",
+        "TOKEN::0010",
+        "TOKEN::0011",
+        "TOKEN::0012",
+        "TOKEN::0013",
+        "TOKEN::0014",
+        "TOKEN::0015",
+        "TOKEN::0016",
+        "TOKEN::0017",
+        "TOKEN::0018",
+        "TOKEN::0019",
+        "TOKEN::0020",
+        "TOKEN::0021",
+        "TOKEN::0022",
+        "TOKEN::0023",
+        "TOKEN::0024",
+        "TOKEN::0025"
+      ],
+      "evidence_ids": [
+        "operator_surface:إِذَا",
+        "clause_boundary:AYAT-CLAUSE-004"
+      ],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-004"
+      ],
+      "residual_codes": [],
+      "ambiguity_state": "UNAMBIGUOUS",
+      "closure_state": "DETECTED",
+      "envelope": {
+        "producer_module": "pipeline.taaqol_integration.evidence_producers.producers",
+        "producer_symbol": "project_amil_mamul",
+        "producer_version": "c12.v1",
+        "schema_version": "1.0.0",
+        "registry_version": "c12.v1",
+        "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "input_digest": "acd28c382fae16f6",
+        "output_digest": "d8f4a16ab8378505"
+      }
+    },
+    {
+      "p8_id": "P8-AYAT-CLAUSE-005-057bccbe",
+      "clause_id": "AYAT-CLAUSE-005",
+      "operator_id": "OP-الَّذِي",
+      "amil_candidate_id": "TOKEN::0026",
+      "mamul_candidate_ids": [
+        "TOKEN::0027",
+        "TOKEN::0028",
+        "TOKEN::0029",
+        "TOKEN::0030",
+        "TOKEN::0031",
+        "TOKEN::0032",
+        "TOKEN::0033",
+        "TOKEN::0034",
+        "TOKEN::0035",
+        "TOKEN::0036",
+        "TOKEN::0037"
+      ],
+      "structural_basis": "relative_scope_scope",
+      "direction": "AMIL_TO_MAMUL",
+      "source_token_ids": [
+        "TOKEN::0026",
+        "TOKEN::0027",
+        "TOKEN::0028",
+        "TOKEN::0029",
+        "TOKEN::0030",
+        "TOKEN::0031",
+        "TOKEN::0032",
+        "TOKEN::0033",
+        "TOKEN::0034",
+        "TOKEN::0035",
+        "TOKEN::0036",
+        "TOKEN::0037"
+      ],
+      "evidence_ids": [
+        "operator_surface:الَّذِي",
+        "clause_boundary:AYAT-CLAUSE-005"
+      ],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-005"
+      ],
+      "residual_codes": [],
+      "ambiguity_state": "UNAMBIGUOUS",
+      "closure_state": "DETECTED",
+      "envelope": {
+        "producer_module": "pipeline.taaqol_integration.evidence_producers.producers",
+        "producer_symbol": "project_amil_mamul",
+        "producer_version": "c12.v1",
+        "schema_version": "1.0.0",
+        "registry_version": "c12.v1",
+        "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "input_digest": "f13a694c9cff6a06",
+        "output_digest": "057bccbec142d7b2"
+      }
+    },
+    {
+      "p8_id": "P8-AYAT-CLAUSE-006-55aee171",
+      "clause_id": "AYAT-CLAUSE-006",
+      "operator_id": "OP-الَّذِي",
+      "amil_candidate_id": "TOKEN::0038",
+      "mamul_candidate_ids": [
+        "TOKEN::0039",
+        "TOKEN::0040",
+        "TOKEN::0041"
+      ],
+      "structural_basis": "relative_scope_scope",
+      "direction": "AMIL_TO_MAMUL",
+      "source_token_ids": [
+        "TOKEN::0038",
+        "TOKEN::0039",
+        "TOKEN::0040",
+        "TOKEN::0041"
+      ],
+      "evidence_ids": [
+        "operator_surface:الَّذِي",
+        "clause_boundary:AYAT-CLAUSE-006"
+      ],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-006"
+      ],
+      "residual_codes": [],
+      "ambiguity_state": "UNAMBIGUOUS",
+      "closure_state": "DETECTED",
+      "envelope": {
+        "producer_module": "pipeline.taaqol_integration.evidence_producers.producers",
+        "producer_symbol": "project_amil_mamul",
+        "producer_version": "c12.v1",
+        "schema_version": "1.0.0",
+        "registry_version": "c12.v1",
+        "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "input_digest": "6a81783a343c684f",
+        "output_digest": "55aee1712aa8f117"
+      }
+    },
+    {
+      "p8_id": "P8-AYAT-CLAUSE-009-8f2accc9",
+      "clause_id": "AYAT-CLAUSE-009",
+      "operator_id": "OP-لَا",
+      "amil_candidate_id": "TOKEN::0045",
+      "mamul_candidate_ids": [
+        "TOKEN::0046",
+        "TOKEN::0047",
+        "TOKEN::0048",
+        "TOKEN::0049",
+        "TOKEN::0050",
+        "TOKEN::0051",
+        "TOKEN::0052",
+        "TOKEN::0053",
+        "TOKEN::0054",
+        "TOKEN::0055",
+        "TOKEN::0056",
+        "TOKEN::0057"
+      ],
+      "structural_basis": "negation_scope",
+      "direction": "AMIL_TO_MAMUL",
+      "source_token_ids": [
+        "TOKEN::0045",
+        "TOKEN::0046",
+        "TOKEN::0047",
+        "TOKEN::0048",
+        "TOKEN::0049",
+        "TOKEN::0050",
+        "TOKEN::0051",
+        "TOKEN::0052",
+        "TOKEN::0053",
+        "TOKEN::0054",
+        "TOKEN::0055",
+        "TOKEN::0056",
+        "TOKEN::0057"
+      ],
+      "evidence_ids": [
+        "operator_surface:لَا",
+        "clause_boundary:AYAT-CLAUSE-009"
+      ],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-009"
+      ],
+      "residual_codes": [],
+      "ambiguity_state": "UNAMBIGUOUS",
+      "closure_state": "DETECTED",
+      "envelope": {
+        "producer_module": "pipeline.taaqol_integration.evidence_producers.producers",
+        "producer_symbol": "project_amil_mamul",
+        "producer_version": "c12.v1",
+        "schema_version": "1.0.0",
+        "registry_version": "c12.v1",
+        "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "input_digest": "94327f5c5e821c39",
+        "output_digest": "8f2accc90ef96c11"
+      }
+    },
+    {
+      "p8_id": "P8-AYAT-CLAUSE-010-2d2b67bb",
+      "clause_id": "AYAT-CLAUSE-010",
+      "operator_id": "OP-لَمْ",
+      "amil_candidate_id": "TOKEN::0058",
+      "mamul_candidate_ids": [
+        "TOKEN::0059",
+        "TOKEN::0060",
+        "TOKEN::0061",
+        "TOKEN::0062",
+        "TOKEN::0063",
+        "TOKEN::0064",
+        "TOKEN::0065",
+        "TOKEN::0066",
+        "TOKEN::0067",
+        "TOKEN::0068",
+        "TOKEN::0069",
+        "TOKEN::0070",
+        "TOKEN::0071",
+        "TOKEN::0072",
+        "TOKEN::0073",
+        "TOKEN::0074",
+        "TOKEN::0075"
+      ],
+      "structural_basis": "negation_scope",
+      "direction": "AMIL_TO_MAMUL",
+      "source_token_ids": [
+        "TOKEN::0058",
+        "TOKEN::0059",
+        "TOKEN::0060",
+        "TOKEN::0061",
+        "TOKEN::0062",
+        "TOKEN::0063",
+        "TOKEN::0064",
+        "TOKEN::0065",
+        "TOKEN::0066",
+        "TOKEN::0067",
+        "TOKEN::0068",
+        "TOKEN::0069",
+        "TOKEN::0070",
+        "TOKEN::0071",
+        "TOKEN::0072",
+        "TOKEN::0073",
+        "TOKEN::0074",
+        "TOKEN::0075"
+      ],
+      "evidence_ids": [
+        "operator_surface:لَمْ",
+        "clause_boundary:AYAT-CLAUSE-010"
+      ],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-010"
+      ],
+      "residual_codes": [],
+      "ambiguity_state": "UNAMBIGUOUS",
+      "closure_state": "DETECTED",
+      "envelope": {
+        "producer_module": "pipeline.taaqol_integration.evidence_producers.producers",
+        "producer_symbol": "project_amil_mamul",
+        "producer_version": "c12.v1",
+        "schema_version": "1.0.0",
+        "registry_version": "c12.v1",
+        "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "input_digest": "cc90000d6e66cdf1",
+        "output_digest": "2d2b67bbc107b1e0"
+      }
+    },
+    {
+      "p8_id": "P8-AYAT-CLAUSE-014-f0127c92",
+      "clause_id": "AYAT-CLAUSE-014",
+      "operator_id": "OP-إِذَا",
+      "amil_candidate_id": "TOKEN::0110",
+      "mamul_candidate_ids": [
+        "TOKEN::0111",
+        "TOKEN::0112",
+        "TOKEN::0113",
+        "TOKEN::0114",
+        "TOKEN::0115",
+        "TOKEN::0116",
+        "TOKEN::0117",
+        "TOKEN::0118",
+        "TOKEN::0119",
+        "TOKEN::0120",
+        "TOKEN::0121",
+        "TOKEN::0122",
+        "TOKEN::0123",
+        "TOKEN::0124",
+        "TOKEN::0125",
+        "TOKEN::0126",
+        "TOKEN::0127",
+        "TOKEN::0128",
+        "TOKEN::0129"
+      ],
+      "structural_basis": "conditional_scope",
+      "direction": "AMIL_TO_MAMUL",
+      "source_token_ids": [
+        "TOKEN::0110",
+        "TOKEN::0111",
+        "TOKEN::0112",
+        "TOKEN::0113",
+        "TOKEN::0114",
+        "TOKEN::0115",
+        "TOKEN::0116",
+        "TOKEN::0117",
+        "TOKEN::0118",
+        "TOKEN::0119",
+        "TOKEN::0120",
+        "TOKEN::0121",
+        "TOKEN::0122",
+        "TOKEN::0123",
+        "TOKEN::0124",
+        "TOKEN::0125",
+        "TOKEN::0126",
+        "TOKEN::0127",
+        "TOKEN::0128",
+        "TOKEN::0129"
+      ],
+      "evidence_ids": [
+        "operator_surface:إِذَا",
+        "clause_boundary:AYAT-CLAUSE-014"
+      ],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-014"
+      ],
+      "residual_codes": [],
+      "ambiguity_state": "UNAMBIGUOUS",
+      "closure_state": "DETECTED",
+      "envelope": {
+        "producer_module": "pipeline.taaqol_integration.evidence_producers.producers",
+        "producer_symbol": "project_amil_mamul",
+        "producer_version": "c12.v1",
+        "schema_version": "1.0.0",
+        "registry_version": "c12.v1",
+        "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "input_digest": "aa9ea14712a255c1",
+        "output_digest": "f0127c92a39c707f"
+      }
+    }
+  ],
+  "spans": [
+    {
+      "span_id": "SPAN-AYAT-CLAUSE-003-01f1909a",
+      "sentence_id": "AYAT-SENTENCE-0001",
+      "clause_id": "AYAT-CLAUSE-003",
+      "start_token_id": "TOKEN::0003",
+      "end_token_id": "TOKEN::0004",
+      "member_token_ids": [
+        "TOKEN::0003",
+        "TOKEN::0004"
+      ],
+      "span_kind": "RELATIVE",
+      "construction_rule": "opened_from_p8_amil_mamul::relative_scope_scope",
+      "construction_evidence_ids": [
+        "P8-AYAT-CLAUSE-003-eccb39e3"
+      ],
+      "operator_scope_ids": [
+        "OP-الَّذِينَ"
+      ],
+      "conjunction_scope_ids": [],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7",
+        "P8::P8-AYAT-CLAUSE-003-eccb39e3"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-003",
+        "SPAN::produce_spans::AYAT-CLAUSE-003"
+      ],
+      "residual_codes": [],
+      "ambiguity_codes": [],
+      "closure_state": "CLOSED",
+      "envelope": {
+        "producer_module": "pipeline.taaqol_integration.evidence_producers.producers",
+        "producer_symbol": "produce_spans",
+        "producer_version": "c12.v1",
+        "schema_version": "1.0.0",
+        "registry_version": "c12.v1",
+        "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "input_digest": "adb2759ccbda8d0e",
+        "output_digest": "01f1909ad47093c5"
+      }
+    },
+    {
+      "span_id": "SPAN-AYAT-CLAUSE-004-c3d5ed00",
+      "sentence_id": "AYAT-SENTENCE-0001",
+      "clause_id": "AYAT-CLAUSE-004",
+      "start_token_id": "TOKEN::0005",
+      "end_token_id": "TOKEN::0025",
+      "member_token_ids": [
+        "TOKEN::0005",
+        "TOKEN::0006",
+        "TOKEN::0007",
+        "TOKEN::0008",
+        "TOKEN::0009",
+        "TOKEN::0010",
+        "TOKEN::0011",
+        "TOKEN::0012",
+        "TOKEN::0013",
+        "TOKEN::0014",
+        "TOKEN::0015",
+        "TOKEN::0016",
+        "TOKEN::0017",
+        "TOKEN::0018",
+        "TOKEN::0019",
+        "TOKEN::0020",
+        "TOKEN::0021",
+        "TOKEN::0022",
+        "TOKEN::0023",
+        "TOKEN::0024",
+        "TOKEN::0025"
+      ],
+      "span_kind": "CONDITIONAL",
+      "construction_rule": "opened_from_p8_amil_mamul::conditional_scope",
+      "construction_evidence_ids": [
+        "P8-AYAT-CLAUSE-004-d8f4a16a"
+      ],
+      "operator_scope_ids": [
+        "OP-إِذَا"
+      ],
+      "conjunction_scope_ids": [],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7",
+        "P8::P8-AYAT-CLAUSE-004-d8f4a16a"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-004",
+        "SPAN::produce_spans::AYAT-CLAUSE-004"
+      ],
+      "residual_codes": [],
+      "ambiguity_codes": [],
+      "closure_state": "CLOSED",
+      "envelope": {
+        "producer_module": "pipeline.taaqol_integration.evidence_producers.producers",
+        "producer_symbol": "produce_spans",
+        "producer_version": "c12.v1",
+        "schema_version": "1.0.0",
+        "registry_version": "c12.v1",
+        "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "input_digest": "af46ad34e1a6c981",
+        "output_digest": "c3d5ed0034287b83"
+      }
+    },
+    {
+      "span_id": "SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+      "sentence_id": "AYAT-SENTENCE-0001",
+      "clause_id": "AYAT-CLAUSE-005",
+      "start_token_id": "TOKEN::0026",
+      "end_token_id": "TOKEN::0037",
+      "member_token_ids": [
+        "TOKEN::0026",
+        "TOKEN::0027",
+        "TOKEN::0028",
+        "TOKEN::0029",
+        "TOKEN::0030",
+        "TOKEN::0031",
+        "TOKEN::0032",
+        "TOKEN::0033",
+        "TOKEN::0034",
+        "TOKEN::0035",
+        "TOKEN::0036",
+        "TOKEN::0037"
+      ],
+      "span_kind": "RELATIVE",
+      "construction_rule": "opened_from_p8_amil_mamul::relative_scope_scope",
+      "construction_evidence_ids": [
+        "P8-AYAT-CLAUSE-005-057bccbe"
+      ],
+      "operator_scope_ids": [
+        "OP-الَّذِي"
+      ],
+      "conjunction_scope_ids": [],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7",
+        "P8::P8-AYAT-CLAUSE-005-057bccbe"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-005",
+        "SPAN::produce_spans::AYAT-CLAUSE-005"
+      ],
+      "residual_codes": [],
+      "ambiguity_codes": [],
+      "closure_state": "CLOSED",
+      "envelope": {
+        "producer_module": "pipeline.taaqol_integration.evidence_producers.producers",
+        "producer_symbol": "produce_spans",
+        "producer_version": "c12.v1",
+        "schema_version": "1.0.0",
+        "registry_version": "c12.v1",
+        "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "input_digest": "d225b52d187c9c31",
+        "output_digest": "a3e4bc0d0726abe6"
+      }
+    },
+    {
+      "span_id": "SPAN-AYAT-CLAUSE-006-3980d4cf",
+      "sentence_id": "AYAT-SENTENCE-0001",
+      "clause_id": "AYAT-CLAUSE-006",
+      "start_token_id": "TOKEN::0038",
+      "end_token_id": "TOKEN::0041",
+      "member_token_ids": [
+        "TOKEN::0038",
+        "TOKEN::0039",
+        "TOKEN::0040",
+        "TOKEN::0041"
+      ],
+      "span_kind": "RELATIVE",
+      "construction_rule": "opened_from_p8_amil_mamul::relative_scope_scope",
+      "construction_evidence_ids": [
+        "P8-AYAT-CLAUSE-006-55aee171"
+      ],
+      "operator_scope_ids": [
+        "OP-الَّذِي"
+      ],
+      "conjunction_scope_ids": [],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7",
+        "P8::P8-AYAT-CLAUSE-006-55aee171"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-006",
+        "SPAN::produce_spans::AYAT-CLAUSE-006"
+      ],
+      "residual_codes": [],
+      "ambiguity_codes": [],
+      "closure_state": "CLOSED",
+      "envelope": {
+        "producer_module": "pipeline.taaqol_integration.evidence_producers.producers",
+        "producer_symbol": "produce_spans",
+        "producer_version": "c12.v1",
+        "schema_version": "1.0.0",
+        "registry_version": "c12.v1",
+        "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "input_digest": "97d929b32bd66c6e",
+        "output_digest": "3980d4cf4baaf701"
+      }
+    },
+    {
+      "span_id": "SPAN-AYAT-CLAUSE-009-31427193",
+      "sentence_id": "AYAT-SENTENCE-0001",
+      "clause_id": "AYAT-CLAUSE-009",
+      "start_token_id": "TOKEN::0045",
+      "end_token_id": "TOKEN::0057",
+      "member_token_ids": [
+        "TOKEN::0045",
+        "TOKEN::0046",
+        "TOKEN::0047",
+        "TOKEN::0048",
+        "TOKEN::0049",
+        "TOKEN::0050",
+        "TOKEN::0051",
+        "TOKEN::0052",
+        "TOKEN::0053",
+        "TOKEN::0054",
+        "TOKEN::0055",
+        "TOKEN::0056",
+        "TOKEN::0057"
+      ],
+      "span_kind": "NEGATION",
+      "construction_rule": "opened_from_p8_amil_mamul::negation_scope",
+      "construction_evidence_ids": [
+        "P8-AYAT-CLAUSE-009-8f2accc9"
+      ],
+      "operator_scope_ids": [
+        "OP-لَا"
+      ],
+      "conjunction_scope_ids": [],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7",
+        "P8::P8-AYAT-CLAUSE-009-8f2accc9"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-009",
+        "SPAN::produce_spans::AYAT-CLAUSE-009"
+      ],
+      "residual_codes": [],
+      "ambiguity_codes": [],
+      "closure_state": "CLOSED",
+      "envelope": {
+        "producer_module": "pipeline.taaqol_integration.evidence_producers.producers",
+        "producer_symbol": "produce_spans",
+        "producer_version": "c12.v1",
+        "schema_version": "1.0.0",
+        "registry_version": "c12.v1",
+        "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "input_digest": "14ed8b26f06fbdc7",
+        "output_digest": "31427193b96bbacc"
+      }
+    },
+    {
+      "span_id": "SPAN-AYAT-CLAUSE-010-d82736fc",
+      "sentence_id": "AYAT-SENTENCE-0001",
+      "clause_id": "AYAT-CLAUSE-010",
+      "start_token_id": "TOKEN::0058",
+      "end_token_id": "TOKEN::0075",
+      "member_token_ids": [
+        "TOKEN::0058",
+        "TOKEN::0059",
+        "TOKEN::0060",
+        "TOKEN::0061",
+        "TOKEN::0062",
+        "TOKEN::0063",
+        "TOKEN::0064",
+        "TOKEN::0065",
+        "TOKEN::0066",
+        "TOKEN::0067",
+        "TOKEN::0068",
+        "TOKEN::0069",
+        "TOKEN::0070",
+        "TOKEN::0071",
+        "TOKEN::0072",
+        "TOKEN::0073",
+        "TOKEN::0074",
+        "TOKEN::0075"
+      ],
+      "span_kind": "NEGATION",
+      "construction_rule": "opened_from_p8_amil_mamul::negation_scope",
+      "construction_evidence_ids": [
+        "P8-AYAT-CLAUSE-010-2d2b67bb"
+      ],
+      "operator_scope_ids": [
+        "OP-لَمْ"
+      ],
+      "conjunction_scope_ids": [],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7",
+        "P8::P8-AYAT-CLAUSE-010-2d2b67bb"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-010",
+        "SPAN::produce_spans::AYAT-CLAUSE-010"
+      ],
+      "residual_codes": [],
+      "ambiguity_codes": [],
+      "closure_state": "CLOSED",
+      "envelope": {
+        "producer_module": "pipeline.taaqol_integration.evidence_producers.producers",
+        "producer_symbol": "produce_spans",
+        "producer_version": "c12.v1",
+        "schema_version": "1.0.0",
+        "registry_version": "c12.v1",
+        "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "input_digest": "70621d31af876282",
+        "output_digest": "d82736fc2a8839fa"
+      }
+    },
+    {
+      "span_id": "SPAN-AYAT-CLAUSE-014-59af3988",
+      "sentence_id": "AYAT-SENTENCE-0001",
+      "clause_id": "AYAT-CLAUSE-014",
+      "start_token_id": "TOKEN::0110",
+      "end_token_id": "TOKEN::0129",
+      "member_token_ids": [
+        "TOKEN::0110",
+        "TOKEN::0111",
+        "TOKEN::0112",
+        "TOKEN::0113",
+        "TOKEN::0114",
+        "TOKEN::0115",
+        "TOKEN::0116",
+        "TOKEN::0117",
+        "TOKEN::0118",
+        "TOKEN::0119",
+        "TOKEN::0120",
+        "TOKEN::0121",
+        "TOKEN::0122",
+        "TOKEN::0123",
+        "TOKEN::0124",
+        "TOKEN::0125",
+        "TOKEN::0126",
+        "TOKEN::0127",
+        "TOKEN::0128",
+        "TOKEN::0129"
+      ],
+      "span_kind": "CONDITIONAL",
+      "construction_rule": "opened_from_p8_amil_mamul::conditional_scope",
+      "construction_evidence_ids": [
+        "P8-AYAT-CLAUSE-014-f0127c92"
+      ],
+      "operator_scope_ids": [
+        "OP-إِذَا"
+      ],
+      "conjunction_scope_ids": [],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7",
+        "P8::P8-AYAT-CLAUSE-014-f0127c92"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-014",
+        "SPAN::produce_spans::AYAT-CLAUSE-014"
+      ],
+      "residual_codes": [],
+      "ambiguity_codes": [],
+      "closure_state": "CLOSED",
+      "envelope": {
+        "producer_module": "pipeline.taaqol_integration.evidence_producers.producers",
+        "producer_symbol": "produce_spans",
+        "producer_version": "c12.v1",
+        "schema_version": "1.0.0",
+        "registry_version": "c12.v1",
+        "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "input_digest": "e5d019fe680c2619",
+        "output_digest": "59af398868f6efc3"
+      }
+    }
+  ]
+}

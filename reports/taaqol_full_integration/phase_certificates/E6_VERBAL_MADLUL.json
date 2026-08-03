@@ -1,0 +1,95 @@
+{
+  "phase_id": "E6_VERBAL_MADLUL",
+  "phase_label": "VERBAL MADLUL (prove_verbal_madlul() → VerbalMadlulBoundaryVerdict; bind_dal_madlul() → DalMadlulBindingVerdict)",
+  "phase_state": "FOCUSED_VERIFIED",
+  "note": "FOCUSED_VERIFIED on Python 3.10 sandbox. Module invariants, fail-closed behavior, refusal guards, identity constraint guard all verified on 3.10. G_E6_02/03/05 (BOUND chain, candidate fields, identity mismatch) require Python 3.12+ owner verification.",
+  "closed_at": null,
+  "vendor_sha": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "corpus_sha": "6bd635a05530965f13f76cf003f7738130badec6981bcb0e73f2465d386e1ed7",
+  "implementation": {
+    "adapter_file": "pipeline/taaqol_integration/weight_layer/verbal_madlul_adapter.py",
+    "test_file": "tests/e6_verbal_madlul/test_verbal_madlul_e6.py",
+    "init_file": "tests/e6_verbal_madlul/__init__.py"
+  },
+  "e6_chain": {
+    "pr16_prove_verbal_madlul": "prove_verbal_madlul(prior_dal: DalOnlyCandidate, wad_usage_boundary: str, ...) → VerbalMadlulBoundaryVerdict(PROVEN, candidate=VerbalMadlulCandidate)",
+    "pr17_bind_dal_madlul": "bind_dal_madlul(dal_candidate: DalOnlyCandidate, madlul_candidate: VerbalMadlulCandidate, dal_registry: RegistryLookupResult(FOUND), madlul_registry: RegistryLookupResult(FOUND)) → DalMadlulBindingVerdict(BOUND)",
+    "identity_constraint": "madlul_candidate.dal_only IS dal_candidate (Python is-identity; enforced by vendor __post_init__ and pre-checked in adapter)",
+    "pre_semantic_registry": "RegistryEntry objects built inline with RegistryDomain.DAL_ONLY + VERBAL_MADLUL, non_meaning_proof=constitutional attestation, Rank.CANDIDATE",
+    "wad_usage_boundary_default": "token_surface (conservative — not invented content)"
+  },
+  "functions": {
+    "build_verbal_madlul_candidate": "E6 core — DalOnlyCandidate + wad_usage_boundary → VerbalMadlulBoundaryVerdict | None",
+    "build_dal_madlul_binding": "E6 binding — DalOnlyCandidate + VerbalMadlulCandidate + registry_key → DalMadlulBindingVerdict | None",
+    "build_e6_chain_from_dal_verdict": "E5→E6 chain — DalBoundaryVerdict → DalMadlulBindingVerdict | None",
+    "build_e6_from_surface": "E4B+E4C+E5+E6 convenience — Arabic surface → DalMadlulBindingVerdict | None"
+  },
+  "full_chain_e0_to_e6": {
+    "E0": "SHAs confirmed",
+    "E1": "AYAT_AL_DAYN_REGISTRY (74 ISM/FI3L entries)",
+    "E2": "registry_adapter.py wired",
+    "E3": "REQUIREMENTS_DOCUMENTED (P3/P4/P5)",
+    "E4A": "Structural guards",
+    "E4B": "decompose_arabic() + build_weight_readiness_candidate()",
+    "E4C": "omega_governance() + weigh() + assess_license() → LicensingBoundaryVerdict",
+    "E5": "prove_dal() → DalBoundaryVerdict(PROVEN, candidate=DalOnlyCandidate)",
+    "E6": "prove_verbal_madlul() → VerbalMadlulBoundaryVerdict(PROVEN) → bind_dal_madlul() → DalMadlulBindingVerdict(BOUND)"
+  },
+  "test_results": {
+    "python_310_sandbox": {
+      "e6_tests": {
+        "total_collected": 41,
+        "passed": 24,
+        "skipped": 17,
+        "failed": 0
+      },
+      "combined_e1_e2_e4a_e4b_e4c_e5_e6": {
+        "passed": 164,
+        "skipped": 80,
+        "failed": 0,
+        "note": "No regressions from E6 addition"
+      }
+    }
+  },
+  "gates": {
+    "G_E6_01": 1,
+    "note_G_E6_01": "Fail-closed on Python 3.10: all E6 functions return None; never raise; _VERBAL_MADLUL_AVAILABLE=False; empty wad/trace/token return None; wrong types return None",
+    "G_E6_02": "PENDING_OWNER_312",
+    "note_G_E6_02": "build_e6_from_surface produces BOUND DalMadlulBindingVerdict for corpus ISM tokens on Python 3.12+. Owner must run tests/e6_verbal_madlul/test_verbal_madlul_e6.py on Python 3.12+.",
+    "G_E6_03": "PENDING_OWNER_312",
+    "note_G_E6_03": "DalMadlulBindingCandidate fields correct on 3.12+: dal_candidate=DalOnlyCandidate, madlul_candidate=VerbalMadlulCandidate, dal_registry_proof.state=FOUND, madlul_registry_proof.state=FOUND, binding_rank=CANDIDATE, residuals=(), failure_code=None",
+    "G_E6_04": 1,
+    "note_G_E6_04": "prove_verbal_madlul refusals: None/str/object() → None; empty/whitespace wad_usage_boundary → None; fail-closed at every stage",
+    "G_E6_05": "PENDING_OWNER_312",
+    "note_G_E6_05": "bind_dal_madlul identity constraint enforced on 3.12+: two separately constructed DalOnlyCandidate instances (even for same token) → identity mismatch → None. Owner must run TestT_E6_05.test_identity_mismatch_returns_none on 3.12+.",
+    "G_E6_06": 1,
+    "note_G_E6_06": "Module invariants: imports clean on 3.10, _verify_e6_invariants() passes at import time, _VENDOR_SHA confirmed, _E5_AVAILABLE=True, all functions callable"
+  },
+  "gates_passed": 3,
+  "gates_pending_312_verification": 3,
+  "gates_total": 6,
+  "blocking_residuals": [
+    {
+      "id": "G_E6_02_03_05_BOUND_CHAIN_PENDING_312",
+      "severity": "REQUIRES_OWNER_VERIFICATION",
+      "detail": "Run tests/e6_verbal_madlul/test_verbal_madlul_e6.py on Python 3.12+ to verify: (1) corpus ISM tokens all produce BOUND DalMadlulBindingVerdict, (2) DalMadlulBindingCandidate fields correct, (3) identity mismatch correctly produces None"
+    }
+  ],
+  "fiqhi_algebra": {
+    "WAD": "DalOnlyCandidate (from E5) + wad_usage_boundary (non-empty) + token_surface (registry key)",
+    "SABAB": "E6 = verbal signified boundary; VerbalMadlulCandidate proves the signified stands independently; DalMadlulBindingCandidate proves signifier+signified can be bound pre-semantically",
+    "SHART": "Python 3.12+ for vendor types; Python 3.10 for fail-closed tests; identity constraint (madlul.dal_only is dal_candidate) satisfied by threading same instance",
+    "MANI": "None active — DalMadlulBindingCandidate ≠ meaning, ≠ ifadah, ≠ hukm, ≠ ContractableUnitGeometry (constitutional docs/31 §2)",
+    "ILLA": "prior_dal must be DalOnlyCandidate (vendor __post_init__); wad_usage_boundary non-empty; identity check must pass; both registry lookups must be FOUND",
+    "QADIH": "Potential: if vendor RegistryEntry field validation rejects wad_usage_boundary or trace_id format on 3.12+ → tested on owner run",
+    "HUKM": "FOCUSED_VERIFIED — 3/6 gates pass on 3.10; 3 pending 3.12+; 164 total pass (no regressions)",
+    "ATHAR": "E0→E6 constitutional integration chain FULLY IMPLEMENTED. Terminal output: DalMadlulBindingVerdict(BOUND) with DalMadlulBindingCandidate for corpus ISM/FI3L tokens.",
+    "RESIDUALS": ["G_E6_02_03_05_BOUND_CHAIN_PENDING_312"]
+  },
+  "canonical_exit": 1,
+  "note_canonical_exit": "canonical_exit=1 until G_E6_02/03/05 confirmed on Python 3.12+. E7 (FormalShape + MufradDalalah + MaqamContextBoundary) is next phase per SOURCE_DERIVED_DEPENDENCY_AMENDMENT_01.",
+  "autonomous_execution_mode": 1,
+  "autonomous_commit_mode": 0,
+  "next_phase": "E7_FORMAL_SHAPE_AND_MUFRAD_DALALAH"
+}

@@ -1,0 +1,49 @@
+{
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "tokens_reaching_core": 80,
+  "tokens_reaching_licensing": 37,
+  "licensing": {
+    "NOT_OPENED": 92,
+    "EXECUTED": 37
+  },
+  "dal_only": {
+    "NOT_OPENED": 92,
+    "EXECUTED": 37
+  },
+  "verbal_madlul": {
+    "NOT_OPENED": 92,
+    "EXECUTED": 37
+  },
+  "contractable_unit": {
+    "NOT_OPENED": 92,
+    "EXECUTED": 37
+  },
+  "integrity_flags": {
+    "silent_fallbacks": 0,
+    "synthetic_provenance": 0,
+    "gold_leakage": 0,
+    "forbidden_leaps": 0
+  },
+  "targeted_collected": 55,
+  "targeted_passed": 55,
+  "targeted_failed": 0,
+  "targeted_warnings": 0,
+  "f0_gate": "PASS",
+  "f1_run1": {
+    "passed": 7877,
+    "failed": 0,
+    "skipped": 80,
+    "warnings": 0
+  },
+  "f1_run2": {
+    "passed": 7877,
+    "failed": 0,
+    "skipped": 80,
+    "warnings": 0
+  },
+  "f1_gate": "PASS",
+  "canonical_artifact_diff_exit": 0,
+  "canonical_untracked_count": 0,
+  "c9_output_directory": "/Users/husseinhiyassat/hokom/reports/taaqol_full_integration/c9_runtime_output",
+  "c9_exit": 0
+}

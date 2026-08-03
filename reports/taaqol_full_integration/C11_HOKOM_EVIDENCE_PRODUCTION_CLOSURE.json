@@ -1,0 +1,55 @@
+{
+  "phase": "HOKOM-EVIDENCE-PRODUCTION-CLOSURE-01",
+  "gate": "C11",
+  "generated_at_utc": "2026-08-02T22:14:42.455349+00:00",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "c11_exit": 0,
+  "f0": {
+    "run1_collected": 8054,
+    "run2_collected": 8054,
+    "counts_identical": true,
+    "gate": "PASS"
+  },
+  "f1": {
+    "run1": {
+      "passed": 7974,
+      "failed": 0,
+      "skipped": 80,
+      "warnings": 0,
+      "errors": 0
+    },
+    "run2": {
+      "passed": 7974,
+      "failed": 0,
+      "skipped": 80,
+      "warnings": 0,
+      "errors": 0
+    },
+    "counts_identical": true,
+    "gate": "PASS"
+  },
+  "requirements": {
+    "document_count": 15,
+    "technical_status_counts": {
+      "VALIDATED_CURRENT": 11,
+      "VALIDATED_BLOCKED": 4,
+      "INVALID": 0
+    },
+    "owner_status_counts": {
+      "NOT_REVIEWED": 15,
+      "APPROVED": 0,
+      "REJECTED": 0
+    },
+    "technically_invalid": 0
+  },
+  "ready_inventory": {
+    "adapter_count": 16,
+    "READY_RUNTIME_UNWIRED_COUNT": 0,
+    "READY_INTEGRATION_UNWIRED_COUNT": 0
+  },
+  "evidence": {
+    "artifacts_present": 6,
+    "invariants_passed": 19,
+    "invariants_total": 19
+  }
+}

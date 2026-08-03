@@ -1,0 +1,487 @@
+{
+  "schema_version": "1.0.0",
+  "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "generated_at_utc": "2026-08-02T21:24:44.129908+00:00",
+  "producer": {
+    "module": "pipeline.clause_graph.segmenter",
+    "symbol": "detect_boundaries",
+    "source_sha256": "0f563bd55bf0c46005568b09b3156b75be5a9ab29331aedd79c2760387542d85",
+    "rule_basis": "closed-class Arabic operator markers (conjunctions, conditionals, negations, vocatives, relatives)"
+  },
+  "totals": {
+    "AYAT_CLAUSE_COUNT": 14,
+    "CLAUSE_WITHOUT_BOUNDARY_EVIDENCE": 0,
+    "CLAUSE_WITHOUT_PROVENANCE": 0,
+    "CLAUSE_WITHOUT_TRACE": 0,
+    "CLAUSE_DIRECTLY_FROM_TOKEN_MEANING": 0,
+    "DETERMINISTIC_ACROSS_RUNS": true
+  },
+  "clauses": [
+    {
+      "clause_id": "AYAT-CLAUSE-001",
+      "sentence_id": "AYAT-SENTENCE-0001",
+      "start_token_id": "TOKEN::0001",
+      "end_token_id": "TOKEN::0001",
+      "member_token_ids": [
+        "TOKEN::0001"
+      ],
+      "boundary_type": "JUXTAPOSITION",
+      "boundary_evidence_ids": [
+        "operator_surface:يَا"
+      ],
+      "operator_surface": "يَا",
+      "provenance_ids": [
+        "PRODUCER::pipeline.clause_graph.segmenter",
+        "VENDOR::05c6668dfb95"
+      ],
+      "trace_ids": [
+        "clause_segmenter::detect_boundaries::BOUND-0000-ffa66c"
+      ],
+      "residual_codes": [],
+      "closure_state": "BOUNDARY_DETECTED",
+      "finite_or_nonfinite_status": "UNDETERMINED_WITHOUT_PREDICATE_READINESS",
+      "confidence": 0.85
+    },
+    {
+      "clause_id": "AYAT-CLAUSE-002",
+      "sentence_id": "AYAT-SENTENCE-0001",
+      "start_token_id": "TOKEN::0002",
+      "end_token_id": "TOKEN::0002",
+      "member_token_ids": [
+        "TOKEN::0002"
+      ],
+      "boundary_type": "JUXTAPOSITION",
+      "boundary_evidence_ids": [
+        "operator_surface:أَيُّهَا"
+      ],
+      "operator_surface": "أَيُّهَا",
+      "provenance_ids": [
+        "PRODUCER::pipeline.clause_graph.segmenter",
+        "VENDOR::05c6668dfb95"
+      ],
+      "trace_ids": [
+        "clause_segmenter::detect_boundaries::BOUND-0001-f63ac6"
+      ],
+      "residual_codes": [],
+      "closure_state": "BOUNDARY_DETECTED",
+      "finite_or_nonfinite_status": "UNDETERMINED_WITHOUT_PREDICATE_READINESS",
+      "confidence": 0.85
+    },
+    {
+      "clause_id": "AYAT-CLAUSE-003",
+      "sentence_id": "AYAT-SENTENCE-0001",
+      "start_token_id": "TOKEN::0003",
+      "end_token_id": "TOKEN::0004",
+      "member_token_ids": [
+        "TOKEN::0003",
+        "TOKEN::0004"
+      ],
+      "boundary_type": "RELATIVE_ATTACHMENT",
+      "boundary_evidence_ids": [
+        "operator_surface:الَّذِينَ"
+      ],
+      "operator_surface": "الَّذِينَ",
+      "provenance_ids": [
+        "PRODUCER::pipeline.clause_graph.segmenter",
+        "VENDOR::05c6668dfb95"
+      ],
+      "trace_ids": [
+        "clause_segmenter::detect_boundaries::BOUND-0002-692c82"
+      ],
+      "residual_codes": [],
+      "closure_state": "BOUNDARY_DETECTED",
+      "finite_or_nonfinite_status": "UNDETERMINED_WITHOUT_PREDICATE_READINESS",
+      "confidence": 0.85
+    },
+    {
+      "clause_id": "AYAT-CLAUSE-004",
+      "sentence_id": "AYAT-SENTENCE-0001",
+      "start_token_id": "TOKEN::0005",
+      "end_token_id": "TOKEN::0025",
+      "member_token_ids": [
+        "TOKEN::0005",
+        "TOKEN::0006",
+        "TOKEN::0007",
+        "TOKEN::0008",
+        "TOKEN::0009",
+        "TOKEN::0010",
+        "TOKEN::0011",
+        "TOKEN::0012",
+        "TOKEN::0013",
+        "TOKEN::0014",
+        "TOKEN::0015",
+        "TOKEN::0016",
+        "TOKEN::0017",
+        "TOKEN::0018",
+        "TOKEN::0019",
+        "TOKEN::0020",
+        "TOKEN::0021",
+        "TOKEN::0022",
+        "TOKEN::0023",
+        "TOKEN::0024",
+        "TOKEN::0025"
+      ],
+      "boundary_type": "CONDITIONAL",
+      "boundary_evidence_ids": [
+        "operator_surface:إِذَا"
+      ],
+      "operator_surface": "إِذَا",
+      "provenance_ids": [
+        "PRODUCER::pipeline.clause_graph.segmenter",
+        "VENDOR::05c6668dfb95"
+      ],
+      "trace_ids": [
+        "clause_segmenter::detect_boundaries::BOUND-0004-8562a8"
+      ],
+      "residual_codes": [],
+      "closure_state": "BOUNDARY_DETECTED",
+      "finite_or_nonfinite_status": "UNDETERMINED_WITHOUT_PREDICATE_READINESS",
+      "confidence": 0.85
+    },
+    {
+      "clause_id": "AYAT-CLAUSE-005",
+      "sentence_id": "AYAT-SENTENCE-0001",
+      "start_token_id": "TOKEN::0026",
+      "end_token_id": "TOKEN::0037",
+      "member_token_ids": [
+        "TOKEN::0026",
+        "TOKEN::0027",
+        "TOKEN::0028",
+        "TOKEN::0029",
+        "TOKEN::0030",
+        "TOKEN::0031",
+        "TOKEN::0032",
+        "TOKEN::0033",
+        "TOKEN::0034",
+        "TOKEN::0035",
+        "TOKEN::0036",
+        "TOKEN::0037"
+      ],
+      "boundary_type": "RELATIVE_ATTACHMENT",
+      "boundary_evidence_ids": [
+        "operator_surface:الَّذِي"
+      ],
+      "operator_surface": "الَّذِي",
+      "provenance_ids": [
+        "PRODUCER::pipeline.clause_graph.segmenter",
+        "VENDOR::05c6668dfb95"
+      ],
+      "trace_ids": [
+        "clause_segmenter::detect_boundaries::BOUND-0025-548010"
+      ],
+      "residual_codes": [],
+      "closure_state": "BOUNDARY_DETECTED",
+      "finite_or_nonfinite_status": "UNDETERMINED_WITHOUT_PREDICATE_READINESS",
+      "confidence": 0.85
+    },
+    {
+      "clause_id": "AYAT-CLAUSE-006",
+      "sentence_id": "AYAT-SENTENCE-0001",
+      "start_token_id": "TOKEN::0038",
+      "end_token_id": "TOKEN::0041",
+      "member_token_ids": [
+        "TOKEN::0038",
+        "TOKEN::0039",
+        "TOKEN::0040",
+        "TOKEN::0041"
+      ],
+      "boundary_type": "RELATIVE_ATTACHMENT",
+      "boundary_evidence_ids": [
+        "operator_surface:الَّذِي"
+      ],
+      "operator_surface": "الَّذِي",
+      "provenance_ids": [
+        "PRODUCER::pipeline.clause_graph.segmenter",
+        "VENDOR::05c6668dfb95"
+      ],
+      "trace_ids": [
+        "clause_segmenter::detect_boundaries::BOUND-0037-2e2210"
+      ],
+      "residual_codes": [],
+      "closure_state": "BOUNDARY_DETECTED",
+      "finite_or_nonfinite_status": "UNDETERMINED_WITHOUT_PREDICATE_READINESS",
+      "confidence": 0.85
+    },
+    {
+      "clause_id": "AYAT-CLAUSE-007",
+      "sentence_id": "AYAT-SENTENCE-0001",
+      "start_token_id": "TOKEN::0042",
+      "end_token_id": "TOKEN::0043",
+      "member_token_ids": [
+        "TOKEN::0042",
+        "TOKEN::0043"
+      ],
+      "boundary_type": "CONJUNCTION",
+      "boundary_evidence_ids": [
+        "operator_surface:أَوْ"
+      ],
+      "operator_surface": "أَوْ",
+      "provenance_ids": [
+        "PRODUCER::pipeline.clause_graph.segmenter",
+        "VENDOR::05c6668dfb95"
+      ],
+      "trace_ids": [
+        "clause_segmenter::detect_boundaries::BOUND-0041-753a4a"
+      ],
+      "residual_codes": [],
+      "closure_state": "BOUNDARY_DETECTED",
+      "finite_or_nonfinite_status": "UNDETERMINED_WITHOUT_PREDICATE_READINESS",
+      "confidence": 0.85
+    },
+    {
+      "clause_id": "AYAT-CLAUSE-008",
+      "sentence_id": "AYAT-SENTENCE-0001",
+      "start_token_id": "TOKEN::0044",
+      "end_token_id": "TOKEN::0044",
+      "member_token_ids": [
+        "TOKEN::0044"
+      ],
+      "boundary_type": "CONJUNCTION",
+      "boundary_evidence_ids": [
+        "operator_surface:أَوْ"
+      ],
+      "operator_surface": "أَوْ",
+      "provenance_ids": [
+        "PRODUCER::pipeline.clause_graph.segmenter",
+        "VENDOR::05c6668dfb95"
+      ],
+      "trace_ids": [
+        "clause_segmenter::detect_boundaries::BOUND-0043-b19802"
+      ],
+      "residual_codes": [],
+      "closure_state": "BOUNDARY_DETECTED",
+      "finite_or_nonfinite_status": "UNDETERMINED_WITHOUT_PREDICATE_READINESS",
+      "confidence": 0.85
+    },
+    {
+      "clause_id": "AYAT-CLAUSE-009",
+      "sentence_id": "AYAT-SENTENCE-0001",
+      "start_token_id": "TOKEN::0045",
+      "end_token_id": "TOKEN::0057",
+      "member_token_ids": [
+        "TOKEN::0045",
+        "TOKEN::0046",
+        "TOKEN::0047",
+        "TOKEN::0048",
+        "TOKEN::0049",
+        "TOKEN::0050",
+        "TOKEN::0051",
+        "TOKEN::0052",
+        "TOKEN::0053",
+        "TOKEN::0054",
+        "TOKEN::0055",
+        "TOKEN::0056",
+        "TOKEN::0057"
+      ],
+      "boundary_type": "NEGATION",
+      "boundary_evidence_ids": [
+        "operator_surface:لَا"
+      ],
+      "operator_surface": "لَا",
+      "provenance_ids": [
+        "PRODUCER::pipeline.clause_graph.segmenter",
+        "VENDOR::05c6668dfb95"
+      ],
+      "trace_ids": [
+        "clause_segmenter::detect_boundaries::BOUND-0044-f2c36c"
+      ],
+      "residual_codes": [],
+      "closure_state": "BOUNDARY_DETECTED",
+      "finite_or_nonfinite_status": "UNDETERMINED_WITHOUT_PREDICATE_READINESS",
+      "confidence": 0.85
+    },
+    {
+      "clause_id": "AYAT-CLAUSE-010",
+      "sentence_id": "AYAT-SENTENCE-0001",
+      "start_token_id": "TOKEN::0058",
+      "end_token_id": "TOKEN::0075",
+      "member_token_ids": [
+        "TOKEN::0058",
+        "TOKEN::0059",
+        "TOKEN::0060",
+        "TOKEN::0061",
+        "TOKEN::0062",
+        "TOKEN::0063",
+        "TOKEN::0064",
+        "TOKEN::0065",
+        "TOKEN::0066",
+        "TOKEN::0067",
+        "TOKEN::0068",
+        "TOKEN::0069",
+        "TOKEN::0070",
+        "TOKEN::0071",
+        "TOKEN::0072",
+        "TOKEN::0073",
+        "TOKEN::0074",
+        "TOKEN::0075"
+      ],
+      "boundary_type": "NEGATION",
+      "boundary_evidence_ids": [
+        "operator_surface:لَمْ"
+      ],
+      "operator_surface": "لَمْ",
+      "provenance_ids": [
+        "PRODUCER::pipeline.clause_graph.segmenter",
+        "VENDOR::05c6668dfb95"
+      ],
+      "trace_ids": [
+        "clause_segmenter::detect_boundaries::BOUND-0057-51c8a4"
+      ],
+      "residual_codes": [],
+      "closure_state": "BOUNDARY_DETECTED",
+      "finite_or_nonfinite_status": "UNDETERMINED_WITHOUT_PREDICATE_READINESS",
+      "confidence": 0.85
+    },
+    {
+      "clause_id": "AYAT-CLAUSE-011",
+      "sentence_id": "AYAT-SENTENCE-0001",
+      "start_token_id": "TOKEN::0076",
+      "end_token_id": "TOKEN::0076",
+      "member_token_ids": [
+        "TOKEN::0076"
+      ],
+      "boundary_type": "CONDITIONAL",
+      "boundary_evidence_ids": [
+        "operator_surface:إِذَا"
+      ],
+      "operator_surface": "إِذَا",
+      "provenance_ids": [
+        "PRODUCER::pipeline.clause_graph.segmenter",
+        "VENDOR::05c6668dfb95"
+      ],
+      "trace_ids": [
+        "clause_segmenter::detect_boundaries::BOUND-0075-25cb15"
+      ],
+      "residual_codes": [],
+      "closure_state": "BOUNDARY_DETECTED",
+      "finite_or_nonfinite_status": "UNDETERMINED_WITHOUT_PREDICATE_READINESS",
+      "confidence": 0.85
+    },
+    {
+      "clause_id": "AYAT-CLAUSE-012",
+      "sentence_id": "AYAT-SENTENCE-0001",
+      "start_token_id": "TOKEN::0077",
+      "end_token_id": "TOKEN::0083",
+      "member_token_ids": [
+        "TOKEN::0077",
+        "TOKEN::0078",
+        "TOKEN::0079",
+        "TOKEN::0080",
+        "TOKEN::0081",
+        "TOKEN::0082",
+        "TOKEN::0083"
+      ],
+      "boundary_type": "NEGATION",
+      "boundary_evidence_ids": [
+        "operator_surface:مَا"
+      ],
+      "operator_surface": "مَا",
+      "provenance_ids": [
+        "PRODUCER::pipeline.clause_graph.segmenter",
+        "VENDOR::05c6668dfb95"
+      ],
+      "trace_ids": [
+        "clause_segmenter::detect_boundaries::BOUND-0076-a8e3ff"
+      ],
+      "residual_codes": [],
+      "closure_state": "BOUNDARY_DETECTED",
+      "finite_or_nonfinite_status": "UNDETERMINED_WITHOUT_PREDICATE_READINESS",
+      "confidence": 0.85
+    },
+    {
+      "clause_id": "AYAT-CLAUSE-013",
+      "sentence_id": "AYAT-SENTENCE-0001",
+      "start_token_id": "TOKEN::0084",
+      "end_token_id": "TOKEN::0109",
+      "member_token_ids": [
+        "TOKEN::0084",
+        "TOKEN::0085",
+        "TOKEN::0086",
+        "TOKEN::0087",
+        "TOKEN::0088",
+        "TOKEN::0089",
+        "TOKEN::0090",
+        "TOKEN::0091",
+        "TOKEN::0092",
+        "TOKEN::0093",
+        "TOKEN::0094",
+        "TOKEN::0095",
+        "TOKEN::0096",
+        "TOKEN::0097",
+        "TOKEN::0098",
+        "TOKEN::0099",
+        "TOKEN::0100",
+        "TOKEN::0101",
+        "TOKEN::0102",
+        "TOKEN::0103",
+        "TOKEN::0104",
+        "TOKEN::0105",
+        "TOKEN::0106",
+        "TOKEN::0107",
+        "TOKEN::0108",
+        "TOKEN::0109"
+      ],
+      "boundary_type": "CONJUNCTION",
+      "boundary_evidence_ids": [
+        "operator_surface:أَوْ"
+      ],
+      "operator_surface": "أَوْ",
+      "provenance_ids": [
+        "PRODUCER::pipeline.clause_graph.segmenter",
+        "VENDOR::05c6668dfb95"
+      ],
+      "trace_ids": [
+        "clause_segmenter::detect_boundaries::BOUND-0083-a2a91f"
+      ],
+      "residual_codes": [],
+      "closure_state": "BOUNDARY_DETECTED",
+      "finite_or_nonfinite_status": "UNDETERMINED_WITHOUT_PREDICATE_READINESS",
+      "confidence": 0.85
+    },
+    {
+      "clause_id": "AYAT-CLAUSE-014",
+      "sentence_id": "AYAT-SENTENCE-0001",
+      "start_token_id": "TOKEN::0110",
+      "end_token_id": "TOKEN::0129",
+      "member_token_ids": [
+        "TOKEN::0110",
+        "TOKEN::0111",
+        "TOKEN::0112",
+        "TOKEN::0113",
+        "TOKEN::0114",
+        "TOKEN::0115",
+        "TOKEN::0116",
+        "TOKEN::0117",
+        "TOKEN::0118",
+        "TOKEN::0119",
+        "TOKEN::0120",
+        "TOKEN::0121",
+        "TOKEN::0122",
+        "TOKEN::0123",
+        "TOKEN::0124",
+        "TOKEN::0125",
+        "TOKEN::0126",
+        "TOKEN::0127",
+        "TOKEN::0128",
+        "TOKEN::0129"
+      ],
+      "boundary_type": "CONDITIONAL",
+      "boundary_evidence_ids": [
+        "operator_surface:إِذَا"
+      ],
+      "operator_surface": "إِذَا",
+      "provenance_ids": [
+        "PRODUCER::pipeline.clause_graph.segmenter",
+        "VENDOR::05c6668dfb95"
+      ],
+      "trace_ids": [
+        "clause_segmenter::detect_boundaries::BOUND-0109-294640"
+      ],
+      "residual_codes": [],
+      "closure_state": "BOUNDARY_DETECTED",
+      "finite_or_nonfinite_status": "UNDETERMINED_WITHOUT_PREDICATE_READINESS",
+      "confidence": 0.85
+    }
+  ]
+}

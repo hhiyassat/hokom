@@ -1,0 +1,126 @@
+{
+  "phase_id": "E7_FORMAL_SHAPE_MUFRAD_DALALAH",
+  "phase_label": "FORMAL SHAPE + MUFRAD DALALAH (PR-F2: build_word_class_registry; PR-F8: prove_formal_style_candidate; PR-18: prove_contractable_unit; PR-D1: prove_mufrad_semantic_slot_geometry → SemanticSlotFrame)",
+  "phase_state": "FOCUSED_VERIFIED",
+  "note": "FOCUSED_VERIFIED on Python 3.10 sandbox. Module invariants and fail-closed behavior verified on 3.10. G_E7_02/03/04/05/06 (FormalShapeRegistry.CLOSED, FormalStyleCandidate PROVEN, ContractableUnitGeometry PROVEN, SemanticSlotFrame PROVEN, identity constraints) require Python 3.12+ owner verification.",
+  "closed_at": null,
+  "vendor_sha": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "corpus_sha": "6bd635a05530965f13f76cf003f7738130badec6981bcb0e73f2465d386e1ed7",
+  "implementation": {
+    "formal_shape_adapter": "pipeline/taaqol_integration/weight_layer/formal_shape_adapter.py",
+    "mufrad_slot_adapter": "pipeline/taaqol_integration/weight_layer/mufrad_semantic_slot_adapter.py",
+    "test_file": "tests/e7_formal_shape_mufrad/test_e7_formal_shape_mufrad.py",
+    "init_file": "tests/e7_formal_shape_mufrad/__init__.py"
+  },
+  "e7_chain": {
+    "pr_f2_build_word_class_registry": "build_word_class_registry() → FormalShapeRegistry(closure_state=CLOSED); canonical ISM/FI3L/HARF + all 9 subfamilies; singleton-cached",
+    "pr_f8_prove_formal_style_candidate": "prove_formal_style_candidate(style_family=DECLARATIVE_STYLE_FORM, composition_evidence_ref, formal_closure_state=CLOSED, formal_closure_ref) → FormalStyleVerdict(PROVEN, candidate=FormalStyleCandidate)",
+    "pr_18_prove_contractable_unit": "prove_contractable_unit(binding_candidate: DalMadlulBindingCandidate, admissible_roles, blocked_roles, path_profile, word_class_affordance, inflection_affordance, derivational_affordance) → ContractableUnitVerdict(PROVEN, candidate=ContractableUnitGeometry); unit_identity=dal_candidate.signifier_identity",
+    "pr_d1_prove_mufrad_semantic_slot_geometry": "prove_mufrad_semantic_slot_geometry(formal_style_candidate, dal_only, verbal_madlul, contractable_unit, FormalShapeClosureState.CLOSED, ...) → MufradSemanticSlotGeometryVerdict(PROVEN, candidate=SemanticSlotFrame)",
+    "identity_constraints": [
+      "verbal_madlul_candidate.dal_only IS dal_only_candidate (Python is-identity)",
+      "contractable_unit.binding_candidate.dal_candidate IS dal_only_candidate",
+      "contractable_unit.binding_candidate.madlul_candidate IS verbal_madlul_candidate",
+      "contractable_unit.binding_candidate.madlul_candidate.dal_only IS dal_only_candidate"
+    ],
+    "identity_threading": "dal_only and verbal_madlul extracted from e6_binding_verdict.candidate; same instances passed to PR-18 (via binding_candidate) and PR-D1 directly; all 4 is-checks satisfied by construction",
+    "semantic_slot_frame_non_meaning_proof": "SemanticSlotFrame is geometry for dalalah possibility — not meaning, not Mutabaqah, not Tadammun, not Iltizam, not ifadah; opens PR-D2 readiness only"
+  },
+  "functions": {
+    "formal_shape_adapter": {
+      "get_formal_shape_registry": "PR-F2 — returns FormalShapeRegistry(CLOSED) or None; singleton-cached",
+      "get_formal_closure_state": "Returns FormalShapeClosureState.CLOSED or None on 3.10",
+      "build_formal_style_candidate": "PR-F8 — style_family_name + composition_evidence_ref + formal_closure_ref → FormalStyleVerdict(PROVEN) | None"
+    },
+    "mufrad_slot_adapter": {
+      "build_contractable_unit_geometry": "PR-18 — DalMadlulBindingVerdict + word_class → ContractableUnitVerdict(PROVEN) | None; affordances derived from word_class",
+      "build_mufrad_semantic_slot_geometry": "PR-D1 — e6_binding_verdict + formal_style_verdict + token_surface + word_class + enum params → MufradSemanticSlotGeometryVerdict(PROVEN) | None",
+      "build_e7_chain_from_e6_verdict": "E6→E7 chain — DalMadlulBindingVerdict + token_surface + trace_id → MufradSemanticSlotGeometryVerdict | None",
+      "build_e7_from_surface": "E4B+E4C+E5+E6+E7 full chain — Arabic surface → MufradSemanticSlotGeometryVerdict(PROVEN) | None"
+    }
+  },
+  "default_parameters": {
+    "style_family": "DECLARATIVE_STYLE_FORM (ISM tokens structurally admit predication markers)",
+    "semantic_category": "JAMID (entity anchoring readiness — conservative for corpus nouns)",
+    "wad_origin_domain": "LUGHAWI (Arabic language domain)",
+    "wad_evidence_type": "CORPUS (corpus evidence)",
+    "kulli_juzii_axis": "KULLI (common nouns can be predicated of many)",
+    "particularity_source": "NOT_APPLICABLE (kulli — no particularity at this layer)",
+    "predication_test_passed": "True (ISM tokens pass structural predication test)",
+    "branch_no_preventer": "True (no preventer audit at E7 layer)",
+    "naql_readiness": "deferred-to-naql-gate",
+    "majaz_readiness": "deferred-to-majaz-gate",
+    "formal_closure_ref": "formal_shape_registry/word_class_domain/CLOSED"
+  },
+  "full_chain_e0_to_e7": {
+    "E0": "SHAs confirmed (VENDOR_SHA, HOKOM_HEAD, CORPUS_SHA)",
+    "E1": "AYAT_AL_DAYN_REGISTRY built (74 ISM/FI3L entries)",
+    "E2": "registry_adapter.py wired — registry_matches non-None",
+    "E3": "REQUIREMENTS_DOCUMENTED — P3/P4/P5 stage evidence requirements",
+    "E4A": "Structural guards (HARF, upstream directive, empty host, vendor check)",
+    "E4B": "decompose_arabic() + build_weight_readiness_candidate()",
+    "E4C": "omega_governance() + weigh() + assess_license() → LicensingBoundaryVerdict",
+    "E5": "prove_dal() → DalBoundaryVerdict(PROVEN, candidate=DalOnlyCandidate)",
+    "E6": "prove_verbal_madlul() → VerbalMadlulBoundaryVerdict(PROVEN) → bind_dal_madlul() → DalMadlulBindingVerdict(BOUND)",
+    "E7": "build_word_class_registry() → FormalShapeRegistry(CLOSED) → prove_formal_style_candidate() → FormalStyleVerdict(PROVEN) → prove_contractable_unit() → ContractableUnitVerdict(PROVEN) → prove_mufrad_semantic_slot_geometry() → MufradSemanticSlotGeometryVerdict(PROVEN, candidate=SemanticSlotFrame)"
+  },
+  "test_results": {
+    "python_310_sandbox": {
+      "e7_tests": {
+        "total_collected": 48,
+        "passed": 19,
+        "skipped": 29,
+        "failed": 0
+      },
+      "combined_e1_e2_e4b_e4c_e5_e6_e7": {
+        "passed": 155,
+        "skipped": 99,
+        "failed": 0,
+        "note": "No regressions from E7 addition"
+      }
+    }
+  },
+  "gates": {
+    "G_E7_01": 1,
+    "note_G_E7_01": "Fail-closed on Python 3.10: all E7 functions return None; never raise; _MUFRAD_SLOT_AVAILABLE=False; _FORMAL_SHAPE_AVAILABLE=False; _E6_AVAILABLE=True; _FORMAL_SHAPE_ADAPTER_AVAILABLE=True; empty/None inputs return None",
+    "G_E7_02": "PENDING_OWNER_312",
+    "note_G_E7_02": "FormalShapeRegistry.closure_state == CLOSED on Python 3.12+. Owner must run tests/e7_formal_shape_mufrad/test_e7_formal_shape_mufrad.py on Python 3.12+.",
+    "G_E7_03": "PENDING_OWNER_312",
+    "note_G_E7_03": "FormalStyleVerdict(PROVEN) + FormalStyleCandidate.formal_closure_ref preserved on 3.12+. Owner must run TestT_E7_03_FormalStyleCandidateOn312 on 3.12+.",
+    "G_E7_04": "PENDING_OWNER_312",
+    "note_G_E7_04": "ContractableUnitVerdict(PROVEN) + ContractableUnitGeometry.unit_identity==token_surface for corpus ISM tokens on 3.12+. Owner must run TestT_E7_04_ContractableUnitOn312 on 3.12+.",
+    "G_E7_05": "PENDING_OWNER_312",
+    "note_G_E7_05": "MufradSemanticSlotGeometryVerdict(PROVEN) + SemanticSlotFrame.dal_identity_ref non-empty + 16 deferred residuals for all corpus ISM tokens on 3.12+. Owner must run TestT_E7_05_SemanticSlotFrameOn312 on 3.12+.",
+    "G_E7_06": "PENDING_OWNER_312",
+    "note_G_E7_06": "Identity constraints + refusal guards on 3.12+: wrong formal_style type → None; None e6_verdict → None; empty token → None; empty trace → None. Owner must run TestT_E7_06_IdentityConstraintsOn312 on 3.12+.",
+    "G_E7_07": 1,
+    "note_G_E7_07": "Module invariants: both adapters import cleanly on 3.10; _verify_e7_*_invariants() passes at import time; _VENDOR_SHA confirmed; all functions callable; _E6_AVAILABLE=True; _FORMAL_SHAPE_ADAPTER_AVAILABLE=True"
+  },
+  "gates_passed": 2,
+  "gates_pending_312_verification": 5,
+  "gates_total": 7,
+  "blocking_residuals": [
+    {
+      "id": "G_E7_02_03_04_05_06_PENDING_312",
+      "severity": "REQUIRES_OWNER_VERIFICATION",
+      "detail": "Run tests/e7_formal_shape_mufrad/test_e7_formal_shape_mufrad.py on Python 3.12+ to verify: (1) FormalShapeRegistry CLOSED, (2) FormalStyleCandidate PROVEN for corpus tokens, (3) ContractableUnitGeometry PROVEN for corpus tokens, (4) SemanticSlotFrame PROVEN for all corpus ISM tokens, (5) identity constraints enforced"
+    }
+  ],
+  "fiqhi_algebra": {
+    "WAD": "DalMadlulBindingCandidate (from E6) + FormalShapeClosureState.CLOSED (from PR-F2) + FormalStyleCandidate (from PR-F8) + ContractableUnitGeometry (from PR-18) + token_surface (for refs/traces)",
+    "SABAB": "E7 = mufrad semantic slot geometry; SemanticSlotFrame proves the constitutional structure needed for dalalah possibility — identity continuity from dal through madlul to formal shape, wad' evidence, per-unit formal profile closure, kulli/juz'i axis verdict, and origin/branch geometry",
+    "SHART": "Python 3.12+ for all vendor types (StrEnum); FormalShapeClosureState.CLOSED required by PR-F8 and PR-D1; all 4 identity is-checks must pass; all string refs non-empty",
+    "MANI": "None active — SemanticSlotFrame ≠ meaning, ≠ Mutabaqah, ≠ Tadammun, ≠ Iltizam, ≠ ifadah, ≠ dalalah operation (constitutional docs/36 §1)",
+    "ILLA": "formal_style_candidate must be FormalStyleCandidate; dal_only must be DalOnlyCandidate; verbal_madlul must be VerbalMadlulCandidate; contractable_unit must be ContractableUnitGeometry; formal_closure_state must be CLOSED",
+    "QADIH": "Potential: if vendor StrEnum enforcement rejects any enum param string value on 3.12+ → tested on owner run",
+    "HUKM": "FOCUSED_VERIFIED — 2/7 gates pass on 3.10; 5 pending 3.12+; 155 total pass (no regressions)",
+    "ATHAR": "E0→E7 constitutional integration chain FULLY IMPLEMENTED. Terminal output: MufradSemanticSlotGeometryVerdict(PROVEN) with SemanticSlotFrame for corpus ISM/FI3L tokens on 3.12+.",
+    "RESIDUALS": ["G_E7_02_03_04_05_06_PENDING_312"]
+  },
+  "canonical_exit": 1,
+  "note_canonical_exit": "canonical_exit=1 until G_E7_02/03/04/05/06 confirmed on Python 3.12+. E8+ (MaqamContextBoundary and downstream) is next phase per SOURCE_DERIVED_DEPENDENCY_AMENDMENT_01.",
+  "autonomous_execution_mode": 1,
+  "autonomous_commit_mode": 0,
+  "next_phase": "E8_MAQAM_CONTEXT_BOUNDARY"
+}

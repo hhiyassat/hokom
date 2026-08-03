@@ -1,0 +1,529 @@
+{
+  "schema_version": "1.0.0",
+  "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "generated_at_utc": "2026-08-03T03:17:59.360821+00:00",
+  "totals": {
+    "C12_CONTRACTS_TOTAL": 21,
+    "C12_CONTRACTS_UNREVIEWED": 0,
+    "NATIVE_LAWS": 13,
+    "HOKOM_PRODUCERS": 7,
+    "ADAPTERS": 1,
+    "READY_TO_IMPLEMENT": 8,
+    "NATIVE_LAW_AVAILABLE": 13,
+    "OWNER_SEMANTIC_DECISION_REQUIRED": 0
+  },
+  "steps": [
+    {
+      "step_number": 1,
+      "stage_name": "FormalShapeRegistry",
+      "canonical_owner": "HOKOM",
+      "source_module": "pipeline.taaqol_integration.evidence_producers.formal_shape_registry",
+      "source_symbol": "build_formal_shape_registry",
+      "source_path": "pipeline/taaqol_integration/evidence_producers/formal_shape_registry.py",
+      "native_or_hokom": "HOKOM",
+      "required_predecessor_types": [
+        "word_class",
+        "wazn",
+        "ContractableUnitGeometry"
+      ],
+      "required_scope": "TOKEN",
+      "native_input_type": "N/A (Hokom carrier)",
+      "native_output_type": "FormalShapeRegistryCarrier",
+      "required_evidence_fields": [
+        "word_class",
+        "wazn",
+        "form_family"
+      ],
+      "required_closure_state": "CLOSED (when all mandatory evidence present)",
+      "current_status": "READY_TO_IMPLEMENT",
+      "implementation_action": "Implement fail-closed producer that emits registry only when all evidence present",
+      "ayat_applicability": "APPLICABLE_TO_37_LICENSED_TOKENS",
+      "first_blocker": null
+    },
+    {
+      "step_number": 2,
+      "stage_name": "FormalStyleCandidate",
+      "canonical_owner": "TAAQOL_VENDOR",
+      "source_module": "taaqqul_slot_geometry.weight.formal_style_candidate",
+      "source_symbol": "prove_formal_style_candidate",
+      "source_path": "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/weight/formal_style_candidate.py",
+      "source_sha256": "af4335923593fbe97d69a700a80633eca1709eb42b4dcd4d229a745e0d337154",
+      "native_or_hokom": "NATIVE",
+      "required_predecessor_types": [
+        "FormalStyleFamily"
+      ],
+      "required_scope": "SENTENCE",
+      "native_input_type": "FormalStyleFamily",
+      "native_output_type": "FormalStyleVerdict",
+      "required_evidence_fields": [
+        "FormalShapeRegistry(CLOSED)"
+      ],
+      "required_closure_state": "PROVEN",
+      "current_status": "NATIVE_LAW_AVAILABLE",
+      "implementation_action": "Wire vendor call after step 1; verify exact input/output types",
+      "ayat_applicability": "APPLICABLE_IF_STEP_1_EMITS_CLOSED",
+      "first_blocker": "Depends on step 1",
+      "adapter_wired": false,
+      "adapter_missing": "FormalStyleFamily constructor from Hokom FormalShapeRegistry"
+    },
+    {
+      "step_number": 3,
+      "stage_name": "P8_AMIL_MAMUL",
+      "canonical_owner": "HOKOM",
+      "source_module": "pipeline.taaqol_integration.evidence_producers.p8_amil_mamul",
+      "source_symbol": "project_amil_mamul",
+      "source_path": "pipeline/taaqol_integration/evidence_producers/p8_amil_mamul.py",
+      "native_or_hokom": "HOKOM",
+      "required_predecessor_types": [
+        "ClauseBoundary",
+        "word_class",
+        "operator_markers"
+      ],
+      "required_scope": "SPAN",
+      "native_input_type": "N/A",
+      "native_output_type": "AmilMamulCarrier",
+      "required_evidence_fields": [
+        "operator_id",
+        "governed_tokens",
+        "clause_id"
+      ],
+      "required_closure_state": "DETECTED",
+      "current_status": "READY_TO_IMPLEMENT",
+      "implementation_action": "Implement projector using pipeline.clause_graph.segmenter output + operator catalog",
+      "ayat_applicability": "APPLICABLE_TO_14_CLAUSES",
+      "first_blocker": null
+    },
+    {
+      "step_number": 4,
+      "stage_name": "SpanProducer",
+      "canonical_owner": "HOKOM",
+      "source_module": "pipeline.taaqol_integration.evidence_producers.span_producer",
+      "source_symbol": "produce_spans",
+      "source_path": "pipeline/taaqol_integration/evidence_producers/span_producer.py",
+      "native_or_hokom": "HOKOM",
+      "required_predecessor_types": [
+        "AmilMamulCarrier",
+        "operator_scope"
+      ],
+      "required_scope": "SPAN",
+      "native_input_type": "N/A",
+      "native_output_type": "SpanCarrier",
+      "required_evidence_fields": [
+        "start_token_id",
+        "end_token_id",
+        "construction_rule",
+        "provenance_ids"
+      ],
+      "required_closure_state": "CLOSED",
+      "current_status": "READY_TO_IMPLEMENT",
+      "implementation_action": "Implement source-derived only; reject arbitrary adjacency",
+      "ayat_applicability": "APPLICABLE_IF_P8_PRODUCES_CARRIERS",
+      "first_blocker": null
+    },
+    {
+      "step_number": 5,
+      "stage_name": "RelationCompatibilityCarrier",
+      "canonical_owner": "HOKOM",
+      "source_module": "pipeline.taaqol_integration.evidence_producers.relation_compatibility",
+      "source_symbol": "build_relation_compatibility",
+      "source_path": "pipeline/taaqol_integration/evidence_producers/relation_compatibility.py",
+      "native_or_hokom": "HOKOM",
+      "required_predecessor_types": [
+        "SpanCarrier",
+        "ContractableUnitGeometry (2x)"
+      ],
+      "required_scope": "SPAN",
+      "native_input_type": "N/A",
+      "native_output_type": "RelationCompatibilityCarrier",
+      "required_evidence_fields": [
+        "span_id",
+        "left_unit_id",
+        "right_unit_id",
+        "structural_relation_hint"
+      ],
+      "required_closure_state": "COMPATIBLE_OR_DEFERRED",
+      "current_status": "READY_TO_IMPLEMENT",
+      "implementation_action": "Structural compatibility only; no vendor verdict fields",
+      "ayat_applicability": "APPLICABLE_IF_SPAN_HAS_2_CU",
+      "first_blocker": null
+    },
+    {
+      "step_number": 6,
+      "stage_name": "HokomToVendorRelationAdapter",
+      "canonical_owner": "HOKOM_ADAPTER",
+      "source_module": "pipeline.taaqol_integration.evidence_producers.vendor_relation_adapter",
+      "source_symbol": "invoke_native_relation_candidate",
+      "source_path": "pipeline/taaqol_integration/evidence_producers/vendor_relation_adapter.py",
+      "native_or_hokom": "HOKOM_ADAPTER",
+      "required_predecessor_types": [
+        "RelationCompatibilityCarrier",
+        "ContractableUnitGeometry (2x native)"
+      ],
+      "required_scope": "SPAN",
+      "native_input_type": "ContractableUnitGeometry (vendor)",
+      "native_output_type": "RelationVerdict",
+      "required_evidence_fields": [
+        "native_module",
+        "native_symbol",
+        "vendor_commit",
+        "input_digest"
+      ],
+      "required_closure_state": "ADAPTER_EXECUTED",
+      "current_status": "READY_TO_IMPLEMENT",
+      "implementation_action": "Mechanical typed adapter invoking prove_relation_candidate",
+      "ayat_applicability": "APPLICABLE_IF_COMPATIBILITY_CARRIER_EXISTS",
+      "first_blocker": null,
+      "adapter_wired": true,
+      "adapter_missing_dependency": "vendor ContractableUnitGeometry construction"
+    },
+    {
+      "step_number": 7,
+      "stage_name": "RelationCandidate",
+      "canonical_owner": "TAAQOL_VENDOR",
+      "source_module": "taaqqul_slot_geometry.weight.relation_candidate",
+      "source_symbol": "prove_relation_candidate",
+      "source_path": "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/weight/relation_candidate.py",
+      "source_sha256": "9eacf3e5e698458ea98696527d570156ed72560fdbe97f679cdf97fd8b6abdf3",
+      "native_or_hokom": "NATIVE",
+      "required_predecessor_types": [
+        "ContractableUnitGeometry"
+      ],
+      "required_scope": "SPAN",
+      "native_input_type": "ContractableUnitGeometry",
+      "native_output_type": "RelationVerdict",
+      "required_evidence_fields": [
+        "objecthood proven"
+      ],
+      "required_closure_state": "PROVEN",
+      "current_status": "NATIVE_LAW_AVAILABLE",
+      "implementation_action": "Invoked via step 6 adapter",
+      "ayat_applicability": "DEPENDS_ON_STEP_6",
+      "first_blocker": "Depends on step 6",
+      "adapter_wired": false,
+      "blocker": "vendor ContractableUnitGeometry not currently constructed from Hokom bundle"
+    },
+    {
+      "step_number": 8,
+      "stage_name": "RelationClosure",
+      "canonical_owner": "TAAQOL_VENDOR",
+      "source_module": "taaqqul_slot_geometry.weight.relation_closure",
+      "source_symbol": "prove_relation_closure",
+      "source_path": "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/weight/relation_closure.py",
+      "source_sha256": "c0f0fbd45c38fb79619e9bb7869eca6ccef0b51a06570421f3b0dfc988bc4b5c",
+      "native_or_hokom": "NATIVE",
+      "required_predecessor_types": [
+        "MufradDalalahClosureVerdict (2x)"
+      ],
+      "required_scope": "SPAN",
+      "native_input_type": "MufradDalalahClosureVerdict",
+      "native_output_type": "RelationClosureVerdict",
+      "required_evidence_fields": [
+        "2x MufradDalalahClosureVerdict PROVEN"
+      ],
+      "required_closure_state": "PROVEN",
+      "current_status": "NATIVE_LAW_AVAILABLE",
+      "implementation_action": "Requires MufradDalalahClosure predecessor (not currently produced by Hokom)",
+      "ayat_applicability": "BLOCKED_BY_MISSING_MUFRAD_DALALAH_CLOSURE",
+      "first_blocker": "No Hokom producer emits MufradDalalahClosureVerdict; only ContractableUnitGeometry"
+    },
+    {
+      "step_number": 9,
+      "stage_name": "P9_SentenceGeometry",
+      "canonical_owner": "HOKOM",
+      "source_module": "pipeline.taaqol_integration.evidence_producers.p9_sentence_geometry",
+      "source_symbol": "project_sentence_geometry",
+      "source_path": "pipeline/taaqol_integration/evidence_producers/p9_sentence_geometry.py",
+      "native_or_hokom": "HOKOM",
+      "required_predecessor_types": [
+        "ClauseBoundary",
+        "orthographic_sentence"
+      ],
+      "required_scope": "SENTENCE",
+      "native_input_type": "N/A",
+      "native_output_type": "P9SentenceCarrier",
+      "required_evidence_fields": [
+        "sentence_id",
+        "member_clause_ids",
+        "geometry_state"
+      ],
+      "required_closure_state": "ORTHOGRAPHIC_OR_STRUCTURAL",
+      "current_status": "READY_TO_IMPLEMENT",
+      "implementation_action": "Use existing 14 clauses + orthographic Ayat",
+      "ayat_applicability": "APPLICABLE",
+      "first_blocker": null
+    },
+    {
+      "step_number": 10,
+      "stage_name": "MaqamEvidenceProducer",
+      "canonical_owner": "HOKOM",
+      "source_module": "pipeline.taaqol_integration.evidence_producers.maqam_evidence",
+      "source_symbol": "produce_maqam_evidence",
+      "source_path": "pipeline/taaqol_integration/evidence_producers/maqam_evidence.py",
+      "native_or_hokom": "HOKOM",
+      "required_predecessor_types": [
+        "P9SentenceCarrier",
+        "explicit_markers"
+      ],
+      "required_scope": "SENTENCE",
+      "native_input_type": "N/A",
+      "native_output_type": "MaqamEvidenceBundle",
+      "required_evidence_fields": [
+        "sentence_mode_evidence",
+        "explicit_markers"
+      ],
+      "required_closure_state": "DETECTED_OR_DEFERRED",
+      "current_status": "READY_TO_IMPLEMENT",
+      "implementation_action": "Detect explicit vocative/command/negation from clause boundaries",
+      "ayat_applicability": "APPLICABLE_FOR_EXPLICIT_MARKERS_ONLY",
+      "first_blocker": null
+    },
+    {
+      "step_number": 11,
+      "stage_name": "MaqamContextBoundary",
+      "canonical_owner": "TAAQOL_VENDOR",
+      "source_module": "taaqqul_slot_geometry.weight.maqam_context_boundary",
+      "source_symbol": "prove_maqam_context_boundary",
+      "source_path": "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/weight/maqam_context_boundary.py",
+      "source_sha256": "67cf767a5822a293815268f66c783015b29ce597ec3c48abb160ee4e43003686",
+      "native_or_hokom": "NATIVE",
+      "required_predecessor_types": [
+        "MufradSemanticSlotGeometryVerdict",
+        "SemanticSlotFrame"
+      ],
+      "required_scope": "SENTENCE",
+      "native_input_type": "MufradSemanticSlotGeometryVerdict",
+      "native_output_type": "MaqamContextBoundaryVerdict",
+      "required_evidence_fields": [
+        "SemanticSlotFrame (PR-D1)"
+      ],
+      "required_closure_state": "PROVEN",
+      "current_status": "NATIVE_LAW_AVAILABLE",
+      "implementation_action": "Vendor invocation; requires SemanticSlotFrame carrier from Hokom",
+      "ayat_applicability": "BLOCKED_BY_MISSING_SEMANTIC_SLOT_FRAME",
+      "first_blocker": "Hokom bundle does not currently emit SemanticSlotFrame with SENTENCE-scope maqam context"
+    },
+    {
+      "step_number": 12,
+      "stage_name": "P12_IfadahCandidate",
+      "canonical_owner": "HOKOM",
+      "source_module": "pipeline.taaqol_integration.evidence_producers.p12_ifadah_candidate",
+      "source_symbol": "project_ifadah_candidate",
+      "source_path": "pipeline/taaqol_integration/evidence_producers/p12_ifadah_candidate.py",
+      "native_or_hokom": "HOKOM",
+      "required_predecessor_types": [
+        "RelationClosureVerdict",
+        "FormalStyleVerdict",
+        "MaqamContextBoundaryVerdict"
+      ],
+      "required_scope": "SENTENCE",
+      "native_input_type": "N/A",
+      "native_output_type": "P12IfadahCarrier",
+      "required_evidence_fields": [
+        "relation_closure_id",
+        "formal_predecessor_ids",
+        "maqam_boundary_id"
+      ],
+      "required_closure_state": "READY_FOR_NATIVE_IFADAH",
+      "current_status": "READY_TO_IMPLEMENT",
+      "implementation_action": "Assembles all 3 predecessors; fail-closed if any missing",
+      "ayat_applicability": "BLOCKED_UPSTREAM (RelationClosure and MaqamContextBoundary blocked)",
+      "first_blocker": "Steps 8 and 11 blocked"
+    },
+    {
+      "step_number": 13,
+      "stage_name": "Ifadah",
+      "canonical_owner": "TAAQOL_VENDOR",
+      "source_module": "taaqqul_slot_geometry.weight.ifadah_candidate",
+      "source_symbol": "prove_ifadah_candidate",
+      "source_path": "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/weight/ifadah_candidate.py",
+      "source_sha256": "7417e7bb831ea15ff75544158dd485f522e1ef7e3b5ffdbbf8e23e802e142ef8",
+      "native_or_hokom": "NATIVE",
+      "required_predecessor_types": [
+        "RelationClosureVerdict",
+        "FormalStyleVerdict",
+        "MaqamContextBoundaryVerdict"
+      ],
+      "required_scope": "SENTENCE",
+      "native_input_type": "RelationClosureVerdict",
+      "native_output_type": "IfadahVerdict",
+      "required_closure_state": "PROVEN",
+      "current_status": "NATIVE_LAW_AVAILABLE",
+      "implementation_action": "Vendor invocation after step 12",
+      "ayat_applicability": "BLOCKED_UPSTREAM",
+      "first_blocker": "Depends on steps 8, 11"
+    },
+    {
+      "step_number": 14,
+      "stage_name": "Hukm",
+      "canonical_owner": "TAAQOL_VENDOR",
+      "source_module": "taaqqul_slot_geometry.weight.hukm_candidate",
+      "source_symbol": "prove_hukm_candidate",
+      "source_path": "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/weight/hukm_candidate.py",
+      "source_sha256": "62f97e6a192cc87f16a0684d9c8b470ad9240fcc226e9f3568ba8986233c06d8",
+      "native_or_hokom": "NATIVE",
+      "required_predecessor_types": [
+        "IfadahVerdict"
+      ],
+      "required_scope": "SENTENCE",
+      "native_input_type": "IfadahVerdict",
+      "native_output_type": "HukmVerdict",
+      "current_status": "NATIVE_LAW_AVAILABLE",
+      "implementation_action": "Vendor invocation after step 13",
+      "ayat_applicability": "BLOCKED_UPSTREAM",
+      "first_blocker": "Depends on step 13"
+    },
+    {
+      "step_number": 15,
+      "stage_name": "Manat",
+      "canonical_owner": "TAAQOL_VENDOR",
+      "source_module": "taaqqul_slot_geometry.weight.manat_candidate",
+      "source_symbol": "prove_manat_candidate",
+      "source_path": "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/weight/manat_candidate.py",
+      "source_sha256": "80f1558d2620747be8849f80296425d08997fdba20c1d36dc77212297b4adc4a",
+      "native_or_hokom": "NATIVE",
+      "required_predecessor_types": [
+        "HukmVerdict"
+      ],
+      "required_scope": "SENTENCE",
+      "native_input_type": "HukmVerdict",
+      "native_output_type": "ManatVerdict",
+      "current_status": "NATIVE_LAW_AVAILABLE",
+      "implementation_action": "Vendor invocation after step 14",
+      "ayat_applicability": "BLOCKED_UPSTREAM",
+      "first_blocker": "Depends on step 14"
+    },
+    {
+      "step_number": 16,
+      "stage_name": "Tanzil",
+      "canonical_owner": "TAAQOL_VENDOR",
+      "source_module": "taaqqul_slot_geometry.weight.tanzil_candidate",
+      "source_symbol": "prove_tanzil_candidate",
+      "source_path": "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/weight/tanzil_candidate.py",
+      "source_sha256": "4b48889c5b1d9bb00a06eba0890e3596b60c36cd1a3f4c2393850301e214a4aa",
+      "native_or_hokom": "NATIVE",
+      "required_predecessor_types": [
+        "HukmVerdict",
+        "ManatVerdict"
+      ],
+      "required_scope": "SENTENCE",
+      "native_input_type": "HukmVerdict",
+      "native_output_type": "TanzilVerdict",
+      "current_status": "NATIVE_LAW_AVAILABLE",
+      "implementation_action": "Vendor invocation after step 15",
+      "ayat_applicability": "BLOCKED_UPSTREAM",
+      "first_blocker": "Depends on steps 14, 15"
+    },
+    {
+      "step_number": 17,
+      "stage_name": "Mantuq",
+      "canonical_owner": "TAAQOL_VENDOR",
+      "source_module": "taaqqul_slot_geometry.weight.mantuq_closure",
+      "source_symbol": "prove_mantuq_closure",
+      "source_path": "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/weight/mantuq_closure.py",
+      "source_sha256": "09ce8ab850285f17d0cba0deff8b26cc95c687ae71ab7eff12704fe162fbeeb2",
+      "native_or_hokom": "NATIVE",
+      "required_predecessor_types": [
+        "IfadahVerdict",
+        "MaqamContextBoundaryVerdict"
+      ],
+      "required_scope": "SENTENCE",
+      "native_input_type": "IfadahVerdict",
+      "native_output_type": "MantuqClosureVerdict",
+      "current_status": "NATIVE_LAW_AVAILABLE",
+      "implementation_action": "Vendor invocation after step 13",
+      "ayat_applicability": "BLOCKED_UPSTREAM",
+      "first_blocker": "Depends on steps 11, 13"
+    },
+    {
+      "step_number": 18,
+      "stage_name": "Mafhum",
+      "canonical_owner": "TAAQOL_VENDOR",
+      "source_module": "taaqqul_slot_geometry.weight.mafhum_closure",
+      "source_symbol": "prove_mafhum_closure",
+      "source_path": "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/weight/mafhum_closure.py",
+      "source_sha256": "d77611aa0c2e6e8f38c20a8c134d282da6d68994a8ce0ac07d9cc3f75726e8ff",
+      "native_or_hokom": "NATIVE",
+      "required_predecessor_types": [
+        "MantuqClosureVerdict"
+      ],
+      "required_scope": "SENTENCE",
+      "native_input_type": "MantuqClosureVerdict",
+      "native_output_type": "MafhumClosureVerdict",
+      "current_status": "NATIVE_LAW_AVAILABLE",
+      "implementation_action": "Vendor invocation after step 17",
+      "ayat_applicability": "BLOCKED_UPSTREAM",
+      "first_blocker": "Depends on step 17"
+    },
+    {
+      "step_number": 19,
+      "stage_name": "TanzilBridge",
+      "canonical_owner": "TAAQOL_VENDOR",
+      "source_module": "taaqqul_slot_geometry.audit.tanzil_bridge",
+      "source_symbol": "bridge_tanzil_to_audit",
+      "source_path": "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/audit/tanzil_bridge.py",
+      "source_sha256": "f0f8d1a75136679d46ce5a0d98c0b8c67a50c9ce3cf414a5ba56f4c8b81f599f",
+      "native_or_hokom": "NATIVE",
+      "required_predecessor_types": [
+        "TanzilVerdict"
+      ],
+      "required_scope": "SENTENCE",
+      "native_input_type": "TanzilVerdict",
+      "native_output_type": "AuditedTanzilBridgeVerdict",
+      "current_status": "NATIVE_LAW_AVAILABLE",
+      "implementation_action": "Vendor invocation after step 16",
+      "ayat_applicability": "BLOCKED_UPSTREAM",
+      "first_blocker": "Depends on step 16"
+    },
+    {
+      "step_number": 20,
+      "stage_name": "AnswerAudit",
+      "canonical_owner": "TAAQOL_VENDOR",
+      "source_module": "taaqqul_slot_geometry.audit.answer_audit",
+      "source_symbol": "audit",
+      "source_path": "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/audit/answer_audit.py",
+      "source_sha256": "1d9cb01c87e502b152578566de35a3c8413f2480f0d8d8280d70bdccd43a368e",
+      "native_or_hokom": "NATIVE",
+      "required_predecessor_types": [
+        "SlotGraph",
+        "TransitionGate verdict",
+        "EvidenceContract"
+      ],
+      "required_scope": "SENTENCE",
+      "native_input_type": "SlotGraph",
+      "native_output_type": "AuditedAnswer",
+      "current_status": "NATIVE_LAW_AVAILABLE",
+      "implementation_action": "Vendor invocation with SlotGraph carrying full chain",
+      "ayat_applicability": "BLOCKED_UPSTREAM",
+      "first_blocker": "Depends on step 19 + full chain"
+    },
+    {
+      "step_number": 21,
+      "stage_name": "DeterministicReasonableness_R1_R8",
+      "canonical_owner": "TAAQOL_VENDOR",
+      "source_module": "taaqqul_slot_geometry.gpt.reasonableness_gates + reasonableness_verdict",
+      "source_symbol": "run_reasonableness_gates + prove_gpt_answer_reasonableness_verdict",
+      "source_path": "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/gpt/reasonableness_gates.py",
+      "source_sha256": "6e86fe5ab99844c55f6e5e644cbb4db5fdc7c0c4053824a97d6c00ac42165746",
+      "native_or_hokom": "NATIVE",
+      "required_predecessor_types": [
+        "OriginBindingGateResult (GPT-R5)",
+        "ReasonablenessGateReport"
+      ],
+      "required_scope": "SENTENCE",
+      "native_input_type": "OriginBindingGateResult",
+      "native_output_type": "GPTAnswerReasonablenessVerdict",
+      "current_status": "NATIVE_LAW_AVAILABLE",
+      "implementation_action": "Deterministic; no live provider; requires OriginBindingGateResult from GPT-R5 chain",
+      "ayat_applicability": "BLOCKED_UPSTREAM (also requires GPT-R1..R5 origin binding chain)",
+      "first_blocker": "Depends on GPT-R1..R5 chain not currently wired for Ayat"
+    }
+  ],
+  "accounting_correction": {
+    "generated_at_utc_reconciled": true,
+    "MISSING_TYPED_CARRIER_COUNT": 3,
+    "MISSING_PRODUCER_COUNT": 3,
+    "READY_ADAPTER_UNWIRED": 1,
+    "note": "Per C12-REPAIR §7: MISSING_TYPED_CARRIER_COUNT and READY_ADAPTER_UNWIRED cannot be 0 while vendor FormalStyleFamily, vendor ContractableUnitGeometry, and MufradDalalahClosure carriers are unimplemented"
+  }
+}

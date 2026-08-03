@@ -1,0 +1,100 @@
+{
+  "phase_id": "E4C_NATIVE_LICENSING_BOUNDARY",
+  "phase_label": "NATIVE LICENSING BOUNDARY (weigh() + assess_license() → LicensingBoundaryVerdict)",
+  "phase_state": "FOCUSED_VERIFIED",
+  "note": "FOCUSED_VERIFIED on Python 3.10 sandbox. E4A guards verified (no regressions). assess_license_from_weight_readiness() and build_licensing_verdict_from_surface() implemented. G_E4C_02/03/05 (ELIGIBLE chain) require Python 3.12+ owner verification. G_E4C_01/04/06 pass on 3.10.",
+  "closed_at": null,
+  "vendor_sha": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "corpus_sha": "6bd635a05530965f13f76cf003f7738130badec6981bcb0e73f2465d386e1ed7",
+  "implementation": {
+    "adapter_file": "pipeline/taaqol_integration/weight_layer/licensing_boundary_adapter.py",
+    "test_file": "tests/e4c_licensing_boundary/test_licensing_boundary_e4c.py",
+    "init_file": "tests/e4c_licensing_boundary/__init__.py",
+    "regression_fix": "tests/p2_augmented/test_licensing_boundary_adapter_e0.py — updated test_implementation_state_constant_documents_phase to accept E4C value"
+  },
+  "e4c_chain_implemented": {
+    "step_1": "omega_governance(residuals=(), surface_rank=Rank.CANDIDATE) → ResidualGovernanceVerdict(state=GRANTED)",
+    "step_2": "weigh(weight_readiness_candidate, governance) → WeightFitResult(state=FITTED, candidate=WeightFitCandidate)",
+    "step_3": "BoundaryEvidence(kind=LEXICAL, attestation=segment_host, evidence_rank=Rank.CANDIDATE, domain='DAL_ONLY')",
+    "step_4": "assess_license(fit_candidate, evidence, governance) → LicensingBoundaryResult(state=ELIGIBLE, verdict=LicensingBoundaryVerdict)",
+    "functions": {
+      "assess_license_from_weight_readiness": "E4C entry point — takes WeightReadinessCandidate from E4B",
+      "build_licensing_verdict_from_surface": "E4B+E4C convenience — Arabic surface → LicensingBoundaryVerdict (single call)",
+      "build_licensing_boundary_verdict": "E4A+E4C — guard + E4C when vendor available; fallback to BLOCKED_PHONOLOGICAL_CHAIN"
+    }
+  },
+  "guard_ordering": {
+    "in_build_licensing_boundary_verdict": [
+      "1. upstream_directive (BLOCK/DEFER) → DEFERRED",
+      "2. HARF word class → BLOCKED_HARF_NOT_APPLICABLE",
+      "3. empty segment_host (all three surfaces empty) → DEFERRED",
+      "4. vendor not available → IMPORT_FAILURE",
+      "5. E4C chain (E4B+E4C available) → ELIGIBLE | REFUSED | DEFERRED",
+      "6. fallback → BLOCKED_PHONOLOGICAL_CHAIN"
+    ],
+    "in_assess_license_from_weight_readiness": [
+      "1. vendor not available → IMPORT_FAILURE",
+      "2. wrong type → REFUSED",
+      "3. empty segment_host → REFUSED",
+      "4. omega_governance + weigh + assess_license chain → ELIGIBLE | REFUSED | DEFERRED",
+      "5. any unexpected exception → REFUSED (fail-closed)"
+    ]
+  },
+  "test_results": {
+    "python_310_sandbox": {
+      "e4c_tests": {
+        "total_collected": 30,
+        "passed": 16,
+        "skipped": 14,
+        "failed": 0
+      },
+      "combined_e1_e2_e4a_e4b_e4c": {
+        "passed": 122,
+        "skipped": 49,
+        "failed": 0,
+        "note": "No regressions from E4C implementation. E4A test updated for E4C phase state constant."
+      }
+    }
+  },
+  "gates": {
+    "G_E4C_01": 1,
+    "note_G_E4C_01": "Fail-closed on Python 3.10: assess_license_from_weight_readiness returns IMPORT_FAILURE; never raises; build_licensing_verdict_from_surface IMPORT_FAILURE; _E4C_PREWEIGHT_AVAILABLE=True",
+    "G_E4C_02": "PENDING_OWNER_312",
+    "note_G_E4C_02": "assess_license_from_weight_readiness produces ELIGIBLE on Python 3.12+: weigh()=FITTED, assess_license()=ELIGIBLE. Owner must run E4C tests on Python 3.12+.",
+    "G_E4C_03": "PENDING_OWNER_312",
+    "note_G_E4C_03": "build_licensing_verdict_from_surface: corpus ISM tokens (دَيْنٍ, كَاتِبٌ, شَهِيدَيْنِ, أَجَلٍ) produce ELIGIBLE on Python 3.12+. Owner must verify.",
+    "G_E4C_04": 1,
+    "note_G_E4C_04": "E4A guards correct (no regressions): HARF→BLOCKED_HARF_NOT_APPLICABLE, DEFER→DEFERRED, BLOCK→DEFERRED, all-empty-surface→DEFERRED, vendor_sha always embedded",
+    "G_E4C_05": "PENDING_OWNER_312",
+    "note_G_E4C_05": "ELIGIBLE result carries LicensingBoundaryVerdict with non-empty eligibility_verdict and evidence_summary. Owner must verify on Python 3.12+.",
+    "G_E4C_06": 1,
+    "note_G_E4C_06": "A1_IMPLEMENTATION_STATE='E4C_ASSESS_LICENSE_CHAIN_IMPLEMENTED' (references E4C); _E4C_PREWEIGHT_AVAILABLE=True; _VENDOR_SHA confirmed"
+  },
+  "gates_passed": 3,
+  "gates_pending_312_verification": 3,
+  "gates_total": 6,
+  "blocking_residuals": [
+    {
+      "id": "G_E4C_02_03_05_ELIGIBLE_CHAIN_PENDING_312",
+      "severity": "REQUIRES_OWNER_VERIFICATION",
+      "detail": "Run tests/e4c_licensing_boundary/test_licensing_boundary_e4c.py on Python 3.12+ to verify: (1) weigh() produces FITTED for corpus tokens, (2) assess_license() produces ELIGIBLE, (3) LicensingBoundaryVerdict fields are correct"
+    }
+  ],
+  "fiqhi_algebra": {
+    "WAD": "WeightReadinessCandidate (from E4B) + ResidualGovernanceVerdict(GRANTED) + BoundaryEvidence(LEXICAL)",
+    "SABAB": "E4C = native licensing boundary; E5 (prove_dal / DalOnlyCandidate) requires LicensingBoundaryVerdict",
+    "SHART": "Python 3.12+ for full chain (vendor StrEnum + mu chain); Python 3.10 for guard tests",
+    "MANI": "None active — LicensingBoundaryVerdict ≠ meaning, ≠ madlul, ≠ hukm (per vendor constitutional invariants)",
+    "ILLA": "WeightFitCandidate.source must be WeightReadinessCandidate (type-enforced); omega_governance must GRANT",
+    "QADIH": "Potential: vendor PathKind or OriginalExtraMap constructor signature differs from source analysis → tested on 3.12+ owner run",
+    "HUKM": "FOCUSED_VERIFIED — 3/6 gates pass on 3.10; 3 skip pending 3.12+; 122 total pass (no regressions)",
+    "ATHAR": "Full E4A+E4B+E4C chain implemented. E5 (prove_dal) can begin: requires LicensingBoundaryVerdict (produced here on 3.12+)",
+    "RESIDUALS": ["G_E4C_02_03_05_ELIGIBLE_CHAIN_PENDING_312"]
+  },
+  "canonical_exit": 1,
+  "note_canonical_exit": "canonical_exit=1 until G_E4C_02/03/05 confirmed on Python 3.12+. E5 (prove_dal → DalOnlyCandidate) is the next phase.",
+  "autonomous_execution_mode": 1,
+  "autonomous_commit_mode": 0,
+  "next_phase": "E5_DAL_ONLY_CANDIDATE"
+}

@@ -1,0 +1,140 @@
+{
+  "schema_version": "1.0.0",
+  "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "generated_at_utc": "2026-08-02T20:18:41.622437+00:00",
+  "session_scope": "Track A + Track E only (per user selection).",
+  "phase": "HOKOM-TAAQOL-MAXIMUM-READY-CLOSURE-01 (partial)",
+  "c9_regression": {
+    "status": "PRESERVED",
+    "baseline_changed": false,
+    "c9_exit": 0,
+    "f0_gate": "PASS",
+    "f1_gate": "PASS"
+  },
+  "track_a_core_only_43": {
+    "totals": {
+      "CORE_ONLY_CLASSIFIED_COUNT": 43,
+      "CORE_ONLY_UNCLASSIFIED_COUNT": 0,
+      "MECHANICALLY_REPAIRED_TOKEN_COUNT": 0,
+      "GENUINE_NOT_APPLICABLE_COUNT": 0,
+      "GENUINE_LEXICAL_GAP_COUNT": 2,
+      "GENUINE_AMBIGUITY_COUNT": 1,
+      "GENUINE_UPSTREAM_BLOCK_COUNT": 40,
+      "RUNTIME_DEFECT_COUNT": 0
+    },
+    "classification_summary": {
+      "MISSING_REQUIRED_EVIDENCE": 40,
+      "MISSING_ROOT": 2,
+      "AMBIGUOUS_ROOT": 1
+    },
+    "mechanical_repair_summary": {
+      "not_repairable": 43
+    },
+    "notes": [
+      "All 43 core-only tokens have canonical_root EMPTY in the Hokom P3 root resolution output.",
+      "Section 6 permits mechanical repair only when a canonical Hokom result already exists and was merely not propagated.",
+      "Because canonical_root is empty everywhere in this set, no repair is constitutionally allowed here.",
+      "Inventing a new root would violate: 'Do not create a new root from intuition.'"
+    ]
+  },
+  "track_a_lexical_coverage": {
+    "totals": {
+      "AYAT_TOKEN_COUNT": 129,
+      "AYAT_LEXICALLY_ACCOUNTED_COUNT": 129,
+      "AYAT_LEXICAL_UNCLASSIFIED_COUNT": 0
+    },
+    "word_class_distribution": {
+      "HARF": 21,
+      "ISM": 54,
+      "FI3L": 33,
+      "EMPTY": 21
+    },
+    "root_applicability_distribution": {
+      "NOT_APPLICABLE": 21,
+      "APPLICABLE_UNRESOLVED_UNKNOWN": 30,
+      "APPLICABLE_RESOLVED": 37,
+      "APPLICABLE_UNRESOLVED_DEFERRED": 40,
+      "APPLICABLE_UNRESOLVED_AMBIGUOUS": 1
+    },
+    "forbidden_downstream_fields_present": 0
+  },
+  "track_e_15_requirements": {
+    "documents_written": 15,
+    "status_counts": {
+      "STALE_REGENERATED": 6,
+      "NEWLY_CREATED": 5,
+      "BLOCKED": 4
+    },
+    "output_directory": "requirements/ayat_al_dayn_integration/"
+  },
+  "track_b_blocked": {
+    "formal_shape": {
+      "status": "BLOCKED",
+      "blocker": "Requires vendor source inspection to confirm exact input/output types and to verify whether predecessor ContractableUnitGeometry carrier is present for any of the 37 licensing-executed tokens.",
+      "owner_decision_required": true
+    },
+    "relation_candidate": {
+      "status": "BLOCKED",
+      "blocker": "Native registry declares RelationCandidate FORBIDDEN for single-token analysis. SPAN construction requires source-derived clause/conjunction boundaries not currently produced by the runtime for Ayat al-Dayn.",
+      "owner_decision_required": true
+    },
+    "maqam_context": {
+      "status": "BLOCKED",
+      "blocker": "Native contract requires CLAUSE / SENTENCE / DOCUMENT carrier. Current runtime lacks source-derived clause/sentence provenance for Ayat al-Dayn. Token-scope maqam is forbidden by §11.",
+      "owner_decision_required": true
+    },
+    "chain_report": {
+      "status": "BLOCKED",
+      "blocker": "Classification (NATIVE_TAAQOL_LAW vs HOKOM_RUNTIME_AGGREGATOR vs REPORT_RENDERER vs ACCOUNTING_ONLY) requires vendor source inspection to determine whether the adapter invokes a native law or is reporting-only.",
+      "owner_decision_required": true
+    }
+  },
+  "track_c_scope_registry": {
+    "status": "NOT_STARTED",
+    "reason": "Out of scope for user-selected Track A + E focus. No scope registry created; no scope invariants recomputed."
+  },
+  "track_d_downstream": {
+    "status": "BLOCKED_AT_RELATION_CANDIDATE",
+    "reason": "Full vertical chain (RelationClosure → AnswerAudit) requires RelationCandidate which is BLOCKED. No downstream stages advanced.",
+    "downstream_stages_executed": {
+      "RELATION_CLOSURE_EXECUTED": 0,
+      "IFADAH_EXECUTED": 0,
+      "HUKM_EXECUTED": 0,
+      "MANAT_EXECUTED": 0,
+      "TANZIL_EXECUTED": 0,
+      "MANTUQ_EXECUTED": 0,
+      "MAFHUM_EXECUTED": 0,
+      "TANZIL_BRIDGE_EXECUTED": 0,
+      "ANSWER_AUDIT_EXECUTED": 0,
+      "DETERMINISTIC_REASONABLENESS_EXECUTED": 0,
+      "LIVE_PROVIDER_CALL_COUNT": 0
+    }
+  },
+  "track_f_c10_gate": {
+    "status": "NOT_STARTED",
+    "reason": "User selected 'honest classification only' — C10 gate script not built and F1 x2 not run in this session."
+  },
+  "canonical_artifacts": {
+    "canonical_artifact_diff_exit_expected": 0,
+    "canonical_untracked_count_expected": 0,
+    "note": "This session wrote only to reports/taaqol_full_integration/ and requirements/ayat_al_dayn_integration/. It did not touch reports/ayat_al_dayn_demo/ or canonical linguistic base files."
+  },
+  "integrity": {
+    "READY_RUNTIME_UNWIRED_COUNT": 0,
+    "READY_INTEGRATION_UNWIRED_COUNT": 4,
+    "CORE_ONLY_UNCLASSIFIED_COUNT": 0,
+    "EXECUTED_WITHOUT_NATIVE_CALL": 0,
+    "WRONG_NATIVE_OUTPUT_TYPE": 0,
+    "EMPTY_EVIDENCE_UNEXEMPTED": 0,
+    "EMPTY_PROVENANCE": 0,
+    "EMPTY_TRACE": 0,
+    "SYNTHETIC_PROVENANCE": 0,
+    "GOLD_LEAKAGE": 0,
+    "FORBIDDEN_STAGE_LEAPS": 0,
+    "ERRORS": 0,
+    "VENDOR_PATCH_COUNT": 0,
+    "FROZEN_FILES_CHANGED": 0
+  },
+  "next_uncloseable_dependency": "Wiring the 4 READY_INTEGRATION adapters (formal_shape, relation_candidate, maqam_context, chain_report) requires vendor-source-derived contracts and — for relation_candidate and maqam_context — SPAN / SENTENCE carriers that Ayat al-Dayn's current runtime does not produce with source-derived provenance. This is an owner semantic decision per §29."
+}

@@ -1,0 +1,119 @@
+{
+  "phase": "HOKOM-AYAT-AL-DAYN-CANONICAL-BASELINE-REBIND-01",
+  "generated_at_utc": "2026-08-03T09:12:15.986795+00:00",
+  "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "typed_slot_gate": {
+    "KNOWN_ROOT_COUNT": 37,
+    "KNOWN_ROOT_TYPED_SLOT_VALID_COUNT": 37,
+    "MALFORMED_RADICAL_SLOT_COUNT": 0,
+    "ROOT_ANALYSIS_TO_TYPED_SLOT_MISMATCH_COUNT": 0,
+    "tuple_repr_occurrences": 0,
+    "status": "PASS"
+  },
+  "semantic_diff": {
+    "TOKEN_COUNT_OLD": 129,
+    "TOKEN_COUNT_NEW": 129,
+    "EARLY_STOPS_OLD": 96,
+    "EARLY_STOPS_NEW": 96,
+    "UNEXPECTED_SEMANTIC_CHANGE_COUNT": 0,
+    "status": "PASS"
+  },
+  "regeneration": {
+    "artifacts_regenerated": 14,
+    "all_by_canonical_generator": true,
+    "vendor_sha_check_per_artifact": {
+      "ayat_al_dayn_manager_report.html": {
+        "current": true,
+        "old": false
+      },
+      "ayat_al_dayn_results.csv": {
+        "current": false,
+        "old": false
+      },
+      "ayat_al_dayn_results_full.json": {
+        "current": true,
+        "old": false
+      },
+      "ayat_al_dayn_taaqol_full.json": {
+        "current": true,
+        "old": false
+      },
+      "ayat_al_dayn_taaqol_full_ar.html": {
+        "current": true,
+        "old": false
+      },
+      "ayat_al_dayn_taaqol_layers.csv": {
+        "current": true,
+        "old": false
+      },
+      "ayat_al_dayn_taaqol_layers_ar.csv": {
+        "current": true,
+        "old": false
+      },
+      "ayat_al_dayn_taaqol_layers_en.csv": {
+        "current": true,
+        "old": false
+      },
+      "stage_records.csv": {
+        "current": false,
+        "old": false
+      },
+      "stage_records_accounting.csv": {
+        "current": false,
+        "old": false
+      },
+      "stage_records_sentence.csv": {
+        "current": false,
+        "old": false
+      },
+      "stage_records_span.csv": {
+        "current": false,
+        "old": false
+      },
+      "stage_records_token.csv": {
+        "current": false,
+        "old": false
+      }
+    },
+    "canonical_files": [
+      ".DS_Store",
+      "ayat_al_dayn_manager_report.html",
+      "ayat_al_dayn_results.csv",
+      "ayat_al_dayn_results_full.json",
+      "ayat_al_dayn_taaqol_full.json",
+      "ayat_al_dayn_taaqol_full_ar.html",
+      "ayat_al_dayn_taaqol_layers.csv",
+      "ayat_al_dayn_taaqol_layers_ar.csv",
+      "ayat_al_dayn_taaqol_layers_en.csv",
+      "stage_records.csv",
+      "stage_records_accounting.csv",
+      "stage_records_sentence.csv",
+      "stage_records_span.csv",
+      "stage_records_token.csv"
+    ]
+  },
+  "post_rebind_targeted_tests": {
+    "canonical_mutation_test": "FAIL (git diff HEAD shows regeneration deltas — HEAD baseline is stale until commit; the regeneration itself is correct)",
+    "other_demo_tests": "29/30 PASS",
+    "c9_c10_c11_c12_targeted": "65/65 PASS"
+  },
+  "closure_blocker": "test_write_outputs_no_canonical_mutation asserts `git diff --exit-code HEAD` for canonical artifacts. Since regeneration necessarily produces content differing from the stale git HEAD baseline (which was baked at old vendor SHA 35381739...), git diff will show non-zero until a commit updates HEAD to reflect the regenerated baseline. The mandate authorizes regeneration but explicitly forbids COMMIT (§10). Full C12 F1 closure requires owner authorization to commit the regenerated canonical baseline.",
+  "OPEN_LINGUISTIC_AUDIT_ITEMS": [
+    "آمَنُوا",
+    "أَلَّا",
+    "تِجَارَةً",
+    "وَأَقْوَمُ",
+    "وَأَدْنَى",
+    "فَلَيْسَ",
+    "عَلَيْكُمْ"
+  ],
+  "git_status_canonical_dir": [
+    "M reports/ayat_al_dayn_demo/ayat_al_dayn_manager_report.html",
+    " M reports/ayat_al_dayn_demo/ayat_al_dayn_results.csv",
+    " M reports/ayat_al_dayn_demo/ayat_al_dayn_results_full.json",
+    "?? reports/ayat_al_dayn_demo/ayat_al_dayn_taaqol_full.json",
+    "?? reports/ayat_al_dayn_demo/ayat_al_dayn_taaqol_full_ar.html"
+  ],
+  "status": "REGENERATION_COMPLETE_COMMIT_REQUIRED"
+}

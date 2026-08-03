@@ -1,0 +1,2266 @@
+{
+  "schema_version": "1.0.0",
+  "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "generated_at_utc": "2026-08-02T21:24:44.129908+00:00",
+  "totals": {
+    "TOKEN_SCOPE_COUNT": 129,
+    "SPAN_SCOPE_COUNT": 0,
+    "CLAUSE_SCOPE_COUNT": 14,
+    "SENTENCE_SCOPE_COUNT": 1,
+    "RELATION_EVIDENCE_COUNT": 0,
+    "MAQAM_EVIDENCE_COUNT": 0,
+    "DUPLICATE_SCOPE_IDS": 0,
+    "UNRESOLVED_SCOPE_REFERENCES": 0,
+    "EVIDENCE_WITHOUT_SOURCE": 0,
+    "PROVENANCE_WITHOUT_SOURCE": 0,
+    "TRACE_WITHOUT_STAGE": 0
+  },
+  "entries": [
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0001",
+      "source_members": [
+        "يَا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0002",
+      "source_members": [
+        "أَيُّهَا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0003",
+      "source_members": [
+        "الَّذِينَ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0004",
+      "source_members": [
+        "آمَنُوا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0005",
+      "source_members": [
+        "إِذَا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0006",
+      "source_members": [
+        "تَدَايَنْتُمْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0007",
+      "source_members": [
+        "بِدَيْنٍ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0008",
+      "source_members": [
+        "إِلَى"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0009",
+      "source_members": [
+        "أَجَلٍ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0010",
+      "source_members": [
+        "مُسَمًّى"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0011",
+      "source_members": [
+        "فَاكْتُبُوهُ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0012",
+      "source_members": [
+        "وَلْيَكْتُبْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0013",
+      "source_members": [
+        "بَيْنَكُمْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0014",
+      "source_members": [
+        "كَاتِبٌ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0015",
+      "source_members": [
+        "بِالْعَدْلِ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0016",
+      "source_members": [
+        "وَلَا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0017",
+      "source_members": [
+        "يَأْبَ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0018",
+      "source_members": [
+        "كَاتِبٌ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0019",
+      "source_members": [
+        "أَنْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0020",
+      "source_members": [
+        "يَكْتُبَ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0021",
+      "source_members": [
+        "كَمَا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0022",
+      "source_members": [
+        "عَلَّمَهُ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0023",
+      "source_members": [
+        "اللَّهُ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0024",
+      "source_members": [
+        "فَلْيَكْتُبْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0025",
+      "source_members": [
+        "وَلْيُمْلِلِ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0026",
+      "source_members": [
+        "الَّذِي"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0027",
+      "source_members": [
+        "عَلَيْهِ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0028",
+      "source_members": [
+        "الْحَقُّ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0029",
+      "source_members": [
+        "وَلْيَتَّقِ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0030",
+      "source_members": [
+        "اللَّهَ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0031",
+      "source_members": [
+        "رَبَّهُ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0032",
+      "source_members": [
+        "وَلَا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0033",
+      "source_members": [
+        "يَبْخَسْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0034",
+      "source_members": [
+        "مِنْهُ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0035",
+      "source_members": [
+        "شَيْئًا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0036",
+      "source_members": [
+        "فَإِنْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0037",
+      "source_members": [
+        "كَانَ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0038",
+      "source_members": [
+        "الَّذِي"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0039",
+      "source_members": [
+        "عَلَيْهِ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0040",
+      "source_members": [
+        "الْحَقُّ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0041",
+      "source_members": [
+        "سَفِيهًا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0042",
+      "source_members": [
+        "أَوْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0043",
+      "source_members": [
+        "ضَعِيفًا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0044",
+      "source_members": [
+        "أَوْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0045",
+      "source_members": [
+        "لَا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0046",
+      "source_members": [
+        "يَسْتَطِيعُ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0047",
+      "source_members": [
+        "أَنْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0048",
+      "source_members": [
+        "يُمِلَّ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0049",
+      "source_members": [
+        "هُوَ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0050",
+      "source_members": [
+        "فَلْيُمْلِلْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0051",
+      "source_members": [
+        "وَلِيُّهُ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0052",
+      "source_members": [
+        "بِالْعَدْلِ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0053",
+      "source_members": [
+        "وَاسْتَشْهِدُوا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0054",
+      "source_members": [
+        "شَهِيدَيْنِ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0055",
+      "source_members": [
+        "مِنْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0056",
+      "source_members": [
+        "رِجَالِكُمْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0057",
+      "source_members": [
+        "فَإِنْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0058",
+      "source_members": [
+        "لَمْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0059",
+      "source_members": [
+        "يَكُونَا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0060",
+      "source_members": [
+        "رَجُلَيْنِ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0061",
+      "source_members": [
+        "فَرَجُلٌ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0062",
+      "source_members": [
+        "وَامْرَأَتَانِ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0063",
+      "source_members": [
+        "مِمَّنْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0064",
+      "source_members": [
+        "تَرْضَوْنَ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0065",
+      "source_members": [
+        "مِنَ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0066",
+      "source_members": [
+        "الشُّهَدَاءِ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0067",
+      "source_members": [
+        "أَنْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0068",
+      "source_members": [
+        "تَضِلَّ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0069",
+      "source_members": [
+        "إِحْدَاهُمَا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0070",
+      "source_members": [
+        "فَتُذَكِّرَ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0071",
+      "source_members": [
+        "إِحْدَاهُمَا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0072",
+      "source_members": [
+        "الْأُخْرَى"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0073",
+      "source_members": [
+        "وَلَا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0074",
+      "source_members": [
+        "يَأْبَ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0075",
+      "source_members": [
+        "الشُّهَدَاءُ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0076",
+      "source_members": [
+        "إِذَا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0077",
+      "source_members": [
+        "مَا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0078",
+      "source_members": [
+        "دُعُوا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0079",
+      "source_members": [
+        "وَلَا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0080",
+      "source_members": [
+        "تَسْأَمُوا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0081",
+      "source_members": [
+        "أَنْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0082",
+      "source_members": [
+        "تَكْتُبُوهُ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0083",
+      "source_members": [
+        "صَغِيرًا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0084",
+      "source_members": [
+        "أَوْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0085",
+      "source_members": [
+        "كَبِيرًا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0086",
+      "source_members": [
+        "إِلَى"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0087",
+      "source_members": [
+        "أَجَلِهِ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0088",
+      "source_members": [
+        "ذَلِكُمْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0089",
+      "source_members": [
+        "أَقْسَطُ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0090",
+      "source_members": [
+        "عِنْدَ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0091",
+      "source_members": [
+        "اللَّهِ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0092",
+      "source_members": [
+        "وَأَقْوَمُ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0093",
+      "source_members": [
+        "لِلشَّهَادَةِ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0094",
+      "source_members": [
+        "وَأَدْنَى"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0095",
+      "source_members": [
+        "أَلَّا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0096",
+      "source_members": [
+        "تَرْتَابُوا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0097",
+      "source_members": [
+        "إِلَّا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0098",
+      "source_members": [
+        "أَنْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0099",
+      "source_members": [
+        "تَكُونَ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0100",
+      "source_members": [
+        "تِجَارَةً"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0101",
+      "source_members": [
+        "حَاضِرَةً"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0102",
+      "source_members": [
+        "تُدِيرُونَهَا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0103",
+      "source_members": [
+        "بَيْنَكُمْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0104",
+      "source_members": [
+        "فَلَيْسَ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0105",
+      "source_members": [
+        "عَلَيْكُمْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0106",
+      "source_members": [
+        "جُنَاحٌ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0107",
+      "source_members": [
+        "أَلَّا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0108",
+      "source_members": [
+        "تَكْتُبُوهَا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0109",
+      "source_members": [
+        "وَأَشْهِدُوا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0110",
+      "source_members": [
+        "إِذَا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0111",
+      "source_members": [
+        "تَبَايَعْتُمْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0112",
+      "source_members": [
+        "وَلَا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0113",
+      "source_members": [
+        "يُضَارَّ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0114",
+      "source_members": [
+        "كَاتِبٌ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0115",
+      "source_members": [
+        "وَلَا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0116",
+      "source_members": [
+        "شَهِيدٌ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0117",
+      "source_members": [
+        "وَإِنْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0118",
+      "source_members": [
+        "تَفْعَلُوا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0119",
+      "source_members": [
+        "فَإِنَّهُ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0120",
+      "source_members": [
+        "فُسُوقٌ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0121",
+      "source_members": [
+        "بِكُمْ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0122",
+      "source_members": [
+        "وَاتَّقُوا"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0123",
+      "source_members": [
+        "اللَّهَ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0124",
+      "source_members": [
+        "وَيُعَلِّمُكُمُ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0125",
+      "source_members": [
+        "اللَّهُ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0126",
+      "source_members": [
+        "وَاللَّهُ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0127",
+      "source_members": [
+        "بِكُلِّ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0128",
+      "source_members": [
+        "شَيْءٍ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "TOKEN",
+      "scope_id": "TOKEN::0129",
+      "source_members": [
+        "عَلِيمٌ"
+      ],
+      "producer": "pipeline.p0-p6.orchestrator + pipeline.taaqol_integration",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "TOKEN_LEXICAL_EVIDENCE_PRESENT",
+      "consuming_stages": [
+        "CoreSlotGraph_Gamma",
+        "LicensingBoundaryVerdict"
+      ]
+    },
+    {
+      "scope_type": "CLAUSE",
+      "scope_id": "AYAT-CLAUSE-001",
+      "source_members": [
+        "TOKEN::0001"
+      ],
+      "producer": "pipeline.clause_graph.segmenter",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "BOUNDARY_DETECTED",
+      "consuming_stages": [
+        "would_feed_relation_candidate (currently blocked)"
+      ]
+    },
+    {
+      "scope_type": "CLAUSE",
+      "scope_id": "AYAT-CLAUSE-002",
+      "source_members": [
+        "TOKEN::0002"
+      ],
+      "producer": "pipeline.clause_graph.segmenter",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "BOUNDARY_DETECTED",
+      "consuming_stages": [
+        "would_feed_relation_candidate (currently blocked)"
+      ]
+    },
+    {
+      "scope_type": "CLAUSE",
+      "scope_id": "AYAT-CLAUSE-003",
+      "source_members": [
+        "TOKEN::0003",
+        "TOKEN::0004"
+      ],
+      "producer": "pipeline.clause_graph.segmenter",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "BOUNDARY_DETECTED",
+      "consuming_stages": [
+        "would_feed_relation_candidate (currently blocked)"
+      ]
+    },
+    {
+      "scope_type": "CLAUSE",
+      "scope_id": "AYAT-CLAUSE-004",
+      "source_members": [
+        "TOKEN::0005",
+        "TOKEN::0006",
+        "TOKEN::0007",
+        "TOKEN::0008",
+        "TOKEN::0009",
+        "TOKEN::0010",
+        "TOKEN::0011",
+        "TOKEN::0012",
+        "TOKEN::0013",
+        "TOKEN::0014",
+        "TOKEN::0015",
+        "TOKEN::0016",
+        "TOKEN::0017",
+        "TOKEN::0018",
+        "TOKEN::0019",
+        "TOKEN::0020",
+        "TOKEN::0021",
+        "TOKEN::0022",
+        "TOKEN::0023",
+        "TOKEN::0024",
+        "TOKEN::0025"
+      ],
+      "producer": "pipeline.clause_graph.segmenter",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "BOUNDARY_DETECTED",
+      "consuming_stages": [
+        "would_feed_relation_candidate (currently blocked)"
+      ]
+    },
+    {
+      "scope_type": "CLAUSE",
+      "scope_id": "AYAT-CLAUSE-005",
+      "source_members": [
+        "TOKEN::0026",
+        "TOKEN::0027",
+        "TOKEN::0028",
+        "TOKEN::0029",
+        "TOKEN::0030",
+        "TOKEN::0031",
+        "TOKEN::0032",
+        "TOKEN::0033",
+        "TOKEN::0034",
+        "TOKEN::0035",
+        "TOKEN::0036",
+        "TOKEN::0037"
+      ],
+      "producer": "pipeline.clause_graph.segmenter",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "BOUNDARY_DETECTED",
+      "consuming_stages": [
+        "would_feed_relation_candidate (currently blocked)"
+      ]
+    },
+    {
+      "scope_type": "CLAUSE",
+      "scope_id": "AYAT-CLAUSE-006",
+      "source_members": [
+        "TOKEN::0038",
+        "TOKEN::0039",
+        "TOKEN::0040",
+        "TOKEN::0041"
+      ],
+      "producer": "pipeline.clause_graph.segmenter",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "BOUNDARY_DETECTED",
+      "consuming_stages": [
+        "would_feed_relation_candidate (currently blocked)"
+      ]
+    },
+    {
+      "scope_type": "CLAUSE",
+      "scope_id": "AYAT-CLAUSE-007",
+      "source_members": [
+        "TOKEN::0042",
+        "TOKEN::0043"
+      ],
+      "producer": "pipeline.clause_graph.segmenter",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "BOUNDARY_DETECTED",
+      "consuming_stages": [
+        "would_feed_relation_candidate (currently blocked)"
+      ]
+    },
+    {
+      "scope_type": "CLAUSE",
+      "scope_id": "AYAT-CLAUSE-008",
+      "source_members": [
+        "TOKEN::0044"
+      ],
+      "producer": "pipeline.clause_graph.segmenter",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "BOUNDARY_DETECTED",
+      "consuming_stages": [
+        "would_feed_relation_candidate (currently blocked)"
+      ]
+    },
+    {
+      "scope_type": "CLAUSE",
+      "scope_id": "AYAT-CLAUSE-009",
+      "source_members": [
+        "TOKEN::0045",
+        "TOKEN::0046",
+        "TOKEN::0047",
+        "TOKEN::0048",
+        "TOKEN::0049",
+        "TOKEN::0050",
+        "TOKEN::0051",
+        "TOKEN::0052",
+        "TOKEN::0053",
+        "TOKEN::0054",
+        "TOKEN::0055",
+        "TOKEN::0056",
+        "TOKEN::0057"
+      ],
+      "producer": "pipeline.clause_graph.segmenter",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "BOUNDARY_DETECTED",
+      "consuming_stages": [
+        "would_feed_relation_candidate (currently blocked)"
+      ]
+    },
+    {
+      "scope_type": "CLAUSE",
+      "scope_id": "AYAT-CLAUSE-010",
+      "source_members": [
+        "TOKEN::0058",
+        "TOKEN::0059",
+        "TOKEN::0060",
+        "TOKEN::0061",
+        "TOKEN::0062",
+        "TOKEN::0063",
+        "TOKEN::0064",
+        "TOKEN::0065",
+        "TOKEN::0066",
+        "TOKEN::0067",
+        "TOKEN::0068",
+        "TOKEN::0069",
+        "TOKEN::0070",
+        "TOKEN::0071",
+        "TOKEN::0072",
+        "TOKEN::0073",
+        "TOKEN::0074",
+        "TOKEN::0075"
+      ],
+      "producer": "pipeline.clause_graph.segmenter",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "BOUNDARY_DETECTED",
+      "consuming_stages": [
+        "would_feed_relation_candidate (currently blocked)"
+      ]
+    },
+    {
+      "scope_type": "CLAUSE",
+      "scope_id": "AYAT-CLAUSE-011",
+      "source_members": [
+        "TOKEN::0076"
+      ],
+      "producer": "pipeline.clause_graph.segmenter",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "BOUNDARY_DETECTED",
+      "consuming_stages": [
+        "would_feed_relation_candidate (currently blocked)"
+      ]
+    },
+    {
+      "scope_type": "CLAUSE",
+      "scope_id": "AYAT-CLAUSE-012",
+      "source_members": [
+        "TOKEN::0077",
+        "TOKEN::0078",
+        "TOKEN::0079",
+        "TOKEN::0080",
+        "TOKEN::0081",
+        "TOKEN::0082",
+        "TOKEN::0083"
+      ],
+      "producer": "pipeline.clause_graph.segmenter",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "BOUNDARY_DETECTED",
+      "consuming_stages": [
+        "would_feed_relation_candidate (currently blocked)"
+      ]
+    },
+    {
+      "scope_type": "CLAUSE",
+      "scope_id": "AYAT-CLAUSE-013",
+      "source_members": [
+        "TOKEN::0084",
+        "TOKEN::0085",
+        "TOKEN::0086",
+        "TOKEN::0087",
+        "TOKEN::0088",
+        "TOKEN::0089",
+        "TOKEN::0090",
+        "TOKEN::0091",
+        "TOKEN::0092",
+        "TOKEN::0093",
+        "TOKEN::0094",
+        "TOKEN::0095",
+        "TOKEN::0096",
+        "TOKEN::0097",
+        "TOKEN::0098",
+        "TOKEN::0099",
+        "TOKEN::0100",
+        "TOKEN::0101",
+        "TOKEN::0102",
+        "TOKEN::0103",
+        "TOKEN::0104",
+        "TOKEN::0105",
+        "TOKEN::0106",
+        "TOKEN::0107",
+        "TOKEN::0108",
+        "TOKEN::0109"
+      ],
+      "producer": "pipeline.clause_graph.segmenter",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "BOUNDARY_DETECTED",
+      "consuming_stages": [
+        "would_feed_relation_candidate (currently blocked)"
+      ]
+    },
+    {
+      "scope_type": "CLAUSE",
+      "scope_id": "AYAT-CLAUSE-014",
+      "source_members": [
+        "TOKEN::0110",
+        "TOKEN::0111",
+        "TOKEN::0112",
+        "TOKEN::0113",
+        "TOKEN::0114",
+        "TOKEN::0115",
+        "TOKEN::0116",
+        "TOKEN::0117",
+        "TOKEN::0118",
+        "TOKEN::0119",
+        "TOKEN::0120",
+        "TOKEN::0121",
+        "TOKEN::0122",
+        "TOKEN::0123",
+        "TOKEN::0124",
+        "TOKEN::0125",
+        "TOKEN::0126",
+        "TOKEN::0127",
+        "TOKEN::0128",
+        "TOKEN::0129"
+      ],
+      "producer": "pipeline.clause_graph.segmenter",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "BOUNDARY_DETECTED",
+      "consuming_stages": [
+        "would_feed_relation_candidate (currently blocked)"
+      ]
+    },
+    {
+      "scope_type": "SENTENCE",
+      "scope_id": "AYAT-SENTENCE-0001",
+      "source_members": [
+        "TOKEN::0001",
+        "TOKEN::0002",
+        "TOKEN::0003",
+        "TOKEN::0004",
+        "TOKEN::0005",
+        "TOKEN::0006",
+        "TOKEN::0007",
+        "TOKEN::0008",
+        "TOKEN::0009",
+        "TOKEN::0010",
+        "TOKEN::0011",
+        "TOKEN::0012",
+        "TOKEN::0013",
+        "TOKEN::0014",
+        "TOKEN::0015",
+        "TOKEN::0016",
+        "TOKEN::0017",
+        "TOKEN::0018",
+        "TOKEN::0019",
+        "TOKEN::0020",
+        "TOKEN::0021",
+        "TOKEN::0022",
+        "TOKEN::0023",
+        "TOKEN::0024",
+        "TOKEN::0025",
+        "TOKEN::0026",
+        "TOKEN::0027",
+        "TOKEN::0028",
+        "TOKEN::0029",
+        "TOKEN::0030",
+        "TOKEN::0031",
+        "TOKEN::0032",
+        "TOKEN::0033",
+        "TOKEN::0034",
+        "TOKEN::0035",
+        "TOKEN::0036",
+        "TOKEN::0037",
+        "TOKEN::0038",
+        "TOKEN::0039",
+        "TOKEN::0040",
+        "TOKEN::0041",
+        "TOKEN::0042",
+        "TOKEN::0043",
+        "TOKEN::0044",
+        "TOKEN::0045",
+        "TOKEN::0046",
+        "TOKEN::0047",
+        "TOKEN::0048",
+        "TOKEN::0049",
+        "TOKEN::0050",
+        "TOKEN::0051",
+        "TOKEN::0052",
+        "TOKEN::0053",
+        "TOKEN::0054",
+        "TOKEN::0055",
+        "TOKEN::0056",
+        "TOKEN::0057",
+        "TOKEN::0058",
+        "TOKEN::0059",
+        "TOKEN::0060",
+        "TOKEN::0061",
+        "TOKEN::0062",
+        "TOKEN::0063",
+        "TOKEN::0064",
+        "TOKEN::0065",
+        "TOKEN::0066",
+        "TOKEN::0067",
+        "TOKEN::0068",
+        "TOKEN::0069",
+        "TOKEN::0070",
+        "TOKEN::0071",
+        "TOKEN::0072",
+        "TOKEN::0073",
+        "TOKEN::0074",
+        "TOKEN::0075",
+        "TOKEN::0076",
+        "TOKEN::0077",
+        "TOKEN::0078",
+        "TOKEN::0079",
+        "TOKEN::0080",
+        "TOKEN::0081",
+        "TOKEN::0082",
+        "TOKEN::0083",
+        "TOKEN::0084",
+        "TOKEN::0085",
+        "TOKEN::0086",
+        "TOKEN::0087",
+        "TOKEN::0088",
+        "TOKEN::0089",
+        "TOKEN::0090",
+        "TOKEN::0091",
+        "TOKEN::0092",
+        "TOKEN::0093",
+        "TOKEN::0094",
+        "TOKEN::0095",
+        "TOKEN::0096",
+        "TOKEN::0097",
+        "TOKEN::0098",
+        "TOKEN::0099",
+        "TOKEN::0100",
+        "TOKEN::0101",
+        "TOKEN::0102",
+        "TOKEN::0103",
+        "TOKEN::0104",
+        "TOKEN::0105",
+        "TOKEN::0106",
+        "TOKEN::0107",
+        "TOKEN::0108",
+        "TOKEN::0109",
+        "TOKEN::0110",
+        "TOKEN::0111",
+        "TOKEN::0112",
+        "TOKEN::0113",
+        "TOKEN::0114",
+        "TOKEN::0115",
+        "TOKEN::0116",
+        "TOKEN::0117",
+        "TOKEN::0118",
+        "TOKEN::0119",
+        "TOKEN::0120",
+        "TOKEN::0121",
+        "TOKEN::0122",
+        "TOKEN::0123",
+        "TOKEN::0124",
+        "TOKEN::0125",
+        "TOKEN::0126",
+        "TOKEN::0127",
+        "TOKEN::0128",
+        "TOKEN::0129"
+      ],
+      "producer": "orthographic (single verse)",
+      "producer_version": "8e37b738ece7",
+      "closure_state": "ORTHOGRAPHIC_SENTENCE_ONLY",
+      "note": "One orthographic verse; source contract does not license further compound-sentence decomposition without owner rule.",
+      "consuming_stages": [
+        "would_feed_maqam_context_boundary (currently blocked — no maqam evidence)"
+      ]
+    }
+  ]
+}

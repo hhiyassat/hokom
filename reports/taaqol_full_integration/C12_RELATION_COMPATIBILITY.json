@@ -1,0 +1,335 @@
+{
+  "schema_version": "1.0.0",
+  "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "generated_at_utc": "2026-08-03T03:22:31.412203+00:00",
+  "totals": {
+    "RELATION_COMPATIBILITY_PRODUCER_IMPLEMENTED": 1,
+    "RELATION_COMPATIBILITY_EVIDENCE_COUNT": 5,
+    "RELATION_EXPECTED_VERDICT_FIELDS": 0,
+    "HOKOM_TO_VENDOR_RELATION_ADAPTER": "IMPLEMENTED",
+    "VENDOR_LAW_IMPORT_OK": true,
+    "VENDOR_LAW_SOURCE_PATH": "/Users/husseinhiyassat/Taaqol-GPT-main-reference/src/taaqqul_slot_geometry/weight/relation_candidate.py",
+    "VENDOR_LAW_SIGNATURE": "(governor: 'ContractableUnitGeometry', dependent: 'ContractableUnitGeometry', relation_basis: 'str', governor_role_claim: 'str', dependent_role_claim: 'str') -> 'RelationVerdict'",
+    "VENDOR_ADAPTER_CALLS_ATTEMPTED": 3,
+    "VENDOR_ADAPTER_CALLS_SUCCEEDED": 0,
+    "RELATION_ADAPTER_DIRECT_PROMOTION_COUNT": 0,
+    "RELATION_ADAPTER_WRONG_TYPE_COUNT": 0,
+    "VENDOR_FIRST_ERROR": null
+  },
+  "compatibility_carriers": [
+    {
+      "compatibility_id": "RCC-AYAT-CLAUSE-004-c19e3f51",
+      "span_id": "SPAN-AYAT-CLAUSE-004-c3d5ed00",
+      "clause_id": "AYAT-CLAUSE-004",
+      "left_contractable_unit_id": "TOKEN::0007",
+      "right_contractable_unit_id": "TOKEN::0022",
+      "left_native_candidate_type": "ContractableUnitGeometry",
+      "right_native_candidate_type": "ContractableUnitGeometry",
+      "direction": "LEFT_TO_RIGHT",
+      "structural_relation_hint": "STRUCTURAL_PAIR_WITHIN_SPAN",
+      "compatibility_basis": "opened_from_p8_amil_mamul::conditional_scope",
+      "operator_evidence_ids": [],
+      "p8_evidence_ids": [
+        "P8-AYAT-CLAUSE-004-d8f4a16a"
+      ],
+      "clause_evidence_ids": [
+        "AYAT-CLAUSE-004"
+      ],
+      "evidence_ids": [
+        "SPAN-AYAT-CLAUSE-004-c3d5ed00"
+      ],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7",
+        "P8::P8-AYAT-CLAUSE-004-d8f4a16a"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-004",
+        "SPAN::produce_spans::AYAT-CLAUSE-004",
+        "RCC::build_relation_compatibility::SPAN-AYAT-CLAUSE-004-c3d5ed00"
+      ],
+      "residual_codes": [],
+      "ambiguity_state": "UNAMBIGUOUS_STRUCTURAL",
+      "closure_state": "COMPATIBLE",
+      "envelope": {
+        "producer_module": "pipeline.taaqol_integration.evidence_producers.producers",
+        "producer_symbol": "build_relation_compatibility",
+        "producer_version": "c12.v1",
+        "schema_version": "1.0.0",
+        "registry_version": "c12.v1",
+        "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "input_digest": "eaa4e62ffb4efa8c",
+        "output_digest": "c19e3f517d871c88"
+      }
+    },
+    {
+      "compatibility_id": "RCC-AYAT-CLAUSE-005-a2cbd17e",
+      "span_id": "SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+      "clause_id": "AYAT-CLAUSE-005",
+      "left_contractable_unit_id": "TOKEN::0028",
+      "right_contractable_unit_id": "TOKEN::0035",
+      "left_native_candidate_type": "ContractableUnitGeometry",
+      "right_native_candidate_type": "ContractableUnitGeometry",
+      "direction": "LEFT_TO_RIGHT",
+      "structural_relation_hint": "STRUCTURAL_PAIR_WITHIN_SPAN",
+      "compatibility_basis": "opened_from_p8_amil_mamul::relative_scope_scope",
+      "operator_evidence_ids": [],
+      "p8_evidence_ids": [
+        "P8-AYAT-CLAUSE-005-057bccbe"
+      ],
+      "clause_evidence_ids": [
+        "AYAT-CLAUSE-005"
+      ],
+      "evidence_ids": [
+        "SPAN-AYAT-CLAUSE-005-a3e4bc0d"
+      ],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7",
+        "P8::P8-AYAT-CLAUSE-005-057bccbe"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-005",
+        "SPAN::produce_spans::AYAT-CLAUSE-005",
+        "RCC::build_relation_compatibility::SPAN-AYAT-CLAUSE-005-a3e4bc0d"
+      ],
+      "residual_codes": [],
+      "ambiguity_state": "UNAMBIGUOUS_STRUCTURAL",
+      "closure_state": "COMPATIBLE",
+      "envelope": {
+        "producer_module": "pipeline.taaqol_integration.evidence_producers.producers",
+        "producer_symbol": "build_relation_compatibility",
+        "producer_version": "c12.v1",
+        "schema_version": "1.0.0",
+        "registry_version": "c12.v1",
+        "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "input_digest": "24bf028b7326b3bc",
+        "output_digest": "a2cbd17e84d55d51"
+      }
+    },
+    {
+      "compatibility_id": "RCC-AYAT-CLAUSE-009-dfdae402",
+      "span_id": "SPAN-AYAT-CLAUSE-009-31427193",
+      "clause_id": "AYAT-CLAUSE-009",
+      "left_contractable_unit_id": "TOKEN::0046",
+      "right_contractable_unit_id": "TOKEN::0053",
+      "left_native_candidate_type": "ContractableUnitGeometry",
+      "right_native_candidate_type": "ContractableUnitGeometry",
+      "direction": "LEFT_TO_RIGHT",
+      "structural_relation_hint": "STRUCTURAL_PAIR_WITHIN_SPAN",
+      "compatibility_basis": "opened_from_p8_amil_mamul::negation_scope",
+      "operator_evidence_ids": [],
+      "p8_evidence_ids": [
+        "P8-AYAT-CLAUSE-009-8f2accc9"
+      ],
+      "clause_evidence_ids": [
+        "AYAT-CLAUSE-009"
+      ],
+      "evidence_ids": [
+        "SPAN-AYAT-CLAUSE-009-31427193"
+      ],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7",
+        "P8::P8-AYAT-CLAUSE-009-8f2accc9"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-009",
+        "SPAN::produce_spans::AYAT-CLAUSE-009",
+        "RCC::build_relation_compatibility::SPAN-AYAT-CLAUSE-009-31427193"
+      ],
+      "residual_codes": [],
+      "ambiguity_state": "UNAMBIGUOUS_STRUCTURAL",
+      "closure_state": "COMPATIBLE",
+      "envelope": {
+        "producer_module": "pipeline.taaqol_integration.evidence_producers.producers",
+        "producer_symbol": "build_relation_compatibility",
+        "producer_version": "c12.v1",
+        "schema_version": "1.0.0",
+        "registry_version": "c12.v1",
+        "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "input_digest": "f67729f3e563023c",
+        "output_digest": "dfdae402c9ba4733"
+      }
+    },
+    {
+      "compatibility_id": "RCC-AYAT-CLAUSE-010-5526ad14",
+      "span_id": "SPAN-AYAT-CLAUSE-010-d82736fc",
+      "clause_id": "AYAT-CLAUSE-010",
+      "left_contractable_unit_id": "TOKEN::0061",
+      "right_contractable_unit_id": "TOKEN::0070",
+      "left_native_candidate_type": "ContractableUnitGeometry",
+      "right_native_candidate_type": "ContractableUnitGeometry",
+      "direction": "LEFT_TO_RIGHT",
+      "structural_relation_hint": "STRUCTURAL_PAIR_WITHIN_SPAN",
+      "compatibility_basis": "opened_from_p8_amil_mamul::negation_scope",
+      "operator_evidence_ids": [],
+      "p8_evidence_ids": [
+        "P8-AYAT-CLAUSE-010-2d2b67bb"
+      ],
+      "clause_evidence_ids": [
+        "AYAT-CLAUSE-010"
+      ],
+      "evidence_ids": [
+        "SPAN-AYAT-CLAUSE-010-d82736fc"
+      ],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7",
+        "P8::P8-AYAT-CLAUSE-010-2d2b67bb"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-010",
+        "SPAN::produce_spans::AYAT-CLAUSE-010",
+        "RCC::build_relation_compatibility::SPAN-AYAT-CLAUSE-010-d82736fc"
+      ],
+      "residual_codes": [],
+      "ambiguity_state": "UNAMBIGUOUS_STRUCTURAL",
+      "closure_state": "COMPATIBLE",
+      "envelope": {
+        "producer_module": "pipeline.taaqol_integration.evidence_producers.producers",
+        "producer_symbol": "build_relation_compatibility",
+        "producer_version": "c12.v1",
+        "schema_version": "1.0.0",
+        "registry_version": "c12.v1",
+        "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "input_digest": "daccc39cf74e59c4",
+        "output_digest": "5526ad141c43b85b"
+      }
+    },
+    {
+      "compatibility_id": "RCC-AYAT-CLAUSE-014-d4b42566",
+      "span_id": "SPAN-AYAT-CLAUSE-014-59af3988",
+      "clause_id": "AYAT-CLAUSE-014",
+      "left_contractable_unit_id": "TOKEN::0114",
+      "right_contractable_unit_id": "TOKEN::0128",
+      "left_native_candidate_type": "ContractableUnitGeometry",
+      "right_native_candidate_type": "ContractableUnitGeometry",
+      "direction": "LEFT_TO_RIGHT",
+      "structural_relation_hint": "STRUCTURAL_PAIR_WITHIN_SPAN",
+      "compatibility_basis": "opened_from_p8_amil_mamul::conditional_scope",
+      "operator_evidence_ids": [],
+      "p8_evidence_ids": [
+        "P8-AYAT-CLAUSE-014-f0127c92"
+      ],
+      "clause_evidence_ids": [
+        "AYAT-CLAUSE-014"
+      ],
+      "evidence_ids": [
+        "SPAN-AYAT-CLAUSE-014-59af3988"
+      ],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7",
+        "P8::P8-AYAT-CLAUSE-014-f0127c92"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-014",
+        "SPAN::produce_spans::AYAT-CLAUSE-014",
+        "RCC::build_relation_compatibility::SPAN-AYAT-CLAUSE-014-59af3988"
+      ],
+      "residual_codes": [],
+      "ambiguity_state": "UNAMBIGUOUS_STRUCTURAL",
+      "closure_state": "COMPATIBLE",
+      "envelope": {
+        "producer_module": "pipeline.taaqol_integration.evidence_producers.producers",
+        "producer_symbol": "build_relation_compatibility",
+        "producer_version": "c12.v1",
+        "schema_version": "1.0.0",
+        "registry_version": "c12.v1",
+        "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "input_digest": "2ad776a9f3eed2bf",
+        "output_digest": "d4b425660028f19b"
+      }
+    }
+  ],
+  "adapter_call_results": [
+    {
+      "adapter_module": "pipeline.taaqol_integration.evidence_producers.vendor_relation_adapter",
+      "adapter_symbol": "invoke_native_relation_candidate",
+      "native_module": "taaqqul_slot_geometry.weight.relation_candidate",
+      "native_symbol": "prove_relation_candidate",
+      "native_source_path": "",
+      "native_source_sha256": "",
+      "vendor_commit": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "exact_input_type": "ContractableUnitGeometry",
+      "exact_output_type": "RelationVerdict",
+      "native_call_executed": false,
+      "duration_ms": 17.870187759399414,
+      "native_output": null,
+      "failure_code": "MISSING_NATIVE_CONTRACTABLE_UNIT",
+      "residual_codes": [],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7",
+        "P8::P8-AYAT-CLAUSE-004-d8f4a16a"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-004",
+        "SPAN::produce_spans::AYAT-CLAUSE-004",
+        "RCC::build_relation_compatibility::SPAN-AYAT-CLAUSE-004-c3d5ed00",
+        "ADAPTER::invoke_native_relation_candidate::MISSING_CU"
+      ]
+    },
+    {
+      "adapter_module": "pipeline.taaqol_integration.evidence_producers.vendor_relation_adapter",
+      "adapter_symbol": "invoke_native_relation_candidate",
+      "native_module": "taaqqul_slot_geometry.weight.relation_candidate",
+      "native_symbol": "prove_relation_candidate",
+      "native_source_path": "",
+      "native_source_sha256": "",
+      "vendor_commit": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "exact_input_type": "ContractableUnitGeometry",
+      "exact_output_type": "RelationVerdict",
+      "native_call_executed": false,
+      "duration_ms": 13.444900512695312,
+      "native_output": null,
+      "failure_code": "MISSING_NATIVE_CONTRACTABLE_UNIT",
+      "residual_codes": [],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7",
+        "P8::P8-AYAT-CLAUSE-005-057bccbe"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-005",
+        "SPAN::produce_spans::AYAT-CLAUSE-005",
+        "RCC::build_relation_compatibility::SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+        "ADAPTER::invoke_native_relation_candidate::MISSING_CU"
+      ]
+    },
+    {
+      "adapter_module": "pipeline.taaqol_integration.evidence_producers.vendor_relation_adapter",
+      "adapter_symbol": "invoke_native_relation_candidate",
+      "native_module": "taaqqul_slot_geometry.weight.relation_candidate",
+      "native_symbol": "prove_relation_candidate",
+      "native_source_path": "",
+      "native_source_sha256": "",
+      "vendor_commit": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "exact_input_type": "ContractableUnitGeometry",
+      "exact_output_type": "RelationVerdict",
+      "native_call_executed": false,
+      "duration_ms": 14.021873474121094,
+      "native_output": null,
+      "failure_code": "MISSING_NATIVE_CONTRACTABLE_UNIT",
+      "residual_codes": [],
+      "provenance_ids": [
+        "PRODUCER::project_amil_mamul",
+        "HOKOM_HEAD::8e37b738ece7",
+        "P8::P8-AYAT-CLAUSE-009-8f2accc9"
+      ],
+      "trace_ids": [
+        "P8::project_amil_mamul::AYAT-CLAUSE-009",
+        "SPAN::produce_spans::AYAT-CLAUSE-009",
+        "RCC::build_relation_compatibility::SPAN-AYAT-CLAUSE-009-31427193",
+        "ADAPTER::invoke_native_relation_candidate::MISSING_CU"
+      ]
+    }
+  ]
+}

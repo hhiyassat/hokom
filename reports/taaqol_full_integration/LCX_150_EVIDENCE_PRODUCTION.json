@@ -1,0 +1,2462 @@
+{
+  "schema_version": "1.0.0",
+  "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "generated_at_utc": "2026-08-02T21:24:44.129908+00:00",
+  "source_files": [
+    "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+  ],
+  "source_hashes": {
+    "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json": "3d1988340d7d854eeda970e718ee528a58efe222584144b8a40618403815380c"
+  },
+  "totals": {
+    "LCX_TOTAL": 150,
+    "LCX_UNCLASSIFIED": 0,
+    "LCX_RUNTIME_DEFECTS": 0,
+    "LCX_READY_PROJECTOR_FAILURES": 0,
+    "TOKEN_RUNTIME_READY": 149,
+    "SPAN_RUNTIME_READY": 127,
+    "CLAUSE_RUNTIME_READY": 0,
+    "SENTENCE_RUNTIME_READY": 0,
+    "RELATION_RUNTIME_READY": 0,
+    "MAQAM_RUNTIME_READY": 0,
+    "HUMAN_REVIEW_REQUIRED": 150,
+    "MISSING_SOURCE_FIELDS": 0,
+    "AMBIGUOUS_SOURCE": 0,
+    "NOT_APPLICABLE": 0
+  },
+  "rows": [
+    {
+      "case_id": "SCX-001",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P2_REGISTRY_PROJECTION",
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-002",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P2_REGISTRY_PROJECTION",
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-003",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P2_REGISTRY_PROJECTION",
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-004",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P2_REGISTRY_PROJECTION",
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-005",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P2_REGISTRY_PROJECTION",
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-006",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P2_REGISTRY_PROJECTION",
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-007",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P2_REGISTRY_PROJECTION",
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-008",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P2_REGISTRY_PROJECTION",
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-009",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P2_REGISTRY_PROJECTION",
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-010",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P2_REGISTRY_PROJECTION",
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-011",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P2_REGISTRY_PROJECTION",
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-012",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P2_REGISTRY_PROJECTION",
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-013",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P2_REGISTRY_PROJECTION",
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-014",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P2_REGISTRY_PROJECTION",
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-015",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P2_REGISTRY_PROJECTION",
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-016",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P2_REGISTRY_PROJECTION",
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-017",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P2_REGISTRY_PROJECTION",
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-018",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P2_REGISTRY_PROJECTION",
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-019",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P2_REGISTRY_PROJECTION",
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-020",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P2_REGISTRY_PROJECTION",
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-021",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-022",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-023",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-024",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-025",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-026",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-027",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-028",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-029",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-030",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-031",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-032",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-033",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-034",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-035",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-036",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-037",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-038",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-039",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-040",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-041",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-042",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-043",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-044",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-045",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-046",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-047",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-048",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-049",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-050",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-051",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P2_REGISTRY_PROJECTION",
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-052",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-053",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-054",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-055",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-056",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-057",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-058",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-059",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-060",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-061",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-062",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-063",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-064",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-065",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-066",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-067",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-068",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-069",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-070",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-071",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-072",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-073",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-074",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-075",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-076",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-077",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-078",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-079",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-080",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-081",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-082",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-083",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-084",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-085",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-086",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-087",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-088",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-089",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-090",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-091",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-092",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-093",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-094",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-095",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-096",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-097",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-098",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-099",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-100",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-101",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-102",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-103",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-104",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-105",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-106",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-107",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-108",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-109",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-110",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-111",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-112",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-113",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-114",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-115",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-116",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-117",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-118",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-119",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-120",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-121",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-122",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-123",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-124",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-125",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-126",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-127",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-128",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-129",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-130",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-131",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-132",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-133",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-134",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-135",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-136",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-137",
+      "runtime_ready_properties": [
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-138",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-139",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-140",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-141",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-142",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-143",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-144",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-145",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-146",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-147",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-148",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-149",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "case_id": "SCX-150",
+      "runtime_ready_properties": [
+        "TOKEN_RUNTIME_READY",
+        "SPAN_RUNTIME_READY",
+        "HUMAN_REVIEW_REQUIRED"
+      ],
+      "hokom_evidence_stages": [
+        "P3_ROOT_STEM_CLOSURE",
+        "P4_JAMID_MUSHTAQ",
+        "P5_MUFRAD_WORD_CONTRACTS",
+        "P6_VERBAL_SIGNIFIED_ALONE",
+        "P7_COMPOSITION_READINESS",
+        "P8_AMIL_MAMUL"
+      ],
+      "review_status": "AI_AUTHORED_PENDING_HUMAN_REVIEW"
+    }
+  ]
+}

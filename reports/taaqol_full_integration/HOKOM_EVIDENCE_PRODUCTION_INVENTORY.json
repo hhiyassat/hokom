@@ -1,0 +1,437 @@
+{
+  "schema_version": "1.0.0",
+  "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "generated_at_utc": "2026-08-02T21:24:44.129908+00:00",
+  "totals": {
+    "TOTAL_REQUIREMENTS": 13,
+    "EVIDENCE_REQUIREMENT_UNREVIEWED": 0,
+    "READY_EVIDENCE_PRODUCER_UNWIRED": 0,
+    "RUNTIME_EXECUTED": 7,
+    "READY_TO_WIRE": 0,
+    "READY_TO_IMPLEMENT_MECHANICALLY": 0,
+    "MISSING_SOURCE_EVIDENCE": 0,
+    "MISSING_TYPED_CARRIER": 1,
+    "MISSING_PRODUCER": 5,
+    "AMBIGUOUS_SOURCE": 0,
+    "NOT_APPLICABLE": 0,
+    "CARRIER_ONLY": 0,
+    "LAW_ONLY": 0,
+    "OWNER_SEMANTIC_DECISION_REQUIRED": 0,
+    "NOT_IMPLEMENTED_IN_TARGET": 0
+  },
+  "producers": [
+    {
+      "evidence_id": "H1_TOKEN_LEXICAL",
+      "evidence_name": "129-token lexical evidence",
+      "scope": "TOKEN",
+      "producer_owner": "HOKOM",
+      "producer_module": "pipeline.p3_candidate.root_resolution_orchestrator",
+      "producer_symbol": "resolve_root + P2/P3 word class",
+      "input_types": [
+        "surface"
+      ],
+      "output_type": "canonical_root+word_class",
+      "consuming_stage": "LicensingBoundaryVerdict",
+      "source_files": [
+        "pipeline/p3_candidate/*"
+      ],
+      "source_fields": [
+        "surface",
+        "normalized",
+        "word_class",
+        "root_state"
+      ],
+      "source_contract": "P3 canonical resolvers",
+      "current_status": "RUNTIME_EXECUTED",
+      "runtime_callable": true,
+      "adapter_exists": true,
+      "provenance_available": true,
+      "trace_available": true,
+      "version_available": true,
+      "positive_fixture_available": true,
+      "negative_fixture_available": true,
+      "corpus_applicability": "APPLICABLE",
+      "first_blocker": null,
+      "mechanically_repairable": true,
+      "owner_decision_required": false
+    },
+    {
+      "evidence_id": "H2_FORMAL_SHAPE_REGISTRY",
+      "evidence_name": "FormalShapeRegistry(CLOSED)",
+      "scope": "TOKEN",
+      "producer_owner": "TAAQOL_VENDOR (required predecessor)",
+      "producer_module": "taaqqul_slot_geometry.weight.formal_shape",
+      "producer_symbol": "define_word_class_shape",
+      "input_types": [
+        "FormalShapeFamily"
+      ],
+      "output_type": "WordClassDefinitionVerdict",
+      "consuming_stage": "formal_style_candidate",
+      "source_files": [
+        "vendor/Taaqol-GPT/src/taaqqul_slot_geometry/weight/formal_shape.py"
+      ],
+      "source_fields": [
+        "FormalShapeFamily"
+      ],
+      "source_contract": "vendor formal_shape law",
+      "current_status": "MISSING_TYPED_CARRIER",
+      "runtime_callable": false,
+      "adapter_exists": true,
+      "provenance_available": true,
+      "trace_available": true,
+      "version_available": true,
+      "positive_fixture_available": false,
+      "negative_fixture_available": true,
+      "corpus_applicability": "APPLICABLE_IN_PRINCIPLE",
+      "first_blocker": "No Hokom producer emits FormalShapeRegistry(closure_state=CLOSED)",
+      "mechanically_repairable": false,
+      "owner_decision_required": false,
+      "note": "H2 producer would map Hokom's canonical formal evidence (word class + wazn + form family) to the vendor's FormalShapeRegistry carrier — this is a construction task orthogonal to the vendor law itself. Not authored in this session because construction requires source-derived closure-rule verification of what constitutes CLOSED for each word class."
+    },
+    {
+      "evidence_id": "H3_MUFRAD_SLOT",
+      "evidence_name": "MufradSemanticSlotGeometry (Hokom adapter output)",
+      "scope": "TOKEN",
+      "producer_owner": "HOKOM",
+      "producer_module": "pipeline.taaqol_integration.weight_layer.mufrad_semantic_slot_adapter",
+      "producer_symbol": "build_mufrad_semantic_slot_geometry",
+      "input_types": [
+        "ContractableUnitGeometry"
+      ],
+      "output_type": "MufradSemanticSlotGeometry",
+      "consuming_stage": "MaqamContextBoundary / relation_candidate",
+      "source_files": [
+        "pipeline/taaqol_integration/weight_layer/mufrad_semantic_slot_adapter.py"
+      ],
+      "source_fields": [
+        "ContractableUnit"
+      ],
+      "source_contract": "vendor mufrad_semantic_slot_geometry",
+      "current_status": "RUNTIME_EXECUTED",
+      "runtime_callable": true,
+      "adapter_exists": true,
+      "provenance_available": true,
+      "trace_available": true,
+      "version_available": true,
+      "positive_fixture_available": true,
+      "negative_fixture_available": true,
+      "corpus_applicability": "APPLICABLE",
+      "first_blocker": null,
+      "mechanically_repairable": true,
+      "owner_decision_required": false,
+      "executed_count_ayat": 37
+    },
+    {
+      "evidence_id": "H4_SPAN",
+      "evidence_name": "Token-to-span promotion (source-derived)",
+      "scope": "SPAN",
+      "producer_owner": "HOKOM",
+      "producer_module": "pipeline.p8_amil_mamul (not implemented)",
+      "producer_symbol": "(none)",
+      "input_types": [
+        "token_list + operator_scope"
+      ],
+      "output_type": "SpanCarrier",
+      "consuming_stage": "relation_candidate",
+      "source_files": [
+        "(none)"
+      ],
+      "source_fields": [],
+      "source_contract": "would require P8_AMIL_MAMUL rule + operator scope",
+      "current_status": "MISSING_PRODUCER",
+      "runtime_callable": false,
+      "adapter_exists": false,
+      "provenance_available": false,
+      "trace_available": false,
+      "version_available": false,
+      "positive_fixture_available": false,
+      "negative_fixture_available": true,
+      "corpus_applicability": "NOT_APPLICABLE_TO_AYAT_WITHOUT_PRODUCER",
+      "first_blocker": "No P8_AMIL_MAMUL producer exists in Hokom pipeline. LCX-150 has P8 annotations for 127/150 cases (corpus-only, not runtime-produced).",
+      "mechanically_repairable": false,
+      "owner_decision_required": false
+    },
+    {
+      "evidence_id": "H5_RELATION_COMPAT",
+      "evidence_name": "Relation compatibility evidence",
+      "scope": "SPAN",
+      "producer_owner": "HOKOM",
+      "producer_module": "pipeline.relation_graph.inference",
+      "producer_symbol": "infer_relations_from_traces + close_relations",
+      "input_types": [
+        "PipelineTrace"
+      ],
+      "output_type": "RelationCandidate + RelationClosureResult",
+      "consuming_stage": "vendor relation_candidate law",
+      "source_files": [
+        "pipeline/relation_graph/inference.py"
+      ],
+      "source_fields": [
+        "P5_MUFRAD trace evidence_ids",
+        "surface morphological heuristics"
+      ],
+      "source_contract": "general Arabic morphology rules (final damma → nominative; short surface + fatha → past verb)",
+      "current_status": "RUNTIME_EXECUTED",
+      "runtime_callable": true,
+      "adapter_exists": true,
+      "provenance_available": true,
+      "trace_available": true,
+      "version_available": true,
+      "positive_fixture_available": true,
+      "negative_fixture_available": true,
+      "corpus_applicability": "APPLICABLE_WITH_PIPELINETRACE",
+      "first_blocker": "None as Hokom evidence producer. Hokom→vendor RelationVerdict promotion is a separate task tracked as READY_INTEGRATION on relation_candidate_adapter (currently MISSING_EVIDENCE for Ayat).",
+      "mechanically_repairable": true,
+      "owner_decision_required": false,
+      "hokom_runtime_wired": true,
+      "vendor_native_law_wired": false
+    },
+    {
+      "evidence_id": "H6_CLAUSE",
+      "evidence_name": "Clause boundary evidence (source-derived)",
+      "scope": "CLAUSE",
+      "producer_owner": "HOKOM",
+      "producer_module": "pipeline.clause_graph.segmenter",
+      "producer_symbol": "detect_boundaries",
+      "input_types": [
+        "List[Dict{surface,word_class}]"
+      ],
+      "output_type": "List[ClauseBoundary]",
+      "consuming_stage": "clause carrier / span construction",
+      "source_files": [
+        "pipeline/clause_graph/segmenter.py"
+      ],
+      "source_fields": [
+        "surface"
+      ],
+      "source_contract": "closed-class Arabic operator markers",
+      "current_status": "RUNTIME_EXECUTED",
+      "runtime_callable": true,
+      "adapter_exists": true,
+      "provenance_available": true,
+      "trace_available": true,
+      "version_available": true,
+      "positive_fixture_available": true,
+      "negative_fixture_available": true,
+      "corpus_applicability": "APPLICABLE",
+      "first_blocker": null,
+      "mechanically_repairable": true,
+      "owner_decision_required": false,
+      "executed_count_ayat": 14
+    },
+    {
+      "evidence_id": "H7_SENTENCE",
+      "evidence_name": "Sentence geometry (orthographic-only for Ayat)",
+      "scope": "SENTENCE",
+      "producer_owner": "HOKOM",
+      "producer_module": "(orthographic)",
+      "producer_symbol": "(single verse boundary)",
+      "input_types": [
+        "token_list"
+      ],
+      "output_type": "OrthographicSentence",
+      "consuming_stage": "MaqamContextBoundary",
+      "source_files": [
+        "data/sentence-corpus (P9 for LCX)"
+      ],
+      "source_fields": [
+        "orthographic verse boundary"
+      ],
+      "source_contract": "one Ayah = one orthographic sentence",
+      "current_status": "RUNTIME_EXECUTED",
+      "runtime_callable": true,
+      "adapter_exists": false,
+      "provenance_available": true,
+      "trace_available": false,
+      "version_available": true,
+      "positive_fixture_available": true,
+      "negative_fixture_available": false,
+      "corpus_applicability": "APPLICABLE",
+      "first_blocker": "For Ayat: only orthographic sentence licensed without an owner rule for compound decomposition. For LCX-150: 57/150 cases have P9 evidence.",
+      "mechanically_repairable": true,
+      "owner_decision_required": false,
+      "executed_count_ayat": 1,
+      "executed_count_lcx": 57
+    },
+    {
+      "evidence_id": "H8_MAQAM",
+      "evidence_name": "Maqam / context evidence (source-derived)",
+      "scope": "SENTENCE",
+      "producer_owner": "HOKOM",
+      "producer_module": "(not implemented — no P12 producer)",
+      "producer_symbol": "(none)",
+      "input_types": [
+        "explicit discourse markers + sentence mode"
+      ],
+      "output_type": "MaqamEvidenceBundle",
+      "consuming_stage": "MaqamContextBoundary",
+      "source_files": [
+        "(none)"
+      ],
+      "source_fields": [
+        "explicit_discourse_marker",
+        "sentence_mode",
+        "speaker_evidence"
+      ],
+      "source_contract": "would require explicit maqam evidence rule + P12 producer",
+      "current_status": "MISSING_PRODUCER",
+      "runtime_callable": false,
+      "adapter_exists": false,
+      "provenance_available": false,
+      "trace_available": false,
+      "version_available": false,
+      "positive_fixture_available": false,
+      "negative_fixture_available": true,
+      "corpus_applicability": "NOT_APPLICABLE_TO_AYAT_WITHOUT_PRODUCER",
+      "first_blocker": "No maqam evidence producer exists in Hokom. Token-only maqam is forbidden by §14. No P12 corpus annotations for LCX-150 (0 MAQAM_RUNTIME_READY).",
+      "mechanically_repairable": false,
+      "owner_decision_required": false
+    },
+    {
+      "evidence_id": "H9_P8",
+      "evidence_name": "P8_AMIL_MAMUL runtime projector",
+      "scope": "SPAN",
+      "producer_owner": "HOKOM",
+      "producer_module": "(not implemented)",
+      "producer_symbol": "(none)",
+      "input_types": [],
+      "output_type": "AmilMamulCarrier",
+      "consuming_stage": "span construction",
+      "source_files": [],
+      "source_fields": [],
+      "source_contract": "would require agent/patient scope rule",
+      "current_status": "MISSING_PRODUCER",
+      "runtime_callable": false,
+      "adapter_exists": false,
+      "provenance_available": false,
+      "trace_available": false,
+      "version_available": false,
+      "positive_fixture_available": false,
+      "negative_fixture_available": true,
+      "corpus_applicability": "APPLICABLE_TO_LCX_150_CORPUS_ONLY",
+      "first_blocker": "No P8 producer in Hokom pipeline; LCX-150 has annotations only.",
+      "mechanically_repairable": false,
+      "owner_decision_required": false
+    },
+    {
+      "evidence_id": "H9_P9",
+      "evidence_name": "P9_SENTENCE_GEOMETRY runtime projector",
+      "scope": "SENTENCE",
+      "producer_owner": "HOKOM",
+      "producer_module": "(not implemented for Ayat)",
+      "producer_symbol": "(none)",
+      "input_types": [],
+      "output_type": "SentenceGeometry",
+      "consuming_stage": "MaqamContextBoundary",
+      "source_files": [],
+      "source_fields": [],
+      "source_contract": "would require sentence-mode + geometry rules",
+      "current_status": "MISSING_PRODUCER",
+      "runtime_callable": false,
+      "adapter_exists": false,
+      "provenance_available": false,
+      "trace_available": false,
+      "version_available": false,
+      "positive_fixture_available": false,
+      "negative_fixture_available": true,
+      "corpus_applicability": "APPLICABLE_TO_LCX_150_CORPUS_ONLY (57 cases)",
+      "first_blocker": "No P9 producer in Hokom pipeline; LCX-150 has annotations only.",
+      "mechanically_repairable": false,
+      "owner_decision_required": false
+    },
+    {
+      "evidence_id": "H9_P10",
+      "evidence_name": "P10_RELATION_GEOMETRY runtime projector",
+      "scope": "SPAN",
+      "producer_owner": "HOKOM (partial via pipeline.relation_graph.inference)",
+      "producer_module": "pipeline.relation_graph.inference",
+      "producer_symbol": "infer_relations_from_traces",
+      "input_types": [
+        "PipelineTrace"
+      ],
+      "output_type": "RelationCandidate",
+      "consuming_stage": "relation_candidate",
+      "source_files": [
+        "pipeline/relation_graph/inference.py"
+      ],
+      "source_fields": [
+        "P5 trace evidence",
+        "surface morphology"
+      ],
+      "source_contract": "general Arabic morphology rules",
+      "current_status": "RUNTIME_EXECUTED",
+      "runtime_callable": true,
+      "adapter_exists": true,
+      "provenance_available": true,
+      "trace_available": true,
+      "version_available": true,
+      "positive_fixture_available": true,
+      "negative_fixture_available": true,
+      "corpus_applicability": "APPLICABLE",
+      "first_blocker": "None as Hokom evidence producer. Hokom→vendor RelationVerdict promotion is a separate task tracked as READY_INTEGRATION on relation_candidate_adapter (currently MISSING_EVIDENCE for Ayat).",
+      "mechanically_repairable": true,
+      "owner_decision_required": false,
+      "hokom_runtime_wired": true,
+      "vendor_native_law_wired": false
+    },
+    {
+      "evidence_id": "H9_P11",
+      "evidence_name": "P11_IRAB_READINESS runtime projector",
+      "scope": "TOKEN",
+      "producer_owner": "HOKOM",
+      "producer_module": "pipeline.p5_inflection (partial)",
+      "producer_symbol": "(inflection features)",
+      "input_types": [
+        "morph_analysis"
+      ],
+      "output_type": "IrabReadiness",
+      "consuming_stage": "relation compatibility",
+      "source_files": [
+        "pipeline/p5_inflection/*"
+      ],
+      "source_fields": [
+        "inflection markers"
+      ],
+      "source_contract": "P5 inflection rules",
+      "current_status": "RUNTIME_EXECUTED",
+      "runtime_callable": true,
+      "adapter_exists": true,
+      "provenance_available": true,
+      "trace_available": true,
+      "version_available": true,
+      "positive_fixture_available": true,
+      "negative_fixture_available": true,
+      "corpus_applicability": "APPLICABLE",
+      "first_blocker": null,
+      "mechanically_repairable": true,
+      "owner_decision_required": false
+    },
+    {
+      "evidence_id": "H9_P12",
+      "evidence_name": "P12_IFADAH runtime projector",
+      "scope": "SENTENCE",
+      "producer_owner": "HOKOM",
+      "producer_module": "(not implemented)",
+      "producer_symbol": "(none)",
+      "input_types": [],
+      "output_type": "IfadahCarrier",
+      "consuming_stage": "IfadahCandidate",
+      "source_files": [],
+      "source_fields": [],
+      "source_contract": "requires sentence + maqam + relation + hukm predecessors",
+      "current_status": "MISSING_PRODUCER",
+      "runtime_callable": false,
+      "adapter_exists": false,
+      "provenance_available": false,
+      "trace_available": false,
+      "version_available": false,
+      "positive_fixture_available": false,
+      "negative_fixture_available": true,
+      "corpus_applicability": "NOT_APPLICABLE_WITHOUT_UPSTREAM",
+      "first_blocker": "No IfadahCandidate can open without full upstream chain (relation → hukm → manat → tanzil).",
+      "mechanically_repairable": false,
+      "owner_decision_required": false
+    }
+  ]
+}

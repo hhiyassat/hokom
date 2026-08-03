@@ -1,0 +1,111 @@
+{
+  "phase_id": "R0_REQUIREMENTS_READINESS",
+  "phase_state": "CLOSED",
+  "closed_at": "2026-08-01",
+  "vendor_sha": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "corpus_sha256": "6bd635a05530965f13f76cf003f7738130badec6981bcb0e73f2465d386e1ed7",
+  "corpus_token_count": 129,
+  "constitution_file": "HOKOM_TAAQOL_MASTER_EXECUTION_CONSTITUTION_01.md",
+  "constitution_ratified": 1,
+  "requirements_package": {
+    "directory": "requirements/ayat_al_dayn_integration/",
+    "file_count": 17,
+    "files": [
+      "00_SCOPE_AND_BOUNDARIES.md",
+      "01_CANONICAL_CORPUS_MANIFEST.json",
+      "02_HOKOM_STAGE_OWNERSHIP_MATRIX.csv",
+      "03_TAAQOL_RUNTIME_INVENTORY.csv",
+      "04_VENDOR_MAIN_PARITY_REPORT.md",
+      "05_P2_REGISTRY_CONTRACT.md",
+      "06_LEXICAL_REGISTRY_SCHEMA.json",
+      "07_LINGUISTIC_EVIDENCE_REQUIREMENTS.csv",
+      "08_HOKOM_TAAQOL_ADAPTER_MATRIX.csv",
+      "09_CONTEXT_AND_MAQAM_REQUIREMENTS.md",
+      "10_FAILURE_AND_RESIDUAL_TAXONOMY.md",
+      "11_PROVENANCE_AND_VERSIONING_POLICY.md",
+      "12_TEST_AND_EVALUATION_MATRIX.csv",
+      "13_STAGE_ACCEPTANCE_GATES.md",
+      "14_IMPLEMENTATION_DEPENDENCY_GRAPH.md",
+      "15_MANAGER_DEMO_ACCEPTANCE_SCENARIO.md",
+      "16_REQUIREMENTS_READINESS_REPORT.md"
+    ]
+  },
+  "gates": {
+    "G_R0_01": 1,
+    "G_R0_02": 1,
+    "G_R0_03": 1,
+    "G_R0_04": 1,
+    "G_R0_05": 1,
+    "G_R0_06": 1,
+    "G_R0_07": 1,
+    "G_R0_08": 1,
+    "G_R0_09": 1,
+    "G_R0_10": 1,
+    "G_R0_11": 1,
+    "G_R0_12": 1,
+    "G_R0_13": 1
+  },
+  "all_gates_passed": true,
+  "typed_continuity": true,
+  "scope_continuity": true,
+  "rank_continuity": true,
+  "trace_continuity": true,
+  "provenance_continuity": true,
+  "blocking_residuals": [],
+  "canonical_exit": 0,
+  "open_owner_decision_required": [
+    {
+      "odr_id": "ODR_01",
+      "item": "GitHub SHA parity verification",
+      "blocking": false
+    },
+    {
+      "odr_id": "ODR_02",
+      "item": "Vendor submodule update authorization",
+      "blocking": true,
+      "note": "No update authorized"
+    },
+    {
+      "odr_id": "ODR_03",
+      "item": "Live LLM provider for GPT Reasonableness",
+      "blocking": false
+    },
+    {
+      "odr_id": "ODR_04",
+      "item": "WADI domain classification",
+      "blocking": false,
+      "note": "Main chain proceeds"
+    },
+    {
+      "odr_id": "ODR_05",
+      "item": "LAFZI phonological analysis",
+      "blocking": false,
+      "note": "Main chain proceeds"
+    },
+    {
+      "odr_id": "ODR_06",
+      "item": "Corpus change authorization",
+      "blocking": true,
+      "note": "Corpus frozen"
+    },
+    {
+      "odr_id": "ODR_07",
+      "item": "Constitution amendment",
+      "blocking": true
+    },
+    {
+      "odr_id": "ODR_08",
+      "item": "git commit/tag/push/merge",
+      "blocking": true,
+      "note": "AUTONOMOUS_COMMIT_MODE=0"
+    }
+  ],
+  "next_phase": "E0_SCHEMA_FREEZE",
+  "next_phase_first_task": "A0_REGISTRY_LOOKUP adapter — populate hokom_evidence[registry_matches] to deactivate registry_load_failure blocker",
+  "autonomous_execution_mode": 1,
+  "autonomous_commit_mode": 0,
+  "vendor_update_allowed": 0,
+  "frozen_file_override": 0,
+  "live_provider_allowed": 0
+}

@@ -1,0 +1,169 @@
+{
+  "schema_version": "1.0.0",
+  "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "generated_at_utc": "2026-08-02T20:40:30.838908+00:00",
+  "source_files": [
+    "pipeline/taaqol_integration/native_stage_registry.py",
+    "reports/taaqol_full_integration/READY_ADAPTER_WIRING_INVENTORY.json",
+    "reports/taaqol_full_integration/c9_summary.json",
+    "reports/taaqol_full_integration/LCX_150_CORPUS_READINESS.json",
+    "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json"
+  ],
+  "source_hashes": {
+    "pipeline/taaqol_integration/native_stage_registry.py": "f97ce1ec189e471cbcf2871d783007ce96e3e9288425904f3aeb9a65b7921482",
+    "reports/taaqol_full_integration/READY_ADAPTER_WIRING_INVENTORY.json": "4fc9dad623cbc616c8207f6c0dc21001dc44bd1ffcc4134cb76b288661b52c53",
+    "reports/taaqol_full_integration/c9_summary.json": "d6b30c298b50917a41917499c9477d488c6dfb51344bdd9e7fb10bf47d352562",
+    "reports/taaqol_full_integration/LCX_150_CORPUS_READINESS.json": "2c3779cfb5bee5d07de9290299c341305240d98f821aa5bbd46b61cb42f46b3a",
+    "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json": "3d1988340d7d854eeda970e718ee528a58efe222584144b8a40618403815380c"
+  },
+  "sources": [
+    {
+      "source_owner": "Hokom P0-P2 pipeline",
+      "source_module": "pipeline.p0_orthography, pipeline.p1_normalization, pipeline.p2_projection",
+      "source_type": "surface-normalized token records",
+      "scope_type": "TOKEN",
+      "fields": [
+        "token_index",
+        "original_surface",
+        "normalized_surface",
+        "host_surface",
+        "proclitics",
+        "enclitics"
+      ],
+      "evidence_ids": [
+        "SLOT::ORIGINAL_SURFACE",
+        "SLOT::NORMALIZED_SURFACE",
+        "SLOT::HOST"
+      ],
+      "provenance_available": true,
+      "trace_available": true,
+      "usable_for_relation": false,
+      "usable_for_maqam": false,
+      "limitations": "Token-only; no cross-token structural information."
+    },
+    {
+      "source_owner": "Hokom P3 candidate/root/word-class resolver",
+      "source_module": "pipeline.p3_candidate.root_resolution_orchestrator",
+      "source_type": "canonical root + word-class per token",
+      "scope_type": "TOKEN",
+      "fields": [
+        "canonical_root",
+        "root_state",
+        "word_class",
+        "word_class_subclass",
+        "wazn",
+        "masdar"
+      ],
+      "evidence_ids": [
+        "SLOT::ROOT_STATE",
+        "SLOT::WORD_CLASS"
+      ],
+      "provenance_available": true,
+      "trace_available": true,
+      "usable_for_relation": false,
+      "usable_for_maqam": false,
+      "limitations": "Token-only; canonical root may be DEFERRED/UNKNOWN/AMBIGUOUS."
+    },
+    {
+      "source_owner": "Taaqol licensing_boundary adapter",
+      "source_module": "pipeline.taaqol_integration.weight_layer.licensing_boundary_adapter",
+      "source_type": "LicensingBoundaryVerdict per token (EXECUTED for 37/129 Ayat tokens)",
+      "scope_type": "TOKEN",
+      "fields": [
+        "licensing_verdict",
+        "root_letters",
+        "segment_host",
+        "word_class",
+        "surface"
+      ],
+      "evidence_ids": [
+        "STAGE_04_LICENSINGBOUNDARYVERDICT"
+      ],
+      "provenance_available": true,
+      "trace_available": true,
+      "usable_for_relation": false,
+      "usable_for_maqam": false,
+      "limitations": "Token-only; per-token licensing decision."
+    },
+    {
+      "source_owner": "Taaqol contractable_unit_geometry adapter",
+      "source_module": "pipeline.taaqol_integration.weight_layer.mufrad_semantic_slot_adapter",
+      "source_type": "ContractableUnitGeometry per token (EXECUTED for 37 tokens)",
+      "scope_type": "TOKEN",
+      "fields": [
+        "contractable_unit_geometry"
+      ],
+      "evidence_ids": [
+        "STAGE_03_CONTRACTABLEUNIT"
+      ],
+      "provenance_available": true,
+      "trace_available": true,
+      "usable_for_relation": "AS_UNIT_ONLY",
+      "usable_for_maqam": false,
+      "limitations": "Per-token unit only; pairing into a SPAN requires source-derived structural evidence not currently produced by Hokom."
+    },
+    {
+      "source_owner": "Hokom demo renderer accounting",
+      "source_module": "src.hokom.demo.demo_renderer / html_report_ar",
+      "source_type": "accounting/reporting record",
+      "scope_type": "REPOSITORY_ACCOUNTING",
+      "fields": [
+        "stage_records_accounting.csv rows"
+      ],
+      "evidence_ids": [],
+      "provenance_available": false,
+      "trace_available": false,
+      "usable_for_relation": false,
+      "usable_for_maqam": false,
+      "limitations": "Reporting only; does not open stages or add verdicts."
+    },
+    {
+      "source_owner": "LCX-150 sentence corpus",
+      "source_module": "data/sentence-corpus/hokom_saleh_taaqol_sentence_corpus_150.json",
+      "source_type": "annotated sentence cases (150) with P8_AMIL_MAMUL span evidence (127 cases)",
+      "scope_type": "SPAN",
+      "fields": [
+        "amil_role",
+        "amil_unit_id",
+        "unit_id",
+        "target_surface"
+      ],
+      "evidence_ids": [
+        "P8_AMIL_MAMUL"
+      ],
+      "provenance_available": true,
+      "trace_available": false,
+      "usable_for_relation": "PARTIAL_SPAN_ONLY",
+      "usable_for_maqam": false,
+      "limitations": "SPAN-scoped for 127 cases; no P10/P11 sentence relations; no P12 maqam; not runtime-consumable by Ayat al-Dayn 129-token demo."
+    },
+    {
+      "source_owner": "SCG canonical sentence corpus (P9)",
+      "source_module": "data/sentence-corpus (P9 fields)",
+      "source_type": "sentence geometry evidence",
+      "scope_type": "SENTENCE",
+      "fields": [
+        "P9_SENTENCE_GEOMETRY"
+      ],
+      "evidence_ids": [
+        "P9_SENTENCE_GEOMETRY"
+      ],
+      "provenance_available": true,
+      "trace_available": false,
+      "usable_for_relation": false,
+      "usable_for_maqam": "AS_SCOPE_ONLY_WITHOUT_MAQAM_EVIDENCE",
+      "limitations": "SENTENCE-scope for 57/150 cases; no P12 maqam evidence populated."
+    }
+  ],
+  "totals": {
+    "SCOPE_SOURCE_TOTAL": 7,
+    "SCOPE_SOURCE_UNREVIEWED": 0,
+    "TOKEN_SCOPE_SOURCES": 4,
+    "SPAN_SCOPE_SOURCES": 1,
+    "SENTENCE_SCOPE_SOURCES": 1,
+    "CLAUSE_SCOPE_SOURCES": 0,
+    "USABLE_FOR_RELATION": 2,
+    "USABLE_FOR_MAQAM": 1
+  }
+}
