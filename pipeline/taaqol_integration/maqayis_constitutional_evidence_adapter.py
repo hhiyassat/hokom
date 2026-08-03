@@ -50,7 +50,6 @@ from maqayis_constitutional_schemas import (
     EvidenceStatus,
     OriginType,
     MaqayisConstitutionalAugmentationResult,
-    HokomRootClaim,
 )
 from maqayis_constitutional_registry import constitutional_lookup
 
@@ -63,10 +62,15 @@ NONE_INTERPRETED_AS_NEGATIVE_SEMANTIC_CLAIM_COUNT: int = 0
 MAQAYIS_LOOKUP_FROM_UNKNOWN_ROOT_COUNT:            int = 0
 CONSTITUTIONAL_EVIDENCE_APPROVED_ADMISSION_COUNT:  int = 0
 
-# R12: Production Stage 0 bypass guard
-_STAGE_0_BUNDLE_ONLY_ENFORCEMENT: bool = False
+# §6: Production Stage 0 bypass guard — True in production.
+# Direct string API callers (get_constitutional_evidence_ids) bypass Hokom licensing.
+# With this True, direct calls increment DIRECT_LOOKUP_BYPASS_COUNT and return empty.
+# Only augment_evidence_from_bundle() (bundle-licensed path) may proceed to lookup.
+_STAGE_0_BUNDLE_ONLY_ENFORCEMENT: bool = True
 
 # Accounting counter for direct lookup bypass
+# Incremented any time get_constitutional_evidence_ids() is called directly in production.
+# DIRECT_LOOKUP_BYPASS_COUNT = 0 is required at gate AG-BYPASS-01.
 DIRECT_LOOKUP_BYPASS_COUNT: int = 0
 
 
@@ -96,7 +100,11 @@ def get_constitutional_evidence_ids(root_letters: str) -> tuple[str, ...]:
     """
     global DIRECT_LOOKUP_BYPASS_COUNT
     if _STAGE_0_BUNDLE_ONLY_ENFORCEMENT:
+        # §6: Direct string lookup bypasses Hokom licensing — reject in production.
+        # Callers must use augment_evidence_from_bundle() with a licensed bundle.
+        # DIRECT_LOOKUP_BYPASS_COUNT = 0 enforced at production gate AG-BYPASS-01.
         DIRECT_LOOKUP_BYPASS_COUNT += 1
+        return ()
     if not root_letters:
         return ()
     try:
@@ -225,6 +233,9 @@ def augment_evidence_from_bundle(
     Extract root letters from a HokomLinguisticClaimBundle and return a
     typed MaqayisConstitutionalAugmentationResult.
 
+    §5: Uses real Hokom types only — no locally invented HokomRootClaim.
+      Directive is on bundle.domain_directive (NOT bundle.root_claim.directive).
+      Root letters from LicensedRoot.radicals (tuple[str,str,str]) only.
     §9: Only roots licensed by Hokom (directive == 'ACCEPT') proceed to lookup.
       LOOKUP_FROM_DEFERRED_ROOT_COUNT = 0 enforced.
       LOOKUP_FROM_BLOCKED_ROOT_COUNT  = 0 enforced.
@@ -235,25 +246,30 @@ def augment_evidence_from_bundle(
     • Never raises
     • Returns not_licensed() on any failure / rejected directive
     • MAQAYIS_LOOKUP_FROM_UNKNOWN_ROOT_COUNT = 0 enforced
-      (root must come from bundle.root_claim.canonical_root only)
+      (root must come from LicensedRoot.radicals only after ACCEPT)
+
+    Real Hokom type structure (pipeline/taaqol_integration/provider_models.py):
+      HokomLinguisticClaimBundle.domain_directive: str  # 'ACCEPT'|'DEFER'|'BLOCK'|'NOT_APPLICABLE'
+      HokomLinguisticClaimBundle.root_claim: LicensedRoot | DeferredRoot | BlockedRoot | None
+
+    Real Hokom root contracts (pipeline/p3_candidate/root_contracts.py):
+      LicensedRoot.radicals: tuple[str, str, str]  — only source of root letters
+      DeferredRoot / BlockedRoot — no radicals field
     """
     try:
-        rc = getattr(bundle, "root_claim", None)
-        if rc is None:
-            return MaqayisConstitutionalAugmentationResult.not_licensed(
-                "no_root_claim_in_bundle"
-            )
-
-        # R11: Support both typed HokomRootClaim and duck-typed models (SimpleNamespace).
-        # isinstance check first; fall back to getattr for SimpleNamespace compatibility.
-        # getattr() works with both since HokomRootClaim is a dataclass with those attributes.
-
-        # §9: Hokom root licensing check — directive must be 'ACCEPT'
-        directive = getattr(rc, "directive", None)
+        # §5: directive is on bundle.domain_directive — NOT bundle.root_claim.directive
+        directive = getattr(bundle, "domain_directive", None)
+        if directive is None:
+            # Fallback for duck-typed / legacy callers that still carry root_claim.directive
+            rc_fallback = getattr(bundle, "root_claim", None)
+            if rc_fallback is not None:
+                directive = getattr(rc_fallback, "directive", None)
         if directive is None:
             return MaqayisConstitutionalAugmentationResult.not_licensed(
-                "root_directive_absent"
+                "domain_directive_absent"
             )
+
+        # §9: Hokom root licensing check — directive must be 'ACCEPT'
         if directive == "DEFER":
             # LOOKUP_FROM_DEFERRED_ROOT_COUNT = 0 enforced here
             return MaqayisConstitutionalAugmentationResult.not_licensed(
@@ -264,20 +280,31 @@ def augment_evidence_from_bundle(
             return MaqayisConstitutionalAugmentationResult.not_licensed(
                 "root_directive_BLOCK"
             )
-        if directive != "ACCEPT":
+        if directive not in ("ACCEPT",):
             return MaqayisConstitutionalAugmentationResult.not_licensed(
-                f"root_directive_unknown:{directive}"
+                f"root_directive_not_accepted:{directive}"
             )
 
-        cr = getattr(rc, "canonical_root", None)
-        if not cr:
+        # §5: root letters from LicensedRoot.radicals only — never from root_claim.canonical_root
+        # LicensedRoot is the only contract type that carries .radicals.
+        # DeferredRoot / BlockedRoot do NOT have .radicals.
+        rc = getattr(bundle, "root_claim", None)
+        if rc is None:
             return MaqayisConstitutionalAugmentationResult.not_licensed(
-                "canonical_root_empty"
+                "no_root_claim_for_accepted_directive"
             )
-        root = "".join(str(c) for c in cr)
+
+        radicals = getattr(rc, "radicals", None)
+        if not radicals:
+            # root_claim is not a LicensedRoot (e.g. DeferredRoot, BlockedRoot, or None)
+            return MaqayisConstitutionalAugmentationResult.not_licensed(
+                "root_claim_has_no_radicals_field"
+            )
+
+        root = "".join(str(c) for c in radicals)
         if not root:
             return MaqayisConstitutionalAugmentationResult.not_licensed(
-                "canonical_root_empty_after_join"
+                "radicals_empty_after_join"
             )
 
         # Licensed root — proceed to constitutional lookup
