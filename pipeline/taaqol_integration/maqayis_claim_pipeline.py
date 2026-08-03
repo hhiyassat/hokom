@@ -9,14 +9,15 @@ Produces:
                            FOUND_CONFLICT_REVIEW_REQUIRED for conflicts
   • TraceEvents          — per extraction and segmentation
 
-Segmentation Rules
-──────────────────
-SINGULAR  → 1 LexicalOriginCandidate (origin_index=0)
-DUAL      → 2 LexicalOriginCandidates (origin_index=0,1)
-TRIPLE    → 3 LexicalOriginCandidates (origin_index=0,1,2)
-MULTIPLE  → 3 LexicalOriginCandidates (conservative; exact N requires human review)
+Segmentation Rules (§5 revised)
+────────────────────────────────
+SINGULAR    → 1 LexicalOriginCandidate; raw_origin_text from OCR source
+DUAL        → 2 LexicalOriginCandidates; raw_origin_text from OCR source
+TRIPLE      → 3 LexicalOriginCandidates; raw_origin_text from OCR source
+MULTIPLE    → 1 candidate (NOT forced to 3); only if origin_text available
+              → 0 candidates + SEGMENTATION_REQUIRED residual if no origin_text
 SOUND_ROOTS → 1 candidate (special classification)
-NONE      → 1 candidate (positive absence claim — NOT negative evidence)
+NONE        → 1 candidate with INCOMPLETE_CLAIM (§6 — not a positive absence claim)
 NOT_EXTRACTED / UNKNOWN → 1 candidate with INCOMPLETE_CLAIM
 
 Conflict Detection
@@ -55,6 +56,7 @@ from maqayis_constitutional_schemas import (
     enforce_tc_ir_03,
     enforce_tc_ro_04,
     TransitionContractViolation,
+    MULTIPLE_FORCED_TO_THREE_COUNT,
 )
 from maqayis_legacy_importer import LegacyCandidateImport, LegacyImportResult
 from maqayis_identity_pipeline import IdentityPipelineResult
@@ -110,7 +112,10 @@ def _build_claim(
         identity_id=imp.candidate_id,
         claim_kind=_claim_kind_from_legacy(imp),
         origin_type=origin_type,
-        raw_claim_text=imp.legacy_root_letters,  # heading as proxy for claim text
+        # §4: raw_claim_text = actual Ibn Faris OCR text, NEVER root letters.
+        # R4: no root-letter fallback.
+        # CLAIM_WITH_ROOT_LETTERS_AS_CLAIM_TEXT_COUNT = 0 enforced here.
+        raw_claim_text=imp.legacy_heading_text or "",  # R4: no root-letter fallback
         review_state=claim_review_state,
         evidence_status=claim_evidence_status,
         extraction_method="MACHINE_OCR",
@@ -128,7 +133,11 @@ def _claim_kind_from_legacy(imp: LegacyCandidateImport) -> ClaimKind:
     if sot == "CROSS_REFERENCE":
         return ClaimKind.CROSS_REFERENCE
     if sot == "NONE":
-        return ClaimKind.POSITIVE_ORIGIN  # "لا أصل له" is a positive absence claim
+        # §6: NONE → INCOMPLETE_CLAIM (not POSITIVE_ORIGIN).
+        # "NONE" means the OCR extraction found no explicit origin claim —
+        # it is NOT an explicit "لا أصل له" positive absence statement.
+        # NONE_MAPPED_TO_POSITIVE_ABSENCE_CLAIM_COUNT = 0 enforced here.
+        return ClaimKind.INCOMPLETE_CLAIM
     if sot in ("SINGULAR", "DUAL", "TRIPLE", "MULTIPLE", "SOUND_ROOTS"):
         return ClaimKind.POSITIVE_ORIGIN
     return ClaimKind.INCOMPLETE_CLAIM
@@ -142,40 +151,64 @@ def _segment_origins(
     claim: SourceRootClaim,
     imp: LegacyCandidateImport,
     occurred_at: str,
-) -> tuple[list[LexicalOriginCandidate], list[TraceEvent]]:
+) -> tuple[list[LexicalOriginCandidate], list[Residual], list[TraceEvent]]:
     """
     Segment a SourceRootClaim into LexicalOriginCandidate records.
 
-    SINGULAR  → 1 candidate
-    DUAL      → 2 candidates
-    TRIPLE    → 3 candidates
-    MULTIPLE  → 3 candidates (conservative; exact N from human review)
+    §5 contract — no placeholder candidates:
+    SINGULAR    → 1 candidate; raw_origin_text from legacy_origin_text or heading
+    DUAL        → 2 candidates; raw_origin_text from legacy_origin_text or heading
+    TRIPLE      → 3 candidates; raw_origin_text from legacy_origin_text or heading
+    MULTIPLE    → 1 candidate (NOT hardcoded to 3); only if origin_text available
+                → 0 candidates + SEGMENTATION_REQUIRED residual if no origin_text
     SOUND_ROOTS, NONE, etc. → 1 candidate
+
+    PLACEHOLDER_ORIGIN_DESCRIPTION_COUNT = 0:
+      raw_origin_text always from source OCR, never root letters alone.
+    MULTIPLE_FORCED_TO_THREE_COUNT = 0:
+      MULTIPLE never forced to 3 candidates.
     """
     root = imp.legacy_root_letters
     origin_type = claim.origin_type
     candidates: list[LexicalOriginCandidate] = []
+    residuals_out: list[Residual] = []
     traces: list[TraceEvent] = []
 
-    # Determine segmentation count
+    # §5: raw text from actual OCR source, NOT root letters
+    origin_text = imp.legacy_origin_text          # None if absent
+    heading_text = imp.legacy_heading_text or ""  # R4: no root-letter fallback
+
+    # Determine segmentation — R5: DUAL/TRIPLE only if distinct spans; R7: NONE → 0 candidates
     if origin_type == OriginType.DUAL:
-        n_origins = 2
-        seg_desc = ["الأصل الأول", "الأصل الثاني"]
+        # R5: distinct source spans required; legacy corpus has one unified text → 0 candidates
+        n_origins = 0
+        seg_desc = []
     elif origin_type == OriginType.TRIPLE:
-        n_origins = 3
-        seg_desc = ["الأصل الأول", "الأصل الثاني", "الأصل الثالث"]
+        # R5: distinct source spans required; legacy corpus has one unified text → 0 candidates
+        n_origins = 0
+        seg_desc = []
     elif origin_type == OriginType.MULTIPLE:
-        n_origins = 3  # conservative; exact N requires human review
-        seg_desc = ["الأصل الأول", "الأصل الثاني", "الأصل الثالث (وأكثر)"]
+        # §5: MULTIPLE must NOT be forced to 3.
+        if origin_text:
+            n_origins = 1
+            seg_desc = ["أصول متعددة (يلزم تقطيع يدوي)"]
+        else:
+            n_origins = 0
+            seg_desc = []
+    elif origin_type in (OriginType.NONE, OriginType.NOT_EXTRACTED, OriginType.UNKNOWN):
+        # R7: NONE/NOT_EXTRACTED/UNKNOWN → 0 LexicalOriginCandidates
+        n_origins = 0
+        seg_desc = []
     else:
+        # SINGULAR, SOUND_ROOTS
         n_origins = 1
         seg_desc = [_origin_desc(origin_type)]
 
-    # Each segmented origin is SINGULAR after segmentation
-    per_origin_type = OriginType.SINGULAR if n_origins > 1 else origin_type
+    per_origin_type = origin_type  # no DUAL/TRIPLE splitting in legacy pipeline
 
     for i in range(n_origins):
         origin_id = f"{_ORIGIN_PREFIX}:{root}:{i}"
+        raw_origin = origin_text if origin_text else heading_text
         candidates.append(LexicalOriginCandidate(
             id=origin_id,
             claim_id=claim.id,
@@ -183,14 +216,61 @@ def _segment_origins(
             origin_index=i,
             origin_type=per_origin_type,
             origin_description=seg_desc[i] if i < len(seg_desc) else f"الأصل {i+1}",
-            raw_origin_text=imp.legacy_root_letters,
+            raw_origin_text=raw_origin,
             review_state=ReviewState.ORIGIN_CANDIDATE,
             evidence_status=EvidenceStatus.MACHINE_SOURCE_CLAIM_CANDIDATE,
             extraction_method="MACHINE_OCR",
             supersedes_id=None,
         ))
 
-    # TraceEvent for segmentation (if multi-origin)
+    # Emit residuals for 0-candidate cases
+    if origin_type in (OriginType.DUAL, OriginType.TRIPLE) and n_origins == 0:
+        # R5: No distinct spans → SEGMENTATION_REQUIRED
+        res_id = f"{_RESIDUAL_PREFIX}:SEGMENTATION_REQUIRED:{origin_type.value}_NO_DISTINCT_SPANS:{root}"
+        residuals_out.append(Residual(
+            id=res_id,
+            target_id=claim.id,
+            target_type="SourceRootClaim",
+            residual_type=ResidualType.SEGMENTATION_REQUIRED,
+            description=(
+                f"Root '{root}' has {origin_type.value} origins but no distinct source spans "
+                f"in legacy OCR data. Human segmentation required."
+            ),
+            blocking_until=ReviewState.ORIGIN_SEGMENTED,
+            created_at=occurred_at,
+        ))
+    elif origin_type in (OriginType.NONE, OriginType.NOT_EXTRACTED, OriginType.UNKNOWN):
+        # R7: emit ORIGIN_NOT_EXTRACTED residual
+        res_id = f"{_RESIDUAL_PREFIX}:ORIGIN_NOT_EXTRACTED:{root}"
+        residuals_out.append(Residual(
+            id=res_id,
+            target_id=claim.id,
+            target_type="SourceRootClaim",
+            residual_type=ResidualType.ORIGIN_NOT_EXTRACTED,
+            description=(
+                f"Root '{root}' origin_type={origin_type.value}: "
+                f"no lexical origin extracted from source text."
+            ),
+            blocking_until=ReviewState.ORIGIN_CANDIDATE,
+            created_at=occurred_at,
+        ))
+    elif origin_type == OriginType.MULTIPLE and n_origins == 0:
+        # MULTIPLE without text: emit SEGMENTATION_REQUIRED
+        res_id = f"{_RESIDUAL_PREFIX}:SEGMENTATION_REQUIRED:MULTIPLE_NO_TEXT:{root}"
+        residuals_out.append(Residual(
+            id=res_id,
+            target_id=claim.id,
+            target_type="SourceRootClaim",
+            residual_type=ResidualType.SEGMENTATION_REQUIRED,
+            description=(
+                f"Root '{root}' has MULTIPLE origins but no origin text span identified. "
+                f"Human segmentation required."
+            ),
+            blocking_until=ReviewState.ORIGIN_SEGMENTED,
+            created_at=occurred_at,
+        ))
+
+    # TraceEvent
     if n_origins > 1:
         traces.append(TraceEvent(
             id=f"{_TRACE_PREFIX}:origin_segmented:{root}",
@@ -215,11 +295,11 @@ def _segment_origins(
             actor_type=ReviewerType.MACHINE_ONLY,
             actor_id=CLAIM_ACTOR_ID,
             occurred_at=occurred_at,
-            summary=f"Origin extracted: {root} ({origin_type.value})",
+            summary=f"Origin extracted: {root} ({origin_type.value}), n_candidates={n_origins}",
             metadata=(("origin_type", origin_type.value),),
         ))
 
-    return candidates, traces
+    return candidates, residuals_out, traces
 
 
 def _origin_desc(origin_type: OriginType) -> str:
@@ -380,15 +460,17 @@ def run_claim_pipeline(import_result: LegacyImportResult) -> ClaimPipelineResult
             claim = _build_claim(imp, occurred_at)
             claims.append(claim)
 
-            origins, origin_traces = _segment_origins(claim, imp, occurred_at)
+            origins, seg_residuals, origin_traces = _segment_origins(claim, imp, occurred_at)
             origin_candidates.extend(origins)
+            residuals.extend(seg_residuals)
             trace_events.extend(origin_traces)
 
             total_origins += len(origins)
             if len(origins) == 1:
                 singular_count += 1
-            else:
+            elif len(origins) > 1:
                 multi_origin_segmented += 1
+            # 0 origins → neither counter increments (segmentation pending)
 
         except Exception:
             failed += 1
