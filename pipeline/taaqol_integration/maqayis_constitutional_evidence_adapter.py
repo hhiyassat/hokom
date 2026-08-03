@@ -49,6 +49,8 @@ from maqayis_constitutional_schemas import (
     LookupResultKind,
     EvidenceStatus,
     OriginType,
+    MaqayisConstitutionalAugmentationResult,
+    HokomRootClaim,
 )
 from maqayis_constitutional_registry import constitutional_lookup
 
@@ -60,6 +62,12 @@ REVIEW_REQUIRED_POSITIVE_ORIGIN_EVIDENCE_COUNT:    int = 0
 NONE_INTERPRETED_AS_NEGATIVE_SEMANTIC_CLAIM_COUNT: int = 0
 MAQAYIS_LOOKUP_FROM_UNKNOWN_ROOT_COUNT:            int = 0
 CONSTITUTIONAL_EVIDENCE_APPROVED_ADMISSION_COUNT:  int = 0
+
+# R12: Production Stage 0 bypass guard
+_STAGE_0_BUNDLE_ONLY_ENFORCEMENT: bool = False
+
+# Accounting counter for direct lookup bypass
+DIRECT_LOOKUP_BYPASS_COUNT: int = 0
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -86,6 +94,9 @@ def get_constitutional_evidence_ids(root_letters: str) -> tuple[str, ...]:
     MISSING_VOLUME_COVERAGE_GAP      → ()
     NOT_FOUND / REGISTRY_FAILURE     → ()
     """
+    global DIRECT_LOOKUP_BYPASS_COUNT
+    if _STAGE_0_BUNDLE_ONLY_ENFORCEMENT:
+        DIRECT_LOOKUP_BYPASS_COUNT += 1
     if not root_letters:
         return ()
     try:
@@ -207,31 +218,80 @@ def get_evidence_metadata(root_letters: str) -> dict[str, dict]:
 # § 3 — BUNDLE-LEVEL CONVENIENCE
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def augment_evidence_from_bundle(bundle: object) -> tuple[str, ...]:
+def augment_evidence_from_bundle(
+    bundle: object,
+) -> MaqayisConstitutionalAugmentationResult:
     """
-    Extract root letters from a HokomLinguisticClaimBundle and return
-    constitutional Maqayis evidence IDs.
+    Extract root letters from a HokomLinguisticClaimBundle and return a
+    typed MaqayisConstitutionalAugmentationResult.
 
-    Identical contract to maqayis_evidence_adapter.augment_evidence_from_bundle:
+    §9: Only roots licensed by Hokom (directive == 'ACCEPT') proceed to lookup.
+      LOOKUP_FROM_DEFERRED_ROOT_COUNT = 0 enforced.
+      LOOKUP_FROM_BLOCKED_ROOT_COUNT  = 0 enforced.
+    §10: Returns MaqayisConstitutionalAugmentationResult (not bare tuple[str, ...]).
+
+    Contract:
     • Never modifies the bundle
     • Never raises
-    • Returns () on any failure
+    • Returns not_licensed() on any failure / rejected directive
     • MAQAYIS_LOOKUP_FROM_UNKNOWN_ROOT_COUNT = 0 enforced
       (root must come from bundle.root_claim.canonical_root only)
     """
     try:
         rc = getattr(bundle, "root_claim", None)
         if rc is None:
-            return ()
+            return MaqayisConstitutionalAugmentationResult.not_licensed(
+                "no_root_claim_in_bundle"
+            )
+
+        # R11: Support both typed HokomRootClaim and duck-typed models (SimpleNamespace).
+        # isinstance check first; fall back to getattr for SimpleNamespace compatibility.
+        # getattr() works with both since HokomRootClaim is a dataclass with those attributes.
+
+        # §9: Hokom root licensing check — directive must be 'ACCEPT'
+        directive = getattr(rc, "directive", None)
+        if directive is None:
+            return MaqayisConstitutionalAugmentationResult.not_licensed(
+                "root_directive_absent"
+            )
+        if directive == "DEFER":
+            # LOOKUP_FROM_DEFERRED_ROOT_COUNT = 0 enforced here
+            return MaqayisConstitutionalAugmentationResult.not_licensed(
+                "root_directive_DEFER"
+            )
+        if directive == "BLOCK":
+            # LOOKUP_FROM_BLOCKED_ROOT_COUNT = 0 enforced here
+            return MaqayisConstitutionalAugmentationResult.not_licensed(
+                "root_directive_BLOCK"
+            )
+        if directive != "ACCEPT":
+            return MaqayisConstitutionalAugmentationResult.not_licensed(
+                f"root_directive_unknown:{directive}"
+            )
+
         cr = getattr(rc, "canonical_root", None)
         if not cr:
-            return ()
+            return MaqayisConstitutionalAugmentationResult.not_licensed(
+                "canonical_root_empty"
+            )
         root = "".join(str(c) for c in cr)
         if not root:
-            return ()
-        return get_constitutional_evidence_ids(root)
-    except Exception:
-        return ()
+            return MaqayisConstitutionalAugmentationResult.not_licensed(
+                "canonical_root_empty_after_join"
+            )
+
+        # Licensed root — proceed to constitutional lookup
+        result = constitutional_lookup(root)
+        evidence_ids = _ids_from_constitutional_result(root, result)
+        return MaqayisConstitutionalAugmentationResult.from_lookup_result(
+            result, evidence_ids
+        )
+
+    except Exception as exc:
+        return MaqayisConstitutionalAugmentationResult.not_licensed(
+            f"exception:{type(exc).__name__}",
+            lookup_kind=LookupResultKind.REGISTRY_LOAD_FAILURE,
+        )
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
