@@ -1,0 +1,165 @@
+{
+  "audit_id": "HOKOM-TAAQOL-SLOT-GEOMETRY-ALGEBRA-CONFORMANCE-01",
+  "audit_date": "2026-07-21",
+  "actual_head": "02918a6f9bd33f89352ca64ea70c432c2d16a05e",
+  "t01_commit": "53e7932258b0f14d9b8e3258babe481372565d21",
+  "t01_in_ancestry": true,
+  "taaqol_vendor_pin": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "total_violations": 13,
+  "decision": "SGA_ENFORCEMENT_REQUIRED",
+  "violations": [
+    {
+      "id": "T-01",
+      "category": "REPO_ROOT_PATH_BUG",
+      "status": "RESOLVED",
+      "resolved_in": "53e7932258b0f14d9b8e3258babe481372565d21",
+      "file": "pipeline/taaqol_integration/live/bridge.py",
+      "description": "_REPO_ROOT used parents[2] instead of parents[3]; bridge could not locate vendor path",
+      "evidence_method": "STATIC_CONFIRMED + TEST_PASSED (test_repo_root_resolves_correctly)"
+    },
+    {
+      "id": "T-02",
+      "category": "UNTYPED_SLOT",
+      "status": "OPEN",
+      "severity": "MEDIUM",
+      "file": "pipeline/p1_atomic_structure/cell_builder.py",
+      "symbol": "syllabify()",
+      "description": "syllabify() returns list[dict] with plain dict phonological slots. Phone class is not a frozen dataclass. No SlotState, no SlotGraph, no EvidenceContract, no RankLattice rank assigned.",
+      "evidence_method": "STATIC_CONFIRMED",
+      "remediation": "Define PhonologicalSlot frozen dataclass aligned with taaqqul_slot_geometry Slot interface"
+    },
+    {
+      "id": "T-03",
+      "category": "MISSING_CLAIM_SLOT",
+      "status": "OPEN",
+      "severity": "HIGH",
+      "file": "pipeline/taaqol_integration/live/bridge.py",
+      "symbol": "_build_slot_graph()",
+      "description": "ROOT_CLAIM is carried in HokomLinguisticClaimBundle.root_claim but is not projected into any SlotGraph slot. Root attestation is not gate-governed.",
+      "evidence_method": "STATIC_CONFIRMED",
+      "remediation": "Add ROOT_CLAIM slot to _build_slot_graph() with evidence from root_claim field"
+    },
+    {
+      "id": "T-04",
+      "category": "MISSING_CLAIM_SLOT",
+      "status": "OPEN",
+      "severity": "HIGH",
+      "file": "pipeline/taaqol_integration/live/bridge.py",
+      "symbol": "_build_slot_graph()",
+      "description": "PATTERN_CLAIM (wazn_claim / form_claim) is not projected into any SlotGraph slot.",
+      "evidence_method": "STATIC_CONFIRMED",
+      "remediation": "Add PATTERN_CLAIM slot to _build_slot_graph() with evidence from wazn_claim/form_claim"
+    },
+    {
+      "id": "T-05",
+      "category": "MISSING_CLAIM_SLOT",
+      "status": "OPEN",
+      "severity": "HIGH",
+      "file": "pipeline/taaqol_integration/live/bridge.py",
+      "symbol": "_build_slot_graph()",
+      "description": "BAB_CLAIM (verb stem class / conjugation bab) is not projected into any SlotGraph slot.",
+      "evidence_method": "STATIC_CONFIRMED",
+      "remediation": "Add BAB_CLAIM slot to _build_slot_graph()"
+    },
+    {
+      "id": "T-06",
+      "category": "MISSING_CLAIM_SLOT",
+      "status": "OPEN",
+      "severity": "HIGH",
+      "file": "pipeline/taaqol_integration/live/bridge.py",
+      "symbol": "_build_slot_graph()",
+      "description": "MASDAR_CLAIM is carried in bundle.masdar_claim but is not projected into any SlotGraph slot.",
+      "evidence_method": "STATIC_CONFIRMED",
+      "remediation": "Add MASDAR_CLAIM slot to _build_slot_graph() with evidence from masdar_claim"
+    },
+    {
+      "id": "T-07",
+      "category": "MISSING_CLAIM_SLOT",
+      "status": "OPEN",
+      "severity": "HIGH",
+      "file": "pipeline/taaqol_integration/live/bridge.py",
+      "symbol": "_build_slot_graph()",
+      "description": "DERIVATIVE_CLAIM (mushtaq_claims) is not projected into any SlotGraph slot.",
+      "evidence_method": "STATIC_CONFIRMED",
+      "remediation": "Add DERIVATIVE_CLAIM slots (one per mushtaq) to _build_slot_graph()"
+    },
+    {
+      "id": "T-08",
+      "category": "UNLICENSED_TRANSITION",
+      "status": "OPEN",
+      "severity": "HIGH",
+      "file": "pipeline/p1_atomic_structure/slot_engineering.py",
+      "symbol": "SLOT_TRANS",
+      "description": "All 8 SLOT_TRANS entries are raw dict transitions. _gate(state) returns plain strings. No TransitionGate.decide(), no EvidenceContract, no RankLattice, no DomainTransitionLicense, no TraceLedger entry for any phonological slot transition.",
+      "evidence_method": "STATIC_CONFIRMED",
+      "affected_count": 8,
+      "remediation": "Route each SLOT_TRANS entry through TransitionGate.decide() with phonological EvidenceContract"
+    },
+    {
+      "id": "T-09",
+      "category": "BRIDGE_EXPRESSIVITY_INSUFFICIENT",
+      "status": "OPEN",
+      "severity": "MEDIUM",
+      "file": "pipeline/taaqol_integration/live/bridge.py",
+      "symbol": "_build_slot_graph()",
+      "description": "Bridge builds at most 2 slots (domain_claim + optional word_class_claim). Conditions, obstacles, defeaters, and candidate_set fields of SlotGraph are never populated. Full Taaqol expressivity is unused.",
+      "evidence_method": "STATIC_CONFIRMED",
+      "remediation": "Populate conditions, obstacles, defeaters, candidate_set as appropriate for each claim type"
+    },
+    {
+      "id": "T-10",
+      "category": "MISSING_AMBIGUITY_STATE",
+      "status": "OPEN",
+      "severity": "MEDIUM",
+      "file": "pipeline/taaqol_integration/live/bridge.py",
+      "symbol": "_build_slot_graph()",
+      "description": "SlotState has no AMBIGUOUS value. When Hokom produces ambiguous morphological analysis, the bridge collapses to a single parse path silently. No AMBIGUOUS slot is opened, no candidate_set is populated.",
+      "evidence_method": "STATIC_CONFIRMED",
+      "remediation": "Use parallel BROKEN+FILLED slots with competing evidence contracts, or populate candidate_set"
+    },
+    {
+      "id": "T-11",
+      "category": "CLAIM_ID_NOT_HASH",
+      "status": "OPEN",
+      "severity": "MEDIUM",
+      "file": "pipeline/taaqol_integration/claim_adapter.py",
+      "symbol": "bundle_from_hokom_result()",
+      "description": "claim_id = f'hokom:{token_id or uuid.uuid4().hex[:12]}:{surface}' — uuid4() is non-deterministic. HokomClaimProjection docstring claims 'deterministic from content hash' but actual implementation uses random UUID. Not reproducible across runs.",
+      "evidence_method": "STATIC_CONFIRMED",
+      "remediation": "Replace uuid4() with SHA-256 hash of deterministic input fields (normalized_surface + lexical_class + domain_directive + ...)"
+    },
+    {
+      "id": "T-12",
+      "category": "OPAQUE_TRACE",
+      "status": "OPEN",
+      "severity": "LOW",
+      "file": "pipeline/taaqol_integration/live/models.py",
+      "symbol": "HokomTaaqolTraceEvent.output",
+      "description": "HokomTaaqolTraceEvent.output is declared as str (opaque string). Gamma ClosureState and TransitionGate TransitionVerdict are embedded as string representations, not structured fields. Does not mirror vendor TraceLedger PR-6 split (consulted_gamma_state vs gate_transition_state).",
+      "evidence_method": "STATIC_CONFIRMED",
+      "remediation": "Split output into gamma_state: Optional[str] and gate_verdict: Optional[str]; mirror PR-6 split"
+    },
+    {
+      "id": "T-13",
+      "category": "SERIALIZATION_MISSING",
+      "status": "OPEN",
+      "severity": "MEDIUM",
+      "file": "pipeline/taaqol_integration/live/models.py",
+      "symbol": "HokomTaaqolDecision",
+      "description": "HokomTaaqolDecision has to_dict() via dataclasses.asdict() but no from_dict() classmethod. No round-trip test. Serialization contract is one-way only.",
+      "evidence_method": "STATIC_CONFIRMED",
+      "remediation": "Add from_dict() classmethod and a round-trip test: assert Decision.from_dict(d.to_dict()) == d"
+    },
+    {
+      "id": "T-14",
+      "category": "MISSING_RESIDUAL_TYPING",
+      "status": "OPEN",
+      "severity": "LOW",
+      "file": "pipeline/taaqol_integration/live/models.py",
+      "symbol": "HokomTaaqolDecision.residuals",
+      "description": "HokomTaaqolDecision.residuals is typed as bare 'tuple' (not tuple[HokomTaaqolResidual, ...]). Bridge populates it with plain strings. HokomTaaqolResidual frozen dataclass exists but is not used in the decision output.",
+      "evidence_method": "STATIC_CONFIRMED",
+      "remediation": "Type as tuple[HokomTaaqolResidual, ...] and populate bridge with typed HokomTaaqolResidual instances"
+    }
+  ]
+}

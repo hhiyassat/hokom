@@ -1,0 +1,141 @@
+{
+  "audit_id": "HOKOM-HR2S-SEGMENTER-COMPARATIVE-AUDIT-01",
+  "note": "HR2S is not a segmenter. Pairwise diff is Hokom vs linguistic ground truth.",
+  "hr2s_available": false,
+  "total_tokens": 129,
+  "contested_tokens": 7,
+  "critical": [
+    {
+      "token_number": 41,
+      "surface": "سَفِيهًا",
+      "HOKOM_PROCLITICS": [
+        "س"
+      ],
+      "GROUND_TRUTH_PROCLITICS": [],
+      "HOKOM_ARTICLE": null,
+      "GROUND_TRUTH_ARTICLE": null,
+      "HOKOM_HOST": "في",
+      "GROUND_TRUTH_HOST": "سفيها",
+      "HOKOM_ENCLITICS": [
+        "ها"
+      ],
+      "GROUND_TRUTH_ENCLITICS": [],
+      "ROUNDTRIP_HOKOM": "سَفِيهًا",
+      "AGREE": false,
+      "DISAGREE_TYPE": "FALSE_PROCLITIC_AND_ENCLITIC",
+      "SEVERITY": "CRITICAL"
+    },
+    {
+      "token_number": 51,
+      "surface": "وَلِيُّهُ",
+      "HOKOM_PROCLITICS": [
+        "و"
+      ],
+      "GROUND_TRUTH_PROCLITICS": [],
+      "HOKOM_ARTICLE": null,
+      "GROUND_TRUTH_ARTICLE": null,
+      "HOKOM_HOST": "لي",
+      "GROUND_TRUTH_HOST": "ولي",
+      "HOKOM_ENCLITICS": [
+        "ه"
+      ],
+      "GROUND_TRUTH_ENCLITICS": [
+        "ه"
+      ],
+      "ROUNDTRIP_HOKOM": "وَلِيُّهُ",
+      "AGREE": false,
+      "DISAGREE_TYPE": "FALSE_PROCLITIC",
+      "SEVERITY": "CRITICAL"
+    },
+    {
+      "token_number": 59,
+      "surface": "يَكُونَا",
+      "HOKOM_PROCLITICS": [],
+      "GROUND_TRUTH_PROCLITICS": [],
+      "HOKOM_ARTICLE": null,
+      "GROUND_TRUTH_ARTICLE": null,
+      "HOKOM_HOST": "يكو",
+      "GROUND_TRUTH_HOST": "يكونا",
+      "HOKOM_ENCLITICS": [
+        "نا"
+      ],
+      "GROUND_TRUTH_ENCLITICS": [],
+      "ROUNDTRIP_HOKOM": "يَكُونَا",
+      "AGREE": false,
+      "DISAGREE_TYPE": "FALSE_ENCLITIC",
+      "SEVERITY": "CRITICAL"
+    }
+  ],
+  "defects": [
+    {
+      "token_number": 93,
+      "surface": "لِلشَّهَادَةِ",
+      "HOKOM_PROCLITICS": [
+        "ل"
+      ],
+      "GROUND_TRUTH_PROCLITICS": [
+        "ل"
+      ],
+      "HOKOM_ARTICLE": null,
+      "GROUND_TRUTH_ARTICLE": "ال",
+      "HOKOM_HOST": "لشهادة",
+      "GROUND_TRUTH_HOST": "شهادة",
+      "HOKOM_ENCLITICS": [],
+      "GROUND_TRUTH_ENCLITICS": [],
+      "ROUNDTRIP_HOKOM": "لِلشَّهَادَةِ",
+      "AGREE": false,
+      "DISAGREE_TYPE": "MISSED_ARTICLE",
+      "SEVERITY": "DEFECT"
+    }
+  ],
+  "minor": [
+    {
+      "token_number": 36,
+      "surface": "فَإِن",
+      "HOKOM_PROCLITICS": [],
+      "GROUND_TRUTH_PROCLITICS": "DEBATABLE",
+      "HOKOM_ARTICLE": null,
+      "GROUND_TRUTH_ARTICLE": "DEBATABLE",
+      "HOKOM_HOST": "فإن",
+      "GROUND_TRUTH_HOST": "DEBATABLE",
+      "HOKOM_ENCLITICS": [],
+      "GROUND_TRUTH_ENCLITICS": "DEBATABLE",
+      "ROUNDTRIP_HOKOM": "فَإِن",
+      "AGREE": "AMBIGUOUS",
+      "DISAGREE_TYPE": "UNSPLIT_COMPOUND",
+      "SEVERITY": "MINOR"
+    },
+    {
+      "token_number": 57,
+      "surface": "فَإِن",
+      "HOKOM_PROCLITICS": [],
+      "GROUND_TRUTH_PROCLITICS": "DEBATABLE",
+      "HOKOM_ARTICLE": null,
+      "GROUND_TRUTH_ARTICLE": "DEBATABLE",
+      "HOKOM_HOST": "فإن",
+      "GROUND_TRUTH_HOST": "DEBATABLE",
+      "HOKOM_ENCLITICS": [],
+      "GROUND_TRUTH_ENCLITICS": "DEBATABLE",
+      "ROUNDTRIP_HOKOM": "فَإِن",
+      "AGREE": "AMBIGUOUS",
+      "DISAGREE_TYPE": "UNSPLIT_COMPOUND",
+      "SEVERITY": "MINOR"
+    },
+    {
+      "token_number": 117,
+      "surface": "وَإِن",
+      "HOKOM_PROCLITICS": [],
+      "GROUND_TRUTH_PROCLITICS": "DEBATABLE",
+      "HOKOM_ARTICLE": null,
+      "GROUND_TRUTH_ARTICLE": "DEBATABLE",
+      "HOKOM_HOST": "وإن",
+      "GROUND_TRUTH_HOST": "DEBATABLE",
+      "HOKOM_ENCLITICS": [],
+      "GROUND_TRUTH_ENCLITICS": "DEBATABLE",
+      "ROUNDTRIP_HOKOM": "وَإِن",
+      "AGREE": "AMBIGUOUS",
+      "DISAGREE_TYPE": "UNSPLIT_COMPOUND",
+      "SEVERITY": "MINOR"
+    }
+  ]
+}

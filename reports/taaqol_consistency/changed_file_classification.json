@@ -1,0 +1,31 @@
+{
+  "_schema_version": "1",
+  "audit_date": "2026-07-21",
+  "hokom_head": "b706ced",
+  "current_taaqol_pin": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "latest_taaqol_upstream": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "commits_ahead": 0,
+  "delta": "EMPTY",
+  "changed_files": [],
+  "classification_summary": {
+    "DOCS_ONLY": 0,
+    "TESTS_ONLY": 0,
+    "AUXILIARY_EXPERIMENT": 0,
+    "PACKAGING": 0,
+    "PUBLIC_EXPORT": 0,
+    "PUBLIC_MODEL": 0,
+    "ENUM_OR_VALUE_DOMAIN": 0,
+    "SCHEMA": 0,
+    "SERIALIZATION": 0,
+    "EVIDENCE_CONTRACT": 0,
+    "RANK_CONTRACT": 0,
+    "RESIDUAL_POLICY": 0,
+    "TRANSITION_GATE": 0,
+    "TRACE_LEDGER": 0,
+    "GAMMA_OR_SLOTGRAPH": 0,
+    "RUNTIME_BEHAVIOR": 0,
+    "BREAKING_CHANGE": 0,
+    "INTERNAL_ONLY": 0
+  },
+  "note": "CURRENT_PIN == LATEST_UPSTREAM. No diff exists. Classification exercise is vacuous."
+}

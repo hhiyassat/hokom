@@ -1,0 +1,39 @@
+{
+  "HOKOM": {
+    "module": "pipeline.p0_segmentation.engine",
+    "function": "segment_token",
+    "input_type": "SegmentationRequest(request_id, original_surface, normalized_surface)",
+    "output_type": "SegmentBundle",
+    "handles_diacritics": true,
+    "ambiguity_policy": "NONE_EXPLICIT (always returns SEGMENTATION_ACCEPTED; ambiguity not modeled at segmentation layer)",
+    "hr2s_dependency": false,
+    "import_success": true,
+    "location": "/sessions/lucid-gifted-planck/mnt/hokom/pipeline/p0_segmentation/engine.py",
+    "contract_version": "1",
+    "engine_id": "HOKOM_CLITIC_SEGMENTER",
+    "notes": "Deterministic rule-based Arabic clitic segmenter. No root calls. Precludes HR2S at segmentation layer."
+  },
+  "HR2S": {
+    "module": "hr2s_morphology (pip package)",
+    "function": "MorphologyEngine.analyze_surface(surface)",
+    "input_type": "str (surface form)",
+    "output_type": "MorphologyResult (root analysis, NOT segmentation)",
+    "handles_diacritics": "UNKNOWN (package not installed)",
+    "ambiguity_policy": "UNKNOWN",
+    "hr2s_dependency": true,
+    "import_success": false,
+    "import_error": "ModuleNotFoundError: No module named 'hr2s'",
+    "location": "EXTERNAL — adapter at pipeline/integrations/hr2s_root_adapter.py",
+    "role": "ROOT_ANALYSIS_ENGINE (not a segmenter)",
+    "notes": "HR2S is the ROOT analysis engine invoked AFTER Hokom segmentation. It is NOT a competing segmenter. The fractal/ mount path does not exist in this session.",
+    "segmenter_role": false
+  },
+  "SALEH": {
+    "role": "NOT_FOUND",
+    "search_paths_checked": [
+      "/sessions/lucid-gifted-planck/mnt/fractal/ (path does not exist)",
+      "/sessions/lucid-gifted-planck/mnt/ (only hokom, outputs, uploads mounted)"
+    ],
+    "notes": "No Saleh/Qiyas segmenter or adjudication layer found. The fractal/ mount is not present in this session."
+  }
+}

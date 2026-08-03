@@ -1,0 +1,101 @@
+{
+  "stage": "HOKOM-TAAQOL-SGA-LIVE-CORPUS-EXPANSION-01",
+  "head": "c9307c097fc1b0b75b554f77c8aeb2f10768db23",
+  "baseline_head": "5af8977",
+  "timestamp": "2026-07-22T11:41:52.793615+00:00Z",
+  "python_version": "3.12.4 (v3.12.4:8e8a4baf65, Jun  6 2024, 17:33:18) [Clang 13.0.0 (clang-1300.0.29.30)]",
+  "platform": "darwin",
+  "vendor_sha": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "vendor_sha_pinned": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "corpus_path": "data/test-data/hokom_taaqol_sga_live_corpus_150.json",
+  "corpus_sha256": "6bd635a05530965f13f76cf003f7738130badec6981bcb0e73f2465d386e1ed7",
+  "stage_metrics": {
+    "CORPUS_TOTAL_CASES": 150,
+    "UNIQUE_CASE_IDS": 150,
+    "CORPUS_SCHEMA_VIOLATIONS": 0,
+    "ROUTING_ORACLE_MATCHES": 134,
+    "ROUTING_ORACLE_MISMATCHES": 16,
+    "INTERROGATIVE_HAMZA_ROUTING_MISMATCHES": 0,
+    "INTERROGATIVE_HAMZA_CASE_IDS": [],
+    "OTHER_ROUTING_MISMATCH_CASE_IDS": [
+      "LCX-007",
+      "LCX-083",
+      "LCX-088",
+      "LCX-090",
+      "LCX-092",
+      "LCX-094",
+      "LCX-095",
+      "LCX-097",
+      "LCX-099",
+      "LCX-100",
+      "LCX-145",
+      "LCX-146",
+      "LCX-147",
+      "LCX-148",
+      "LCX-149",
+      "LCX-150"
+    ],
+    "TYPED_BUNDLES": 150,
+    "UNTYPED_BRIDGE_PAYLOAD_VIOLATIONS": 0,
+    "UNTYPED_CASE_IDS": [],
+    "SILENT_FALLBACK_VIOLATIONS": 0,
+    "TAAQOL_RUNTIME_ACTIVE": 150,
+    "TAAQOL_LIVE_EVALUATIONS": 150,
+    "TAAQOL_GATE_EXECUTIONS": 150,
+    "TAAQOL_TRACE_EVENTS": 600,
+    "H11_H15_FLAGGED": 149,
+    "H11_H15_REACHED": 35,
+    "H11_H15_TYPED_OUTPUTS": 73,
+    "H11_H15_VALID_EARLY_STOPS": 114,
+    "H11_H15_INVALID_MISSES": 0,
+    "AMBIGUITY_EXPECTED_CASES": 25,
+    "AMBIGUITY_OBSERVED_CASES": 14,
+    "AMBIGUITY_COLLAPSE_VIOLATIONS": 0,
+    "AMBIGUITY_COLLAPSE_CASE_IDS": [],
+    "VENDOR_SHA": "35381739410071ac21dd96702ecbb2acb493f90d",
+    "VENDOR_SHA_PINNED": "35381739410071ac21dd96702ecbb2acb493f90d",
+    "VENDOR_SHA_DRIFT_VIOLATIONS": 0,
+    "CLAIM_KEY_NONDETERMINISM": 0,
+    "ROUTING_NONDETERMINISM": 0,
+    "EVALUATION_ID_COLLISIONS": 0,
+    "UNEXPLAINED_NONDETERMINISM": 0,
+    "LATENCY_MEDIAN_MS": 42.93,
+    "LATENCY_MEAN_MS": 45.616,
+    "IMPLEMENTATION_DEFECTS": 0,
+    "ERROR_CLASS_DISTRIBUTION": {
+      "NONE": 150
+    },
+    "RUN1_RESULT_COUNT": 150,
+    "RUN2_RESULT_COUNT": 150,
+    "RUN3_RESULT_COUNT": 150,
+    "FATAL_VIOLATIONS": {},
+    "DOCUMENTED_NON_BLOCKING_MISMATCHES": {
+      "ROUTING_ORACLE_MISMATCHES": 16,
+      "INTERROGATIVE_HAMZA_ROUTING_MISMATCHES": 0
+    },
+    "CLOSURE_ELIGIBLE": true
+  },
+  "test_suite": {
+    "run_1": {
+      "passed": 5830,
+      "failed": 6,
+      "failed_node_ids": [],
+      "return_code": 1
+    },
+    "run_2": {
+      "passed": 5830,
+      "failed": 6,
+      "failed_node_ids": [],
+      "return_code": 1
+    },
+    "node_ids_equal": true,
+    "outcomes_equal": true
+  },
+  "closure_eligible": true,
+  "fatal_violations": {},
+  "documented_non_blocking": {
+    "ROUTING_ORACLE_MISMATCHES": 16,
+    "INTERROGATIVE_HAMZA_ROUTING_MISMATCHES": 0
+  },
+  "attestation_required": "macOS / Python 3.12.4 / .venv-py312"
+}

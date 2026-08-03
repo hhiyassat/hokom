@@ -1,0 +1,25 @@
+{
+  "mandate_item": "F04-F07",
+  "title": "Execution Ledger Package",
+  "closure_date": "2026-07-31",
+  "package": "pipeline/execution_ledger/",
+  "files": [
+    "pipeline/execution_ledger/__init__.py",
+    "pipeline/execution_ledger/models.py",
+    "pipeline/execution_ledger/ledger.py",
+    "pipeline/execution_ledger/hokom_stage_registry.py",
+    "pipeline/execution_ledger/taaqol_stage_registry.py",
+    "pipeline/execution_ledger/scope.py",
+    "pipeline/execution_ledger/integrity.py",
+    "pipeline/execution_ledger/serializer.py",
+    "pipeline/execution_ledger/reporting.py"
+  ],
+  "key_features": {
+    "ExecutionScope": ["TOKEN", "SPAN", "CLAUSE", "SENTENCE", "RELATION", "DISCOURSE", "ANSWER"],
+    "StageStatus": ["EXECUTED_APPROVED", "EXECUTED_DEFERRED", "EXECUTED_BLOCKED", "NOT_OPENED", "NOT_APPLICABLE", "NOT_APPLICABLE_AT_TOKEN_SCOPE", "FORBIDDEN", "RUNTIME_ERROR"],
+    "constitutional_guard": "REACHED=True without executed=True raises ValueError",
+    "token_ledger": "19 rows — all stages present, higher-scope → NOT_APPLICABLE_AT_TOKEN_SCOPE",
+    "integrity_violations": 20
+  },
+  "verdict": "F04_F07_EXECUTION_LEDGER_COMPLETE"
+}

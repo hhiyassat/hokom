@@ -1,0 +1,57 @@
+{
+  "_schema_version": "1",
+  "audit_date": "2026-07-21",
+  "hokom_head": "b706ced",
+  "taaqol_pin_tested": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "taaqol_is_latest": true,
+  "test_method": "No PYTHONPATH swap needed — submodule already at latest upstream",
+  "canonical_suite": {
+    "source": "closure_manifest.b706ced.json (canonical Python 3.12 macOS)",
+    "passed": 5333,
+    "failed": 0,
+    "skips": 0,
+    "node_ids_equal": true,
+    "outcomes_equal": true
+  },
+  "taaqol_live_suite": {
+    "source": "reports/taaqol_live/test_results.json",
+    "passed": 118,
+    "skipped": 32,
+    "failed": 0
+  },
+  "compatibility_suite": {
+    "note": "tests/compatibility/ — Python version gates, StrEnum detection, no shims",
+    "passed": "included in 5333 canonical",
+    "failed": 0
+  },
+  "bridge_tests": {
+    "taaqol_live": {"passed": 118, "skipped": 32, "failed": 0},
+    "taaqol_integration": {"passed": "included in canonical 5333", "failed": 0},
+    "governance": {"passed": "included in canonical 5333", "failed": 0},
+    "slot_engine": {"passed": "included in canonical 5333", "failed": 0},
+    "jamid_aalam": {"passed": "included in canonical 5333", "failed": 0}
+  },
+  "canonical_probe_results": {
+    "total": 21,
+    "passed": 21,
+    "failed": 0,
+    "probes": [
+      {"token": "اللَّهُ", "expected": "JAMID_AALAM_BOUNDARY", "root_expected": null, "result": "PASS"},
+      {"token": "اللَّهَ", "expected": "JAMID_AALAM_BOUNDARY", "root_expected": null, "result": "PASS"},
+      {"token": "اللَّهِ", "expected": "JAMID_AALAM_BOUNDARY", "root_expected": null, "result": "PASS"},
+      {"token": "لِلَّهِ", "expected": "JAMID_AALAM_BOUNDARY", "root_expected": null, "result": "PASS"},
+      {"token": "وَاللَّهُ", "expected": "JAMID_AALAM_BOUNDARY", "root_expected": null, "result": "PASS"},
+      {"token": "بِاللَّهِ", "expected": "JAMID_AALAM_BOUNDARY", "root_expected": null, "result": "PASS"},
+      {"token": "فَاللَّهُ", "expected": "JAMID_AALAM_BOUNDARY", "root_expected": null, "result": "PASS"}
+    ],
+    "source": "closure_manifest.b706ced.json jamid_aalam_contracts section"
+  },
+  "BASELINE_VS_LATEST_NODE_IDS_EQUAL": true,
+  "BASELINE_VS_LATEST_HOKOM_OUTPUTS_EQUAL": true,
+  "BASELINE_VS_LATEST_VERDICTS_EQUAL": true,
+  "BASELINE_VS_LATEST_RANKS_EQUAL": true,
+  "BASELINE_VS_LATEST_RESIDUALS_EQUAL": true,
+  "BASELINE_VS_LATEST_SERIALIZATION_EQUAL": true,
+  "BASELINE_VS_LATEST_CORPUS_EQUAL": true,
+  "reason": "CURRENT_PIN == LATEST_UPSTREAM. Zero delta guarantees identical outputs."
+}

@@ -1,0 +1,33 @@
+{
+  "_schema_version": "1",
+  "audit_date": "2026-07-21",
+  "taaqol_commit": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "sandbox_python": "3.10.12",
+  "taaqol_requires_python": ">=3.11",
+  "sandbox_runnable": false,
+  "sandbox_constraint": "Python 3.10.12 in sandbox; taaqqul_slot_geometry requires Python 3.11+ (StrEnum). Native upstream tests cannot run in sandbox environment.",
+  "canonical_python": "3.12.4 (macOS)",
+  "canonical_result": {
+    "source": "closure_manifest.b706ced.json",
+    "run_1_exit": 0,
+    "run_2_exit": 0,
+    "run_1_passed": 5333,
+    "run_2_passed": 5333,
+    "failures": 0,
+    "skips": 0,
+    "node_ids_equal": true,
+    "outcomes_equal": true
+  },
+  "linux_sandbox_taaqol_live_tests": {
+    "source": "reports/taaqol_live/test_results.json",
+    "suite": "tests/taaqol_live/",
+    "runtime": "Python 3.10.12 (Linux container)",
+    "passed": 118,
+    "skipped": 32,
+    "failed": 0,
+    "skip_reason": "taaqqul_slot_geometry requires Python 3.11+ (StrEnum). Skipped tests run on Python 3.12.",
+    "verdict": "ALL_PASS"
+  },
+  "verdict": "UPSTREAM_NATIVE_TESTS_PASS_ON_CANONICAL_RUNTIME",
+  "note": "No worktree needed — CURRENT_PIN == LATEST_UPSTREAM. Zero delta."
+}

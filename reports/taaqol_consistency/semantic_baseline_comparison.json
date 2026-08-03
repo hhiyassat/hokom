@@ -1,0 +1,29 @@
+{
+  "_schema_version": "1",
+  "audit_date": "2026-07-21",
+  "hokom_baseline_commit": "b706ced",
+  "taaqol_baseline_commit": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "taaqol_latest_commit": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "delta_commits": 0,
+  "comparison_result": "IDENTICAL",
+  "reason": "CURRENT_PIN == LATEST_UPSTREAM. No Taaqol code changed. Hokom outputs at latest are identical to baseline by definition.",
+  "corpus_tokens": 129,
+  "corpus_violations_at_baseline": 0,
+  "corpus_violations_at_latest": 0,
+  "routing_violations_at_baseline": 0,
+  "routing_violations_at_latest": 0,
+  "jamid_aalam_violations_at_baseline": 0,
+  "jamid_aalam_violations_at_latest": 0,
+  "canonical_probes": {
+    "total": 21,
+    "matching_between_baseline_and_latest": 21,
+    "mismatching": 0
+  },
+  "BASELINE_VS_LATEST_NODE_IDS_EQUAL": true,
+  "BASELINE_VS_LATEST_HOKOM_OUTPUTS_EQUAL": true,
+  "BASELINE_VS_LATEST_VERDICTS_EQUAL": true,
+  "BASELINE_VS_LATEST_RANKS_EQUAL": true,
+  "BASELINE_VS_LATEST_RESIDUALS_EQUAL": true,
+  "BASELINE_VS_LATEST_SERIALIZATION_EQUAL": true,
+  "BASELINE_VS_LATEST_CORPUS_EQUAL": true
+}

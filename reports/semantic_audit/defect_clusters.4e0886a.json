@@ -1,0 +1,210 @@
+{
+  "clusters": [
+    {
+      "cluster_id": "CVV_PLUS_V_PLURAL_VERB_BLOCK",
+      "description": "Slot engine does not license the CVV+V pattern. In Arabic, verb forms using واو الجماعة (masculine plural suffix) end in -ُوا which yields the pattern CVV+V (e.g. نُوا = V:u + V:w + V:a). All such forms are unconditionally BLOCKED. This prevents processing of any masculine plural verb form.",
+      "affected_tokens": [
+        "آمَنُوا[003]",
+        "دُعُوا[077]",
+        "تَسْأَمُوا[079]",
+        "تَرْتَابُوا[095]",
+        "وَأَشْهِدُوا[108]",
+        "تَفْعَلُوا[117]"
+      ],
+      "count": 6,
+      "also_overlap_with": "HAMZAT_AL_WASL_BLOCK (tokens 010,052,121 have both defects)",
+      "severity": "HIGH",
+      "gap_type": "IMPLEMENTATION_GAP",
+      "canonical_owner": "slot_engine (P3 Cell Construction)",
+      "recommended_action": "Add CVV+V to the licensed slot pattern set for Arabic وا-suffix verb forms. The ا in واو الجماعة is orthographic, not a long vowel extension; the CVV pattern يUVA is phonologically valid."
+    },
+    {
+      "cluster_id": "HAMZAT_AL_WASL_PLUS_V_BLOCK",
+      "description": "When a proclitic (وَ/فَ) is stripped from a word starting with hamzat al-wasl (همزة الوصل), the remaining token begins with a sukun-bearing consonant. The slot engine flags the initial position as +V (vowel before the first consonant) and issues BLOCK. This prevents processing of any فعل الأمر or مصدر starting with hamzat al-wasl.",
+      "affected_tokens": [
+        "فَاكْتُبُوهُ[010]",
+        "وَاسْتَشْهِدُوا[052]",
+        "وَامْرَأَتَانِ[061]",
+        "وَاتَّقُوا[121]"
+      ],
+      "count": 4,
+      "severity": "HIGH",
+      "gap_type": "IMPLEMENTATION_GAP",
+      "canonical_owner": "slot_engine (P3 Cell Construction)",
+      "recommended_action": "License the +V initial position for tokens whose original form begins with hamzat al-wasl. The segmenter should mark hamzat-al-wasl tokens so the slot engine can apply the correct initial CV licensing rule."
+    },
+    {
+      "cluster_id": "VERB_PREFIX_NOT_STRIPPED_QUADRILITERAL",
+      "description": "The pre_root module does not strip مضارع verb prefixes (ي/ت/ن/أ) before counting consonants. A trilateral verb like يَكْتُبَ (root ك-ت-ب, 3 radicals) is seen as ي-ك-ت-ب = 4 consonants and deferred with quadriliteral_beyond_scope. Affects all imperfect verb forms. This is the largest single root-extraction defect cluster.",
+      "affected_tokens": [
+        "يَكْتُبَ[019]",
+        "يَبْخَسْ[032]",
+        "يُمِلَّ[047]",
+        "تَضِلَّ[067]",
+        "تَكْتُبُوهُ[081]",
+        "تَكْتُبُوهَا[107]",
+        "تَرْضَوْنَ[063]",
+        "يَكُونَا[058]",
+        "تَكُونَ[098]",
+        "وَيُعَلِّمُكُمُ[123]",
+        "وَلْيَكْتُبْ[011]",
+        "فَلْيَكْتُبْ[023]",
+        "فَلْيُمْلِلْ[049]"
+      ],
+      "count": 13,
+      "severity": "HIGH",
+      "gap_type": "IMPLEMENTATION_GAP",
+      "canonical_owner": "pre_root",
+      "recommended_action": "Implement مضارع prefix detection and stripping in pre_root before consonant counting. Prefixes ي/ت/ن/أ in يَفْعُل/تَفْعُل/نَفْعُل/أَفْعُل patterns must be identified and removed before the radical count is assessed."
+    },
+    {
+      "cluster_id": "GEMINATE_COUNTED_TWICE",
+      "description": "When a verb has a geminate (shadda) consonant, the shadda is counted as two separate consonants. Root م-ل-ل in يُمِلَّ/فَلْيُمْلِلْ is treated as م-ل-ل-ل = 4 consonants → quadriliteral_beyond_scope. Same issue affects تَضِلَّ (root ض-ل-ل) and similar geminate patterns.",
+      "affected_tokens": [
+        "يُمِلَّ[047]",
+        "فَلْيُمْلِلْ[049]",
+        "تَضِلَّ[067]",
+        "بِكُلِّ[126]"
+      ],
+      "count": 4,
+      "severity": "HIGH",
+      "gap_type": "IMPLEMENTATION_GAP",
+      "canonical_owner": "pre_root / root_candidate",
+      "recommended_action": "Deduplicate geminate radicals: a consonant marked with shadda occupies one radical slot, not two. Update consonant counter to treat شدة-marked consonants as single positions."
+    },
+    {
+      "cluster_id": "PATTERN_EXTENSION_COUNTED_AS_RADICAL",
+      "description": "For ISM patterns فَعِيل (شَهِيد، ضَعِيف، صَغِير، كَبِير، عَلِيم، شَهِيد، وَلِيّ) and فُعُول/فُعَال/فِعَالَة, the pattern extension vowel/semi-vowel (ي in فَعِيل, ا in فِعَال) is counted as a root consonant, making a trilateral root appear quadriliteral. This affects all nominal فَعِيل/فُعَيل/فُعَال pattern forms.",
+      "affected_tokens": [
+        "شَهِيدٌ[115]",
+        "ضَعِيفًا[042]",
+        "سَفِيهًا[040]",
+        "صَغِيرًا[082]",
+        "كَبِيرًا[084]",
+        "عَلِيمٌ[128]",
+        "وَلِيُّهُ[050]",
+        "جُنَاحٌ[105]",
+        "فُسُوقٌ[119]",
+        "تِجَارَةً[099]",
+        "رِجَالِكُمْ[055]",
+        "وَأَقْوَمُ[091]",
+        "بِدَيْنٍ[006]",
+        "بِالْعَدْلِ[014,051]"
+      ],
+      "count": 14,
+      "severity": "MEDIUM",
+      "gap_type": "IMPLEMENTATION_GAP",
+      "canonical_owner": "root_candidate (consonant counter)",
+      "recommended_action": "Implement pattern-aware consonant extraction: strip known pattern extension elements (ي in فَعِيل, وَ in فُعُول, tanwin ن, dual ين/ان suffixes) before counting root consonants."
+    },
+    {
+      "cluster_id": "FUNCTION_WORD_HOST_NOT_CLASSIFIED",
+      "description": "After proclitic stripping, function words (لَا، إِنْ، إِنَّ، لَيْسَ، كَمَا، مَنْ) that appear as hosts are not in the word-class lookup catalog. The word_class engine returns DEFERRED (NO_MORPHOLOGY_PATH) for these well-known particles and operators.",
+      "affected_tokens": [
+        "وَلَا[015]",
+        "وَلَا[031]",
+        "وَلَا[072]",
+        "وَلَا[078]",
+        "وَلَا[111]",
+        "وَلَا[114]",
+        "فَإِنْ[035]",
+        "فَإِنْ[056]",
+        "وَإِنْ[116]",
+        "فَإِنَّهُ[118]",
+        "فَلَيْسَ[103]",
+        "كَمَا[020]",
+        "مِمَّنْ[062]"
+      ],
+      "count": 13,
+      "severity": "MEDIUM",
+      "gap_type": "CATALOG_GAP",
+      "canonical_owner": "mabni_catalog / word_class_engine",
+      "recommended_action": "Add لَا، إِنْ، إِنَّ، لَيْسَ، كَمَا، مَنْ as HARF entries in the post-proclitic host word-class catalog. These are high-frequency function words that must be recognized when appearing as the host after proclitic stripping."
+    },
+    {
+      "cluster_id": "MABNI_NOT_CLASSIFIED_RELATIVE_PRONOUNS",
+      "description": "الَّذِينَ and الَّذِي are catalog-protected in the segmenter (CATALOG_PROTECTED) but the mabni verdict returns OPEN, so the word_class engine cannot assign HARF/CLOSED_FUNCTION_WORD. The catalog protection covers segmentation only, not word-class assignment.",
+      "affected_tokens": [
+        "الَّذِينَ[002]",
+        "الَّذِي[025]",
+        "الَّذِي[037]"
+      ],
+      "count": 3,
+      "severity": "MEDIUM",
+      "gap_type": "CATALOG_GAP",
+      "canonical_owner": "mabni_catalog",
+      "recommended_action": "Add الَّذِينَ and الَّذِي to the mabni operator catalog with blocks_root_path=True and word_class=HARF. The segmenter catalog and the mabni catalog must share the same entries for catalog-protected tokens."
+    },
+    {
+      "cluster_id": "VERB_MISCLASSIFIED_AS_ISM",
+      "description": "Several verb forms are assigned ISM word class (MASDAR or LEXICAL_NOUN) by the word_class_engine. This occurs when the morphological pattern analysis routes the form through the nominal path instead of the verbal path. Root extraction may be correct but the word class is wrong.",
+      "affected_tokens": [
+        "عَلَّمَهُ[021] (ISM/MASDAR; should be FI3L Form II فعل ماضٍ)",
+        "يَسْتَطِيعُ[045] (ISM/MASDAR; should be FI3L Form X imperfect)",
+        "فَتُذَكِّرَ[069] (ISM/MASDAR; should be FI3L Form II imperfect)",
+        "تُدِيرُونَهَا[101] (ISM/LEXICAL_NOUN; should be FI3L Form IV imperfect)",
+        "وَلْيُمْلِلِ[024] (ISM/LEXICAL_NOUN; should be FI3L)",
+        "وَلْيَتَّقِ[028] (ISM/LEXICAL_NOUN; should be FI3L)"
+      ],
+      "count": 6,
+      "severity": "HIGH",
+      "gap_type": "WIRING_GAP",
+      "canonical_owner": "word_class_engine",
+      "recommended_action": "Audit the word_class routing decision for verb patterns: فَعَّلَ (Form II), يَسْتَفْعِل (Form X), تُفَعِّل (Form II imperfect), تُفْعِل (Form IV), and imperfect forms with lam al-amr proclitics must all route to FI3L, not ISM."
+    },
+    {
+      "cluster_id": "NOUN_MISCLASSIFIED_AS_VERB",
+      "description": "Several nominal and adverbial forms are assigned FI3L/VERBAL_PAST word class. This occurs when the morphological pattern for an ISM happens to match a verbal pattern (e.g. geminate noun الحق matches فَعَّلَ Form II, بَيْن matches بَيَّنَ, عِنْد matches verb pattern).",
+      "affected_tokens": [
+        "الْحَقُّ[027] (FI3L; should be ISM — definite article blocks verbal reading)",
+        "الْحَقُّ[039] (same)",
+        "بَيْنَكُمْ[012] (FI3L; should be ISM/HARF — بَيْن is a preposition)",
+        "بَيْنَكُمْ[102] (same)",
+        "الْأُخْرَى[071] (FI3L; should be ISM — feminine comparative adjective)",
+        "عِنْدَ[089] (FI3L; should be ISM/ظرف — adverb of place)",
+        "رَبَّهُ[030] (FI3L; should be ISM — his Lord, accusative noun)"
+      ],
+      "count": 7,
+      "severity": "HIGH",
+      "gap_type": "WIRING_GAP",
+      "canonical_owner": "word_class_engine",
+      "recommended_action": "Add disambiguation rules: (1) tokens with definite article ال must route to ISM first; (2) known ظروف (بَيْن، عِنْد، أَمَام، etc.) must be cataloged as ISM/HARF; (3) alef maqsura adjectives (أُخْرَى، كُبْرَى) must route to ISM."
+    },
+    {
+      "cluster_id": "ALLAH_UNPROTECTED",
+      "description": "لفظ الجلالة (اللَّه) is not uniformly catalog-protected. Results are inconsistent across case forms: اللَّهُ/اللَّهِ receive ISM/MASDAR with root=[ء,ل,ل] (wrong word_class, theologically contested root); اللَّهَ receives DEFERRED; وَاللَّهُ receives root=[و,ل,ل] — catastrophically including the وَ proclitic as a root consonant. This is the most severe provenance defect in the corpus.",
+      "affected_tokens": [
+        "اللَّهُ[022] (ISM/MASDAR; root=[ء,ل,ل])",
+        "اللَّهَ[029] (DEFERRED; root_path_not_opened)",
+        "اللَّهَ[029] (same)",
+        "اللَّهِ[090] (ISM/MASDAR; root=[ء,ل,ل])",
+        "اللَّهَ[122] (DEFERRED)",
+        "اللَّهُ[124] (ISM/MASDAR; root=[ء,ل,ل])",
+        "وَاللَّهُ[125] (ISM/MASDAR; root=[و,ل,ل] — CRITICAL: proclitic in root)"
+      ],
+      "count": 7,
+      "severity": "CRITICAL",
+      "gap_type": "CATALOG_GAP",
+      "canonical_owner": "mabni_catalog",
+      "recommended_action": "Add all inflected forms of اللَّه (اللَّهُ/اللَّهَ/اللَّهِ) to the mabni catalog as PROPER_NOUN with blocks_root_path=True and allows_root_path=False. The proclitic boundary must be enforced before root extraction so that وَ+اللَّه does not contaminate the root with the و radical."
+    },
+    {
+      "cluster_id": "PRE_ROOT_PATH_NOT_OPENED_FOR_WEAK_VERBS",
+      "description": "The pre_root module does not open the root path for medial-waw (أجوف) verbs like تَكُون/يَكُون, or for tokens with defective endings like الشُّهَدَاء/الشَّهَادَة. These produce overall verdict=DEFER or WORD_CLASS_DEFERRED with root_path_not_opened_by_pre_root.",
+      "affected_tokens": [
+        "يَكُونَا[058]",
+        "تَكُونَ[098]",
+        "الشُّهَدَاءِ[065]",
+        "الشُّهَدَاءُ[074]",
+        "لِلشَّهَادَةِ[092]",
+        "ذَلِكُمْ[087]",
+        "اللَّهَ[029,122]"
+      ],
+      "count": 7,
+      "severity": "HIGH",
+      "gap_type": "IMPLEMENTATION_GAP",
+      "canonical_owner": "pre_root",
+      "recommended_action": "Extend pre_root to handle: (1) medial-waw verb paradigms (أجوف: كون/قول/بيع); (2) جمع التكسير plural patterns (فُعَلَاء); (3) مصدر patterns (فَعَالَة). These are high-frequency structures that must open the root path."
+    }
+  ]
+}

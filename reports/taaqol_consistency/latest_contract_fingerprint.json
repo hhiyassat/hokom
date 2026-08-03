@@ -1,0 +1,33 @@
+{
+  "_schema_version": "1",
+  "_note": "CURRENT_PIN == LATEST_UPSTREAM. This fingerprint is identical to current_contract_fingerprint.json.",
+  "taaqol_commit": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "package": {
+    "name": "taaqqul_slot_geometry",
+    "version": "0.1.0.dev0",
+    "requires_python": ">=3.11",
+    "dependencies": [],
+    "dev_extras": ["pytest>=8", "ruff>=0.5"]
+  },
+  "public_exports_count": 130,
+  "enums": {
+    "ClosureState": ["OPEN", "MINIMALLY_CLOSED", "PERFORATED_CLOSED", "BLOCKED", "INVALID", "FORBIDDEN_LEAP"],
+    "TransitionState": ["APPROVED", "DEFERRED", "BLOCKED", "REJECTED", "FORBIDDEN_LEAP"],
+    "Rank": ["ZERO", "TRACE", "CANDIDATE", "HYPOTHESIS", "LICENSED", "STRONG", "CERTIFICATE"],
+    "ResidualKind": ["BLOCKING", "DEFERRABLE", "NON_BLOCKING", "EXPLANATORY", "HIDDEN_FORBIDDEN"],
+    "Layer": ["PREMISE", "CANDIDATE", "LICENSED", "CERTIFIED"],
+    "SlotState": ["OPEN", "MINIMALLY_CLOSED", "PERFORATED_CLOSED", "BLOCKED", "FORBIDDEN_LEAP"],
+    "GenerationSource": ["NATIVE", "BRIDGE", "TRANSCRIPT"],
+    "TransitionVerdict": ["APPROVED", "DEFERRED", "BLOCKED", "REJECTED", "FORBIDDEN_LEAP"],
+    "PathKind": ["SOUND","ASSIMILATED","HOLLOW","DEFECTIVE","DOUBLED","QUADRILITERAL","QUINQUELITERAL"]
+  },
+  "failure_codes_count": 97,
+  "schemas": {
+    "coverage_case.schema.json": {
+      "title": "CoverageCase",
+      "note": "Taaqol-internal, not consumed by Hokom"
+    }
+  },
+  "core_pipeline": "SlotGraph → gamma() → GammaResult → EvidenceContract → TransitionGate.decide() → TransitionVerdict → TransitionState",
+  "taaqol_pr_level": "PR-10"
+}

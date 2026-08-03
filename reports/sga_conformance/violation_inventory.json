@@ -1,0 +1,198 @@
+{
+  "head": "02918a6",
+  "taaqol_vendor_sha": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "audit_date": "2026-07-21",
+  "auditor": "HOKOM-TAAQOL-SLOT-GEOMETRY-ALGEBRA-CONFORMANCE-01",
+  "sandbox_runtime": "Python 3.10 (StrEnum unavailable — Taaqol import deferred; all live counts are NOTE_REQUIRES_LIVE_RUNTIME confirmed on macOS Python 3.12.4)",
+  "changes_since_ce55f7b": [
+    "V-001 RESOLVED: fix(bridge) 53e7932 corrected _REPO_ROOT from .parents[3] to .parents[3] (net: bridge now resolves to repo root correctly). Confirmed live on macOS: active=True, kernel_loaded=True, slot_graph_created=True, gamma_executed=True, gate_executed=True, trace_event_count=4, failure_code=None.",
+    "No new violations introduced by 02918a6 (test-only commit)."
+  ],
+  "violations": [
+    {
+      "id": "V-001",
+      "type": "UNLICENSED_TRANSITION",
+      "severity": "CRITICAL",
+      "status": "RESOLVED",
+      "resolved_in": "53e7932",
+      "location": "pipeline/taaqol_integration/live/bridge.py:37",
+      "symbol": "_REPO_ROOT = Path(__file__).resolve().parents[3]",
+      "description": "FIXED: _REPO_ROOT previously resolved to pipeline/ (3 parents from bridge.py inside pipeline/taaqol_integration/live/). Commit 53e7932 corrected to .parents[3] (4 levels up from the file, resolving to repo root). Vendor path vendor/Taaqol-GPT/src now exists. Confirmed live on macOS Python 3.12.4: active=True, gate_executed=True, trace_event_count=4. Sandbox (Python 3.10) still returns DEFERRED:TAAQOL_RUNTIME_UNAVAILABLE because StrEnum requires Python 3.11+ — this is correct fail-closed behavior, not a violation.",
+      "remediation": "DONE",
+      "affects": "WAS: ALL tokens. NOW: sandbox-only (expected — Python version constraint, not path error)"
+    },
+    {
+      "id": "V-002",
+      "type": "UNTYPED_SLOT",
+      "severity": "HIGH",
+      "status": "OPEN",
+      "location": "pipeline/p1_atomic_structure/cell_builder.py (syllabify output)",
+      "symbol": "slots.append({'surface': ..., 'pattern': ..., 'gate': ..., 'violations': ..., ...})",
+      "description": "Every phonological slot produced by cell_builder.syllabify() is a plain Python dict with keys {surface, pattern, gate, status, violations}. No SGA sort declaration, no SlotBoundary, no OpeningPolicy, no required flag, no typed SlotState. All tested tokens produce 2-5 such untyped dicts each.",
+      "remediation": "Wrap slot dicts in a typed SlotRecord dataclass with declared sort, boundary, opening_policy, required, and state fields. Define the 6 phonological pattern sorts (CV, CVV, CVC, CVVC, CVCC, CVVCC) against the SGA sort vocabulary.",
+      "affects": "All tokens — every phonological slot in the entire corpus"
+    },
+    {
+      "id": "V-003",
+      "type": "UNLICENSED_TRANSITION",
+      "severity": "HIGH",
+      "status": "OPEN",
+      "location": "pipeline/p1_atomic_structure/slot_engineering.py:23-32 (SLOT_TRANS)",
+      "symbol": "SLOT_TRANS: dict[str, dict[str, str | None]] = {'': {'C': 'C', 'V': None}, ...}",
+      "description": "Every phonological slot state transition (''->'C'->'CV'->'CVC' etc.) is a plain dict lookup with no TransitionGate, no cause, no condition, no obstacle, no evidence, no defeater. Eight SLOT_TRANS entries exist (8 source states), each lacking the SGA required gate structure. word_gate() returns ACCEPT/DEFER/BLOCK from pattern set membership with no formal gate. The three branches (ACCEPT, DEFER, BLOCK) at word_gate lines 69-99 each lack cause+condition+obstacle+evidence+defeater.",
+      "remediation": "Define a PhonologicalTransitionGate that wraps each SLOT_TRANS entry. Gate must carry: cause (character type C/V), condition (current slot state is valid prefix), obstacle (saturated/blocked pattern), defeater (boundary protection rules).",
+      "affects": "All tokens — estimated 54+ transitions across probe tokens; 3 word_gate branches"
+    },
+    {
+      "id": "V-004",
+      "type": "EVIDENCELESS_ACCEPT",
+      "severity": "HIGH",
+      "status": "OPEN",
+      "location": "pipeline/p1_atomic_structure/slot_engineering.py:word_gate():99",
+      "symbol": "return 'ACCEPT', viols",
+      "description": "word_gate() returns ACCEPT when all phonological slots are in VALID_S — a structural decision (pattern set membership) with no EvidenceContract, no evidence_rank, no trace_ref. All tested ACCEPT tokens (يَسْتَطِيعُ, الْحَقُّ, اللَّهُ, مَتَى, وَلَا, فَإِنْ, الَّذِي) receive verdict='ACCEPT' without formal evidence. At the bridge level, TransitionGate step 4 correctly refuses evidenceless claims with DEFERRED/GATE_REQUIRED — so EVIDENCELESS_LICENSED cannot occur at the Taaqol layer. The violation is at the Hokom pipeline design layer.",
+      "remediation": "word_gate() ACCEPT must be backed by an EvidenceContract with at least one EvidenceSource. Phonological pattern match is a valid evidence kind (kind='phonological_pattern', rank=CANDIDATE).",
+      "affects": "All ACCEPT tokens at the Hokom pipeline layer"
+    },
+    {
+      "id": "V-005",
+      "type": "MISSING_REQUIRED_SLOT",
+      "severity": "HIGH",
+      "status": "OPEN",
+      "location": "pipeline/taaqol_integration/live/bridge.py:_build_slot_graph():194-246",
+      "symbol": "slots = (primary_slot,) or slots = (primary_slot, wc_slot)",
+      "description": "The bridge builds only 1-2 Taaqol Slot objects (domain_claim + optional word_class_claim). The complete Hokom morphological analysis — root_claim (RADICAL_SLOT_R1/R2/R3), wazn_claim (PATTERN_SLOT), form_claim (BAB_SLOT), masdar_claim (MASDAR_SLOT), inflection_claim (PARADIGM_SLOT) — is never projected into Taaqol slots. Five linguistic slots absent. For يَسْتَطِيعُ: root=('ط','ي','ع'), masdar='اِسْتِفْعَال', final_wazn available — all discarded.",
+      "remediation": "Extend _build_slot_graph() to create one Taaqol Slot per available Hokom output field: RADICAL_SLOT_R1/R2/R3 from final_root, PATTERN_SLOT from final_wazn, BAB_SLOT from final_form, MASDAR_SLOT from final_masdar, PARADIGM_SLOT from phase5_result.paradigm_id.",
+      "affects": "All tokens with root/wazn/form/masdar analysis"
+    },
+    {
+      "id": "V-006",
+      "type": "WRONG_SORT",
+      "severity": "HIGH",
+      "status": "OPEN",
+      "location": "pipeline/word_class/engine.py → pipeline/taaqol_integration/claim_adapter.py:124-129",
+      "symbol": "part_of_speech = str(_wc_class.value)  # 'ISM' for يَسْتَطِيعُ",
+      "description": "Runtime probe (sandbox): TOKEN يَسْتَطِيعُ → word_class='ISM', subclass='MASDAR'. يَسْتَطِيعُ is a Form X imperfect verb (يَسْتَفْعِلُ paradigm, root ط-ي-ع, meaning 'he is able to'). The word class engine returned ISM:MASDAR because p4_masdar accepted اِسْتِفْعَال as ACCEPTED_MASDAR. This is a sort collision: the surface form يَسْتَطِيعُ is a verb, not the masdar itself. Bridge faithfully propagates ISM into WORD_CLASS_SLOT.",
+      "remediation": "Word class engine must gate: when the token surface matches a verbal pattern (يَسْتَفْعِلُ = Form X imperfect), FI3L must win over ISM:MASDAR. The masdar اِسْتِفْعَال and the verb يَسْتَطِيعُ are different token surfaces — finding an ACCEPTED_MASDAR for the root does not change the surface token's word class.",
+      "affects": "يَسْتَطِيعُ confirmed; potentially other Form X/augmented verb forms where masdar phase runs before word class disambiguation"
+    },
+    {
+      "id": "V-007",
+      "type": "TRACE_LOSS",
+      "severity": "HIGH",
+      "status": "OPEN",
+      "location": "pipeline/taaqol_integration/claim_adapter.py:185-186",
+      "symbol": "claim_id=f'hokom:{token_id or uuid.uuid4().hex[:12]}:{surface}', token_id=token_id or uuid.uuid4().hex[:16]",
+      "description": "When no token_id is supplied (all calls from hokom_pipeline.py pass none), claim_id and token_id are generated from uuid.uuid4() — non-deterministic. The same token run twice produces different claim_ids. TraceRef anchor in Center is non-reproducible. Claim key should be deterministic SHA-256(surface + normalized_surface). SERIALIZATION_CONTRACT_STATUS: CONTRACT_MISSING (no round-trip test exists).",
+      "remediation": "Replace uuid.uuid4() with: hashlib.sha256(f'{surface}:{normalized_surface}'.encode('utf-8')).hexdigest()[:16] in claim_adapter.py. Add token_id param to hokom_pipeline.py call site.",
+      "affects": "ALL tokens — every bundle construction call"
+    },
+    {
+      "id": "V-008",
+      "type": "TRACE_LOSS",
+      "severity": "HIGH",
+      "status": "OPEN",
+      "location": "pipeline/taaqol_integration/live/bridge.py:evaluate_hokom_claim_bundle (full function)",
+      "symbol": "gamma_result.trace_event_candidate [never appended]; gate_verdict.trace_event_candidate [never appended]",
+      "description": "Both gamma() and TransitionGate.decide() return a TraceEntryCandidate (the constitutional Taaqol trace object). Neither is appended to any TraceLedger. The bridge constructs its own HokomTaaqolTraceEvent list (plain strings) instead of using Taaqol's constitutional trace mechanism. The four trace steps (slot_graph_construction, gamma_evaluation, evidence_contract_build, transition_gate_decision) produce HokomTaaqolTraceEvent strings — not TraceEntryCandidate objects. Confirmed macOS trace_event_count=4 refers to these string events, not constitutional TraceLedger entries.",
+      "remediation": "Instantiate TraceLedger in evaluate_hokom_claim_bundle(). After gamma(), call ledger.append(gamma_result.trace_event_candidate). After gate.decide(), call ledger.append(gate_verdict.trace_event_candidate). Return ledger.entries in HokomTaaqolDecision.trace instead of the custom HokomTaaqolTraceEvent list.",
+      "affects": "ALL tokens — no constitutional trace is ever recorded"
+    },
+    {
+      "id": "V-009",
+      "type": "TRACE_LOSS",
+      "severity": "MEDIUM",
+      "status": "OPEN",
+      "location": "pipeline/taaqol_integration/claim_adapter.py:74,87-93",
+      "symbol": "trace_ids = tuple(result.get('trace_ids', ()))",
+      "description": "Hokom's trace_ids (strings like 'step:hamza_normalization', 'augmented_host_refinement:FORM_X:يَسْتَطِيعُ') are collected and passed to HokomLinguisticClaimBundle.trace_ids but are never written to any TraceLedger. They remain opaque strings throughout bridge execution.",
+      "remediation": "For each trace_id string, construct a TraceEntryCandidate with stage='gamma', appropriate consulted_gamma_state, and append to TraceLedger during bridge build.",
+      "affects": "ALL tokens with trace_ids (cra, canonical_radical_accounting, augmented paths)"
+    },
+    {
+      "id": "V-010",
+      "type": "SILENT_CANDIDATE_SELECTION",
+      "severity": "MEDIUM",
+      "status": "OPEN",
+      "location": "pipeline/taaqol_integration/live/bridge.py:_build_slot_graph():197-220",
+      "symbol": "if _UP in ('ACCEPT', 'LICENSED'): primary_value = 'ACCEPT'; primary_state = SlotState.FILLED",
+      "description": "The domain_claim slot value is selected from the upstream verdict string without presenting a candidate set or running a gate on the selection. When CRA returns multiple candidate_radical_sequences, the pipeline resolves to one root_candidate before the bridge sees it — bridge never sees the ambiguous candidate set. State=AMBIGUOUS is never set; selected=None is never held.",
+      "remediation": "Express competing root analyses as Candidate objects in a CandidateSet before the gate selects one. Gate selects winning candidate from the set based on evidence rank. A candidate selected without a gate is an UNLICENSED_TRANSITION.",
+      "affects": "ALL tokens with ACCEPT verdict; especially augmented/ambiguous root tokens"
+    },
+    {
+      "id": "V-011",
+      "type": "RESIDUAL_LOSS",
+      "severity": "MEDIUM",
+      "status": "OPEN",
+      "location": "pipeline/p1_atomic_structure/cell_builder.py (HAMZAT_AL_WASL + ALEF_FARQA synthetic slots)",
+      "symbol": "gate='' (empty string for synthetic slots)",
+      "description": "Synthetic slots for HAMZAT_AL_WASL and ALEF_FARQA are appended with gate='' so word_gate() skips them. Their special phonological status is never classified as a Residual. For tokens like اِنْكَسَرَ the HAMZAT_AL_WASL slot exists but is silently invisible to downstream analysis and never appears in active_residuals.",
+      "remediation": "Classify HAMZAT_AL_WASL and ALEF_FARQA slots as EXPLANATORY Residual objects. Add to active_residuals so they reach the bridge and appear in SlotGraph.residuals.",
+      "affects": "All tokens with hamzat al-wasl (اِ) prefix or waw al-jamaa (ـوا) suffix"
+    },
+    {
+      "id": "V-012",
+      "type": "RESIDUAL_LOSS",
+      "severity": "MEDIUM",
+      "status": "OPEN",
+      "location": "hokom_pipeline.py (active_residuals collection) + pipeline/taaqol_integration/claim_adapter.py:74",
+      "symbol": "active_residuals = tuple of plain strings",
+      "description": "active_residuals are plain strings ('note:augmented:weak_radical_in_root', 'root_class_unknown', 'bab:mujarrad:imperfect_vowel_not_known'). No ResidualKind, no visible flag, no note field. The bridge maps them heuristically by string prefix (block: → BLOCKING, defer: → DEFERRABLE, else → NON_BLOCKING). 'root_class_unknown' has no prefix → NON_BLOCKING (may warrant DEFERRABLE). Bridge then converts to typed Residual objects but the typing is heuristic, not authoritative. Additionally: typed Residual objects in SlotGraph.residuals are converted back to str(r.name) in the final output — typed structure is lost in HokomTaaqolDecision.residuals.",
+      "remediation": "Define HokomResidual(code, kind: ResidualKind, visible: bool, note: str) at source. Map each known code to its kind at the pipeline stage that produces it. Bridge receives typed objects, not strings.",
+      "affects": "All tokens with active_residuals (الْحَقُّ, يَسْتَطِيعُ, etc.)"
+    },
+    {
+      "id": "V-013",
+      "type": "OWNER_DUPLICATION",
+      "severity": "MEDIUM",
+      "status": "OPEN",
+      "location": "pipeline/taaqol_integration/live/bridge.py:_build_evidence_contract():329-342",
+      "symbol": "if any(k in eid_str for k in ('root_catalog', 'corpus', 'lexical')): rank = Rank.STRONG",
+      "description": "The bridge classifies Hokom evidence types by matching Arabic morphological term substrings ('root_catalog', 'wazn', 'bab', 'masdar', 'mushtaq', 'inflection', 'accept') against evidence_id strings to assign Taaqol Rank values. This is Arabic morphological domain classification logic inside the bridge. The bridge's role is pure slot conversion — evidence rank classification belongs to the Hokom domain. Rank.LICENSED (value 4) is assigned to 'wazn'/'bab'/'form' evidence — using the rank LICENSED as an evidence weight label, distinct from but confusable with the LICENSED verdict.",
+      "remediation": "Hokom pipeline should annotate each evidence_id with its evidence_rank at source (as an EvidenceRecord from evidence_adapter.py). Bridge constructs EvidenceSource from pre-ranked records without any linguistic substring classification.",
+      "affects": "ALL tokens with non-empty evidence_ids"
+    },
+    {
+      "id": "V-014",
+      "type": "RANK_DRIFT",
+      "severity": "MEDIUM",
+      "status": "OPEN",
+      "location": "pipeline/taaqol_integration/live/bridge.py:_build_slot_graph():281-285",
+      "symbol": "if _UP in ('ACCEPT', 'LICENSED'): rank = Rank.HYPOTHESIS else: rank = Rank.CANDIDATE",
+      "description": "Input SlotGraph rank is a 2-value heuristic (HYPOTHESIS=3 for ACCEPT, CANDIDATE=2 for DEFER/BLOCK). Not derived from meet(evidence_rank, root_confidence_rank) via RankLattice. The gate then correctly applies RankLattice.meet(evidence_rank, input_graph.rank, gate_rank, ceiling) to compute granted_rank — but the input rank entering the meet is heuristic. The SGA requires rank to trace to an evidence chain from the start, not to be assigned heuristically at bridge entry.",
+      "remediation": "Compute input graph rank from actual Hokom evidence chain: RankLattice.meet(max_evidence_rank, pre_root_directive_rank, root_candidate_confidence_rank). Record the computation in a pre-bridge trace entry.",
+      "affects": "ALL tokens"
+    },
+    {
+      "id": "V-015",
+      "type": "OPAQUE_BRIDGE_PAYLOAD",
+      "severity": "HIGH",
+      "status": "OPEN",
+      "location": "pipeline/taaqol_integration/live/models.py:HokomTaaqolDecision + bridge.py return statement",
+      "symbol": "HokomTaaqolDecision(... trace=tuple(trace), residuals=tuple(residuals_list) ...)",
+      "description": "HokomTaaqolDecision is missing 7 SGA-required bridge output fields: (1) typed_slots — Slot objects never exported; (2) filled_slots vs unresolved_slots — not distinguished; (3) candidate_set — not in output; (4) evidence_set — EvidenceContract not exported; (5) conditions — not exported; (6) obstacles — not exported; (7) defeaters — not exported. The trace carries HokomTaaqolTraceEvent (plain strings), not TraceEntryCandidate objects. SlotGraph.residuals are converted to str(name) only — typed Residual structure lost. Output is structurally opaque.",
+      "remediation": "HokomTaaqolDecision must carry: typed_slots (tuple[Slot,...]), filled_slots/unresolved_slots distinction, candidate_set, evidence_set (EvidenceContract), gate conditions/obstacles/defeaters. Trace must carry TraceEntryCandidate objects.",
+      "affects": "ALL tokens"
+    }
+  ],
+  "summary": {
+    "total_open": 14,
+    "total_resolved": 1,
+    "resolved_ids": ["V-001"],
+    "open_ids": ["V-002","V-003","V-004","V-005","V-006","V-007","V-008","V-009","V-010","V-011","V-012","V-013","V-014","V-015"],
+    "by_type": {
+      "UNLICENSED_TRANSITION": 1,
+      "UNTYPED_SLOT": 1,
+      "EVIDENCELESS_ACCEPT": 1,
+      "MISSING_REQUIRED_SLOT": 1,
+      "WRONG_SORT": 1,
+      "TRACE_LOSS": 3,
+      "SILENT_CANDIDATE_SELECTION": 1,
+      "RESIDUAL_LOSS": 2,
+      "OWNER_DUPLICATION": 1,
+      "RANK_DRIFT": 1,
+      "OPAQUE_BRIDGE_PAYLOAD": 1
+    }
+  }
+}

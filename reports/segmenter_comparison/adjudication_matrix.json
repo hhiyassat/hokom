@@ -1,0 +1,213 @@
+{
+  "audit_id": "HOKOM-HR2S-SEGMENTER-COMPARATIVE-AUDIT-01",
+  "total_tokens": 129,
+  "hr2s_available": false,
+  "saleh_found": false,
+  "critical_failures_hokom": 3,
+  "defects_hokom": 1,
+  "debatable": 3,
+  "clean_tokens": 122,
+  "cases": [
+    {
+      "token_number": 36,
+      "surface": "فَإِن",
+      "HOKOM_PROCLITICS": [],
+      "HOKOM_ARTICLE": null,
+      "HOKOM_HOST": "فإن",
+      "HOKOM_ENCLITICS": [],
+      "HR2S_PROCLITICS": "N/A",
+      "HR2S_ARTICLE": "N/A",
+      "HR2S_HOST": "N/A",
+      "HR2S_ENCLITICS": "N/A",
+      "AGREE": "N/A (HR2S not available)",
+      "DISAGREE_TYPE": "UNSPLIT_COMPOUND",
+      "ADJUDICATION_CRITERIA": "G_ROUNDTRIP_OK_BUT_AMBIGUOUS",
+      "ADJUDICATED_WINNER": "AMBIGUOUS",
+      "HOKOM_CORRECT": "DEBATABLE",
+      "SEVERITY": "MINOR",
+      "DESCRIPTION": "فَإِن left unsplit; linguistically = فَ + إِن (conjunction + conditional). Unsplit is defensible for compound function word."
+    },
+    {
+      "token_number": 41,
+      "surface": "سَفِيهًا",
+      "HOKOM_PROCLITICS": [
+        "س"
+      ],
+      "HOKOM_ARTICLE": null,
+      "HOKOM_HOST": "في",
+      "HOKOM_ENCLITICS": [
+        "ها"
+      ],
+      "HR2S_PROCLITICS": "N/A",
+      "HR2S_ARTICLE": "N/A",
+      "HR2S_HOST": "N/A",
+      "HR2S_ENCLITICS": "N/A",
+      "AGREE": "N/A (HR2S not available)",
+      "DISAGREE_TYPE": "FALSE_PROCLITIC",
+      "ADJUDICATION_CRITERIA": "A_DESTRUCTIVE",
+      "ADJUDICATED_WINNER": "LINGUISTIC_RULE",
+      "HOKOM_CORRECT": false,
+      "SEVERITY": "CRITICAL",
+      "DESCRIPTION": "سَ extracted as FUTURE_PARTICLE from nominal سَفِيهًا (root س-ف-ه). Host=في is incoherent.",
+      "EXPECTED_HOST": "سفيها",
+      "EXPECTED_PROCLITICS": [],
+      "EXPECTED_ENCLITICS": [],
+      "QIYAS": {
+        "asl": "سَفِيهًا (fool/stupid, nominal form of root س-ف-ه)",
+        "far3": "سَ + فِيهَا proposed by Hokom",
+        "nisba": "سَ does not attach to nominals; FUTURE_PARTICLE only precedes imperfect verbs",
+        "shart": "Licensed proclitic attachment requires morphological category compatibility",
+        "sabab": "Diacritic check passed (fatha on س); consonant count passed (في=2)",
+        "mani3": "NON_SEPARABLE_INITIALS does not include سفيه; lexical protection missing",
+        "athar": "WHOLE TOKEN should be HOST: سَفِيهًا",
+        "baqaya": "Engine gap: future particle سَ must be blocked before nominals"
+      }
+    },
+    {
+      "token_number": 51,
+      "surface": "وَلِيُّهُ",
+      "HOKOM_PROCLITICS": [
+        "و"
+      ],
+      "HOKOM_ARTICLE": null,
+      "HOKOM_HOST": "لي",
+      "HOKOM_ENCLITICS": [
+        "ه"
+      ],
+      "HR2S_PROCLITICS": "N/A",
+      "HR2S_ARTICLE": "N/A",
+      "HR2S_HOST": "N/A",
+      "HR2S_ENCLITICS": "N/A",
+      "AGREE": "N/A (HR2S not available)",
+      "DISAGREE_TYPE": "FALSE_PROCLITIC",
+      "ADJUDICATION_CRITERIA": "A_DESTRUCTIVE",
+      "ADJUDICATED_WINNER": "LINGUISTIC_RULE",
+      "HOKOM_CORRECT": false,
+      "SEVERITY": "CRITICAL",
+      "DESCRIPTION": "وَ extracted as CONJUNCTION from وَلِيُّهُ (guardian). Root و-ل-ي; وَ is root-initial.",
+      "EXPECTED_HOST": "ولي",
+      "EXPECTED_PROCLITICS": [],
+      "EXPECTED_ENCLITICS": [
+        "ه"
+      ],
+      "QIYAS": {
+        "asl": "وَلِيُّهُ (his guardian/ward, nominal of root و-ل-ي)",
+        "far3": "وَ + لِيُّهُ proposed by Hokom",
+        "nisba": "وَ in وَلِيّ is root-initial (FA of root و-ل-ي), structurally identical to conjunction وَ",
+        "shart": "Conjunction وَ requires lexical check: remainder must be an independent word",
+        "sabab": "Bare remainder لي has 2 consonants which is >= MIN_HOST_CONSONANTS_CONJUNCTION... wait, conjunction requires 3. Actually لِيُّهُ has 3 consonants (ل+ي+ه). So the check passes.",
+        "mani3": "NON_SEPARABLE_INITIALS includes ولد but not ولي; gap in protection list",
+        "athar": "HOST should be وَلِيّ with enclitic هُ: host=ولي + enc=ه",
+        "baqaya": "Engine gap: root-initial و in wali pattern not protected"
+      }
+    },
+    {
+      "token_number": 57,
+      "surface": "فَإِن",
+      "HOKOM_PROCLITICS": [],
+      "HOKOM_ARTICLE": null,
+      "HOKOM_HOST": "فإن",
+      "HOKOM_ENCLITICS": [],
+      "HR2S_PROCLITICS": "N/A",
+      "HR2S_ARTICLE": "N/A",
+      "HR2S_HOST": "N/A",
+      "HR2S_ENCLITICS": "N/A",
+      "AGREE": "N/A (HR2S not available)",
+      "DISAGREE_TYPE": "UNSPLIT_COMPOUND",
+      "ADJUDICATION_CRITERIA": "G_ROUNDTRIP_OK_BUT_AMBIGUOUS",
+      "ADJUDICATED_WINNER": "AMBIGUOUS",
+      "HOKOM_CORRECT": "DEBATABLE",
+      "SEVERITY": "MINOR",
+      "DESCRIPTION": "Same as token 36."
+    },
+    {
+      "token_number": 59,
+      "surface": "يَكُونَا",
+      "HOKOM_PROCLITICS": [],
+      "HOKOM_ARTICLE": null,
+      "HOKOM_HOST": "يكو",
+      "HOKOM_ENCLITICS": [
+        "نا"
+      ],
+      "HR2S_PROCLITICS": "N/A",
+      "HR2S_ARTICLE": "N/A",
+      "HR2S_HOST": "N/A",
+      "HR2S_ENCLITICS": "N/A",
+      "AGREE": "N/A (HR2S not available)",
+      "DISAGREE_TYPE": "FALSE_ENCLITIC",
+      "ADJUDICATION_CRITERIA": "C_FALSE_ENCLITIC",
+      "ADJUDICATED_WINNER": "LINGUISTIC_RULE",
+      "HOKOM_CORRECT": false,
+      "SEVERITY": "CRITICAL",
+      "DESCRIPTION": "نا split as enclitic pronoun from يَكُونَا; but نا here is ألف التثنية (dual marker, inflectional)",
+      "EXPECTED_HOST": "يكونا",
+      "EXPECTED_PROCLITICS": [],
+      "EXPECTED_ENCLITICS": [],
+      "QIYAS": {
+        "asl": "يَكُونَا (they-two become, dual imperfect of hollow verb ك-و-ن)",
+        "far3": "يَكُو + نَا proposed by Hokom (imperfect stem + first-plural pronoun)",
+        "nisba": "نا in يكونا is ألف التثنية (final n+alef of dual), inflectional ending",
+        "shart": "INFLECTIONAL_BARE_SUFFIXES must include نا when it is dual marker",
+        "sabab": "نا appears in ENCLITICS list; bare suffix check does not include نا",
+        "mani3": "INFLECTIONAL_BARE_SUFFIXES gap: نا not listed; only وا,ون,ين,ان,ن,تم,تن",
+        "athar": "WHOLE TOKEN should be HOST: يَكُونَا",
+        "baqaya": "Ambiguous: نا is BOTH a valid enclitic pronoun AND dual inflectional suffix; context needed"
+      }
+    },
+    {
+      "token_number": 93,
+      "surface": "لِلشَّهَادَةِ",
+      "HOKOM_PROCLITICS": [
+        "ل"
+      ],
+      "HOKOM_ARTICLE": null,
+      "HOKOM_HOST": "لشهادة",
+      "HOKOM_ENCLITICS": [],
+      "HR2S_PROCLITICS": "N/A",
+      "HR2S_ARTICLE": "N/A",
+      "HR2S_HOST": "N/A",
+      "HR2S_ENCLITICS": "N/A",
+      "AGREE": "N/A (HR2S not available)",
+      "DISAGREE_TYPE": "MISSED_ARTICLE",
+      "ADJUDICATION_CRITERIA": "D_WRONG_HOST",
+      "ADJUDICATED_WINNER": "LINGUISTIC_RULE",
+      "HOKOM_CORRECT": false,
+      "SEVERITY": "DEFECT",
+      "DESCRIPTION": "After لِ proclitic, host=لشهادة retains the ل from لام الجر+ال merger; should be host=شهادة with article",
+      "EXPECTED_HOST": "شهادة",
+      "EXPECTED_PROCLITICS": [
+        "ل"
+      ],
+      "EXPECTED_ENCLITICS": [],
+      "QIYAS": {
+        "asl": "لِلشَّهَادَةِ = لِ (preposition) + الشَّهَادَة (definite noun)",
+        "far3": "Hokom: PRC:ل HOST:لشهادة (definite article absorbed into host)",
+        "nisba": "When لِ + ال merge to لِل, the start_with_definite_article() check fails on remainder لشهادة",
+        "shart": "Normalization must detect لِل as contracted form of لِ+الـ",
+        "sabab": "starts_with_definite_article() checks for ال at start of REMAINDER after لِ; remainder is لشهادة (solar assimilation ش)",
+        "mani3": "لام assimilation: when لِ+ال→لِل, remaining string starts with لش not ال",
+        "athar": "HOST should be شَهَادَة; article=الـ (merged); PRC=ل",
+        "baqaya": "Engine needs لِل merger detection in article extraction"
+      }
+    },
+    {
+      "token_number": 117,
+      "surface": "وَإِن",
+      "HOKOM_PROCLITICS": [],
+      "HOKOM_ARTICLE": null,
+      "HOKOM_HOST": "وإن",
+      "HOKOM_ENCLITICS": [],
+      "HR2S_PROCLITICS": "N/A",
+      "HR2S_ARTICLE": "N/A",
+      "HR2S_HOST": "N/A",
+      "HR2S_ENCLITICS": "N/A",
+      "AGREE": "N/A (HR2S not available)",
+      "DISAGREE_TYPE": "UNSPLIT_COMPOUND",
+      "ADJUDICATION_CRITERIA": "G_ROUNDTRIP_OK_BUT_AMBIGUOUS",
+      "ADJUDICATED_WINNER": "AMBIGUOUS",
+      "HOKOM_CORRECT": "DEBATABLE",
+      "SEVERITY": "MINOR",
+      "DESCRIPTION": "وَإِن left unsplit; linguistically = وَ + إِن. Unsplit is defensible."
+    }
+  ]
+}

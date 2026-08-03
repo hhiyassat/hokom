@@ -1,0 +1,23 @@
+{
+  "_schema_version": "2",
+  "stage": "HOKOM-CANONICAL-ARTIFACT-MANIFEST-BINDING-01",
+  "artifact_commit": "b19cd9a97aea18b355529e7ec97fd16ecf2f9caa",
+  "audit_head": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "commit": "8e37b73",
+  "commit_full": "8e37b738ece7183818189146912cb14e3dce3a07",
+  "timestamp": "2026-08-02T01:11:27+00:00",
+  "artifact_digests": {
+    "reports/ayat_al_dayn_demo/ayat_al_dayn_results.csv": "f9d2410e22f6964c79867048b8f899d4d86632f33f5634422e90b1544fd52fa4",
+    "reports/ayat_al_dayn_demo/ayat_al_dayn_results_full.json": "cbe9c31fe179f08e8b31c174101e5f07ab0c03255cc086ec04595959df5c1f7e",
+    "reports/ayat_al_dayn_demo/ayat_al_dayn_manager_report.html": "85baa9098f7576973adfbcbf719a9d13a7ed15ce2f262bf0914d05e00d3d3f78"
+  },
+  "closure_eligible": false,
+  "provenance": {
+    "outcome": "A",
+    "basis": "COMMITTED_ARTIFACT",
+    "proof": "All three artifact files are byte-identical to their committed state at both b19cd9a (artifact_commit) and 8e37b73 (HEAD). git diff b19cd9a..HEAD -- reports/ayat_al_dayn_demo/ is empty. Committed digests verified via git show HEAD:path | sha256. Uncommitted worktree modifications to JSON and HTML were discarded (git checkout HEAD -- path) to restore committed state. The binding is clean: artifact_commit=b19cd9a produced files whose digests match current disk.",
+    "committed_at": "b19cd9a97aea18b355529e7ec97fd16ecf2f9caa",
+    "committed_state_verified": true,
+    "worktree_clean_at_verification": true
+  }
+}

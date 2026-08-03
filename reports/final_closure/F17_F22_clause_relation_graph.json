@@ -1,0 +1,18 @@
+{
+  "mandate_item": "F17-F22",
+  "title": "Clause Graph + Relation Graph",
+  "closure_date": "2026-07-31",
+  "clause_graph": {
+    "package": "pipeline/clause_graph/",
+    "gold_clauses": 8,
+    "method": "structural_operators_not_punctuation",
+    "operators_used": ["يَا", "إِذَا", "فَ", "وَ", "لَا", "لْيَ"]
+  },
+  "relation_graph": {
+    "package": "pipeline/relation_graph/",
+    "gold_relations": 4,
+    "types": ["VERB_AGENT", "VERB_OBJECT", "PREPOSITIONAL_ATTACHMENT"],
+    "status": "RELATION_DEFERRED (candidates, not yet closed)"
+  },
+  "verdict": "F17_F22_CLAUSE_RELATION_GRAPH_COMPLETE"
+}

@@ -1,0 +1,34 @@
+{
+  "mandate_item": "F02-F03",
+  "title": "Registry Audit: Hokom 19-Stage Confirmation + Taaqol Constitutional Analysis",
+  "closure_date": "2026-07-31",
+  "hokom": {
+    "stage_count": 19,
+    "registry_valid": true,
+    "errors": [],
+    "source": "src/hokom/canonical/registry/saleh_snapshot.py",
+    "stage_adapter_base": "src/hokom/canonical/stages/base.py",
+    "implementations": {
+      "p0": "src/hokom/canonical/stages/p0.py",
+      "p1": "src/hokom/canonical/stages/p1.py",
+      "p2_p5": "src/hokom/canonical/stages/p2_p5.py",
+      "p6_p8": "src/hokom/canonical/stages/p6_p8.py",
+      "p9_p12": "src/hokom/canonical/stages/p9_p12.py"
+    }
+  },
+  "taaqol": {
+    "expected_from_mandate": 49,
+    "constitutionally_proven_core": 7,
+    "count_mismatch": true,
+    "blocker": "TAAQOL_STAGE_REGISTRY_COUNT_MISMATCH = BLOCKER",
+    "blocker_note": "TAAQOL_49_STAGE_CLOSURE = CANNOT_BE_CLOSED until 49-stage registry is constitutionally proven",
+    "doc_49_clarification": "vendor/Taaqol-GPT/docs/49_META_LANGUAGE_BOUNDARY_COVENANT.md is PV-M0 (a law covenant, document #49 in the doc index), NOT a declaration of 49 canonical stages",
+    "core_pipeline": [
+      "TAAQOL_TRACE", "TAAQOL_SLOT_GRAPH", "TAAQOL_GAMMA",
+      "TAAQOL_EVIDENCE_CONTRACT", "TAAQOL_RANK_LATTICE",
+      "TAAQOL_RESIDUAL_POLICY", "TAAQOL_TRANSITION_GATE"
+    ],
+    "domain_modules": "documented in taaqol_stage_registry.TAAQOL_ARABIC_DOMAIN_MODULES"
+  },
+  "verdict": "F02_F03_REGISTRY_AUDIT_COMPLETE"
+}

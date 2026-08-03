@@ -1,0 +1,69 @@
+{
+  "_schema_version": "1",
+  "taaqol_commit": "35381739410071ac21dd96702ecbb2acb493f90d",
+  "package": {
+    "name": "taaqqul_slot_geometry",
+    "version": "0.1.0.dev0",
+    "requires_python": ">=3.11",
+    "dependencies": [],
+    "dev_extras": ["pytest>=8", "ruff>=0.5"]
+  },
+  "public_exports_count": 130,
+  "public_exports_sample": [
+    "ClosureState", "FailureCode", "Rank", "Residual", "ResidualKind",
+    "SlotGraph", "Center", "TraceRef", "SlotBoundary", "OpeningPolicy",
+    "Slot", "SlotState", "OutputBoundary", "EntryBoundary", "GenerationSource",
+    "Layer", "TraceEntryCandidate", "TraceLedger", "GammaResult", "gamma",
+    "RankLattice", "PERFORATING_KINDS", "ResidualEvaluation", "ResidualPolicy",
+    "SINGLE_SOURCE_EVIDENCE_CEILING", "EvidenceContract", "EvidenceSource",
+    "GATE_RANK_CEILING", "UNGATED_RANK_CEILING", "TransitionGate",
+    "TransitionState", "TransitionVerdict",
+    "CANONICAL_REGISTRY", "FORBIDDEN_STRAIGHT_LINES", "TERMINOLOGY_TRANSFERS",
+    "ForbiddenLine", "ForbiddenLineRegistry", "TerminologyTransfer", "is_forbidden_direct",
+    "AnswerAudit", "AuditedAnswer", "ModelClient", "emit_successor",
+    "AuditBridgeState", "AuditedTanzilBridge", "AuditedTanzilBridgeVerdict",
+    "bridge_tanzil_to_audit",
+    "AdapterAdmission", "AdapterGuard", "ConcreteAdapterCandidate",
+    "InMemoryModelClient", "TransportSurface",
+    "PATTERN_SPACE", "LetterStanding", "MawzunCandidate", "Mizan",
+    "WeightImage", "WeightReadinessCandidate"
+  ],
+  "enums": {
+    "ClosureState": ["OPEN", "MINIMALLY_CLOSED", "PERFORATED_CLOSED", "BLOCKED", "INVALID", "FORBIDDEN_LEAP"],
+    "TransitionState": ["APPROVED", "DEFERRED", "BLOCKED", "REJECTED", "FORBIDDEN_LEAP"],
+    "Rank": ["ZERO", "TRACE", "CANDIDATE", "HYPOTHESIS", "LICENSED", "STRONG", "CERTIFICATE"],
+    "ResidualKind": ["BLOCKING", "DEFERRABLE", "NON_BLOCKING", "EXPLANATORY", "HIDDEN_FORBIDDEN"],
+    "Layer": ["PREMISE", "CANDIDATE", "LICENSED", "CERTIFIED"],
+    "SlotState": ["OPEN", "MINIMALLY_CLOSED", "PERFORATED_CLOSED", "BLOCKED", "FORBIDDEN_LEAP"],
+    "GenerationSource": ["NATIVE", "BRIDGE", "TRANSCRIPT"],
+    "TransitionVerdict": ["APPROVED", "DEFERRED", "BLOCKED", "REJECTED", "FORBIDDEN_LEAP"],
+    "OntologicalClass": ["O1","O2","O3","O4","O5","O6","O7","O8","O9","O10"],
+    "EpistemicRank": ["E0","E1","E2","E3","E4","E5"],
+    "EntityRank": ["INDIVIDUAL","SPECIES","GENUS","GROUP","MASS"],
+    "StemGender": ["MASCULINE","FEMININE","COMMON"],
+    "LexicalTruthStatus": ["ATTESTED","CANDIDATE","SUSPENDED"],
+    "G0HardBlockerGateState": ["PASSED","FORBIDDEN","DEFERRED"],
+    "G0DistanceBand": ["FULL_REAL_ORIGIN","LICENSED_SILENT_RESIDUAL","LICENSED_CONDITIONAL_VISIBLE_RESIDUAL","SUSPENDED","INSUFFICIENT"],
+    "G0OntologicalClassifierState": ["CLASSIFIED","DEFERRED","FORBIDDEN"],
+    "G0EpistemicRankerState": ["RANKED","DEFERRED","FORBIDDEN"],
+    "G0AnchorGateState": ["ISSUED","DEFERRED","FORBIDDEN"],
+    "PathKind": ["SOUND","ASSIMILATED","HOLLOW","DEFECTIVE","DOUBLED","QUADRILITERAL","QUINQUELITERAL"]
+  },
+  "failure_codes_count": 97,
+  "failure_codes_sample": [
+    "IDENTITY_BROKEN", "CENTER_MISSING", "BOUNDARY_MISSING", "DOMAIN_MISSING",
+    "RANK_PROMOTION_WITHOUT_GATE", "FORBIDDEN_STRAIGHT_LINE", "GATE_REQUIRED",
+    "HIDDEN_RESIDUAL", "BLOCKING_RESIDUAL_PRESENT", "RANK_EXCEEDS_CEILING"
+  ],
+  "schemas": {
+    "coverage_case.schema.json": {
+      "title": "CoverageCase",
+      "required": ["case_id", "proof_object", "expected_verdict"],
+      "expected_verdict_values": ["EXPECTED_BLOCKED","EXPECTED_PROOF_REQUIRED","EXPECTED_RESIDUAL","EXPECTED_BRIDGE_REQUIRED"],
+      "note": "Taaqol-internal schema, not consumed by Hokom bridge"
+    }
+  },
+  "core_pipeline": "SlotGraph → gamma() → GammaResult → EvidenceContract → TransitionGate.decide() → TransitionVerdict → TransitionState",
+  "taaqol_pr_level": "PR-10",
+  "subpackages": ["core", "adapters", "audit", "weight", "gpt", "lge", "x0r", "g0_c1..g0_c6", "L1"]
+}

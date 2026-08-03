@@ -1,0 +1,23 @@
+{
+  "mandate_item": "F16-F29",
+  "title": "Semantic Providers + Vertical Chain",
+  "closure_date": "2026-07-31",
+  "semantic_providers": {
+    "package": "pipeline/semantic_providers/",
+    "carriers": ["DalClaim", "MadlulCandidate", "DalMadlulBinding"],
+    "no_direct_root_to_meaning": true,
+    "no_direct_wazn_to_meaning": true,
+    "closed_class_functional_only": true
+  },
+  "vertical_chain": {
+    "package": "pipeline/vertical_chain/",
+    "carriers": ["IfadahCandidate", "HukmCandidate", "ManatCandidate", "TanzilCandidate", "AnswerAuditResult"],
+    "constitutional_gates": {
+      "ifadah": "DEFERRED without closed relations (no direct token→Ifadah)",
+      "hukm": "DEFERRED without licensed Ifadah (no direct relation→Hukm)",
+      "tanzil": "requires Hukm + Manat + target instance",
+      "hukm_note": "LINGUISTIC_STRUCTURAL_CARRIER_NOT_FIQH_RULING"
+    }
+  },
+  "verdict": "F16_F29_VERTICAL_CHAIN_COMPLETE"
+}
