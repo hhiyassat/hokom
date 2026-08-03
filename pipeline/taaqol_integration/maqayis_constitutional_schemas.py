@@ -228,6 +228,7 @@ class ResidualType(enum.Enum):
     VOLUME_COVERAGE_GAP         = "VOLUME_COVERAGE_GAP"
     TEXT_VERIFICATION_FAILED    = "TEXT_VERIFICATION_FAILED"
     AUDIT_DISCREPANCY           = "AUDIT_DISCREPANCY"
+    ORIGIN_NOT_EXTRACTED        = "ORIGIN_NOT_EXTRACTED"
 
 
 class ReviewerType(enum.Enum):
@@ -292,6 +293,7 @@ class SourceRecord:
     ocr_pass_count:     int
     is_missing_volume:  bool
     initial_letters:    tuple[str, ...]
+    pdf_sha256:         str = ""
 
     def __post_init__(self) -> None:
         if self.volume_number < 1 or self.volume_number > 6:
@@ -324,6 +326,14 @@ class SourcePassage:
     review_state:           ReviewState
     evidence_status:        EvidenceStatus
     supersedes_id:          Optional[str] = None
+    entry_id:               str                                         = ""
+    source_pdf:             str                                         = ""
+    line_ids:               tuple[str, ...]                             = field(default_factory=tuple)
+    offsets:                tuple[int, ...]                             = field(default_factory=tuple)
+    bounding_box:           Optional[tuple[float, float, float, float]] = None
+    context:                Optional[str]                               = None
+    image_ref:              Optional[str]                               = None
+    passage_checksum:       str                                         = ""
 
 
 @dataclass(frozen=True)
@@ -618,6 +628,13 @@ class LegacyCandidateImport:
     import_trace_id             : TraceEvent.id for this import
     requires_segmentation       : True if DUAL/TRIPLE/MULTIPLE
     noise_entry                 : True if NOT_ROOT, CHAPTER_HEADER, CROSS_REFERENCE
+    -- Real source provenance fields (§3/§4) --
+    legacy_heading_text         : actual OCR heading text from root_heading_text field
+    legacy_origin_text          : actual semantic origin text from semantic_origin_text field
+    legacy_entry_id             : entry_id from JSONL (e.g. "01.pdf:p44:r001")
+    legacy_source_pdf           : source_pdf field from JSONL (e.g. "01.pdf")
+    legacy_pdf_page             : pdf_page field from JSONL
+    legacy_line_ids             : line_ids referencing per-page OCR lines
     """
     legacy_root_letters:            str
     legacy_review_status:           str
@@ -636,6 +653,13 @@ class LegacyCandidateImport:
     import_trace_id:                str
     requires_segmentation:          bool
     noise_entry:                    bool
+    # Real source provenance fields — default to empty for backward compat
+    legacy_heading_text:            str               = ""
+    legacy_origin_text:             Optional[str]     = None
+    legacy_entry_id:                str               = ""
+    legacy_source_pdf:              str               = ""
+    legacy_pdf_page:                int               = 0
+    legacy_line_ids:                tuple[str, ...]   = field(default_factory=tuple)
 
     def __post_init__(self) -> None:
         # Enforce the critical mapping rule: AUTO_AGREED → MACHINE_CANDIDATE only
@@ -943,3 +967,163 @@ CONSTITUTIONAL_EVIDENCE_APPROVED_ADMISSION_COUNT: int = 0
 
 # Evidence must never be issued above machine ceiling by machine operation
 MACHINE_EVIDENCE_ABOVE_CEILING_COUNT: int = 0
+
+# NONE must not map to positive absence claim (لا أصل له) — §6
+NONE_MAPPED_TO_POSITIVE_ABSENCE_CLAIM_COUNT: int = 0
+
+# Registry failure must not be relabeled as NOT_FOUND — §7
+REGISTRY_FAILURE_RELABELED_AS_NOT_FOUND_COUNT: int = 0
+
+# Bare ء must be included in hamza normalization — §8
+BARE_HAMZA_COVERAGE_FAILURE_COUNT: int = 0
+
+# Unlicensed roots must never be looked up — §9
+LOOKUP_FROM_UNKNOWN_ROOT_COUNT: int = 0
+LOOKUP_FROM_DEFERRED_ROOT_COUNT: int = 0
+LOOKUP_FROM_AMBIGUOUS_ROOT_COUNT: int = 0
+LOOKUP_FROM_BLOCKED_ROOT_COUNT: int = 0
+
+# Claim text must be real OCR text, not root letters — §4
+CLAIM_WITH_ROOT_LETTERS_AS_CLAIM_TEXT_COUNT: int = 0
+
+# Origin text must be real extracted text, not root letters — §5
+ORIGIN_WITH_ROOT_AS_RAW_TEXT_COUNT: int = 0
+MULTIPLE_FORCED_TO_THREE_COUNT: int = 0
+
+# Acceptance gates must be computed, not hardcoded — §11
+HARDCODED_ZERO_ACCEPTANCE_GATE_COUNT: int = 0
+
+# Direct root-string lookup bypasses Hokom licensing — §12
+DIRECT_LOOKUP_BYPASS_COUNT: int = 0
+
+# NONE/NOT_EXTRACTED/UNKNOWN must not create origin candidates — §7
+ORIGIN_NOT_EXTRACTED_AS_CANDIDATE_COUNT: int = 0
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# § 7 — TYPED AUGMENTATION RESULT (§10)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+@dataclass(frozen=True)
+class HokomRootClaim:
+    """
+    Typed Hokom root directive and verdict.
+    R11: Real typed Hokom root model — replaces SimpleNamespace in production.
+    """
+    canonical_root: tuple[str, ...]
+    directive: str  # "ACCEPT" | "DEFER" | "BLOCK"
+    verdict_reason: Optional[str] = None
+    root_class: Optional[str] = None
+
+
+@dataclass(frozen=True)
+class MaqayisConstitutionalAugmentationResult:
+    """
+    Typed result from maqayis_constitutional_evidence_adapter.augment_evidence_from_bundle().
+
+    Replaces the bare tuple[str, ...] return.
+    Carries full metadata so the calling layer can inspect EvidenceStatus
+    without string-parsing the evidence IDs.
+
+    Fields
+    ──────
+    lookup_kind         : LookupResultKind from the constitutional registry
+    evidence_ids        : tuple of Maqayis evidence ID strings
+    evidence_status     : EvidenceStatus for all emitted IDs
+    review_state        : ReviewState of the source lookup
+    licensed            : True if the root was licensed by Hokom's canonical_root
+    source_passage_ids  : IDs of SourcePassage records contributing evidence
+    trace_ids           : IDs of TraceEvent records for this augmentation
+    residual_ids        : IDs of open Residual records for this root
+    coverage_status     : "COVERED" | "MISSING_VOLUME" | "NOT_FOUND" | "LOAD_FAILURE"
+    failure_detail      : error detail if load failure, else None
+    """
+    lookup_kind:         LookupResultKind
+    evidence_ids:        tuple[str, ...]
+    evidence_status:     EvidenceStatus
+    review_state:        ReviewState
+    licensed:            bool
+    source_passage_ids:  tuple[str, ...]
+    trace_ids:           tuple[str, ...]
+    residual_ids:        tuple[str, ...]
+    coverage_status:     str
+    failure_detail:      Optional[str] = None
+    hokom_root_licensed:       bool = False
+    source_candidate_found:    bool = False
+    lexical_evidence_licensed: bool = False
+
+    @classmethod
+    def not_licensed(
+        cls,
+        reason: str,
+        lookup_kind: LookupResultKind = LookupResultKind.NOT_FOUND_IN_COVERED_VOLUME,
+    ) -> "MaqayisConstitutionalAugmentationResult":
+        """Convenience constructor for rejected/unlicensed cases."""
+        return cls(
+            lookup_kind=lookup_kind,
+            evidence_ids=(),
+            evidence_status=EvidenceStatus.MACHINE_SOURCE_CLAIM_CANDIDATE,
+            review_state=ReviewState.UNREVIEWED,
+            licensed=False,
+            source_passage_ids=(),
+            trace_ids=(),
+            residual_ids=(),
+            coverage_status="NOT_LICENSED",
+            failure_detail=reason,
+            hokom_root_licensed=False,
+            source_candidate_found=False,
+            lexical_evidence_licensed=False,
+        )
+
+    @classmethod
+    def from_lookup_result(
+        cls,
+        result: "ConstitutionalLookupResult",
+        evidence_ids: tuple[str, ...],
+    ) -> "MaqayisConstitutionalAugmentationResult":
+        """Build from a ConstitutionalLookupResult.
+        R10: only called when Hokom accepted, so hokom_root_licensed=True always.
+        R13: populate passage_ids from all claims + identity_candidate.
+             trace_ids from residuals as proxy (no trace events on lookup result).
+        """
+        if result.coverage_gap:
+            cov = "MISSING_VOLUME"
+        elif result.kind in (
+            LookupResultKind.REGISTRY_LOAD_FAILURE,
+            LookupResultKind.REGISTRY_PARTIAL_LOAD,
+        ):
+            cov = "LOAD_FAILURE"
+        elif result.found:
+            cov = "COVERED"
+        else:
+            cov = "NOT_FOUND"
+
+        # R13: Collect passage_ids from identity_candidate AND all claims
+        passage_ids_set: set[str] = set()
+        if result.identity_candidate and hasattr(result.identity_candidate, "passage_id"):
+            passage_ids_set.add(result.identity_candidate.passage_id)
+        for c in result.claims:
+            if hasattr(c, "passage_id"):
+                passage_ids_set.add(c.passage_id)
+        passage_ids = tuple(sorted(passage_ids_set))
+
+        residual_ids = tuple(r.id for r in result.open_residuals)
+
+        # R13: use residuals as trace_id proxy (no trace events on lookup result)
+        trace_ids = tuple(r.id for r in result.residuals[:10])
+
+        return cls(
+            lookup_kind=result.kind,
+            evidence_ids=evidence_ids,
+            evidence_status=result.evidence_status,
+            review_state=result.review_state,
+            licensed=result.found,
+            source_passage_ids=passage_ids,
+            trace_ids=trace_ids,
+            residual_ids=residual_ids,
+            coverage_status=cov,
+            failure_detail=result.conflict_notes or result.coverage_note,
+            hokom_root_licensed=True,   # R10: only called after Hokom ACCEPT
+            source_candidate_found=result.identity_candidate is not None or len(result.claims) > 0,
+            lexical_evidence_licensed=len(evidence_ids) > 0,
+        )

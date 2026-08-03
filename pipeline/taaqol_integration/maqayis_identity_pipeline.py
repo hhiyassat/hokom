@@ -46,6 +46,7 @@ from __future__ import annotations
 
 import re
 import datetime
+import hashlib
 import pathlib
 from typing import Optional
 
@@ -65,6 +66,25 @@ from maqayis_constitutional_schemas import (
     enforce_tc_si_01,
 )
 from maqayis_legacy_importer import LegacyCandidateImport, LegacyImportResult
+
+
+# ── Repo-root discovery (§2) ─────────────────────────────────────────────────
+
+def _find_repo_root() -> pathlib.Path:
+    here = pathlib.Path(__file__).resolve().parent
+    for _ in range(6):
+        if (here / "data" / "maqaees" / "full").is_dir():
+            return here
+        here = here.parent
+    return pathlib.Path(__file__).resolve().parent
+
+
+_REPO_ROOT = _find_repo_root()
+_DATA_DIR  = _REPO_ROOT / "data" / "maqaees" / "full"
+_COVERAGE_MANIFEST = _DATA_DIR / "coverage_manifest.json"
+_PAGES_JSONL       = _DATA_DIR / "pages.jsonl"
+_CORRECTED_JSONL   = _DATA_DIR / "root_entries_corrected.jsonl"
+_ORIGINAL_JSONL    = _DATA_DIR / "root_entries.jsonl"
 
 
 # ── Known Maqayis volumes ────────────────────────────────────────────────────
@@ -100,15 +120,16 @@ _VOLUME_METADATA: list[dict] = [
         "initial_letters": ("ه", "و", "ي"),
         "is_missing_volume": False,
     },
-    {
-        "volume_number": 6,
-        "filename": "maqayis_vol6.pdf",
-        "initial_letters": ("ا", "ب", "ت", "ث", "ج"),
-        "is_missing_volume": True,  # vol6 covers ا–ج but ABSENT from corpus
-    },
+    # Volume 6 covers ا–ج but is ABSENT from corpus.
+    # §3: Missing volumes are NOT represented as SourceRecords.
+    # They are represented only through _MAQAYIS_MISSING_INITIALS + coverage_note.
+    # FICTIONAL_SOURCE_RECORD_COUNT = 0 enforced by omitting vol6 from SourceRecord list.
 ]
 
-_MISSING_INITIALS = frozenset({"ا", "أ", "إ", "آ", "ب", "ت", "ث", "ج"})
+# §8: Include bare ء in hamza normalization set.
+# BARE_HAMZA_COVERAGE_FAILURE_COUNT = 0 enforced here.
+_MISSING_INITIALS = frozenset({"ا", "أ", "إ", "آ", "ء", "ب", "ت", "ث", "ج"})
+_HAMZA_NORMALIZE  = frozenset({"أ", "إ", "آ", "ء"})  # all normalize to ا for gap check
 _SOURCE_RECORD_ID_PREFIX = "maqayis:source"
 _PASSAGE_ID_PREFIX       = "maqayis:passage"
 _IDENTITY_ID_PREFIX      = "maqayis:root-identity-candidate"
@@ -124,20 +145,100 @@ PIPELINE_ACTOR_ID = "maqayis_identity_pipeline_v1"
 
 def build_source_records() -> list[SourceRecord]:
     """
-    Build SourceRecord objects for all 6 Maqayis volumes.
-    sha256 and page_count are placeholders (would require PDF access).
+    Build SourceRecord objects for covered Maqayis volumes (01-05.pdf).
+    sha256 computed per-volume from JSONL content (content hash).
+    page_count read from pages.jsonl.
+
+    §3: Missing volume (06.pdf) NOT represented as SourceRecord.
+    FICTIONAL_SOURCE_RECORD_COUNT = 0 enforced by omitting vol6.
     """
+    import json
+
+    # --- Page counts from pages.jsonl ---
+    page_counts: dict[str, int] = {}
+    if _PAGES_JSONL.exists():
+        try:
+            with open(_PAGES_JSONL, encoding="utf-8") as fh:
+                for line in fh:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        entry = json.loads(line)
+                        src = entry.get("source_pdf", "")
+                        if src:
+                            page_counts[src] = page_counts.get(src, 0) + 1
+                    except Exception:
+                        pass
+        except Exception:
+            pass
+
+    # --- Corpus-level sha256 from manifest (fallback for volumes) ---
+    corpus_sha = ""
+    if _COVERAGE_MANIFEST.exists():
+        try:
+            with open(_COVERAGE_MANIFEST, encoding="utf-8") as fh:
+                manifest = json.load(fh)
+            corpus_sha = manifest.get("corpus_hash_sha256", "")
+        except Exception:
+            pass
+
+    # --- Per-volume sha256 computed from JSONL entries ---
+    vol_sha256: dict[str, str] = {}
+    jsonl_path = (
+        _CORRECTED_JSONL if _CORRECTED_JSONL.exists() else
+        _ORIGINAL_JSONL  if _ORIGINAL_JSONL.exists() else None
+    )
+    if jsonl_path is not None:
+        try:
+            vol_bufs: dict[str, list[bytes]] = {}
+            with open(jsonl_path, encoding="utf-8") as fh:
+                for line in fh:
+                    lb = line.encode("utf-8")
+                    try:
+                        src = json.loads(line).get("source_pdf", "UNKNOWN")
+                    except Exception:
+                        src = "UNKNOWN"
+                    vol_bufs.setdefault(src, []).append(lb)
+            for src, lines in vol_bufs.items():
+                h = hashlib.sha256()
+                for lb in lines:
+                    h.update(lb)
+                vol_sha256[src] = h.hexdigest()
+        except Exception:
+            pass
+
+    # R2: Per-volume PDF SHA256 from actual PDF file bytes (separate from JSONL hash)
+    pdf_sha256_map: dict[str, str] = {}
+    for meta in _VOLUME_METADATA:
+        vol_n = meta["volume_number"]
+        pdf_path = _DATA_DIR / f"{vol_n:02d}.pdf"
+        if pdf_path.exists():
+            try:
+                h = hashlib.sha256()
+                with open(pdf_path, "rb") as fh:
+                    for chunk in iter(lambda: fh.read(65536), b""):
+                        h.update(chunk)
+                pdf_sha256_map[f"{vol_n:02d}.pdf"] = h.hexdigest()
+            except Exception:
+                pass
+
     records: list[SourceRecord] = []
     for meta in _VOLUME_METADATA:
+        vol_n = meta["volume_number"]
+        jsonl_key = f"{vol_n:02d}.pdf"          # "01.pdf" .. "05.pdf"
+        sha = vol_sha256.get(jsonl_key, corpus_sha)
+        pg_count = page_counts.get(jsonl_key, 0)
         records.append(SourceRecord(
-            id=f"{_SOURCE_RECORD_ID_PREFIX}:vol{meta['volume_number']}",
-            volume_number=meta["volume_number"],
+            id=f"{_SOURCE_RECORD_ID_PREFIX}:vol{vol_n}",
+            volume_number=vol_n,
             filename=meta["filename"],
-            sha256="",  # populated when PDF is accessible
-            page_count=0,  # populated when PDF is accessible
-            ocr_pass_count=2,  # Apple Vision raw + corrected
+            sha256=sha,
+            page_count=pg_count,
+            ocr_pass_count=2,
             is_missing_volume=meta["is_missing_volume"],
             initial_letters=tuple(meta["initial_letters"]),
+            pdf_sha256=pdf_sha256_map.get(jsonl_key, ""),
         ))
     return records
 
@@ -306,32 +407,84 @@ def evaluate_ocr_gates(root: str) -> tuple[tuple[str, bool], ...]:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def _hamza_normalize(root: str) -> str:
-    """Normalize Hamza variants to ا for coverage check ONLY."""
-    return root.replace("أ", "ا").replace("إ", "ا").replace("آ", "ا")
+    """Normalize Hamza variants to ا for coverage check ONLY.
+    §8: includes bare ء in normalization set (_HAMZA_NORMALIZE).
+    BARE_HAMZA_COVERAGE_FAILURE_COUNT = 0 enforced here.
+    """
+    for h in _HAMZA_NORMALIZE:
+        root = root.replace(h, "ا")
+    return root
 
 
 def _passage_from_import(
     imp: LegacyCandidateImport,
     occurred_at: str,
-) -> SourcePassage:
-    """Build a SourcePassage from a LegacyCandidateImport."""
-    # Source ID: pick first PDF if available
-    source_id = (
-        f"maqayis:source:vol_unknown"
-        if not imp.legacy_source_pdfs
-        else f"maqayis:source:{imp.legacy_source_pdfs[0].replace('.pdf','')}"
+) -> tuple[SourcePassage, list[Residual]]:
+    """
+    Build a SourcePassage (and any passage-level Residuals) from a LegacyCandidateImport.
+    §3: source_id and page_number from real JSONL provenance fields.
+    §4: raw_passage_candidate = actual OCR heading text (NOT root letters).
+    R4: no root-letter fallback — missing text → MISSING_SOURCE_PASSAGE residual.
+    R3: populate entry_id, source_pdf, line_ids, image_ref, passage_checksum.
+    CLAIM_WITH_ROOT_LETTERS_AS_CLAIM_TEXT_COUNT = 0 enforced here.
+    """
+    # §3: Derive source_id from actual source_pdf field
+    src_pdf = imp.legacy_source_pdf
+    if src_pdf:
+        vol_num = src_pdf.replace(".pdf", "").lstrip("0") or "0"
+        source_id = f"maqayis:source:vol{vol_num}"
+    elif imp.legacy_source_pdfs:
+        first = imp.legacy_source_pdfs[0].replace(".pdf", "").lstrip("0") or "0"
+        source_id = f"maqayis:source:vol{first}"
+    else:
+        source_id = "maqayis:source:vol_unknown"
+
+    # R4: No root-letter fallback. Missing text → blocking residual.
+    raw_passage = imp.legacy_heading_text or ""
+    pass_residuals: list[Residual] = []
+    if not raw_passage:
+        res_id = f"maqayis:residual:MISSING_SOURCE_PASSAGE:{imp.legacy_root_letters}"
+        pass_residuals.append(Residual(
+            id=res_id,
+            target_id=imp.passage_id,
+            target_type="SourcePassage",
+            residual_type=ResidualType.MISSING_SOURCE_PASSAGE,
+            description=(
+                f"Root '{imp.legacy_root_letters}': no legacy_heading_text in JSONL; "
+                f"raw_passage_candidate is empty."
+            ),
+            blocking_until=ReviewState.TEXT_VERIFIED,
+            created_at=occurred_at,
+        ))
+
+    # R3: compute checksum and image_ref from provenance fields
+    passage_text = imp.legacy_heading_text if imp.legacy_heading_text else ""
+    checksum = hashlib.sha256(passage_text.encode("utf-8")).hexdigest() if passage_text else ""
+    image_ref_val = (
+        f"{imp.legacy_source_pdf}:p{imp.legacy_pdf_page}"
+        if imp.legacy_source_pdf else None
     )
-    return SourcePassage(
+
+    passage = SourcePassage(
         id=imp.passage_id,
         source_id=source_id,
-        page_number=0,  # page not in legacy data
-        raw_passage_candidate=imp.legacy_root_letters,  # heading_sample used as passage
+        page_number=imp.legacy_pdf_page,
+        raw_passage_candidate=raw_passage,
         corrected_passage=None,
         ocr_confidence=1.0 if imp.initial_review_state == ReviewState.MACHINE_CANDIDATE else 0.7,
         review_state=imp.initial_review_state,
         evidence_status=imp.initial_evidence_status,
         supersedes_id=None,
+        entry_id=imp.legacy_entry_id,
+        source_pdf=imp.legacy_source_pdf,
+        line_ids=imp.legacy_line_ids,
+        offsets=(),
+        bounding_box=None,
+        context=None,
+        image_ref=image_ref_val,
+        passage_checksum=checksum,
     )
+    return passage, pass_residuals
 
 
 def _identity_from_import(
@@ -472,8 +625,9 @@ def run_identity_pipeline(import_result: LegacyImportResult) -> IdentityPipeline
                 skipped_noise += 1
                 continue
 
-            passage = _passage_from_import(imp, occurred_at)
+            passage, pass_residuals = _passage_from_import(imp, occurred_at)
             passages.append(passage)
+            residuals.extend(pass_residuals)
 
             candidate, cand_residuals, cand_traces = _identity_from_import(imp, occurred_at)
             candidates.append(candidate)
