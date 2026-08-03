@@ -1005,18 +1005,6 @@ ORIGIN_NOT_EXTRACTED_AS_CANDIDATE_COUNT: int = 0
 # ═══════════════════════════════════════════════════════════════════════════════
 
 @dataclass(frozen=True)
-class HokomRootClaim:
-    """
-    Typed Hokom root directive and verdict.
-    R11: Real typed Hokom root model — replaces SimpleNamespace in production.
-    """
-    canonical_root: tuple[str, ...]
-    directive: str  # "ACCEPT" | "DEFER" | "BLOCK"
-    verdict_reason: Optional[str] = None
-    root_class: Optional[str] = None
-
-
-@dataclass(frozen=True)
 class MaqayisConstitutionalAugmentationResult:
     """
     Typed result from maqayis_constitutional_evidence_adapter.augment_evidence_from_bundle().
@@ -1109,8 +1097,20 @@ class MaqayisConstitutionalAugmentationResult:
 
         residual_ids = tuple(r.id for r in result.open_residuals)
 
-        # R13: use residuals as trace_id proxy (no trace events on lookup result)
-        trace_ids = tuple(r.id for r in result.residuals[:10])
+        # §11: trace_ids must contain TraceEvent IDs only — never Residual IDs.
+        # No TraceEvent objects are present on ConstitutionalLookupResult (V1 pipeline
+        # does not surface them through the registry lookup path).
+        # TRACE_PROPAGATION_NOT_AVAILABLE: trace_ids = () until pipeline surfaces events.
+        trace_ids: tuple[str, ...] = ()
+
+        # §4: lexical_evidence_licensed = True ONLY when FOUND_LEXICALLY_REVIEWED
+        # and a ReviewCertificate is present.  All machine-candidate, review-required,
+        # and conflict results produce candidates — not licensed lexical evidence.
+        # LEXICAL_EVIDENCE_FROM_MACHINE_CANDIDATE_COUNT = 0 enforced here.
+        lexical_evidence_licensed = (
+            result.kind == LookupResultKind.FOUND_LEXICALLY_REVIEWED
+            and result.identity_carrier is not None
+        )
 
         return cls(
             lookup_kind=result.kind,
@@ -1125,5 +1125,5 @@ class MaqayisConstitutionalAugmentationResult:
             failure_detail=result.conflict_notes or result.coverage_note,
             hokom_root_licensed=True,   # R10: only called after Hokom ACCEPT
             source_candidate_found=result.identity_candidate is not None or len(result.claims) > 0,
-            lexical_evidence_licensed=len(evidence_ids) > 0,
+            lexical_evidence_licensed=lexical_evidence_licensed,
         )
