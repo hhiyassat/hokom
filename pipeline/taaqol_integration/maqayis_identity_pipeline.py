@@ -443,7 +443,13 @@ def _passage_from_import(
     raw_passage = imp.legacy_heading_text or ""
     pass_residuals: list[Residual] = []
     if not raw_passage:
-        res_id = f"maqayis:residual:MISSING_SOURCE_PASSAGE:{imp.legacy_root_letters}"
+        # §12 / addendum defect §5: include entry_id to distinguish
+        # multiple entries for the same root_letters.
+        _mp_disc = imp.legacy_entry_id or imp.passage_id or imp.legacy_root_letters
+        res_id = (
+            f"maqayis:residual:MISSING_SOURCE_PASSAGE:"
+            f"{imp.legacy_root_letters}:{_mp_disc}"
+        )
         pass_residuals.append(Residual(
             id=res_id,
             target_id=imp.passage_id,
@@ -543,14 +549,21 @@ def _identity_from_import(
         ),
     ))
 
-    # Emit OCR_AMBIGUITY residuals for each raised gate
+    # Emit OCR_AMBIGUITY residuals for each raised gate.
+    # §12 / addendum defect §5: residual ID includes entry_discriminator so
+    # the same root+gate across multiple corpus entries produces distinct
+    # residual IDs. Prior format `{gate_id}:{root}` collided (57 duplicates
+    # on the real corpus at HEAD 62d3cb5).
     for gate_id, flag in gate_results:
         if flag:
             gate_desc = next(
                 (desc for gid, _, desc in OCR_GATES if gid == gate_id),
                 gate_id,
             )
-            res_id = f"{_RESIDUAL_ID_PREFIX}:OCR_AMBIGUITY:{gate_id}:{root}"
+            res_id = (
+                f"{_RESIDUAL_ID_PREFIX}:OCR_AMBIGUITY:"
+                f"{gate_id}:{root}:{entry_discriminator}"
+            )
             residuals.append(Residual(
                 id=res_id,
                 target_id=candidate.id,

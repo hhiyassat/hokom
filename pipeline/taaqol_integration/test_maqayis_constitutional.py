@@ -1586,6 +1586,75 @@ def test_bl02_bab_letter_map_is_read_only():
         BAB_LETTER_MAP['ا'] = 'MUTATED'   # type: ignore[index]
 
 
+def test_ug01_corpus_wide_id_uniqueness(import_result, identity_result, claim_result):
+    """Addendum defect §5: validate_id_uniqueness() must produce a clean
+    report covering all six categories (passages, identities, claims,
+    origins, residuals, traces) plus cross-category collisions.
+
+    The public callable is what production callers use — the test
+    exercises it end-to-end on the real corpus so any duplicate-ID
+    regression is caught at every audit run, not only inside a private
+    per-category test.
+    """
+    from maqayis_uniqueness import validate_id_uniqueness
+    report = validate_id_uniqueness(import_result, identity_result,
+                                     claim_result)
+    if not report.clean:
+        details = []
+        for name, cat in [("passages", report.passages),
+                           ("identities", report.identities),
+                           ("claims", report.claims),
+                           ("origins", report.origins),
+                           ("residuals", report.residuals),
+                           ("traces", report.traces)]:
+            if not cat.clean:
+                details.append(
+                    f"{name}: {len(cat.duplications)} dupes "
+                    f"(first: {cat.duplications[0].id_value})"
+                )
+        if report.cross_category_collisions:
+            details.append(
+                f"cross-category: {len(report.cross_category_collisions)} "
+                f"collisions"
+            )
+        raise AssertionError(
+            "§5 corpus-wide ID uniqueness: " + "; ".join(details)
+        )
+
+
+def test_ug02_uniqueness_report_covers_six_categories(
+    import_result, identity_result, claim_result,
+):
+    """Coverage guard: the report must expose all six categories with
+    non-negative totals. If a new pipeline is added and forgets to
+    plug into validate_id_uniqueness, this test surfaces the omission.
+    """
+    from maqayis_uniqueness import validate_id_uniqueness
+    r = validate_id_uniqueness(import_result, identity_result, claim_result)
+    for name, cat in [("passages", r.passages), ("identities", r.identities),
+                       ("claims", r.claims), ("origins", r.origins),
+                       ("residuals", r.residuals), ("traces", r.traces)]:
+        assert cat.category == name
+        assert cat.total_ids >= 0
+        assert cat.unique_ids >= 0
+        assert cat.unique_ids <= cat.total_ids
+    # At least the corpus produces passages and residuals — the corpus is
+    # non-empty; a totally empty report would indicate loader failure.
+    assert r.passages.total_ids > 0, "passages must be non-empty on corpus"
+    assert r.claims.total_ids > 0, "claims must be non-empty on corpus"
+
+
+def test_ug03_validate_id_uniqueness_rejects_wrong_input_shape():
+    """Boundary type guard: passing objects without the documented
+    pipeline shape must raise TypeError, not silently succeed with a
+    clean report.
+    """
+    import pytest as _pytest
+    from maqayis_uniqueness import validate_id_uniqueness
+    with _pytest.raises(TypeError):
+        validate_id_uniqueness(object(), object(), object())
+
+
 def test_bl03_bab_letter_map_covers_all_28_base_consonants():
     """Coverage guard: the 28 canonical Arabic consonants + 5 Hamza/variant
     forms must all resolve, and each entry must be a non-empty الX string.
