@@ -522,9 +522,13 @@ def _identity_from_import(
         supersedes_id=None,
     )
 
+    # §12: IDs include entry_discriminator to ensure uniqueness across multiple
+    # entries for the same root_letters (e.g. roots with multiple OCR passages).
+    entry_discriminator = imp.legacy_entry_id or imp.passage_id or root
+
     # TraceEvent for identity extraction
     trace_events.append(TraceEvent(
-        id=f"{_TRACE_ID_PREFIX}:identity_extracted:{root}",
+        id=f"{_TRACE_ID_PREFIX}:identity_extracted:{root}:{entry_discriminator}",
         kind=TraceEventKind.IDENTITY_EXTRACTED,
         target_id=candidate.id,
         target_type="RootIdentityCandidate",

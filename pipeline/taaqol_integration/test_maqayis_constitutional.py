@@ -821,17 +821,53 @@ def test_ag15_empty_root_emits_evidence():
         f"AG15: empty root must emit no evidence, got: {result.evidence_ids}"
 
 
-def test_ag16_wrong_bab_letter_remaining():
-    """Computed from schema counter — bab correction structural check."""
-    from maqayis_constitutional_schemas import AUTO_AGREED_MAPPED_TO_VERIFIED_COUNT
-    # Bab correction report not available in this run; structural check via counter
-    assert AUTO_AGREED_MAPPED_TO_VERIFIED_COUNT == 0, \
-        "AG16: bab-letter correction counter drift"
+def test_ag16_wrong_bab_letter_remaining(import_result):
+    """Computed from actual imports: every non-noise bab_letter must be in the
+    canonical 28-word set (one word-form per letter, stored with definite article).
+    BAB_WORD_FORM_OUTSIDE_CANONICAL_SET_COUNT = 0 enforced.
+    """
+    # Canonical word-form set derived from corpus analysis (28 unique values).
+    BAB_CANONICAL_WORDS = frozenset({
+        "الألف", "الباء", "التاء", "الثاء", "الجيم",
+        "الحاء", "الخاء", "الدال", "الذال", "الراء",
+        "الزاي", "السين", "الشين", "الصاد", "الضاد",
+        "الطاء", "الظاء", "العين", "الغين", "الفاء",
+        "القاف", "الكاف", "اللام", "الميم", "النون",
+        "الهاء", "الواو", "الياء",
+    })
+    bad = [
+        (imp.legacy_root_letters, imp.legacy_bab_letter)
+        for imp in import_result.imports
+        if not imp.noise_entry
+        and imp.legacy_bab_letter
+        and imp.legacy_bab_letter not in BAB_CANONICAL_WORDS
+    ]
+    assert len(bad) == 0, (
+        f"AG16: {len(bad)} imports have bab_letter outside the canonical 28-word set. "
+        f"First offenders: {bad[:5]}"
+    )
 
 
 def test_ag17_bab_letter_root_initial_mismatch(import_result):
-    """Computed from actual imports: bab_letter initial must match root initial."""
-    mismatches = 0
+    """Computed from actual imports: each bab_letter word-form must match the
+    root's initial letter according to the canonical BAB_LETTER_MAP.
+    BAB_LETTER_MISMATCH_COUNT = 0 enforced.
+    Word-form is stored with definite article (e.g. "الحاء"); the map translates
+    root initial → expected word-form directly, bypassing the 'ال' extraction pitfall.
+    """
+    # Canonical map: root initial letter → expected bab word-form.
+    # Hamza variants أ/إ/آ/ء all map to "الألف" (same as ا).
+    BAB_LETTER_MAP = {
+        "ا": "الألف", "أ": "الألف", "إ": "الألف", "آ": "الألف", "ء": "الألف",
+        "ب": "الباء",  "ت": "التاء",  "ث": "الثاء",  "ج": "الجيم",
+        "ح": "الحاء",  "خ": "الخاء",  "د": "الدال",  "ذ": "الذال",
+        "ر": "الراء",  "ز": "الزاي",  "س": "السين",  "ش": "الشين",
+        "ص": "الصاد",  "ض": "الضاد",  "ط": "الطاء",  "ظ": "الظاء",
+        "ع": "العين",  "غ": "الغين",  "ف": "الفاء",  "ق": "القاف",
+        "ك": "الكاف",  "ل": "اللام",  "م": "الميم",  "ن": "النون",
+        "ه": "الهاء",  "و": "الواو",  "ي": "الياء",
+    }
+    mismatches = []
     for imp in import_result.imports:
         if imp.noise_entry:
             continue
@@ -839,24 +875,17 @@ def test_ag17_bab_letter_root_initial_mismatch(import_result):
         bab  = imp.legacy_bab_letter
         if not root or not bab:
             continue
-        # Bab letter is usually a word like "الحاء" — first Arabic letter is the key
-        import unicodedata
-        arabic_in_bab = [c for c in bab if unicodedata.bidirectional(c) == "AL"]
-        if arabic_in_bab and arabic_in_bab[0] != root[0]:
-            # Normalize hamza variants
-            normalize = {"أ": "ا", "إ": "ا", "آ": "ا", "ء": "ا"}
-            root_init = normalize.get(root[0], root[0])
-            bab_init  = normalize.get(arabic_in_bab[0], arabic_in_bab[0])
-            if root_init != bab_init:
-                mismatches += 1
-    # bab_letter is stored as Arabic word-form "الحاء" (with ال prefix).
-    # arabic_in_bab[0] picks "ا" (from "ال"), not "ح", producing apparent mismatches.
-    # This is a known format artifact — not a data error. Observed count: ~3209.
-    # Gate enforces: count is bounded (not growing beyond corpus size ~3486),
-    # confirming the artifact is stable and not masking genuine new violations.
-    assert mismatches <= 3300, \
-        f"AG17: bab_letter mismatch count {mismatches} exceeds expected bound 3300. " \
-        f"Artifact of 'ال' prefix in bab_letter format; human review required if count grows."
+        root_initial = root[0]
+        expected_bab = BAB_LETTER_MAP.get(root_initial)
+        if expected_bab is None:
+            continue  # unknown initial — skip; covered by AG16
+        if bab != expected_bab:
+            mismatches.append((root, bab, expected_bab))
+    assert len(mismatches) == 0, (
+        f"AG17: {len(mismatches)} bab_letter/root-initial mismatches "
+        f"(BAB_LETTER_MISMATCH_COUNT must be 0). "
+        f"First offenders: {mismatches[:5]}"
+    )
 
 
 def test_ag18_bab_correction_provenance_missing(import_result):
@@ -889,34 +918,31 @@ def test_ag20_unknown_status_entries(import_result):
 
 
 def test_ag21_original_data_not_modified():
-    """Computed from actual data: loading corpus twice must produce identical root_letters sets.
-    §12: append-only architecture — no entry is modified or dropped between loads.
+    """Computed from actual data: import_legacy_corpus() must not modify the
+    source JSONL file. SHA-256 digest before and after the pipeline run must match.
+    SOURCE_FILE_MODIFICATION_DETECTED_COUNT = 0 enforced.
     """
     if not _JSONL_PATH.exists():
         pytest.skip("Corpus not available: cannot verify immutability without corpus")
-    import json
-    # Load root_letters from two independent reads of the same file
-    def _load_roots(path):
-        roots = []
-        with open(path, encoding="utf-8") as f:
-            for line in f:
-                line = line.strip()
-                if not line:
-                    continue
-                try:
-                    obj = json.loads(line)
-                    roots.append(obj.get("root_letters", ""))
-                except json.JSONDecodeError:
-                    pass
-        return roots
-    first_load  = _load_roots(_JSONL_PATH)
-    second_load = _load_roots(_JSONL_PATH)
-    assert first_load == second_load, (
-        f"AG21: corpus loaded twice produces different root_letters lists — "
-        f"file modification or non-deterministic read detected. "
-        f"len(first)={len(first_load)}, len(second)={len(second_load)}"
+    import hashlib
+    from maqayis_legacy_importer import import_legacy_corpus
+
+    def _sha256(path) -> str:
+        h = hashlib.sha256()
+        with open(path, "rb") as f:
+            for chunk in iter(lambda: f.read(65536), b""):
+                h.update(chunk)
+        return h.hexdigest()
+
+    digest_before = _sha256(_JSONL_PATH)
+    import_legacy_corpus(_JSONL_PATH)
+    digest_after  = _sha256(_JSONL_PATH)
+
+    assert digest_before == digest_after, (
+        f"AG21: source JSONL digest changed after import_legacy_corpus() — "
+        f"pipeline must never modify its input file. "
+        f"before={digest_before[:16]}…  after={digest_after[:16]}…"
     )
-    assert len(first_load) > 0, "AG21: corpus must not be empty"
 
 
 def test_ag22_trace_events_not_deleted(identity_result, claim_result):
@@ -1135,7 +1161,7 @@ def test_cp11_multiple_has_segmentation_required(claim_result):
     multiple_claims = [c for c in claim_result.claims if c.origin_type == OriginType.MULTIPLE]
     assert len(multiple_claims) > 0, \
         "§5: Expected MULTIPLE claims in corpus (corpus has ~48)"
-    for claim in multiple_claims[:10]:
+    for claim in multiple_claims:
         origins = [o for o in claim_result.origin_candidates if o.claim_id == claim.id]
         assert len(origins) == 0, (
             f"§5: MULTIPLE claim {claim.id} must produce 0 origin candidates "
@@ -1158,18 +1184,26 @@ def test_cp11_multiple_has_segmentation_required(claim_result):
     )
 
 
-def test_cp12_all_entity_ids_unique(claim_result):
-    """§12: All claim, origin, and residual IDs must be globally unique across the corpus.
+def test_cp12_all_entity_ids_unique(claim_result, identity_result):
+    """§12: All claim, origin, residual, and trace IDs must be globally unique.
     Duplicate IDs indicate missing entry_discriminator in ID construction.
+    Trace IDs from both claim_result and identity_result are included.
     """
+    from collections import Counter
     claim_ids    = [c.id for c in claim_result.claims]
     origin_ids   = [o.id for o in claim_result.origin_candidates]
     residual_ids = [r.id for r in claim_result.residuals]
+    # Collect trace event IDs from both pipelines
+    claim_trace_ids    = [t.id for t in claim_result.trace_events]
+    identity_trace_ids = [t.id for t in identity_result.trace_events]
+    trace_ids = claim_trace_ids + identity_trace_ids
+
     # Check uniqueness within each entity type
-    from collections import Counter
-    claim_dupes   = {k: v for k, v in Counter(claim_ids).items()   if v > 1}
-    origin_dupes  = {k: v for k, v in Counter(origin_ids).items()  if v > 1}
+    claim_dupes    = {k: v for k, v in Counter(claim_ids).items()    if v > 1}
+    origin_dupes   = {k: v for k, v in Counter(origin_ids).items()   if v > 1}
     residual_dupes = {k: v for k, v in Counter(residual_ids).items() if v > 1}
+    trace_dupes    = {k: v for k, v in Counter(trace_ids).items()    if v > 1}
+
     assert not claim_dupes, (
         f"§12: {len(claim_dupes)} duplicate claim IDs detected: "
         f"{list(claim_dupes.items())[:5]}"
@@ -1183,7 +1217,12 @@ def test_cp12_all_entity_ids_unique(claim_result):
         f"(likely missing entry_discriminator): "
         f"{list(residual_dupes.items())[:5]}"
     )
-    # Check cross-type uniqueness (claim IDs must not collide with residual IDs)
+    assert not trace_dupes, (
+        f"§12: {len(trace_dupes)} duplicate trace event IDs detected "
+        f"(likely missing entry_discriminator in trace ID): "
+        f"{list(trace_dupes.items())[:5]}"
+    )
+    # Check cross-type uniqueness (no ID collision between entity types)
     all_ids = claim_ids + origin_ids + residual_ids
     all_dupes = {k: v for k, v in Counter(all_ids).items() if v > 1}
     assert not all_dupes, (
@@ -1342,6 +1381,11 @@ def test_rg01_registry_partial_load_behavior():
         tmp_path = pathlib.Path(f.name)
 
     try:
+        import maqayis_constitutional_registry as _reg_module
+
+        # Capture public counter BEFORE this registry load
+        count_before = _reg_module.REGISTRY_PARTIAL_LOAD_COUNT
+
         reg = _ConstitutionalRegistry()
         reg.ensure_loaded(tmp_path)
 
@@ -1351,6 +1395,15 @@ def test_rg01_registry_partial_load_behavior():
             "R9: _partial_load must be True when malformed lines are present"
         assert reg._malformed_count >= 1, \
             f"R9: _malformed_count must be >= 1, got {reg._malformed_count}"
+
+        # R9 public contract: module-level REGISTRY_PARTIAL_LOAD_COUNT must increment.
+        # This proves the counter is a runtime measurement, not a hardcoded constant.
+        count_after = _reg_module.REGISTRY_PARTIAL_LOAD_COUNT
+        assert count_after == count_before + 1, (
+            f"R9: REGISTRY_PARTIAL_LOAD_COUNT must increment from {count_before} to "
+            f"{count_before + 1} on partial load; got {count_after}. "
+            f"Public contract requires the module-level counter to be updated."
+        )
 
         # Valid entries must still be accessible
         result = reg.lookup("حدر")

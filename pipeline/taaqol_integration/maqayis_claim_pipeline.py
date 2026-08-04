@@ -229,9 +229,16 @@ def _segment_origins(
         n_origins = 0
         seg_desc = []
     else:
-        # SINGULAR, SOUND_ROOTS
-        n_origins = 1
-        seg_desc = [_origin_desc(origin_type)]
+        # SINGULAR, SOUND_ROOTS — only produce a candidate when source text is present.
+        # SOURCE_TEXT_BOUNDARY_CLOSED: chapter headings are NOT a source text witness.
+        # Heading fallback suppressed: n_origins=0 when origin_text is None.
+        # HEADING_FALLBACK_SUPPRESSED_COUNT enforced: no candidate without origin_text.
+        if origin_text:
+            n_origins = 1
+            seg_desc = [_origin_desc(origin_type)]
+        else:
+            n_origins = 0
+            seg_desc = []
 
     per_origin_type = origin_type  # no DUAL/TRIPLE splitting in legacy pipeline
 
@@ -240,7 +247,7 @@ def _segment_origins(
     entry_discriminator = imp.legacy_entry_id or imp.passage_id or root
     for i in range(n_origins):
         origin_id = f"{_ORIGIN_PREFIX}:{root}:{entry_discriminator}:{i}"
-        raw_origin = origin_text if origin_text else heading_text
+        raw_origin = origin_text  # only reached when n_origins > 0; heading fallback suppressed
         candidates.append(LexicalOriginCandidate(
             id=origin_id,
             claim_id=claim.id,
@@ -290,11 +297,30 @@ def _segment_origins(
             blocking_until=ReviewState.ORIGIN_CANDIDATE,
             created_at=occurred_at,
         ))
+    elif origin_type in (OriginType.SINGULAR, OriginType.SOUND_ROOTS) and n_origins == 0:
+        # SOURCE_TEXT_BOUNDARY_CLOSED: SINGULAR/SOUND_ROOTS with no origin_text.
+        # Heading fallback suppressed; emit ORIGIN_NOT_EXTRACTED residual.
+        # §12: entry_discriminator ensures ID uniqueness.
+        res_id = f"{_RESIDUAL_PREFIX}:ORIGIN_NOT_EXTRACTED:{root}:{entry_discriminator}"
+        residuals_out.append(Residual(
+            id=res_id,
+            target_id=claim.id,
+            target_type="SourceRootClaim",
+            residual_type=ResidualType.ORIGIN_NOT_EXTRACTED,
+            description=(
+                f"Root '{root}' origin_type={origin_type.value}: "
+                f"origin_text=None — no source text witness. "
+                f"Heading fallback suppressed; human review required."
+            ),
+            blocking_until=ReviewState.ORIGIN_CANDIDATE,
+            created_at=occurred_at,
+        ))
 
-    # TraceEvent
+    # TraceEvent — three branches for precise semantic accuracy.
+    # §12: IDs include entry_discriminator to avoid cross-entry collisions.
     if n_origins > 1:
         traces.append(TraceEvent(
-            id=f"{_TRACE_PREFIX}:origin_segmented:{root}",
+            id=f"{_TRACE_PREFIX}:origin_segmented:{root}:{entry_discriminator}",
             kind=TraceEventKind.ORIGIN_SEGMENTED,
             target_id=claim.id,
             target_type="SourceRootClaim",
@@ -307,17 +333,33 @@ def _segment_origins(
                 ("n_origins", str(n_origins)),
             ),
         ))
-    else:
+    elif n_origins == 1:
         traces.append(TraceEvent(
-            id=f"{_TRACE_PREFIX}:origin_extracted:{root}",
+            id=f"{_TRACE_PREFIX}:origin_extracted:{root}:{entry_discriminator}",
             kind=TraceEventKind.ORIGIN_EXTRACTED,
             target_id=claim.id,
             target_type="SourceRootClaim",
             actor_type=ReviewerType.MACHINE_ONLY,
             actor_id=CLAIM_ACTOR_ID,
             occurred_at=occurred_at,
-            summary=f"Origin extracted: {root} ({origin_type.value}), n_candidates={n_origins}",
+            summary=f"Origin extracted: {root} ({origin_type.value}), n_candidates=1",
             metadata=(("origin_type", origin_type.value),),
+        ))
+    else:
+        # n_origins == 0: source text absent; extraction deferred to human review.
+        traces.append(TraceEvent(
+            id=f"{_TRACE_PREFIX}:origin_extraction_deferred:{root}:{entry_discriminator}",
+            kind=TraceEventKind.ORIGIN_EXTRACTION_DEFERRED,
+            target_id=claim.id,
+            target_type="SourceRootClaim",
+            actor_type=ReviewerType.MACHINE_ONLY,
+            actor_id=CLAIM_ACTOR_ID,
+            occurred_at=occurred_at,
+            summary=f"Origin extraction deferred: {root} ({origin_type.value}), no source witness",
+            metadata=(
+                ("origin_type", origin_type.value),
+                ("n_origins", "0"),
+            ),
         ))
 
     return candidates, residuals_out, traces
