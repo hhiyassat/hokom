@@ -52,9 +52,13 @@ def execute_ayat_full_downstream_chain_typed(
     """Run the full downstream DAG with typed outcomes + audit bridge."""
     from pipeline.taaqol_integration.weight_layer.typed_stage_builders import (
         _VENDOR_AVAILABLE,
+        _verdict_residuals, _verdict_trace_ref,
         build_hukm_outcome, build_manat_outcome, build_tanzil_outcome,
         build_mantuq_outcome, build_mafhum_outcome,
         build_audited_tanzil_bridge_outcome,
+    )
+    from pipeline.taaqol_integration.weight_layer.typed_outcomes import (
+        _residual_id,
     )
     from pipeline.taaqol_integration.weight_layer.ifadah_candidate_adapter import (
         build_ifadah_candidate, _IFADAH_AVAILABLE,
@@ -179,6 +183,9 @@ def execute_ayat_full_downstream_chain_typed(
                                         relation_maqam=mq_g.trace_ref)
         except Exception:  # noqa: BLE001
             per_span.append(span_rec); continue
+        rc_residuals = _verdict_residuals(rc)
+        rc_residual_ids = [_residual_id(r) for r in rc_residuals]
+        rc_trace_ref = _verdict_trace_ref(rc) or getattr(rc, 'trace_ref', '') or ''
         if rc.verdict_state.value != "PROVEN":
             span_rec['stages'].append({
                 'stage': 'relation_closure', 'input_stage': 'mufrad_closure',
@@ -187,8 +194,8 @@ def execute_ayat_full_downstream_chain_typed(
                 'classification': 'DEFER',
                 'failure_code': getattr(rc, 'failure_code', None)
                     and str(getattr(rc.failure_code, 'value', rc.failure_code)),
-                'trace_ref': getattr(rc, 'trace_ref', '') or '',
-                'residual_ids': [],
+                'trace_ref': rc_trace_ref,
+                'residual_ids': rc_residual_ids,
                 'failure_detail': 'relation_closure not PROVEN',
             })
             per_span.append(span_rec); continue
@@ -197,8 +204,8 @@ def execute_ayat_full_downstream_chain_typed(
             'native_result_type': type(rc).__name__,
             'verdict_state': 'PROVEN', 'classification': 'ACCEPT',
             'failure_code': None,
-            'trace_ref': getattr(rc, 'trace_ref', '') or '',
-            'residual_ids': [], 'failure_detail': '',
+            'trace_ref': rc_trace_ref,
+            'residual_ids': rc_residual_ids, 'failure_detail': '',
         })
 
         # Ifadah (still adapter-driven — we retain wave04 typing here to
@@ -213,23 +220,29 @@ def execute_ayat_full_downstream_chain_typed(
         )
         if ifv is None:
             counters['ifadah_defer'] += 1
+            # ifv is None → the adapter fail-closed before returning a
+            # verdict; there is no vendor residual set to extract. This
+            # is a genuine `extraction_unavailable` state, not a hidden
+            # residual — the failure_detail names it explicitly.
             span_rec['stages'].append({
                 'stage': 'ifadah', 'input_stage': 'relation_closure',
                 'native_result_type': 'NoneType',
                 'verdict_state': 'REFUSED', 'classification': 'DEFER',
                 'failure_code': None,
                 'trace_ref': '', 'residual_ids': [],
-                'failure_detail': 'ifadah adapter returned None',
+                'failure_detail': 'ifadah adapter returned None; residual extraction unavailable',
             })
             per_span.append(span_rec); continue
         counters['ifadah_accept'] += 1
+        ifv_residuals = _verdict_residuals(ifv)
+        ifv_residual_ids = [_residual_id(r) for r in ifv_residuals]
         span_rec['stages'].append({
             'stage': 'ifadah', 'input_stage': 'relation_closure',
             'native_result_type': type(ifv).__name__,
             'verdict_state': 'PROVEN', 'classification': 'ACCEPT',
             'failure_code': None,
-            'trace_ref': getattr(ifv, 'trace_ref', '') or '',
-            'residual_ids': [], 'failure_detail': '',
+            'trace_ref': _verdict_trace_ref(ifv) or getattr(ifv, 'trace_ref', '') or '',
+            'residual_ids': ifv_residual_ids, 'failure_detail': '',
         })
 
         # ── Vertical: Hukm → Manat → Tanzil → AuditBridge ─────────────
