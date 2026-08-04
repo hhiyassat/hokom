@@ -15,6 +15,17 @@ build/
 # repository; excluding keeps `git status --porcelain=v2 --untracked-files=all`
 # strictly clean for reaudit sessions.
 .claude/
+
+# Ayat al-Dayn demo — additional per-run output variants that
+# scripts/demo_ayat_al_dayn.py writes when triggered during test
+# invocation. The tracked canonical outputs (ayat_al_dayn_results.csv,
+# ayat_al_dayn_results_full.json, ayat_al_dayn_manager_report.html)
+# remain versioned; only the derived per-run variants are excluded.
+reports/ayat_al_dayn_demo/ayat_al_dayn_taaqol_full.json
+reports/ayat_al_dayn_demo/ayat_al_dayn_taaqol_full_ar.html
+reports/ayat_al_dayn_demo/ayat_al_dayn_manager_report_ar.html
+reports/ayat_al_dayn_demo/ayat_al_dayn_taaqol_layers_ar.csv
+reports/ayat_al_dayn_demo/.DS_Store
 !README.md
 !CONSTITUTION.md
 !REFACTORING_ARCHITECTURE.md

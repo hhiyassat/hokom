@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_kind": "report_binding_manifest",
+  "phase": "QIYAS-HOKOM-TAAQOL-MAQAYIS-CGPS01-FULL-MAXIMUM-CANONICAL-CLOSURE-01",
+  "slice": "TAAQOL_INTEGRATION_WAVE08",
+  "generated_at_utc": "2026-08-04T00:00:00+00:00",
+  "purpose": "Immutable binding of Wave08 (vendor pin bump + dual-carrier StageExecutionRecord mirror) reports to their introducing commit SHAs. Two-step REPAIR F protocol: implementation reports ship in preceding commits; this manifest ships in the next commit and records IMPLEMENTATION_CONTENT_HEAD, REPORT_COMMIT_HEAD, EVIDENCE_COMMIT_HEAD, VENDOR_PIN_BUMP_COMMIT_HEAD, BRIDGE_COMMIT_HEAD, REPORT_BINDING_HEAD. Preserves Wave07 binding at 50c9961 untouched.",
+  "bindings": {
+    "VENDOR_PIN_BUMP_COMMIT_HEAD": {
+      "sha_full": "42f119c<to-be-completed-in-verification>",
+      "sha_short": "42f119c",
+      "meaning": "The isolated single-file commit that bumped vendor/Taaqol-GPT submodule pointer 05c6668 → bc9d1ea."
+    },
+    "SHA_CONSTANT_SYNC_COMMIT_HEAD": {
+      "sha_full": "f7bb59e<to-be-completed-in-verification>",
+      "sha_short": "f7bb59e",
+      "meaning": "The commit that synced _VENDOR_SHA constants + docstring metadata across 26 files (pipeline modules + current-facing scripts)."
+    },
+    "BRIDGE_COMMIT_HEAD": {
+      "sha_full": "4d0dc7e<to-be-completed-in-verification>",
+      "sha_short": "4d0dc7e",
+      "meaning": "The commit that introduced pipeline/taaqol_integration/vendor_execution_record_bridge.py and tests/taaqol_integration/test_vendor_execution_record_bridge.py."
+    },
+    "EVIDENCE_COMMIT_HEAD": {
+      "sha_full": "b7216dc<to-be-completed-in-verification>",
+      "sha_short": "b7216dc",
+      "meaning": "The commit that introduced WAVE08_VENDOR_STAGE_EXECUTION_RECORDS.json, WAVE08_CLOSURE_SUMMARY.md, and the Wave08 evidence generator script."
+    },
+    "REPORT_COMMIT_HEAD": {
+      "sha_full": "670d209f7b639a78b14c2d271c574a8fabb1e611",
+      "sha_short": "670d209",
+      "meaning": "The commit that introduced C13_WAVE08_TYPED_LEDGER.json + WAVE08_HANDOFF.md."
+    },
+    "REPORT_BINDING_HEAD": {
+      "sha_full": "TO_BE_SET_BY_THIS_COMMIT",
+      "sha_short": "TO_BE_SET_BY_THIS_COMMIT",
+      "meaning": "This manifest's own commit SHA — observable by a fresh audit session via `git log --diff-filter=A -- reports/qiyas_hokom_taaqol_canonical_closure_01/WAVE08_BINDING_MANIFEST.json`."
+    }
+  },
+  "vendor_pin_transition": {
+    "old_full": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+    "new_full": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+    "classification": "RUNTIME_COMPATIBLE + DOCUMENTATION_ADDITIVE + ZERO_OWNERSHIP_CHANGE",
+    "empirical_regenerated_wave07_artifacts_identical": true
+  },
+  "bound_artifacts": [
+    {
+      "path": "reports/qiyas_hokom_taaqol_canonical_closure_01/C13_WAVE08_TYPED_LEDGER.json",
+      "sha256": "15d54267a66138bdd8258ad9e96bebdf1aac83dd00cc365591b397d9c864c9d0",
+      "introducing_commit_short": "670d209"
+    },
+    {
+      "path": "reports/qiyas_hokom_taaqol_canonical_closure_01/WAVE08_HANDOFF.md",
+      "sha256": "a7fc6c49b22511f12372ad82b682b42543e911bdd35da1325bda62d36922ce4e",
+      "introducing_commit_short": "670d209"
+    },
+    {
+      "path": "reports/qiyas_hokom_taaqol_canonical_closure_01/WAVE08_VENDOR_STAGE_EXECUTION_RECORDS.json",
+      "sha256": "52ddbe800868c8f4b335991dd407e0c7b8969d3a58d91156ea0562c5120938be",
+      "introducing_commit_short": "b7216dc"
+    },
+    {
+      "path": "reports/qiyas_hokom_taaqol_canonical_closure_01/WAVE08_CLOSURE_SUMMARY.md",
+      "sha256": "9ecc57d253e2f084f149ed257d9ff9f4888db6e5c7e4d2b349fc6a1d2cd1e095",
+      "introducing_commit_short": "b7216dc"
+    }
+  ],
+  "predecessor_bindings": {
+    "wave07_binding_manifest": {
+      "path": "reports/qiyas_hokom_taaqol_canonical_closure_01/BINDING_MANIFEST.json",
+      "report_binding_head_short": "50c9961",
+      "preserved": true,
+      "regenerated_hashes_match_binding": true,
+      "note": "Wave07 report-binding manifest bound RUN1/RUN2/INTEGRITY_SNAPSHOT/DETERMINISM_COMPARE/CLOSURE_SUMMARY at commit 50c9961; Wave08's vendor pin bump did not change any of those artifacts (byte-identical regeneration at bc9d1ea) — Wave07 binding remains valid."
+    }
+  },
+  "deterministic_double_run": {
+    "wave03_to_08_plus_integrity_plus_bridge": {
+      "run1_test_count": 94,
+      "run1_passed": 94,
+      "run1_failed": 0,
+      "run1_errors": 0,
+      "run1_warnings": 0,
+      "run1_duration_seconds": 168.14,
+      "run1_node_id_sha256": "a5d21010884c7e0bb3141888b2932c48885214af94a45c3eedc5bce1f1731dad",
+      "run2_test_count": 94,
+      "run2_passed": 94,
+      "run2_failed": 0,
+      "run2_errors": 0,
+      "run2_warnings": 0,
+      "run2_duration_seconds": 152.21,
+      "run2_node_id_sha256": "a5d21010884c7e0bb3141888b2932c48885214af94a45c3eedc5bce1f1731dad",
+      "node_ids_identical": true,
+      "diff_exit_code": 0,
+      "post_run_worktree_strictly_clean": true,
+      "env": {
+        "PYTHONHASHSEED": "0",
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "warning_policy": "-W error"
+      }
+    }
+  },
+  "how_to_verify": {
+    "step_1": "git rev-parse 42f119c → confirms VENDOR_PIN_BUMP_COMMIT_HEAD; git show 42f119c --stat should show only vendor/Taaqol-GPT changed.",
+    "step_2": "git submodule status vendor/Taaqol-GPT → shows bc9d1ea5ef45970f5f3ec132441e30fd54b3da52 at HEAD.",
+    "step_3": "git rev-parse 4d0dc7e && git rev-parse b7216dc && git rev-parse 670d209 → confirms bridge/evidence/report commits.",
+    "step_4": "git log --diff-filter=A -- reports/qiyas_hokom_taaqol_canonical_closure_01/WAVE08_BINDING_MANIFEST.json → REPORT_BINDING_HEAD is the returned commit.",
+    "step_5": "sha256sum on each bound_artifacts[].path → must match the sha256 field.",
+    "step_6": "python3 scripts/qiyas_canonical_closure_01_evidence.py; then re-hash RUN1/RUN2/INTEGRITY_SNAPSHOT/DETERMINISM_COMPARE — must equal Wave07 binding sha256 values (empirical runtime-compatibility proof).",
+    "step_7": "git rev-parse hokom-canonical-gate-27-closed → verify historical tag is 72be48f (untouched).",
+    "step_8": "git status --porcelain=v2 --untracked-files=all → zero bytes."
+  },
+  "wave08_wraps": [
+    "Wave08 addresses parent-directive steps 1-15 (except 13 and 14 which are explicitly deferred).",
+    "Step 13 (AnswerAudit + GPT-R8 migration) deferred to Phase XI — vendor confirms MODEL_CLIENT_REQUIRED status unchanged; GPT-R8 runtime not shipped.",
+    "Step 14 (remove old wrappers) deferred until bake-in period completes; no evidence of production-side regression means dual-carrier can persist safely.",
+    "Step 16 (fresh independent audit) is owner-scheduled per directive."
+  ],
+  "audit_verdict_addressed": "Vendor's LAW_TO_RUNTIME_COVERAGE_MATRIX corroborates Hokom's reaudit-02 findings; Wave08's dual-carrier mirror machine-enforces vendor invariants at construction time.",
+  "READY_FOR_REAUDIT": true,
+  "no_self_declaration_of_VERIFIED_CLOSED": true,
+  "SLICE_SCOPE_ONLY": "Wave08 covers vendor pin bump + dual-carrier adoption only. Full campaign (Phases XI, S, M, C, I, E13, E14, V, E15-A/B/C, OWNER_RELEASE) still pending."
+}
