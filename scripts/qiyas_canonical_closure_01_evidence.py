@@ -185,9 +185,32 @@ def main() -> int:
         "branch's HEAD after handoff.",
         "",
     ]
-    (out_dir / "CLOSURE_SUMMARY.md").write_text("\n".join(lines))
+    # Guard: CLOSURE_SUMMARY.md is Wave07-bound (see BINDING_MANIFEST.json
+    # at commit 50c9961). The Wave07 slice froze this artifact at
+    # sha256=1571efce…; regenerating with a different vendor pin would
+    # change the "Vendor SHA" line and break the Wave07 binding claim.
+    # Skip the write when the file exists at the tracked Wave07 hash.
+    # The four runtime-evidence artifacts (RUN1/RUN2/INTEGRITY/DETERMINISM)
+    # remain byte-identical across pins and continue to be regenerated
+    # unconditionally above.
+    summary_path = out_dir / "CLOSURE_SUMMARY.md"
+    _WAVE07_BOUND_CLOSURE_SUMMARY_SHA256 = (
+        "1571efce8625d74f38ee1c79e5652a0a2ae84aac570451f01273f994478d1d48"
+    )
+    if summary_path.exists():
+        existing_hash = hashlib.sha256(
+            summary_path.read_bytes()).hexdigest()
+        if existing_hash == _WAVE07_BOUND_CLOSURE_SUMMARY_SHA256:
+            print(
+                "  SKIP CLOSURE_SUMMARY.md — matches Wave07 binding; "
+                "not overwriting to preserve BINDING_MANIFEST.json validity"
+            )
+        else:
+            summary_path.write_text("\n".join(lines))
+    else:
+        summary_path.write_text("\n".join(lines))
 
-    print(f"Wrote 5 artifacts to {out_dir}")
+    print(f"Wrote 4 runtime artifacts (+CLOSURE_SUMMARY preserved) to {out_dir}")
     print(f"  identical={identical}  run1_sha256[:16]={r1_hash[:16]}")
     print(f"  integrity_snapshot_sha256[:16]={snap_hash[:16]}")
     if not identical:
