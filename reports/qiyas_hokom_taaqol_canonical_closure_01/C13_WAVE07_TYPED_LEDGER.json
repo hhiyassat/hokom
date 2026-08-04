@@ -1,0 +1,173 @@
+{
+  "schema_version": "2.0.0",
+  "phase": "QIYAS-HOKOM-TAAQOL-MAQAYIS-CGPS01-FULL-MAXIMUM-CANONICAL-CLOSURE-01",
+  "gate": "C13_WAVE07_TYPED_DOWNSTREAM_COMPLETION",
+  "wave": "wave_7",
+  "branch": "closure/hokom-taaqol-final-production-01",
+  "implementation_content_head_short": "f748208",
+  "generated_at_utc": "2026-08-04T00:00:00+00:00",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "predecessor_wave": "wave_6",
+  "predecessor_gate": "C13_WAVE06_TYPED_DOWNSTREAM_CLOSURE",
+  "predecessor_verdict": "PARTIALLY_VERIFIED",
+  "predecessor_verdict_ref": "QIYAS-TAAQOL-MAXIMUM-NATIVE-CLOSURE-INDEPENDENT-REAUDIT-02",
+  "reaudit_02_findings_remediated": {
+    "T0_STRICT_CLEANLINESS": {
+      "finding": "untracked .claude/ harness dir caused strict-cleanliness ambiguity",
+      "commit_short": "32506a6",
+      "resolution": "added .claude/ to .gitignore (harness-local files, never repository-owned)"
+    },
+    "T1_DECORATIVE_COUNTERS": {
+      "finding": "16 integrity counters were hardcoded zeros with no live measurement (HARDCODED_ZERO_COUNTER_COUNT=16, UNMEASURED_COUNTER_COUNT=15, COUNTER_WITHOUT_INCREMENT_SITE_COUNT=16)",
+      "commit_short": "2c3a78f",
+      "resolution": "pipeline/taaqol_integration/integrity_measurement.py — 7 AST/regex source scanners + 9 runtime-record predicates + 4 structural derivations + 3 meta counters, all live-measured; 21 mutation-proof tests in tests/taaqol_integration/test_integrity_counters_live.py"
+    },
+    "T2_TYPED_REFUSED_COVERAGE": {
+      "finding": "zero typed-REFUSED tests for Hukm/Tanzil/Mafhum via typed builder; zero BLOCK-classification tests across the entire 47-test suite; several missing-predecessor gaps",
+      "commit_short": "3d0be17",
+      "resolution": "Wave07 suite (17 tests) — Hukm/Tanzil/Mafhum typed REFUSED via typed builder (NO_HUKM_CLAIM, NO_HUKM_EVIDENCE, NO_HUKM_MAQAM, NO_REALITY_EVIDENCE, NO_INSTANCE_DESCRIPTOR, NO_TANZIL_SCOPE, NO_MAFHUM_WITHOUT_OUTSIDE_BOUNDARY, NO_MAFHUM_WITHOUT_SOURCE_DOMAIN); THREE end-to-end BLOCK tests via real vendor codes (MANTUQ_BLOCKS_MAFHUM, TAHQIQ_OVERCLAIM, NO_MAFHUM_CROSS_DOMAIN_LEAP); missing-predecessor DEFER tests for Manat and Mafhum via REFUSED vendor verdicts; wrong-type structural None tests; §W6.6 docstring/impl mismatch corrected"
+    },
+    "T3_RESIDUAL_UNDERREPORT": {
+      "finding": "wave06_downstream_chain_typed.py hardcoded residual_ids: [] for relation_closure and ifadah records regardless of vendor output (RelationClosure: 5 residuals, Ifadah: 9 residuals per PROVEN)",
+      "commit_short": "ca65c43",
+      "resolution": "extracted real residuals via _verdict_residuals(...) helpers; where residuals are genuinely unavailable (ifadah adapter returned None), labelled 'residual extraction unavailable' in failure_detail rather than emitting empty tuple silently"
+    },
+    "T4_EVIDENCE_REGENERATION": {
+      "finding": "reaudit-02 evidence was under-reporting residuals; ledger integrity block was decorative",
+      "commit_short": "f748208",
+      "resolution": "regenerated RUN1/RUN2 typed downstream execution artifacts (deterministic byte-identical) + live integrity snapshot; new artifact hashes recorded in binding manifest"
+    }
+  },
+  "vendor_dag_stages_closed": [
+    "prove_hukm_candidate → HukmVerdict",
+    "prove_manat_candidate → ManatVerdict",
+    "prove_tanzil_candidate → TanzilVerdict (weight-layer terminal)",
+    "bridge_tanzil_to_audit → AuditedTanzilBridgeVerdict (audit-layer terminal)",
+    "prove_mantuq_closure → MantuqClosureVerdict",
+    "prove_mafhum_closure → MafhumClosureVerdict"
+  ],
+  "chain_topology": {
+    "vertical": "Ifadah → Hukm → Manat → Tanzil → AuditedTanzilBridge",
+    "parallel": "Ifadah → Mantuq → Mafhum",
+    "weight_layer_terminal": "TanzilVerdict",
+    "audit_layer_terminal": "AuditedTanzilBridgeVerdict",
+    "parallel_branch_terminal": "MafhumClosureVerdict",
+    "answer_audit_status": "carrier-only in token runner; MODEL_CLIENT_REQUIRED; not a distinct native producer (confirmed by vendor's own LAW_TO_RUNTIME_COVERAGE_MATRIX at origin/main:bc9d1ea)"
+  },
+  "runtime_metrics_real_ayat_corpus": {
+    "ifadah_calls": 5, "ifadah_accept": 5, "ifadah_defer": 0, "ifadah_block": 0,
+    "hukm_calls": 5, "hukm_accept": 5, "hukm_defer": 0, "hukm_block": 0,
+    "manat_calls": 5, "manat_accept": 5, "manat_defer": 0, "manat_block": 0,
+    "tanzil_calls": 5, "tanzil_accept": 5, "tanzil_defer": 0, "tanzil_block": 0,
+    "audited_tanzil_bridge_calls": 5,
+    "audited_tanzil_bridge_accept": 5,
+    "audited_tanzil_bridge_defer": 0,
+    "audited_tanzil_bridge_block": 0,
+    "mantuq_calls": 5, "mantuq_accept": 5, "mantuq_defer": 0, "mantuq_block": 0,
+    "mafhum_calls": 5, "mafhum_accept": 5, "mafhum_defer": 0, "mafhum_block": 0
+  },
+  "verified_tests": {
+    "wave_03_supplement": "7/7",
+    "wave_03_relation_closure": "4/4",
+    "wave_04_ifadah": "11/11",
+    "wave_05_downstream": "14/14",
+    "wave_06_typed_closure": "11/11",
+    "wave_07_typed_closure_completion": "17/17",
+    "integrity_counters_live": "21/21",
+    "combined_wave_3_4_5_6_7_plus_integrity": "85/85"
+  },
+  "block_classification_coverage": {
+    "typed_block_end_to_end_test_count": 3,
+    "block_codes_exercised_end_to_end": [
+      "MANTUQ_BLOCKS_MAFHUM (Mafhum via mantuq_blocks=True)",
+      "TAHQIQ_OVERCLAIM (Manat via TAHQIQ_READINESS_ONLY + overclaim keywords)",
+      "NO_MAFHUM_CROSS_DOMAIN_LEAP (Mafhum via non-empty cross_domain_transfer)"
+    ],
+    "block_codes_exercised_vendor_direct": [
+      "EXECUTION_LEAK (Tanzil via not_execution_marker=False — typed builder guards structurally; vendor direct call confirms real BLOCK)"
+    ],
+    "notes": "Wave06's earlier suite had zero typed BLOCK tests. Wave07 adds three end-to-end BLOCK-classified outcomes reachable through the typed builder without fabrication."
+  },
+  "determinism": {
+    "python_hashseed": "0",
+    "pytest_disable_plugin_autoload": "1",
+    "wave07_artifact_sha256": "adbfc275f5984621cb7a959ff7bfcd1ceea71090c0a392370d74bf59444c966f",
+    "run1_run2_identical": true,
+    "artifact_dir": "reports/qiyas_hokom_taaqol_canonical_closure_01/"
+  },
+  "integrity_counters": {
+    "measurement_framework": "pipeline/taaqol_integration/integrity_measurement.py — live measurement, not decorative",
+    "declared_counters_count": 20,
+    "measurement_domains": ["SOURCE_ANTI_PATTERN", "RUNTIME_TYPED_OUTCOME", "STRUCTURAL_DERIVATION"],
+    "observed_values_on_real_ayat": {
+      "TOKEN_POSITION_BRANCH_COUNT": 0,
+      "EXACT_SURFACE_BRANCH_COUNT": 0,
+      "GOLD_LOOKUP_COUNT": 0,
+      "EXPECTED_VERDICT_MAP_COUNT": 0,
+      "SYNTHETIC_EVIDENCE_COUNT": 0,
+      "DIRECT_TAAQOL_INJECTION_COUNT": 0,
+      "HOKOM_FABRICATED_VERDICT_COUNT": 0,
+      "REFUSED_COLLAPSED_TO_NONE_COUNT": 0,
+      "REFUSED_AS_ACCEPT_COUNT": 0,
+      "REFUSED_WITHOUT_FAILURE_CODE_COUNT": 0,
+      "REFUSED_WITHOUT_TRACE_COUNT": 0,
+      "REFUSED_WITHOUT_REASON_COUNT": 0,
+      "DEFER_WITHOUT_RESIDUAL_COUNT": 0,
+      "BLOCK_WITHOUT_REASON_COUNT": 0,
+      "TRACE_INCOMPLETE_COUNT": 0,
+      "RESIDUAL_UNACCOUNTED_COUNT": 0,
+      "UNBRIDGED_REACHABLE_STAGE_COUNT": 0,
+      "LOCALLY_CLOSEABLE_NATIVE_STAGE_COUNT": 0,
+      "MISSING_PREDECESSOR_ACCEPT_COUNT": 0,
+      "EXCEPTION_AS_SUCCESS_COUNT": 0
+    },
+    "meta_counters": {
+      "HARDCODED_ZERO_COUNTER_COUNT": 0,
+      "UNMEASURED_COUNTER_COUNT": 0,
+      "COUNTER_WITHOUT_MEASUREMENT_SITE_COUNT": 0
+    },
+    "mutation_proofs": {
+      "test_file": "tests/taaqol_integration/test_integrity_counters_live.py",
+      "test_count": 21,
+      "coverage": "every source rule fires when its anti-pattern is injected via tmp_path; every runtime rule fires when a synthetic defect record is passed in; NOSCAN marker exemption verified; extraction-unavailable marker exemption verified; meta-counter surfaces UNMEASURED gap when a declared name lacks a rule"
+    }
+  },
+  "cross_worktree_writes": {
+    "maqayis_v1": 0,
+    "cgps01_2a6af17": 0,
+    "cgps01_integration": 0,
+    "taaqol_vendor": 0
+  },
+  "campaign_phases_completed_this_session": [
+    "T0 — preflight + .claude gitignore",
+    "T1 — live integrity measurement + mutation-proof tests",
+    "T2 — Wave07 typed REFUSED coverage + real BLOCK tests + docstring corrections",
+    "T3 — RelationClosure/Ifadah residual propagation",
+    "T4 — evidence regeneration + deterministic double-run"
+  ],
+  "campaign_phases_deferred_to_owner_sessions": {
+    "T5_INDEPENDENT_TAAQOL_AUDIT": "fresh strictly read-only audit session must be started by owner against this branch's HEAD; implementation session cannot author the audit per directive",
+    "XI_ANSWERAUDIT_R1_R8": "requires ModelClient provider infrastructure discovery + implementation of deterministic test double; scoped out of this session because provider adapters do not yet exist in Hokom production tree",
+    "S_19_LAYER_SCG": "verify 19-layer registry against live SCG source; requires separate discovery pass",
+    "M_MAQAYIS": "read-only audit against hokom-maqayis-v1 worktree; separate session per directive §11",
+    "C_CGPS01": "read-only audit against hokom-cgps01-2a6af17 and hokom-cgps01-integration worktrees; separate session per directive §12",
+    "I_INTEGRATION_CONTRACTS": "typed Maqayis→Hokom, CGPS01→C13, Hokom→Taaqol contract verification; depends on M+C completion",
+    "E13_TARGET_REGISTRY": "target/adapter/schema/report registry inventory; large discovery task",
+    "E14_REPO_COVERAGE": "repository-wide classification of production modules; large discovery task",
+    "V_FULL_VERTICAL": "full vertical execution across all components; requires prior phases",
+    "E15A_CANONICAL_REBIND": "canonical component-head binding; must wait for all component audits",
+    "E15B_CANONICAL_GATE": "deterministic canonical suite double-run; after rebind",
+    "E15C_FINAL_INDEPENDENT_AUDIT": "final read-only audit; owner-authored; issues VERIFIED_CLOSED",
+    "OWNER_RELEASE_PACKAGE": "prepared only after final audit verdict"
+  },
+  "IMPLEMENTATION_STATUS": "IMPLEMENTED_PENDING_INDEPENDENT_AUDIT",
+  "READY_FOR_REAUDIT": true,
+  "CANONICAL_REBIND_ELIGIBLE": false,
+  "SELF_DECLARED_VERIFIED_CLOSED": false,
+  "closure_notes": [
+    "This wave (Wave07) is a Hokom-side compensating implementation that closes reaudit-02's PARTIALLY_VERIFIED findings within the Taaqol integration scope. It does NOT close the full campaign — Phases XI, S, M, C, I, E13, E14, V, E15A, E15B, E15C, and OWNER_RELEASE_PACKAGE remain future work.",
+    "Vendor pin unchanged at 05c6668; the recently-added vendor bc9d1ea main (with its own runtime/, x0r/, usm/ subsystems) is NOT adopted in this wave. See prior QIYAS discovery report for adoption options.",
+    "No self-declaration of VERIFIED_CLOSED. Per campaign directive §7 (Phase T5), a fresh strictly read-only audit session must independently verify this branch's HEAD before any VERIFIED_CLOSED verdict can be issued.",
+    "The historical tag hokom-canonical-gate-27-closed is NOT moved. No merge, no push, no tag, no worktree cleanup performed."
+  ]
+}
