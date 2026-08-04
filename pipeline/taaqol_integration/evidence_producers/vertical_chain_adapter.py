@@ -5,7 +5,7 @@ Implements the exact vendor DAG required to reach the original
 objects. Every intermediate call invokes the original vendor callable with
 exact typed inputs; no verdict is directly constructed.
 
-Chain (per vendor source at target SHA 05c6668d):
+Chain (per vendor source at target SHA bc9d1ea5):
 
   retained CU (from _AYAT_NATIVE_CU_MAP)
     → prove_formal_style_candidate           → FormalStyleVerdict

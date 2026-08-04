@@ -12,7 +12,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 REPORTS = REPO / "reports" / "taaqol_full_integration"
-TARGET_SHA = "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+TARGET_SHA = "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
 
 REQUIRED_ARTIFACTS = [
     "HOKOM_EVIDENCE_PRODUCTION_INVENTORY.json",

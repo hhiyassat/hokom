@@ -18,14 +18,14 @@ Default roles for ISM tokens (Ayat al-Dayn corpus):
   - dependent_role_claim: "KHABAR" (predicate of nominal sentence)
   Both are in ISM admissible_roles = ("MUBTADA","KHABAR","MAFOOL_BIH","MUDAF_ILAYH").
 
-VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
+VENDOR_SHA: bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
 Phase: E8 — MAQAM_CONTEXT_BOUNDARY + RELATION_CANDIDATE (PR-19 component)
 """
 from __future__ import annotations
 
 from typing import Any, Optional
 
-_VENDOR_SHA = "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+_VENDOR_SHA = "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
 _RELATION_AVAILABLE = False
 _E7_AVAILABLE = False
 
@@ -271,7 +271,7 @@ def build_e8_relation_from_surfaces(
 
 def _verify_e8_relation_candidate_invariants() -> None:
     """Run at import time — verifies module-level constitutional invariants."""
-    assert _VENDOR_SHA == "05c6668dfb95d9238cff5df1d8bc73d0664bccb3", (
+    assert _VENDOR_SHA == "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52", (
         f"VENDOR_SHA mismatch: {_VENDOR_SHA!r}"
     )
     assert isinstance(_RELATION_AVAILABLE, bool), "_RELATION_AVAILABLE must be bool"

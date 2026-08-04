@@ -24,7 +24,7 @@ Explicit non-goals
   valid AnswerAudit-compatible origin_binding exists (currently: none from
   Hokom).
 
-VENDOR_SHA (Taaqol target): 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
+VENDOR_SHA (Taaqol target): bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
 """
 from __future__ import annotations
 
@@ -76,7 +76,7 @@ from .result_types import (
 )
 
 # ── constants ─────────────────────────────────────────────────────────────────
-_TARGET_TAAQOL_SHA = '05c6668dfb95d9238cff5df1d8bc73d0664bccb3'
+_TARGET_TAAQOL_SHA = 'bc9d1ea5ef45970f5f3ec132441e30fd54b3da52'
 
 # C13 §6 vendor ContractableUnitGeometry retention map.
 # Populated by _process_downstream_chain whenever the original native

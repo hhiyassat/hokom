@@ -148,7 +148,7 @@ def main() -> int:
         "",
         "## Vendor SHA",
         "",
-        "`05c6668dfb95d9238cff5df1d8bc73d0664bccb3` (vendor/Taaqol-GPT pinned)",
+        "`bc9d1ea5ef45970f5f3ec132441e30fd54b3da52` (vendor/Taaqol-GPT pinned)",
         "",
         "## What changed vs the reaudit-02 HEAD (7febd11)",
         "",

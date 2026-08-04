@@ -4,7 +4,7 @@ Ayat al-Dayn Canonical Lexical Registry — E1
 Source: reports/ayat_al_dayn_demo/ayat_al_dayn_results.csv
 Corpus: البقرة 2:282 — 129 unique tokens
 Corpus SHA256: 6bd635a05530965f13f76cf003f7738130badec6981bcb0e73f2465d386e1ed7
-VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
+VENDOR_SHA: bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
 
 Registry: 74 unique ISM/FI3L host surfaces
   LICENSED (no blocking residuals): 62 entries
@@ -30,7 +30,7 @@ from pathlib import Path
 
 _REPO_ROOT = Path(__file__).resolve().parents[3]
 _VENDOR_PATH = _REPO_ROOT / "vendor" / "Taaqol-GPT" / "src"
-_VENDOR_SHA = "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+_VENDOR_SHA = "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
 _CORPUS_SHA = "6bd635a05530965f13f76cf003f7738130badec6981bcb0e73f2465d386e1ed7"
 
 # ── Fail-closed vendor import ────────────────────────────────────────────────
