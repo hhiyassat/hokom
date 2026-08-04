@@ -1,0 +1,87 @@
+{
+  "counter_evidence": {
+    "ANSWER_AUDIT_NATIVE_CALL_COUNT": {
+      "measurement_domain": "STRUCTURAL_DERIVATION",
+      "note": "derived from per-span records: native_calls counts records, response_reuse counts response fingerprint duplicates beyond first per fingerprint."
+    },
+    "AUDIT_DECISION_WITHOUT_TRACE_COUNT": {
+      "measurement_domain": "RUNTIME_TYPED_OUTCOME",
+      "violating_records": []
+    },
+    "AUDIT_FAILURE_WITHOUT_CODE_COUNT": {
+      "measurement_domain": "RUNTIME_TYPED_OUTCOME",
+      "violating_records": []
+    },
+    "AUDIT_FAILURE_WITHOUT_RESIDUAL_OR_REASON_COUNT": {
+      "measurement_domain": "RUNTIME_TYPED_OUTCOME",
+      "violating_records": []
+    },
+    "CERTIFICATE_ALLOWED_COUNT": {
+      "measurement_domain": "RUNTIME_TYPED_OUTCOME",
+      "violating_records": []
+    },
+    "DIRECT_AUDITED_ANSWER_CONSTRUCTION_COUNT": {
+      "measurement_domain": "SOURCE_ANTI_PATTERN",
+      "sites": []
+    },
+    "EXACT_TEXT_AUDIT_BRANCH_COUNT": {
+      "measurement_domain": "SOURCE_ANTI_PATTERN",
+      "sites": []
+    },
+    "EXPECTED_AUDIT_RESULT_MAP_COUNT": {
+      "measurement_domain": "SOURCE_ANTI_PATTERN",
+      "sites": []
+    },
+    "MALFORMED_OUTPUT_AS_SUCCESS_COUNT": {
+      "measurement_domain": "RUNTIME_TYPED_OUTCOME",
+      "violating_records": []
+    },
+    "MODEL_REQUEST_WITHOUT_SOURCE_TRACE_COUNT": {
+      "measurement_domain": "RUNTIME_TYPED_OUTCOME",
+      "violating_records": []
+    },
+    "MODEL_RESPONSE_REUSE_COUNT": {
+      "measurement_domain": "STRUCTURAL_DERIVATION",
+      "note": "derived from per-span records: native_calls counts records, response_reuse counts response fingerprint duplicates beyond first per fingerprint."
+    },
+    "PROVIDER_FAILURE_AS_SUCCESS_COUNT": {
+      "measurement_domain": "RUNTIME_TYPED_OUTCOME",
+      "violating_records": []
+    },
+    "SILENT_PROVIDER_FALLBACK_COUNT": {
+      "measurement_domain": "RUNTIME_TYPED_OUTCOME",
+      "violating_records": []
+    },
+    "SYNTHETIC_AUDIT_EVIDENCE_COUNT": {
+      "measurement_domain": "SOURCE_ANTI_PATTERN",
+      "sites": []
+    },
+    "TOKEN_POSITION_AUDIT_BRANCH_COUNT": {
+      "measurement_domain": "SOURCE_ANTI_PATTERN",
+      "sites": []
+    }
+  },
+  "counters": {
+    "ANSWER_AUDIT_NATIVE_CALL_COUNT": 5,
+    "AUDIT_DECISION_WITHOUT_TRACE_COUNT": 0,
+    "AUDIT_FAILURE_WITHOUT_CODE_COUNT": 0,
+    "AUDIT_FAILURE_WITHOUT_RESIDUAL_OR_REASON_COUNT": 0,
+    "CERTIFICATE_ALLOWED_COUNT": 0,
+    "DIRECT_AUDITED_ANSWER_CONSTRUCTION_COUNT": 0,
+    "EXACT_TEXT_AUDIT_BRANCH_COUNT": 0,
+    "EXPECTED_AUDIT_RESULT_MAP_COUNT": 0,
+    "MALFORMED_OUTPUT_AS_SUCCESS_COUNT": 0,
+    "MODEL_REQUEST_WITHOUT_SOURCE_TRACE_COUNT": 0,
+    "MODEL_RESPONSE_REUSE_COUNT": 0,
+    "PROVIDER_FAILURE_AS_SUCCESS_COUNT": 0,
+    "SILENT_PROVIDER_FALLBACK_COUNT": 0,
+    "SYNTHETIC_AUDIT_EVIDENCE_COUNT": 0,
+    "TOKEN_POSITION_AUDIT_BRANCH_COUNT": 0
+  },
+  "meta": {
+    "COUNTER_WITHOUT_MEASUREMENT_SITE_COUNT": 0,
+    "HARDCODED_ZERO_COUNTER_COUNT": 0,
+    "UNMEASURED_COUNTER_COUNT": 0
+  },
+  "schema_version": "1.0.0"
+}
