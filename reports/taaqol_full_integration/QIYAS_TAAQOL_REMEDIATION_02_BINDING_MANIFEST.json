@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_kind": "report_binding_manifest",
+  "phase": "QIYAS-TAAQOL-MAXIMUM-NATIVE-CLOSURE-REMEDIATION-02",
+  "generated_at_utc": "2026-08-04T00:00:00+00:00",
+  "purpose": "Immutable binding of Wave06 report content to its introducing commit SHA. Two-step protocol per REPAIR F: implementation report ships in one commit recording IMPLEMENTATION_CONTENT_HEAD; this manifest ships in the next commit and records REPORT_COMMIT_HEAD + REPORT_BINDING_HEAD. This resolves the audit finding that a file cannot self-contain the SHA of the commit that first introduces it.",
+  "bindings": {
+    "IMPLEMENTATION_CONTENT_HEAD": {
+      "sha_full": "277ff138f20ec2fc54b59fcd941499a1308fe672",
+      "sha_short": "277ff13",
+      "meaning": "HEAD at the moment the report content was authored; documented inside the report body."
+    },
+    "REPORT_COMMIT_HEAD": {
+      "sha_full": "808f9dee79118d5a9c0db7861831530bfe19eb6f",
+      "sha_short": "808f9de",
+      "meaning": "The commit that introduced the Wave06 handoff and ledger."
+    },
+    "REPORT_BINDING_HEAD": {
+      "sha_full": "TO_BE_SET_BY_THIS_COMMIT",
+      "sha_short": "TO_BE_SET_BY_THIS_COMMIT",
+      "meaning": "This manifest's own commit SHA — observable by a fresh audit session via `git log`."
+    }
+  },
+  "bound_artifacts": [
+    {
+      "path": "reports/taaqol_full_integration/QIYAS_TAAQOL_REMEDIATION_02_HANDOFF.md",
+      "sha256": "80eb0e5f189965598be58e71cb1f71ad37f27e30f6baa419b9d215d696a4628e"
+    },
+    {
+      "path": "reports/taaqol_full_integration/C13_WAVE06_TYPED_LEDGER.json",
+      "sha256": "29cea326a259e7454c21ac92548aa2f7232cd39a6f3abd8968a2f315d5dbd388"
+    },
+    {
+      "path": "reports/qiyas_taaqol_remediation_02/RUN1_TYPED_DOWNSTREAM_EXECUTION.json",
+      "sha256": "1d2b505559b6e4de2b7eddecabc54af5eda7e5e8e003b446f6436e5c7637c56a"
+    },
+    {
+      "path": "reports/qiyas_taaqol_remediation_02/RUN2_TYPED_DOWNSTREAM_EXECUTION.json",
+      "sha256": "1d2b505559b6e4de2b7eddecabc54af5eda7e5e8e003b446f6436e5c7637c56a"
+    },
+    {
+      "path": "reports/qiyas_taaqol_remediation_02/DETERMINISM_COMPARE.json",
+      "sha256": "5cfa6cfae457c309a3262bf6bdbf269b43a2539fc325f473c2163b9267703bd0"
+    },
+    {
+      "path": "reports/qiyas_taaqol_remediation_02/CLOSURE_SUMMARY.md",
+      "sha256": "66821ff4c368045476c4db32f072c266b9fa43666a5cc31e7957b92d5ff29209"
+    }
+  ],
+  "how_to_verify": {
+    "step_1": "git rev-parse 808f9de → confirms REPORT_COMMIT_HEAD points to the handoff+ledger commit.",
+    "step_2": "git log --oneline 808f9de..HEAD → confirms REPORT_BINDING_HEAD is this manifest's commit (immediate successor of REPORT_COMMIT_HEAD in the intended flow).",
+    "step_3": "sha256sum on each bound_artifacts[].path → must match the sha256 field. If any hash diverges the report has been mutated post-binding.",
+    "step_4": "cat reports/taaqol_full_integration/QIYAS_TAAQOL_REMEDIATION_02_HANDOFF.md | grep 'IMPLEMENTATION_CONTENT_HEAD\\|277ff13' → confirms the report body's self-declared IMPLEMENTATION_CONTENT_HEAD."
+  },
+  "audit_verdict_addressed": "PARTIALLY_VERIFIED → all six open locally-closeable defects remediated. Awaiting fresh strictly read-only audit session.",
+  "READY_FOR_REAUDIT": true,
+  "no_self_declaration_of_VERIFIED_CLOSED": true
+}
