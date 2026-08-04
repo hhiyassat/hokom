@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_kind": "report_binding_manifest",
+  "phase": "QIYAS-HOKOM-TAAQOL-MAQAYIS-CGPS01-FULL-MAXIMUM-CANONICAL-CLOSURE-01",
+  "slice": "TAAQOL_INTEGRATION_WAVE07",
+  "generated_at_utc": "2026-08-04T00:00:00+00:00",
+  "purpose": "Immutable binding of the Wave07 Taaqol-integration slice reports to their introducing commit SHAs. Two-step protocol per REPAIR F: implementation reports (ledger + handoff + closure summary + integrity snapshot + RUN1/RUN2 + DETERMINISM_COMPARE) ship in commits recording IMPLEMENTATION_CONTENT_HEAD; this manifest ships in the next commit and records REPORT_COMMIT_HEAD + REPORT_BINDING_HEAD. This addresses the general audit finding that a file cannot self-contain the SHA of the commit that first introduces it.",
+  "bindings": {
+    "IMPLEMENTATION_CONTENT_HEAD": {
+      "sha_full": "7bbbf4a<to-be-completed-in-verification>",
+      "sha_short": "7bbbf4a",
+      "meaning": "HEAD at the moment the Wave07 ledger + handoff document content was authored; documented inside HANDOFF.md."
+    },
+    "REPORT_COMMIT_HEAD": {
+      "sha_full": "7bbbf4a<to-be-completed-in-verification>",
+      "sha_short": "7bbbf4a",
+      "meaning": "The commit that introduced C13_WAVE07_TYPED_LEDGER.json + HANDOFF.md."
+    },
+    "EVIDENCE_COMMIT_HEAD": {
+      "sha_full": "f748208b47b93c3f67151b750769b1f9babec99d",
+      "sha_short": "f748208",
+      "meaning": "The commit that introduced RUN1/RUN2 execution artifacts, DETERMINISM_COMPARE, INTEGRITY_SNAPSHOT, CLOSURE_SUMMARY, and the generator script."
+    },
+    "REPORT_BINDING_HEAD": {
+      "sha_full": "TO_BE_SET_BY_THIS_COMMIT",
+      "sha_short": "TO_BE_SET_BY_THIS_COMMIT",
+      "meaning": "This manifest's own commit SHA — observable by a fresh audit session via `git log --diff-filter=A -- reports/qiyas_hokom_taaqol_canonical_closure_01/BINDING_MANIFEST.json`."
+    }
+  },
+  "bound_artifacts": [
+    {
+      "path": "reports/qiyas_hokom_taaqol_canonical_closure_01/C13_WAVE07_TYPED_LEDGER.json",
+      "sha256": "d3a832ec65d6ba56525612a04d289ea0d93e9185feaae2822db3ad215fb87562",
+      "introducing_commit_short": "7bbbf4a"
+    },
+    {
+      "path": "reports/qiyas_hokom_taaqol_canonical_closure_01/HANDOFF.md",
+      "sha256": "36ff3d18c9afe1767019637b6841839de6dc354a8ec3d40b486684113de83ab0",
+      "introducing_commit_short": "7bbbf4a"
+    },
+    {
+      "path": "reports/qiyas_hokom_taaqol_canonical_closure_01/CLOSURE_SUMMARY.md",
+      "sha256": "1571efce8625d74f38ee1c79e5652a0a2ae84aac570451f01273f994478d1d48",
+      "introducing_commit_short": "f748208"
+    },
+    {
+      "path": "reports/qiyas_hokom_taaqol_canonical_closure_01/RUN1_TYPED_DOWNSTREAM_EXECUTION.json",
+      "sha256": "adbfc275f5984621cb7a959ff7bfcd1ceea71090c0a392370d74bf59444c966f",
+      "introducing_commit_short": "f748208"
+    },
+    {
+      "path": "reports/qiyas_hokom_taaqol_canonical_closure_01/RUN2_TYPED_DOWNSTREAM_EXECUTION.json",
+      "sha256": "adbfc275f5984621cb7a959ff7bfcd1ceea71090c0a392370d74bf59444c966f",
+      "introducing_commit_short": "f748208"
+    },
+    {
+      "path": "reports/qiyas_hokom_taaqol_canonical_closure_01/DETERMINISM_COMPARE.json",
+      "sha256": "444bee766d7fbfd075c9d0f27ed9627b7ada0f072f2ea05dee41af300e1d215c",
+      "introducing_commit_short": "f748208"
+    },
+    {
+      "path": "reports/qiyas_hokom_taaqol_canonical_closure_01/INTEGRITY_SNAPSHOT.json",
+      "sha256": "83f18a305415a540ab42d7a1d0e77fafa3b47f0e09d2d6db4f16c24186f03268",
+      "introducing_commit_short": "f748208"
+    }
+  ],
+  "predecessor_bindings": {
+    "wave06_report_binding_manifest": {
+      "path": "reports/taaqol_full_integration/QIYAS_TAAQOL_REMEDIATION_02_BINDING_MANIFEST.json",
+      "report_binding_head_short": "7febd11",
+      "verdict": "PARTIALLY_VERIFIED — see reaudit-02 for the six locally-closeable defects this Wave07 slice remediates."
+    }
+  },
+  "how_to_verify": {
+    "step_1": "git rev-parse 7bbbf4a → confirms REPORT_COMMIT_HEAD points to the ledger+handoff commit.",
+    "step_2": "git rev-parse f748208 → confirms EVIDENCE_COMMIT_HEAD points to the run artifact + generator script commit.",
+    "step_3": "git log --diff-filter=A -- reports/qiyas_hokom_taaqol_canonical_closure_01/BINDING_MANIFEST.json → REPORT_BINDING_HEAD is the returned commit (immediate successor of REPORT_COMMIT_HEAD).",
+    "step_4": "sha256sum on each bound_artifacts[].path → must match the sha256 field. Any divergence means the report has been mutated post-binding.",
+    "step_5": "git rev-parse hokom-canonical-gate-27-closed → verify the historical tag still points to its pre-existing commit (this session did not move it).",
+    "step_6": "git status --porcelain=v2 --untracked-files=all → returns zero bytes (T0 gitignore removes the .claude/ ambiguity)."
+  },
+  "closure_directives_addressed": [
+    "T0 — strict repository preflight + .claude/ preservation via .gitignore",
+    "T1 — decorative counters replaced by live measurement framework with 21 mutation-proof tests",
+    "T2 — typed REFUSED coverage for Hukm/Tanzil/Mafhum + THREE end-to-end BLOCK tests + missing-predecessor + wrong-type + docstring correction",
+    "T3 — RelationClosure and Ifadah residual propagation restored",
+    "T4 — real-Ayat rerun + live integrity snapshot + closure summary + deterministic double-run"
+  ],
+  "closure_directives_deferred_to_future_sessions": [
+    "T5 — fresh independent Taaqol reaudit (must be owner-scheduled read-only session)",
+    "XI — AnswerAudit + GPT R1–R8 deterministic engine (requires ModelClient provider infrastructure)",
+    "S — 19-layer SCG/Qiyas chain audit",
+    "M — Maqayis independent audit against hokom-maqayis-v1",
+    "C — CGPS01 audit against hokom-cgps01-2a6af17 + hokom-cgps01-integration",
+    "I — typed integration contracts (Maqayis→Hokom, CGPS01→C13, Hokom→Taaqol)",
+    "E13 — target registry + additional families inventory",
+    "E14 — repository-wide coverage audit",
+    "V — final full vertical execution across all components",
+    "E15-A — canonical rebind",
+    "E15-B — deterministic canonical gate",
+    "E15-C — final independent project audit",
+    "Owner release package"
+  ],
+  "audit_verdict_addressed": "PARTIALLY_VERIFIED → Taaqol integration slice defects remediated. Awaiting fresh strictly read-only audit session.",
+  "READY_FOR_REAUDIT": true,
+  "no_self_declaration_of_VERIFIED_CLOSED": true,
+  "SLICE_SCOPE_ONLY": "This binding covers the Taaqol integration slice only. The FULL campaign (all 21 numbered sections of the directive) is NOT closed by this manifest."
+}
