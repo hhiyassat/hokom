@@ -13,7 +13,13 @@ Test map
 * §W6.3  unbridged_reachable_stage_count == 0
 * §W6.4  Manat DEFER — empty effective_attribute → NO_EFFECTIVE_ATTRIBUTE
 * §W6.5  Manat DEFER — empty description → NO_MANAT_DESCRIPTION
-* §W6.6  Mantuq DEFER — maqam divergence → MANTUQ_MAQAM_DIVERGENCE
+* §W6.6  Mantuq DEFER — empty spoken_surface_ref → NO_SPOKEN_SURFACE
+        (Note: reaudit-02 flagged an earlier draft that promised
+        MANTUQ_MAQAM_DIVERGENCE here; that BLOCK code is exercised
+        end-to-end in Wave07 §W7.10..12 via other Mafhum/Manat paths
+        because reaching MANTUQ_MAQAM_DIVERGENCE from the typed
+        Mantuq builder requires a divergent maqam context that this
+        chain does not construct.)
 * §W6.7  Mantuq structural — non-Ifadah predecessor → None
 * §W6.8  Audit bridge ACCEPT — SURFACED with vendor state=SURFACED
 * §W6.9  Audit bridge REFUSED — non-TanzilVerdict input → None

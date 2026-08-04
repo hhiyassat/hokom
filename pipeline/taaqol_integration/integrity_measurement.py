@@ -315,14 +315,29 @@ def _refused_without_reason(rec: dict) -> bool:
 
 
 def _defer_without_residual(rec: dict) -> bool:
+    """DEFER with empty residuals AND no vendor failure_code backing.
+
+    Vendor early-guard REFUSEDs commonly emit an empty residual tuple
+    (the guard fires before residuals are constructed). That is
+    legitimate vendor behaviour, not Hokom under-reporting. The
+    counter therefore only fires when the DEFER outcome has NO valid
+    vendor failure_code AND no extraction-unavailable marker — i.e.
+    Hokom classified DEFER without either a vendor code or an
+    explicit unavailable note.
+    """
     if not _is_defer(rec):
         return False
     if rec.get("residual_ids"):
         return False
     detail = rec.get("failure_detail") or ""
-    # An explicit "extraction unavailable" is not a violation — the
-    # residual set is genuinely inaccessible (e.g. fail-closed adapter).
-    return _EXTRACTION_UNAVAILABLE_MARKER not in detail
+    if _EXTRACTION_UNAVAILABLE_MARKER in detail:
+        return False
+    # Legitimate vendor early-guard: a real failure_code with no
+    # UNKNOWN marker means the vendor identified the refusal reason
+    # explicitly. Not a violation.
+    if rec.get("failure_code") and _UNKNOWN_MARKER not in detail:
+        return False
+    return True
 
 
 def _block_without_reason(rec: dict) -> bool:
@@ -376,7 +391,7 @@ _RUNTIME_RULES: tuple[RuntimeRecordRule, ...] = (
     RuntimeRecordRule(
         "DEFER_WITHOUT_RESIDUAL_COUNT",
         _defer_without_residual,
-        "DEFER records with empty residual_ids and no extraction-unavailable marker.",
+        "DEFER records with empty residual_ids that lack both a valid vendor failure_code and an extraction-unavailable marker.",
     ),
     RuntimeRecordRule(
         "BLOCK_WITHOUT_REASON_COUNT",

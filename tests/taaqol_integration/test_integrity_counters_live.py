@@ -202,16 +202,42 @@ def test_runtime_detects_refused_without_failure_code():
 
 
 def test_runtime_detects_defer_without_residual():
+    """The refined predicate flags DEFER records that lack BOTH a
+    valid vendor failure_code AND an extraction-unavailable marker —
+    i.e. Hokom-fabricated DEFER classification with no vendor backing.
+    Legitimate vendor early-guard DEFER (empty residuals with a real
+    failure_code) is intentionally exempt; see
+    _defer_without_residual docstring for rationale."""
     span = {"span_id": "S", "stages": [{
         "stage": "hukm", "input_stage": "ifadah",
         "native_result_type": "HukmVerdict",
         "verdict_state": "REFUSED", "classification": "DEFER",
-        "failure_code": "NO_HUKM", "trace_ref": "hukm/refused",
-        "residual_ids": [],  # empty
-        "failure_detail": "failure_code=NO_HUKM",  # no unavailable marker
+        # Fabricated DEFER: no vendor failure_code AND no unknown
+        # marker AND no unavailable marker → violation.
+        "failure_code": None,
+        "trace_ref": "hukm/refused",
+        "residual_ids": [],
+        "failure_detail": "some unbacked classification without marker",
     }]}
     results = derive_runtime_counters([span])
     assert results["DEFER_WITHOUT_RESIDUAL_COUNT"]["count"] == 1
+
+
+def test_runtime_exempts_legitimate_vendor_early_guard_defer():
+    """A DEFER outcome with a real vendor failure_code and no
+    UNKNOWN marker is a legitimate vendor early-guard REFUSED even
+    when residual_ids is empty; the framework must not flag it."""
+    span = {"span_id": "S", "stages": [{
+        "stage": "mafhum", "input_stage": "mantuq",
+        "native_result_type": "MafhumClosureVerdict",
+        "verdict_state": "REFUSED", "classification": "DEFER",
+        "failure_code": "NO_MAFHUM_WITHOUT_OUTSIDE_BOUNDARY",
+        "trace_ref": "prove_mafhum_closure/refused",
+        "residual_ids": [],
+        "failure_detail": "failure_code=NO_MAFHUM_WITHOUT_OUTSIDE_BOUNDARY",
+    }]}
+    results = derive_runtime_counters([span])
+    assert results["DEFER_WITHOUT_RESIDUAL_COUNT"]["count"] == 0
 
 
 def test_runtime_accepts_defer_with_extraction_unavailable_marker():
