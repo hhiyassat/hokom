@@ -1,0 +1,143 @@
+{
+  "schema_version": "1.0.0",
+  "phase": "QIYAS-HOKOM-TAAQOL-MAQAYIS-CGPS01-FULL-MAXIMUM-CANONICAL-CLOSURE-01",
+  "gate": "C13_WAVE08_VENDOR_PIN_BUMP_AND_DUAL_CARRIER",
+  "wave": "wave_8",
+  "branch": "closure/hokom-taaqol-final-production-01",
+  "generated_at_utc": "2026-08-04T00:00:00+00:00",
+  "predecessor_wave": "wave_7",
+  "predecessor_gate": "C13_WAVE07_TYPED_DOWNSTREAM_COMPLETION",
+  "predecessor_verdict": "IMPLEMENTED_PENDING_INDEPENDENT_AUDIT",
+  "predecessor_binding_head": "50c9961",
+  "wave08_scope": "bump-only, dual-adopt as carrier (owner-selected from four options presented in Wave08 dossier §6)",
+  "vendor_pin_transition": {
+    "old_sha_full": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+    "old_sha_short": "05c6668",
+    "new_sha_full": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+    "new_sha_short": "bc9d1ea",
+    "old_sha_active_branch": "codex/enhance-executive-constitution-core (merged to main)",
+    "new_sha_active_branch": "refs/heads/main via PR #298 codex/update-execution-flow",
+    "commits_in_range": 31,
+    "files_touched": 41,
+    "lines_added": 9180,
+    "lines_removed": 1,
+    "deletions_of_prior_source": 0,
+    "docs/80_state_truth_changed": false,
+    "audit_directory_changed": false,
+    "answer_audit_source_changed": false,
+    "gpt_r8_runtime_shipped": false
+  },
+  "classification": {
+    "runtime_compatibility": "COMPATIBLE",
+    "documentation_change": "ADDITIVE",
+    "ownership_change": "ZERO",
+    "verdict": "RUNTIME_COMPATIBLE + DOCUMENTATION_ADDITIVE + ZERO_OWNERSHIP_CHANGE",
+    "empirical_proof": "85/85 Wave03-07 + integrity tests pass at bc9d1ea; Wave07 typed-downstream artifact hashes regenerate BYTE-IDENTICAL (RUN1/RUN2/INTEGRITY_SNAPSHOT/DETERMINISM_COMPARE all match Wave07 binding manifest at commit 50c9961)"
+  },
+  "commits_this_wave": [
+    {"sha_short": "42f119c", "concern": "isolated vendor pin bump (submodule pointer only)"},
+    {"sha_short": "f7bb59e", "concern": "sync _VENDOR_SHA constants + docstrings across 26 files"},
+    {"sha_short": "4d0dc7e", "concern": "dual-carrier bridge module + 9 tests"},
+    {"sha_short": "b7216dc", "concern": "Wave08 evidence (vendor mirror over real Ayat corpus)"},
+    {"sha_short": "<this-ledger>", "concern": "Wave08 typed ledger + handoff"},
+    {"sha_short": "<binding-manifest>", "concern": "Wave08 report-binding manifest (REPAIR F pattern)"}
+  ],
+  "dual_carrier_design": {
+    "primary_carrier": "pipeline.taaqol_integration.weight_layer.typed_outcomes.DownstreamStageOutcome (unchanged)",
+    "mirror_carrier": "taaqqul_slot_geometry.runtime.execution_record.StageExecutionRecord (vendor bc9d1ea+)",
+    "bridge_module": "pipeline.taaqol_integration.vendor_execution_record_bridge",
+    "coexistence": true,
+    "hokom_carrier_deleted": false,
+    "hokom_carrier_migrated": false,
+    "hokom_span_authority_preserved": true,
+    "mirror_records_carry_span_id": true,
+    "mirror_records_carry_token_id": false,
+    "notes": [
+      "Vendor's own runtime is token-level (span_id=None throughout). Hokom's span-level composer emits span_id=<hokom span id>, token_id=None in the mirror — a legal but Hokom-specific use of the vendor dataclass shape.",
+      "The mirror is a construction-time integrity check plus an optional persisted artifact; Hokom tests continue to assert against the Hokom carrier.",
+      "State mapping: ACCEPT→EXECUTED, DEFER→DEFERRED, BLOCK→BLOCKED. Vendor's DECLARED_NOT_IMPLEMENTED / NOT_OPENED / NOT_APPLICABLE states are reserved and not emitted by the bridge today (they will be relevant if Hokom later adopts vendor's token runner for the 15-stage registry)."
+    ]
+  },
+  "vendor_invariants_enforced_via_mirror": {
+    "rule_1_output_carrier_requires_input": "vendor __post_init__",
+    "rule_3_no_implicit_rank_upgrade": "vendor __post_init__ + bridge sets rank_before=rank_after=Rank.ZERO",
+    "rule_4_no_residual_deletion": "vendor __post_init__ (residuals_after ⊇ residuals_before); bridge passes empty residuals_before, so any residual_ids set is admissible",
+    "rule_6_executed_requires_trace": "vendor __post_init__; bridge always populates trace_entry_id",
+    "rule_7_deferred_requires_remediation_hints": "bridge synthesises remediation hint from vendor failure_code or Hokom failure_detail on every DEFER outcome",
+    "rule_8_blocked_requires_failure_code": "bridge maps Hokom failure_code string to vendor FailureCode enum; unmappable codes are downgraded to DEFERRED with explicit downgrade hint rather than silently forging an enum member",
+    "rule_9_not_applicable_transition_requires_not_applicable_applicability": "bridge does not emit NOT_APPLICABLE state currently"
+  },
+  "wave08_test_suite": {
+    "test_file": "tests/taaqol_integration/test_vendor_execution_record_bridge.py",
+    "test_count": 9,
+    "test_map": {
+      "W8.1": "vendor runtime importable at bumped pin",
+      "W8.2": "ACCEPT → EXECUTED with correct output_carrier and no failure_code",
+      "W8.3": "DEFER → DEFERRED with vendor-code remediation hint",
+      "W8.4": "BLOCK with known FailureCode → BLOCKED",
+      "W8.5": "BLOCK with unmapped code → downgrades to DEFERRED (no silent enum forge)",
+      "W8.6": "Rule 4 violation (residual deletion) raises ValueError",
+      "W8.7": "Rule 7 violation (DEFERRED without hint) raises ValueError",
+      "W8.8": "Rule 8 violation (BLOCKED without failure_code) raises ValueError",
+      "W8.9": "End-to-end mirror over 5-span real Ayat corpus, all_spans_mirror_ok=True"
+    }
+  },
+  "runtime_metrics_real_ayat_corpus_dual_carrier": {
+    "hokom_span_count": 5,
+    "vendor_mirror_span_count": 5,
+    "vendor_records_total": 40,
+    "vendor_state_distribution": {
+      "EXECUTED": 40,
+      "DEFERRED": 0,
+      "BLOCKED": 0,
+      "DECLARED_NOT_IMPLEMENTED": 0,
+      "NOT_OPENED": 0,
+      "NOT_APPLICABLE": 0
+    },
+    "all_spans_mirror_ok": true,
+    "rejections_count": 0
+  },
+  "wave07_artifact_hashes_regenerated_at_bc9d1ea": {
+    "RUN1_TYPED_DOWNSTREAM_EXECUTION.json": "adbfc275f5984621cb7a959ff7bfcd1ceea71090c0a392370d74bf59444c966f",
+    "RUN2_TYPED_DOWNSTREAM_EXECUTION.json": "adbfc275f5984621cb7a959ff7bfcd1ceea71090c0a392370d74bf59444c966f",
+    "INTEGRITY_SNAPSHOT.json": "83f18a305415a540ab42d7a1d0e77fafa3b47f0e09d2d6db4f16c24186f03268",
+    "DETERMINISM_COMPARE.json": "444bee766d7fbfd075c9d0f27ed9627b7ada0f072f2ea05dee41af300e1d215c",
+    "identical_to_wave07_binding_at_50c9961": true,
+    "interpretation": "Wave07 report-binding manifest remains valid; runtime compatibility of bc9d1ea empirically confirmed"
+  },
+  "wave08_artifact_hashes": {
+    "WAVE08_VENDOR_STAGE_EXECUTION_RECORDS.json": "52ddbe800868c8f4b335991dd407e0c7b8969d3a58d91156ea0562c5120938be",
+    "WAVE08_CLOSURE_SUMMARY.md": "9ecc57d253e2f084f149ed257d9ff9f4888db6e5c7e4d2b349fc6a1d2cd1e095"
+  },
+  "campaign_phases_completed_this_wave": [
+    "Step 1 — pinned active vendor branch name (refs/heads/main)",
+    "Step 2 — resolved full SHA bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+    "Step 3 — read-only diff 05c6668...bc9d1ea (41 files, 9180 additions, 1 deletion)",
+    "Step 4 — audited StageExecutionRecord + factory + corpus_runner + CorpusRunResult + FULL_TARGET report + LAW_TO_RUNTIME matrix + permit machinery + docs/14 delta + docs/80 (unchanged) + AnswerAudit delta (unchanged) + GPT-R8 delta (not shipped)",
+    "Step 5 — constitutional compatibility matrix presented (11 ownership boundaries × vendor changes)",
+    "Step 6 — classified bc9d1ea as RUNTIME_COMPATIBLE + DOCUMENTATION_ADDITIVE + ZERO_OWNERSHIP_CHANGE",
+    "Step 7 — opened Wave08 (branch closure/hokom-taaqol-final-production-01 continues; no new git branch created per directive; ledger identifies the slice)",
+    "Step 8 — vendor pin bumped in isolated commit 42f119c",
+    "Step 9 — vendor StageExecutionRecord adopted as dual carrier (not replacement)",
+    "Step 10 — Hokom span context preserved (span_id populated, token_id=None in mirror)",
+    "Step 11 — dual-run empirically confirmed: Wave07 artifacts byte-identical at bc9d1ea",
+    "Step 12 — residual/BLOCK/DEFER/counter gaps already closed in Wave07 (T3/T2/T1); Wave08 vendor invariants now enforce them at construction time",
+    "Step 15 — reports regenerated (Wave08 artifacts); binding manifest is a separate commit (see Wave08 binding manifest)"
+  ],
+  "campaign_phases_deferred_this_wave": {
+    "step_13_answer_audit_gpt_r8_migration": "DEFERRED — vendor's own runtime marks ANSWER_AUDIT as runtime_implemented=False with context_requirement=MODEL_CLIENT_REQUIRED; GPT-R8 runtime PR not shipped by vendor (docs/56 is law-only). Adopting these requires a ModelClient provider infrastructure that does not exist in Hokom today. This is Phase XI of the parent directive.",
+    "step_14_remove_old_wrappers": "DEFERRED — 'remove only after proof' by definition requires the vendor mirror to be running in production for a bake-in period. Wave08 has proven compatibility (all_spans_mirror_ok=True over the real corpus); wrapper removal is a follow-up wave with its own reaudit.",
+    "step_16_fresh_independent_audit": "OWNER-SCHEDULED — must be a separate strictly read-only audit session against Wave08 HEAD. Implementation session cannot self-declare VERIFIED_CLOSED."
+  },
+  "IMPLEMENTATION_STATUS": "IMPLEMENTED_PENDING_INDEPENDENT_AUDIT",
+  "READY_FOR_REAUDIT": true,
+  "CANONICAL_REBIND_ELIGIBLE": false,
+  "SELF_DECLARED_VERIFIED_CLOSED": false,
+  "closure_notes": [
+    "Wave08 bumps the vendor pin AND gains 9 vendor-enforced invariants at construction time (via the dual-carrier mirror), while preserving Hokom's span-level composition authority and every existing Hokom test.",
+    "The predecessor Wave07 binding at 50c9961 is preserved: Wave07 artifact hashes are byte-identical at the new pin — Wave07 slice remains independently reaudit-ready.",
+    "The historical tag hokom-canonical-gate-27-closed is NOT moved. No merge, no push, no tag, no worktree cleanup performed.",
+    "vendor/Taaqol-GPT is modified only via a single submodule-pointer commit (42f119c); no vendor source is edited from Hokom.",
+    "No sibling worktree (hokom-maqayis-v1, hokom-cgps01-2a6af17, hokom-cgps01-integration) is modified."
+  ]
+}
