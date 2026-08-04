@@ -1,0 +1,150 @@
+{
+  "schema_version": "1.0.0",
+  "phase": "QIYAS-TAAQOL-FULL-NATIVE-CANONICAL-CLOSURE-01",
+  "gate": "C13_WAVE09_ANSWER_AUDIT_DETERMINISTIC_ENGINE_CLOSURE",
+  "wave": "wave_9",
+  "branch": "closure/hokom-taaqol-final-production-01",
+  "generated_at_utc": "2026-08-05T00:00:00+00:00",
+  "predecessor_wave": "wave_8",
+  "predecessor_gate": "C13_WAVE08_VENDOR_PIN_BUMP_AND_DUAL_CARRIER",
+  "predecessor_binding_head_short": "3f46ca6",
+  "predecessor_verdict": "VERIFIED_CLOSED (Phase A delta audit at 32a8e3b confirmed)",
+  "wave09_scope": "AnswerAudit deterministic engine closure (Phase B/C/D/E/F/G).",
+  "vendor_pin": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+  "native_contract_verified": {
+    "answer_audit_class": "taaqqul_slot_geometry.audit.answer_audit.AnswerAudit",
+    "answer_audit_entrypoint": "AnswerAudit.audit(prompt, claim_graph, gate, target_layer, evidence) -> AuditedAnswer",
+    "answer_audit_reasonableness_entrypoint": "AnswerAudit.audit_with_reasonableness(...) (Shape A per docs/56 §4.1)",
+    "model_client_protocol": "taaqqul_slot_geometry.audit.model_client.ModelClient (runtime_checkable Protocol with single method complete(prompt: str) -> str)",
+    "audited_answer_type": "taaqqul_slot_geometry.audit.answer_audit.AuditedAnswer (frozen dataclass; certificate_allowed always False per docs/56 §2 B4)",
+    "trace_ledger_type": "taaqqul_slot_geometry.core.trace_ledger.TraceLedger",
+    "failure_code_type": "taaqqul_slot_geometry.core.failure_taxonomy.FailureCode (StrEnum)",
+    "residual_type": "taaqqul_slot_geometry.core.residual_policy.Residual",
+    "gamma_type": "taaqqul_slot_geometry.core.gamma.gamma (pure function)",
+    "transition_gate_type": "taaqqul_slot_geometry.core.transition_gate.TransitionGate",
+    "reasonableness_status_type": "taaqqul_slot_geometry.audit.reasonableness_integration.AuditReasonablenessStatus (NOT_RUN / CARRIED / DEFERRED / R7_NOT_CONSUMED)"
+  },
+  "hokom_side_additions": {
+    "audit_layer_package": "pipeline/taaqol_integration/audit_layer/",
+    "modules": [
+      "deterministic_model_client.py — 3 test-only ModelClient implementations",
+      "answer_audit_adapter.py — thin bridge; AnswerAuditOutcome carrier; audit_bridge_verdict()",
+      "wave09_answer_audit_chain.py — real 5-span execution",
+      "answer_audit_integrity.py — 15 live counters + snapshot builder"
+    ],
+    "tests_added": [
+      "tests/taaqol_integration/test_answer_audit_deterministic.py — 21 tests (16 pass + 5 TEST_NOT_APPLICABLE)",
+      "tests/taaqol_integration/test_answer_audit_real_vertical.py — 10 tests (all pass)",
+      "tests/taaqol_integration/test_answer_audit_integrity.py — 19 tests (all pass)"
+    ]
+  },
+  "commits_this_wave": [
+    {"sha_short": "b755db4", "concern": "Wave09 Phase C+D: adapter + deterministic client + 21 tests"},
+    {"sha_short": "eaa9cec", "concern": "Wave09 Phase E: real 5-span vertical + 10 tests"},
+    {"sha_short": "59d63cf", "concern": "Wave09 Phase F: live integrity + 19 mutation-proof tests"},
+    {"sha_short": "a38f057", "concern": "Wave09 evidence artifacts (execution + integrity snapshot + summary)"},
+    {"sha_short": "<this-ledger>", "concern": "Wave09 typed ledger + handoff"},
+    {"sha_short": "<binding-manifest>", "concern": "Wave09 report-binding manifest"}
+  ],
+  "answer_audit_ownership": {
+    "hokom_owns": [
+      "input adapter (audited-tanzil predecessor → claim SlotGraph via GenerationSource.TRANSITION_VERDICT)",
+      "provider configuration (ModelClient injection)",
+      "transport exception lifecycle (timeout/transport/malformed → typed integration outcomes)",
+      "persistence of native AuditedAnswer",
+      "cross-component trace linkage in artifact"
+    ],
+    "hokom_does_not": [
+      "construct AuditedAnswer directly (0 constructor calls; AST-verified)",
+      "decide gamma, gate, or successor emission (vendor's job)",
+      "infer approval from provider text (no answer-semantic branch)",
+      "map expected answers to verdicts (no verdict lookup dict)",
+      "fabricate traces or residuals (all fields sourced from vendor output)",
+      "produce reasonableness certificates (certificate_allowed = False always)"
+    ]
+  },
+  "runtime_metrics_real_ayat_corpus": {
+    "answer_audit_native_call_count": 5,
+    "answer_audit_success_count": 5,
+    "answer_audit_integration_failure_count": 0,
+    "answer_audit_certificate_allowed_count": 0,
+    "answer_audit_predecessor_present_count": 5,
+    "answer_audit_predecessor_absent_count": 0,
+    "per_span_summary": {
+      "SPAN-AYAT-CLAUSE-004-c3d5ed00": "gate=APPROVED, successor=True, certificate=False",
+      "SPAN-AYAT-CLAUSE-005-a3e4bc0d": "gate=APPROVED, successor=True, certificate=False",
+      "SPAN-AYAT-CLAUSE-009-31427193": "gate=APPROVED, successor=True, certificate=False",
+      "SPAN-AYAT-CLAUSE-010-d82736fc": "gate=APPROVED, successor=True, certificate=False",
+      "SPAN-AYAT-CLAUSE-014-59af3988": "gate=APPROVED, successor=True, certificate=False"
+    }
+  },
+  "integrity_counters_observed_on_real_ayat": {
+    "EXPECTED_AUDIT_RESULT_MAP_COUNT": 0,
+    "EXACT_TEXT_AUDIT_BRANCH_COUNT": 0,
+    "TOKEN_POSITION_AUDIT_BRANCH_COUNT": 0,
+    "SYNTHETIC_AUDIT_EVIDENCE_COUNT": 0,
+    "DIRECT_AUDITED_ANSWER_CONSTRUCTION_COUNT": 0,
+    "SILENT_PROVIDER_FALLBACK_COUNT": 0,
+    "PROVIDER_FAILURE_AS_SUCCESS_COUNT": 0,
+    "MALFORMED_OUTPUT_AS_SUCCESS_COUNT": 0,
+    "AUDIT_DECISION_WITHOUT_TRACE_COUNT": 0,
+    "AUDIT_FAILURE_WITHOUT_CODE_COUNT": 0,
+    "AUDIT_FAILURE_WITHOUT_RESIDUAL_OR_REASON_COUNT": 0,
+    "CERTIFICATE_ALLOWED_COUNT": 0,
+    "MODEL_REQUEST_WITHOUT_SOURCE_TRACE_COUNT": 0,
+    "ANSWER_AUDIT_NATIVE_CALL_COUNT": 5,
+    "MODEL_RESPONSE_REUSE_COUNT": 0,
+    "HARDCODED_ZERO_COUNTER_COUNT": 0,
+    "UNMEASURED_COUNTER_COUNT": 0,
+    "COUNTER_WITHOUT_MEASUREMENT_SITE_COUNT": 0
+  },
+  "test_scenario_coverage": {
+    "phase_d_scenarios": {
+      "successful_response": {"count": 6, "tests": ["W9.1", "W9.5", "W9.10", "W9.11", "W9.12", "W9.13"]},
+      "provider_timeout": {"count": 1, "tests": ["W9.2"]},
+      "provider_transport_failure": {"count": 1, "tests": ["W9.3"]},
+      "malformed_response": {"count": 2, "tests": ["W9.4", "W9.6"]},
+      "empty_response": {"count": 1, "tests": ["W9.5"]},
+      "deterministic_repeat": {"count": 1, "tests": ["W9.13"]},
+      "structural_boundary": {"count": 3, "tests": ["W9.16", "W9.17", "W9.18"]},
+      "constitutional_invariants": {"count": 3, "tests": ["W9.19", "W9.20", "W9.21"]}
+    },
+    "test_not_applicable": {
+      "missing_evidence": {"test": "W9.7", "reason": "adapter-boundary evidence cannot be missing without predecessor malformation; vendor-tested at test_answer_audit.py"},
+      "gamma_refusal": {"test": "W9.8", "reason": "cannot force at adapter boundary; vendor-tested at test_answer_audit.py section 4"},
+      "gate_refusal": {"test": "W9.9", "reason": "vendor-tested at test_transition_gate.py; forcing at adapter would duplicate coverage"},
+      "irrelevant_extra_fields": {"test": "W9.14", "reason": "docs/01 protocol is str→str; no fields structurally exist"},
+      "trace_ledger_failure": {"test": "W9.15", "reason": "TraceLedger is pure in-memory; no runtime failure mode"}
+    }
+  },
+  "phase_completion_this_wave": [
+    "Phase B — Taaqol target inventory (via vendor CLAUDE.md + audit/*.py source read)",
+    "Phase C — AnswerAudit native contract audit",
+    "Phase D — deterministic ModelClient (3 implementations) + 21 failure-path tests",
+    "Phase E — real 5-span AnswerAudit vertical execution",
+    "Phase F — live integrity (15 counters, 19 mutation-proof tests)",
+    "Phase G — atomic commits + evidence + ledger + handoff (this document) + binding (next commit) + independent audit (next task)"
+  ],
+  "phase_deferred_to_next_wave": {
+    "phase_H_gpt_r8_gap_audit": "Requires fresh read-only session; GPT_R8_LAW=PRESENT, GPT_R8_RUNTIME=NOT_SHIPPED at bc9d1ea per vendor CLAUDE.md",
+    "phase_I_gpt_r8_native_implementation": "Depends on Phase H verdict; if law-sufficient, requires Taaqol-branch implementation before Hokom pointer bump",
+    "phase_J_permit_audit": "AnswerAudit does not require a native permit per docs/01+docs/07 (adapter uses ledger + gate directly, not the x0r permit machinery)",
+    "phase_K_complete_dag_audit": "Awaits GPT-R8 close",
+    "phase_L_full_vertical_execution": "Awaits GPT-R8 close",
+    "phase_M_canonical_manifest": "Awaits phases K-L",
+    "phase_N_canonical_gate": "Awaits phase M",
+    "phase_O_final_independent_audit": "Awaits phase N; owner-scheduled fresh session"
+  },
+  "IMPLEMENTATION_STATUS": "IMPLEMENTED_PENDING_INDEPENDENT_AUDIT",
+  "READY_FOR_REAUDIT": true,
+  "CANONICAL_REBIND_ELIGIBLE": false,
+  "SELF_DECLARED_VERIFIED_CLOSED": false,
+  "LIVE_PROVIDER_VALIDATION_STATUS": "NOT_REQUIRED_FOR_DETERMINISTIC_ENGINE_CLOSURE",
+  "closure_notes": [
+    "Wave09 completes the AnswerAudit deterministic engine closure: native vendor AnswerAudit engine invoked 5x on real Ayat predecessors through vendor's ModelClient protocol using a test-only deterministic client; every native output type is verified to be AuditedAnswer; certificate_allowed is False on every outcome per docs/56 §2 B4.",
+    "Live-provider testing is NOT required for the deterministic-engine slice per Phase G. If provider credentials become available, a separate LIVE_PROVIDER_VALIDATION_STATUS classification can be recorded; that would be a distinct future artifact.",
+    "GPT-R8 runtime remains not-shipped at vendor pin bc9d1ea. Its runtime implementation is Phase I of the parent directive and requires a Taaqol-side branch first. Wave09 does NOT claim GPT-R8 closure.",
+    "The historical tag hokom-canonical-gate-27-closed is NOT moved. No merge, no push, no tag, no worktree cleanup performed.",
+    "No sibling worktree modified. Vendor submodule pointer unchanged (bc9d1ea)."
+  ]
+}
