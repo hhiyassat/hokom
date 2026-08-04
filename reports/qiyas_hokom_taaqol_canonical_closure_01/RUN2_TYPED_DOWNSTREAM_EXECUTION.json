@@ -1,0 +1,786 @@
+{
+  "counters": {
+    "audited_tanzil_bridge_accept": 5,
+    "audited_tanzil_bridge_block": 0,
+    "audited_tanzil_bridge_calls": 5,
+    "audited_tanzil_bridge_defer": 0,
+    "hukm_accept": 5,
+    "hukm_block": 0,
+    "hukm_calls": 5,
+    "hukm_defer": 0,
+    "ifadah_accept": 5,
+    "ifadah_block": 0,
+    "ifadah_calls": 5,
+    "ifadah_defer": 0,
+    "mafhum_accept": 5,
+    "mafhum_block": 0,
+    "mafhum_calls": 5,
+    "mafhum_defer": 0,
+    "manat_accept": 5,
+    "manat_block": 0,
+    "manat_calls": 5,
+    "manat_defer": 0,
+    "mantuq_accept": 5,
+    "mantuq_block": 0,
+    "mantuq_calls": 5,
+    "mantuq_defer": 0,
+    "tanzil_accept": 5,
+    "tanzil_block": 0,
+    "tanzil_calls": 5,
+    "tanzil_defer": 0
+  },
+  "per_span_downstream": [
+    {
+      "input_ids": [
+        "TOKEN::0007",
+        "TOKEN::0022"
+      ],
+      "span_id": "SPAN-AYAT-CLAUSE-004-c3d5ed00",
+      "stages": [
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "mufrad_closure",
+          "native_result_type": "RelationClosureVerdict",
+          "residual_ids": [
+            "EXPLANATORY:RELATION_CLOSURE_NOT_MEANING",
+            "EXPLANATORY:IFADAH_DEFERRED_UNTIL_SPEECH_FORCE",
+            "EXPLANATORY:HUKM_DEFERRED_UNTIL_IFADAH",
+            "EXPLANATORY:MAFHUM_DEFERRED_UNTIL_MANTUQ",
+            "EXPLANATORY:HAQIQAH_MAJAZ_DEFERRED_TO_POST_RELATION"
+          ],
+          "stage": "relation_closure",
+          "trace_ref": "prove_relation_closure/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "relation_closure",
+          "native_result_type": "IfadahVerdict",
+          "residual_ids": [
+            "EXPLANATORY:IFADAH_NOT_PROPOSITION",
+            "EXPLANATORY:HUKM_DEFERRED_UNTIL_HUKM_DOMAIN_LAW",
+            "EXPLANATORY:MANAT_DEFERRED_UNTIL_MANAT_LAW",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:MAFHUM_MANTUQ_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:MAJAZ_HAQIQAH_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:EXTRA_SPEECH_FORCE_DEFERRED",
+            "EXPLANATORY:SPEAKER_INTENT_DEFERRED",
+            "EXPLANATORY:AUDIT_INTEGRATION_DEFERRED_UNTIL_PR_22_AUDIT"
+          ],
+          "stage": "ifadah",
+          "trace_ref": "prove_ifadah_candidate/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "ifadah",
+          "native_result_type": "HukmVerdict",
+          "residual_ids": [
+            "EXPLANATORY:HUKM_NOT_AUTHORITY",
+            "EXPLANATORY:MANAT_DEFERRED_UNTIL_MANAT_LAW",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:MAFHUM_MANTUQ_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:EXTENDED_DOMAIN_DEFERRED",
+            "EXPLANATORY:REALITY_VERIFICATION_DEFERRED",
+            "EXPLANATORY:AUDIT_INTEGRATION_DEFERRED_UNTIL_PR_22_AUDIT"
+          ],
+          "stage": "hukm",
+          "trace_ref": "prove_hukm_candidate/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "hukm",
+          "native_result_type": "ManatVerdict",
+          "residual_ids": [
+            "EXPLANATORY:MANAT_NOT_TANZIL",
+            "EXPLANATORY:TAHQIQ_FINAL_DEFERRED",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:REALITY_APPLICATION_DEFERRED",
+            "EXPLANATORY:NO_PREVENTER_CHECK_DEFERRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN"
+          ],
+          "stage": "manat",
+          "trace_ref": "prove_manat_candidate/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "manat",
+          "native_result_type": "TanzilVerdict",
+          "residual_ids": [
+            "EXPLANATORY:TANZIL_NOT_EXECUTION",
+            "EXPLANATORY:PRESENTATION_BOUNDARY_REQUIRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN",
+            "EXPLANATORY:FATWA_FORBIDDEN",
+            "EXPLANATORY:QADA_FORBIDDEN",
+            "EXPLANATORY:ANSWER_AUDIT_BRIDGE_DEFERRED",
+            "EXPLANATORY:VERTICAL_CLOSURE_DEFERRED"
+          ],
+          "stage": "tanzil",
+          "trace_ref": "prove_tanzil_candidate/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "tanzil",
+          "native_result_type": "AuditedTanzilBridgeVerdict",
+          "residual_ids": [
+            "EXPLANATORY:TANZIL_NOT_EXECUTION",
+            "EXPLANATORY:PRESENTATION_BOUNDARY_REQUIRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN",
+            "EXPLANATORY:FATWA_FORBIDDEN",
+            "EXPLANATORY:QADA_FORBIDDEN",
+            "EXPLANATORY:ANSWER_AUDIT_BRIDGE_DEFERRED",
+            "EXPLANATORY:VERTICAL_CLOSURE_DEFERRED"
+          ],
+          "stage": "audited_tanzil_bridge",
+          "trace_ref": "bridge_tanzil_to_audit/surfaced",
+          "verdict_state": "SURFACED"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "ifadah",
+          "native_result_type": "MantuqClosureVerdict",
+          "residual_ids": [
+            "EXPLANATORY:MAFHUM_NOT_YET_OPENED",
+            "EXPLANATORY:MANTUQ_NOT_MAFHUM",
+            "EXPLANATORY:MAJAZ_DEFERRED_UNTIL_HAQIQAH_ATTEMPT",
+            "EXPLANATORY:HAQIQAH_ATTEMPT_DEFERRED",
+            "EXPLANATORY:NAQL_DEFERRED_UNTIL_TRANSFER_GATE"
+          ],
+          "stage": "mantuq",
+          "trace_ref": "prove_mantuq_closure/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "mantuq",
+          "native_result_type": "MafhumClosureVerdict",
+          "residual_ids": [],
+          "stage": "mafhum",
+          "trace_ref": "prove_mafhum_closure/proven",
+          "verdict_state": "PROVEN"
+        }
+      ]
+    },
+    {
+      "input_ids": [
+        "TOKEN::0028",
+        "TOKEN::0035"
+      ],
+      "span_id": "SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+      "stages": [
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "mufrad_closure",
+          "native_result_type": "RelationClosureVerdict",
+          "residual_ids": [
+            "EXPLANATORY:RELATION_CLOSURE_NOT_MEANING",
+            "EXPLANATORY:IFADAH_DEFERRED_UNTIL_SPEECH_FORCE",
+            "EXPLANATORY:HUKM_DEFERRED_UNTIL_IFADAH",
+            "EXPLANATORY:MAFHUM_DEFERRED_UNTIL_MANTUQ",
+            "EXPLANATORY:HAQIQAH_MAJAZ_DEFERRED_TO_POST_RELATION"
+          ],
+          "stage": "relation_closure",
+          "trace_ref": "prove_relation_closure/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "relation_closure",
+          "native_result_type": "IfadahVerdict",
+          "residual_ids": [
+            "EXPLANATORY:IFADAH_NOT_PROPOSITION",
+            "EXPLANATORY:HUKM_DEFERRED_UNTIL_HUKM_DOMAIN_LAW",
+            "EXPLANATORY:MANAT_DEFERRED_UNTIL_MANAT_LAW",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:MAFHUM_MANTUQ_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:MAJAZ_HAQIQAH_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:EXTRA_SPEECH_FORCE_DEFERRED",
+            "EXPLANATORY:SPEAKER_INTENT_DEFERRED",
+            "EXPLANATORY:AUDIT_INTEGRATION_DEFERRED_UNTIL_PR_22_AUDIT"
+          ],
+          "stage": "ifadah",
+          "trace_ref": "prove_ifadah_candidate/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "ifadah",
+          "native_result_type": "HukmVerdict",
+          "residual_ids": [
+            "EXPLANATORY:HUKM_NOT_AUTHORITY",
+            "EXPLANATORY:MANAT_DEFERRED_UNTIL_MANAT_LAW",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:MAFHUM_MANTUQ_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:EXTENDED_DOMAIN_DEFERRED",
+            "EXPLANATORY:REALITY_VERIFICATION_DEFERRED",
+            "EXPLANATORY:AUDIT_INTEGRATION_DEFERRED_UNTIL_PR_22_AUDIT"
+          ],
+          "stage": "hukm",
+          "trace_ref": "prove_hukm_candidate/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "hukm",
+          "native_result_type": "ManatVerdict",
+          "residual_ids": [
+            "EXPLANATORY:MANAT_NOT_TANZIL",
+            "EXPLANATORY:TAHQIQ_FINAL_DEFERRED",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:REALITY_APPLICATION_DEFERRED",
+            "EXPLANATORY:NO_PREVENTER_CHECK_DEFERRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN"
+          ],
+          "stage": "manat",
+          "trace_ref": "prove_manat_candidate/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "manat",
+          "native_result_type": "TanzilVerdict",
+          "residual_ids": [
+            "EXPLANATORY:TANZIL_NOT_EXECUTION",
+            "EXPLANATORY:PRESENTATION_BOUNDARY_REQUIRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN",
+            "EXPLANATORY:FATWA_FORBIDDEN",
+            "EXPLANATORY:QADA_FORBIDDEN",
+            "EXPLANATORY:ANSWER_AUDIT_BRIDGE_DEFERRED",
+            "EXPLANATORY:VERTICAL_CLOSURE_DEFERRED"
+          ],
+          "stage": "tanzil",
+          "trace_ref": "prove_tanzil_candidate/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "tanzil",
+          "native_result_type": "AuditedTanzilBridgeVerdict",
+          "residual_ids": [
+            "EXPLANATORY:TANZIL_NOT_EXECUTION",
+            "EXPLANATORY:PRESENTATION_BOUNDARY_REQUIRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN",
+            "EXPLANATORY:FATWA_FORBIDDEN",
+            "EXPLANATORY:QADA_FORBIDDEN",
+            "EXPLANATORY:ANSWER_AUDIT_BRIDGE_DEFERRED",
+            "EXPLANATORY:VERTICAL_CLOSURE_DEFERRED"
+          ],
+          "stage": "audited_tanzil_bridge",
+          "trace_ref": "bridge_tanzil_to_audit/surfaced",
+          "verdict_state": "SURFACED"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "ifadah",
+          "native_result_type": "MantuqClosureVerdict",
+          "residual_ids": [
+            "EXPLANATORY:MAFHUM_NOT_YET_OPENED",
+            "EXPLANATORY:MANTUQ_NOT_MAFHUM",
+            "EXPLANATORY:MAJAZ_DEFERRED_UNTIL_HAQIQAH_ATTEMPT",
+            "EXPLANATORY:HAQIQAH_ATTEMPT_DEFERRED",
+            "EXPLANATORY:NAQL_DEFERRED_UNTIL_TRANSFER_GATE"
+          ],
+          "stage": "mantuq",
+          "trace_ref": "prove_mantuq_closure/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "mantuq",
+          "native_result_type": "MafhumClosureVerdict",
+          "residual_ids": [],
+          "stage": "mafhum",
+          "trace_ref": "prove_mafhum_closure/proven",
+          "verdict_state": "PROVEN"
+        }
+      ]
+    },
+    {
+      "input_ids": [
+        "TOKEN::0046",
+        "TOKEN::0053"
+      ],
+      "span_id": "SPAN-AYAT-CLAUSE-009-31427193",
+      "stages": [
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "mufrad_closure",
+          "native_result_type": "RelationClosureVerdict",
+          "residual_ids": [
+            "EXPLANATORY:RELATION_CLOSURE_NOT_MEANING",
+            "EXPLANATORY:IFADAH_DEFERRED_UNTIL_SPEECH_FORCE",
+            "EXPLANATORY:HUKM_DEFERRED_UNTIL_IFADAH",
+            "EXPLANATORY:MAFHUM_DEFERRED_UNTIL_MANTUQ",
+            "EXPLANATORY:HAQIQAH_MAJAZ_DEFERRED_TO_POST_RELATION"
+          ],
+          "stage": "relation_closure",
+          "trace_ref": "prove_relation_closure/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "relation_closure",
+          "native_result_type": "IfadahVerdict",
+          "residual_ids": [
+            "EXPLANATORY:IFADAH_NOT_PROPOSITION",
+            "EXPLANATORY:HUKM_DEFERRED_UNTIL_HUKM_DOMAIN_LAW",
+            "EXPLANATORY:MANAT_DEFERRED_UNTIL_MANAT_LAW",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:MAFHUM_MANTUQ_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:MAJAZ_HAQIQAH_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:EXTRA_SPEECH_FORCE_DEFERRED",
+            "EXPLANATORY:SPEAKER_INTENT_DEFERRED",
+            "EXPLANATORY:AUDIT_INTEGRATION_DEFERRED_UNTIL_PR_22_AUDIT"
+          ],
+          "stage": "ifadah",
+          "trace_ref": "prove_ifadah_candidate/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "ifadah",
+          "native_result_type": "HukmVerdict",
+          "residual_ids": [
+            "EXPLANATORY:HUKM_NOT_AUTHORITY",
+            "EXPLANATORY:MANAT_DEFERRED_UNTIL_MANAT_LAW",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:MAFHUM_MANTUQ_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:EXTENDED_DOMAIN_DEFERRED",
+            "EXPLANATORY:REALITY_VERIFICATION_DEFERRED",
+            "EXPLANATORY:AUDIT_INTEGRATION_DEFERRED_UNTIL_PR_22_AUDIT"
+          ],
+          "stage": "hukm",
+          "trace_ref": "prove_hukm_candidate/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "hukm",
+          "native_result_type": "ManatVerdict",
+          "residual_ids": [
+            "EXPLANATORY:MANAT_NOT_TANZIL",
+            "EXPLANATORY:TAHQIQ_FINAL_DEFERRED",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:REALITY_APPLICATION_DEFERRED",
+            "EXPLANATORY:NO_PREVENTER_CHECK_DEFERRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN"
+          ],
+          "stage": "manat",
+          "trace_ref": "prove_manat_candidate/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "manat",
+          "native_result_type": "TanzilVerdict",
+          "residual_ids": [
+            "EXPLANATORY:TANZIL_NOT_EXECUTION",
+            "EXPLANATORY:PRESENTATION_BOUNDARY_REQUIRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN",
+            "EXPLANATORY:FATWA_FORBIDDEN",
+            "EXPLANATORY:QADA_FORBIDDEN",
+            "EXPLANATORY:ANSWER_AUDIT_BRIDGE_DEFERRED",
+            "EXPLANATORY:VERTICAL_CLOSURE_DEFERRED"
+          ],
+          "stage": "tanzil",
+          "trace_ref": "prove_tanzil_candidate/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "tanzil",
+          "native_result_type": "AuditedTanzilBridgeVerdict",
+          "residual_ids": [
+            "EXPLANATORY:TANZIL_NOT_EXECUTION",
+            "EXPLANATORY:PRESENTATION_BOUNDARY_REQUIRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN",
+            "EXPLANATORY:FATWA_FORBIDDEN",
+            "EXPLANATORY:QADA_FORBIDDEN",
+            "EXPLANATORY:ANSWER_AUDIT_BRIDGE_DEFERRED",
+            "EXPLANATORY:VERTICAL_CLOSURE_DEFERRED"
+          ],
+          "stage": "audited_tanzil_bridge",
+          "trace_ref": "bridge_tanzil_to_audit/surfaced",
+          "verdict_state": "SURFACED"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "ifadah",
+          "native_result_type": "MantuqClosureVerdict",
+          "residual_ids": [
+            "EXPLANATORY:MAFHUM_NOT_YET_OPENED",
+            "EXPLANATORY:MANTUQ_NOT_MAFHUM",
+            "EXPLANATORY:MAJAZ_DEFERRED_UNTIL_HAQIQAH_ATTEMPT",
+            "EXPLANATORY:HAQIQAH_ATTEMPT_DEFERRED",
+            "EXPLANATORY:NAQL_DEFERRED_UNTIL_TRANSFER_GATE"
+          ],
+          "stage": "mantuq",
+          "trace_ref": "prove_mantuq_closure/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "mantuq",
+          "native_result_type": "MafhumClosureVerdict",
+          "residual_ids": [],
+          "stage": "mafhum",
+          "trace_ref": "prove_mafhum_closure/proven",
+          "verdict_state": "PROVEN"
+        }
+      ]
+    },
+    {
+      "input_ids": [
+        "TOKEN::0061",
+        "TOKEN::0070"
+      ],
+      "span_id": "SPAN-AYAT-CLAUSE-010-d82736fc",
+      "stages": [
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "mufrad_closure",
+          "native_result_type": "RelationClosureVerdict",
+          "residual_ids": [
+            "EXPLANATORY:RELATION_CLOSURE_NOT_MEANING",
+            "EXPLANATORY:IFADAH_DEFERRED_UNTIL_SPEECH_FORCE",
+            "EXPLANATORY:HUKM_DEFERRED_UNTIL_IFADAH",
+            "EXPLANATORY:MAFHUM_DEFERRED_UNTIL_MANTUQ",
+            "EXPLANATORY:HAQIQAH_MAJAZ_DEFERRED_TO_POST_RELATION"
+          ],
+          "stage": "relation_closure",
+          "trace_ref": "prove_relation_closure/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "relation_closure",
+          "native_result_type": "IfadahVerdict",
+          "residual_ids": [
+            "EXPLANATORY:IFADAH_NOT_PROPOSITION",
+            "EXPLANATORY:HUKM_DEFERRED_UNTIL_HUKM_DOMAIN_LAW",
+            "EXPLANATORY:MANAT_DEFERRED_UNTIL_MANAT_LAW",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:MAFHUM_MANTUQ_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:MAJAZ_HAQIQAH_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:EXTRA_SPEECH_FORCE_DEFERRED",
+            "EXPLANATORY:SPEAKER_INTENT_DEFERRED",
+            "EXPLANATORY:AUDIT_INTEGRATION_DEFERRED_UNTIL_PR_22_AUDIT"
+          ],
+          "stage": "ifadah",
+          "trace_ref": "prove_ifadah_candidate/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "ifadah",
+          "native_result_type": "HukmVerdict",
+          "residual_ids": [
+            "EXPLANATORY:HUKM_NOT_AUTHORITY",
+            "EXPLANATORY:MANAT_DEFERRED_UNTIL_MANAT_LAW",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:MAFHUM_MANTUQ_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:EXTENDED_DOMAIN_DEFERRED",
+            "EXPLANATORY:REALITY_VERIFICATION_DEFERRED",
+            "EXPLANATORY:AUDIT_INTEGRATION_DEFERRED_UNTIL_PR_22_AUDIT"
+          ],
+          "stage": "hukm",
+          "trace_ref": "prove_hukm_candidate/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "hukm",
+          "native_result_type": "ManatVerdict",
+          "residual_ids": [
+            "EXPLANATORY:MANAT_NOT_TANZIL",
+            "EXPLANATORY:TAHQIQ_FINAL_DEFERRED",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:REALITY_APPLICATION_DEFERRED",
+            "EXPLANATORY:NO_PREVENTER_CHECK_DEFERRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN"
+          ],
+          "stage": "manat",
+          "trace_ref": "prove_manat_candidate/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "manat",
+          "native_result_type": "TanzilVerdict",
+          "residual_ids": [
+            "EXPLANATORY:TANZIL_NOT_EXECUTION",
+            "EXPLANATORY:PRESENTATION_BOUNDARY_REQUIRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN",
+            "EXPLANATORY:FATWA_FORBIDDEN",
+            "EXPLANATORY:QADA_FORBIDDEN",
+            "EXPLANATORY:ANSWER_AUDIT_BRIDGE_DEFERRED",
+            "EXPLANATORY:VERTICAL_CLOSURE_DEFERRED"
+          ],
+          "stage": "tanzil",
+          "trace_ref": "prove_tanzil_candidate/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "tanzil",
+          "native_result_type": "AuditedTanzilBridgeVerdict",
+          "residual_ids": [
+            "EXPLANATORY:TANZIL_NOT_EXECUTION",
+            "EXPLANATORY:PRESENTATION_BOUNDARY_REQUIRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN",
+            "EXPLANATORY:FATWA_FORBIDDEN",
+            "EXPLANATORY:QADA_FORBIDDEN",
+            "EXPLANATORY:ANSWER_AUDIT_BRIDGE_DEFERRED",
+            "EXPLANATORY:VERTICAL_CLOSURE_DEFERRED"
+          ],
+          "stage": "audited_tanzil_bridge",
+          "trace_ref": "bridge_tanzil_to_audit/surfaced",
+          "verdict_state": "SURFACED"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "ifadah",
+          "native_result_type": "MantuqClosureVerdict",
+          "residual_ids": [
+            "EXPLANATORY:MAFHUM_NOT_YET_OPENED",
+            "EXPLANATORY:MANTUQ_NOT_MAFHUM",
+            "EXPLANATORY:MAJAZ_DEFERRED_UNTIL_HAQIQAH_ATTEMPT",
+            "EXPLANATORY:HAQIQAH_ATTEMPT_DEFERRED",
+            "EXPLANATORY:NAQL_DEFERRED_UNTIL_TRANSFER_GATE"
+          ],
+          "stage": "mantuq",
+          "trace_ref": "prove_mantuq_closure/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "mantuq",
+          "native_result_type": "MafhumClosureVerdict",
+          "residual_ids": [],
+          "stage": "mafhum",
+          "trace_ref": "prove_mafhum_closure/proven",
+          "verdict_state": "PROVEN"
+        }
+      ]
+    },
+    {
+      "input_ids": [
+        "TOKEN::0114",
+        "TOKEN::0128"
+      ],
+      "span_id": "SPAN-AYAT-CLAUSE-014-59af3988",
+      "stages": [
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "mufrad_closure",
+          "native_result_type": "RelationClosureVerdict",
+          "residual_ids": [
+            "EXPLANATORY:RELATION_CLOSURE_NOT_MEANING",
+            "EXPLANATORY:IFADAH_DEFERRED_UNTIL_SPEECH_FORCE",
+            "EXPLANATORY:HUKM_DEFERRED_UNTIL_IFADAH",
+            "EXPLANATORY:MAFHUM_DEFERRED_UNTIL_MANTUQ",
+            "EXPLANATORY:HAQIQAH_MAJAZ_DEFERRED_TO_POST_RELATION"
+          ],
+          "stage": "relation_closure",
+          "trace_ref": "prove_relation_closure/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "relation_closure",
+          "native_result_type": "IfadahVerdict",
+          "residual_ids": [
+            "EXPLANATORY:IFADAH_NOT_PROPOSITION",
+            "EXPLANATORY:HUKM_DEFERRED_UNTIL_HUKM_DOMAIN_LAW",
+            "EXPLANATORY:MANAT_DEFERRED_UNTIL_MANAT_LAW",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:MAFHUM_MANTUQ_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:MAJAZ_HAQIQAH_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:EXTRA_SPEECH_FORCE_DEFERRED",
+            "EXPLANATORY:SPEAKER_INTENT_DEFERRED",
+            "EXPLANATORY:AUDIT_INTEGRATION_DEFERRED_UNTIL_PR_22_AUDIT"
+          ],
+          "stage": "ifadah",
+          "trace_ref": "prove_ifadah_candidate/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "ifadah",
+          "native_result_type": "HukmVerdict",
+          "residual_ids": [
+            "EXPLANATORY:HUKM_NOT_AUTHORITY",
+            "EXPLANATORY:MANAT_DEFERRED_UNTIL_MANAT_LAW",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:MAFHUM_MANTUQ_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:EXTENDED_DOMAIN_DEFERRED",
+            "EXPLANATORY:REALITY_VERIFICATION_DEFERRED",
+            "EXPLANATORY:AUDIT_INTEGRATION_DEFERRED_UNTIL_PR_22_AUDIT"
+          ],
+          "stage": "hukm",
+          "trace_ref": "prove_hukm_candidate/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "hukm",
+          "native_result_type": "ManatVerdict",
+          "residual_ids": [
+            "EXPLANATORY:MANAT_NOT_TANZIL",
+            "EXPLANATORY:TAHQIQ_FINAL_DEFERRED",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:REALITY_APPLICATION_DEFERRED",
+            "EXPLANATORY:NO_PREVENTER_CHECK_DEFERRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN"
+          ],
+          "stage": "manat",
+          "trace_ref": "prove_manat_candidate/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "manat",
+          "native_result_type": "TanzilVerdict",
+          "residual_ids": [
+            "EXPLANATORY:TANZIL_NOT_EXECUTION",
+            "EXPLANATORY:PRESENTATION_BOUNDARY_REQUIRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN",
+            "EXPLANATORY:FATWA_FORBIDDEN",
+            "EXPLANATORY:QADA_FORBIDDEN",
+            "EXPLANATORY:ANSWER_AUDIT_BRIDGE_DEFERRED",
+            "EXPLANATORY:VERTICAL_CLOSURE_DEFERRED"
+          ],
+          "stage": "tanzil",
+          "trace_ref": "prove_tanzil_candidate/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "tanzil",
+          "native_result_type": "AuditedTanzilBridgeVerdict",
+          "residual_ids": [
+            "EXPLANATORY:TANZIL_NOT_EXECUTION",
+            "EXPLANATORY:PRESENTATION_BOUNDARY_REQUIRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN",
+            "EXPLANATORY:FATWA_FORBIDDEN",
+            "EXPLANATORY:QADA_FORBIDDEN",
+            "EXPLANATORY:ANSWER_AUDIT_BRIDGE_DEFERRED",
+            "EXPLANATORY:VERTICAL_CLOSURE_DEFERRED"
+          ],
+          "stage": "audited_tanzil_bridge",
+          "trace_ref": "bridge_tanzil_to_audit/surfaced",
+          "verdict_state": "SURFACED"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "ifadah",
+          "native_result_type": "MantuqClosureVerdict",
+          "residual_ids": [
+            "EXPLANATORY:MAFHUM_NOT_YET_OPENED",
+            "EXPLANATORY:MANTUQ_NOT_MAFHUM",
+            "EXPLANATORY:MAJAZ_DEFERRED_UNTIL_HAQIQAH_ATTEMPT",
+            "EXPLANATORY:HAQIQAH_ATTEMPT_DEFERRED",
+            "EXPLANATORY:NAQL_DEFERRED_UNTIL_TRANSFER_GATE"
+          ],
+          "stage": "mantuq",
+          "trace_ref": "prove_mantuq_closure/proven",
+          "verdict_state": "PROVEN"
+        },
+        {
+          "classification": "ACCEPT",
+          "failure_code": null,
+          "failure_detail": "",
+          "input_stage": "mantuq",
+          "native_result_type": "MafhumClosureVerdict",
+          "residual_ids": [],
+          "stage": "mafhum",
+          "trace_ref": "prove_mafhum_closure/proven",
+          "verdict_state": "PROVEN"
+        }
+      ]
+    }
+  ],
+  "unbridged_reachable_stage_count": 0,
+  "vendor_available": true
+}

@@ -1,0 +1,112 @@
+{
+  "counter_evidence": {
+    "BLOCK_WITHOUT_REASON_COUNT": {
+      "measurement_domain": "RUNTIME_TYPED_OUTCOME",
+      "violating_records": []
+    },
+    "DEFER_WITHOUT_RESIDUAL_COUNT": {
+      "measurement_domain": "RUNTIME_TYPED_OUTCOME",
+      "violating_records": []
+    },
+    "DIRECT_TAAQOL_INJECTION_COUNT": {
+      "measurement_domain": "SOURCE_ANTI_PATTERN",
+      "sites": []
+    },
+    "EXACT_SURFACE_BRANCH_COUNT": {
+      "measurement_domain": "SOURCE_ANTI_PATTERN",
+      "sites": []
+    },
+    "EXCEPTION_AS_SUCCESS_COUNT": {
+      "measurement_domain": "STRUCTURAL_DERIVATION",
+      "note": "derived from stage classification map per span; MISSING_PREDECESSOR_ACCEPT_COUNT walks the predecessor map (hukm\u2192ifadah, manat\u2192hukm, tanzil\u2192manat, audited_tanzil_bridge\u2192tanzil, mantuq\u2192ifadah, mafhum\u2192mantuq)."
+    },
+    "EXPECTED_VERDICT_MAP_COUNT": {
+      "measurement_domain": "SOURCE_ANTI_PATTERN",
+      "sites": []
+    },
+    "GOLD_LOOKUP_COUNT": {
+      "measurement_domain": "SOURCE_ANTI_PATTERN",
+      "sites": []
+    },
+    "HOKOM_FABRICATED_VERDICT_COUNT": {
+      "measurement_domain": "SOURCE_ANTI_PATTERN",
+      "sites": []
+    },
+    "LOCALLY_CLOSEABLE_NATIVE_STAGE_COUNT": {
+      "measurement_domain": "STRUCTURAL_DERIVATION",
+      "note": "derived from stage classification map per span; MISSING_PREDECESSOR_ACCEPT_COUNT walks the predecessor map (hukm\u2192ifadah, manat\u2192hukm, tanzil\u2192manat, audited_tanzil_bridge\u2192tanzil, mantuq\u2192ifadah, mafhum\u2192mantuq)."
+    },
+    "MISSING_PREDECESSOR_ACCEPT_COUNT": {
+      "measurement_domain": "STRUCTURAL_DERIVATION",
+      "note": "derived from stage classification map per span; MISSING_PREDECESSOR_ACCEPT_COUNT walks the predecessor map (hukm\u2192ifadah, manat\u2192hukm, tanzil\u2192manat, audited_tanzil_bridge\u2192tanzil, mantuq\u2192ifadah, mafhum\u2192mantuq)."
+    },
+    "REFUSED_AS_ACCEPT_COUNT": {
+      "measurement_domain": "RUNTIME_TYPED_OUTCOME",
+      "violating_records": []
+    },
+    "REFUSED_COLLAPSED_TO_NONE_COUNT": {
+      "measurement_domain": "RUNTIME_TYPED_OUTCOME",
+      "violating_records": []
+    },
+    "REFUSED_WITHOUT_FAILURE_CODE_COUNT": {
+      "measurement_domain": "RUNTIME_TYPED_OUTCOME",
+      "violating_records": []
+    },
+    "REFUSED_WITHOUT_REASON_COUNT": {
+      "measurement_domain": "RUNTIME_TYPED_OUTCOME",
+      "violating_records": []
+    },
+    "REFUSED_WITHOUT_TRACE_COUNT": {
+      "measurement_domain": "RUNTIME_TYPED_OUTCOME",
+      "violating_records": []
+    },
+    "RESIDUAL_UNACCOUNTED_COUNT": {
+      "measurement_domain": "RUNTIME_TYPED_OUTCOME",
+      "violating_records": []
+    },
+    "SYNTHETIC_EVIDENCE_COUNT": {
+      "measurement_domain": "SOURCE_ANTI_PATTERN",
+      "sites": []
+    },
+    "TOKEN_POSITION_BRANCH_COUNT": {
+      "measurement_domain": "SOURCE_ANTI_PATTERN",
+      "sites": []
+    },
+    "TRACE_INCOMPLETE_COUNT": {
+      "measurement_domain": "RUNTIME_TYPED_OUTCOME",
+      "violating_records": []
+    },
+    "UNBRIDGED_REACHABLE_STAGE_COUNT": {
+      "measurement_domain": "STRUCTURAL_DERIVATION",
+      "note": "derived from stage classification map per span; MISSING_PREDECESSOR_ACCEPT_COUNT walks the predecessor map (hukm\u2192ifadah, manat\u2192hukm, tanzil\u2192manat, audited_tanzil_bridge\u2192tanzil, mantuq\u2192ifadah, mafhum\u2192mantuq)."
+    }
+  },
+  "counters": {
+    "BLOCK_WITHOUT_REASON_COUNT": 0,
+    "DEFER_WITHOUT_RESIDUAL_COUNT": 0,
+    "DIRECT_TAAQOL_INJECTION_COUNT": 0,
+    "EXACT_SURFACE_BRANCH_COUNT": 0,
+    "EXCEPTION_AS_SUCCESS_COUNT": 0,
+    "EXPECTED_VERDICT_MAP_COUNT": 0,
+    "GOLD_LOOKUP_COUNT": 0,
+    "HOKOM_FABRICATED_VERDICT_COUNT": 0,
+    "LOCALLY_CLOSEABLE_NATIVE_STAGE_COUNT": 0,
+    "MISSING_PREDECESSOR_ACCEPT_COUNT": 0,
+    "REFUSED_AS_ACCEPT_COUNT": 0,
+    "REFUSED_COLLAPSED_TO_NONE_COUNT": 0,
+    "REFUSED_WITHOUT_FAILURE_CODE_COUNT": 0,
+    "REFUSED_WITHOUT_REASON_COUNT": 0,
+    "REFUSED_WITHOUT_TRACE_COUNT": 0,
+    "RESIDUAL_UNACCOUNTED_COUNT": 0,
+    "SYNTHETIC_EVIDENCE_COUNT": 0,
+    "TOKEN_POSITION_BRANCH_COUNT": 0,
+    "TRACE_INCOMPLETE_COUNT": 0,
+    "UNBRIDGED_REACHABLE_STAGE_COUNT": 0
+  },
+  "meta": {
+    "COUNTER_WITHOUT_MEASUREMENT_SITE_COUNT": 0,
+    "HARDCODED_ZERO_COUNTER_COUNT": 0,
+    "UNMEASURED_COUNTER_COUNT": 0
+  },
+  "schema_version": "1.0.0"
+}
