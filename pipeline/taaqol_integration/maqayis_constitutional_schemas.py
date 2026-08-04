@@ -717,6 +717,11 @@ class ConstitutionalLookupResult:
     review_state:       ReviewState    = ReviewState.UNREVIEWED
     conflict_notes:     Optional[str]  = None
     coverage_note:      Optional[str]  = None
+    # Addendum defect §4 — real trace propagation. Registry now emits a
+    # LOOKUP trace event ID per lookup; from_lookup_result carries it
+    # into the augment result's trace_ids. Empty only in default-
+    # constructed instances where no lookup has occurred.
+    trace_ids:          tuple[str, ...] = field(default_factory=tuple)
 
     @property
     def found(self) -> bool:
@@ -1098,11 +1103,12 @@ class MaqayisConstitutionalAugmentationResult:
 
         residual_ids = tuple(r.id for r in result.open_residuals)
 
-        # §11: trace_ids must contain TraceEvent IDs only — never Residual IDs.
-        # No TraceEvent objects are present on ConstitutionalLookupResult (V1 pipeline
-        # does not surface them through the registry lookup path).
-        # TRACE_PROPAGATION_NOT_AVAILABLE: trace_ids = () until pipeline surfaces events.
-        trace_ids: tuple[str, ...] = ()
+        # §11 + addendum defect §4: trace_ids contain TraceEvent-like IDs
+        # only — never Residual IDs. Propagated from the lookup result
+        # (ConstitutionalLookupResult.trace_ids now carries the
+        # registry LOOKUP trace IDs). Empty only if the caller
+        # constructed a lookup result without invoking the registry.
+        trace_ids: tuple[str, ...] = tuple(result.trace_ids)
 
         # §4: lexical_evidence_licensed = True ONLY when FOUND_LEXICALLY_REVIEWED
         # and a ReviewCertificate is present.  All machine-candidate, review-required,

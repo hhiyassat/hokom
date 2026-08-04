@@ -92,6 +92,9 @@ class _ConstitutionalRegistry:
         self._failed = False
         self._malformed_count: int = 0  # R9: count malformed entries
         self._partial_load: bool = False  # R9: True if any malformed entries
+        # Addendum defect §4 — monotonic sequence for lookup-trace IDs.
+        # Guarantees uniqueness across repeated lookups of the same root.
+        self._lookup_trace_seq: int = 0
 
         # Primary indices: root_letters → list of LegacyCandidateImport
         self._imports_by_root:   dict[str, list[LegacyCandidateImport]] = {}
@@ -179,12 +182,31 @@ class _ConstitutionalRegistry:
                 if not self._loaded and not self._failed:
                     self._load(jsonl_path)
 
+    def _next_lookup_trace_id(self, kind_str: str, root: str) -> str:
+        """Generate a unique lookup-trace ID.
+
+        Format: maqayis:trace:LOOKUP:{kind}:{root}:{monotonic_seq}
+        The monotonic sequence guarantees uniqueness across repeated
+        lookups of the same (kind, root) pair — critical for the
+        corpus-wide uniqueness gate (addendum defect §5) and for the
+        real-trace-propagation gate (addendum defect §4).
+        """
+        self._lookup_trace_seq += 1
+        return (
+            f"maqayis:trace:LOOKUP:{kind_str}:{root}:"
+            f"{self._lookup_trace_seq}"
+        )
+
     def lookup(self, root: str) -> ConstitutionalLookupResult:
         """
         Look up a root and return a ConstitutionalLookupResult.
         Never raises.
         §7: ensure_loaded() failure → REGISTRY_LOAD_FAILURE (not NOT_FOUND).
         REGISTRY_FAILURE_RELABELED_AS_NOT_FOUND_COUNT = 0 enforced here.
+
+        Addendum defect §4 — every return carries a lookup-trace ID so
+        downstream consumers (evidence adapter, augment result) can
+        chain the registry lookup into their trace_ids.
         """
         try:
             self.ensure_loaded()
@@ -197,6 +219,8 @@ class _ConstitutionalRegistry:
             return ConstitutionalLookupResult(
                 kind=LookupResultKind.REGISTRY_LOAD_FAILURE,
                 root_letters=root,
+                trace_ids=(self._next_lookup_trace_id(
+                    "REGISTRY_LOAD_FAILURE", root),),
             )
 
         # Validate input
@@ -204,6 +228,8 @@ class _ConstitutionalRegistry:
             return ConstitutionalLookupResult(
                 kind=LookupResultKind.NOT_FOUND_IN_COVERED_VOLUME,
                 root_letters=root,
+                trace_ids=(self._next_lookup_trace_id(
+                    "NOT_FOUND_IN_COVERED_VOLUME", root or "<empty>"),),
             )
 
         # Check missing volume coverage
@@ -219,6 +245,8 @@ class _ConstitutionalRegistry:
                     f"missing volumes (ا ب ت ث ج — not in OCR corpus). "
                     f"This is a coverage gap, not an absence claim."
                 ),
+                trace_ids=(self._next_lookup_trace_id(
+                    "MISSING_VOLUME_COVERAGE_GAP", root),),
             )
 
         # Look up imports for this root
@@ -227,6 +255,8 @@ class _ConstitutionalRegistry:
             return ConstitutionalLookupResult(
                 kind=LookupResultKind.NOT_FOUND_IN_COVERED_VOLUME,
                 root_letters=root,
+                trace_ids=(self._next_lookup_trace_id(
+                    "NOT_FOUND_IN_COVERED_VOLUME", root),),
             )
 
         # Collect all entities
@@ -270,6 +300,7 @@ class _ConstitutionalRegistry:
                 f"Conflict: {self._imports_by_root.get(root, [{}])[0]}"
                 if is_conflict else None
             ),
+            trace_ids=(self._next_lookup_trace_id(kind.value, root),),
         )
 
 
@@ -294,9 +325,14 @@ def constitutional_lookup(root_letters: str) -> ConstitutionalLookupResult:
     try:
         return _REGISTRY.lookup(root_letters)
     except Exception:
+        # Addendum defect §4 — even the top-level fallback path carries a
+        # trace_id so callers can distinguish an infrastructure failure
+        # from a genuine miss.
         return ConstitutionalLookupResult(
             kind=LookupResultKind.REGISTRY_LOAD_FAILURE,
             root_letters=root_letters,
+            trace_ids=(_REGISTRY._next_lookup_trace_id(
+                "REGISTRY_LOAD_FAILURE_TOPLEVEL", root_letters),),
         )
 
 

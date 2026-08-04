@@ -1545,15 +1545,81 @@ def test_kb11_trace_ids_never_contain_residual_ids():
         review_state=ReviewState.MACHINE_CANDIDATE,
     )
     augment = MaqayisConstitutionalAugmentationResult.from_lookup_result(result, evidence_ids=())
-    # §11: trace_ids must be () — Residual IDs must not appear in trace_ids
+    # §11 (updated for addendum defect §4): trace_ids may now be non-empty
+    # because the registry emits LOOKUP trace IDs. The invariant that
+    # holds regardless is: NO Residual ID may appear in trace_ids. Here
+    # we constructed the lookup result WITHOUT a registry roundtrip
+    # (default trace_ids=()), so trace_ids remain empty for this case.
     assert augment.trace_ids == (), (
-        f"§11: trace_ids must be () (TRACE_PROPAGATION_NOT_AVAILABLE), "
+        f"§11: this direct construction should have trace_ids=(); "
         f"got: {augment.trace_ids}"
     )
     # Residual IDs must appear in residual_ids, not trace_ids
     residual_id = "maqayis:residual:ORIGIN_NOT_EXTRACTED:حدر"
     assert residual_id not in augment.trace_ids, "§11: residual ID must not appear in trace_ids"
     assert residual_id in augment.residual_ids, "§11: residual ID must appear in residual_ids"
+
+
+def test_kb12_trace_propagation_end_to_end(registry, import_result):
+    """Addendum defect §4: real trace propagation.
+
+    A live registry lookup must produce a ConstitutionalLookupResult
+    whose trace_ids is NON-EMPTY (contains a maqayis:trace:LOOKUP:...
+    ID) and whose IDs do not overlap with any Residual ID emitted by
+    the same lookup.
+
+    This closes the "TRACE_PROPAGATION_NOT_AVAILABLE" gap the prior
+    audit correctly flagged.
+    """
+    from maqayis_constitutional_schemas import (
+        MaqayisConstitutionalAugmentationResult,
+    )
+    # Pick any root from the corpus that the registry knows about.
+    known_root = None
+    for imp in import_result.imports:
+        r = registry(imp.legacy_root_letters)
+        if r.found:
+            known_root = imp.legacy_root_letters
+            break
+    assert known_root is not None, (
+        "corpus must expose at least one found root for trace propagation test"
+    )
+    lookup_result = registry(known_root)
+    # Real registry lookup emits at least one LOOKUP trace ID.
+    assert lookup_result.trace_ids, (
+        f"§4: lookup result for {known_root!r} must carry trace_ids; "
+        f"got {lookup_result.trace_ids}"
+    )
+    assert all(t.startswith("maqayis:trace:LOOKUP:") for t in lookup_result.trace_ids), (
+        f"§4: every trace_id must be a LOOKUP-shaped trace event; "
+        f"got {lookup_result.trace_ids}"
+    )
+    # trace_ids and residual IDs must be disjoint
+    residual_id_set = {r.id for r in lookup_result.residuals}
+    trace_id_set    = set(lookup_result.trace_ids)
+    assert trace_id_set.isdisjoint(residual_id_set), (
+        "§11: trace_ids and residual IDs must be disjoint sets"
+    )
+    # Trace propagates through from_lookup_result → augment.trace_ids
+    augment = MaqayisConstitutionalAugmentationResult.from_lookup_result(
+        lookup_result, evidence_ids=(),
+    )
+    assert augment.trace_ids == lookup_result.trace_ids, (
+        f"§4: augment.trace_ids must equal lookup.trace_ids; "
+        f"got {augment.trace_ids} vs {lookup_result.trace_ids}"
+    )
+
+
+def test_kb13_repeated_lookups_produce_unique_trace_ids(registry):
+    """§4 uniqueness: repeated lookups of the same root must each emit
+    a distinct LOOKUP trace ID (monotonic sequence)."""
+    r1 = registry("علم")
+    r2 = registry("علم")
+    r3 = registry("علم")
+    ids = list(r1.trace_ids) + list(r2.trace_ids) + list(r3.trace_ids)
+    assert len(ids) == len(set(ids)), (
+        f"§4: repeated lookups must produce distinct trace_ids; got {ids}"
+    )
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
