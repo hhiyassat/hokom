@@ -31,13 +31,41 @@ import pytest
 # ── Repo-root discovery (§2: no hardcoded paths) ─────────────────────────────
 
 def _find_repo_root() -> pathlib.Path:
+    """Locate the corpus directory.
+
+    Search order:
+      1. Ancestors of this file — original heuristic; still works when the
+         Maqayis worktree has data/maqaees/full/ populated locally.
+      2. Peer worktrees registered in `git worktree list --porcelain` — the
+         Maqayis constitutional worktree does not vendor the OCR corpus
+         (it is 300+ MB); the corpus lives in the C13 worktree where the
+         Maqayis OCR pipeline was originally generated. Cross-worktree
+         data access is legitimate since these are peer checkouts of the
+         same repo.
+    """
     here = pathlib.Path(__file__).resolve().parent
+    # (1) ancestor search
+    probe = here
     for _ in range(6):
-        if (here / "data" / "maqaees" / "full").is_dir():
-            return here
-        if here.parent == here:  # filesystem root
+        if (probe / "data" / "maqaees" / "full").is_dir():
+            return probe
+        if probe.parent == probe:  # filesystem root
             break
-        here = here.parent
+        probe = probe.parent
+    # (2) peer-worktree search
+    import subprocess
+    try:
+        out = subprocess.run(
+            ["git", "worktree", "list", "--porcelain"],
+            capture_output=True, text=True, check=True, cwd=str(here),
+        ).stdout
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        out = ""
+    for line in out.splitlines():
+        if line.startswith("worktree "):
+            path = pathlib.Path(line.split(" ", 1)[1])
+            if (path / "data" / "maqaees" / "full").is_dir():
+                return path
     return pathlib.Path(__file__).resolve().parent
 
 
