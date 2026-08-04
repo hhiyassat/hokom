@@ -73,6 +73,56 @@ _STAGE_0_BUNDLE_ONLY_ENFORCEMENT: bool = True
 # DIRECT_LOOKUP_BYPASS_COUNT = 0 is required at gate AG-BYPASS-01.
 DIRECT_LOOKUP_BYPASS_COUNT: int = 0
 
+# Addendum defect §10: no silent exception swallowing. Every fail-open
+# catch site increments SILENT_EXCEPTION_SWALLOW_COUNT and appends a
+# structured record to _SWALLOWED_EXCEPTION_LOG (bounded ring buffer).
+# The fail-open contract is preserved (callers still get typed empty
+# results) but the swallowed exception is no longer invisible.
+SILENT_EXCEPTION_SWALLOW_COUNT: int = 0
+_SWALLOWED_EXCEPTION_LOG_CAPACITY: int = 128
+_SWALLOWED_EXCEPTION_LOG: list[dict] = []
+
+
+def _record_swallowed_exception(site: str, exc: BaseException, **context) -> None:
+    """Record a swallowed exception without breaking the fail-open contract.
+
+    site    — human-readable identifier of the catch site
+              (e.g. "get_constitutional_evidence_ids:lookup")
+    exc     — the exception being swallowed
+    context — additional key/value pairs preserved on the record
+    """
+    global SILENT_EXCEPTION_SWALLOW_COUNT
+    SILENT_EXCEPTION_SWALLOW_COUNT += 1
+    entry = {
+        "site":       site,
+        "exc_type":   type(exc).__name__,
+        "exc_module": type(exc).__module__,
+        "exc_message": str(exc)[:400],
+        **context,
+    }
+    _SWALLOWED_EXCEPTION_LOG.append(entry)
+    # Cap the log — the counter still tracks total occurrences.
+    if len(_SWALLOWED_EXCEPTION_LOG) > _SWALLOWED_EXCEPTION_LOG_CAPACITY:
+        del _SWALLOWED_EXCEPTION_LOG[:len(_SWALLOWED_EXCEPTION_LOG)
+                                     - _SWALLOWED_EXCEPTION_LOG_CAPACITY]
+
+
+def get_swallowed_exceptions() -> tuple[dict, ...]:
+    """Public getter for the swallowed-exception log (defensive copy).
+
+    Callers may audit swallowed exceptions without being able to mutate
+    the shared log. The count field on each entry reflects order of
+    occurrence, not deduplication.
+    """
+    return tuple(dict(entry) for entry in _SWALLOWED_EXCEPTION_LOG)
+
+
+def reset_swallowed_exception_log() -> None:
+    """Test-only helper — reset both counter and log to a known baseline."""
+    global SILENT_EXCEPTION_SWALLOW_COUNT
+    SILENT_EXCEPTION_SWALLOW_COUNT = 0
+    _SWALLOWED_EXCEPTION_LOG.clear()
+
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # § 1 — EVIDENCE ID GENERATION
@@ -110,7 +160,11 @@ def get_constitutional_evidence_ids(root_letters: str) -> tuple[str, ...]:
     try:
         result = constitutional_lookup(root_letters)
         return _ids_from_constitutional_result(root_letters, result)
-    except Exception:
+    except Exception as exc:
+        _record_swallowed_exception(
+            "get_constitutional_evidence_ids:lookup", exc,
+            root_letters=root_letters,
+        )
         return ()
 
 
@@ -218,7 +272,11 @@ def get_evidence_metadata(root_letters: str) -> dict[str, dict]:
             "kind":            result.kind.value,
         }
         return {eid: dict(base_meta) for eid in ids}
-    except Exception:
+    except Exception as exc:
+        _record_swallowed_exception(
+            "get_constitutional_evidence_metadata:lookup", exc,
+            root_letters=root_letters,
+        )
         return {}
 
 
@@ -315,6 +373,10 @@ def augment_evidence_from_bundle(
         )
 
     except Exception as exc:
+        _record_swallowed_exception(
+            "augment_evidence_from_bundle:lookup", exc,
+            root_letters=getattr(root_claim, "canonical_root", None) or "",
+        )
         return MaqayisConstitutionalAugmentationResult.not_licensed(
             f"exception:{type(exc).__name__}",
             lookup_kind=LookupResultKind.REGISTRY_LOAD_FAILURE,
@@ -363,4 +425,8 @@ def explain_constitutional_lookup(root_letters: str) -> dict:
             out["coverage_note"] = result.coverage_note
         return out
     except Exception as exc:
+        _record_swallowed_exception(
+            "explain_constitutional_lookup:lookup", exc,
+            root_letters=root_letters,
+        )
         return {"root": root_letters, "error": str(exc)}

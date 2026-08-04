@@ -1662,6 +1662,87 @@ def test_pdf03_public_map_returns_fresh_copy():
     )
 
 
+def test_ex01_swallowed_exceptions_are_recorded():
+    """Addendum defect §10: no silent exception swallowing. Every catch
+    site in maqayis_constitutional_evidence_adapter must record the
+    swallowed exception into the public telemetry log.
+    """
+    from maqayis_constitutional_evidence_adapter import (
+        _record_swallowed_exception,
+        SILENT_EXCEPTION_SWALLOW_COUNT,
+        get_swallowed_exceptions,
+        reset_swallowed_exception_log,
+    )
+    reset_swallowed_exception_log()
+    # Simulate a swallowed exception
+    try:
+        raise ValueError("audit-simulated")
+    except Exception as exc:
+        _record_swallowed_exception("audit_test:simulated", exc,
+                                    root_letters="audit")
+    log = get_swallowed_exceptions()
+    assert len(log) == 1
+    entry = log[0]
+    assert entry["site"] == "audit_test:simulated"
+    assert entry["exc_type"] == "ValueError"
+    assert entry["exc_message"] == "audit-simulated"
+    assert entry["root_letters"] == "audit"
+    reset_swallowed_exception_log()
+
+
+def test_ex02_swallowed_exception_log_is_bounded():
+    """The log must not grow unbounded — memory-safety guard for a
+    long-running process that might accumulate many failures.
+    """
+    from maqayis_constitutional_evidence_adapter import (
+        _record_swallowed_exception,
+        _SWALLOWED_EXCEPTION_LOG_CAPACITY,
+        get_swallowed_exceptions,
+        reset_swallowed_exception_log,
+        SILENT_EXCEPTION_SWALLOW_COUNT as before_count,
+    )
+    reset_swallowed_exception_log()
+    # Fire capacity+50 exceptions
+    for i in range(_SWALLOWED_EXCEPTION_LOG_CAPACITY + 50):
+        try:
+            raise RuntimeError(f"burst-{i}")
+        except Exception as exc:
+            _record_swallowed_exception("audit_burst", exc, index=i)
+    log = get_swallowed_exceptions()
+    assert len(log) == _SWALLOWED_EXCEPTION_LOG_CAPACITY, (
+        f"§10: log must be capped at {_SWALLOWED_EXCEPTION_LOG_CAPACITY}; "
+        f"got {len(log)}"
+    )
+    # Counter tracks total, not just log length
+    import maqayis_constitutional_evidence_adapter as _a
+    assert _a.SILENT_EXCEPTION_SWALLOW_COUNT >= \
+        _SWALLOWED_EXCEPTION_LOG_CAPACITY + 50, (
+            "§10: counter must reflect total swallows, not log capacity"
+        )
+    reset_swallowed_exception_log()
+
+
+def test_ex03_swallowed_exceptions_log_defensive_copy():
+    """get_swallowed_exceptions() must return a defensive copy — mutating
+    the returned tuple's dicts must not leak into the internal log.
+    """
+    from maqayis_constitutional_evidence_adapter import (
+        _record_swallowed_exception,
+        get_swallowed_exceptions,
+        reset_swallowed_exception_log,
+    )
+    reset_swallowed_exception_log()
+    try:
+        raise KeyError("x")
+    except Exception as exc:
+        _record_swallowed_exception("audit:copy", exc)
+    copy = get_swallowed_exceptions()
+    copy[0]["site"] = "MUTATED"
+    fresh = get_swallowed_exceptions()
+    assert fresh[0]["site"] == "audit:copy"
+    reset_swallowed_exception_log()
+
+
 def test_kb13_repeated_lookups_produce_unique_trace_ids(registry):
     """§4 uniqueness: repeated lookups of the same root must each emit
     a distinct LOOKUP trace ID (monotonic sequence)."""
