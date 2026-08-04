@@ -4,21 +4,23 @@ MAQAYIS-CONSTITUTIONAL-SOURCE-LEXICON-PRODUCTION-01  Commit 4
 
 Produces:
   • SourceRootClaim      — one per imported entry (MACHINE extraction)
-  • LexicalOriginCandidate — one per SINGULAR; N per DUAL/TRIPLE/MULTIPLE
-  • Residuals            — SEGMENTATION_REQUIRED for multi-origin claims;
+  • LexicalOriginCandidate — one per SINGULAR/SOUND_ROOTS; 0 for DUAL/TRIPLE/MULTIPLE/NONE
+  • Residuals            — SEGMENTATION_REQUIRED for all multi-origin claims (DUAL/TRIPLE/MULTIPLE);
                            FOUND_CONFLICT_REVIEW_REQUIRED for conflicts
   • TraceEvents          — per extraction and segmentation
 
 Segmentation Rules (§5 revised)
 ────────────────────────────────
 SINGULAR    → 1 LexicalOriginCandidate; raw_origin_text from OCR source
-DUAL        → 2 LexicalOriginCandidates; raw_origin_text from OCR source
-TRIPLE      → 3 LexicalOriginCandidates; raw_origin_text from OCR source
-MULTIPLE    → 1 candidate (NOT forced to 3); only if origin_text available
-              → 0 candidates + SEGMENTATION_REQUIRED residual if no origin_text
+DUAL        → 0 candidates + SEGMENTATION_REQUIRED (no distinct spans in V1 OCR)
+TRIPLE      → 0 candidates + SEGMENTATION_REQUIRED (no distinct spans in V1 OCR)
+MULTIPLE    → 0 candidates + SEGMENTATION_REQUIRED (V1 cannot auto-segment multi-origin)
+              MULTIPLE_FORCED_TO_THREE_COUNT = 0 enforced; no candidates produced.
 SOUND_ROOTS → 1 candidate (special classification)
-NONE        → 1 candidate with INCOMPLETE_CLAIM (§6 — not a positive absence claim)
-NOT_EXTRACTED / UNKNOWN → 1 candidate with INCOMPLETE_CLAIM
+NONE        → 0 candidates + ORIGIN_NOT_EXTRACTED residual (§6: not a positive absence claim)
+NOT_EXTRACTED / UNKNOWN → 0 candidates + ORIGIN_NOT_EXTRACTED residual
+ID Uniqueness: all residual IDs include entry_discriminator to prevent duplicates
+  when the same root appears in multiple corpus entries.
 
 Conflict Detection
 ──────────────────
@@ -132,7 +134,10 @@ def _build_claim(
     claim_residuals: list[Residual] = []
     if not raw_claim:
         # §7: No semantic_origin_text — emit MISSING_SOURCE_CLAIM_TEXT residual
-        res_id = f"{_RESIDUAL_PREFIX}:MISSING_SOURCE_CLAIM_TEXT:{imp.legacy_root_letters}"
+        # ID uniqueness: include entry_discriminator so multiple entries for same root
+        # produce distinct residual IDs.
+        _entry_disc = imp.legacy_entry_id or imp.passage_id or imp.legacy_root_letters
+        res_id = f"{_RESIDUAL_PREFIX}:MISSING_SOURCE_CLAIM_TEXT:{imp.legacy_root_letters}:{_entry_disc}"
         claim_residuals.append(Residual(
             id=res_id,
             target_id=claim.id,
@@ -214,13 +219,11 @@ def _segment_origins(
         n_origins = 0
         seg_desc = []
     elif origin_type == OriginType.MULTIPLE:
-        # §5: MULTIPLE must NOT be forced to 3.
-        if origin_text:
-            n_origins = 1
-            seg_desc = ["أصول متعددة (يلزم تقطيع يدوي)"]
-        else:
-            n_origins = 0
-            seg_desc = []
+        # §5: MULTIPLE must NOT be forced to 3. V1 cannot auto-segment multi-origin entries.
+        # All MULTIPLE → 0 candidates + SEGMENTATION_REQUIRED (consistent with DUAL/TRIPLE).
+        # MULTIPLE_FORCED_TO_THREE_COUNT = 0 enforced.
+        n_origins = 0
+        seg_desc = []
     elif origin_type in (OriginType.NONE, OriginType.NOT_EXTRACTED, OriginType.UNKNOWN):
         # R7: NONE/NOT_EXTRACTED/UNKNOWN → 0 LexicalOriginCandidates
         n_origins = 0
@@ -253,9 +256,12 @@ def _segment_origins(
         ))
 
     # Emit residuals for 0-candidate cases
-    if origin_type in (OriginType.DUAL, OriginType.TRIPLE) and n_origins == 0:
-        # R5: No distinct spans → SEGMENTATION_REQUIRED
-        res_id = f"{_RESIDUAL_PREFIX}:SEGMENTATION_REQUIRED:{origin_type.value}_NO_DISTINCT_SPANS:{root}"
+    if origin_type in (OriginType.DUAL, OriginType.TRIPLE, OriginType.MULTIPLE) and n_origins == 0:
+        # R5/§5: No distinct spans → SEGMENTATION_REQUIRED.
+        # DUAL/TRIPLE: legacy corpus has one unified text, no distinct spans available.
+        # MULTIPLE: V1 cannot auto-segment multi-origin entries at all.
+        # §12: entry_discriminator ensures ID uniqueness across multiple entries for same root.
+        res_id = f"{_RESIDUAL_PREFIX}:SEGMENTATION_REQUIRED:{origin_type.value}_NO_DISTINCT_SPANS:{root}:{entry_discriminator}"
         residuals_out.append(Residual(
             id=res_id,
             target_id=claim.id,
@@ -270,7 +276,8 @@ def _segment_origins(
         ))
     elif origin_type in (OriginType.NONE, OriginType.NOT_EXTRACTED, OriginType.UNKNOWN):
         # R7: emit ORIGIN_NOT_EXTRACTED residual
-        res_id = f"{_RESIDUAL_PREFIX}:ORIGIN_NOT_EXTRACTED:{root}"
+        # §12: entry_discriminator ensures ID uniqueness across multiple entries for same root.
+        res_id = f"{_RESIDUAL_PREFIX}:ORIGIN_NOT_EXTRACTED:{root}:{entry_discriminator}"
         residuals_out.append(Residual(
             id=res_id,
             target_id=claim.id,
@@ -281,21 +288,6 @@ def _segment_origins(
                 f"no lexical origin extracted from source text."
             ),
             blocking_until=ReviewState.ORIGIN_CANDIDATE,
-            created_at=occurred_at,
-        ))
-    elif origin_type == OriginType.MULTIPLE and n_origins == 0:
-        # MULTIPLE without text: emit SEGMENTATION_REQUIRED
-        res_id = f"{_RESIDUAL_PREFIX}:SEGMENTATION_REQUIRED:MULTIPLE_NO_TEXT:{root}"
-        residuals_out.append(Residual(
-            id=res_id,
-            target_id=claim.id,
-            target_type="SourceRootClaim",
-            residual_type=ResidualType.SEGMENTATION_REQUIRED,
-            description=(
-                f"Root '{root}' has MULTIPLE origins but no origin text span identified. "
-                f"Human segmentation required."
-            ),
-            blocking_until=ReviewState.ORIGIN_SEGMENTED,
             created_at=occurred_at,
         ))
 
