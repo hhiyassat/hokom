@@ -1,0 +1,1552 @@
+{
+  "all_spans_mirror_ok": true,
+  "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+  "hokom_span_count": 5,
+  "records_by_span": [
+    {
+      "mirror_ok": true,
+      "rejections": [],
+      "span_id": "SPAN-AYAT-CLAUSE-004-c3d5ed00",
+      "vendor_records": [
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-004-c3d5ed00",
+            "predecessor:mufrad_closure"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-004-c3d5ed00:0:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-004-c3d5ed00:0:in:relation_closure:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:RELATION_CLOSURE_NOT_MEANING",
+            "EXPLANATORY:IFADAH_DEFERRED_UNTIL_SPEECH_FORCE",
+            "EXPLANATORY:HUKM_DEFERRED_UNTIL_IFADAH",
+            "EXPLANATORY:MAFHUM_DEFERRED_UNTIL_MANTUQ",
+            "EXPLANATORY:HAQIQAH_MAJAZ_DEFERRED_TO_POST_RELATION"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-004-c3d5ed00",
+          "stage_id": "RELATION_CLOSURE",
+          "token_id": null,
+          "trace_entry_id": "prove_relation_closure/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-004-c3d5ed00",
+            "predecessor:relation_closure"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-004-c3d5ed00:1:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-004-c3d5ed00:1:in:ifadah:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:IFADAH_NOT_PROPOSITION",
+            "EXPLANATORY:HUKM_DEFERRED_UNTIL_HUKM_DOMAIN_LAW",
+            "EXPLANATORY:MANAT_DEFERRED_UNTIL_MANAT_LAW",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:MAFHUM_MANTUQ_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:MAJAZ_HAQIQAH_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:EXTRA_SPEECH_FORCE_DEFERRED",
+            "EXPLANATORY:SPEAKER_INTENT_DEFERRED",
+            "EXPLANATORY:AUDIT_INTEGRATION_DEFERRED_UNTIL_PR_22_AUDIT"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-004-c3d5ed00",
+          "stage_id": "IFADAH",
+          "token_id": null,
+          "trace_entry_id": "prove_ifadah_candidate/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-004-c3d5ed00",
+            "predecessor:ifadah"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-004-c3d5ed00:2:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-004-c3d5ed00:2:in:hukm:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:HUKM_NOT_AUTHORITY",
+            "EXPLANATORY:MANAT_DEFERRED_UNTIL_MANAT_LAW",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:MAFHUM_MANTUQ_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:EXTENDED_DOMAIN_DEFERRED",
+            "EXPLANATORY:REALITY_VERIFICATION_DEFERRED",
+            "EXPLANATORY:AUDIT_INTEGRATION_DEFERRED_UNTIL_PR_22_AUDIT"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-004-c3d5ed00",
+          "stage_id": "HUKM",
+          "token_id": null,
+          "trace_entry_id": "prove_hukm_candidate/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-004-c3d5ed00",
+            "predecessor:hukm"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-004-c3d5ed00:3:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-004-c3d5ed00:3:in:manat:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:MANAT_NOT_TANZIL",
+            "EXPLANATORY:TAHQIQ_FINAL_DEFERRED",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:REALITY_APPLICATION_DEFERRED",
+            "EXPLANATORY:NO_PREVENTER_CHECK_DEFERRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-004-c3d5ed00",
+          "stage_id": "MANAT",
+          "token_id": null,
+          "trace_entry_id": "prove_manat_candidate/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-004-c3d5ed00",
+            "predecessor:manat"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-004-c3d5ed00:4:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-004-c3d5ed00:4:in:tanzil:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:TANZIL_NOT_EXECUTION",
+            "EXPLANATORY:PRESENTATION_BOUNDARY_REQUIRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN",
+            "EXPLANATORY:FATWA_FORBIDDEN",
+            "EXPLANATORY:QADA_FORBIDDEN",
+            "EXPLANATORY:ANSWER_AUDIT_BRIDGE_DEFERRED",
+            "EXPLANATORY:VERTICAL_CLOSURE_DEFERRED"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-004-c3d5ed00",
+          "stage_id": "TANZIL",
+          "token_id": null,
+          "trace_entry_id": "prove_tanzil_candidate/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-004-c3d5ed00",
+            "predecessor:tanzil"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-004-c3d5ed00:5:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-004-c3d5ed00:5:in:audited_tanzil_bridge:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:TANZIL_NOT_EXECUTION",
+            "EXPLANATORY:PRESENTATION_BOUNDARY_REQUIRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN",
+            "EXPLANATORY:FATWA_FORBIDDEN",
+            "EXPLANATORY:QADA_FORBIDDEN",
+            "EXPLANATORY:ANSWER_AUDIT_BRIDGE_DEFERRED",
+            "EXPLANATORY:VERTICAL_CLOSURE_DEFERRED"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-004-c3d5ed00",
+          "stage_id": "AUDITED_TANZIL_BRIDGE",
+          "token_id": null,
+          "trace_entry_id": "bridge_tanzil_to_audit/surfaced",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-004-c3d5ed00",
+            "predecessor:ifadah"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-004-c3d5ed00:6:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-004-c3d5ed00:6:in:mantuq:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:MAFHUM_NOT_YET_OPENED",
+            "EXPLANATORY:MANTUQ_NOT_MAFHUM",
+            "EXPLANATORY:MAJAZ_DEFERRED_UNTIL_HAQIQAH_ATTEMPT",
+            "EXPLANATORY:HAQIQAH_ATTEMPT_DEFERRED",
+            "EXPLANATORY:NAQL_DEFERRED_UNTIL_TRANSFER_GATE"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-004-c3d5ed00",
+          "stage_id": "MANTUQ",
+          "token_id": null,
+          "trace_entry_id": "prove_mantuq_closure/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-004-c3d5ed00",
+            "predecessor:mantuq"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-004-c3d5ed00:7:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-004-c3d5ed00:7:in:mafhum:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-004-c3d5ed00",
+          "stage_id": "MAFHUM",
+          "token_id": null,
+          "trace_entry_id": "prove_mafhum_closure/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        }
+      ]
+    },
+    {
+      "mirror_ok": true,
+      "rejections": [],
+      "span_id": "SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+      "vendor_records": [
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+            "predecessor:mufrad_closure"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-005-a3e4bc0d:0:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-005-a3e4bc0d:0:in:relation_closure:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:RELATION_CLOSURE_NOT_MEANING",
+            "EXPLANATORY:IFADAH_DEFERRED_UNTIL_SPEECH_FORCE",
+            "EXPLANATORY:HUKM_DEFERRED_UNTIL_IFADAH",
+            "EXPLANATORY:MAFHUM_DEFERRED_UNTIL_MANTUQ",
+            "EXPLANATORY:HAQIQAH_MAJAZ_DEFERRED_TO_POST_RELATION"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+          "stage_id": "RELATION_CLOSURE",
+          "token_id": null,
+          "trace_entry_id": "prove_relation_closure/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+            "predecessor:relation_closure"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-005-a3e4bc0d:1:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-005-a3e4bc0d:1:in:ifadah:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:IFADAH_NOT_PROPOSITION",
+            "EXPLANATORY:HUKM_DEFERRED_UNTIL_HUKM_DOMAIN_LAW",
+            "EXPLANATORY:MANAT_DEFERRED_UNTIL_MANAT_LAW",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:MAFHUM_MANTUQ_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:MAJAZ_HAQIQAH_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:EXTRA_SPEECH_FORCE_DEFERRED",
+            "EXPLANATORY:SPEAKER_INTENT_DEFERRED",
+            "EXPLANATORY:AUDIT_INTEGRATION_DEFERRED_UNTIL_PR_22_AUDIT"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+          "stage_id": "IFADAH",
+          "token_id": null,
+          "trace_entry_id": "prove_ifadah_candidate/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+            "predecessor:ifadah"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-005-a3e4bc0d:2:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-005-a3e4bc0d:2:in:hukm:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:HUKM_NOT_AUTHORITY",
+            "EXPLANATORY:MANAT_DEFERRED_UNTIL_MANAT_LAW",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:MAFHUM_MANTUQ_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:EXTENDED_DOMAIN_DEFERRED",
+            "EXPLANATORY:REALITY_VERIFICATION_DEFERRED",
+            "EXPLANATORY:AUDIT_INTEGRATION_DEFERRED_UNTIL_PR_22_AUDIT"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+          "stage_id": "HUKM",
+          "token_id": null,
+          "trace_entry_id": "prove_hukm_candidate/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+            "predecessor:hukm"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-005-a3e4bc0d:3:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-005-a3e4bc0d:3:in:manat:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:MANAT_NOT_TANZIL",
+            "EXPLANATORY:TAHQIQ_FINAL_DEFERRED",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:REALITY_APPLICATION_DEFERRED",
+            "EXPLANATORY:NO_PREVENTER_CHECK_DEFERRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+          "stage_id": "MANAT",
+          "token_id": null,
+          "trace_entry_id": "prove_manat_candidate/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+            "predecessor:manat"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-005-a3e4bc0d:4:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-005-a3e4bc0d:4:in:tanzil:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:TANZIL_NOT_EXECUTION",
+            "EXPLANATORY:PRESENTATION_BOUNDARY_REQUIRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN",
+            "EXPLANATORY:FATWA_FORBIDDEN",
+            "EXPLANATORY:QADA_FORBIDDEN",
+            "EXPLANATORY:ANSWER_AUDIT_BRIDGE_DEFERRED",
+            "EXPLANATORY:VERTICAL_CLOSURE_DEFERRED"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+          "stage_id": "TANZIL",
+          "token_id": null,
+          "trace_entry_id": "prove_tanzil_candidate/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+            "predecessor:tanzil"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-005-a3e4bc0d:5:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-005-a3e4bc0d:5:in:audited_tanzil_bridge:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:TANZIL_NOT_EXECUTION",
+            "EXPLANATORY:PRESENTATION_BOUNDARY_REQUIRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN",
+            "EXPLANATORY:FATWA_FORBIDDEN",
+            "EXPLANATORY:QADA_FORBIDDEN",
+            "EXPLANATORY:ANSWER_AUDIT_BRIDGE_DEFERRED",
+            "EXPLANATORY:VERTICAL_CLOSURE_DEFERRED"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+          "stage_id": "AUDITED_TANZIL_BRIDGE",
+          "token_id": null,
+          "trace_entry_id": "bridge_tanzil_to_audit/surfaced",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+            "predecessor:ifadah"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-005-a3e4bc0d:6:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-005-a3e4bc0d:6:in:mantuq:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:MAFHUM_NOT_YET_OPENED",
+            "EXPLANATORY:MANTUQ_NOT_MAFHUM",
+            "EXPLANATORY:MAJAZ_DEFERRED_UNTIL_HAQIQAH_ATTEMPT",
+            "EXPLANATORY:HAQIQAH_ATTEMPT_DEFERRED",
+            "EXPLANATORY:NAQL_DEFERRED_UNTIL_TRANSFER_GATE"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+          "stage_id": "MANTUQ",
+          "token_id": null,
+          "trace_entry_id": "prove_mantuq_closure/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+            "predecessor:mantuq"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-005-a3e4bc0d:7:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-005-a3e4bc0d:7:in:mafhum:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+          "stage_id": "MAFHUM",
+          "token_id": null,
+          "trace_entry_id": "prove_mafhum_closure/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        }
+      ]
+    },
+    {
+      "mirror_ok": true,
+      "rejections": [],
+      "span_id": "SPAN-AYAT-CLAUSE-009-31427193",
+      "vendor_records": [
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-009-31427193",
+            "predecessor:mufrad_closure"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-009-31427193:0:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-009-31427193:0:in:relation_closure:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:RELATION_CLOSURE_NOT_MEANING",
+            "EXPLANATORY:IFADAH_DEFERRED_UNTIL_SPEECH_FORCE",
+            "EXPLANATORY:HUKM_DEFERRED_UNTIL_IFADAH",
+            "EXPLANATORY:MAFHUM_DEFERRED_UNTIL_MANTUQ",
+            "EXPLANATORY:HAQIQAH_MAJAZ_DEFERRED_TO_POST_RELATION"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-009-31427193",
+          "stage_id": "RELATION_CLOSURE",
+          "token_id": null,
+          "trace_entry_id": "prove_relation_closure/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-009-31427193",
+            "predecessor:relation_closure"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-009-31427193:1:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-009-31427193:1:in:ifadah:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:IFADAH_NOT_PROPOSITION",
+            "EXPLANATORY:HUKM_DEFERRED_UNTIL_HUKM_DOMAIN_LAW",
+            "EXPLANATORY:MANAT_DEFERRED_UNTIL_MANAT_LAW",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:MAFHUM_MANTUQ_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:MAJAZ_HAQIQAH_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:EXTRA_SPEECH_FORCE_DEFERRED",
+            "EXPLANATORY:SPEAKER_INTENT_DEFERRED",
+            "EXPLANATORY:AUDIT_INTEGRATION_DEFERRED_UNTIL_PR_22_AUDIT"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-009-31427193",
+          "stage_id": "IFADAH",
+          "token_id": null,
+          "trace_entry_id": "prove_ifadah_candidate/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-009-31427193",
+            "predecessor:ifadah"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-009-31427193:2:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-009-31427193:2:in:hukm:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:HUKM_NOT_AUTHORITY",
+            "EXPLANATORY:MANAT_DEFERRED_UNTIL_MANAT_LAW",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:MAFHUM_MANTUQ_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:EXTENDED_DOMAIN_DEFERRED",
+            "EXPLANATORY:REALITY_VERIFICATION_DEFERRED",
+            "EXPLANATORY:AUDIT_INTEGRATION_DEFERRED_UNTIL_PR_22_AUDIT"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-009-31427193",
+          "stage_id": "HUKM",
+          "token_id": null,
+          "trace_entry_id": "prove_hukm_candidate/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-009-31427193",
+            "predecessor:hukm"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-009-31427193:3:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-009-31427193:3:in:manat:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:MANAT_NOT_TANZIL",
+            "EXPLANATORY:TAHQIQ_FINAL_DEFERRED",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:REALITY_APPLICATION_DEFERRED",
+            "EXPLANATORY:NO_PREVENTER_CHECK_DEFERRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-009-31427193",
+          "stage_id": "MANAT",
+          "token_id": null,
+          "trace_entry_id": "prove_manat_candidate/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-009-31427193",
+            "predecessor:manat"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-009-31427193:4:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-009-31427193:4:in:tanzil:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:TANZIL_NOT_EXECUTION",
+            "EXPLANATORY:PRESENTATION_BOUNDARY_REQUIRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN",
+            "EXPLANATORY:FATWA_FORBIDDEN",
+            "EXPLANATORY:QADA_FORBIDDEN",
+            "EXPLANATORY:ANSWER_AUDIT_BRIDGE_DEFERRED",
+            "EXPLANATORY:VERTICAL_CLOSURE_DEFERRED"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-009-31427193",
+          "stage_id": "TANZIL",
+          "token_id": null,
+          "trace_entry_id": "prove_tanzil_candidate/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-009-31427193",
+            "predecessor:tanzil"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-009-31427193:5:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-009-31427193:5:in:audited_tanzil_bridge:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:TANZIL_NOT_EXECUTION",
+            "EXPLANATORY:PRESENTATION_BOUNDARY_REQUIRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN",
+            "EXPLANATORY:FATWA_FORBIDDEN",
+            "EXPLANATORY:QADA_FORBIDDEN",
+            "EXPLANATORY:ANSWER_AUDIT_BRIDGE_DEFERRED",
+            "EXPLANATORY:VERTICAL_CLOSURE_DEFERRED"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-009-31427193",
+          "stage_id": "AUDITED_TANZIL_BRIDGE",
+          "token_id": null,
+          "trace_entry_id": "bridge_tanzil_to_audit/surfaced",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-009-31427193",
+            "predecessor:ifadah"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-009-31427193:6:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-009-31427193:6:in:mantuq:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:MAFHUM_NOT_YET_OPENED",
+            "EXPLANATORY:MANTUQ_NOT_MAFHUM",
+            "EXPLANATORY:MAJAZ_DEFERRED_UNTIL_HAQIQAH_ATTEMPT",
+            "EXPLANATORY:HAQIQAH_ATTEMPT_DEFERRED",
+            "EXPLANATORY:NAQL_DEFERRED_UNTIL_TRANSFER_GATE"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-009-31427193",
+          "stage_id": "MANTUQ",
+          "token_id": null,
+          "trace_entry_id": "prove_mantuq_closure/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-009-31427193",
+            "predecessor:mantuq"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-009-31427193:7:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-009-31427193:7:in:mafhum:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-009-31427193",
+          "stage_id": "MAFHUM",
+          "token_id": null,
+          "trace_entry_id": "prove_mafhum_closure/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        }
+      ]
+    },
+    {
+      "mirror_ok": true,
+      "rejections": [],
+      "span_id": "SPAN-AYAT-CLAUSE-010-d82736fc",
+      "vendor_records": [
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-010-d82736fc",
+            "predecessor:mufrad_closure"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-010-d82736fc:0:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-010-d82736fc:0:in:relation_closure:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:RELATION_CLOSURE_NOT_MEANING",
+            "EXPLANATORY:IFADAH_DEFERRED_UNTIL_SPEECH_FORCE",
+            "EXPLANATORY:HUKM_DEFERRED_UNTIL_IFADAH",
+            "EXPLANATORY:MAFHUM_DEFERRED_UNTIL_MANTUQ",
+            "EXPLANATORY:HAQIQAH_MAJAZ_DEFERRED_TO_POST_RELATION"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-010-d82736fc",
+          "stage_id": "RELATION_CLOSURE",
+          "token_id": null,
+          "trace_entry_id": "prove_relation_closure/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-010-d82736fc",
+            "predecessor:relation_closure"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-010-d82736fc:1:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-010-d82736fc:1:in:ifadah:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:IFADAH_NOT_PROPOSITION",
+            "EXPLANATORY:HUKM_DEFERRED_UNTIL_HUKM_DOMAIN_LAW",
+            "EXPLANATORY:MANAT_DEFERRED_UNTIL_MANAT_LAW",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:MAFHUM_MANTUQ_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:MAJAZ_HAQIQAH_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:EXTRA_SPEECH_FORCE_DEFERRED",
+            "EXPLANATORY:SPEAKER_INTENT_DEFERRED",
+            "EXPLANATORY:AUDIT_INTEGRATION_DEFERRED_UNTIL_PR_22_AUDIT"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-010-d82736fc",
+          "stage_id": "IFADAH",
+          "token_id": null,
+          "trace_entry_id": "prove_ifadah_candidate/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-010-d82736fc",
+            "predecessor:ifadah"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-010-d82736fc:2:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-010-d82736fc:2:in:hukm:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:HUKM_NOT_AUTHORITY",
+            "EXPLANATORY:MANAT_DEFERRED_UNTIL_MANAT_LAW",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:MAFHUM_MANTUQ_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:EXTENDED_DOMAIN_DEFERRED",
+            "EXPLANATORY:REALITY_VERIFICATION_DEFERRED",
+            "EXPLANATORY:AUDIT_INTEGRATION_DEFERRED_UNTIL_PR_22_AUDIT"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-010-d82736fc",
+          "stage_id": "HUKM",
+          "token_id": null,
+          "trace_entry_id": "prove_hukm_candidate/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-010-d82736fc",
+            "predecessor:hukm"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-010-d82736fc:3:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-010-d82736fc:3:in:manat:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:MANAT_NOT_TANZIL",
+            "EXPLANATORY:TAHQIQ_FINAL_DEFERRED",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:REALITY_APPLICATION_DEFERRED",
+            "EXPLANATORY:NO_PREVENTER_CHECK_DEFERRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-010-d82736fc",
+          "stage_id": "MANAT",
+          "token_id": null,
+          "trace_entry_id": "prove_manat_candidate/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-010-d82736fc",
+            "predecessor:manat"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-010-d82736fc:4:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-010-d82736fc:4:in:tanzil:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:TANZIL_NOT_EXECUTION",
+            "EXPLANATORY:PRESENTATION_BOUNDARY_REQUIRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN",
+            "EXPLANATORY:FATWA_FORBIDDEN",
+            "EXPLANATORY:QADA_FORBIDDEN",
+            "EXPLANATORY:ANSWER_AUDIT_BRIDGE_DEFERRED",
+            "EXPLANATORY:VERTICAL_CLOSURE_DEFERRED"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-010-d82736fc",
+          "stage_id": "TANZIL",
+          "token_id": null,
+          "trace_entry_id": "prove_tanzil_candidate/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-010-d82736fc",
+            "predecessor:tanzil"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-010-d82736fc:5:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-010-d82736fc:5:in:audited_tanzil_bridge:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:TANZIL_NOT_EXECUTION",
+            "EXPLANATORY:PRESENTATION_BOUNDARY_REQUIRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN",
+            "EXPLANATORY:FATWA_FORBIDDEN",
+            "EXPLANATORY:QADA_FORBIDDEN",
+            "EXPLANATORY:ANSWER_AUDIT_BRIDGE_DEFERRED",
+            "EXPLANATORY:VERTICAL_CLOSURE_DEFERRED"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-010-d82736fc",
+          "stage_id": "AUDITED_TANZIL_BRIDGE",
+          "token_id": null,
+          "trace_entry_id": "bridge_tanzil_to_audit/surfaced",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-010-d82736fc",
+            "predecessor:ifadah"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-010-d82736fc:6:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-010-d82736fc:6:in:mantuq:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:MAFHUM_NOT_YET_OPENED",
+            "EXPLANATORY:MANTUQ_NOT_MAFHUM",
+            "EXPLANATORY:MAJAZ_DEFERRED_UNTIL_HAQIQAH_ATTEMPT",
+            "EXPLANATORY:HAQIQAH_ATTEMPT_DEFERRED",
+            "EXPLANATORY:NAQL_DEFERRED_UNTIL_TRANSFER_GATE"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-010-d82736fc",
+          "stage_id": "MANTUQ",
+          "token_id": null,
+          "trace_entry_id": "prove_mantuq_closure/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-010-d82736fc",
+            "predecessor:mantuq"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-010-d82736fc:7:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-010-d82736fc:7:in:mafhum:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-010-d82736fc",
+          "stage_id": "MAFHUM",
+          "token_id": null,
+          "trace_entry_id": "prove_mafhum_closure/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        }
+      ]
+    },
+    {
+      "mirror_ok": true,
+      "rejections": [],
+      "span_id": "SPAN-AYAT-CLAUSE-014-59af3988",
+      "vendor_records": [
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-014-59af3988",
+            "predecessor:mufrad_closure"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-014-59af3988:0:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-014-59af3988:0:in:relation_closure:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:RELATION_CLOSURE_NOT_MEANING",
+            "EXPLANATORY:IFADAH_DEFERRED_UNTIL_SPEECH_FORCE",
+            "EXPLANATORY:HUKM_DEFERRED_UNTIL_IFADAH",
+            "EXPLANATORY:MAFHUM_DEFERRED_UNTIL_MANTUQ",
+            "EXPLANATORY:HAQIQAH_MAJAZ_DEFERRED_TO_POST_RELATION"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-014-59af3988",
+          "stage_id": "RELATION_CLOSURE",
+          "token_id": null,
+          "trace_entry_id": "prove_relation_closure/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-014-59af3988",
+            "predecessor:relation_closure"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-014-59af3988:1:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-014-59af3988:1:in:ifadah:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:IFADAH_NOT_PROPOSITION",
+            "EXPLANATORY:HUKM_DEFERRED_UNTIL_HUKM_DOMAIN_LAW",
+            "EXPLANATORY:MANAT_DEFERRED_UNTIL_MANAT_LAW",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:MAFHUM_MANTUQ_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:MAJAZ_HAQIQAH_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:EXTRA_SPEECH_FORCE_DEFERRED",
+            "EXPLANATORY:SPEAKER_INTENT_DEFERRED",
+            "EXPLANATORY:AUDIT_INTEGRATION_DEFERRED_UNTIL_PR_22_AUDIT"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-014-59af3988",
+          "stage_id": "IFADAH",
+          "token_id": null,
+          "trace_entry_id": "prove_ifadah_candidate/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-014-59af3988",
+            "predecessor:ifadah"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-014-59af3988:2:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-014-59af3988:2:in:hukm:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:HUKM_NOT_AUTHORITY",
+            "EXPLANATORY:MANAT_DEFERRED_UNTIL_MANAT_LAW",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:MAFHUM_MANTUQ_DEFERRED_POST_VERTICAL",
+            "EXPLANATORY:EXTENDED_DOMAIN_DEFERRED",
+            "EXPLANATORY:REALITY_VERIFICATION_DEFERRED",
+            "EXPLANATORY:AUDIT_INTEGRATION_DEFERRED_UNTIL_PR_22_AUDIT"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-014-59af3988",
+          "stage_id": "HUKM",
+          "token_id": null,
+          "trace_entry_id": "prove_hukm_candidate/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-014-59af3988",
+            "predecessor:hukm"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-014-59af3988:3:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-014-59af3988:3:in:manat:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:MANAT_NOT_TANZIL",
+            "EXPLANATORY:TAHQIQ_FINAL_DEFERRED",
+            "EXPLANATORY:TANZIL_DEFERRED_UNTIL_PRESENTATION_LAW",
+            "EXPLANATORY:REALITY_APPLICATION_DEFERRED",
+            "EXPLANATORY:NO_PREVENTER_CHECK_DEFERRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-014-59af3988",
+          "stage_id": "MANAT",
+          "token_id": null,
+          "trace_entry_id": "prove_manat_candidate/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-014-59af3988",
+            "predecessor:manat"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-014-59af3988:4:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-014-59af3988:4:in:tanzil:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:TANZIL_NOT_EXECUTION",
+            "EXPLANATORY:PRESENTATION_BOUNDARY_REQUIRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN",
+            "EXPLANATORY:FATWA_FORBIDDEN",
+            "EXPLANATORY:QADA_FORBIDDEN",
+            "EXPLANATORY:ANSWER_AUDIT_BRIDGE_DEFERRED",
+            "EXPLANATORY:VERTICAL_CLOSURE_DEFERRED"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-014-59af3988",
+          "stage_id": "TANZIL",
+          "token_id": null,
+          "trace_entry_id": "prove_tanzil_candidate/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-014-59af3988",
+            "predecessor:tanzil"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-014-59af3988:5:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-014-59af3988:5:in:audited_tanzil_bridge:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:TANZIL_NOT_EXECUTION",
+            "EXPLANATORY:PRESENTATION_BOUNDARY_REQUIRED",
+            "EXPLANATORY:EXTERNAL_EXECUTION_FORBIDDEN",
+            "EXPLANATORY:FATWA_FORBIDDEN",
+            "EXPLANATORY:QADA_FORBIDDEN",
+            "EXPLANATORY:ANSWER_AUDIT_BRIDGE_DEFERRED",
+            "EXPLANATORY:VERTICAL_CLOSURE_DEFERRED"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-014-59af3988",
+          "stage_id": "AUDITED_TANZIL_BRIDGE",
+          "token_id": null,
+          "trace_entry_id": "bridge_tanzil_to_audit/surfaced",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-014-59af3988",
+            "predecessor:ifadah"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-014-59af3988:6:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-014-59af3988:6:in:mantuq:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [
+            "EXPLANATORY:MAFHUM_NOT_YET_OPENED",
+            "EXPLANATORY:MANTUQ_NOT_MAFHUM",
+            "EXPLANATORY:MAJAZ_DEFERRED_UNTIL_HAQIQAH_ATTEMPT",
+            "EXPLANATORY:HAQIQAH_ATTEMPT_DEFERRED",
+            "EXPLANATORY:NAQL_DEFERRED_UNTIL_TRANSFER_GATE"
+          ],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-014-59af3988",
+          "stage_id": "MANTUQ",
+          "token_id": null,
+          "trace_entry_id": "prove_mantuq_closure/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        },
+        {
+          "applicability": "APPLICABLE",
+          "corpus_id": "AYAT_AL_DAYN_5_SPANS",
+          "evidence_refs": [
+            "hokom:span:SPAN-AYAT-CLAUSE-014-59af3988",
+            "predecessor:mantuq"
+          ],
+          "failure_code": null,
+          "identity_invariants_checked": [
+            "hokom_span_composition_preserved"
+          ],
+          "input_carrier_id": "hokom:SPAN-AYAT-CLAUSE-014-59af3988:7:in",
+          "next_admissible_stage_ids": [],
+          "output_carrier_id": "hokom:SPAN-AYAT-CLAUSE-014-59af3988:7:in:mafhum:out",
+          "path_id": "HokomSpanCompositionPath",
+          "rank_after": 0,
+          "rank_before": 0,
+          "registry_hash": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "registry_version": "hokom-wave08-dual-carrier-v1",
+          "remediation_hints": [],
+          "residuals_after": [],
+          "residuals_before": [],
+          "run_id": "hokom:wave08:dual-carrier",
+          "source_commit_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+          "span_id": "SPAN-AYAT-CLAUSE-014-59af3988",
+          "stage_id": "MAFHUM",
+          "token_id": null,
+          "trace_entry_id": "prove_mafhum_closure/proven",
+          "trace_parent_ids": [],
+          "transition_state": "EXECUTED"
+        }
+      ]
+    }
+  ],
+  "rejections": [],
+  "run_id": "hokom:wave08:dual-carrier",
+  "schema_version": "1.0.0",
+  "vendor_mirror_count": 5,
+  "vendor_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
+}
