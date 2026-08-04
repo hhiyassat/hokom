@@ -1,0 +1,154 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_kind": "report_binding_manifest",
+  "phase": "QIYAS-TAAQOL-FULL-NATIVE-CANONICAL-CLOSURE-01",
+  "slice": "TAAQOL_ANSWERAUDIT_WAVE09",
+  "generated_at_utc": "2026-08-05T00:00:00+00:00",
+  "purpose": "Immutable binding of Wave09 (AnswerAudit deterministic engine closure) reports to their introducing commit SHAs. Two-step REPAIR F protocol: implementation reports ship in preceding commits; this manifest ships in the next commit and records ADAPTER_COMMIT_HEAD, REAL_VERTICAL_COMMIT_HEAD, INTEGRITY_COMMIT_HEAD, EVIDENCE_COMMIT_HEAD, REPORT_COMMIT_HEAD, REPORT_BINDING_HEAD. Preserves Wave07 (50c9961) and Wave08 (3f46ca6) bindings untouched.",
+  "bindings": {
+    "ADAPTER_COMMIT_HEAD": {
+      "sha_full": "b755db4bc4001088e2562ed21bc83843f89d6e40",
+      "sha_short": "b755db4",
+      "meaning": "Wave09 Phase C+D: audit_layer adapter + deterministic ModelClient + 21 deterministic tests."
+    },
+    "REAL_VERTICAL_COMMIT_HEAD": {
+      "sha_full": "eaa9cec449daebdf0ed682b4df02d376b9c83690",
+      "sha_short": "eaa9cec",
+      "meaning": "Wave09 Phase E: wave09_answer_audit_chain.py + 10 real-vertical tests."
+    },
+    "INTEGRITY_COMMIT_HEAD": {
+      "sha_full": "59d63cfe998fc254207c5c1045ddbe5475c4cf94",
+      "sha_short": "59d63cf",
+      "meaning": "Wave09 Phase F: answer_audit_integrity.py + 19 mutation-proof tests + integrity_measurement.py self-exclusion update."
+    },
+    "EVIDENCE_COMMIT_HEAD": {
+      "sha_full": "a38f05798cb48d2ed2179af2bfc25845d210e9e7",
+      "sha_short": "a38f057",
+      "meaning": "Wave09 evidence artifacts (execution + integrity snapshot + summary) + generator script."
+    },
+    "REPORT_COMMIT_HEAD": {
+      "sha_full": "4d4a7e3<to-be-resolved>",
+      "sha_short": "4d4a7e3",
+      "meaning": "The commit that introduced C13_WAVE09_TYPED_LEDGER.json + WAVE09_HANDOFF.md."
+    },
+    "REPORT_BINDING_HEAD": {
+      "sha_full": "TO_BE_SET_BY_THIS_COMMIT",
+      "sha_short": "TO_BE_SET_BY_THIS_COMMIT",
+      "meaning": "This manifest's own commit SHA — observable by a fresh audit session via `git log --diff-filter=A -- reports/qiyas_hokom_taaqol_canonical_closure_01/WAVE09_BINDING_MANIFEST.json`."
+    }
+  },
+  "vendor_pin": {
+    "sha_full": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+    "sha_short": "bc9d1ea",
+    "unchanged_since_wave": "wave_8"
+  },
+  "bound_artifacts": [
+    {
+      "path": "reports/qiyas_hokom_taaqol_canonical_closure_01/C13_WAVE09_TYPED_LEDGER.json",
+      "sha256": "525cf55f7bbd86ea69ead0488f6047d37804efc63c09cf2bd4ecbc4cbfc04868",
+      "introducing_commit_short": "4d4a7e3"
+    },
+    {
+      "path": "reports/qiyas_hokom_taaqol_canonical_closure_01/WAVE09_HANDOFF.md",
+      "sha256": "093ce6c286f52460cbdd6c9bd69e61d396d62d8f9c4c1efb596b13963a89d5e8",
+      "introducing_commit_short": "4d4a7e3"
+    },
+    {
+      "path": "reports/qiyas_hokom_taaqol_canonical_closure_01/WAVE09_ANSWER_AUDIT_EXECUTION.json",
+      "sha256": "da3078e18908f31a3f57c4a966f22f698d5bafb92b719de9b51f73bc8b354fcf",
+      "introducing_commit_short": "a38f057"
+    },
+    {
+      "path": "reports/qiyas_hokom_taaqol_canonical_closure_01/WAVE09_ANSWER_AUDIT_INTEGRITY_SNAPSHOT.json",
+      "sha256": "b834fae30a66540f50145758e1f3ffda498fa6dd007a71db837fa100e7231bde",
+      "introducing_commit_short": "a38f057"
+    },
+    {
+      "path": "reports/qiyas_hokom_taaqol_canonical_closure_01/WAVE09_CLOSURE_SUMMARY.md",
+      "sha256": "8317cb7a94b3dce024abda4464dc251b8c6d3ce165a657a1fea99476366dfcc8",
+      "introducing_commit_short": "a38f057"
+    }
+  ],
+  "predecessor_bindings": {
+    "wave07_binding_manifest": {
+      "path": "reports/qiyas_hokom_taaqol_canonical_closure_01/BINDING_MANIFEST.json",
+      "report_binding_head_short": "50c9961",
+      "preserved": true
+    },
+    "wave08_binding_manifest": {
+      "path": "reports/qiyas_hokom_taaqol_canonical_closure_01/WAVE08_BINDING_MANIFEST.json",
+      "report_binding_head_short": "3f46ca6",
+      "preserved": true
+    }
+  },
+  "deterministic_double_run": {
+    "wave03_to_09_scope": {
+      "test_files": 11,
+      "run1_collected": 144,
+      "run1_passed": 139,
+      "run1_skipped": 5,
+      "run1_failed": 0,
+      "run1_errors": 0,
+      "run1_warnings": 0,
+      "run1_exit_code": 0,
+      "run1_duration_seconds": 172.12,
+      "run1_node_id_sha256": "511521dd1886323f734cef118db403bd4d79643a514d236f8a772dd8b494ee67",
+      "run2_collected": 144,
+      "run2_passed": 139,
+      "run2_skipped": 5,
+      "run2_failed": 0,
+      "run2_errors": 0,
+      "run2_warnings": 0,
+      "run2_exit_code": 0,
+      "run2_duration_seconds": 154.04,
+      "run2_node_id_sha256": "511521dd1886323f734cef118db403bd4d79643a514d236f8a772dd8b494ee67",
+      "node_ids_identical": true,
+      "diff_exit_code": 0,
+      "post_run_worktree_strictly_clean": true,
+      "env": {
+        "PYTHONHASHSEED": "0",
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "warning_policy": "-W error"
+      },
+      "skip_composition": {
+        "count": 5,
+        "location": "tests/taaqol_integration/test_answer_audit_deterministic.py",
+        "scenarios": [
+          "test_w9_7_missing_evidence_test_not_applicable",
+          "test_w9_8_gamma_refusal_test_not_applicable",
+          "test_w9_9_transition_gate_refusal_test_not_applicable",
+          "test_w9_14_irrelevant_extra_provider_fields_test_not_applicable",
+          "test_w9_15_trace_ledger_failure_test_not_applicable"
+        ],
+        "reason": "TEST_NOT_APPLICABLE per directive Phase D — each skip carries an in-file docstring citing the SOURCE_REFERENCE for where the scenario IS tested (vendor test suite for missing_evidence/gamma_refusal/gate_refusal; docs/01 protocol boundary for irrelevant_extra_fields; TraceLedger has no runtime failure mode). Do not invent unreachable states merely to satisfy counts."
+    }
+  },
+  "how_to_verify": {
+    "step_1": "git rev-parse b755db4 eaa9cec 59d63cf a38f057 4d4a7e3 → confirms Wave09 commit chain.",
+    "step_2": "git show --stat b755db4 → 4 files (adapter package + tests, no vendor touch).",
+    "step_3": "git submodule status vendor/Taaqol-GPT → bc9d1ea5ef45970f5f3ec132441e30fd54b3da52 unchanged.",
+    "step_4": "git log --diff-filter=A -- reports/qiyas_hokom_taaqol_canonical_closure_01/WAVE09_BINDING_MANIFEST.json → REPORT_BINDING_HEAD is the returned commit.",
+    "step_5": "sha256sum on each bound_artifacts[].path → must match the sha256 field.",
+    "step_6": "python3 scripts/qiyas_canonical_closure_01_wave09_evidence.py → regenerates WAVE09_ANSWER_AUDIT_EXECUTION.json and WAVE09_ANSWER_AUDIT_INTEGRITY_SNAPSHOT.json byte-identically (deterministic).",
+    "step_7": "git rev-parse hokom-canonical-gate-27-closed → still 72be48f3… (untouched).",
+    "step_8": "git status --porcelain=v2 --untracked-files=all → zero bytes."
+  },
+  "wave09_wraps": [
+    "Phase B (Taaqol target inventory) — via vendor CLAUDE.md + audit/*.py source read",
+    "Phase C (AnswerAudit contract audit) — native contract map documented",
+    "Phase D (deterministic engine) — 3 ModelClient implementations + 21 tests",
+    "Phase E (real 5-span vertical) — wave09_answer_audit_chain + 10 tests",
+    "Phase F (live integrity) — 15 counters + 19 mutation-proof tests",
+    "Phase G (evidence + ledger + handoff + binding + independent audit) — this manifest + independent audit is the next task"
+  ],
+  "wave09_deferred": [
+    "Phase H (GPT-R8 gap audit) — fresh read-only session next",
+    "Phase I (GPT-R8 native implementation) — depends on H; Taaqol-branch first",
+    "Phase J (permit audit) — AnswerAudit does not require native permit per docs/01 + docs/07 (ledger + gate directly, not x0r permit machinery); to be independently confirmed by audit",
+    "Phases K-O — post-GPT-R8"
+  ],
+  "audit_verdict_addressed": "Wave09 slice addresses AnswerAudit deterministic engine closure only. Full Taaqol native closure remains blocked on GPT-R8.",
+  "READY_FOR_REAUDIT": true,
+  "no_self_declaration_of_VERIFIED_CLOSED": true,
+  "SLICE_SCOPE_ONLY": "Wave09 covers AnswerAudit deterministic engine closure only. Full Taaqol native closure (GPT-R8 runtime + complete DAG audit + canonical gate) still pending."
+}
