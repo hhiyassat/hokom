@@ -139,6 +139,45 @@ _TRACE_ID_PREFIX         = "maqayis:trace"
 PIPELINE_ACTOR_ID = "maqayis_identity_pipeline_v1"
 
 
+# ── PDF-byte provenance public getter (addendum defect §7) ───────────────────
+#
+# The pdf_sha256_map is computed inside build_source_records() from actual
+# PDF file bytes at data/maqaees/{VV}.pdf. Prior to this getter the mapping
+# was internal only; external callers had to reconstruct it. This function
+# exposes the map as a public, typed dict[str, str] mapping filename → SHA256
+# hex digest. Missing PDFs are omitted (never sentinel-encoded).
+
+def get_pdf_sha256_map() -> dict[str, str]:
+    """Return the public {filename → SHA256 hex} map for known Maqayis PDFs.
+
+    Filenames use the on-disk naming convention `{vol_number:02d}.pdf`
+    (e.g. "01.pdf", "02.pdf", …). A filename is present in the returned
+    dict IFF the corresponding PDF exists AND its bytes were successfully
+    hashed. The returned dict is a fresh copy — callers may not mutate a
+    shared state.
+
+    Never raises — a PDF that cannot be opened is silently omitted
+    (fail-open contract; the getter is a read-only utility).
+    """
+    import hashlib as _hashlib
+    result: dict[str, str] = {}
+    for meta in _VOLUME_METADATA:
+        vol_n = meta["volume_number"]
+        pdf_path = _DATA_DIR / f"{vol_n:02d}.pdf"
+        if not pdf_path.exists():
+            continue
+        try:
+            h = _hashlib.sha256()
+            with open(pdf_path, "rb") as fh:
+                for chunk in iter(lambda: fh.read(65536), b""):
+                    h.update(chunk)
+            result[f"{vol_n:02d}.pdf"] = h.hexdigest()
+        except OSError:
+            # Genuinely unreadable file (permissions, corrupt) is omitted.
+            continue
+    return result
+
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # § 1 — SOURCE RECORD BUILDER
 # ═══════════════════════════════════════════════════════════════════════════════

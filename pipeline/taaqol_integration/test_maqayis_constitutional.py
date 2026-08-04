@@ -1610,6 +1610,58 @@ def test_kb12_trace_propagation_end_to_end(registry, import_result):
     )
 
 
+def test_pdf01_public_pdf_sha256_map_available():
+    """Addendum defect §7: get_pdf_sha256_map() returns a public typed
+    {filename → SHA256} mapping computed from actual PDF bytes.
+    """
+    from maqayis_identity_pipeline import get_pdf_sha256_map
+    m = get_pdf_sha256_map()
+    assert isinstance(m, dict)
+    # Every entry must be a hex SHA-256 (64 lowercase hex chars).
+    import re
+    hex64 = re.compile(r"^[0-9a-f]{64}$")
+    for filename, digest in m.items():
+        assert filename.endswith(".pdf"), (
+            f"§7: filename must be a .pdf name; got {filename!r}"
+        )
+        assert hex64.match(digest), (
+            f"§7: digest for {filename!r} must be a hex SHA-256; got {digest!r}"
+        )
+
+
+def test_pdf02_public_map_reflects_source_records():
+    """The public map's keys must be a subset of the filenames
+    referenced by SourceRecord.pdf_sha256 values — i.e. no external
+    filename can appear that the pipeline itself doesn't hash.
+    """
+    from maqayis_identity_pipeline import (
+        get_pdf_sha256_map,
+        build_source_records,
+    )
+    public_map = get_pdf_sha256_map()
+    records = build_source_records()
+    record_digests = {r.pdf_sha256 for r in records if r.pdf_sha256}
+    # Every digest that appears in the public map must also appear on some
+    # SourceRecord (they were both computed from the same PDF bytes).
+    for filename, digest in public_map.items():
+        assert digest in record_digests, (
+            f"§7: {filename} digest {digest[:8]}... not carried on any "
+            f"SourceRecord.pdf_sha256"
+        )
+
+
+def test_pdf03_public_map_returns_fresh_copy():
+    """Callers must not be able to mutate shared internal state by
+    editing the returned dict."""
+    from maqayis_identity_pipeline import get_pdf_sha256_map
+    m1 = get_pdf_sha256_map()
+    m1["synthetic.pdf"] = "0" * 64
+    m2 = get_pdf_sha256_map()
+    assert "synthetic.pdf" not in m2, (
+        "§7: returned dict must be a fresh copy; mutations must not leak"
+    )
+
+
 def test_kb13_repeated_lookups_produce_unique_trace_ids(registry):
     """§4 uniqueness: repeated lookups of the same root must each emit
     a distinct LOOKUP trace ID (monotonic sequence)."""
