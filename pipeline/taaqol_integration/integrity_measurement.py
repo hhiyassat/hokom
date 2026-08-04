@@ -92,9 +92,11 @@ class RuntimeRecordRule:
 _DEFAULT_EXCLUDE_SUBSTRINGS: tuple[str, ...] = (
     "/tests/", "/vendor/", "/docs/", "/reports/",
     "/__pycache__/", "/.git/", "/.pytest_cache/",
-    # This module itself contains the anti-pattern regexes as string
-    # literals; excluding it prevents self-detection.
+    # These modules contain the anti-pattern regexes as string
+    # literals for the integrity framework itself; excluding them
+    # prevents self-detection.
     "/integrity_measurement.py",
+    "/answer_audit_integrity.py",
 )
 
 _NOSCAN_MARKER = "NOSCAN"
