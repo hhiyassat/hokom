@@ -610,7 +610,10 @@ def run_identity_pipeline(import_result: LegacyImportResult) -> IdentityPipeline
 
     Returns IdentityPipelineResult — never raises (fail-open contract).
     """
-    occurred_at = datetime.datetime.utcnow().isoformat() + "Z"
+    occurred_at = (
+        datetime.datetime.now(datetime.timezone.utc)
+        .replace(tzinfo=None).isoformat() + "Z"
+    )
 
     source_records = build_source_records()
     passages:    list[SourcePassage]          = []

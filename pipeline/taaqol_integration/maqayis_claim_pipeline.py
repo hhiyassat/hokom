@@ -505,7 +505,10 @@ def run_claim_pipeline(import_result: LegacyImportResult) -> ClaimPipelineResult
 
     Returns ClaimPipelineResult — never raises (fail-open contract).
     """
-    occurred_at = datetime.datetime.utcnow().isoformat() + "Z"
+    occurred_at = (
+        datetime.datetime.now(datetime.timezone.utc)
+        .replace(tzinfo=None).isoformat() + "Z"
+    )
 
     claims:            list[SourceRootClaim]          = []
     origin_candidates: list[LexicalOriginCandidate]   = []

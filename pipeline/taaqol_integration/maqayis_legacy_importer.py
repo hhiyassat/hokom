@@ -315,7 +315,10 @@ def import_legacy_corpus(
     ───────
     LegacyImportResult — never raises (fail-open contract)
     """
-    occurred_at = datetime.datetime.utcnow().isoformat() + "Z"
+    occurred_at = (
+        datetime.datetime.now(datetime.timezone.utc)
+        .replace(tzinfo=None).isoformat() + "Z"
+    )
 
     # Resolve source path
     if jsonl_path is None:
