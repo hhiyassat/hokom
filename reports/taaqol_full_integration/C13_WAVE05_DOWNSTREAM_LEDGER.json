@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.2.0",
+  "phase": "QIYAS-TAAQOL-MAXIMUM-NATIVE-CLOSURE-01",
+  "gate": "C13_WAVE05_DOWNSTREAM_NATIVE_CLOSURE",
+  "wave": "wave_5",
+  "branch": "closure/hokom-taaqol-final-production-01",
+  "generated_at_utc": "2026-08-04T00:00:00+00:00",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "commits_this_wave": [
+    {"sha_prefix": "ccd971a", "message": "fix(taaqol): use verdict_state on 5 downstream vendor adapters"},
+    {"sha_prefix": "f976a17", "message": "feat(taaqol): close full downstream DAG — Hukm → Manat → Tanzil + Mantuq → Mafhum"},
+    {"sha_prefix": "734b042", "message": "test(taaqol): C13 Wave05 downstream closure verification (14 tests)"},
+    {"sha_prefix": "8cc5a6e", "message": "evidence(taaqol): real Ayat vertical + deterministic double-run"}
+  ],
+  "vendor_dag_downstream_implemented": [
+    "prove_hukm_candidate → HukmVerdict",
+    "prove_manat_candidate → ManatVerdict",
+    "prove_tanzil_candidate → TanzilVerdict (TERMINAL)",
+    "prove_mantuq_closure → MantuqClosureVerdict",
+    "prove_mafhum_closure → MafhumClosureVerdict"
+  ],
+  "chain_topology": {
+    "vertical": "Ifadah → Hukm → Manat → Tanzil (TERMINAL)",
+    "parallel": "Ifadah → Mantuq → Mafhum",
+    "shared_maqam_anchor": "hukm_maqam = manat.closure_scope = mq_g.trace_ref"
+  },
+  "runtime_metrics_real_ayat_corpus": {
+    "ifadah_proven": 5,
+    "hukm_calls": 5, "hukm_proven": 5,
+    "manat_calls": 5, "manat_proven": 5,
+    "tanzil_calls": 5, "tanzil_proven": 5,
+    "mantuq_calls": 5, "mantuq_proven": 5,
+    "mafhum_calls": 5, "mafhum_proven": 5
+  },
+  "constitutional_defect_closed": {
+    "defect": "5 downstream adapters (hukm/manat/tanzil/mantuq/mafhum) accessed `.state` on vendor verdict dataclasses which expose `.verdict_state`. The AttributeError was silently swallowed by the broad `except Exception` and treated as a refused verdict.",
+    "fix_commit": "ccd971a",
+    "coverage": "identical to Wave04 defect closed on ifadah_candidate_adapter"
+  },
+  "adapter_signature_reconciliation": {
+    "manat_effective_attribute_candidate": "vendor requires non-empty; derived from governing token id",
+    "mafhum_qayd": "vendor requires non-empty; derived from span id",
+    "mafhum_mantuq_blocks": "set False in chain runner (branch_type + qayd present)",
+    "tanzil_presentation_warning": "vendor requires non-empty; set to 'CANDIDATE'"
+  },
+  "verified_tests": {
+    "wave_03_supplement": "7/7 test_c13_wave03_verification_supplement",
+    "wave_04_ifadah": "11/11 test_c13_wave04_ifadah_closure",
+    "wave_05_downstream": "14/14 test_c13_wave05_downstream_closure",
+    "combined_wave_3_4_5": "32/32 in 71s"
+  },
+  "determinism": {
+    "python_hashseed": "0",
+    "run1_run2_identical": true,
+    "artifact_dir": "reports/qiyas_taaqol_max_native_closure/"
+  },
+  "integrity": {
+    "arbitrary_adjacency_execution_count": 0,
+    "fixture_counted_as_ayat_execution": 0,
+    "direct_native_output_injection_count": 0,
+    "synthetic_evidence": 0,
+    "synthetic_provenance": 0,
+    "expected_verdict_lookup_tables": 0,
+    "token_position_branches": 0,
+    "example_sentence_text_branches": 0,
+    "quranic_surface_text_branches": 0
+  },
+  "first_genuine_blocker_encountered": null,
+  "MAXIMUM_NATIVE_CLOSURE_STATUS": "IMPLEMENTED_TO_FIRST_GENUINE_BLOCKER",
+  "TAAQOL_IMPLEMENTATION_STATUS": "IMPLEMENTED_PENDING_INDEPENDENT_AUDIT",
+  "closure_notes": [
+    "Ifadah → Hukm → Manat → Tanzil (TERMINAL) fully closes on all 5 Ayat spans.",
+    "Ifadah → Mantuq → Mafhum (MUWAFAQAH) fully closes on all 5 Ayat spans.",
+    "No stages beyond Tanzil (vertical) or Mafhum (parallel) exist in the pinned vendor kernel.",
+    "No self-declaration of VERIFIED_CLOSED — status is IMPLEMENTED_PENDING_INDEPENDENT_AUDIT."
+  ]
+}
