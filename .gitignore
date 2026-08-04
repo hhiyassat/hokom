@@ -9,6 +9,12 @@ build/
 *.log
 *.csv
 *.txt
+
+# Claude Code CLI harness — session-local files (scheduled task locks,
+# transient tool state). Owned by the harness process, not by the
+# repository; excluding keeps `git status --porcelain=v2 --untracked-files=all`
+# strictly clean for reaudit sessions.
+.claude/
 !README.md
 !CONSTITUTION.md
 !REFACTORING_ARCHITECTURE.md
