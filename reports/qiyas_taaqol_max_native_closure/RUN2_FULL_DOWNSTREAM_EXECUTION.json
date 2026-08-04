@@ -1,0 +1,192 @@
+{
+  "hukm_available": true,
+  "hukm_calls": 5,
+  "hukm_proven": 5,
+  "ifadah_proven": 5,
+  "last_reached_stage_per_span": [
+    "tanzil_proven",
+    "tanzil_proven",
+    "tanzil_proven",
+    "tanzil_proven",
+    "tanzil_proven"
+  ],
+  "mafhum_available": true,
+  "mafhum_calls": 5,
+  "mafhum_proven": 5,
+  "manat_available": true,
+  "manat_calls": 5,
+  "manat_proven": 5,
+  "mantuq_available": true,
+  "mantuq_calls": 5,
+  "mantuq_proven": 5,
+  "per_span_downstream": [
+    {
+      "span_id": "SPAN-AYAT-CLAUSE-004-c3d5ed00",
+      "stages": [
+        [
+          "relation_closure",
+          "PROVEN"
+        ],
+        [
+          "ifadah",
+          "PROVEN"
+        ],
+        [
+          "hukm",
+          "PROVEN"
+        ],
+        [
+          "manat",
+          "PROVEN"
+        ],
+        [
+          "tanzil",
+          "PROVEN"
+        ],
+        [
+          "mantuq",
+          "PROVEN"
+        ],
+        [
+          "mafhum",
+          "PROVEN"
+        ]
+      ]
+    },
+    {
+      "span_id": "SPAN-AYAT-CLAUSE-005-a3e4bc0d",
+      "stages": [
+        [
+          "relation_closure",
+          "PROVEN"
+        ],
+        [
+          "ifadah",
+          "PROVEN"
+        ],
+        [
+          "hukm",
+          "PROVEN"
+        ],
+        [
+          "manat",
+          "PROVEN"
+        ],
+        [
+          "tanzil",
+          "PROVEN"
+        ],
+        [
+          "mantuq",
+          "PROVEN"
+        ],
+        [
+          "mafhum",
+          "PROVEN"
+        ]
+      ]
+    },
+    {
+      "span_id": "SPAN-AYAT-CLAUSE-009-31427193",
+      "stages": [
+        [
+          "relation_closure",
+          "PROVEN"
+        ],
+        [
+          "ifadah",
+          "PROVEN"
+        ],
+        [
+          "hukm",
+          "PROVEN"
+        ],
+        [
+          "manat",
+          "PROVEN"
+        ],
+        [
+          "tanzil",
+          "PROVEN"
+        ],
+        [
+          "mantuq",
+          "PROVEN"
+        ],
+        [
+          "mafhum",
+          "PROVEN"
+        ]
+      ]
+    },
+    {
+      "span_id": "SPAN-AYAT-CLAUSE-010-d82736fc",
+      "stages": [
+        [
+          "relation_closure",
+          "PROVEN"
+        ],
+        [
+          "ifadah",
+          "PROVEN"
+        ],
+        [
+          "hukm",
+          "PROVEN"
+        ],
+        [
+          "manat",
+          "PROVEN"
+        ],
+        [
+          "tanzil",
+          "PROVEN"
+        ],
+        [
+          "mantuq",
+          "PROVEN"
+        ],
+        [
+          "mafhum",
+          "PROVEN"
+        ]
+      ]
+    },
+    {
+      "span_id": "SPAN-AYAT-CLAUSE-014-59af3988",
+      "stages": [
+        [
+          "relation_closure",
+          "PROVEN"
+        ],
+        [
+          "ifadah",
+          "PROVEN"
+        ],
+        [
+          "hukm",
+          "PROVEN"
+        ],
+        [
+          "manat",
+          "PROVEN"
+        ],
+        [
+          "tanzil",
+          "PROVEN"
+        ],
+        [
+          "mantuq",
+          "PROVEN"
+        ],
+        [
+          "mafhum",
+          "PROVEN"
+        ]
+      ]
+    }
+  ],
+  "tanzil_available": true,
+  "tanzil_calls": 5,
+  "tanzil_proven": 5
+}
