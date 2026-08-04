@@ -6,6 +6,23 @@
 **Head:** `8cc5a6e`
 **Vendor SHA:** `05c6668dfb95d9238cff5df1d8bc73d0664bccb3` (pinned)
 
+> **CORRECTION 2026-08-04 (Remediation-02):** the original document
+> below incorrectly labelled Tanzil as TERMINAL. The pinned vendor
+> kernel exposes one further native stage after Tanzil —
+> `bridge_tanzil_to_audit` (in
+> `vendor/Taaqol-GPT/src/taaqqul_slot_geometry/audit/tanzil_bridge.py`)
+> — which was flagged by the independent audit
+> (`QIYAS-TAAQOL-MAXIMUM-NATIVE-CLOSURE-INDEPENDENT-AUDIT-01`) as an
+> open locally-closeable defect. That stage is now closed in
+> Wave06 (see `C13_WAVE06_TYPED_LEDGER.json` and
+> `QIYAS_TAAQOL_REMEDIATION_02_HANDOFF.md`).
+>
+> Corrected DAG statement:
+>
+>     Weight-layer terminal:  Tanzil
+>     Audit-layer terminal:   AuditedTanzilBridge  ← next-reachable
+>     Parallel-branch terminal: Mafhum
+
 ## 1. What was closed
 
 The full native Taaqol reasoning DAG consumed by Hokom, on the real
@@ -19,19 +36,21 @@ stage in the pinned vendor kernel:
     → MufradDalalahClosure
     → RelationClosure
     → Ifadah
-    ├── Hukm → Manat → Tanzil   (TERMINAL vertical)
-    └── Mantuq → Mafhum          (parallel branch)
+    ├── Hukm → Manat → Tanzil          (weight-layer terminal)
+    │                    └── AuditedTanzilBridge  (audit-layer, added in Wave06)
+    └── Mantuq → Mafhum                 (parallel branch)
 
 Per-stage closure counts (identical across two deterministic runs):
 
-| Stage           | Calls | Proven |
-|-----------------|-------|--------|
-| Ifadah          | 5     | 5      |
-| Hukm            | 5     | 5      |
-| Manat           | 5     | 5      |
-| Tanzil (TERM.)  | 5     | 5      |
-| Mantuq          | 5     | 5      |
-| Mafhum          | 5     | 5      |
+| Stage                    | Calls | Proven / Surfaced |
+|--------------------------|-------|-------------------|
+| Ifadah                   | 5     | 5                 |
+| Hukm                     | 5     | 5                 |
+| Manat                    | 5     | 5                 |
+| Tanzil (weight-terminal) | 5     | 5                 |
+| AuditedTanzilBridge      | 5     | 5 (SURFACED)      |
+| Mantuq                   | 5     | 5                 |
+| Mafhum                   | 5     | 5                 |
 
 ## 2. Commits landed this wave
 
@@ -106,14 +125,21 @@ Evidence artifacts under `reports/qiyas_taaqol_max_native_closure/`:
 
 ## 8. First genuine external / constitutional blocker
 
-**None encountered within the pinned vendor kernel.** Every reachable
-stage in the Taaqol DAG closes on the real Ayat corpus. Downstream
-stages beyond Tanzil (vertical TERMINAL) and Mafhum (parallel branch)
-are not defined in the pinned vendor SHA.
+**None encountered within the pinned vendor kernel** (as of Wave06).
+Every reachable stage in the Taaqol DAG — including the audit-layer
+`bridge_tanzil_to_audit` closed in Wave06 — closes on the real Ayat
+corpus. Downstream stages beyond `AuditedTanzilBridge`
+(audit-terminal) and `Mafhum` (parallel branch) are not defined in
+the pinned vendor SHA.
 
-If further stages are added to the vendor kernel (e.g. inheritance
-`Tanzil → post-tanzil action-record`), that would be the next
-implementation wave — it does not exist today.
+> The original wave (Wave05) reported this same conclusion citing
+> only Tanzil as terminal; the independent audit correctly identified
+> `bridge_tanzil_to_audit` as an unbridged reachable stage. Wave06
+> closes it. See Remediation-02 evidence in
+> `reports/qiyas_taaqol_remediation_02/`.
+
+If further stages are added to the vendor kernel, that would be the
+next implementation wave — it does not exist today.
 
 ## 9. What is NOT claimed
 

@@ -3,7 +3,8 @@
 Verifies the full native DAG closure from Ifadah into every reachable
 downstream stage on the real Ayat corpus.
 
-  Vertical: Ifadah → Hukm → Manat → Tanzil (TERMINAL)
+  Vertical: Ifadah → Hukm → Manat → Tanzil (weight-layer terminal;
+      audit-layer bridge added in Wave06 test_c13_wave06_typed_closure.py)
   Parallel: Ifadah → Mantuq → Mafhum
 
 Every stage is a native vendor dataclass (no Hokom-side construction).
@@ -66,7 +67,7 @@ def test_w5_4_manat_all_hukm_promote(_downstream_result):
 
 
 def test_w5_5_tanzil_all_manat_promote(_downstream_result):
-    """Every PROVEN Manat promotes to a PROVEN Tanzil (TERMINAL)."""
+    """Every PROVEN Manat promotes to a PROVEN Tanzil (weight-layer terminal)."""
     manat = _downstream_result["manat_proven"]
     assert _downstream_result["tanzil_calls"] == manat
     assert _downstream_result["tanzil_proven"] == manat

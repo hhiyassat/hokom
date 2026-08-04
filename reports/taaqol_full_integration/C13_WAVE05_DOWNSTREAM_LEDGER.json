@@ -1,5 +1,6 @@
 {
   "schema_version": "1.2.0",
+  "correction_note_appended_2026_08_04": "The 'TERMINAL' labels on Tanzil in this ledger overstate the DAG position. The pinned vendor kernel exposes bridge_tanzil_to_audit in audit/tanzil_bridge.py as one further reachable native stage, closed in Wave06 (see C13_WAVE06_TYPED_LEDGER.json). Tanzil is correctly the WEIGHT-LAYER terminal; AuditedTanzilBridge is the audit-layer terminal on the vertical branch.",
   "phase": "QIYAS-TAAQOL-MAXIMUM-NATIVE-CLOSURE-01",
   "gate": "C13_WAVE05_DOWNSTREAM_NATIVE_CLOSURE",
   "wave": "wave_5",

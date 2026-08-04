@@ -18,7 +18,13 @@ Constitutional chain (E0→E12):
 
 Constitutional invariants:
     - FAIL-CLOSED: any error → returns None
-    - TanzilCandidate is TERMINAL (not_execution_marker=True always for ayat_al_dayn)
+    - TanzilCandidate is the WEIGHT-LAYER terminal (not_execution_marker=True
+      always for ayat_al_dayn). Note: at the vendor kernel level there is one
+      further NATIVE stage that consumes TanzilVerdict —
+      audit/tanzil_bridge.bridge_tanzil_to_audit — closed on the Hokom side
+      by pipeline/taaqol_integration/weight_layer/typed_stage_builders.py
+      (Wave06). The "TERMINAL" language below refers only to the
+      not_execution_marker constitutional flag, not to DAG position.
     - not_execution_marker MUST be True for ayat_al_dayn (no execution authority)
     - reality_evidence must be non-empty (constitutional attestation)
     - instance_descriptor must be non-empty
@@ -32,7 +38,7 @@ Python 3.10 compat:
 
 Phase: E12 — TANZIL CANDIDATE
 Prior: E10 → HukmVerdict(PROVEN) + E11 → ManatVerdict(PROVEN)
-Output: TanzilVerdict(PROVEN, candidate=TanzilCandidate) with TERMINAL marker
+Output: TanzilVerdict(PROVEN, candidate=TanzilCandidate) with not_execution_marker=True (constitutional not-execution flag; NOT a DAG-terminal claim)
 VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
 """
 from __future__ import annotations
@@ -109,10 +115,10 @@ def build_tanzil_candidate(
         tanzil_scope:         Non-empty scope descriptor.
         presentation_warning: Optional warning for presentation layer.
         not_execution_marker: MUST be True (default). Ayat-al-dayn has no
-                              execution authority — TERMINAL marker required.
+                              execution authority — not_execution_marker=True (constitutional not-execution flag; NOT a DAG-terminal claim) required.
 
     Returns:
-        TanzilVerdict(state=PROVEN) with TERMINAL marker on success.
+        TanzilVerdict(state=PROVEN) with not_execution_marker=True (constitutional not-execution flag; NOT a DAG-terminal claim) on success.
         None on failure (fail-closed).
     """
     if not _TANZIL_AVAILABLE:

@@ -112,7 +112,9 @@ E11: HUKM
     ↓
 E12: MANAT
     ↓
-E13: TANZIL (TERMINAL)
+E13: TANZIL (weight-layer terminal)
+    ↓
+E13.5: AuditedTanzilBridge (audit-layer, closed Wave06)
     ↓
 E14: MANTUQ CLOSURE + MAFHUM CLOSURE + AUDIT
     ↓

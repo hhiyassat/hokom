@@ -12,7 +12,9 @@ Purpose:
 
 Constitutional chain (E0→E13):
     ...
-    E12 = TANZIL CANDIDATE (TanzilVerdict.PROVEN, TERMINAL)
+    E12 = TANZIL CANDIDATE (TanzilVerdict.PROVEN, weight-layer terminal;
+                             audit-layer continues via bridge_tanzil_to_audit
+                             — see Wave06 typed_stage_builders.py)
     E13 = MANTUQ CLOSURE ← THIS MODULE
 
     NOTE: MantuqClosure branches from IfadahVerdict (E9), not TanzilVerdict.
