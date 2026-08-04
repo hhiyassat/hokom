@@ -1554,3 +1554,48 @@ def test_kb11_trace_ids_never_contain_residual_ids():
     residual_id = "maqayis:residual:ORIGIN_NOT_EXTRACTED:حدر"
     assert residual_id not in augment.trace_ids, "§11: residual ID must not appear in trace_ids"
     assert residual_id in augment.residual_ids, "§11: residual ID must appear in residual_ids"
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# § 12  Shared production constants (BAB_LETTER_MAP)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def test_bl01_bab_letter_map_single_canonical_source():
+    """Addendum defect §6: BAB_LETTER_MAP must be defined once, in
+    production, and re-exported everywhere else. Prior versions had two
+    independent definitions (in bab_corrector and root_registry) that
+    could drift. Every consumer must resolve to the same object.
+    """
+    from maqayis_bab_letters import BAB_LETTER_MAP as canonical
+    from maqayis_bab_corrector import BAB_LETTER_MAP as via_corrector
+    from maqayis_root_registry import BAB_LETTER_MAP as via_registry
+    assert via_corrector is canonical, (
+        "bab_corrector.BAB_LETTER_MAP must BE the canonical map, not a copy"
+    )
+    assert via_registry is canonical, (
+        "root_registry.BAB_LETTER_MAP must BE the canonical map, not a copy"
+    )
+
+
+def test_bl02_bab_letter_map_is_read_only():
+    """The canonical map must reject mutation attempts at runtime — no
+    accidental drift from any consumer."""
+    import pytest as _pytest
+    from maqayis_bab_letters import BAB_LETTER_MAP
+    with _pytest.raises(TypeError):
+        BAB_LETTER_MAP['ا'] = 'MUTATED'   # type: ignore[index]
+
+
+def test_bl03_bab_letter_map_covers_all_28_base_consonants():
+    """Coverage guard: the 28 canonical Arabic consonants + 5 Hamza/variant
+    forms must all resolve, and each entry must be a non-empty الX string.
+    """
+    from maqayis_bab_letters import BAB_LETTER_MAP
+    base_consonants = "ابتثجحخدذرزسشصضطظعغفقكلمنهوي"
+    variants = "أإآؤئة"
+    for ch in base_consonants + variants:
+        assert ch in BAB_LETTER_MAP, f"missing bab-name for {ch!r}"
+        name = BAB_LETTER_MAP[ch]
+        assert name.startswith("ال") and len(name) > 2, (
+            f"invalid bab-name for {ch!r}: {name!r}"
+        )

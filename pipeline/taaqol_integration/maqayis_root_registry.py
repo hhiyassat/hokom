@@ -84,17 +84,9 @@ MAQAYIS_MISSING_INITIALS: frozenset[str] = frozenset(['ا', 'ب', 'ت', 'ث', '�
 _HAMZA_VARIANTS: frozenset[str] = frozenset(['أ', 'إ', 'آ'])
 
 #: Map from Arabic consonant to its full classical chapter name (bab_letter).
-BAB_LETTER_MAP: dict[str, str] = {
-    'ا': 'الألف',  'أ': 'الألف',  'إ': 'الألف',  'آ': 'الألف',
-    'ب': 'الباء',  'ت': 'التاء',  'ث': 'الثاء',  'ج': 'الجيم',
-    'ح': 'الحاء',  'خ': 'الخاء',  'د': 'الدال',  'ذ': 'الذال',
-    'ر': 'الراء',  'ز': 'الزاي',  'س': 'السين',  'ش': 'الشين',
-    'ص': 'الصاد',  'ض': 'الضاد',  'ط': 'الطاء',  'ظ': 'الظاء',
-    'ع': 'العين',  'غ': 'الغين',  'ف': 'الفاء',  'ق': 'القاف',
-    'ك': 'الكاف',  'ل': 'اللام',  'م': 'الميم',  'ن': 'النون',
-    'ه': 'الهاء',  'و': 'الواو',  'ؤ': 'الواو',
-    'ي': 'الياء',  'ئ': 'الياء',  'ة': 'التاء',
-}
+#: Canonical single-source definition lives in maqayis_bab_letters; re-exported
+#: here for backward compatibility with existing call sites.
+from maqayis_bab_letters import BAB_LETTER_MAP
 
 
 # ── Data types ─────────────────────────────────────────────────────────────────

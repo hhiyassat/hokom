@@ -45,45 +45,11 @@ import json
 import sys
 from pathlib import Path
 
-# ── Letter-name map ───────────────────────────────────────────────────────────
-# Maps each Arabic consonant to its full classical name as used in Ibn Faris.
-BAB_LETTER_MAP: dict[str, str] = {
-    'ا': 'الألف',
-    'ب': 'الباء',
-    'ت': 'التاء',
-    'ث': 'الثاء',
-    'ج': 'الجيم',
-    'ح': 'الحاء',
-    'خ': 'الخاء',
-    'د': 'الدال',
-    'ذ': 'الذال',
-    'ر': 'الراء',
-    'ز': 'الزاي',
-    'س': 'السين',
-    'ش': 'الشين',
-    'ص': 'الصاد',
-    'ض': 'الضاد',
-    'ط': 'الطاء',
-    'ظ': 'الظاء',
-    'ع': 'العين',
-    'غ': 'الغين',
-    'ف': 'الفاء',
-    'ق': 'القاف',
-    'ك': 'الكاف',
-    'ل': 'اللام',
-    'م': 'الميم',
-    'ن': 'النون',
-    'ه': 'الهاء',
-    'و': 'الواو',
-    'ي': 'الياء',
-    # Variant forms that appear as first radicals after Hamza normalisation
-    'أ': 'الألف',
-    'إ': 'الألف',
-    'آ': 'الألف',
-    'ؤ': 'الواو',
-    'ئ': 'الياء',
-    'ة': 'التاء',
-}
+# ── Letter-name map (re-exported for backward compatibility) ─────────────────
+# The canonical single-source definition lives in maqayis_bab_letters. This
+# re-export keeps any existing `from maqayis_bab_corrector import BAB_LETTER_MAP`
+# call sites working without duplicating the table.
+from maqayis_bab_letters import BAB_LETTER_MAP
 
 CORRECTION_REASON  = "first_radical_derivation"
 CORRECTION_VERSION = "v1"
