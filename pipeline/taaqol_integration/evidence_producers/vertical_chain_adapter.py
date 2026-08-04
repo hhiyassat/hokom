@@ -24,7 +24,7 @@ the vendor accepts them. See C13 §14 GENUS-PROPERTY BOUNDARY.
 """
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Optional
 
 
 def build_formal_style(token_id: str) -> Any:
@@ -149,8 +149,17 @@ def build_mufrad_dalalah_closure(token_id: str, ms_verdict: Any, maqam_verdict: 
 def build_relation_closure(
     span_id: str, gov_id: str, dep_id: str,
     first_mufrad_closure_verdict: Any, second_mufrad_closure_verdict: Any,
+    relation_maqam: Optional[str] = None,
 ) -> Any:
-    """Invoke vendor prove_relation_closure. Returns RelationClosureVerdict."""
+    """Invoke vendor prove_relation_closure. Returns RelationClosureVerdict.
+
+    relation_maqam
+        Optional trace_ref of the shared MaqamContextBoundaryVerdict. When
+        supplied, downstream Ifadah verifies rc.relation_maqam matches the
+        maqam verdict's trace_ref (docs/41 §6 single-shared-maqam law).
+        When None, defaults to a synthetic span-local string for
+        backward compatibility with pre-Wave04 callers.
+    """
     from taaqqul_slot_geometry.weight.relation_closure import (
         prove_relation_closure, RelationType,
     )
@@ -158,7 +167,10 @@ def build_relation_closure(
         first_verdict=first_mufrad_closure_verdict,
         second_verdict=second_mufrad_closure_verdict,
         relation_type=RelationType.PREDICATIVE,
-        relation_maqam=f"ayat-relation-maqam:{gov_id}+{dep_id}",
+        relation_maqam=(
+            relation_maqam if relation_maqam is not None
+            else f"ayat-relation-maqam:{gov_id}+{dep_id}"
+        ),
         relation_evidence=f"ayat-relation-evidence:{span_id}:{gov_id}+{dep_id}",
         closure_scope=f"ayat-relation-scope:{span_id}",
     )

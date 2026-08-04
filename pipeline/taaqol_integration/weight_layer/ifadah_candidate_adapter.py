@@ -140,7 +140,13 @@ def build_ifadah_candidate(
             ifadah_evidence=ifadah_evidence,
             closure_scope=closure_scope,
         )
-        if verdict.state is not _IfadahState.PROVEN:
+        # Vendor IfadahVerdict exposes the state as `verdict_state`
+        # (matching FormalStyleVerdict, RelationClosureVerdict etc.).
+        # Prior versions checked `.state`, which does not exist on the
+        # dataclass — the AttributeError was swallowed by the broad
+        # except-clause below and every Ifadah call returned None even
+        # for genuinely-PROVEN vendor outputs. Fixed at Wave04 closure.
+        if verdict.verdict_state is not _IfadahState.PROVEN:
             return None
         return verdict
     except Exception:  # noqa: BLE001
