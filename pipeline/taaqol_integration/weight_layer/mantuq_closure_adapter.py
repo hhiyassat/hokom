@@ -134,7 +134,8 @@ def build_mantuq_closure(
             mantuq_evidence=mantuq_evidence,
             closure_scope=closure_scope,
         )
-        if verdict.state is not _MantuqClosureState.PROVEN:
+        # Vendor uses `verdict_state`, not `.state`.
+        if verdict.verdict_state is not _MantuqClosureState.PROVEN:
             return None
         return verdict
     except Exception:  # noqa: BLE001

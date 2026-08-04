@@ -123,7 +123,11 @@ def build_hukm_candidate(
             hukm_maqam=hukm_maqam,
             closure_scope=closure_scope,
         )
-        if verdict.state is not _HukmState.PROVEN:
+        # Vendor HukmVerdict uses `verdict_state` (matches every other
+        # vendor verdict dataclass). Prior `.state` access silently
+        # AttributeError'd into the fail-open None path — same defect
+        # closed on ifadah_candidate_adapter at Wave04.
+        if verdict.verdict_state is not _HukmState.PROVEN:
             return None
         return verdict
     except Exception:  # noqa: BLE001

@@ -137,7 +137,9 @@ def build_manat_candidate(
             manat_domain=manat_domain,
             closure_scope=closure_scope,
         )
-        if verdict.state is not _ManatState.PROVEN:
+        # Vendor uses `verdict_state`, not `.state` — same defect fixed
+        # on ifadah/hukm/mafhum/mantuq/tanzil adapters at Wave04.
+        if verdict.verdict_state is not _ManatState.PROVEN:
             return None
         return verdict
     except Exception:  # noqa: BLE001

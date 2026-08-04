@@ -130,7 +130,8 @@ def build_mafhum_closure(
             mantuq_blocks=mantuq_blocks,
             residuals=tuple(residuals),
         )
-        if verdict.state is not _MafhumClosureState.PROVEN:
+        # Vendor uses `verdict_state`, not `.state`.
+        if verdict.verdict_state is not _MafhumClosureState.PROVEN:
             return None
         return verdict
     except Exception:  # noqa: BLE001

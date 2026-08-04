@@ -140,7 +140,8 @@ def build_tanzil_candidate(
             presentation_warning=presentation_warning,
             not_execution_marker=not_execution_marker,
         )
-        if verdict.state is not _TanzilState.PROVEN:
+        # Vendor uses `verdict_state`, not `.state`.
+        if verdict.verdict_state is not _TanzilState.PROVEN:
             return None
         return verdict
     except Exception:  # noqa: BLE001
