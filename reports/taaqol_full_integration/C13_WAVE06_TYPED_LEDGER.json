@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.2.0",
+  "phase": "QIYAS-TAAQOL-MAXIMUM-NATIVE-CLOSURE-REMEDIATION-02",
+  "gate": "C13_WAVE06_TYPED_DOWNSTREAM_CLOSURE",
+  "wave": "wave_6",
+  "branch": "closure/hokom-taaqol-final-production-01",
+  "implementation_content_head_short": "277ff13",
+  "generated_at_utc": "2026-08-04T00:00:00+00:00",
+  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "audit_findings_remediated": {
+    "REPAIR_A_TANZIL_AUDIT_BRIDGE": "168d8d9,be749bb,ff21224",
+    "REPAIR_B_TYPED_REFUSED_OUTCOMES": "168d8d9,be749bb,ff21224",
+    "REPAIR_C_NEGATIVE_PATH_TESTS": "493d74c",
+    "REPAIR_D_TRACE_RESIDUAL_ARTIFACT": "ff21224,<evidence-commit>",
+    "REPAIR_E_TERMINAL_SEMANTICS": "277ff13",
+    "REPAIR_F_REPORT_HEAD_ACCURACY": "<this-report-commit>,<binding-manifest-commit>"
+  },
+  "vendor_dag_stages_now_closed": [
+    "prove_hukm_candidate → HukmVerdict",
+    "prove_manat_candidate → ManatVerdict",
+    "prove_tanzil_candidate → TanzilVerdict (weight-layer terminal)",
+    "bridge_tanzil_to_audit → AuditedTanzilBridgeVerdict (audit-layer terminal)",
+    "prove_mantuq_closure → MantuqClosureVerdict",
+    "prove_mafhum_closure → MafhumClosureVerdict"
+  ],
+  "chain_topology": {
+    "vertical": "Ifadah → Hukm → Manat → Tanzil → AuditedTanzilBridge",
+    "parallel": "Ifadah → Mantuq → Mafhum",
+    "weight_layer_terminal": "TanzilVerdict",
+    "audit_layer_terminal": "AuditedTanzilBridgeVerdict",
+    "parallel_branch_terminal": "MafhumClosureVerdict"
+  },
+  "runtime_metrics_real_ayat_corpus": {
+    "ifadah_calls": 5, "ifadah_accept": 5, "ifadah_defer": 0, "ifadah_block": 0,
+    "hukm_calls": 5, "hukm_accept": 5, "hukm_defer": 0, "hukm_block": 0,
+    "manat_calls": 5, "manat_accept": 5, "manat_defer": 0, "manat_block": 0,
+    "tanzil_calls": 5, "tanzil_accept": 5, "tanzil_defer": 0, "tanzil_block": 0,
+    "audited_tanzil_bridge_calls": 5,
+    "audited_tanzil_bridge_accept": 5,
+    "audited_tanzil_bridge_defer": 0,
+    "audited_tanzil_bridge_block": 0,
+    "mantuq_calls": 5, "mantuq_accept": 5, "mantuq_defer": 0, "mantuq_block": 0,
+    "mafhum_calls": 5, "mafhum_accept": 5, "mafhum_defer": 0, "mafhum_block": 0
+  },
+  "typed_refused_classification_rules": {
+    "DEFER_codes_prefix_or_pattern": [
+      "NO_*", "*_MISSING", "*_NOT_VISIBLE", "REQUIRED_SLOT_EMPTY",
+      "UPSTREAM_MUFRAD_DALALAH_MISSING",
+      "MISSING_QARINAH_FOR_DELETION",
+      "REFERENCE_WITHOUT_TRACE"
+    ],
+    "BLOCK_codes_pattern": [
+      "AUTHORITY_LEAK", "EXECUTION_LEAK", "AUDIT_*_LEAK",
+      "RANK_PROMOTION_WITHOUT_GATE", "RANK_EXCEEDS_CEILING",
+      "HIDDEN_RESIDUAL", "BLOCKING_RESIDUAL_PRESENT",
+      "FORBIDDEN_STRAIGHT_LINE", "GATE_REQUIRED",
+      "TAHQIQ_OVERCLAIM", "REALITY_APPLICATION_*",
+      "MANTUQ_BLOCKS_MAFHUM", "MAFHUM_HUKM_LEAP", "MAFHUM_TANZIL_LEAP",
+      "MAQAM_DIVERGENCE", "MANTUQ_MAQAM_DIVERGENCE",
+      "IDENTITY_BROKEN"
+    ],
+    "UNCLASSIFIED_REFUSED_default": "DEFER with UNKNOWN_VENDOR_FAILURE_CODE marker"
+  },
+  "verified_tests": {
+    "wave_03_supplement": "7/7",
+    "wave_03_relation_closure": "4/4",
+    "wave_04_ifadah": "11/11",
+    "wave_05_downstream": "14/14",
+    "wave_06_typed_closure": "11/11",
+    "combined_wave_3_4_5_6": "47/47"
+  },
+  "determinism": {
+    "python_hashseed": "0",
+    "pytest_disable_plugin_autoload": "1",
+    "wave06_artifact_sha256_prefix": "1b05d02c2df8f8cf",
+    "run1_run2_identical": true,
+    "artifact_dir": "reports/qiyas_taaqol_remediation_02/"
+  },
+  "integrity_counters": {
+    "hokom_fabricated_verdict_count": 0,
+    "direct_audited_tanzil_construction_count": 0,
+    "tanzil_audit_predecessor_bypass_count": 0,
+    "tanzil_audit_synthetic_evidence_count": 0,
+    "refused_collapsed_to_none_count": 0,
+    "refused_without_failure_code_count": 0,
+    "refused_as_accept_count": 0,
+    "missing_predecessor_accept_count": 0,
+    "token_position_branch_count": 0,
+    "exact_surface_branch_count": 0,
+    "gold_lookup_count": 0,
+    "expected_verdict_map_count": 0,
+    "synthetic_evidence_count": 0,
+    "stale_tanzil_terminal_claim_count": 0,
+    "unbridged_reachable_stage_count": 0,
+    "locally_closeable_native_stage_count": 0
+  },
+  "cross_worktree_writes": {
+    "maqayis": 0, "cgps01_feature": 0, "cgps01_integration": 0,
+    "taaqol_vendor": 0
+  },
+  "IMPLEMENTATION_STATUS": "IMPLEMENTED_PENDING_INDEPENDENT_REAUDIT",
+  "READY_FOR_REAUDIT": true,
+  "CANONICAL_REBIND_ELIGIBLE": false,
+  "closure_notes": [
+    "Wave06 closes bridge_tanzil_to_audit on the audit layer — the reachable stage flagged by the independent audit.",
+    "Downstream REFUSED outcomes are preserved with failure_code, trace_ref, residual_ids, failure_detail.",
+    "Manat, Mantuq, and audit-bridge have explicit typed-REFUSED negative tests.",
+    "Tanzil is correctly the WEIGHT-LAYER terminal; AuditedTanzilBridge is the audit-layer terminal on the vertical branch; Mafhum is the parallel-branch terminal.",
+    "No self-declaration of VERIFIED_CLOSED — a fresh strictly read-only audit session must verify the remediation HEAD."
+  ]
+}
