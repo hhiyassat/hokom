@@ -38,6 +38,7 @@ from maqayis_constitutional_schemas import (
     SourceRootClaim,
     LexicalOriginCandidate,
     Residual,
+    TraceEvent,
 )
 from maqayis_legacy_importer import import_legacy_corpus, LegacyCandidateImport
 from maqayis_claim_pipeline import run_claim_pipeline, _normalize_origin_type
@@ -92,9 +93,6 @@ class _ConstitutionalRegistry:
         self._failed = False
         self._malformed_count: int = 0  # R9: count malformed entries
         self._partial_load: bool = False  # R9: True if any malformed entries
-        # Addendum defect §4 — monotonic sequence for lookup-trace IDs.
-        # Guarantees uniqueness across repeated lookups of the same root.
-        self._lookup_trace_seq: int = 0
 
         # Primary indices: root_letters → list of LegacyCandidateImport
         self._imports_by_root:   dict[str, list[LegacyCandidateImport]] = {}
@@ -103,6 +101,8 @@ class _ConstitutionalRegistry:
         self._residuals_by_root: dict[str, list[Residual]] = {}
         self._candidates_by_root: dict[str, list[RootIdentityCandidate]] = {}
         self._conflict_roots:    frozenset[str] = frozenset()
+        # §R10: trace event index — root_letters → list of TraceEvent
+        self._traces_by_root:    dict[str, list[TraceEvent]] = {}
 
     def _load(self, jsonl_path: Optional[pathlib.Path] = None) -> None:
         """Load and index the constitutional graph. Called once."""
@@ -161,6 +161,20 @@ class _ConstitutionalRegistry:
 
             self._conflict_roots = frozenset(claim_result.conflict_map.keys())
 
+            # §R10: Index trace events by root.
+            # Trace ID format: "maqayis:trace:{kind}:{root}:{entry_discriminator}"
+            # root is at parts[3] (0-indexed).
+            for trace in identity_result.trace_events:
+                parts = trace.id.split(":")
+                if len(parts) >= 4:
+                    t_root = parts[3]
+                    self._traces_by_root.setdefault(t_root, []).append(trace)
+            for trace in claim_result.trace_events:
+                parts = trace.id.split(":")
+                if len(parts) >= 4:
+                    t_root = parts[3]
+                    self._traces_by_root.setdefault(t_root, []).append(trace)
+
             # §10: Wire self._malformed_count from importer reconciliation dict.
             # MALFORMED_JSON_LINE_COUNT is the authoritative measure of corpus quality.
             # REGISTRY_PARTIAL_LOAD_COUNT is measured here at runtime (not hardcoded).
@@ -182,31 +196,12 @@ class _ConstitutionalRegistry:
                 if not self._loaded and not self._failed:
                     self._load(jsonl_path)
 
-    def _next_lookup_trace_id(self, kind_str: str, root: str) -> str:
-        """Generate a unique lookup-trace ID.
-
-        Format: maqayis:trace:LOOKUP:{kind}:{root}:{monotonic_seq}
-        The monotonic sequence guarantees uniqueness across repeated
-        lookups of the same (kind, root) pair — critical for the
-        corpus-wide uniqueness gate (addendum defect §5) and for the
-        real-trace-propagation gate (addendum defect §4).
-        """
-        self._lookup_trace_seq += 1
-        return (
-            f"maqayis:trace:LOOKUP:{kind_str}:{root}:"
-            f"{self._lookup_trace_seq}"
-        )
-
     def lookup(self, root: str) -> ConstitutionalLookupResult:
         """
         Look up a root and return a ConstitutionalLookupResult.
         Never raises.
         §7: ensure_loaded() failure → REGISTRY_LOAD_FAILURE (not NOT_FOUND).
         REGISTRY_FAILURE_RELABELED_AS_NOT_FOUND_COUNT = 0 enforced here.
-
-        Addendum defect §4 — every return carries a lookup-trace ID so
-        downstream consumers (evidence adapter, augment result) can
-        chain the registry lookup into their trace_ids.
         """
         try:
             self.ensure_loaded()
@@ -219,8 +214,8 @@ class _ConstitutionalRegistry:
             return ConstitutionalLookupResult(
                 kind=LookupResultKind.REGISTRY_LOAD_FAILURE,
                 root_letters=root,
-                trace_ids=(self._next_lookup_trace_id(
-                    "REGISTRY_LOAD_FAILURE", root),),
+                partial_load=self._partial_load,
+                malformed_line_count=self._malformed_count,
             )
 
         # Validate input
@@ -228,8 +223,8 @@ class _ConstitutionalRegistry:
             return ConstitutionalLookupResult(
                 kind=LookupResultKind.NOT_FOUND_IN_COVERED_VOLUME,
                 root_letters=root,
-                trace_ids=(self._next_lookup_trace_id(
-                    "NOT_FOUND_IN_COVERED_VOLUME", root or "<empty>"),),
+                partial_load=self._partial_load,
+                malformed_line_count=self._malformed_count,
             )
 
         # Check missing volume coverage
@@ -245,8 +240,8 @@ class _ConstitutionalRegistry:
                     f"missing volumes (ا ب ت ث ج — not in OCR corpus). "
                     f"This is a coverage gap, not an absence claim."
                 ),
-                trace_ids=(self._next_lookup_trace_id(
-                    "MISSING_VOLUME_COVERAGE_GAP", root),),
+                partial_load=self._partial_load,
+                malformed_line_count=self._malformed_count,
             )
 
         # Look up imports for this root
@@ -255,8 +250,8 @@ class _ConstitutionalRegistry:
             return ConstitutionalLookupResult(
                 kind=LookupResultKind.NOT_FOUND_IN_COVERED_VOLUME,
                 root_letters=root,
-                trace_ids=(self._next_lookup_trace_id(
-                    "NOT_FOUND_IN_COVERED_VOLUME", root),),
+                partial_load=self._partial_load,
+                malformed_line_count=self._malformed_count,
             )
 
         # Collect all entities
@@ -265,6 +260,9 @@ class _ConstitutionalRegistry:
         residuals = tuple(self._residuals_by_root.get(root, []))
         candidates = self._candidates_by_root.get(root, [])
         candidate = candidates[0] if candidates else None
+
+        # §R10: collect trace event IDs for this root
+        trace_event_ids = tuple(t.id for t in self._traces_by_root.get(root, []))
 
         # Determine kind
         is_conflict = root in self._conflict_roots
@@ -300,7 +298,9 @@ class _ConstitutionalRegistry:
                 f"Conflict: {self._imports_by_root.get(root, [{}])[0]}"
                 if is_conflict else None
             ),
-            trace_ids=(self._next_lookup_trace_id(kind.value, root),),
+            partial_load=self._partial_load,
+            malformed_line_count=self._malformed_count,
+            trace_event_ids=trace_event_ids,
         )
 
 
@@ -325,14 +325,11 @@ def constitutional_lookup(root_letters: str) -> ConstitutionalLookupResult:
     try:
         return _REGISTRY.lookup(root_letters)
     except Exception:
-        # Addendum defect §4 — even the top-level fallback path carries a
-        # trace_id so callers can distinguish an infrastructure failure
-        # from a genuine miss.
         return ConstitutionalLookupResult(
             kind=LookupResultKind.REGISTRY_LOAD_FAILURE,
             root_letters=root_letters,
-            trace_ids=(_REGISTRY._next_lookup_trace_id(
-                "REGISTRY_LOAD_FAILURE_TOPLEVEL", root_letters),),
+            partial_load=False,
+            malformed_line_count=0,
         )
 
 

@@ -136,46 +136,19 @@ _IDENTITY_ID_PREFIX      = "maqayis:root-identity-candidate"
 _RESIDUAL_ID_PREFIX      = "maqayis:residual"
 _TRACE_ID_PREFIX         = "maqayis:trace"
 
+# §7: Maps canonical _VOLUME_METADATA filename ("maqayis_volN.pdf") to the
+# actual on-disk filename used in JSONL source_pdf fields ("NN.pdf").
+# SourceRecord.sha256      = SHA256 of JSONL *content* lines for that volume.
+# SourceRecord.pdf_sha256  = SHA256 of actual PDF *file bytes* on disk.
+PDF_FILENAME_MAPPING: dict[str, str] = {
+    "maqayis_vol1.pdf": "01.pdf",
+    "maqayis_vol2.pdf": "02.pdf",
+    "maqayis_vol3.pdf": "03.pdf",
+    "maqayis_vol4.pdf": "04.pdf",
+    "maqayis_vol5.pdf": "05.pdf",
+}
+
 PIPELINE_ACTOR_ID = "maqayis_identity_pipeline_v1"
-
-
-# ── PDF-byte provenance public getter (addendum defect §7) ───────────────────
-#
-# The pdf_sha256_map is computed inside build_source_records() from actual
-# PDF file bytes at data/maqaees/{VV}.pdf. Prior to this getter the mapping
-# was internal only; external callers had to reconstruct it. This function
-# exposes the map as a public, typed dict[str, str] mapping filename → SHA256
-# hex digest. Missing PDFs are omitted (never sentinel-encoded).
-
-def get_pdf_sha256_map() -> dict[str, str]:
-    """Return the public {filename → SHA256 hex} map for known Maqayis PDFs.
-
-    Filenames use the on-disk naming convention `{vol_number:02d}.pdf`
-    (e.g. "01.pdf", "02.pdf", …). A filename is present in the returned
-    dict IFF the corresponding PDF exists AND its bytes were successfully
-    hashed. The returned dict is a fresh copy — callers may not mutate a
-    shared state.
-
-    Never raises — a PDF that cannot be opened is silently omitted
-    (fail-open contract; the getter is a read-only utility).
-    """
-    import hashlib as _hashlib
-    result: dict[str, str] = {}
-    for meta in _VOLUME_METADATA:
-        vol_n = meta["volume_number"]
-        pdf_path = _DATA_DIR / f"{vol_n:02d}.pdf"
-        if not pdf_path.exists():
-            continue
-        try:
-            h = _hashlib.sha256()
-            with open(pdf_path, "rb") as fh:
-                for chunk in iter(lambda: fh.read(65536), b""):
-                    h.update(chunk)
-            result[f"{vol_n:02d}.pdf"] = h.hexdigest()
-        except OSError:
-            # Genuinely unreadable file (permissions, corrupt) is omitted.
-            continue
-    return result
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -482,13 +455,11 @@ def _passage_from_import(
     raw_passage = imp.legacy_heading_text or ""
     pass_residuals: list[Residual] = []
     if not raw_passage:
-        # §12 / addendum defect §5: include entry_id to distinguish
-        # multiple entries for the same root_letters.
-        _mp_disc = imp.legacy_entry_id or imp.passage_id or imp.legacy_root_letters
-        res_id = (
-            f"maqayis:residual:MISSING_SOURCE_PASSAGE:"
-            f"{imp.legacy_root_letters}:{_mp_disc}"
-        )
+        # §12: entry_discriminator ensures ID uniqueness across multiple entries
+        # for the same root_letters (e.g. roots with multiple OCR passages).
+        _root = imp.legacy_root_letters
+        _entry_discriminator = imp.legacy_entry_id or imp.passage_id or _root
+        res_id = f"maqayis:residual:MISSING_SOURCE_PASSAGE:{_root}:{_entry_discriminator}"
         pass_residuals.append(Residual(
             id=res_id,
             target_id=imp.passage_id,
@@ -588,21 +559,14 @@ def _identity_from_import(
         ),
     ))
 
-    # Emit OCR_AMBIGUITY residuals for each raised gate.
-    # §12 / addendum defect §5: residual ID includes entry_discriminator so
-    # the same root+gate across multiple corpus entries produces distinct
-    # residual IDs. Prior format `{gate_id}:{root}` collided (57 duplicates
-    # on the real corpus at HEAD 62d3cb5).
+    # Emit OCR_AMBIGUITY residuals for each raised gate
     for gate_id, flag in gate_results:
         if flag:
             gate_desc = next(
                 (desc for gid, _, desc in OCR_GATES if gid == gate_id),
                 gate_id,
             )
-            res_id = (
-                f"{_RESIDUAL_ID_PREFIX}:OCR_AMBIGUITY:"
-                f"{gate_id}:{root}:{entry_discriminator}"
-            )
+            res_id = f"{_RESIDUAL_ID_PREFIX}:OCR_AMBIGUITY:{gate_id}:{root}:{entry_discriminator}"
             residuals.append(Residual(
                 id=res_id,
                 target_id=candidate.id,
@@ -662,10 +626,7 @@ def run_identity_pipeline(import_result: LegacyImportResult) -> IdentityPipeline
 
     Returns IdentityPipelineResult — never raises (fail-open contract).
     """
-    occurred_at = (
-        datetime.datetime.now(datetime.timezone.utc)
-        .replace(tzinfo=None).isoformat() + "Z"
-    )
+    occurred_at = datetime.datetime.utcnow().isoformat() + "Z"
 
     source_records = build_source_records()
     passages:    list[SourcePassage]          = []
@@ -699,8 +660,26 @@ def run_identity_pipeline(import_result: LegacyImportResult) -> IdentityPipeline
                 if flag:
                     gate_counts[gate_id] = gate_counts.get(gate_id, 0) + 1
 
-        except Exception:
+        except Exception as exc:
             failed += 1
+            _root_letters = getattr(imp, "legacy_root_letters", "UNKNOWN")
+            _entry_disc = (
+                getattr(imp, "legacy_entry_id", None)
+                or getattr(imp, "passage_id", None)
+                or _root_letters
+            )
+            residuals.append(Residual(
+                id=f"{_RESIDUAL_ID_PREFIX}:PIPELINE_EXCEPTION:identity:{_root_letters}:{_entry_disc}",
+                target_id=getattr(imp, "candidate_id", _entry_disc),
+                target_type="RootIdentityCandidate",
+                residual_type=ResidualType.PIPELINE_EXCEPTION,
+                description=(
+                    f"Unhandled exception in identity pipeline for root "
+                    f"'{_root_letters}': {type(exc).__name__}: {exc}"
+                ),
+                blocking_until=ReviewState.IDENTITY_VERIFIED,
+                created_at=occurred_at,
+            ))
             continue
 
     # Gate summary

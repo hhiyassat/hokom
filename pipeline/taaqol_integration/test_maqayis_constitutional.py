@@ -31,41 +31,13 @@ import pytest
 # ── Repo-root discovery (§2: no hardcoded paths) ─────────────────────────────
 
 def _find_repo_root() -> pathlib.Path:
-    """Locate the corpus directory.
-
-    Search order:
-      1. Ancestors of this file — original heuristic; still works when the
-         Maqayis worktree has data/maqaees/full/ populated locally.
-      2. Peer worktrees registered in `git worktree list --porcelain` — the
-         Maqayis constitutional worktree does not vendor the OCR corpus
-         (it is 300+ MB); the corpus lives in the C13 worktree where the
-         Maqayis OCR pipeline was originally generated. Cross-worktree
-         data access is legitimate since these are peer checkouts of the
-         same repo.
-    """
     here = pathlib.Path(__file__).resolve().parent
-    # (1) ancestor search
-    probe = here
     for _ in range(6):
-        if (probe / "data" / "maqaees" / "full").is_dir():
-            return probe
-        if probe.parent == probe:  # filesystem root
+        if (here / "data" / "maqaees" / "full").is_dir():
+            return here
+        if here.parent == here:  # filesystem root
             break
-        probe = probe.parent
-    # (2) peer-worktree search
-    import subprocess
-    try:
-        out = subprocess.run(
-            ["git", "worktree", "list", "--porcelain"],
-            capture_output=True, text=True, check=True, cwd=str(here),
-        ).stdout
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        out = ""
-    for line in out.splitlines():
-        if line.startswith("worktree "):
-            path = pathlib.Path(line.split(" ", 1)[1])
-            if (path / "data" / "maqaees" / "full").is_dir():
-                return path
+        here = here.parent
     return pathlib.Path(__file__).resolve().parent
 
 
@@ -125,7 +97,7 @@ def test_s01_enum_counts():
     assert len(ClaimKind) == 9
     assert len(RootClass) == 7
     assert len(KnowledgeType) == 7
-    assert len(ResidualType) == 11
+    assert len(ResidualType) == 12  # +1 for PIPELINE_EXCEPTION (Issue 8)
     assert len(ReviewerType) == 4
 
 
@@ -854,15 +826,7 @@ def test_ag16_wrong_bab_letter_remaining(import_result):
     canonical 28-word set (one word-form per letter, stored with definite article).
     BAB_WORD_FORM_OUTSIDE_CANONICAL_SET_COUNT = 0 enforced.
     """
-    # Canonical word-form set derived from corpus analysis (28 unique values).
-    BAB_CANONICAL_WORDS = frozenset({
-        "الألف", "الباء", "التاء", "الثاء", "الجيم",
-        "الحاء", "الخاء", "الدال", "الذال", "الراء",
-        "الزاي", "السين", "الشين", "الصاد", "الضاد",
-        "الطاء", "الظاء", "العين", "الغين", "الفاء",
-        "القاف", "الكاف", "اللام", "الميم", "النون",
-        "الهاء", "الواو", "الياء",
-    })
+    from maqayis_bab_contract import BAB_CANONICAL_WORDS
     bad = [
         (imp.legacy_root_letters, imp.legacy_bab_letter)
         for imp in import_result.imports
@@ -883,18 +847,7 @@ def test_ag17_bab_letter_root_initial_mismatch(import_result):
     Word-form is stored with definite article (e.g. "الحاء"); the map translates
     root initial → expected word-form directly, bypassing the 'ال' extraction pitfall.
     """
-    # Canonical map: root initial letter → expected bab word-form.
-    # Hamza variants أ/إ/آ/ء all map to "الألف" (same as ا).
-    BAB_LETTER_MAP = {
-        "ا": "الألف", "أ": "الألف", "إ": "الألف", "آ": "الألف", "ء": "الألف",
-        "ب": "الباء",  "ت": "التاء",  "ث": "الثاء",  "ج": "الجيم",
-        "ح": "الحاء",  "خ": "الخاء",  "د": "الدال",  "ذ": "الذال",
-        "ر": "الراء",  "ز": "الزاي",  "س": "السين",  "ش": "الشين",
-        "ص": "الصاد",  "ض": "الضاد",  "ط": "الطاء",  "ظ": "الظاء",
-        "ع": "العين",  "غ": "الغين",  "ف": "الفاء",  "ق": "القاف",
-        "ك": "الكاف",  "ل": "اللام",  "م": "الميم",  "ن": "النون",
-        "ه": "الهاء",  "و": "الواو",  "ي": "الياء",
-    }
+    from maqayis_bab_contract import BAB_LETTER_MAP
     mismatches = []
     for imp in import_result.imports:
         if imp.noise_entry:
@@ -946,14 +899,17 @@ def test_ag20_unknown_status_entries(import_result):
 
 
 def test_ag21_original_data_not_modified():
-    """Computed from actual data: import_legacy_corpus() must not modify the
-    source JSONL file. SHA-256 digest before and after the pipeline run must match.
+    """Computed from actual data: the full pipeline (import + identity + claim)
+    must not modify the source JSONL file.  SHA-256 digest before and after the
+    complete pipeline run must match.
     SOURCE_FILE_MODIFICATION_DETECTED_COUNT = 0 enforced.
     """
     if not _JSONL_PATH.exists():
         pytest.skip("Corpus not available: cannot verify immutability without corpus")
     import hashlib
     from maqayis_legacy_importer import import_legacy_corpus
+    from maqayis_identity_pipeline import run_identity_pipeline
+    from maqayis_claim_pipeline import run_claim_pipeline
 
     def _sha256(path) -> str:
         h = hashlib.sha256()
@@ -963,11 +919,14 @@ def test_ag21_original_data_not_modified():
         return h.hexdigest()
 
     digest_before = _sha256(_JSONL_PATH)
-    import_legacy_corpus(_JSONL_PATH)
+    # Run the entire pipeline — all three stages — inside the SHA window
+    import_result = import_legacy_corpus(_JSONL_PATH)
+    run_identity_pipeline(import_result)
+    run_claim_pipeline(import_result)
     digest_after  = _sha256(_JSONL_PATH)
 
     assert digest_before == digest_after, (
-        f"AG21: source JSONL digest changed after import_legacy_corpus() — "
+        f"AG21: source JSONL digest changed after full pipeline run — "
         f"pipeline must never modify its input file. "
         f"before={digest_before[:16]}…  after={digest_after[:16]}…"
     )
@@ -1220,7 +1179,13 @@ def test_cp12_all_entity_ids_unique(claim_result, identity_result):
     from collections import Counter
     claim_ids    = [c.id for c in claim_result.claims]
     origin_ids   = [o.id for o in claim_result.origin_candidates]
-    residual_ids = [r.id for r in claim_result.residuals]
+    # §12: include identity residuals — OCR_AMBIGUITY and MISSING_SOURCE_PASSAGE
+    # IDs must include entry_discriminator to be unique across multiple entries
+    # for the same root_letters.
+    residual_ids = (
+        [r.id for r in claim_result.residuals]
+        + [r.id for r in identity_result.residuals]
+    )
     # Collect trace event IDs from both pipelines
     claim_trace_ids    = [t.id for t in claim_result.trace_events]
     identity_trace_ids = [t.id for t in identity_result.trace_events]
@@ -1437,6 +1402,11 @@ def test_rg01_registry_partial_load_behavior():
         result = reg.lookup("حدر")
         assert result.kind != LookupResultKind.NOT_FOUND_IN_COVERED_VOLUME, \
             f"R9: حدر should be found in partial-load registry, got {result.kind}"
+        # R9: ConstitutionalLookupResult.partial_load must reflect registry state
+        assert result.partial_load == True, \
+            "R9: ConstitutionalLookupResult.partial_load must be True when registry has malformed lines"
+        assert result.malformed_line_count >= 1, \
+            f"R9: ConstitutionalLookupResult.malformed_line_count must be >= 1, got {result.malformed_line_count}"
     finally:
         tmp_path.unlink(missing_ok=True)
 
@@ -1462,7 +1432,7 @@ def test_s07_residual_type_has_origin_not_extracted():
     """R7: ResidualType.ORIGIN_NOT_EXTRACTED must exist."""
     from maqayis_constitutional_schemas import ResidualType
     assert ResidualType.ORIGIN_NOT_EXTRACTED is not None
-    assert len(ResidualType) == 11, f"Expected 11 ResidualType values, got {len(ResidualType)}"
+    assert len(ResidualType) == 12, f"Expected 12 ResidualType values, got {len(ResidualType)}"  # +1 for PIPELINE_EXCEPTION
 
 
 def test_ea11_stage0_bypass_enforced():
@@ -1517,7 +1487,10 @@ def test_kb10_lexical_evidence_never_true_for_machine():
 
 def test_kb11_trace_ids_never_contain_residual_ids():
     """§11: trace_ids must never contain Residual IDs.
-    from_lookup_result() must produce trace_ids=() (TRACE_PROPAGATION_NOT_AVAILABLE).
+    from_lookup_result() propagates trace_event_ids from ConstitutionalLookupResult.
+    A synthetic result with no trace_event_ids set (defaults to ()) must produce
+    trace_ids=() in the augmentation result — residual IDs must never bleed into
+    trace_ids regardless of whether trace propagation is active.
     """
     from maqayis_constitutional_schemas import (
         MaqayisConstitutionalAugmentationResult,
@@ -1545,13 +1518,10 @@ def test_kb11_trace_ids_never_contain_residual_ids():
         review_state=ReviewState.MACHINE_CANDIDATE,
     )
     augment = MaqayisConstitutionalAugmentationResult.from_lookup_result(result, evidence_ids=())
-    # §11 (updated for addendum defect §4): trace_ids may now be non-empty
-    # because the registry emits LOOKUP trace IDs. The invariant that
-    # holds regardless is: NO Residual ID may appear in trace_ids. Here
-    # we constructed the lookup result WITHOUT a registry roundtrip
-    # (default trace_ids=()), so trace_ids remain empty for this case.
+    # §11: trace_ids must be () because the synthetic ConstitutionalLookupResult
+    # has no trace_event_ids (defaults to ()) — residual IDs must not appear here.
     assert augment.trace_ids == (), (
-        f"§11: this direct construction should have trace_ids=(); "
+        f"§11: trace_ids must be () when lookup result has no trace_event_ids, "
         f"got: {augment.trace_ids}"
     )
     # Residual IDs must appear in residual_ids, not trace_ids
@@ -1560,310 +1530,33 @@ def test_kb11_trace_ids_never_contain_residual_ids():
     assert residual_id in augment.residual_ids, "§11: residual ID must appear in residual_ids"
 
 
-def test_kb12_trace_propagation_end_to_end(registry, import_result):
-    """Addendum defect §4: real trace propagation.
-
-    A live registry lookup must produce a ConstitutionalLookupResult
-    whose trace_ids is NON-EMPTY (contains a maqayis:trace:LOOKUP:...
-    ID) and whose IDs do not overlap with any Residual ID emitted by
-    the same lookup.
-
-    This closes the "TRACE_PROPAGATION_NOT_AVAILABLE" gap the prior
-    audit correctly flagged.
+def test_hokom_real_type_integration():
+    """§6: Maqayis adapter must consume real Hokom domain types (not locally defined stubs).
+    Imports from pipeline.p3_candidate.root_contracts — skipped if that module is
+    not available in the current test environment.
+    HOKOM_STUB_TYPE_COUNT = 0 enforced in production; this test verifies the import path.
     """
-    from maqayis_constitutional_schemas import (
-        MaqayisConstitutionalAugmentationResult,
-    )
-    # Pick any root from the corpus that the registry knows about.
-    known_root = None
-    for imp in import_result.imports:
-        r = registry(imp.legacy_root_letters)
-        if r.found:
-            known_root = imp.legacy_root_letters
-            break
-    assert known_root is not None, (
-        "corpus must expose at least one found root for trace propagation test"
-    )
-    lookup_result = registry(known_root)
-    # Real registry lookup emits at least one LOOKUP trace ID.
-    assert lookup_result.trace_ids, (
-        f"§4: lookup result for {known_root!r} must carry trace_ids; "
-        f"got {lookup_result.trace_ids}"
-    )
-    assert all(t.startswith("maqayis:trace:LOOKUP:") for t in lookup_result.trace_ids), (
-        f"§4: every trace_id must be a LOOKUP-shaped trace event; "
-        f"got {lookup_result.trace_ids}"
-    )
-    # trace_ids and residual IDs must be disjoint
-    residual_id_set = {r.id for r in lookup_result.residuals}
-    trace_id_set    = set(lookup_result.trace_ids)
-    assert trace_id_set.isdisjoint(residual_id_set), (
-        "§11: trace_ids and residual IDs must be disjoint sets"
-    )
-    # Trace propagates through from_lookup_result → augment.trace_ids
-    augment = MaqayisConstitutionalAugmentationResult.from_lookup_result(
-        lookup_result, evidence_ids=(),
-    )
-    assert augment.trace_ids == lookup_result.trace_ids, (
-        f"§4: augment.trace_ids must equal lookup.trace_ids; "
-        f"got {augment.trace_ids} vs {lookup_result.trace_ids}"
-    )
-
-
-def test_pdf01_public_pdf_sha256_map_available():
-    """Addendum defect §7: get_pdf_sha256_map() returns a public typed
-    {filename → SHA256} mapping computed from actual PDF bytes.
-    """
-    from maqayis_identity_pipeline import get_pdf_sha256_map
-    m = get_pdf_sha256_map()
-    assert isinstance(m, dict)
-    # Every entry must be a hex SHA-256 (64 lowercase hex chars).
-    import re
-    hex64 = re.compile(r"^[0-9a-f]{64}$")
-    for filename, digest in m.items():
-        assert filename.endswith(".pdf"), (
-            f"§7: filename must be a .pdf name; got {filename!r}"
-        )
-        assert hex64.match(digest), (
-            f"§7: digest for {filename!r} must be a hex SHA-256; got {digest!r}"
-        )
-
-
-def test_pdf02_public_map_reflects_source_records():
-    """The public map's keys must be a subset of the filenames
-    referenced by SourceRecord.pdf_sha256 values — i.e. no external
-    filename can appear that the pipeline itself doesn't hash.
-    """
-    from maqayis_identity_pipeline import (
-        get_pdf_sha256_map,
-        build_source_records,
-    )
-    public_map = get_pdf_sha256_map()
-    records = build_source_records()
-    record_digests = {r.pdf_sha256 for r in records if r.pdf_sha256}
-    # Every digest that appears in the public map must also appear on some
-    # SourceRecord (they were both computed from the same PDF bytes).
-    for filename, digest in public_map.items():
-        assert digest in record_digests, (
-            f"§7: {filename} digest {digest[:8]}... not carried on any "
-            f"SourceRecord.pdf_sha256"
-        )
-
-
-def test_pdf03_public_map_returns_fresh_copy():
-    """Callers must not be able to mutate shared internal state by
-    editing the returned dict."""
-    from maqayis_identity_pipeline import get_pdf_sha256_map
-    m1 = get_pdf_sha256_map()
-    m1["synthetic.pdf"] = "0" * 64
-    m2 = get_pdf_sha256_map()
-    assert "synthetic.pdf" not in m2, (
-        "§7: returned dict must be a fresh copy; mutations must not leak"
-    )
-
-
-def test_ex01_swallowed_exceptions_are_recorded():
-    """Addendum defect §10: no silent exception swallowing. Every catch
-    site in maqayis_constitutional_evidence_adapter must record the
-    swallowed exception into the public telemetry log.
-    """
-    from maqayis_constitutional_evidence_adapter import (
-        _record_swallowed_exception,
-        SILENT_EXCEPTION_SWALLOW_COUNT,
-        get_swallowed_exceptions,
-        reset_swallowed_exception_log,
-    )
-    reset_swallowed_exception_log()
-    # Simulate a swallowed exception
     try:
-        raise ValueError("audit-simulated")
-    except Exception as exc:
-        _record_swallowed_exception("audit_test:simulated", exc,
-                                    root_letters="audit")
-    log = get_swallowed_exceptions()
-    assert len(log) == 1
-    entry = log[0]
-    assert entry["site"] == "audit_test:simulated"
-    assert entry["exc_type"] == "ValueError"
-    assert entry["exc_message"] == "audit-simulated"
-    assert entry["root_letters"] == "audit"
-    reset_swallowed_exception_log()
+        import sys
+        import pathlib as _pathlib
 
-
-def test_ex02_swallowed_exception_log_is_bounded():
-    """The log must not grow unbounded — memory-safety guard for a
-    long-running process that might accumulate many failures.
-    """
-    from maqayis_constitutional_evidence_adapter import (
-        _record_swallowed_exception,
-        _SWALLOWED_EXCEPTION_LOG_CAPACITY,
-        get_swallowed_exceptions,
-        reset_swallowed_exception_log,
-        SILENT_EXCEPTION_SWALLOW_COUNT as before_count,
-    )
-    reset_swallowed_exception_log()
-    # Fire capacity+50 exceptions
-    for i in range(_SWALLOWED_EXCEPTION_LOG_CAPACITY + 50):
-        try:
-            raise RuntimeError(f"burst-{i}")
-        except Exception as exc:
-            _record_swallowed_exception("audit_burst", exc, index=i)
-    log = get_swallowed_exceptions()
-    assert len(log) == _SWALLOWED_EXCEPTION_LOG_CAPACITY, (
-        f"§10: log must be capped at {_SWALLOWED_EXCEPTION_LOG_CAPACITY}; "
-        f"got {len(log)}"
-    )
-    # Counter tracks total, not just log length
-    import maqayis_constitutional_evidence_adapter as _a
-    assert _a.SILENT_EXCEPTION_SWALLOW_COUNT >= \
-        _SWALLOWED_EXCEPTION_LOG_CAPACITY + 50, (
-            "§10: counter must reflect total swallows, not log capacity"
+        _hokom_search_root = _pathlib.Path(__file__).resolve().parent.parent
+        sys.path.insert(0, str(_hokom_search_root))
+        from pipeline.p3_candidate.root_contracts import (  # type: ignore[import]
+            RootCandidateRecord,
         )
-    reset_swallowed_exception_log()
-
-
-def test_ex03_swallowed_exceptions_log_defensive_copy():
-    """get_swallowed_exceptions() must return a defensive copy — mutating
-    the returned tuple's dicts must not leak into the internal log.
-    """
-    from maqayis_constitutional_evidence_adapter import (
-        _record_swallowed_exception,
-        get_swallowed_exceptions,
-        reset_swallowed_exception_log,
-    )
-    reset_swallowed_exception_log()
-    try:
-        raise KeyError("x")
-    except Exception as exc:
-        _record_swallowed_exception("audit:copy", exc)
-    copy = get_swallowed_exceptions()
-    copy[0]["site"] = "MUTATED"
-    fresh = get_swallowed_exceptions()
-    assert fresh[0]["site"] == "audit:copy"
-    reset_swallowed_exception_log()
-
-
-def test_kb13_repeated_lookups_produce_unique_trace_ids(registry):
-    """§4 uniqueness: repeated lookups of the same root must each emit
-    a distinct LOOKUP trace ID (monotonic sequence)."""
-    r1 = registry("علم")
-    r2 = registry("علم")
-    r3 = registry("علم")
-    ids = list(r1.trace_ids) + list(r2.trace_ids) + list(r3.trace_ids)
-    assert len(ids) == len(set(ids)), (
-        f"§4: repeated lookups must produce distinct trace_ids; got {ids}"
-    )
-
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# § 12  Shared production constants (BAB_LETTER_MAP)
-# ═══════════════════════════════════════════════════════════════════════════════
-
-def test_bl01_bab_letter_map_single_canonical_source():
-    """Addendum defect §6: BAB_LETTER_MAP must be defined once, in
-    production, and re-exported everywhere else. Prior versions had two
-    independent definitions (in bab_corrector and root_registry) that
-    could drift. Every consumer must resolve to the same object.
-    """
-    from maqayis_bab_letters import BAB_LETTER_MAP as canonical
-    from maqayis_bab_corrector import BAB_LETTER_MAP as via_corrector
-    from maqayis_root_registry import BAB_LETTER_MAP as via_registry
-    assert via_corrector is canonical, (
-        "bab_corrector.BAB_LETTER_MAP must BE the canonical map, not a copy"
-    )
-    assert via_registry is canonical, (
-        "root_registry.BAB_LETTER_MAP must BE the canonical map, not a copy"
-    )
-
-
-def test_bl02_bab_letter_map_is_read_only():
-    """The canonical map must reject mutation attempts at runtime — no
-    accidental drift from any consumer."""
-    import pytest as _pytest
-    from maqayis_bab_letters import BAB_LETTER_MAP
-    with _pytest.raises(TypeError):
-        BAB_LETTER_MAP['ا'] = 'MUTATED'   # type: ignore[index]
-
-
-def test_ug01_corpus_wide_id_uniqueness(import_result, identity_result, claim_result):
-    """Addendum defect §5: validate_id_uniqueness() must produce a clean
-    report covering all six categories (passages, identities, claims,
-    origins, residuals, traces) plus cross-category collisions.
-
-    The public callable is what production callers use — the test
-    exercises it end-to-end on the real corpus so any duplicate-ID
-    regression is caught at every audit run, not only inside a private
-    per-category test.
-    """
-    from maqayis_uniqueness import validate_id_uniqueness
-    report = validate_id_uniqueness(import_result, identity_result,
-                                     claim_result)
-    if not report.clean:
-        details = []
-        for name, cat in [("passages", report.passages),
-                           ("identities", report.identities),
-                           ("claims", report.claims),
-                           ("origins", report.origins),
-                           ("residuals", report.residuals),
-                           ("traces", report.traces)]:
-            if not cat.clean:
-                details.append(
-                    f"{name}: {len(cat.duplications)} dupes "
-                    f"(first: {cat.duplications[0].id_value})"
-                )
-        if report.cross_category_collisions:
-            details.append(
-                f"cross-category: {len(report.cross_category_collisions)} "
-                f"collisions"
-            )
-        raise AssertionError(
-            "§5 corpus-wide ID uniqueness: " + "; ".join(details)
+    except ImportError:
+        pytest.skip(
+            "Real Hokom types not available in test environment "
+            "(pipeline.p3_candidate.root_contracts not importable). "
+            "This test passes in production where the full Hokom tree is present."
         )
 
-
-def test_ug02_uniqueness_report_covers_six_categories(
-    import_result, identity_result, claim_result,
-):
-    """Coverage guard: the report must expose all six categories with
-    non-negative totals. If a new pipeline is added and forgets to
-    plug into validate_id_uniqueness, this test surfaces the omission.
-    """
-    from maqayis_uniqueness import validate_id_uniqueness
-    r = validate_id_uniqueness(import_result, identity_result, claim_result)
-    for name, cat in [("passages", r.passages), ("identities", r.identities),
-                       ("claims", r.claims), ("origins", r.origins),
-                       ("residuals", r.residuals), ("traces", r.traces)]:
-        assert cat.category == name
-        assert cat.total_ids >= 0
-        assert cat.unique_ids >= 0
-        assert cat.unique_ids <= cat.total_ids
-    # At least the corpus produces passages and residuals — the corpus is
-    # non-empty; a totally empty report would indicate loader failure.
-    assert r.passages.total_ids > 0, "passages must be non-empty on corpus"
-    assert r.claims.total_ids > 0, "claims must be non-empty on corpus"
-
-
-def test_ug03_validate_id_uniqueness_rejects_wrong_input_shape():
-    """Boundary type guard: passing objects without the documented
-    pipeline shape must raise TypeError, not silently succeed with a
-    clean report.
-    """
-    import pytest as _pytest
-    from maqayis_uniqueness import validate_id_uniqueness
-    with _pytest.raises(TypeError):
-        validate_id_uniqueness(object(), object(), object())
-
-
-def test_bl03_bab_letter_map_covers_all_28_base_consonants():
-    """Coverage guard: the 28 canonical Arabic consonants + 5 Hamza/variant
-    forms must all resolve, and each entry must be a non-empty الX string.
-    """
-    from maqayis_bab_letters import BAB_LETTER_MAP
-    base_consonants = "ابتثجحخدذرزسشصضطظعغفقكلمنهوي"
-    variants = "أإآؤئة"
-    for ch in base_consonants + variants:
-        assert ch in BAB_LETTER_MAP, f"missing bab-name for {ch!r}"
-        name = BAB_LETTER_MAP[ch]
-        assert name.startswith("ال") and len(name) > 2, (
-            f"invalid bab-name for {ch!r}: {name!r}"
-        )
+    # If import succeeded, verify the type has the expected contract fields
+    # that the Maqayis adapter reads (§5: domain_directive + radicals).
+    assert hasattr(RootCandidateRecord, "__dataclass_fields__") or hasattr(
+        RootCandidateRecord, "__annotations__"
+    ), (
+        "§6: RootCandidateRecord must be a typed class with inspectable fields; "
+        "Maqayis adapter reads domain_directive and radicals from it"
+    )

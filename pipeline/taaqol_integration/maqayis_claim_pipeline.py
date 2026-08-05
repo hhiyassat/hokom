@@ -505,10 +505,7 @@ def run_claim_pipeline(import_result: LegacyImportResult) -> ClaimPipelineResult
 
     Returns ClaimPipelineResult — never raises (fail-open contract).
     """
-    occurred_at = (
-        datetime.datetime.now(datetime.timezone.utc)
-        .replace(tzinfo=None).isoformat() + "Z"
-    )
+    occurred_at = datetime.datetime.utcnow().isoformat() + "Z"
 
     claims:            list[SourceRootClaim]          = []
     origin_candidates: list[LexicalOriginCandidate]   = []
@@ -543,8 +540,26 @@ def run_claim_pipeline(import_result: LegacyImportResult) -> ClaimPipelineResult
                 multi_origin_segmented += 1
             # 0 origins → neither counter increments (segmentation pending)
 
-        except Exception:
+        except Exception as exc:
             failed += 1
+            _root_letters = getattr(imp, "legacy_root_letters", "UNKNOWN")
+            _entry_disc = (
+                getattr(imp, "legacy_entry_id", None)
+                or getattr(imp, "passage_id", None)
+                or _root_letters
+            )
+            residuals.append(Residual(
+                id=f"{_RESIDUAL_PREFIX}:PIPELINE_EXCEPTION:claim:{_root_letters}:{_entry_disc}",
+                target_id=getattr(imp, "candidate_id", _entry_disc),
+                target_type="SourceRootClaim",
+                residual_type=ResidualType.PIPELINE_EXCEPTION,
+                description=(
+                    f"Unhandled exception in claim pipeline for root "
+                    f"'{_root_letters}': {type(exc).__name__}: {exc}"
+                ),
+                blocking_until=ReviewState.TEXT_VERIFIED,
+                created_at=occurred_at,
+            ))
             continue
 
     # Conflict detection

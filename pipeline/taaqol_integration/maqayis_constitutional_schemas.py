@@ -229,6 +229,7 @@ class ResidualType(enum.Enum):
     TEXT_VERIFICATION_FAILED    = "TEXT_VERIFICATION_FAILED"
     AUDIT_DISCREPANCY           = "AUDIT_DISCREPANCY"
     ORIGIN_NOT_EXTRACTED        = "ORIGIN_NOT_EXTRACTED"
+    PIPELINE_EXCEPTION          = "PIPELINE_EXCEPTION"
 
 
 class ReviewerType(enum.Enum):
@@ -717,11 +718,12 @@ class ConstitutionalLookupResult:
     review_state:       ReviewState    = ReviewState.UNREVIEWED
     conflict_notes:     Optional[str]  = None
     coverage_note:      Optional[str]  = None
-    # Addendum defect §4 — real trace propagation. Registry now emits a
-    # LOOKUP trace event ID per lookup; from_lookup_result carries it
-    # into the augment result's trace_ids. Empty only in default-
-    # constructed instances where no lookup has occurred.
-    trace_ids:          tuple[str, ...] = field(default_factory=tuple)
+    # §R9: load-health fields — True when the registry file was only partially
+    # loaded (e.g. some JSONL lines were malformed and skipped).
+    partial_load:         bool = False
+    malformed_line_count: int  = 0
+    # §R10: trace propagation — IDs of TraceEvents associated with this root.
+    trace_event_ids:      tuple[str, ...] = field(default_factory=tuple)
 
     @property
     def found(self) -> bool:
@@ -1103,12 +1105,10 @@ class MaqayisConstitutionalAugmentationResult:
 
         residual_ids = tuple(r.id for r in result.open_residuals)
 
-        # §11 + addendum defect §4: trace_ids contain TraceEvent-like IDs
-        # only — never Residual IDs. Propagated from the lookup result
-        # (ConstitutionalLookupResult.trace_ids now carries the
-        # registry LOOKUP trace IDs). Empty only if the caller
-        # constructed a lookup result without invoking the registry.
-        trace_ids: tuple[str, ...] = tuple(result.trace_ids)
+        # §11: trace_ids must contain TraceEvent IDs only — never Residual IDs.
+        # §R10: trace_event_ids are propagated from the registry lookup result
+        # when the registry indexes trace events by root (implemented in V1 registry).
+        trace_ids: tuple[str, ...] = getattr(result, "trace_event_ids", ())
 
         # §4: lexical_evidence_licensed = True ONLY when FOUND_LEXICALLY_REVIEWED
         # and a ReviewCertificate is present.  All machine-candidate, review-required,
