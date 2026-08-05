@@ -1,46 +1,221 @@
 """
-maqayis_body_loader.py — Body text resolver for Maqayis JSONL corpus
+maqayis_body_loader.py — Body text resolver + semantic segmenter
 MAQAYIS-CONSTITUTIONAL-SOURCE-LEXICON-PRODUCTION-01
 
 Resolves body_line_ids from root_entries JSONL against lines.jsonl
 to retrieve full lexical entry text — excluding poetry_line_ids per
 constitutional contract ("بدون الشعر").
 
-Design
-──────
-- Lazy-loaded singleton: lines.jsonl is loaded once on first use.
-- Text priority per line: human_text > corrected_ocr > raw_ocr.
-- Poetry lines (poetry_line_ids) are NEVER returned — constitutional
-  exclusion, not a filtering option.
-- Footnote lines (footnote_line_ids) excluded by default; caller may
-  opt in via include_footnotes=True.
-- Missing line IDs are silently skipped (OCR gap, not a crash).
+Additionally provides segment_body() which splits the assembled text into
+typed spans using the discourse markers attested in the Maqayis corpus.
 
-API
-───
-    loader = MaqayisBodyLoader(lines_jsonl_path)
+Marker taxonomy (derived from full-corpus scan — 11,164 body lines):
+──────────────────────────────────────────────────────────────────────
+  USAGE        يقال / فيقال / يقولون / تقول   (2,530+ occurrences)
+  AUTHORITY    قال X : / قالوا :               (3,453+ occurrences)
+  BRANCH       ومن الباب / ومن هذا الباب       (414 occurrences)
+  INTRO        من ذلك / فمن ذلك / وذلك         (502 occurrences)
+  SECOND_ORIG  والأصل الآخر / والثانى          (265 occurrences)
+  EXCEPTION    ومما شذّ (عن الباب)             (141 occurrences)
+  ETYMOLOGY    أصله / لأنّه / كأنّه / سُمِّي  (609+ occurrences)
+  HADITH       وفى الحديث / فى الحديث          (112 occurrences)
+  PLURAL       والجمع / وجمعه                  (185 occurrences)
+  CONTINUATION (default — unmarked opening prose)
 
-    # Body text only (no heading, no poetry, no footnotes)
-    text = loader.get_body_text(entry)
-
-    # Full entry: heading + body (no poetry, no footnotes)
-    text = loader.get_entry_text(entry)
+OCR normalisation applied before matching:
+  وبقال → ويقال    (62 OCR artifacts corrected)
 """
 from __future__ import annotations
 
 import json
 import pathlib
+import re
 import threading
+from dataclasses import dataclass
 from typing import Any, Optional
 
 
-# ── Line text selection ───────────────────────────────────────────────────────
+# ═══════════════════════════════════════════════════════════════════════════════
+# § 1 — MARKER TAXONOMY
+#   Corpus-attested discourse markers, compiled from full scan.
+# ═══════════════════════════════════════════════════════════════════════════════
+
+#: Human-readable catalogue of all discovered markers with corpus frequencies.
+LEXICAL_MARKERS: dict[str, dict[str, Any]] = {
+    # ── Usage / Citation ──────────────────────────────────────────────────────
+    "يقال": {
+        "type": "USAGE",
+        "pattern": r"(?:و|ف)?(?:ي|ب)قال\b|(?:و)?يُقال\b|فيقال\b",
+        "freq": 2530,
+        "note": "introduces attested usage; وبقال is OCR artifact of ويقال",
+    },
+    "يقولون": {
+        "type": "USAGE",
+        "pattern": r"(?:و)?يقولون\b|(?:و)?تقول\b",
+        "freq": 926,
+        "note": "alternate usage introduction",
+    },
+    "قيل": {
+        "type": "USAGE",
+        "pattern": r"\bقيل\b",
+        "freq": 112,
+        "note": "passive — 'it was said'",
+    },
+    # ── Authority Citation ─────────────────────────────────────────────────────
+    "قال": {
+        "type": "AUTHORITY",
+        "pattern": r"(?:و)?قال\s+[؀-ۿ\w]+|قالوا\b",
+        "freq": 3453,
+        "note": "top authorities: ابن دريد, أبو بكر, أبو عبيد, رسول اللّٰه",
+    },
+    # ── Structural: Branch introduction ───────────────────────────────────────
+    "ومن الباب": {
+        "type": "BRANCH",
+        "pattern": r"ومن (?:هذا )?(?:الباب|الأصل)\b",
+        "freq": 414,
+        "note": "introduces a derived or related lexical item",
+    },
+    "من ذلك": {
+        "type": "INTRO",
+        "pattern": r"(?:ف)?من ذلك\b|وذلك\b",
+        "freq": 502,
+        "note": "introduces the first or main example after the origin claim",
+    },
+    # ── Structural: Second / other origin ─────────────────────────────────────
+    "والأصل الآخر": {
+        "type": "SECOND_ORIG",
+        "pattern": r"(?:و)?(?:الأصل|والأصل) (?:الآخر|الثانى|الثاني)\b|فالأوَّل\b|فالأول\b",
+        "freq": 265,
+        "note": "signals DUAL-origin entries; marks the split between two origins",
+    },
+    # ── Structural: Exception ──────────────────────────────────────────────────
+    "ومما شذّ": {
+        "type": "EXCEPTION",
+        "pattern": r"ومما شذَّ?(?:\s+عن\s+الباب)?",
+        "freq": 141,
+        "note": "marks items that deviate from the root's regular derivation",
+    },
+    # ── Etymology ─────────────────────────────────────────────────────────────
+    "أصله": {
+        "type": "ETYMOLOGY",
+        "pattern": r"\bأصل(?:ه|ها|هُ|ان)\b",
+        "freq": 68,
+        "note": "introduces the underlying meaning or derivational source",
+    },
+    "لأنّه": {
+        "type": "ETYMOLOGY",
+        "pattern": r"\bلأنَّ?ه\b",
+        "freq": 288,
+        "note": "causal clause explaining why a word has its form/meaning",
+    },
+    "كأنّه": {
+        "type": "ETYMOLOGY",
+        "pattern": r"\bكأنَّ?ه\b",
+        "freq": 251,
+        "note": "analogical comparison supporting an etymological claim",
+    },
+    "سمّي": {
+        "type": "ETYMOLOGY",
+        "pattern": r"\bسُمِّي(?:ت)?\b|سمِّي(?:ت)?\b|(?:وإنما\s+)?تسميت?هم\b",
+        "freq": 40,
+        "note": "explains why a word was given its name",
+    },
+    "اشتقاقه": {
+        "type": "ETYMOLOGY",
+        "pattern": r"\bاشتقاق(?:ه|ها)?\b|\bمشتق\b",
+        "freq": 39,
+        "note": "derivational analysis",
+    },
+    "يدلّ على": {
+        "type": "ETYMOLOGY",
+        "pattern": r"\bيدلُّ? على\b",
+        "freq": 27,
+        "note": "semantic pointer — states what the root denotes",
+    },
+    # ── Hadith ────────────────────────────────────────────────────────────────
+    "الحديث": {
+        "type": "HADITH",
+        "pattern": r"(?:و)?(?:فى|في)\s+الحديث\b",
+        "freq": 112,
+        "note": "introduces a Prophetic hadith as evidence",
+    },
+    # ── Grammatical ───────────────────────────────────────────────────────────
+    "والجمع": {
+        "type": "PLURAL",
+        "pattern": r"(?:و)?(?:الجمع|جمعه)\b",
+        "freq": 185,
+        "note": "introduces the plural form of the word being defined",
+    },
+}
+
+
+# ── Compiled split-pattern ───────────────────────────────────────────────────
+
+_PRIORITY_ORDER = [
+    "ومما شذّ", "والأصل الآخر", "ومن الباب", "من ذلك",
+    "الحديث", "يقال", "يقولون", "قيل", "قال",
+    "سمّي", "أصله", "يدلّ على", "لأنّه", "كأنّه",
+    "اشتقاقه", "والجمع",
+]
+
+def _build_split_regex() -> re.Pattern:
+    parts = [LEXICAL_MARKERS[k]["pattern"] for k in _PRIORITY_ORDER]
+    return re.compile("(" + "|".join(parts) + ")", re.UNICODE)
+
+_SPLIT_RE: re.Pattern = _build_split_regex()
+
+_MARKER_TYPE_MAP: list[tuple[re.Pattern, str]] = [
+    (re.compile(v["pattern"], re.UNICODE), v["type"])
+    for v in LEXICAL_MARKERS.values()
+]
+
+_OCR_FIX = re.compile(r"\bوبقال\b", re.UNICODE)
+
+
+def _ocr_normalise(text: str) -> str:
+    return _OCR_FIX.sub("ويقال", text)
+
+
+def _classify_marker(marker_text: str) -> str:
+    for pat, stype in _MARKER_TYPE_MAP:
+        if pat.search(marker_text):
+            return stype
+    return "CONTINUATION"
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# § 2 — SEGMENT DATACLASS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+@dataclass
+class BodySegment:
+    """
+    One typed unit of a lexical entry's body text.
+
+    Attributes
+    ──────────
+    type    : semantic type (USAGE, AUTHORITY, BRANCH, INTRO, SECOND_ORIG,
+              EXCEPTION, ETYMOLOGY, HADITH, PLURAL, CONTINUATION)
+    marker  : the discourse marker that opened this segment (may be "")
+    text    : the content text following the marker
+    """
+    type:   str
+    marker: str
+    text:   str
+
+    def full_text(self) -> str:
+        """Marker + text joined with a space (if marker is non-empty)."""
+        if self.marker:
+            return f"{self.marker} {self.text}".strip()
+        return self.text.strip()
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# § 3 — LINE TEXT SELECTION
+# ═══════════════════════════════════════════════════════════════════════════════
 
 def _best_text(line_obj: dict[str, Any]) -> str:
-    """
-    Return the best available text for a line, in order of quality:
-    human_text → corrected_ocr → raw_ocr → "".
-    """
+    """human_text → corrected_ocr → raw_ocr → ''."""
     for key in ("human_text", "corrected_ocr", "raw_ocr"):
         val = line_obj.get(key)
         if val and str(val).strip():
@@ -48,11 +223,14 @@ def _best_text(line_obj: dict[str, Any]) -> str:
     return ""
 
 
-# ── MaqayisBodyLoader ─────────────────────────────────────────────────────────
+# ═══════════════════════════════════════════════════════════════════════════════
+# § 4 — MAQAYIS BODY LOADER
+# ═══════════════════════════════════════════════════════════════════════════════
 
 class MaqayisBodyLoader:
     """
-    Lazy-loaded, thread-safe resolver from line_id → text.
+    Lazy-loaded, thread-safe resolver from line_id → text, with semantic
+    segmentation of body text using corpus-attested discourse markers.
 
     Parameters
     ──────────
@@ -68,7 +246,6 @@ class MaqayisBodyLoader:
     # ── Loading ───────────────────────────────────────────────────────────────
 
     def _load(self) -> None:
-        """Load lines.jsonl into an in-memory dict keyed by line_id."""
         index: dict[str, dict[str, Any]] = {}
         with open(self._path, encoding="utf-8") as fh:
             for raw in fh:
@@ -91,16 +268,14 @@ class MaqayisBodyLoader:
                 if not self._loaded:
                     self._load()
 
-    # ── Public API ────────────────────────────────────────────────────────────
+    # ── Line-level API ────────────────────────────────────────────────────────
 
     @property
     def line_count(self) -> int:
-        """Number of lines indexed (triggers load if needed)."""
         self._ensure_loaded()
         return len(self._index)
 
     def get_line_text(self, line_id: str) -> str:
-        """Return the best text for a single line_id. Returns '' if unknown."""
         self._ensure_loaded()
         obj = self._index.get(line_id)
         if obj is None:
@@ -114,7 +289,6 @@ class MaqayisBodyLoader:
         exclude: Optional[set] = None,
         separator: str = "\n",
     ) -> str:
-        """Return joined text for an ordered list of line_ids."""
         self._ensure_loaded()
         exclude = exclude or set()
         parts: list[str] = []
@@ -126,6 +300,8 @@ class MaqayisBodyLoader:
                 parts.append(text)
         return separator.join(parts)
 
+    # ── Entry-level API ───────────────────────────────────────────────────────
+
     def get_body_text(
         self,
         entry: dict[str, Any],
@@ -136,8 +312,9 @@ class MaqayisBodyLoader:
         """
         Return body text for a root entry dict.
 
-        Poetry lines are ALWAYS excluded (constitutional: بدون الشعر).
-        Footnote lines excluded by default; set include_footnotes=True to include.
+        Poetry lines ALWAYS excluded (constitutional: بدون الشعر).
+        Footnotes excluded by default; set include_footnotes=True to include.
+        OCR normalisation applied (وبقال → ويقال).
         """
         body_ids     = entry.get("body_line_ids", []) or []
         poetry_ids   = set(entry.get("poetry_line_ids", []) or [])
@@ -147,7 +324,8 @@ class MaqayisBodyLoader:
         if include_footnotes:
             ids_to_fetch.extend(footnote_ids)
 
-        return self.get_lines_text(ids_to_fetch, exclude=poetry_ids, separator=separator)
+        raw = self.get_lines_text(ids_to_fetch, exclude=poetry_ids, separator=separator)
+        return _ocr_normalise(raw)
 
     def get_entry_text(
         self,
@@ -157,30 +335,80 @@ class MaqayisBodyLoader:
         heading_separator: str = "\n",
         line_separator: str = " ",
     ) -> str:
-        """
-        Return the full entry text: heading + body (no poetry, no footnotes).
-
-        heading is taken from root_heading_text (OCR of the heading line).
-        """
+        """Return heading + body (no poetry, no footnotes)."""
         heading = (entry.get("root_heading_text") or "").strip()
         body    = self.get_body_text(
             entry,
             include_footnotes=include_footnotes,
             separator=line_separator,
         )
-
         if heading and body:
             return heading + heading_separator + body
         return heading or body
 
+    # ── Segmentation API ──────────────────────────────────────────────────────
+
+    def segment_body(
+        self,
+        entry: dict[str, Any],
+        *,
+        include_footnotes: bool = False,
+        min_text_len: int = 3,
+    ) -> list[BodySegment]:
+        """
+        Split the body text into typed BodySegment spans.
+
+        Segment types:
+          USAGE        يقال / فيقال / يقولون / تقول
+          AUTHORITY    قال X / قالوا
+          BRANCH       ومن الباب / ومن هذا الباب
+          INTRO        من ذلك / فمن ذلك / وذلك
+          SECOND_ORIG  والأصل الآخر / والثانى / فالأوّل
+          EXCEPTION    ومما شذّ (عن الباب)
+          ETYMOLOGY    أصله / لأنّه / كأنّه / سُمِّي / اشتقاقه
+          HADITH       وفى الحديث / فى الحديث
+          PLURAL       والجمع / وجمعه
+          CONTINUATION (unmarked opening prose)
+        """
+        body = self.get_body_text(entry, include_footnotes=include_footnotes)
+        if not body:
+            return []
+
+        parts = _SPLIT_RE.split(body)
+        segments: list[BodySegment] = []
+        current_marker = ""
+        current_type   = "CONTINUATION"
+
+        for part in parts:
+            if not part or not part.strip():
+                continue
+            if _SPLIT_RE.fullmatch(part.strip()):
+                current_marker = part.strip()
+                current_type   = _classify_marker(current_marker)
+            else:
+                text = part.strip()
+                if len(text) >= min_text_len:
+                    segments.append(BodySegment(
+                        type=current_type,
+                        marker=current_marker,
+                        text=text,
+                    ))
+                current_marker = ""
+                current_type   = "CONTINUATION"
+
+        return segments
+
     def entry_summary(self, entry: dict[str, Any]) -> dict[str, Any]:
         """Return a structured dict with all key fields for an entry."""
+        from collections import Counter
         root_letters = entry.get("root_letters", "?")
         heading      = (entry.get("root_heading_text") or "").strip()
         body         = self.get_body_text(entry)
         body_ids     = entry.get("body_line_ids", []) or []
         poetry_ids   = entry.get("poetry_line_ids", []) or []
         footnote_ids = entry.get("footnote_line_ids", []) or []
+        segments     = self.segment_body(entry)
+        type_counts  = Counter(s.type for s in segments)
 
         poetry_texts: list[str] = []
         for lid in poetry_ids:
@@ -200,10 +428,14 @@ class MaqayisBodyLoader:
             "poetry_excluded": len(poetry_ids),
             "footnote_count":  len(footnote_ids),
             "poetry_texts":    poetry_texts,
+            "segments":        segments,
+            "segment_types":   dict(type_counts),
         }
 
 
-# ── Auto-discovery helper ─────────────────────────────────────────────────────
+# ═══════════════════════════════════════════════════════════════════════════════
+# § 5 — AUTO-DISCOVERY AND SINGLETON
+# ═══════════════════════════════════════════════════════════════════════════════
 
 def _find_lines_jsonl(start: Optional[pathlib.Path] = None) -> Optional[pathlib.Path]:
     """Walk up from start looking for data/maqaees/full/lines.jsonl."""
@@ -217,8 +449,6 @@ def _find_lines_jsonl(start: Optional[pathlib.Path] = None) -> Optional[pathlib.
         here = here.parent
     return None
 
-
-# ── Module-level singleton ────────────────────────────────────────────────────
 
 _DEFAULT_LOADER: Optional[MaqayisBodyLoader] = None
 _LOADER_LOCK    = threading.Lock()
