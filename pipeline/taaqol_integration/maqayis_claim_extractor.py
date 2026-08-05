@@ -387,3 +387,389 @@ def claims_summary(claims: list[LexicalClaim]) -> dict[str, Any]:
         "etymology":    etym,
         "dual_entry":   any(c.claim_type == "ORIGIN_BOUNDARY" for c in claims),
     }
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# § 6 — LEXICAL CLAIM GRAPH BUILDER
+#   Converts LexicalClaim objects → LexicalClaimGraph (Layer 2 of
+#   MaqayisSourceBundle).  All constitutional constraints from
+#   maqayis_source_schema.py are enforced here.
+#
+#   Graph construction rules:
+#     • One ClaimNode per LexicalClaim.
+#     • One TermNode per unique (normalized) term string.
+#     • One AuthorityNode per unique authority name.
+#     • One EvidenceNode per HADITH_EVIDENCE or embedded poetry AUTHORITY_CITATION.
+#     • CLAIM_ABOUT edge for every ClaimNode that has a term.
+#     • ATTRIBUTED_TO edge for every ClaimNode that has an authority.
+#     • SUPPORTED_BY edge from EvidenceNode to its parent ClaimNode.
+#     • EXEMPLIFIES edge from EvidenceNode → ClaimNode for BRANCH/EXCEPTION items.
+#     • ELABORATES edge chaining CONTINUATION segments to their predecessor.
+#
+#   claim_kind (entry-level) is passed in by the caller; it maps many
+#   claim_type values.  Assertion strength is re-evaluated per ClaimNode
+#   from the raw_text because segment-level text carries more context.
+# ═══════════════════════════════════════════════════════════════════════════════
+
+import uuid as _uuid
+
+from .maqayis_source_schema import (
+    AssertionStrength,
+    AuthorPosition,
+    ClaimAttribution,
+    ClaimKind,
+    EvidenceStatus,
+    ExtractionMethod,
+    ExtractionMetadata,
+    GraphEdge,
+    LexicalClaimEdgeType,
+    LexicalClaimGraph,
+    AuthorityNode,
+    ClaimNode,
+    EvidenceNode,
+    TermNode,
+    ReviewState,
+    SCHEMA_VERSION,
+    UsageType,
+    WitnessFunction,
+    EvidenceStrength,
+)
+
+# ── Poetry / Quran detection patterns ────────────────────────────────────────
+
+_QURAN_RE = re.compile(r"قال\s+الله|قال\s+تعالى|قرآن", re.UNICODE)
+_POETRY_RE = re.compile(
+    r"(?:قال\s+الشاعر|قال\s+امرؤ|قال\s+زهير|أنشد|\bشعر\b|بيت\b)",
+    re.UNICODE,
+)
+_HADITH_TEXT_RE = re.compile(r"(?:النبي|رسول\s+الله|صلى\s+الله)", re.UNICODE)
+
+# Markers indicating Ibn Faris is the speaker (no authority name = self)
+_SELF_MARKERS = frozenset({"يقال", "يقولون", "قيل", "من ذلك", "ومن الباب",
+                            "ومما شذّ", "أصله", "والجمع"})
+
+
+def _new_graph_id(prefix: str) -> str:
+    return f"{prefix}:{_uuid.uuid4().hex[:10]}"
+
+
+def _map_assertion_strength_for_claim(claim: LexicalClaim) -> AssertionStrength:
+    """
+    Derive AssertionStrength from claim_type and raw_text.
+
+    Hierarchy:
+      HADITH_EVIDENCE        → ASSERTED  (textual authority)
+      AUTHORITY_CITATION     → REPORTED  (scholar's speech)
+      ETYMOLOGY_SEMANTIC     → ASSERTED  (explicit diacritical pointing)
+      ETYMOLOGY_ORIGIN/CAUSAL/NAMING → ASSERTED
+      ETYMOLOGY_ANALOGY      → PROBABLE  (كأنه = analogy, not certainty)
+      USAGE_CONDITIONAL      → ASSERTED  (attested usage with condition)
+      USAGE_FORM / USAGE_NAMED → ASSERTED
+      RAW_SEGMENT            → UNKNOWN
+      ORIGIN_BOUNDARY        → UNKNOWN   (structural marker, not a claim)
+      PLURAL_FORM            → ASSERTED  (lexicographic fact)
+    """
+    ct = claim.claim_type
+    raw = claim.raw_text or ""
+
+    if ct == "HADITH_EVIDENCE":
+        return AssertionStrength.ASSERTED
+    if ct == "AUTHORITY_CITATION":
+        return AssertionStrength.REPORTED
+    if ct in ("ETYMOLOGY_ORIGIN", "ETYMOLOGY_SEMANTIC", "ETYMOLOGY_NAMING",
+              "ETYMOLOGY_CAUSAL"):
+        if re.search(r"كأنَّ?", raw, re.UNICODE):
+            return AssertionStrength.PROBABLE
+        return AssertionStrength.ASSERTED
+    if ct in ("USAGE_CONDITIONAL", "USAGE_FORM", "USAGE_NAMED"):
+        return AssertionStrength.ASSERTED
+    if ct == "PLURAL_FORM":
+        return AssertionStrength.ASSERTED
+    if ct in ("BRANCH_ITEM", "INTRO_EXAMPLE"):
+        return AssertionStrength.ASSERTED
+    if ct in ("EXCEPTION_NOTE",):
+        return AssertionStrength.REPORTED
+    return AssertionStrength.UNKNOWN
+
+
+def _map_author_position(claim: LexicalClaim) -> AuthorPosition:
+    """
+    Derive AuthorPosition for a ClaimNode.
+
+    Ibn Faris's own claims → ADOPTED.
+    Reported speech from named authority → REPORTED_ONLY.
+    قالوا (anonymous) → REPORTED_ONLY.
+    """
+    if claim.claim_type == "AUTHORITY_CITATION":
+        return AuthorPosition.REPORTED_ONLY
+    return AuthorPosition.ADOPTED
+
+
+def _map_attribution(claim: LexicalClaim) -> ClaimAttribution:
+    """Map claim to ClaimAttribution (who makes this claim in the source text)."""
+    if claim.claim_type == "AUTHORITY_CITATION":
+        auth = (claim.authority or "").strip()
+        if "قالوا" in auth:
+            return ClaimAttribution.ARABS_GENERAL
+        if auth:
+            return ClaimAttribution.QUOTED_SCHOLAR
+        return ClaimAttribution.UNKNOWN
+    if claim.claim_type == "HADITH_EVIDENCE":
+        return ClaimAttribution.QUOTED_SCHOLAR  # Prophet's reported speech
+    # Markers in _SELF_MARKERS indicate Ibn Faris himself
+    if claim.marker in _SELF_MARKERS or claim.segment_type in (
+        "USAGE", "ETYMOLOGY", "BRANCH", "EXCEPTION", "PLURAL", "INTRO",
+    ):
+        return ClaimAttribution.IBN_FARIS
+    return ClaimAttribution.UNKNOWN
+
+
+def _map_usage_type(claim: LexicalClaim) -> UsageType:
+    """Map a HADITH or AUTHORITY claim to UsageType for EvidenceNode."""
+    raw = claim.raw_text or ""
+    if claim.claim_type == "HADITH_EVIDENCE":
+        return UsageType.HADITH
+    if _QURAN_RE.search(raw):
+        return UsageType.QURANIC
+    if _POETRY_RE.search(raw):
+        return UsageType.POETRY
+    if _HADITH_TEXT_RE.search(raw):
+        return UsageType.HADITH
+    if claim.claim_type == "AUTHORITY_CITATION":
+        return UsageType.ARAB_SPEECH
+    return UsageType.AUTHOR_EXAMPLE
+
+
+def _map_witness_function(claim: LexicalClaim) -> WitnessFunction:
+    """Derive WitnessFunction for an EvidenceNode from this claim."""
+    ct = claim.claim_type
+    if ct in ("USAGE_CONDITIONAL", "USAGE_FORM", "USAGE_NAMED"):
+        return WitnessFunction.DEMONSTRATES_USAGE
+    if ct in ("ETYMOLOGY_ORIGIN", "ETYMOLOGY_CAUSAL", "ETYMOLOGY_NAMING",
+              "ETYMOLOGY_SEMANTIC"):
+        return WitnessFunction.SUPPORTS_ORIGIN
+    if ct == "HADITH_EVIDENCE":
+        return WitnessFunction.DEMONSTRATES_USAGE
+    if ct == "EXCEPTION_NOTE":
+        return WitnessFunction.SUPPORTS_EXCEPTION
+    if ct == "BRANCH_ITEM":
+        return WitnessFunction.DEMONSTRATES_DERIVATION
+    if ct == "AUTHORITY_CITATION":
+        return WitnessFunction.DEMONSTRATES_SENSE
+    return WitnessFunction.DEMONSTRATES_SENSE
+
+
+def _default_extraction_meta() -> ExtractionMetadata:
+    """Return a blank ExtractionMetadata for graph nodes (shared baseline)."""
+    return ExtractionMetadata(
+        extraction_method=ExtractionMethod.AUTOMATED_PASS_1,
+        explicitness=None,
+        extraction_confidence=None,
+        review_state=ReviewState.EXTRACTION_CANDIDATE,
+        evidence_status=EvidenceStatus.UNREVIEWED,
+        residuals=[],
+        counterevidence_ids=[],
+        version=SCHEMA_VERSION,
+        supersedes_id=None,
+    )
+
+
+def build_lexical_claim_graph(
+    entry_id: str,
+    claims: "list[LexicalClaim]",
+    claim_kind: ClaimKind = ClaimKind.POSITIVE_ORIGIN,
+) -> LexicalClaimGraph:
+    """
+    Build a LexicalClaimGraph from an ordered list of LexicalClaim objects.
+
+    Parameters
+    ──────────
+    entry_id   : the entry_id string from root_entries JSONL
+    claims     : output of extract_claims() for this entry
+    claim_kind : entry-level claim kind (from SourceClaimRecord.claim_kind)
+                 Default: POSITIVE_ORIGIN
+
+    Returns
+    ───────
+    LexicalClaimGraph with fully populated nodes and typed edges.
+
+    Graph invariants:
+      - Every ClaimNode with a term has exactly one CLAIM_ABOUT edge → TermNode.
+      - Every ClaimNode with an authority has exactly one ATTRIBUTED_TO edge.
+      - HADITH / QURANIC evidence nodes have a SUPPORTED_BY edge to ClaimNode.
+      - TermNodes are deduplicated by normalized form.
+      - AuthorityNodes are deduplicated by normalized authority name.
+      - No edges between CHAPTER_HEADER claim nodes (there are none produced).
+    """
+    claim_nodes:     list[ClaimNode]     = []
+    term_nodes:      list[TermNode]      = []
+    authority_nodes: list[AuthorityNode] = []
+    evidence_nodes:  list[EvidenceNode]  = []
+    edges:           list[GraphEdge]     = []
+
+    # Deduplication registries
+    term_registry: dict[str, str]      = {}  # normalized_form → term_node_id
+    auth_registry: dict[str, str]      = {}  # normalized_name → authority_node_id
+
+    def _norm_ar(text: str) -> str:
+        """Lightweight Arabic normalisation for dedup keys."""
+        t = text.strip()
+        t = re.sub(r"[ً-ٰٟ]", "", t)   # strip harakat
+        t = re.sub(r"[أإآ]", "ا", t)                  # unify alef
+        t = re.sub(r"[ة]", "ه", t)                    # ta marbuta → ha
+        return re.sub(r"\s+", " ", t).strip()
+
+    def _get_or_create_term(term_text: str) -> str:
+        """Return existing term_node_id or create new TermNode; return its id."""
+        norm = _norm_ar(term_text)
+        if norm in term_registry:
+            return term_registry[norm]
+        tid = _new_graph_id("TRM")
+        term_nodes.append(TermNode(
+            term_node_id=tid,
+            lexical_form=term_text.strip(),
+            normalized_form=norm,
+        ))
+        term_registry[norm] = tid
+        return tid
+
+    def _get_or_create_authority(auth_name: str) -> str:
+        """Return existing authority_node_id or create new AuthorityNode."""
+        norm = _norm_ar(auth_name)
+        if norm in auth_registry:
+            return auth_registry[norm]
+        aid = _new_graph_id("AUTH")
+        authority_nodes.append(AuthorityNode(
+            authority_node_id=aid,
+            name=auth_name.strip(),
+            name_normalized=norm,
+        ))
+        auth_registry[norm] = aid
+        return aid
+
+    def _add_edge(
+        edge_type: LexicalClaimEdgeType,
+        source_id: str,
+        target_id: str,
+        meta: Optional[dict] = None,
+    ) -> None:
+        edges.append(GraphEdge(
+            edge_id=_new_graph_id("EDGE"),
+            edge_type=edge_type,
+            source_id=source_id,
+            target_id=target_id,
+            meta=meta or {},
+        ))
+
+    # ── Build ClaimNodes and edges ────────────────────────────────────────────
+
+    prev_claim_node_id: Optional[str] = None
+
+    for claim in claims:
+        cid = _new_graph_id("CLM")
+
+        # Assertion strength and attribution at sentence level
+        astr = _map_assertion_strength_for_claim(claim)
+        apos = _map_author_position(claim)
+        attr = _map_attribution(claim)
+
+        cnode = ClaimNode(
+            claim_node_id=cid,
+            claim_type=claim.claim_type,
+            raw_text=claim.raw_text,
+            term=claim.term,
+            definition=claim.definition,
+            authority=claim.authority,
+            origin_index=claim.origin_index,
+            assertion_strength=astr,
+            author_position=apos,
+            extraction_meta=_default_extraction_meta(),
+        )
+        claim_nodes.append(cnode)
+
+        # CLAIM_ABOUT: ClaimNode → TermNode (when term is present)
+        if claim.term:
+            tid = _get_or_create_term(claim.term)
+            _add_edge(LexicalClaimEdgeType.CLAIM_ABOUT, cid, tid)
+
+        # ATTRIBUTED_TO: ClaimNode → AuthorityNode (when authority is present)
+        if claim.authority:
+            aid = _get_or_create_authority(claim.authority)
+            _add_edge(LexicalClaimEdgeType.ATTRIBUTED_TO, cid, aid)
+
+        # ELABORATES: chain CONTINUATION / RAW_SEGMENT to predecessor
+        if (claim.claim_type == "RAW_SEGMENT"
+                and claim.segment_type == "CONTINUATION"
+                and prev_claim_node_id is not None):
+            _add_edge(LexicalClaimEdgeType.ELABORATES, cid, prev_claim_node_id)
+
+        # Build EvidenceNode for HADITH and strong AUTHORITY citations
+        if claim.claim_type in ("HADITH_EVIDENCE",) or (
+            claim.claim_type == "AUTHORITY_CITATION"
+            and attr in (ClaimAttribution.QUOTED_SCHOLAR, ClaimAttribution.ARABS_GENERAL)
+        ):
+            usage_type = _map_usage_type(claim)
+            witness_fn = _map_witness_function(claim)
+            ev_strength = (
+                EvidenceStrength.DIRECT
+                if usage_type in (UsageType.QURANIC, UsageType.HADITH)
+                else EvidenceStrength.SUPPORTING
+            )
+            # Detect embedded poetry (poetry text inside prose body)
+            is_embedded = _POETRY_RE.search(claim.raw_text or "") is not None
+
+            evid = EvidenceNode(
+                evidence_node_id=_new_graph_id("EV"),
+                text=(claim.definition or claim.raw_text or "")[:300],
+                usage_type=usage_type,
+                witness_function=witness_fn,
+                is_embedded_poetry=is_embedded,
+            )
+            evidence_nodes.append(evid)
+
+            # SUPPORTED_BY: EvidenceNode → ClaimNode it supports
+            _add_edge(
+                LexicalClaimEdgeType.SUPPORTED_BY,
+                evid.evidence_node_id,
+                cid,
+                meta={"evidence_strength": ev_strength.value},
+            )
+
+        prev_claim_node_id = cid
+
+    graph = LexicalClaimGraph(
+        graph_id=_new_graph_id("LCG"),
+        entry_id=entry_id,
+        claim_nodes=claim_nodes,
+        term_nodes=term_nodes,
+        authority_nodes=authority_nodes,
+        evidence_nodes=evidence_nodes,
+        edges=edges,
+    )
+    return graph
+
+
+def build_lexical_claim_graph_from_entry(
+    entry: dict,
+    loader: "Any",
+    claim_kind: ClaimKind = ClaimKind.POSITIVE_ORIGIN,
+) -> LexicalClaimGraph:
+    """
+    Convenience wrapper: segment + extract claims + build graph in one call.
+
+    Parameters
+    ──────────
+    entry      : root entry dict from root_entries JSONL
+    loader     : MaqayisBodyLoader instance
+    claim_kind : entry-level claim kind (from SourceClaimRecord)
+
+    Returns
+    ───────
+    LexicalClaimGraph ready for attachment to MaqayisSourceBundle.lexical_claim_graph
+    """
+    claims = extract_claims_from_entry(entry, loader)
+    return build_lexical_claim_graph(
+        entry_id=entry.get("entry_id") or "",
+        claims=claims,
+        claim_kind=claim_kind,
+    )
