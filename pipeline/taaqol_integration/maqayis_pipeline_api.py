@@ -38,33 +38,33 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional, Union
 
-# ── Path bootstrap ──────────────────────────────────────────────────────────
-_THIS_DIR = pathlib.Path(__file__).parent
-if str(_THIS_DIR) not in sys.path:
-    sys.path.insert(0, str(_THIS_DIR.parent))
+# ── Path resolution ─────────────────────────────────────────────────────────
+_THIS_DIR    = pathlib.Path(__file__).resolve().parent   # pipeline/taaqol_integration/
+_PROJECT_ROOT = _THIS_DIR.parent.parent                  # hokom-maqayis-v1/
 
-from maqayis_pipeline.maqayis_source_schema import (
+from .maqayis_source_schema import (
     BLOCKING_RESIDUALS,
     ONTOLOGY_CANDIDATE_ONLY,
     WORK_ID,
     AUTHOR_ID,
     SCHEMA_VERSION,
 )
-from maqayis_pipeline.maqayis_body_loader import MaqayisBodyLoader
-from maqayis_pipeline.maqayis_source_evidence_builder import SourceEvidenceBuilder
-from maqayis_pipeline.maqayis_claim_extractor import (
+from .maqayis_body_loader import MaqayisBodyLoader
+from .maqayis_source_evidence_builder import SourceEvidenceBuilder
+from .maqayis_claim_extractor import (
     extract_claims_from_entry,
     build_lexical_claim_graph_from_entry,
 )
-from maqayis_pipeline.maqayis_semantic_origin_graph_builder import (
+from .maqayis_semantic_origin_graph_builder import (
     build_semantic_origin_graph,
     attach_layer3_to_bundle,
 )
-from maqayis_pipeline.maqayis_ontology_candidate_builder import attach_layer4_to_bundle
+from .maqayis_ontology_candidate_builder import attach_layer4_to_bundle
 
-# ── Default data paths (auto-discovered relative to this file) ──────────────
-_DEFAULT_ENTRIES = _THIS_DIR / "root_entries_corrected.jsonl"
-_DEFAULT_LINES   = _THIS_DIR / "lines.jsonl"
+# ── Default data paths (discovered relative to project root) ────────────────
+_DATA_DIR        = _PROJECT_ROOT / "data" / "maqaees" / "full"
+_DEFAULT_ENTRIES = _DATA_DIR / "root_entries_corrected.jsonl"
+_DEFAULT_LINES   = _DATA_DIR / "lines.jsonl"
 
 # ── Sentinel for "write to auto path" ──────────────────────────────────────
 _AUTO = object()
