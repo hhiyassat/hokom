@@ -61,8 +61,43 @@ from .maqayis_semantic_origin_graph_builder import (
 )
 from .maqayis_ontology_candidate_builder import attach_layer4_to_bundle
 
-# ── Default data paths (discovered relative to project root) ────────────────
-_DATA_DIR        = _PROJECT_ROOT / "data" / "maqaees" / "full"
+# ── Default data paths — resolved via git worktree chain if needed ───────────
+def _find_data_dir(start: pathlib.Path) -> pathlib.Path:
+    """
+    Search for data/maqaees/full/ starting from `start` and walking up.
+    If not found locally, follow the .git file (worktree link) to the main
+    repo and try there too.
+    """
+    # 1. Try from start upward
+    candidate = start
+    for _ in range(4):
+        d = candidate / "data" / "maqaees" / "full"
+        if d.is_dir():
+            return d
+        candidate = candidate.parent
+
+    # 2. Follow worktree link: hokom-maqayis-v1/.git → hokom/.git/worktrees/…
+    git_ref = start / ".git"
+    if git_ref.is_file():
+        # .git file contains: "gitdir: /path/to/hokom/.git/worktrees/hokom-maqayis-v1"
+        text = git_ref.read_text().strip()
+        if text.startswith("gitdir:"):
+            gitdir = pathlib.Path(text.split(":", 1)[1].strip())
+            # gitdir == hokom/.git/worktrees/hokom-maqayis-v1
+            # main repo == gitdir.parent.parent
+            main_repo = gitdir.parent.parent.parent  # hokom/
+            d = main_repo / "data" / "maqaees" / "full"
+            if d.is_dir():
+                return d
+
+    # 3. Sibling named "hokom" (common local layout)
+    sibling = start.parent / "hokom" / "data" / "maqaees" / "full"
+    if sibling.is_dir():
+        return sibling
+
+    return start  # fallback — caller will get FileNotFoundError with a clear path
+
+_DATA_DIR        = _find_data_dir(_PROJECT_ROOT)
 _DEFAULT_ENTRIES = _DATA_DIR / "root_entries_corrected.jsonl"
 _DEFAULT_LINES   = _DATA_DIR / "lines.jsonl"
 
