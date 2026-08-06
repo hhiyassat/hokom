@@ -367,11 +367,11 @@ def _extract_xref_target(raw_text: str) -> Optional[str]:
 
 def _default_extraction_meta() -> ExtractionMetadata:
     return ExtractionMetadata(
-        extraction_method=ExtractionMethod.AUTOMATED_PASS_1,
+        extraction_method=ExtractionMethod.RULE_BASED,
         explicitness=None,
         extraction_confidence=None,
-        review_state=ReviewState.EXTRACTION_CANDIDATE,
-        evidence_status=EvidenceStatus.UNREVIEWED,
+        review_state=ReviewState.MACHINE_CANDIDATE,
+        evidence_status=EvidenceStatus.MACHINE_SOURCE_CLAIM_CANDIDATE,
         residuals=[],
         counterevidence_ids=[],
         version=SCHEMA_VERSION,

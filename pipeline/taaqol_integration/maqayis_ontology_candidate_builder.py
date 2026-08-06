@@ -177,9 +177,9 @@ _CAUSAL_ROLE_TO_MODE = {
 
 #: Opposition detection: NEGATIVE_CLAIM entries may signal opposition
 _OPPOSITION_PATTERNS: List[Tuple[re.Pattern, OppositionType]] = [
-    (re.compile(r"ضد|نقيض|عكس", re.UNICODE),                   OppositionType.ANTONYM),
+    (re.compile(r"ضد|نقيض|عكس", re.UNICODE),                   OppositionType.LEXICAL_ONLY),
     (re.compile(r"ليس\s+بـ?|ليس\s+هو|لا\s+يُقال", re.UNICODE), OppositionType.COMPLEMENTARY),
-    (re.compile(r"مقابل|في\s+مقابل", re.UNICODE),               OppositionType.POLAR),
+    (re.compile(r"مقابل|في\s+مقابل", re.UNICODE),               OppositionType.GRADABLE),
 ]
 
 
@@ -222,11 +222,11 @@ def _detect_opposition(raw_text: Optional[str]) -> Optional[OppositionType]:
 
 def _default_ontology_meta() -> ExtractionMetadata:
     return ExtractionMetadata(
-        extraction_method=ExtractionMethod.AUTOMATED_PASS_1,
+        extraction_method=ExtractionMethod.RULE_BASED,
         explicitness=Explicitness.INFERRED,
         extraction_confidence=None,
-        review_state=ReviewState.EXTRACTION_CANDIDATE,
-        evidence_status=EvidenceStatus.UNREVIEWED,
+        review_state=ReviewState.MACHINE_CANDIDATE,
+        evidence_status=EvidenceStatus.MACHINE_SOURCE_CLAIM_CANDIDATE,
         residuals=[],
         counterevidence_ids=[],
         version=SCHEMA_VERSION,
@@ -640,7 +640,7 @@ class OntologyCandidateBuilder:
             return None
 
         # Gate 2: entry kind
-        if bundle.entry_kind in (EntryKind.CHAPTER_HEADER, EntryKind.OCR_NOISE):
+        if bundle.entry_kind == EntryKind.OCR_NOISE:
             return None
 
         # Gate 3: Layer 3 must be present

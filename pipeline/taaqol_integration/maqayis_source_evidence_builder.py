@@ -284,7 +284,7 @@ def _map_entry_kind(
 ) -> EntryKind:
     """Derive EntryKind from heading type and body text availability."""
     if heading_type == HeadingType.CHAPTER_HEADER:
-        return EntryKind.CHAPTER_HEADER
+        return EntryKind.OCR_NOISE
     if heading_type == HeadingType.CROSS_REFERENCE:
         return EntryKind.CROSS_REFERENCE
     if heading_type == HeadingType.NOT_ROOT:
@@ -619,7 +619,7 @@ class SourceEvidenceBuilder:
             corrected_bab_letter=entry.get("corrected_bab_letter") or bab_letter,
             correction_reason=entry.get("correction_reason"),
             correction_version=entry.get("correction_version"),
-            correction_review_state=ReviewState.EXTRACTION_CANDIDATE,
+            correction_review_state=ReviewState.MACHINE_CANDIDATE,
             # Constitutional: never IDENTITY_VERIFIED from machine
         )
 
@@ -706,11 +706,11 @@ class SourceEvidenceBuilder:
           TEXT_VERIFICATION_FAILED  → ocr_confidence < threshold AND no human text
         """
         meta = ExtractionMetadata(
-            extraction_method=ExtractionMethod.AUTOMATED_PASS_1,
+            extraction_method=ExtractionMethod.RULE_BASED,
             explicitness=None,
             extraction_confidence=ocr_confidence,
-            review_state=ReviewState.EXTRACTION_CANDIDATE,
-            evidence_status=EvidenceStatus.UNREVIEWED,
+            review_state=ReviewState.MACHINE_CANDIDATE,
+            evidence_status=EvidenceStatus.MACHINE_SOURCE_CLAIM_CANDIDATE,
             residuals=[],
             counterevidence_ids=[],
             version=SCHEMA_VERSION,
