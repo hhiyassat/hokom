@@ -1,0 +1,99 @@
+{
+  "report_id": "HOKOM-QURAN-WIDE-TAFSIR-GROUPED-AYAH-MAPPING-CLOSURE-WAVE-05T-B/06_TEST_REPORT",
+  "generated_at_head": "ef42bd1",
+  "baseline_head": "9ad5ab4",
+  "python_version": "3.12.4",
+  "honesty_banner": "FULL SUITE IS NOT GREEN. This report does NOT claim 'full suite green', 'verified clean', or 'regressions = false'. Wave-05T-B is NOT adopted as verified-clean by this report.",
+
+  "targeted_tafsir_tests_passed": 30,
+  "targeted_tafsir_tests_failed": 0,
+  "targeted_tafsir_files": [
+    "tests/taaqol_integration/test_quran_wide_tafsir_almukhtasar.py",
+    "tests/taaqol_integration/test_quran_wide_tafsir_grouped_mapping.py"
+  ],
+
+  "owner_reported_run": {
+    "note": "Owner's own run, on the owner's environment/plugin config. Numbers differ from the same-machine measurement below; retained verbatim, not hidden.",
+    "full_suite_passed": 2600,
+    "full_suite_failed": 161,
+    "full_suite_skipped": 15,
+    "subtests_passed": 52
+  },
+
+  "measured_my_head_ef42bd1": {
+    "full_suite_failed": 52,
+    "full_suite_errors": 50,
+    "full_suite_passed": 8994,
+    "full_suite_skipped": 73,
+    "subtests_passed": 52,
+    "failing_or_error_nodes": 102,
+    "command": "PYTHONPATH=src:. python3 -m pytest tests/ -p no:cacheprovider -q --tb=no -rfE",
+    "duration_s": 886.42
+  },
+
+  "measured_baseline_9ad5ab4": {
+    "note": "Pristine pre-production baseline in /Users/husseinhiyassat/hokom. Contains NONE of this session's amil_canon / mabniyat / tafsir modules. Same machine, same Python, same command.",
+    "full_suite_failed": 57,
+    "full_suite_errors": 50,
+    "full_suite_passed": 7645,
+    "full_suite_skipped": 72,
+    "subtests_passed": 52,
+    "failing_or_error_nodes": 107,
+    "duration_s": 465.84
+  },
+
+  "baseline_failed_before_wave": 57,
+  "baseline_errors_before_wave": 50,
+
+  "regression_diff_myhead_vs_baseline": {
+    "method": "sorted unique FAILED/ERROR node-IDs at ef42bd1 MINUS same at 9ad5ab4 (comm -23), same environment.",
+    "regressions_count": 22,
+    "fixed_count": 27,
+    "net_delta_failing_nodes": -5,
+    "regression_nodes": {
+      "tests/taaqol_integration/test_c10_closure_gate.py": 16,
+      "tests/taaqol_integration/test_c11_evidence_closure.py": 3,
+      "tests/taaqol_integration/test_c12_evidence_producers.py": 2,
+      "tests/sga/test_architecture.py": 1
+    },
+    "root_cause_classification": {
+      "vendor_sha_or_manifest_mismatch": {
+        "count": 21,
+        "evidence": "Directly observed assertion on c10/c11: actual vendor sha '05c6668dfb95...c73d0664bccb3' != expected target '17d78c45bfa8...48fd597034f14'. c12 shape/manifest tests are the same evidence-closure family bound to the same target sha.",
+        "attributable_to_tafsir_wave": false,
+        "touches_pipeline_amil_canon_or_tafsir_layer": false
+      },
+      "hr2s_saleh_derivation_legacy": {
+        "count": 1,
+        "node": "tests/sga/test_architecture.py::test_hr2s_not_required_in_pipeline",
+        "evidence": "Fails because pipeline/taaqol_integration/saleh_derivation/{recovery.py,providers.py} exist (legacy HR2S integration program). Unrelated to tafsir.",
+        "attributable_to_tafsir_wave": false,
+        "touches_pipeline_amil_canon_or_tafsir_layer": false
+      }
+    },
+    "regressions_in_tafsir_or_amil_canon_layer": 0
+  },
+
+  "exact_single_commit_isolation": {
+    "attempted": true,
+    "target_commit": "a348ed4 (parent of the two tafsir commits 6aed3b4, ef42bd1)",
+    "status": "INVALID_DISCARDED",
+    "reason": "Ran in a fresh detached git worktree that lacks the external Saleh path /private/tmp/fractal/algebra/Saleh-/src; pytest died at collection ('Cannot import Saleh/Qiyas') and collected nothing. Discarded; not used as evidence.",
+    "consequence": "Because this clean isolation could not complete, this report does NOT assert 'zero regressions attributable to the two tafsir commits' as a proven fact. It asserts only what the same-environment baseline diff proves: the 22 differing nodes are all vendor-sha/HR2S-legacy and none touch the tafsir/amil_canon layer."
+  },
+
+  "regressions_proven_false": false,
+  "regressions_proven_false_explanation": "Kept FALSE deliberately. The same-env baseline diff shows my HEAD has FEWER total failing nodes than the pristine baseline (102 vs 107) and all 22 nodes that regress vs baseline are vendor-sha/HR2S-legacy with zero in the tafsir/amil_canon layer. That strongly indicates no tafsir-attributable regression, but the exact pre-tafsir-commit isolation run was contaminated and discarded, so 'no regressions' is NOT claimed as proven.",
+
+  "suite_status": "FULL_SUITE_NOT_GREEN",
+
+  "verdict": "TAFSIR_LAYER_CLOSED_WITH_AUTHORIZED_SOURCE_ALMUKHTASAR_AND_GROUPED_AYAH_MAPPING BUT_FULL_SUITE_HAS_PREEXISTING_OR_UNRESOLVED_FAILURES",
+
+  "wave_adoption": {
+    "adopted_as_verified_clean": false,
+    "committed_at": "ef42bd1",
+    "instruction_followed": "No final/verified-clean commit is asserted now. Wave-05T-B source is already committed at ef42bd1; this report only records the honest test state and does NOT re-label the wave as clean.",
+    "certified_p0_p12_verticals": 2,
+    "amil_registry_certificates": 22
+  }
+}
