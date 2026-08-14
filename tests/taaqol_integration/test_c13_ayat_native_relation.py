@@ -88,10 +88,10 @@ def test_ayat_native_cu_map_contains_real_vendor_objects():
             f"{tid}: retained candidate is not vendor ContractableUnitGeometry "
             f"(got {type(cand).__name__})"
         )
-        # Provenance preserved. Pin = the committed vendor/Taaqol-GPT submodule
-        # gitlink SHA (== orchestrator _TARGET_TAAQOL_SHA == rest of the Taaqol
-        # pipeline). Updated from the retired 05c6668d… after the vendor upgrade.
-        assert entry['vendor_sha'] == "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
+        # Provenance preserved. Pin = the APPROVED Taaqol vendor SHA (owner
+        # decision 2026-08-14): the frozen governance baseline 05c6668d. The
+        # bc9d1ea5 submodule bump is SUPERSEDED_UNAPPROVED_VENDOR_PIN.
+        assert entry['vendor_sha'] == "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
         assert entry['surface']  # non-empty
 
 
