@@ -13,14 +13,14 @@ Constitutional invariants (binding):
   - FAIL-CLOSED: all functions return None on Python 3.10 (vendor StrEnum absent)
   - AUTONOMOUS_COMMIT_MODE = 0 (no commit, no tag, no push, no merge)
 
-VENDOR_SHA: bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
+VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
 Phase: E7 — FORMAL SHAPE + MUFRAD DALALAH (PR-F2 / PR-F8 component)
 """
 from __future__ import annotations
 
 from typing import Any, Optional
 
-_VENDOR_SHA = "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
+_VENDOR_SHA = "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
 _FORMAL_SHAPE_AVAILABLE = False
 _E6_AVAILABLE = False
 
@@ -169,7 +169,7 @@ def build_formal_style_candidate(
 
 def _verify_e7_formal_shape_invariants() -> None:
     """Run at import time — verifies module-level constitutional invariants."""
-    assert _VENDOR_SHA == "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52", (
+    assert _VENDOR_SHA == "05c6668dfb95d9238cff5df1d8bc73d0664bccb3", (
         f"VENDOR_SHA mismatch: {_VENDOR_SHA!r}"
     )
     assert isinstance(_FORMAL_SHAPE_AVAILABLE, bool), (

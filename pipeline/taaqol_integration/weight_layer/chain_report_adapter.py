@@ -24,7 +24,7 @@ Python 3.10 compat:
     - All public functions return None on 3.10 (fail-closed)
 
 Phase: E15 (G_E15_03) — CHAIN_REPORT
-VENDOR_SHA: bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
+VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
 """
 from __future__ import annotations
 
@@ -35,7 +35,7 @@ from typing import Any, Optional
 # ── Vendor path ────────────────────────────────────────────────────────────────
 _REPO_ROOT   = Path(__file__).resolve().parents[3]
 _VENDOR_PATH = _REPO_ROOT / "vendor" / "Taaqol-GPT" / "src"
-_VENDOR_SHA  = "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
+_VENDOR_SHA  = "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
 
 # ── Fail-closed vendor imports ─────────────────────────────────────────────────
 _CHAIN_REPORT_AVAILABLE = False

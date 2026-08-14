@@ -33,6 +33,21 @@ from pipeline.taaqol_integration.vendor_execution_record_bridge import (
     to_vendor_stage_record,
 )
 
+# GOVERNANCE QUARANTINE (owner decision 2026-08-14). The Wave08 dual-carrier
+# bridge requires the vendor API `taaqqul_slot_geometry.runtime.execution_record`,
+# which was introduced in Taaqol vendor bc9d1ea5. The APPROVED/frozen vendor for
+# this closure is 05c6668d, where that runtime package is absent. bc9d1ea5 is
+# classified SUPERSEDED_UNAPPROVED_VENDOR_PIN; W8 is therefore a future-upgrade
+# feature, NOT part of the approved baseline. This gates (does not delete) the
+# suite on real vendor capability: it auto-reactivates when a properly governed
+# bc9d1ea5 vendor upgrade lands and _VENDOR_RUNTIME_AVAILABLE becomes True.
+pytestmark = pytest.mark.skipif(
+    not _VENDOR_RUNTIME_AVAILABLE,
+    reason="W8 requires vendor runtime.execution_record (bc9d1ea5, "
+           "SUPERSEDED_UNAPPROVED); approved baseline is 05c6668d. Deferred to a "
+           "future governed vendor upgrade (owner decision 2026-08-14).",
+)
+
 
 def test_w8_1_vendor_runtime_importable_at_bumped_pin():
     assert _VENDOR_RUNTIME_AVAILABLE, (

@@ -22,7 +22,7 @@ It never fabricates weight-layer objects (LicensingBoundaryVerdict,
 ContractableUnitGeometry, RelationCandidate, etc.).  Stages that
 require inputs Hokom does not produce are honestly BLOCKED / DEFERRED.
 
-VENDOR_SHA (Taaqol target): bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
+VENDOR_SHA (Taaqol target): 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
 """
 from __future__ import annotations
 

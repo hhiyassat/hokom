@@ -18,7 +18,7 @@ class ProvenanceEnvelope:
     schema_version: str = "1.0.0"
     registry_version: str = "c12.v1"
     hokom_head: str = ""
-    target_taaqol_sha: str = "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
+    target_taaqol_sha: str = "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
     input_digest: str = ""
     output_digest: str = ""
 
