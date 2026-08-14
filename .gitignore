@@ -52,3 +52,9 @@ reports/taaqol_full_integration/*.log
 reports/taaqol_full_integration/*.txt
 reports/taaqol_full_integration/*.ids
 reports/taaqol_full_integration/*_runtime_output/
+
+# ── CW1: production runtime catalogs (Hokom-owned derived data; required for
+#    fresh-clone P0–P5). Explicit allowlist — NOT a blanket *.csv exception. ──
+!mabniyat_catalog_split_vocalized.csv
+!operators_catalog_split_vocalized.csv
+!data/operators_catalog_split_vocalized.csv
