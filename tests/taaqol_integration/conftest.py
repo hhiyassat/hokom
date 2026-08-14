@@ -29,15 +29,12 @@ import pytest
 
 _REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# ── 1. In-repo vendor authority (runs at conftest import, before test modules) ──
-_VENDOR_SRC = os.path.join(_REPO, "vendor", "Taaqol-GPT", "src")
-if os.path.isdir(os.path.join(_VENDOR_SRC, "taaqqul_slot_geometry")):
-    for _m in [m for m in list(sys.modules)
-               if m == "taaqqul_slot_geometry" or m.startswith("taaqqul_slot_geometry.")]:
-        del sys.modules[_m]
-    while _VENDOR_SRC in sys.path:
-        sys.path.remove(_VENDOR_SRC)
-    sys.path.insert(0, _VENDOR_SRC)
+# ── 1. In-repo vendor authority is enforced ONCE, suite-wide, by the ROOT
+#    conftest (repo-root conftest.py) at the earliest possible point — before any
+#    test module imports the vendor. Do NOT re-evict here: a second eviction during
+#    this package's collection would run AFTER earlier-collected packages (e5–e8…)
+#    already cached vendor classes, invalidating their isinstance references and
+#    causing order-dependent failures. The root conftest is sufficient.
 
 
 # ── 2. Regenerate the ephemeral canonical CSV from source + verify schema ──────
