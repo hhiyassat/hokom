@@ -46,8 +46,21 @@ def _count_occurrences(text: str) -> int:
     return n
 
 
+# RESOLVED provenance (CW1 provenance-recovery audit): the exact accepted bytes
+# are an immutable content-addressed object in the project's OWN git store —
+# commit 29b0ea3, blob 469bc3ba3f8c7cf8bc18e8b8d48d8958043034a9 (Tanzil Uthmani,
+# force-added in "adopt real full-Quran fixture"). No external URL / new upload.
+RESOLVED_GIT_SOURCE = "git:29b0ea3:data/quran-uthmani.txt"
+
+
 def materialize(source: str, out_path: str) -> dict:
-    if source.startswith(("http://", "https://")):
+    if source.startswith("git:"):  # immutable in-repo asset: git:<commit>:<path>
+        import subprocess
+        ref = source[len("git:"):]
+        repo = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        data = subprocess.run(["git", "-C", repo, "cat-file", "-p", ref],
+                              capture_output=True, check=True).stdout
+    elif source.startswith(("http://", "https://")):
         with urllib.request.urlopen(source, timeout=60) as resp:
             data = resp.read()
     else:  # approved local/immutable asset path
@@ -78,7 +91,8 @@ def main(argv) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=os.path.join(os.path.dirname(os.path.dirname(
         os.path.abspath(__file__))), "data", "quran-uthmani.txt"))
-    ap.add_argument("--source", default=os.environ.get("HOKOM_CORPUS_SOURCE"))
+    ap.add_argument("--source",
+                    default=os.environ.get("HOKOM_CORPUS_SOURCE", RESOLVED_GIT_SOURCE))
     args = ap.parse_args(argv[1:])
     if not args.source:
         print(json.dumps({
