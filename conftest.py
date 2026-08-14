@@ -1,11 +1,28 @@
 # Root conftest: exclude vendor directory from test collection
 collect_ignore_glob = ["vendor/*"]
 
-import sys, pathlib
+import sys, pathlib, os
 # ensure repo root is on sys.path so `scripts.*` and top-level modules are importable
 _root = str(pathlib.Path(__file__).parent)
 if _root not in sys.path:
     sys.path.insert(0, _root)
+
+# ── SUITE-WIDE VENDOR AUTHORITY (owner decision 2026-08-14, governed upgrade) ──
+# The APPROVED Taaqol vendor is the in-repo submodule vendor/Taaqol-GPT (pinned at
+# the committed gitlink SHA bc9d1ea5). A developer editable install
+# (`__editable__.taaqqul_slot_geometry*.pth` → an external clone) must NOT be able
+# to shadow it — that masking is exactly what let stale/mismatched vendor state pass
+# undetected. We put the in-repo vendor at sys.path[0] and evict any pre-cached
+# external module so the submodule is the SOLE runtime vendor authority for the
+# whole suite. A clean clone must: git submodule update --init --recursive.
+_VENDOR_SRC = os.path.join(_root, "vendor", "Taaqol-GPT", "src")
+if os.path.isdir(os.path.join(_VENDOR_SRC, "taaqqul_slot_geometry")):
+    for _m in [m for m in list(sys.modules)
+               if m == "taaqqul_slot_geometry" or m.startswith("taaqqul_slot_geometry.")]:
+        del sys.modules[_m]
+    while _VENDOR_SRC in sys.path:
+        sys.path.remove(_VENDOR_SRC)
+    sys.path.insert(0, _VENDOR_SRC)
 
 import pytest
 
