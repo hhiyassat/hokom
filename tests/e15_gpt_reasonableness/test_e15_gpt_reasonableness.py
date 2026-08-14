@@ -17,7 +17,7 @@ Constitutional gates verified:
     G_E15_05: Fail-closed on Python 3.10 (all functions return None)
     G_E15_06: VENDOR_SHA == APPROVED_TARGET_SHA
 
-VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
+VENDOR_SHA: bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
 Phase: E15 — GPT_REASONABLENESS (R1-R8)
 """
 from __future__ import annotations
@@ -43,7 +43,7 @@ from pipeline.taaqol_integration.weight_layer.chain_report_adapter import (  # n
     build_chain_report,
 )
 
-APPROVED_TARGET_SHA = "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+APPROVED_TARGET_SHA = "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
 
 REQUIRES_312 = pytest.mark.skipif(
     not _GPT_TRACK_AVAILABLE,

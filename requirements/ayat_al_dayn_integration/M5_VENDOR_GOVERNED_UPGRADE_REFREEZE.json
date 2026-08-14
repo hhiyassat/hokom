@@ -1,0 +1,53 @@
+{
+  "record_id": "M5_VENDOR_GOVERNED_UPGRADE_REFREEZE",
+  "supersedes": "M4_BASELINE_REFREEZE",
+  "decision_date": "2026-08-14",
+  "decision": "GOVERNED_TAAQOL_VENDOR_UPGRADE",
+  "authority": "OWNER",
+  "APPROVED_VENDOR_SHA": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+  "SUPERSEDED_APPROVED_BASELINE": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "rationale": "Clean execution against the true 05c6668d vendor proved that newer committed Taaqol/Hokom integration waves require APIs introduced after 05c6668d (taaqqul_slot_geometry.runtime.execution_record and related W8/W9/c13_wave06 functionality). 05c6668d is therefore no longer sufficient for the currently declared canonical Taaqol runtime.",
+  "governed_upgrade_audit": {
+    "step_1_provenance": {
+      "commit": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+      "author": "sonaiso",
+      "date": "2026-08-04T16:41:22+03:00",
+      "subject": "Merge pull request #298 from sonaiso/codex/update-execution-flow",
+      "url": "https://github.com/sonaiso/Taaqol-GPT.git",
+      "present_in_submodule_object_store": true
+    },
+    "step_2_licensing": {
+      "license": "Apache-2.0",
+      "license_file": "vendor/Taaqol-GPT/LICENSE",
+      "redistribution_permitted": true
+    },
+    "step_3_api_delta_05c6668d_to_bc9d1ea5": {
+      "files_changed": 41,
+      "insertions": 9180,
+      "deletions": 1,
+      "new_capabilities": [
+        "runtime.execution_record (StageTransitionState, StageExecutionRecord) — required by W8 dual-carrier bridge",
+        "x0r canonical_domain_registry / canonical_transition_contract_registry",
+        "x0r transition execution preflight + permit issuance/consumption",
+        "weight.lexicon_slot_geometry",
+        "constitutional_lexicon_licensing_architecture_law"
+      ]
+    },
+    "step_4_consumer_compatibility": "The newer canonical consumers (formal_shape, maqam, answer_audit W9, execution_record W8, c13_wave06) require these bc9d1ea5 APIs; the canonical P0-P12 path + RC-A native government also run against bc9d1ea5.",
+    "step_5_protected_boundary": "Committed code imports maqayis_evidence_adapter (permitted); no committed import of the protected maqayis_v2 authority. Vendor remains evaluator/COMPARISON, not a linguistic root authority."
+  },
+  "migration": {
+    "submodule_pointer": "bc9d1ea5",
+    "source_provenance_pins": "migrated 05c6668d -> bc9d1ea5 (pipeline/taaqol_integration/**)",
+    "test_provenance_pins": "migrated 05c6668d -> bc9d1ea5 (tests/**)",
+    "governance_pins": "migrated 05c6668d -> bc9d1ea5 (requirements/ayat_al_dayn_integration/**)",
+    "native_provenance_test": "tests/test_closure_gate/test_native_provenance.py::APPROVED_VENDOR_SHA = bc9d1ea5",
+    "w8_capability_guard": "test_vendor_execution_record_bridge gated skipif(not _VENDOR_RUNTIME_AVAILABLE); reactivates under the bc9d1ea5 submodule",
+    "editable_install_masking": "REMOVED as an authority — tests/taaqol_integration/conftest.py forces the in-repo submodule vendor to sys.path[0] + evicts any editable-install module so the submodule is the sole runtime authority",
+    "historical_preservation": "reports/** run artifacts + *.command + scripts/qiyas_*_evidence.py retain 05c6668d as historical run provenance (SUPERSEDED_APPROVED_BASELINE); NOT deleted, NOT falsified"
+  },
+  "success_token": {
+    "TAAQOL_VENDOR_AUTHORITY_RECONCILED": "PENDING_CLEAN_CLONE_VERIFICATION",
+    "APPROVED_VENDOR_SHA": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
+  }
+}

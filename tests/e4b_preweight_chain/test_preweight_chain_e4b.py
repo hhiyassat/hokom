@@ -19,7 +19,7 @@ Python 3.10 compat:
     - build_weight_readiness_candidate returns None on 3.10 (fail-closed)
     - REQUIRES_312 marks are skipped on 3.10
 
-VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
+VENDOR_SHA: bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
 Phase: E4B — PRE-WEIGHT TYPED CARRIERS
 """
 from __future__ import annotations
@@ -265,7 +265,7 @@ class TestT_E4B_04_FailClosedOn310:
 
     def test_vendor_sha_always_accessible(self):
         """_VENDOR_SHA is always accessible regardless of Python version."""
-        assert _VENDOR_SHA == "05c6668dfb95d9238cff5df1d8bc73d0664bccb3", (
+        assert _VENDOR_SHA == "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52", (
             f"VENDOR_SHA mismatch: {_VENDOR_SHA!r}"
         )
 
@@ -432,7 +432,7 @@ class TestT_E4B_06_ModuleInvariants:
 
     def test_vendor_sha_constant(self):
         """_VENDOR_SHA matches pinned constitutional SHA."""
-        assert _VENDOR_SHA == "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+        assert _VENDOR_SHA == "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
 
     def test_arabic_harakat_is_frozenset(self):
         """_ARABIC_HARAKAT is a frozenset (immutable)."""

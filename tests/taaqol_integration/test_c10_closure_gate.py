@@ -79,7 +79,7 @@ def test_requirement_document_envelope(fname: str) -> None:
     assert not missing, f"{fname}: missing envelope keys {sorted(missing)}"
     assert doc["technical_validation_status"] in TECHNICAL
     assert doc["owner_review_status"] in OWNER
-    assert doc["target_taaqol_sha"] == "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+    assert doc["target_taaqol_sha"] == "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
 
 
 def test_requirement_document_count_is_fifteen() -> None:
@@ -189,7 +189,7 @@ def test_maximum_ready_closure_status_present() -> None:
     p = REPORTS / "MAXIMUM_READY_CLOSURE_STATUS.json"
     assert p.exists()
     doc = json.loads(p.read_text())
-    assert doc["target_taaqol_sha"] == "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+    assert doc["target_taaqol_sha"] == "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
 
 
 def test_no_synthetic_provenance_in_core_only_classification() -> None:

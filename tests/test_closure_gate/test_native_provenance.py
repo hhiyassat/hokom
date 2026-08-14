@@ -101,7 +101,7 @@ def test_no_string_verdict_imitations():
 
 # ── R4: Runtime module provenance via inspect.getfile ────────────────────────
 
-APPROVED_VENDOR_SHA = '05c6668dfb95d9238cff5df1d8bc73d0664bccb3'
+APPROVED_VENDOR_SHA = 'bc9d1ea5ef45970f5f3ec132441e30fd54b3da52'
 
 def test_vendor_sha_matches_approved():
     """R4: vendor/Taaqol-GPT HEAD must equal APPROVED_TARGET_SHA."""

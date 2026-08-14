@@ -16,7 +16,7 @@ Constitutional references:
     - 11_PROVENANCE_AND_VERSIONING_POLICY.md: VENDOR_SHA invariant
     - 13_STAGE_ACCEPTANCE_GATES.md: G_E0_01, G_E0_02
 
-VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
+VENDOR_SHA: bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
 """
 from __future__ import annotations
 
@@ -44,7 +44,7 @@ from pipeline.taaqol_integration.weight_layer.registry_adapter import (
     _VENDOR_SHA,
 )
 
-PINNED_VENDOR_SHA = "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+PINNED_VENDOR_SHA = "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
 
 # Vendor import available only on Python 3.12+
 _PY312_PLUS = sys.version_info >= (3, 12)

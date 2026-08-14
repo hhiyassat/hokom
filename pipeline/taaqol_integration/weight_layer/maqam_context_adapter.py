@@ -12,14 +12,14 @@ Constitutional invariants (binding):
   - FAIL-CLOSED: all functions return None on Python 3.10 (vendor StrEnum absent)
   - AUTONOMOUS_COMMIT_MODE = 0 (no commit, no tag, no push, no merge)
 
-VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
+VENDOR_SHA: bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
 Phase: E8 — MAQAM_CONTEXT_BOUNDARY + RELATION_CANDIDATE (PR-D1.2 component)
 """
 from __future__ import annotations
 
 from typing import Any, Optional
 
-_VENDOR_SHA = "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+_VENDOR_SHA = "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
 _MAQAM_CONTEXT_AVAILABLE = False
 _E7_AVAILABLE = False
 
@@ -247,7 +247,7 @@ def build_maqam_from_surface(
 
 def _verify_e8_maqam_context_invariants() -> None:
     """Run at import time — verifies module-level constitutional invariants."""
-    assert _VENDOR_SHA == "05c6668dfb95d9238cff5df1d8bc73d0664bccb3", (
+    assert _VENDOR_SHA == "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52", (
         f"VENDOR_SHA mismatch: {_VENDOR_SHA!r}"
     )
     assert isinstance(_MAQAM_CONTEXT_AVAILABLE, bool), (

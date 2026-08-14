@@ -13,7 +13,7 @@ Constitutional gates verified:
     G_E5_04: prove_dal refuses non-LicensingBoundaryVerdict input
     G_E5_05: Implementation state + module invariants
 
-VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
+VENDOR_SHA: bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
 Phase: E5 — DAL-ONLY CANDIDATE
 """
 from __future__ import annotations
@@ -99,7 +99,7 @@ class TestT_E5_01_FailClosed:
 
     def test_vendor_sha_constant(self):
         """_VENDOR_SHA matches pinned constitutional SHA."""
-        assert _VENDOR_SHA == "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+        assert _VENDOR_SHA == "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
 
     def test_fail_closed_on_empty_surface(self):
         """Empty token_surface → None (fail-closed, no crash)."""
@@ -336,7 +336,7 @@ class TestT_E5_05_ModuleInvariants:
 
     def test_vendor_sha_matches_pinned(self):
         """_VENDOR_SHA matches pinned constitutional SHA."""
-        assert _VENDOR_SHA == "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+        assert _VENDOR_SHA == "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
 
     def test_build_dal_only_candidate_callable(self):
         """build_dal_only_candidate is callable."""

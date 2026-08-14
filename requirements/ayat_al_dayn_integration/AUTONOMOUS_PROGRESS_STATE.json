@@ -1,7 +1,7 @@
 {
   "document_id": "AUTONOMOUS-PROGRESS-STATE",
   "date": "2026-08-02",
-  "APPROVED_TARGET_SHA": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "APPROVED_TARGET_SHA": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
   "HOKOM_HEAD": "8e37b738ece7183818189146912cb14e3dce3a07",
 
   "completed_milestones": {
@@ -26,40 +26,40 @@
   "adapter_implementations": {
     "E1_REGISTRY": {
       "adapter": "pipeline/taaqol_integration/e1_lexical_registry/ayat_al_dayn_registry.py",
-      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "vendor_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
       "fail_closed_verified": true,
       "available_flag": "_REGISTRY_CONTRACT_AVAILABLE",
       "m5_disposition": "KEEP_PARTIAL_PENDING_312"
     },
     "E2_REGISTRY_ADAPTER": {
       "adapter": "pipeline/taaqol_integration/weight_layer/registry_adapter.py",
-      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "vendor_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
       "fail_closed_verified": true,
       "blocker_deactivated_on_310": true,
       "m5_disposition": "KEEP_PARTIAL_PENDING_312"
     },
     "E4B_PREWEIGHT": {
       "adapter": "pipeline/taaqol_integration/weight_layer/preweight_chain_adapter.py",
-      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "vendor_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
       "fail_closed_verified": true,
       "decompose_arabic_available_on_310": true,
       "m5_disposition": "KEEP_PARTIAL_PENDING_312"
     },
     "E4C_LICENSING": {
       "adapter": "pipeline/taaqol_integration/weight_layer/licensing_boundary_adapter.py",
-      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "vendor_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
       "fail_closed_verified": true,
       "m5_disposition": "KEEP_PARTIAL_PENDING_312"
     },
     "E5_DAL_ONLY": {
       "adapter": "pipeline/taaqol_integration/weight_layer/dal_only_adapter.py",
-      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "vendor_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
       "fail_closed_verified": true,
       "m5_disposition": "KEEP_PARTIAL_PENDING_312"
     },
     "E6_VERBAL_MADLUL": {
       "adapter": "pipeline/taaqol_integration/weight_layer/verbal_madlul_adapter.py",
-      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "vendor_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
       "fail_closed_verified": true,
       "m5_disposition": "KEEP_PARTIAL_PENDING_312"
     },
@@ -68,7 +68,7 @@
         "pipeline/taaqol_integration/weight_layer/formal_shape_adapter.py",
         "pipeline/taaqol_integration/weight_layer/mufrad_semantic_slot_adapter.py"
       ],
-      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "vendor_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
       "fail_closed_verified": true,
       "m5_disposition": "KEEP_PARTIAL_PENDING_312"
     },
@@ -77,35 +77,35 @@
         "pipeline/taaqol_integration/weight_layer/maqam_context_adapter.py",
         "pipeline/taaqol_integration/weight_layer/relation_candidate_adapter.py"
       ],
-      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "vendor_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
       "fail_closed_verified": true,
       "m5_disposition": "KEEP_PARTIAL_PENDING_312"
     },
     "E9_IFADAH": {
       "adapter": "pipeline/taaqol_integration/weight_layer/ifadah_candidate_adapter.py",
       "tests": "tests/e9_ifadah_candidate/test_e9_ifadah_candidate.py",
-      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "vendor_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
       "fail_closed_verified": true,
       "tests_pass_on_310": true
     },
     "E10_HUKM": {
       "adapter": "pipeline/taaqol_integration/weight_layer/hukm_candidate_adapter.py",
       "tests": "tests/e10_hukm_candidate/test_e10_hukm_candidate.py",
-      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "vendor_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
       "fail_closed_verified": true,
       "tests_pass_on_310": true
     },
     "E11_MANAT": {
       "adapter": "pipeline/taaqol_integration/weight_layer/manat_candidate_adapter.py",
       "tests": "tests/e11_manat_candidate/test_e11_manat_candidate.py",
-      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "vendor_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
       "fail_closed_verified": true,
       "tests_pass_on_310": true
     },
     "E12_TANZIL": {
       "adapter": "pipeline/taaqol_integration/weight_layer/tanzil_candidate_adapter.py",
       "tests": "tests/e12_tanzil_candidate/test_e12_tanzil_candidate.py",
-      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "vendor_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
       "fail_closed_verified": true,
       "constitutional_guard_NOT_EXECUTION_MARKER": true,
       "tests_pass_on_310": true
@@ -113,14 +113,14 @@
     "E13_MANTUQ": {
       "adapter": "pipeline/taaqol_integration/weight_layer/mantuq_closure_adapter.py",
       "tests": "tests/e13_mantuq_closure/test_e13_mantuq_closure.py",
-      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "vendor_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
       "fail_closed_verified": true,
       "tests_pass_on_310": true
     },
     "E14_MAFHUM": {
       "adapter": "pipeline/taaqol_integration/weight_layer/mafhum_closure_adapter.py",
       "tests": "tests/e14_mafhum_closure/test_e14_mafhum_closure.py",
-      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "vendor_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
       "fail_closed_verified": true,
       "tests_pass_on_310": true
     },
@@ -128,7 +128,7 @@
       "adapter": "pipeline/taaqol_integration/gpt_track_adapter.py",
       "chain_report_adapter": "pipeline/taaqol_integration/weight_layer/chain_report_adapter.py",
       "tests": "tests/e15_gpt_reasonableness/test_e15_gpt_reasonableness.py",
-      "vendor_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "vendor_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
       "fail_closed_verified": true,
       "LIVE_PROVIDER_AUTHORIZATION": "OWNER_DECISION_REQUIRED",
       "G_E15_02_documented": true,
@@ -148,7 +148,7 @@
       "passed": 3003,
       "failed": 0,
       "python_version": "3.12.x",
-      "sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+      "sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
     }
   },
 

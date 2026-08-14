@@ -19,7 +19,7 @@ Proves — for the runtime path that the orchestrator now walks per token:
     direct injection of a LicensingBoundaryVerdict outside the adapter
     chain.
 
-VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
+VENDOR_SHA: bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
 """
 from __future__ import annotations
 

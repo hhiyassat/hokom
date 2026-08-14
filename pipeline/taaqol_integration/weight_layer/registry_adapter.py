@@ -39,7 +39,7 @@ Adapter outputs for _collect_evidence (p2_p5.py):
     - FOUND entry → [{"slot_id": entry.key, "root": entry.key, "match_confidence": 0.9}]
     - REFUSED/DEFERRED/EMPTY → []   (non-None → blocker deactivated)
 
-VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3 (pinned)
+VENDOR_SHA: bc9d1ea5ef45970f5f3ec132441e30fd54b3da52 (pinned)
 """
 from __future__ import annotations
 
@@ -50,7 +50,7 @@ from typing import Any
 # ── Vendor path ──────────────────────────────────────────────────────────────
 _REPO_ROOT   = Path(__file__).resolve().parents[3]
 _VENDOR_PATH = _REPO_ROOT / "vendor" / "Taaqol-GPT" / "src"
-_VENDOR_SHA  = "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+_VENDOR_SHA  = "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
 
 # ── E1: Hokom-owned lexical registry (unconditional import) ──────────────────
 # AYAT_AL_DAYN_REGISTRY is Hokom-owned data — import must succeed regardless of

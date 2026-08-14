@@ -7,7 +7,7 @@
 **Status:** M2_COMPLETE
 **Supersedes:** §8A audit (ALL_KEEP_AS_IS verdict revoked — see mandatory corrections below)
 
-**APPROVED_TARGET_SHA:** `05c6668dfb95d9238cff5df1d8bc73d0664bccb3`
+**APPROVED_TARGET_SHA:** `bc9d1ea5ef45970f5f3ec132441e30fd54b3da52`
 **HOKOM_HEAD:** `8e37b738ece7183818189146912cb14e3dce3a07`
 **Python environment:** 3.10.12 (sandbox); 3.12+ required for vendor runtime
 

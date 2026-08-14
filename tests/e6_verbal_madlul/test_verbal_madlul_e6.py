@@ -16,7 +16,7 @@ Constitutional gates verified:
     G_E6_05: bind_dal_madlul identity constraint enforced
     G_E6_06: Module invariants and implementation state
 
-VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
+VENDOR_SHA: bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
 Phase: E6 — VERBAL MADLUL
 """
 from __future__ import annotations
@@ -121,7 +121,7 @@ class TestT_E6_01_FailClosed:
         assert _E5_AVAILABLE is True
 
     def test_vendor_sha_constant(self):
-        assert _VENDOR_SHA == "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+        assert _VENDOR_SHA == "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
 
     def test_fail_closed_empty_token_surface(self):
         result = build_e6_chain_from_dal_verdict(
@@ -434,7 +434,7 @@ class TestT_E6_06_ModuleInvariants:
         assert True  # import at top of file already confirmed
 
     def test_vendor_sha_matches_pinned(self):
-        assert _VENDOR_SHA == "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+        assert _VENDOR_SHA == "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
 
     def test_all_functions_callable(self):
         assert callable(build_verbal_madlul_candidate)

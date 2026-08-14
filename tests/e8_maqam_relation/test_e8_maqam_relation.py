@@ -18,7 +18,7 @@ Constitutional gates verified:
     G_E8_05: Role re-gating enforced (inadmissible role → None) on Python 3.12+
     G_E8_06: Module invariants pass on Python 3.10+
 
-VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
+VENDOR_SHA: bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
 Phase: E8 — MAQAM_CONTEXT_BOUNDARY + RELATION_CANDIDATE
 """
 from __future__ import annotations
@@ -577,13 +577,13 @@ class TestT_E8_06_ModuleInvariants:
 
     def test_mca_vendor_sha_correct(self):
         """maqam_context_adapter._VENDOR_SHA is canonical."""
-        assert _MCA_VENDOR_SHA == "05c6668dfb95d9238cff5df1d8bc73d0664bccb3", (
+        assert _MCA_VENDOR_SHA == "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52", (
             f"VENDOR_SHA mismatch: {_MCA_VENDOR_SHA!r}"
         )
 
     def test_rca_vendor_sha_correct(self):
         """relation_candidate_adapter._VENDOR_SHA is canonical."""
-        assert _RCA_VENDOR_SHA == "05c6668dfb95d9238cff5df1d8bc73d0664bccb3", (
+        assert _RCA_VENDOR_SHA == "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52", (
             f"VENDOR_SHA mismatch: {_RCA_VENDOR_SHA!r}"
         )
 

@@ -19,7 +19,7 @@ Python 3.10 compat:
   - AYAT_AL_DAYN_REGISTRY (RegistryEntry tuples) requires Python 3.12+ (StrEnum)
   - Vendor-requiring tests skip on 3.10
 
-VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
+VENDOR_SHA: bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
 Phase: E1 — AYAT-AL-DAYN CANONICAL LEXICAL REGISTRY
 """
 from __future__ import annotations
@@ -311,7 +311,7 @@ class TestT_E1_08_CorpusSha:
 
     def test_vendor_sha_value(self):
         """VENDOR_SHA matches the pinned VENDOR_SHA."""
-        expected = "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+        expected = "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
         assert VENDOR_SHA == expected, (
             f"VENDOR_SHA mismatch: expected {expected!r}, got {VENDOR_SHA!r}"
         )

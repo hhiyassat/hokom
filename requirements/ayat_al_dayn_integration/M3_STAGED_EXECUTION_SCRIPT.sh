@@ -2,7 +2,7 @@
 # M3 — CONTROLLED VENDOR POINTER UPDATE TO APPROVED_TARGET_SHA
 # ============================================================
 # STATUS: STAGED — DO NOT RUN until M1 gate conditions are met:
-#   REFERENCE_HEAD == 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
+#   REFERENCE_HEAD == bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
 #   REFERENCE_COLLECT_EXIT == 0
 #   REFERENCE_COLLECTED > 0
 #   REFERENCE_SUITE_EXIT == 0
@@ -15,7 +15,7 @@
 
 set -euo pipefail
 
-APPROVED_TARGET_SHA="05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+APPROVED_TARGET_SHA="bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
 PINNED_SHA="35381739410071ac21dd96702ecbb2acb493f90d"
 VENDOR_DIR="vendor/Taaqol-GPT"
 

@@ -13,7 +13,7 @@ Constitutional gates verified:
     G_E9_05: Module invariants pass on Python 3.10+
     G_E9_06: VENDOR_SHA == APPROVED_TARGET_SHA
 
-VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
+VENDOR_SHA: bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
 Phase: E9 — IFADAH_CANDIDATE
 Prior: E8 → RelationClosureVerdict + FormalStyleVerdict + MaqamContextBoundaryVerdict
 """
@@ -30,7 +30,7 @@ from pipeline.taaqol_integration.weight_layer.ifadah_candidate_adapter import ( 
     build_ifadah_candidate,
 )
 
-APPROVED_TARGET_SHA = "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+APPROVED_TARGET_SHA = "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
 
 REQUIRES_312 = pytest.mark.skipif(
     not _IFADAH_AVAILABLE,

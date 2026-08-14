@@ -21,7 +21,7 @@ Python 3.10 compat:
     - build_licensing_verdict_from_surface returns IMPORT_FAILURE on 3.10
     - REQUIRES_312 marks are skipped on 3.10
 
-VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
+VENDOR_SHA: bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
 Phase: E4C — NATIVE LICENSING BOUNDARY
 """
 from __future__ import annotations
@@ -489,7 +489,7 @@ class TestT_E4C_06_ImplementationState:
 
     def test_vendor_sha_constant(self):
         """_VENDOR_SHA matches pinned constitutional SHA."""
-        assert _VENDOR_SHA == "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+        assert _VENDOR_SHA == "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
 
     def test_e4c_preweight_available_true(self):
         """_E4C_PREWEIGHT_AVAILABLE = True (E4B preweight chain importable)."""

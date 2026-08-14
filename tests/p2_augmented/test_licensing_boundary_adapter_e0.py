@@ -19,7 +19,7 @@ Constitutional references:
     - 10_FAILURE_AND_RESIDUAL_TAXONOMY.md: FAIL-CLOSED contract
     - 13_STAGE_ACCEPTANCE_GATES.md: G_E0_04, G_E0_05
 
-VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
+VENDOR_SHA: bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
 """
 from __future__ import annotations
 
@@ -44,7 +44,7 @@ from pipeline.taaqol_integration.weight_layer.licensing_boundary_adapter import 
     _PHONOLOGICAL_CHAIN_BLOCK_REASON,
 )
 
-PINNED_VENDOR_SHA = "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+PINNED_VENDOR_SHA = "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
 _PY312_PLUS = sys.version_info >= (3, 12)
 
 _VENDOR_SKIP = pytest.mark.skipif(

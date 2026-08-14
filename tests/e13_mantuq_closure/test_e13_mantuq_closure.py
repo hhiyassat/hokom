@@ -13,7 +13,7 @@ Constitutional gates verified:
     G_E13_05: Module invariants pass on Python 3.10+
     G_E13_06: VENDOR_SHA == APPROVED_TARGET_SHA
 
-VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
+VENDOR_SHA: bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
 Phase: E13 — MANTUQ_CLOSURE
 Prior: E9 → IfadahVerdict(PROVEN) + E8 → MaqamContextBoundaryVerdict
 """
@@ -30,7 +30,7 @@ from pipeline.taaqol_integration.weight_layer.mantuq_closure_adapter import (  #
     build_mantuq_closure,
 )
 
-APPROVED_TARGET_SHA = "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+APPROVED_TARGET_SHA = "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
 
 REQUIRES_312 = pytest.mark.skipif(
     not _MANTUQ_AVAILABLE,

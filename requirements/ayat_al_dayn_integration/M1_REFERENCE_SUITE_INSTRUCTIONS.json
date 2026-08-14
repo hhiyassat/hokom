@@ -20,12 +20,12 @@
     "reference_path_on_mac": "/Users/husseinhiyassat/Taaqol-GPT-main-reference",
     "reference_path_accessible_from_sandbox": false,
     "reference_path_in_sandbox": "/tmp/Taaqol-GPT-main-reference",
-    "sandbox_worktree_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+    "sandbox_worktree_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
     "resolution": "REQUIRES_OWNER_MAC_EXECUTION"
   },
   "owner_must_run_exactly": [
     "# Step 1: Create or update the Mac reference worktree (if not already at approved SHA)",
-    "git -C /Users/husseinhiyassat/hokom/vendor/Taaqol-GPT worktree add --detach /Users/husseinhiyassat/Taaqol-GPT-main-reference 05c6668dfb95d9238cff5df1d8bc73d0664bccb3 2>/dev/null || git -C /Users/husseinhiyassat/Taaqol-GPT-main-reference checkout --detach 05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+    "git -C /Users/husseinhiyassat/hokom/vendor/Taaqol-GPT worktree add --detach /Users/husseinhiyassat/Taaqol-GPT-main-reference bc9d1ea5ef45970f5f3ec132441e30fd54b3da52 2>/dev/null || git -C /Users/husseinhiyassat/Taaqol-GPT-main-reference checkout --detach bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
     "# Step 2: Create Python 3.12 venv",
     "cd /Users/husseinhiyassat/Taaqol-GPT-main-reference && /Library/Frameworks/Python.framework/Versions/3.12/bin/python3 -m venv .venv-py312",
     "# Step 3: Install pip and package (no runtime deps)",
@@ -36,5 +36,5 @@
     "# Step 5: Paste /tmp/M1_REFERENCE_SUITE_RESULT.txt output back here"
   ],
   "migration_gate": "M3_BLOCKED until REFERENCE_FAILED=0 AND REFERENCE_VENDOR_TESTS_EXECUTED>0 AND COLLECTION_EXIT=0",
-  "note": "origin/main has continued advancing (now at 670e5a4 — 2 more USM-C5.1 commits). APPROVED_TARGET_SHA remains locked at 05c6668dfb95d9238cff5df1d8bc73d0664bccb3 per M0 validation. If owner runs M1 after origin/main advances further, the worktree MUST be at 05c6668 exactly."
+  "note": "origin/main has continued advancing (now at 670e5a4 — 2 more USM-C5.1 commits). APPROVED_TARGET_SHA remains locked at bc9d1ea5ef45970f5f3ec132441e30fd54b3da52 per M0 validation. If owner runs M1 after origin/main advances further, the worktree MUST be at 05c6668 exactly."
 }

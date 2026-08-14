@@ -1,7 +1,7 @@
 {
   "document_id": "E9-E15-PHASE-CERTIFICATES",
   "date": "2026-08-02",
-  "APPROVED_TARGET_SHA": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "APPROVED_TARGET_SHA": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
   "PYTHON_RUNTIME_SANDBOX": "3.10.12",
   "status": "STRUCTURAL_CLOSED_FUNCTIONAL_PENDING_312",
 
@@ -33,7 +33,7 @@
       },
       "constitutional_properties": {
         "FAIL_CLOSED_ON_310": true,
-        "VENDOR_SHA": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "VENDOR_SHA": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
         "NO_LIVE_PROVIDER": true,
         "IFADAH_IS_COMPOSITION_NOT_MEANING": true
       },

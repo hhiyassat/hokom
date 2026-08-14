@@ -6,7 +6,7 @@
 **Status:** M6_SCHEMA_REBUILT_COMPLETE — §7 15-column schema applied; M6_CLOSED=0 pending M5
 **M6_PREPARATORY_INVENTORY_COMPLETE:** 1
 **M6_CLOSED:** 0
-**APPROVED_TARGET_SHA:** `05c6668dfb95d9238cff5df1d8bc73d0664bccb3`
+**APPROVED_TARGET_SHA:** `bc9d1ea5ef45970f5f3ec132441e30fd54b3da52`
 
 ---
 
@@ -47,7 +47,7 @@ For E13 purposes, `enriched_simulation_agent` symbols are OUT OF SCOPE (separate
 
 ```
 ORIGIN_MAIN_SHA_NOW  = 670e5a454dc7c94f44522359874f386d9d972c02
-APPROVED_TARGET_SHA  = 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
+APPROVED_TARGET_SHA  = bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
 COMMITS_ADDED_AFTER  = 2
 POST_TARGET_UPSTREAM_DELTA_STATUS = RECORDED_ONLY
 ```
@@ -110,6 +110,6 @@ Full classification: `M6_E13_USM_X0R_DENOMINATOR.csv` (152 rows, 15 columns)
 **HOST_EXECUTOR_UNAVAILABLE:** 1 — M1 gate remains open; M3/M4/M5 sequence pending
 
 **M3 pre-conditions (ready to execute on M1 gate clearance):**
-- `git -C vendor/Taaqol-GPT checkout --detach 05c6668dfb95d9238cff5df1d8bc73d0664bccb3`
+- `git -C vendor/Taaqol-GPT checkout --detach bc9d1ea5ef45970f5f3ec132441e30fd54b3da52`
 - Apply 10 SHA stamp updates per `reports/taaqol_full_integration/M2_VENDOR_SHA_STAMP_MANIFEST.csv`
 - Verify VENDOR_HEAD == APPROVED_TARGET_SHA; VENDOR_WORKTREE_CLEAN=1; NO COMMIT

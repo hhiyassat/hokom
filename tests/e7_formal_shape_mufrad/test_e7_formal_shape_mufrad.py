@@ -22,7 +22,7 @@ Constitutional gates verified:
     G_E7_06: Identity constraints enforced (wrong instances → None) on Python 3.12+
     G_E7_07: Module invariants pass on Python 3.10+
 
-VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
+VENDOR_SHA: bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
 Phase: E7 — FORMAL SHAPE + MUFRAD DALALAH
 """
 from __future__ import annotations
@@ -590,7 +590,7 @@ class TestT_E7_07_ModuleInvariants:
 
     def test_vendor_sha_constants_match(self):
         """Both adapters: _VENDOR_SHA == pinned constitutional SHA."""
-        sha = "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+        sha = "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
         assert _FSA_VENDOR_SHA == sha, f"formal_shape_adapter SHA mismatch: {_FSA_VENDOR_SHA!r}"
         assert _MSA_VENDOR_SHA == sha, f"mufrad_slot_adapter SHA mismatch: {_MSA_VENDOR_SHA!r}"
 

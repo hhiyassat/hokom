@@ -1,7 +1,7 @@
 {
   "document_id": "M5-E0-E8-REVALIDATION",
   "date": "2026-08-02",
-  "APPROVED_TARGET_SHA": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "APPROVED_TARGET_SHA": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
   "PYTHON_RUNTIME_SANDBOX": "3.10.12",
   "PYTHON_RUNTIME_MAC": "3.12.x",
   "status": "COMPLETE",

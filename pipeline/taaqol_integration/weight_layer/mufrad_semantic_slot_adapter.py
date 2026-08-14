@@ -18,14 +18,14 @@ Constitutional invariants (binding):
   - FAIL-CLOSED: all functions return None on Python 3.10 (vendor StrEnum absent)
   - AUTONOMOUS_COMMIT_MODE = 0 (no commit, no tag, no push, no merge)
 
-VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
+VENDOR_SHA: bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
 Phase: E7 — FORMAL SHAPE + MUFRAD DALALAH (PR-18 / PR-D1 component)
 """
 from __future__ import annotations
 
 from typing import Any, Optional
 
-_VENDOR_SHA = "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+_VENDOR_SHA = "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
 _MUFRAD_SLOT_AVAILABLE = False
 _E6_AVAILABLE = False
 _FORMAL_SHAPE_ADAPTER_AVAILABLE = False
@@ -451,7 +451,7 @@ def build_e7_from_surface(
 
 def _verify_e7_mufrad_slot_invariants() -> None:
     """Run at import time — verifies module-level constitutional invariants."""
-    assert _VENDOR_SHA == "05c6668dfb95d9238cff5df1d8bc73d0664bccb3", (
+    assert _VENDOR_SHA == "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52", (
         f"VENDOR_SHA mismatch: {_VENDOR_SHA!r}"
     )
     assert isinstance(_MUFRAD_SLOT_AVAILABLE, bool), "_MUFRAD_SLOT_AVAILABLE must be bool"

@@ -32,7 +32,7 @@ Python 3.10 compat:
 Phase: E10 — HUKM CANDIDATE
 Prior: E9 → IfadahVerdict(PROVEN, candidate=IfadahCandidate)
 Output: HukmVerdict(PROVEN, candidate=HukmCandidate)
-VENDOR_SHA: 05c6668dfb95d9238cff5df1d8bc73d0664bccb3
+VENDOR_SHA: bc9d1ea5ef45970f5f3ec132441e30fd54b3da52
 """
 from __future__ import annotations
 
@@ -43,7 +43,7 @@ from typing import Any, Optional
 # ── Vendor path ────────────────────────────────────────────────────────────────
 _REPO_ROOT   = Path(__file__).resolve().parents[3]
 _VENDOR_PATH = _REPO_ROOT / "vendor" / "Taaqol-GPT" / "src"
-_VENDOR_SHA  = "05c6668dfb95d9238cff5df1d8bc73d0664bccb3"
+_VENDOR_SHA  = "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
 
 # ── Fail-closed vendor imports ─────────────────────────────────────────────────
 _HUKM_AVAILABLE = False

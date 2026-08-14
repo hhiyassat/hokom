@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
-  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "target_taaqol_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
   "generated_at_utc": "2026-08-02T20:17:44.224453+00:00",
   "source_files": [
     "requirements/ayat_al_dayn_integration/09_CONTEXT_AND_MAQAM_REQUIREMENTS.md",
