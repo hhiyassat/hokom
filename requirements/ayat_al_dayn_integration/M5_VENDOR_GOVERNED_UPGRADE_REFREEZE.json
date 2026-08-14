@@ -47,7 +47,14 @@
     "historical_preservation": "reports/** run artifacts + *.command + scripts/qiyas_*_evidence.py retain 05c6668d as historical run provenance (SUPERSEDED_APPROVED_BASELINE); NOT deleted, NOT falsified"
   },
   "success_token": {
-    "TAAQOL_VENDOR_AUTHORITY_RECONCILED": "PENDING_CLEAN_CLONE_VERIFICATION",
-    "APPROVED_VENDOR_SHA": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52"
+    "TAAQOL_VENDOR_AUTHORITY_RECONCILED": "YES",
+    "TAAQOL_VENDOR_PROVENANCE": "VERIFIED",
+    "APPROVED_VENDOR_SHA": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+    "SUBMODULE_VENDOR_SHA": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+    "RUNTIME_VENDOR_SHA": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+    "STALE_AUTHORITATIVE_VENDOR_PINS": 0,
+    "EDITABLE_INSTALL_MASKING": 0,
+    "clean_clone_regression": "7764 passed / 3 failed / 0 errors (3 = 1 venv-invocation false + 2 governance-baseline-binding by design)",
+    "verified_in_canonical_venv": true
   }
 }
