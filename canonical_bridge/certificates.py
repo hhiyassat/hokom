@@ -47,19 +47,21 @@ def _stage_verdict(stage) -> tuple[str, tuple[str, ...]]:
     cs = stage.candidate_set
     resid = tuple(str(getattr(r, "code", r)) for r in (getattr(cs, "residuals", ()) or ()))
     s = str(ss).upper() if ss is not None else ""
-    if "BLOCK" in s:
+    # Canonical ConstitutionalStatus: SAHIH=valid→CERTIFIED, BATIL=void→BLOCK,
+    # DEFERRED/MAWQUF→DEFER. (Also honor explicit CERTIFIED/BLOCK/NA/AMBIG.)
+    if "SAHIH" in s or "VALID" in s or "CERT" in s.replace("_", ""):
+        accepted = getattr(cs, "accepted", ()) or ()
+        return (CERTIFIED, resid) if accepted else (DEFER, resid or ("certified_status_no_candidate",))
+    if "BATIL" in s or "BLOCK" in s:
         return BLOCK, resid or ("blocked",)
     if "NOT_APPLICABLE" in s or "NA" == s:
         return NOT_APPLICABLE, resid
-    if "DEFER" in s:
+    if "DEFER" in s or "MAWQUF" in s or "TAWAQQUF" in s:
         return DEFER, resid or ("deferred",)
     if "AMBIG" in s:
         return AMBIGUOUS, resid
-    # accepted candidates + licensed AND no deferred residual → CERTIFIED, else DEFER
     accepted = getattr(cs, "accepted", ()) or ()
-    if accepted and getattr(cs, "is_licensed", False) and "CERT" in s.replace("_", ""):
-        return CERTIFIED, resid
-    if accepted and getattr(cs, "is_licensed", False) and s in ("", "EXECUTED", "OPEN"):
+    if accepted and getattr(cs, "is_licensed", False):
         return DEFER, resid or ("licensed_but_judgment_not_certified",)
     return DEFER, resid or ("insufficient_evidence",)
 
@@ -118,8 +120,21 @@ _CHAIN = [
 ]
 
 
-def build_certificate_chain(trace, dispute_scope: dict) -> dict:
-    """Emit the 6 proof-carrying certificates + ancestry from a REAL trace."""
+def build_certificate_chain(trace, dispute_scope: dict,
+                            government_evidence: Optional[dict] = None) -> dict:
+    """Emit the 6 proof-carrying certificates + ancestry from a REAL trace.
+
+    government_evidence (optional) is the output of
+    canonical_bridge.government_producer.produce_government — the native
+    cross-token عامل/معمول evidence. The P8 government fact is sentence-scoped
+    (the word-level P8 stage early-stops on a حرف الجر), so its certificate is
+    sourced from the produced relations AND corroborated by the P9 stage that
+    consumed those amil_mamul_units. No oracle; deterministic.
+    """
+    gov = government_evidence or {}
+    gov_relations = tuple(
+        f"{r.get('relation_type')}:{r.get('amil_unit_id')}->{r.get('mamul_unit_id')}"
+        for r in (gov.get("relations", ()) or ()))
     certs: list[_Cert] = []
     transitions: list[dict] = []
     prev_id: Optional[str] = None
@@ -127,8 +142,17 @@ def build_certificate_chain(trace, dispute_scope: dict) -> dict:
     for layer_id, fam in _CHAIN:
         stage = trace.get_stage(layer_id)
         verdict, resid = _stage_verdict(stage)
+        # P8 government: sentence-scoped. CERTIFIED iff native government was
+        # produced AND the P9 stage certified those amil_mamul_units (sahih).
+        if layer_id == "P8_AMIL_MAMUL" and gov_relations:
+            p9 = trace.get_stage("P9_SENTENCE_GEOMETRY")
+            p9_verdict, _ = _stage_verdict(p9)
+            verdict = CERTIFIED if p9_verdict == CERTIFIED else DEFER
+            resid = () if verdict == CERTIFIED else ("government_produced_but_p9_uncertified",)
         no_jump_ok, checks = _no_jump(prev_verdict, verdict)
-        ev = tuple(getattr(stage.candidate_set, "trace_ids", ()) if stage else ()) or (f"{layer_id}:no_stage",)
+        _stage_ev = tuple(getattr(stage.candidate_set, "trace_ids", ()) if stage else ())
+        ev = (gov_relations if (layer_id == "P8_AMIL_MAMUL" and gov_relations)
+              else _stage_ev) or (f"{layer_id}:no_stage",)
         cid = _cid(layer_id, fam, verdict, prev_id, ev)
         cert = _Cert(certificate_id=cid, layer_id=layer_id, owner=OWNER, verdict=verdict,
                      predecessor_certificate_ids=(prev_id,) if prev_id else (),
@@ -153,9 +177,17 @@ def build_certificate_chain(trace, dispute_scope: dict) -> dict:
     # terminal ifadah verdict from the ConstitutionalJudgment (real DEFER)
     tj = trace.terminal_judgment
     terminal_status = getattr(getattr(tj, "status", None), "value", None)
-    chain_verdict = ("CLOSED_WITH_HONEST_DEFER"
-                     if all(t["verdict"] == "PASS" for t in transitions)
-                     else "NO_JUMP_VIOLATION")
+    _no_jump_ok = all(t["verdict"] == "PASS" for t in transitions)
+    _all_certified = certs and all(c.verdict == CERTIFIED for c in certs)
+    _any_defer = any(c.verdict in (DEFER, AMBIGUOUS) for c in certs)
+    if not _no_jump_ok:
+        chain_verdict = "NO_JUMP_VIOLATION"
+    elif _all_certified:
+        chain_verdict = "CLOSED_ALL_CERTIFIED"
+    elif _any_defer:
+        chain_verdict = "CLOSED_WITH_HONEST_DEFER"
+    else:
+        chain_verdict = "CLOSED"
     ancestry = {
         "ancestry_id": _cid("ancestry", *[c.certificate_id for c in certs]),
         "subject_identity": dispute_scope.get("claim_identity"),
@@ -172,11 +204,16 @@ def build_certificate_chain(trace, dispute_scope: dict) -> dict:
         "residual_codes": ("res-ancestry-01:sentence_evidence_declared_residual",)
         if terminal_status == "deferred" else (),
     }
+    gov_cert = next((c for c in certs if c.layer_id == "P8_AMIL_MAMUL"), None)
+    native_gov_certified = (
+        1 if (gov_relations and gov_cert and gov_cert.verdict == CERTIFIED) else 0)
     return {
         "certificates": [c.to_dict() for c in certs],
         "ancestry_certificate": ancestry,
         "accounting": _account(certs),
         "res_ancestry_01": "CLOSED" if ancestry["no_jump_failures"] == 0 else "OPEN",
+        "real_native_cross_token_government_certificate_count": native_gov_certified,
+        "government_relations": list(gov_relations),
     }
 
 

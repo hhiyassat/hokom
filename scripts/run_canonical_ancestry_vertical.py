@@ -32,12 +32,17 @@ for _p in (_HOKOM, os.path.join(_HOKOM, "src")):
 from hokom_pipeline import hokom
 from hokom.canonical.pipeline import CanonicalPipeline, SentenceInput, WordInput
 from canonical_bridge.bridge import bridge_word_evidence, build_dispute_scope
+from canonical_bridge.government_producer import produce_government
 from canonical_bridge.certificates import (
     build_certificate_chain, build_run_manifest, verify_artifact_coherence)
 
-# Real-corpus verticals: a multi-token clause (DEFER cascade) + a closed-class
-# control (NA at P8). Both are genuine hokom() runs, no fixtures.
+# Real-corpus verticals, all genuine hokom() runs (no fixtures):
+#   positive_government  — real cross-token jar→majrur (إِلَىٰ أَجَلٍ, Āyat al-Dayn)
+#                          → native government CERTIFIED through P8→P12
+#   clause_defer         — a clause with no produced sentence evidence → honest DEFER
+#   closed_class_control — a bare closed-class token → NA at P8
 VERTICALS = {
+    "positive_government": ["إِلَىٰ", "أَجَلٍ"],
     "clause_defer": ["كَتَبَ", "الْكَاتِبُ", "الرِّسَالَةَ"],
     "closed_class_control": ["مِنْ"],
 }
@@ -46,13 +51,17 @@ _PIPELINE = CanonicalPipeline.build()
 
 
 def _run_vertical(tokens):
+    gov = produce_government(tokens)          # native جار→مجرور government (no oracle)
     per = [hokom(t) for t in tokens]
-    words = tuple(
-        WordInput(surface=t, hokom_evidence_by_stage=bridge_word_evidence(hk), word_index=i)
-        for i, (t, hk) in enumerate(zip(tokens, per)))
+    words = []
+    for i, (t, hk) in enumerate(zip(tokens, per)):
+        ev = bridge_word_evidence(hk)
+        ev.update(gov["word_evidence"].get(i, {}))
+        words.append(WordInput(surface=t, hokom_evidence_by_stage=ev, word_index=i))
     ds = build_dispute_scope(" ".join(tokens), per).to_dict()
-    trace = _PIPELINE.run_sentence(SentenceInput(words=words, sentence_hokom_evidence={}))
-    return build_certificate_chain(trace, ds)
+    trace = _PIPELINE.run_sentence(SentenceInput(
+        words=tuple(words), sentence_hokom_evidence=gov["sentence_evidence"]))
+    return build_certificate_chain(trace, ds, government_evidence=gov)
 
 
 def build_run(manifest):
@@ -95,6 +104,8 @@ def main(argv):
 
     no_jump_ok = all(v["res_ancestry_01"] == "CLOSED" for v in payload["verticals"].values())
     unexplained = sum(v["accounting"]["unexplained"] for v in payload["verticals"].values())
+    native_gov = sum(v.get("real_native_cross_token_government_certificate_count", 0)
+                     for v in payload["verticals"].values())
 
     report = {
         "artifact": out,
@@ -103,6 +114,7 @@ def main(argv):
         "artifact_coherence": coherence["status"],
         "no_jump_all_closed": no_jump_ok,
         "unexplained_total": unexplained,
+        "real_native_cross_token_government_certificate_count": native_gov,
         "deterministic_run1_eq_run2": deterministic,
         "verticals": {n: {"accounting": v["accounting"],
                           "res_ancestry_01": v["res_ancestry_01"],
