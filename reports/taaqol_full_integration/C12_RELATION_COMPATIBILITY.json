@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
-  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "target_taaqol_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
   "generated_at_utc": "2026-08-03T03:22:31.412203+00:00",
   "totals": {
     "RELATION_COMPATIBILITY_PRODUCER_IMPLEMENTED": 1,
@@ -59,7 +59,7 @@
         "schema_version": "1.0.0",
         "registry_version": "c12.v1",
         "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
-        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "target_taaqol_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
         "input_digest": "eaa4e62ffb4efa8c",
         "output_digest": "c19e3f517d871c88"
       }
@@ -105,7 +105,7 @@
         "schema_version": "1.0.0",
         "registry_version": "c12.v1",
         "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
-        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "target_taaqol_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
         "input_digest": "24bf028b7326b3bc",
         "output_digest": "a2cbd17e84d55d51"
       }
@@ -151,7 +151,7 @@
         "schema_version": "1.0.0",
         "registry_version": "c12.v1",
         "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
-        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "target_taaqol_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
         "input_digest": "f67729f3e563023c",
         "output_digest": "dfdae402c9ba4733"
       }
@@ -197,7 +197,7 @@
         "schema_version": "1.0.0",
         "registry_version": "c12.v1",
         "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
-        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "target_taaqol_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
         "input_digest": "daccc39cf74e59c4",
         "output_digest": "5526ad141c43b85b"
       }
@@ -243,7 +243,7 @@
         "schema_version": "1.0.0",
         "registry_version": "c12.v1",
         "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
-        "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+        "target_taaqol_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
         "input_digest": "2ad776a9f3eed2bf",
         "output_digest": "d4b425660028f19b"
       }

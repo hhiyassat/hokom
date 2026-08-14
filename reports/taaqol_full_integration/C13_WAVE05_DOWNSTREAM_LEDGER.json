@@ -6,7 +6,7 @@
   "wave": "wave_5",
   "branch": "closure/hokom-taaqol-final-production-01",
   "generated_at_utc": "2026-08-04T00:00:00+00:00",
-  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "target_taaqol_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
   "commits_this_wave": [
     {"sha_prefix": "ccd971a", "message": "fix(taaqol): use verdict_state on 5 downstream vendor adapters"},
     {"sha_prefix": "f976a17", "message": "feat(taaqol): close full downstream DAG — Hukm → Manat → Tanzil + Mantuq → Mafhum"},

@@ -6,7 +6,7 @@
   "branch": "closure/hokom-taaqol-final-production-01",
   "implementation_content_head_short": "277ff13",
   "generated_at_utc": "2026-08-04T00:00:00+00:00",
-  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "target_taaqol_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
   "audit_findings_remediated": {
     "REPAIR_A_TANZIL_AUDIT_BRIDGE": "168d8d9,be749bb,ff21224",
     "REPAIR_B_TYPED_REFUSED_OUTCOMES": "168d8d9,be749bb,ff21224",

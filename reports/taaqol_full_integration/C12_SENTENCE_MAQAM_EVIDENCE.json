@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "generated_from_hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
-  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "target_taaqol_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
   "generated_at_utc": "2026-08-03T03:22:31.412203+00:00",
   "p9_sentence_carrier": {
     "p9_id": "P9-AYAT-SENTENCE-0001-8a5717da",
@@ -195,7 +195,7 @@
       "schema_version": "1.0.0",
       "registry_version": "c12.v1",
       "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
-      "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "target_taaqol_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
       "input_digest": "5c5170caaa772999",
       "output_digest": "8a5717dadb9a643e"
     }
@@ -263,7 +263,7 @@
       "schema_version": "1.0.0",
       "registry_version": "c12.v1",
       "hokom_head": "8e37b738ece7183818189146912cb14e3dce3a07",
-      "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+      "target_taaqol_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
       "input_digest": "1e2efc1ea163bf85",
       "output_digest": "853cca13172df297"
     }

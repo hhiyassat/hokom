@@ -2,7 +2,7 @@
   "phase": "HOKOM-EVIDENCE-PRODUCTION-CLOSURE-01",
   "gate": "C11",
   "generated_at_utc": "2026-08-02T22:14:42.455349+00:00",
-  "target_taaqol_sha": "05c6668dfb95d9238cff5df1d8bc73d0664bccb3",
+  "target_taaqol_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
   "c11_exit": 0,
   "f0": {
     "run1_collected": 8054,
