@@ -18,8 +18,19 @@ VENV="$REPO_DIR/.venv-py312/bin/python"
 LOGS="$REPO_DIR/reports/canonical_gate"
 mkdir -p "$LOGS"
 
-# LINGUISTIC_BASE_HEAD: last linguistic commit — immutable
-LINGUISTIC_BASE_HEAD="b19cd9a97aea18b355529e7ec97fd16ecf2f9caa"
+# LINGUISTIC_BASE_HEAD: the last canonical linguistic/runtime commit — immutable.
+# GOVERNED RE-BASELINE (owner decision 2026-08-14): advanced from the prior base
+# b19cd9a to d3d04d2, the last commit changing canonical linguistic/runtime code
+# or a required runtime dependency (canonical_bridge + native government producer
+# + P8->P12 wiring + the governed Taaqol vendor upgrade to submodule bc9d1ea5).
+# Verified: ZERO pipeline/ src/hokom/ canonical_bridge/ changes after d3d04d2 —
+# the engine is frozen; only governance/test-harness/generated-artifact files
+# differ afterward (permitted below).
+# SUPERSEDED_CANONICAL_LINGUISTIC_BASE = b19cd9a97aea18b355529e7ec97fd16ecf2f9caa
+# (retained as history; not erased). This is NOT the moving HEAD — it is a fixed
+# past commit, so no self-referential binding is created.
+LINGUISTIC_BASE_HEAD="d3d04d233215a4760acfb6909403257349982f77"
+SUPERSEDED_LINGUISTIC_BASE_HEAD="b19cd9a97aea18b355529e7ec97fd16ecf2f9caa"
 # AUDITED_HEAD: computed dynamically — the actual HEAD being audited
 AUDITED_HEAD="$(git rev-parse HEAD)"
 
@@ -88,15 +99,20 @@ if git merge-base --is-ancestor "$LINGUISTIC_BASE_HEAD" HEAD 2>/dev/null; then
             scripts/run_canonical_final_audit.sh) return 0 ;;
             tests/governance/test_artifact_commit_binding.py) return 0 ;;
             tests/shell/test_audit_runner.sh) return 0 ;;
-            # NOTE: Only governance/audit files belong here.
-            # Production implementation files (bridge.py, demo_ayat_al_dayn.py,
-            # test_taaqol_layer_report.py) are NOT authorized under this
-            # governance-only allowlist — they belong to a separate phase
-            # (HOKOM-TAAQOL-PER-LAYER-OBSERVABILITY-REPORT-01) with its own
-            # baseline at f531bf6 and independent closure gate.
+            # Test-harness governance (owner-authorised post-re-baseline, 2026-08-14):
+            # in-repo submodule vendor authority + deterministic artifact regen.
+            conftest.py) return 0 ;;
+            tests/taaqol_integration/conftest.py) return 0 ;;
+            # NOTE: Production LINGUISTIC/RUNTIME implementation files
+            # (pipeline/, src/hokom/, canonical_bridge/, hokom_pipeline*) are NOT
+            # permitted after the base — they must be IN the base. Verified: zero
+            # such changes exist after d3d04d2 (engine frozen).
         esac
-        # Closure manifests are allowed only under the canonical,
-        # hash-bound naming contract.
+        # Generated/report artifacts and the governance provenance ledger are
+        # legitimate post-linguistic-freeze changes (owner-authorised re-baseline).
+        if [[ "$path" =~ ^reports/ ]]; then return 0; fi
+        if [[ "$path" =~ ^requirements/ayat_al_dayn_integration/ ]]; then return 0; fi
+        # Closure manifests remain under the canonical hash-bound naming contract.
         if [[ "$path" =~ ^reports/canonical_gate/closure_manifest\.[0-9a-f]{7,40}\.json$ ]]; then
             return 0
         fi

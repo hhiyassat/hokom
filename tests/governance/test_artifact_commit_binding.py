@@ -135,13 +135,16 @@ def test_artifact_digests_match():
     if not applicable_manifests:
         return  # test_artifact_binding_exists will catch this
 
-    # Select the manifest for the current HEAD deterministically.
-    # The binding manifest is the one whose filename encodes the current HEAD short SHA.
-    # Historical manifests for earlier commits are ignored.
-    head = subprocess.run(
-        ['git', 'rev-parse', '--short=7', 'HEAD'],
-        capture_output=True, text=True, cwd=REPO_ROOT
-    ).stdout.strip()
+    # NON-SELF-REFERENTIAL BINDING (owner decision 2026-08-14).
+    # The manifest is bound to the IMMUTABLE AUDITED_ARTIFACT_HEAD — the commit
+    # whose canonical reports/ayat_al_dayn_demo/ artifacts are audited — NOT the
+    # moving HEAD. Binding to `git rev-parse HEAD` is circular: committing the
+    # manifest advances HEAD, instantly staling the just-written manifest, so the
+    # contract could never be green at a committed state. The audited artifacts
+    # are unchanged since AUDITED_ARTIFACT_HEAD, so that immutable commit is the
+    # correct, reproducible binding target (distinct from LINGUISTIC_BASE_HEAD,
+    # which advances with governed production work).
+    head = AUDITED_ARTIFACT_HEAD[:7]
     head_manifest_name = f'closure_manifest.{head}.json'
     head_matches = [(p, d) for p, d in applicable_manifests if p.name == head_manifest_name]
     assert head_matches, (
@@ -227,18 +230,19 @@ def test_no_stale_report_artifacts():
     gate_dir = REPO_ROOT / 'reports' / 'canonical_gate'
     if not gate_dir.exists():
         return
-    head = subprocess.run(
-        ['git', 'rev-parse', '--short=7', 'HEAD'],
-        capture_output=True, text=True, cwd=REPO_ROOT
-    ).stdout.strip()
+    # NON-SELF-REFERENTIAL BINDING (owner decision 2026-08-14): bind to the
+    # IMMUTABLE AUDITED_ARTIFACT_HEAD, not the moving HEAD (see rationale in
+    # test_artifact_digests_match). The audited demo artifacts are unchanged
+    # since that commit, so its manifest is the stable, reproducible binding.
+    head = AUDITED_ARTIFACT_HEAD[:7]
     expected_manifest = gate_dir / f'closure_manifest.{head}.json'
     assert expected_manifest.exists(), (
         f"Expected closure manifest not found: {expected_manifest.name}\n"
-        f"HEAD={head!r}. Re-run: python scripts/canonical_gate.py --stage <STAGE_ID>"
+        f"AUDITED_ARTIFACT_HEAD={head!r}. Re-run: python scripts/canonical_gate.py --stage <STAGE_ID>"
     )
     data = json.loads(expected_manifest.read_text(encoding='utf-8'))
     manifest_commit = data.get('commit', '')
     assert manifest_commit == head, (
         f"Manifest {expected_manifest.name} internal commit mismatch: "
-        f"manifest.commit={manifest_commit!r} != HEAD={head!r}."
+        f"manifest.commit={manifest_commit!r} != AUDITED_ARTIFACT_HEAD={head!r}."
     )
