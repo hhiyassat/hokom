@@ -3,7 +3,8 @@ Governance: canonical report artifacts must be bound to the audited HEAD.
 
 Contract (non-self-referential):
     At least one closure manifest must explicitly declare:
-        artifact_commit = b19cd9a97aea18b355529e7ec97fd16ecf2f9caa
+        artifact_commit = 24aba909d91132ea8f395d52853d2a2eeaf0700d
+        (prior: b19cd9a…; superseded by the governed artifact re-freeze at vendor bc9d1ea5)
 
     This field records the last Git commit that changed the canonical
     artifact files (reports/ayat_al_dayn_demo/**). It is distinct from
@@ -25,8 +26,8 @@ Contract (non-self-referential):
     exists, test_artifact_binding_exists fails with an explicit message
     rather than returning without assertion.
 
-AUDITED_ARTIFACT_HEAD = b19cd9a97aea18b355529e7ec97fd16ecf2f9caa
-CANONICAL_CSV_SHA     = f9d2410e22f6964c79867048b8f899d4d86632f33f5634422e90b1544fd52fa4
+AUDITED_ARTIFACT_HEAD = 24aba909d91132ea8f395d52853d2a2eeaf0700d
+CANONICAL_CSV_SHA     = 886e38640ff7bff7a87e44034b5fca26550fea1b66b6ce06c24ae14623aacbc3
 """
 import hashlib
 import json
@@ -36,14 +37,14 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 
 # The last commit that generated the canonical artifacts.
-AUDITED_ARTIFACT_HEAD = 'b19cd9a97aea18b355529e7ec97fd16ecf2f9caa'
+AUDITED_ARTIFACT_HEAD = '24aba909d91132ea8f395d52853d2a2eeaf0700d'
 
 # Canonical artifact directory — the only files whose modification invalidates
 # the audit binding.
 CANONICAL_ARTIFACT_DIR = 'reports/ayat_al_dayn_demo/'
 
 # Expected SHA-256 of the canonical CSV (constitutional constant).
-CANONICAL_CSV_SHA = 'f9d2410e22f6964c79867048b8f899d4d86632f33f5634422e90b1544fd52fa4'
+CANONICAL_CSV_SHA = '886e38640ff7bff7a87e44034b5fca26550fea1b66b6ce06c24ae14623aacbc3'
 
 
 def test_audited_artifact_head_immutable():

@@ -381,7 +381,7 @@ else
     echo "GENERATED_HTML_SHA256=sha256:$GENERATED_HTML_SHA  (non-deterministic: run evidence only)"
 
     # 5. Verify generated CSV SHA against canonical binding
-    EXPECTED_CSV="f9d2410e22f6964c79867048b8f899d4d86632f33f5634422e90b1544fd52fa4"
+    EXPECTED_CSV="886e38640ff7bff7a87e44034b5fca26550fea1b66b6ce06c24ae14623aacbc3"
     if [[ "$GENERATED_CSV_SHA" == "$EXPECTED_CSV" ]]; then
         echo "CSV_DETERMINISM=OK"
         ARTIFACT_BINDING_READY=1

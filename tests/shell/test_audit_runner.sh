@@ -14,7 +14,7 @@
 #
 # Governance binding:
 #   NEW_LINGUISTIC_BASE_HEAD = b19cd9a97aea18b355529e7ec97fd16ecf2f9caa
-#   EXPECTED_CANONICAL_CSV_SHA = f9d2410e22f6964c79867048b8f899d4d86632f33f5634422e90b1544fd52fa4
+#   EXPECTED_CANONICAL_CSV_SHA = 886e38640ff7bff7a87e44034b5fca26550fea1b66b6ce06c24ae14623aacbc3
 #
 # Usage: bash tests/shell/test_audit_runner.sh
 set -uo pipefail
@@ -709,7 +709,7 @@ PYEOF
 python3 - <<'PYEOF' 2>&1 && ok "T61: modified CSV detected by digest check" \
                            || fail "T61: digest check must catch modified CSV"
 import hashlib
-EXPECTED_CSV_SHA = 'f9d2410e22f6964c79867048b8f899d4d86632f33f5634422e90b1544fd52fa4'
+EXPECTED_CSV_SHA = '886e38640ff7bff7a87e44034b5fca26550fea1b66b6ce06c24ae14623aacbc3'
 tampered = hashlib.sha256(b"tampered csv content").hexdigest()
 mismatches = []
 if tampered != EXPECTED_CSV_SHA:
@@ -757,7 +757,7 @@ manifest = {
     "audit_head":      "32beb7a817d21d3dcc42825c515887e70f077dc1",  # governance head, far ahead
     "artifact_digests": {
         "reports/ayat_al_dayn_demo/ayat_al_dayn_results.csv":
-            "f9d2410e22f6964c79867048b8f899d4d86632f33f5634422e90b1544fd52fa4",
+            "886e38640ff7bff7a87e44034b5fca26550fea1b66b6ce06c24ae14623aacbc3",
     }
 }
 # Contract: applicable if artifact_commit matches — NOT if commit == current HEAD

@@ -1,0 +1,16 @@
+{
+  "_schema_version": "2",
+  "stage": "HOKOM-CANONICAL-ARTIFACT-MANIFEST-BINDING-01",
+  "artifact_commit": "24aba909d91132ea8f395d52853d2a2eeaf0700d",
+  "audit_head": "24aba909d91132ea8f395d52853d2a2eeaf0700d",
+  "commit": "24aba90",
+  "commit_full": "24aba909d91132ea8f395d52853d2a2eeaf0700d",
+  "timestamp": "2026-08-15T00:03:22+03:00",
+  "artifact_digests": {
+    "reports/ayat_al_dayn_demo/ayat_al_dayn_results.csv": "886e38640ff7bff7a87e44034b5fca26550fea1b66b6ce06c24ae14623aacbc3",
+    "reports/ayat_al_dayn_demo/ayat_al_dayn_results_full.json": "0b1193ec1fde8bc18821c533dd8d4e4b1f7a69e6a2f05e9bba9ac3fc12bba222",
+    "reports/ayat_al_dayn_demo/ayat_al_dayn_manager_report.html": "ae9b2ea33f9438bb59aeff3b9a648752ba2bce26b608f0454485faf3fac33625"
+  },
+  "closure_eligible": true,
+  "note": "Governed canonical artifact re-freeze at approved Taaqol vendor bc9d1ea5 (owner authorization 2026-08-14/15). Provenance-only delta vs f9d2410e (claim_key+evaluation_id, 37 rows); ZERO LINGUISTIC DELTA. Bound to immutable AUDITED_ARTIFACT_HEAD (non-self-referential)."
+}
