@@ -513,7 +513,7 @@ def hokom(word: str) -> dict:
                     _p5_host = _p5_host[:-1] + 'َ'   # replace damma → fatha
             try:
                 from pipeline.pre_root.pre_root_decision import assess_pre_root
-                pre_root = assess_pre_root(_p5_host, p4_verdict=verdict)
+                pre_root = assess_pre_root(_p5_host, phonological_slot_verdict=verdict)
             except Exception:
                 pre_root = None
 

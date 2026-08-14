@@ -644,7 +644,7 @@ class TestPreRootDecision:
         assert result.next_stage != 'BLOCKED'
 
     def test_orphan_initial_consonant_deferred_not_blocked(self):
-        """حْدَ (صامت يتيم بعد التجزئة) + p4_verdict=DEFER → DEFER لا BLOCK
+        """حْدَ (صامت يتيم بعد التجزئة) + phonological_slot_verdict=DEFER → DEFER لا BLOCK
 
         العقد الدلالي:
           UNDERLICENSED_SHORT_SURFACE = عجز بنيوي من أثر التجزئة
@@ -656,7 +656,7 @@ class TestPreRootDecision:
         الفرق عن BLOCK: لم يثبت مانع معجمي؛ الساكن في البداية
         ناتج عن فصل `وَ` من `وَحْدَهُمْ` أو ما شابهه.
         """
-        result = self.assess('حْدَ', p4_verdict='DEFER')
+        result = self.assess('حْدَ', phonological_slot_verdict='DEFER')
         assert result.structural_verdict == 'DEFER', (
             f"حْدَ + p4=DEFER → structural=DEFER، لكن: {result.structural_verdict!r}"
         )
@@ -670,17 +670,17 @@ class TestPreRootDecision:
         assert result.root_path_directive != 'OPEN'
 
     def test_p4_defer_propagates_to_structural(self):
-        """p4_verdict='DEFER' يُضاف إلى تجميع الأحكام → يمنع root_path_directive=OPEN
+        """phonological_slot_verdict='DEFER' يُضاف إلى تجميع الأحكام → يمنع root_path_directive=OPEN
 
-        ضَرَبَ مع p4_verdict='DEFER': بدون الإصلاح تُعطي structural=ACCEPT وroot=OPEN.
+        ضَرَبَ مع phonological_slot_verdict='DEFER': بدون الإصلاح تُعطي structural=ACCEPT وroot=OPEN.
         مع الإصلاح: structural_verdict=DEFER وroot_path_directive='DEFER' (لا OPEN).
         """
-        result = self.assess('ضَرَبَ', p4_verdict='DEFER')
+        result = self.assess('ضَرَبَ', phonological_slot_verdict='DEFER')
         assert result.structural_verdict in ('DEFER', 'BLOCK'), (
-            f"p4_verdict='DEFER' يجب أن يمنع ACCEPT، لكن structural_verdict={result.structural_verdict!r}"
+            f"phonological_slot_verdict='DEFER' يجب أن يمنع ACCEPT، لكن structural_verdict={result.structural_verdict!r}"
         )
         assert result.root_path_directive != 'OPEN', (
-            f"p4_verdict='DEFER' يجب أن يمنع OPEN، لكن root_path_directive={result.root_path_directive!r}"
+            f"phonological_slot_verdict='DEFER' يجب أن يمنع OPEN، لكن root_path_directive={result.root_path_directive!r}"
         )
 
     def test_operator_compound_functional_path(self):

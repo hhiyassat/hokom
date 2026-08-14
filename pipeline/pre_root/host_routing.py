@@ -93,18 +93,18 @@ class HostRoutingDecision:
 def route_host(
     host_surface: str,
     *,
-    p4_verdict: str = 'ACCEPT',
+    phonological_slot_verdict: str = 'ACCEPT',
 ) -> HostRoutingDecision:
     """
     قرّر مسار المضيف وفق الأولوية: EMPTY > OPERATOR > MABNI > MORPHOLOGY_PATH.
 
     يستخدم recognize_token() من mabniyat_attachment لكشف المشغّلات والمبنيات
-    المركبة. يمرّر p4_verdict إلى recognize_token.
+    المركبة. يمرّر phonological_slot_verdict إلى recognize_token.
 
     Parameters
     ----------
     host_surface : السطح المُضيف (بعد فصل الـ)
-    p4_verdict   : حكم P4 — 'ACCEPT' | 'DEFER' | 'BLOCK'
+    phonological_slot_verdict   : حكم P4 — 'ACCEPT' | 'DEFER' | 'BLOCK'
                    يُمرَّر إلى recognize_token للتوافق مع قانون P4
 
     Returns
@@ -122,7 +122,7 @@ def route_host(
         )
 
     # ── فحص المشغّل/المبني عبر recognize_token ───────────────────────────────
-    token_analysis = _try_recognize(host_surface, p4_verdict)
+    token_analysis = _try_recognize(host_surface, phonological_slot_verdict)
 
     if token_analysis is not None:
         hr = token_analysis.host_route
@@ -175,13 +175,13 @@ def route_host(
 # 4.  دوال مساعدة
 # ══════════════════════════════════════════════════════════════════════════════
 
-def _try_recognize(surface: str, p4_verdict: str):
+def _try_recognize(surface: str, phonological_slot_verdict: str):
     """
     استدعِ recognize_token بشكل كسول. أعد None عند أي خطأ.
     """
     try:
         from mabniyat_attachment import recognize_token
-        return recognize_token(surface, p4_verdict)
+        return recognize_token(surface, phonological_slot_verdict)
     except Exception:
         return None
 

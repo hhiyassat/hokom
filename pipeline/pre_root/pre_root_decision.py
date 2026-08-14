@@ -111,7 +111,7 @@ class PreRootDecision:
 def assess_pre_root(
     surface: str,
     *,
-    p4_verdict: str = 'ACCEPT',
+    phonological_slot_verdict: str = 'ACCEPT',
 ) -> PreRootDecision:
     """
     أنتِج قرار ما قبل الجذر لسطح عربي واحد.
@@ -127,7 +127,7 @@ def assess_pre_root(
     Parameters
     ----------
     surface    : السطح الأصلي للكلمة
-    p4_verdict : حكم P4 من طبقة الخانات — يُمرَّر إلى recognize_token
+    phonological_slot_verdict : حكم P4 من طبقة الخانات — يُمرَّر إلى recognize_token
                  عند كشف المشغّلات المركبة (الافتراضي 'ACCEPT')
 
     Returns
@@ -171,8 +171,8 @@ def assess_pre_root(
     # دمج حكم P4: إذا كان DEFER أو BLOCK يُضاف إلى التجميع البنيوي
     # هذا يضمن أن DEFER من P4 يُنتج structural_verdict=DEFER حتى لو قالت
     # الحدود ACCEPT (مثال: مضيف متبقٍّ لكلمة أعطى P4 حكم DEFER)
-    if p4_verdict in ('DEFER', 'BLOCK'):
-        verdicts_list.append(p4_verdict)
+    if phonological_slot_verdict in ('DEFER', 'BLOCK'):
+        verdicts_list.append(phonological_slot_verdict)
     structural_verdict = aggregate_structural_verdict(verdicts_list)
     trace_ids.append('step:structural_aggregation')
 
@@ -181,7 +181,7 @@ def assess_pre_root(
     # ثم نُعدِّل root_path_directive وnext_stage وفق structural_verdict:
     #   BLOCK → next_stage='BLOCKED'  (عائق مُثبَت)
     #   DEFER → next_stage='DEFERRED' (مسار معلَّق لم يُرخَّص بعد)
-    routing_candidate = route_host(host, p4_verdict=p4_verdict)
+    routing_candidate = route_host(host, phonological_slot_verdict=phonological_slot_verdict)
 
     if structural_verdict == 'BLOCK':
         routing = HostRoutingDecision(
