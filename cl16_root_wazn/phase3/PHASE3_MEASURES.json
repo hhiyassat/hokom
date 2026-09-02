@@ -1,0 +1,182 @@
+{
+  "measured": true,
+  "total_rows": 700,
+  "outcomes": {
+    "DEFER:NOT_IN_LEXICON": 200,
+    "DEFER:CANDIDATE_DEFERRED_BY_EXTRACTOR": 331,
+    "DEFER:MISSING_BAAB": 67,
+    "DEFER:CLOSED_FORM_COLLISION": 33,
+    "DEFER:NOT_CERTIFIED": 23,
+    "DEFER:MULTI_BAAB": 33,
+    "LICENSED:OK": 13
+  },
+  "licensed": [
+    {
+      "root": "غضب",
+      "baab": "فَعِلَ يَفْعَلُ ( كسر فتح )",
+      "rank": "CERTIFIED"
+    },
+    {
+      "root": "فعل",
+      "baab": "فَعَلَ يَفْعَلُ ( فتحتان )",
+      "rank": "CERTIFIED"
+    },
+    {
+      "root": "فقد",
+      "baab": "فَعَلَ يَفْعِلُ ( فتحُ كَسْرٍ )",
+      "rank": "CERTIFIED"
+    },
+    {
+      "root": "فهم",
+      "baab": "فَعِلَ يَفْعَلُ ( كسر فتح )",
+      "rank": "CERTIFIED"
+    },
+    {
+      "root": "قتل",
+      "baab": "فَعَلَ يَفْعُلُ ( فتحُ ضمٍّ )",
+      "rank": "CERTIFIED"
+    },
+    {
+      "root": "قول",
+      "baab": "فَعَلَ يَفْعُلُ ( فتحُ ضمٍّ )",
+      "rank": "CERTIFIED"
+    },
+    {
+      "root": "قوم",
+      "baab": "فَعَلَ يَفْعُلُ ( فتحُ ضمٍّ )",
+      "rank": "CERTIFIED"
+    },
+    {
+      "root": "كذب",
+      "baab": "فَعَلَ يَفْعِلُ ( فتحُ كَسْرٍ )",
+      "rank": "CERTIFIED"
+    },
+    {
+      "root": "كلم",
+      "baab": "فَعَلَ يَفْعِلُ ( فتحُ كَسْرٍ )",
+      "rank": "CERTIFIED"
+    },
+    {
+      "root": "لحق",
+      "baab": "فَعِلَ يَفْعَلُ ( كسر فتح )",
+      "rank": "EVIDENCE_SUPPORTED"
+    },
+    {
+      "root": "لكم",
+      "baab": "فَعَلَ يَفْعُلُ ( فتحُ ضمٍّ )",
+      "rank": "EVIDENCE_SUPPORTED"
+    },
+    {
+      "root": "نصر",
+      "baab": "فَعَلَ يَفْعُلُ ( فتحُ ضمٍّ )",
+      "rank": "EVIDENCE_SUPPORTED"
+    },
+    {
+      "root": "نظر",
+      "baab": "فَعَلَ يَفْعُلُ ( فتحُ ضمٍّ )",
+      "rank": "EVIDENCE_SUPPORTED"
+    }
+  ],
+  "closed_form_collisions": [
+    "أجل",
+    "ألف",
+    "أم",
+    "أن",
+    "أنا",
+    "أنتم",
+    "أو",
+    "أي",
+    "إن",
+    "بل",
+    "ثم",
+    "خلت",
+    "رب",
+    "علمت",
+    "عن",
+    "في",
+    "قد",
+    "كلا",
+    "كم",
+    "لا",
+    "لكن",
+    "لم",
+    "لما",
+    "لن",
+    "لو",
+    "لولا",
+    "ليس",
+    "ما",
+    "من",
+    "نحن",
+    "نعم",
+    "هل",
+    "هم"
+  ],
+  "provenance": [
+    [
+      "ROOT_CANDIDATE_TABLE",
+      "28f79d021201"
+    ],
+    [
+      "ROOT_CANDIDATE_RUN_SUMMARY",
+      "6515137aaa98"
+    ],
+    [
+      "ROOT_CANDIDATE_CONFLICTS",
+      "e2aada2a4b0e"
+    ],
+    [
+      "ROOT_CANDIDATE_LAW",
+      "472223db8246"
+    ],
+    [
+      "MAQAYIS_V2_API",
+      "02c26a6f7fa7"
+    ],
+    [
+      "MAQAYIS_V2_ADAPTER",
+      "da1e3f483616"
+    ],
+    [
+      "ROOT_PROOF_TABLE",
+      "3dd82bd22502"
+    ],
+    [
+      "MAQAYIS_LEXICON_DB",
+      "35c7062dd5ed"
+    ],
+    [
+      "ROOT_WAZN_CERTIFICATION_LAW",
+      "be0062303fd3"
+    ],
+    [
+      "WORD_IDENTITY_ANALYZER",
+      "0ed368d98cc7"
+    ],
+    [
+      "WORD_IDENTITY_TYPES",
+      "2eb38eeb1b5a"
+    ],
+    [
+      "ROOT_DERIVATION_LAW",
+      "0a8c06e45100"
+    ],
+    [
+      "WAZN_DERIVATION_ENGINE",
+      "559132cdca4d"
+    ],
+    [
+      "WAZN_MORPHOLOGICAL_ENGINE",
+      "1f821b46d7bc"
+    ],
+    [
+      "WAZN_TYPES",
+      "8ee9a77d08c8"
+    ],
+    [
+      "WAZN_ROOT_NUCLEUS",
+      "682c0e33871e"
+    ]
+  ],
+  "cl16_closed": false
+}

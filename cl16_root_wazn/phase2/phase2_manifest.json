@@ -1,0 +1,20 @@
+{
+  "manifest_id": "CL16_ROOT_WAZN_PHASE2_LICENSING_SEAM_V1",
+  "purpose": "Pins the vendor Taaqol weight/evidence contracts the Phase-2 seam consumes read-only. The seam feeds ONLY a form-only WeightReadinessCandidate + a rank-cap EvidenceContract into weigh(); no lexicon/meaning/root crosses into the weight branch; weigh() and vendor are unchanged.",
+  "created": "2026-09-02",
+  "cl16_closed": false,
+  "vendor_root": "/Users/husseinhiyassat/hokom/vendor/Taaqol-GPT/src",
+  "vendor_sha": "bc9d1ea5ef45970f5f3ec132441e30fd54b3da52",
+  "reading_confirmed_by_owner": "form-only WeightReadinessCandidate + rank-cap EvidenceContract; no meaning/lexicon/root direct into weigh()",
+  "integrity_rule": "Verify each pinned vendor contract sha256 before use. A drift is a hard BLOCK (the seam refuses to run against a changed weight branch).",
+  "vendor_contracts": [
+    {"path": "/Users/husseinhiyassat/hokom/vendor/Taaqol-GPT/src/taaqqul_slot_geometry/weight/weight_fit.py", "sha256": "6e1df7851f169536b280f3d09feeb1f2bacf53d0140c5015e58d5ca6a2c4e38b"},
+    {"path": "/Users/husseinhiyassat/hokom/vendor/Taaqol-GPT/src/taaqqul_slot_geometry/weight/pre_weight.py", "sha256": "6f8d7619c0a485a91e9a8b9e134d27e561ea0dacaf42366bb86a92380a5a02cb"},
+    {"path": "/Users/husseinhiyassat/hokom/vendor/Taaqol-GPT/src/taaqqul_slot_geometry/weight/mu_chain.py", "sha256": "fa078a12cfa693f905e4c0bc979b9609007084644129e39d2a398f5ad389da3e"},
+    {"path": "/Users/husseinhiyassat/hokom/vendor/Taaqol-GPT/src/taaqqul_slot_geometry/weight/path_gate.py", "sha256": "be8a73c29d514b78edbd941552d092e1d34e4dc76b4b2d3bd7502adbf5ff76d4"},
+    {"path": "/Users/husseinhiyassat/hokom/vendor/Taaqol-GPT/src/taaqqul_slot_geometry/weight/carrier_core.py", "sha256": "c8a24168f2113f58771d985491ad0ebcafb28c6cbd72fd5adce4b6d41932ccca"},
+    {"path": "/Users/husseinhiyassat/hokom/vendor/Taaqol-GPT/src/taaqqul_slot_geometry/core/evidence_contract.py", "sha256": "fa452189b456b007ccd36214bd0193a872f339ca2da60a79dae5daf14e4535d0"},
+    {"path": "/Users/husseinhiyassat/hokom/vendor/Taaqol-GPT/src/taaqqul_slot_geometry/core/rank_lattice.py", "sha256": "e11d470ddf2dba20b1769bcebdfba12909233e6451cf59769de31ada966468a0"},
+    {"path": "/Users/husseinhiyassat/hokom/vendor/Taaqol-GPT/src/taaqqul_slot_geometry/core/slot_graph.py", "sha256": "6f722a29a0aaeb760d53482da579e922277b3d3f0535dbac1c038e2109d4d480"}
+  ]
+}

@@ -58,3 +58,8 @@ reports/taaqol_full_integration/*_runtime_output/
 !mabniyat_catalog_split_vocalized.csv
 !operators_catalog_split_vocalized.csv
 !data/operators_catalog_split_vocalized.csv
+
+# وسيطُ النقل والتنظيف — لا يدخل التاريخ
+_to_delete/
+_p3stage/
+_stage/
