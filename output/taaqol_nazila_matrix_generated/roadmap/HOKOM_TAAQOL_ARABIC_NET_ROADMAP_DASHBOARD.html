@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hokom / Taaqol · Arabic-Net · سجل العمل وخارطة الإغلاق</title>
+<style>
+  :root{
+    --bg:#0f1419; --panel:#182029; --panel2:#1e2732; --line:#2b3644;
+    --ink:#e8edf2; --muted:#9fb0c0; --ok:#3fb970; --warn:#e0a83d; --stop:#e5604d;
+    --pos:#4aa3df; --accent:#7c5cff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"Segoe UI","Noto Naskh Arabic","Amiri",Tahoma,sans-serif;
+    line-height:1.7;font-size:15px}
+  .wrap{max-width:1120px;margin:0 auto;padding:20px}
+  h1{font-size:22px;margin:0 0 4px}
+  h2{font-size:18px;margin:26px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+  .sub{color:var(--muted);font-size:13px;margin:0 0 14px}
+  .note{background:var(--panel2);border:1px solid var(--line);border-radius:10px;
+    padding:10px 14px;color:var(--muted);font-size:13px;margin:12px 0}
+  /* status bar */
+  .status{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 4px}
+  .chip{background:var(--panel);border:1px solid var(--line);border-radius:999px;
+    padding:7px 14px;font-size:13px;display:flex;gap:8px;align-items:center}
+  .chip b{color:#fff}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+  .d-ok{background:var(--ok)} .d-warn{background:var(--warn)} .d-stop{background:var(--stop)}
+  .d-pos{background:var(--pos)}
+  /* two columns */
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.cols{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .card.gain{border-inline-start:4px solid var(--ok)}
+  .card.loss{border-inline-start:4px solid var(--stop)}
+  .card h3{margin:0 0 8px;font-size:15px}
+  .card ul{margin:0;padding-inline-start:20px}
+  .card li{margin:3px 0}
+  /* roadmap rail */
+  .rail{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0}
+  .step{background:var(--panel2);border:1px solid var(--line);border-radius:8px;
+    padding:8px 12px;font-size:13px;position:relative}
+  .step .t{font-size:11px;color:var(--muted);display:block}
+  .step.closed{border-color:var(--warn)}
+  .arrow{color:var(--muted)}
+  /* matrix */
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:start;vertical-align:top}
+  th{background:var(--panel2);position:sticky;top:0}
+  tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+  .risk{color:var(--warn)}
+  .filter{margin:8px 0;padding:8px 12px;background:var(--panel2);border:1px solid var(--line);
+    border-radius:8px;color:var(--ink);width:min(360px,100%)}
+  /* do-not-confuse */
+  .dnc{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:760px){.dnc{grid-template-columns:1fr}}
+  .dnc div{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+  .neq{color:var(--stop);font-weight:700;padding:0 6px}
+  footer{color:var(--muted);font-size:12px;margin:26px 0 10px;border-top:1px solid var(--line);padding-top:12px}
+  code{background:#0c1116;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Hokom / Taaqol · Arabic-Net</h1>
+  <p class="sub">سجل العمل وخارطة الطريق إلى الإغلاق · <b>TASK</b> HOKOM_TAAQOL_ARABIC_NET_RECORD_AND_CLOSURE_ROADMAP_01</p>
+  <div class="note">هذه الصفحة <b>توثيق وخطة فقط</b> — لا تنفيذ جديد، لا فتح بوابات، لا تأليف معنى، لا تغيير score، لا commit. <b>PROJECT_FINISHED = NO</b>.</div>
+
+  <!-- 1) STATUS BAR -->
+  <div class="status">
+    <span class="chip"><span class="dot d-ok"></span> DOCUMENT <b>80.0</b></span>
+    <span class="chip"><span class="dot d-ok"></span> DAL_MADLUL <b>90.0</b></span>
+    <span class="chip"><span class="dot d-pos"></span> T003 <b>DEFERRED_POSITION_ONLY</b></span>
+    <span class="chip"><span class="dot d-stop"></span> TEXT_LICENSED_MADLUL_COUNT <b>0</b></span>
+    <span class="chip"><span class="dot d-warn"></span> GATES <b>CLOSED</b></span>
+    <span class="chip"><span class="dot d-ok"></span> REGISTRY_SHA <b>d3c7b60939b5</b></span>
+  </div>
+
+  <!-- 2 & 3) GAIN / LOSS -->
+  <h2>ما كسبناه · وما لم نكسبه</h2>
+  <div class="cols">
+    <div class="card gain">
+      <h3>ما كسبناه</h3>
+      <ul>
+        <li><b>Arabic-Net API</b> — 65,544 لفظًا · 17 علاقة · 5,553 عائلة (deterministic/offline)</li>
+        <li><b>Position reflection</b> — t003 يحمل <code>madlul_position</code> حيًّا على السطر</li>
+        <li><b>R2-A</b> — <code>surface_for_syllables</code> + <code>surface_for_peeling</code> (نظافة الجذع فقط)</li>
+        <li><b>T2 view</b> — 117 عاملًا + 43 مبنيًا من <code>is_operator</code></li>
+        <li><b>Measurement taxonomy</b> — تصنيف قياس مغلق (B/C/D/E)</li>
+      </ul>
+    </div>
+    <div class="card loss">
+      <h3>ما لم نكسبه</h3>
+      <ul>
+        <li><b>No gloss</b> — <code>wordnet_synsets.json</code> بلا حقل معنى</li>
+        <li><b>No licensed madlul text</b> — <code>TEXT_LICENSED_MADLUL_COUNT = 0</code></li>
+        <li><b>No t003 binding</b> — <code>DAL_MADLUL_BOUND = NO</code></li>
+        <li><b>No MANAT / TANZIL / ANSWER_AUDIT</b> — البوابات مغلقة</li>
+        <li><b>No kinship source-layer approval</b> — kinship 4/16 governing</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 4) ROADMAP RAIL -->
+  <h2>خارطة الطريق (بحسب الاعتماديات)</h2>
+  <div class="rail">
+    <span class="step"><span class="t">A</span>Stabilize round</span><span class="arrow">→</span>
+    <span class="step"><span class="t">B</span>T1 bridge-only</span><span class="arrow">→</span>
+    <span class="step"><span class="t">C</span>R3-ب</span><span class="arrow">→</span>
+    <span class="step"><span class="t">C</span>B2</span><span class="arrow">→</span>
+    <span class="step"><span class="t">D</span>gloss source</span><span class="arrow">→</span>
+    <span class="step"><span class="t">E</span>C_PATH</span><span class="arrow">→</span>
+    <span class="step"><span class="t">F</span>DAL_MADLUL_BINDING</span><span class="arrow">→</span>
+    <span class="step closed"><span class="t">gate</span>MANAT</span><span class="arrow">→</span>
+    <span class="step closed"><span class="t">gate</span>TANZIL</span><span class="arrow">→</span>
+    <span class="step closed"><span class="t">gate</span>ANSWER_AUDIT</span>
+  </div>
+  <div class="note">البوابات (MANAT · TANZIL · ANSWER_AUDIT) لا تُفتح إلا بعد حسم السجلّين (dal_registry + madlul_registry) ومراجعة الربط.</div>
+
+  <!-- 5) TWO-COLUMN MATRIX -->
+  <h2>مصفوفة عمودين · الحالي / الباقي</h2>
+  <input class="filter" id="q" type="text" placeholder="فلترة… اكتب item_id أو domain (مثال: t003, madlul, gate)" oninput="filterRows()">
+  <table id="matrix">
+    <thead>
+      <tr><th>item_id</th><th>domain</th><th>current_state (الحالي)</th><th>remaining_to_close (الباقي)</th><th>risk_if_misread</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>arabic_net_api</td><td>semantic_source</td><td>built and measured</td><td>no licensed text — position only</td><td class="risk">treating synset as meaning</td></tr>
+      <tr><td>t003</td><td>nazila_token</td><td>live position reflected only</td><td>licensed madlul_text_ar</td><td class="risk">calling it bound / licensed</td></tr>
+      <tr><td>madlul_position</td><td>semantic_position</td><td>sibling.n.01;family.n.02;relative.n.01</td><td>none for position</td><td class="risk">promoting position to text meaning</td></tr>
+      <tr><td>madlul_text_ar</td><td>licensed_meaning_text</td><td>empty (NOT_LICENSED_NO_GLOSS)</td><td>choose gloss source</td><td class="risk">tool-authored meaning</td></tr>
+      <tr><td>t3_r2a</td><td>surface_preparation</td><td>surface_for_syllables + surface_for_peeling</td><td>preserve as input discipline</td><td class="risk">claiming it fixes 294 Axis4 blocks</td></tr>
+      <tr><td>t2_view</td><td>operators_mabniyat</td><td>canonical view 117/43</td><td>final audit / commit scope</td><td class="risk">treating 160 as all operators</td></tr>
+      <tr><td>t1_bridge</td><td>surface_to_lemma_bridge</td><td>bridge-only / pending finalization</td><td>bridge report and guards</td><td class="risk">confusing with Axis4 peeling</td></tr>
+      <tr><td>r3_b_poss_obj</td><td>dal_registry_clitic</td><td>measured but source not chosen</td><td>choose source or DEFER</td><td class="risk">authoring clitic functions by tool</td></tr>
+      <tr><td>b2_classes</td><td>dal_registry_classes</td><td>some narrowed, some open</td><td>class-by-class BLOCK/DEFER/UNCONSTRAINED</td><td class="risk">blocking repairable rows</td></tr>
+      <tr><td>c_path</td><td>connection_path</td><td>DEFER</td><td>real connection counterfactual</td><td class="risk">reusing 89.3%</td></tr>
+      <tr><td>sonaiso</td><td>external_vendor</td><td>external</td><td>decide notify / connect</td><td class="risk">moving vendor boundary silently</td></tr>
+      <tr><td>old_queue</td><td>dal_registry_backlog</td><td>preserved</td><td>B3/B5/B6/B7/B15/B17 …</td><td class="risk">mixing with current bridge work</td></tr>
+      <tr><td>manat</td><td>gate_manat</td><td>deferred with cause</td><td>after binding and policy</td><td class="risk">opening without normative illah locus</td></tr>
+      <tr><td>tanzil</td><td>gate_tanzil</td><td>not opened</td><td>after MANAT</td><td class="risk">premature application</td></tr>
+      <tr><td>answer_audit</td><td>gate_answer_audit</td><td>not opened</td><td>after TANZIL</td><td class="risk">final answer before full hukm</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 6) DO NOT CONFUSE -->
+  <h2>لا تخلط</h2>
+  <div class="dnc">
+    <div>POSITION <span class="neq">≠</span> MEANING</div>
+    <div>BRIDGE <span class="neq">≠</span> AXIS4_PEELING</div>
+    <div>CANDIDATE <span class="neq">≠</span> PROVEN</div>
+    <div>DEPTH <span class="neq">≠</span> CORRECTNESS</div>
+  </div>
+
+  <footer>
+    PROJECT_FINISHED = NO · العمل توثيق وخطة فقط، لا تنفيذ جديد · لا فتح بوابات · لا تأليف معنى ·
+    لا تغيير score · لا commit / push / git-add · يفتح محليًا بلا شبكة وبلا صور خارجية.
+  </footer>
+
+</div>
+<script>
+  function filterRows(){
+    var q=(document.getElementById('q').value||'').trim().toLowerCase();
+    var rows=document.querySelectorAll('#matrix tbody tr');
+    for(var i=0;i<rows.length;i++){
+      var t=rows[i].innerText.toLowerCase();
+      rows[i].style.display = (!q || t.indexOf(q)>-1) ? '' : 'none';
+    }
+  }
+</script>
+</body>
+</html>
