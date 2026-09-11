@@ -1,0 +1,17 @@
+{
+  "strategy_id": "COMPOSITE_DOMAIN_SOURCE_STRATEGY_CANDIDATE_14",
+  "can_keep_composite_later": "CANDIDATE_YES_OWNER_DECIDES",
+  "risks": [
+    "a single normative source may not cover all domain candidates",
+    "conflicting sources across domains",
+    "premature primary-domain forcing"
+  ],
+  "conditions": [
+    "owner picks PRIMARY or KEEP_COMPOSITE",
+    "each covered domain has its five-component source"
+  ],
+  "primary_selection_required_before_source_birth": "DEFERRED_OWNER_DECIDES",
+  "final_decision": "NOT_TAKEN_THIS_ROUND",
+  "verdict": "COMPOSITE_STRATEGY_CANDIDATE_ONLY",
+  "producer_file": "scripts/taaqol_maqam_foundation/normative_source_requirement_14.py"
+}

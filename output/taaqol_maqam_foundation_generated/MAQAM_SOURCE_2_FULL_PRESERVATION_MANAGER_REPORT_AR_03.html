@@ -1,0 +1,28 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تقرير المدير — حفظ مصدر المقام الثاني وتتبعه (إغلاق إداري)</title>
+<style>body{font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:1.2rem;background:#fafafa;color:#1b1b1b}h1{font-size:1.3rem}h2{font-size:1.02rem;margin-top:1.1rem;border-bottom:2px solid #ddd;padding-bottom:.2rem}table{border-collapse:collapse;width:100%;margin:.4rem 0;background:#fff;font-size:.8rem}th,td{border:1px solid #ccc;padding:.3rem .45rem;text-align:right}th{background:#f0f0f0}td.n{background:#fdecec;color:#7a1f1f}td.g{background:#e6f4ea}.note{background:#fff7e0;border:1px solid #e0c877;padding:.4rem .7rem;border-radius:.4rem;margin:.4rem 0;font-size:.82rem}.foot{color:#444;font-size:.8rem;border-top:1px solid #ccc;margin-top:1rem;padding-top:.5rem}</style></head><body>
+<h1>تقرير المدير — حفظ مصدر المقام الثاني وتتبّعه (إغلاق إداري)</h1>
+<h2>1. ملخص تنفيذي للمدير</h2>
+<div class="note">هذا تقرير إغلاق إداري مطلوب للمدير، بعد تأخر تقرير الإغلاق من أمس؛ وهو لا يفتح canonical ولا ينتج حكمًا، بل يثبت ما أُغلق وما بقي ممنوعًا بدليل كودي. (REPORT_SOURCE = CODE_AND_ARTIFACTS_ONLY · LLM_FREE_TEXT_OUTPUT = NO · ILLUSTRATIVE_DEMO = NO).</div>
+<h2>2. ماذا أُغلق في هذه الجولة؟</h2><div class="note">حفظُ مصدر المقام الثاني (مقتطف المالك) + تسجيل sha256 + تتبّع قواعده الخمس إلى artifacts الجولة 02 + إنتاج تقرير المدير (شرط الإغلاق). لم تُبنَ نظرية جديدة ولم يُفتح canonical.</div>
+<h2>3. حالة مصدر المقام الثاني</h2><table><tbody><tr><th>العنوان</th><td>المقام والقرينة الحالية ودورهما في المعنى</td></tr><tr><th>المؤلفة</th><td>الدكتورة صالحة حاج يعقوب</td></tr><tr><th>النوع</th><td>OWNER_PASTED_EXCERPT_MARKDOWN</td></tr><tr><th>المسار</th><td>docs/maqam_theory_sources/المقام_والقرينة_الحالية__OWNER_QUOTED_EXCERPT.md</td></tr><tr><th>sha256</th><td>88de4d00d27bfd59c35a38bd49070f5abf18eec4752ac61538ced07854e5c21f</td></tr><tr><th>الحجم (بايت)</th><td>2650</td></tr></tbody></table>
+<h2>4. هل حُفظ PDF كامل أم مقتطف/Markdown؟</h2><div class="note n">SOURCE_2_FULL_PDF_AVAILABLE = NO · SOURCE_2_PRESERVATION_STATUS = OWNER_PASTED_MARKDOWN_OR_EXCERPT_PRESERVED. لم يُدَّعَ حفظُ ملفٍّ كامل، لأن الملف الكامل غير موجود على القرص؛ حُفظ مقتطف المالك حرفيًّا مع sha256.</div>
+<h2>5. ما علاقة هذه الجولة بالجولة 02؟</h2><div class="note">امتداد إداري: أحكام الجولة 02 مثبتة دون تغيير — الإحالة/الحذف/الرتبة/الخبر-الإنشاء IMPLEMENTED، وTEXT_ALONE_INFERS_ISTIFTA = NO، وEXAMPLE_CONTEXT_OWNER_RATIFICATION = NO.</div>
+<h2>6. حالة بوابات الإحالة والحذف والرتبة والخبر/الإنشاء</h2><table><thead><tr><th>القاعدة</th><th>المصدر</th><th>المنتِج/الأثر</th><th>الحالة</th></tr></thead><tbody>
+<tr><th>REQ-COREFERENCE</th><td>SOURCE_2#A</td><td>MaqamAwareCoreferenceGate → MAQAM_COREFERENCE_GATE_02.json</td><td class="g">TRACEABLE</td></tr>
+<tr><th>REQ-ELLIPSIS</th><td>SOURCE_2#B</td><td>MaqamAwareEllipsisGate → MAQAM_ELLIPSIS_GATE_02.json</td><td class="g">TRACEABLE</td></tr>
+<tr><th>REQ-RANK</th><td>SOURCE_2#C</td><td>MaqamAwareRankGate → MAQAM_RANK_GATE_02.json</td><td class="g">TRACEABLE</td></tr>
+<tr><th>REQ-SPEECH-ACT</th><td>SOURCE_2#D</td><td>MaqamAwareSpeechActGate → MAQAM_SPEECH_ACT_GATE_02.json</td><td class="g">TRACEABLE</td></tr>
+<tr><th>REQ-CANONICAL-BLOCKER</th><td>QIYAS#16</td><td>CANONICAL_INTEGRATION → MAQAM_CANONICAL_BLOCKER_02.json</td><td class="g">TRACEABLE</td></tr>
+</tbody></table>
+<h2>7. لماذا بقي canonical محجوبًا؟</h2><div class="note n">CANONICAL_INTEGRATION_STATUS = BLOCKED_WITH_CAUSE — لا عقد canonical مصدّق ولا adapter typed مصدّق؛ ولا يجوز فتحه من report أو مثال. التفصيل في docs/MAQAM_CANONICAL_INTEGRATION_BLOCKER_REPORT_02.md.</div>
+<h2>8. لماذا لم يولد الحكم المعياري؟</h2><div class="note n">لا مصدر معياري مرخّص؛ والمقام لا يُنتج معياريًّا. NORMATIVE_HUKM_PRODUCED = NO.</div>
+<h2>9. لماذا لم يولد المناط؟</h2><div class="note n">أصله (الحكم المعياري) غير مولود. MANAT_PRODUCED = NO.</div>
+<h2>10. لماذا لم يولد التنزيل؟</h2><div class="note n">أصله (المناط المحقق) غير مولود. TANZIL_PRODUCED = NO.</div>
+<h2>11. لماذا لا يوجد جواب نهائي؟</h2><div class="note n">الأصول غير مولودة. FINAL_ANSWER_PRODUCED = NO · FINAL_HUKM_ISSUED = NO.</div>
+<h2>12. ما يلزم من قرار المالك بعد ذلك</h2><div class="note">تصديق عقد canonical للمقام + adapters typed مع Hokom/Taaqol؛ ورفع رتبة قواعد المصدر الثاني من OWNER_QUOTED إلى RATIFIED إن رغب؛ ورفع الملف الكامل للمصدر الثاني إن توفّر.</div>
+<h2>13. ملفات الإثبات والاختبارات</h2><div class="note">manifest: docs/MAQAM_THEORY_SOURCE_2_MANIFEST.json · traceability: docs/MAQAM_REQUIREMENTS_TRACEABILITY.csv · audit: MAQAM_SOURCE_2_FULL_PRESERVATION_CLOSURE_03.json · matrix: MAQAM_SOURCE_2_FULL_PRESERVATION_CLOSURE_03_MATRIX.csv · test: tests/test_taaqol_maqam_source_2_full_preservation_closure_03.py.</div>
+<h2>14. الخلاصة التنفيذية</h2><div class="note">تقرير المدير أُنتج وهو شرط الإغلاق؛ ومصدر المقام الثاني محفوظ ومقاس حسب الموجود فعلًا (مقتطف لا PDF كامل)؛ والتكامل canonical بقي محجوبًا بسبب معلوم؛ ولم يولد حكم أو مناط أو تنزيل أو جواب.</div>
+<div class="foot">SOURCE_2_UNTRACED_REQUIREMENTS_COUNT = 0 · ASSERTED_NOT_MEASURED_COUNT = 0 · CANONICAL_INTEGRATION_STATUS = BLOCKED_WITH_CAUSE · NORMATIVE_HUKM_PRODUCED = NO · MANAT_PRODUCED = NO · TANZIL_PRODUCED = NO · FINAL_ANSWER_PRODUCED = NO · COMMIT = NO · PROJECT_FINISHED = NO.</div>
+</body></html>

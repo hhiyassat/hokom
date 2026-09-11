@@ -1,0 +1,45 @@
+{
+  "covered_domain_candidates": [
+    "MIRATH_RELATED_DOMAIN_CANDIDATE",
+    "QADA_RELATED_DOMAIN_CANDIDATE",
+    "SUKNA_OR_POSSESSION_DOMAIN_CANDIDATE",
+    "TURKAH_RIGHTS_DOMAIN_CANDIDATE"
+  ],
+  "uncovered_domain_candidates": [],
+  "sukna_or_possession_residual_covered": "YES",
+  "all_round13_candidates_covered": "YES",
+  "per_domain": [
+    {
+      "domain_candidate_id": "MIRATH_RELATED_DOMAIN_CANDIDATE",
+      "covered": "YES",
+      "source_ids": [
+        "SOURCE_1",
+        "SOURCE_2"
+      ]
+    },
+    {
+      "domain_candidate_id": "QADA_RELATED_DOMAIN_CANDIDATE",
+      "covered": "YES",
+      "source_ids": [
+        "SOURCE_3"
+      ]
+    },
+    {
+      "domain_candidate_id": "SUKNA_OR_POSSESSION_DOMAIN_CANDIDATE",
+      "covered": "YES",
+      "source_ids": [
+        "SUKNA_SOURCE_1"
+      ]
+    },
+    {
+      "domain_candidate_id": "TURKAH_RIGHTS_DOMAIN_CANDIDATE",
+      "covered": "YES",
+      "source_ids": [
+        "SOURCE_2"
+      ]
+    }
+  ],
+  "total_born_sources": 4,
+  "composite_kept": "YES",
+  "producer_file": "scripts/taaqol_maqam_foundation/sukna_ratified_source_birth_admission_audit_21.py"
+}

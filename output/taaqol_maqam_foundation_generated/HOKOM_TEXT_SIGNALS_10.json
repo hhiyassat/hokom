@@ -1,0 +1,102 @@
+[
+  {
+    "token_id": "t000",
+    "surface": "مَاتَ",
+    "signal_kind": "SURFACE_CUE_ONLY",
+    "is_frame": "NO",
+    "is_domain": "NO",
+    "is_masala_takyif": "NO",
+    "blocked_domain_birth": "NONE",
+    "note": "no domain jump"
+  },
+  {
+    "token_id": "t001",
+    "surface": "مَلِكٌ",
+    "signal_kind": "SURFACE_CUE_ONLY",
+    "is_frame": "NO",
+    "is_domain": "NO",
+    "is_masala_takyif": "NO",
+    "blocked_domain_birth": "NONE",
+    "note": "no domain jump"
+  },
+  {
+    "token_id": "t002",
+    "surface": "عَنْ",
+    "signal_kind": "SURFACE_CUE_ONLY",
+    "is_frame": "NO",
+    "is_domain": "NO",
+    "is_masala_takyif": "NO",
+    "blocked_domain_birth": "NONE",
+    "note": "no domain jump"
+  },
+  {
+    "token_id": "t003",
+    "surface": "أُخْتٍ",
+    "signal_kind": "SURFACE_CUE_ONLY",
+    "is_frame": "NO",
+    "is_domain": "NO",
+    "is_masala_takyif": "NO",
+    "blocked_domain_birth": "NONE",
+    "note": "no domain jump"
+  },
+  {
+    "token_id": "t004",
+    "surface": "سَاكِنَةٍ",
+    "signal_kind": "SURFACE_CUE_ONLY",
+    "is_frame": "NO",
+    "is_domain": "NO",
+    "is_masala_takyif": "NO",
+    "blocked_domain_birth": "NONE",
+    "note": "no domain jump"
+  },
+  {
+    "token_id": "t005",
+    "surface": "مَعَهُ،",
+    "signal_kind": "SURFACE_CUE_ONLY",
+    "is_frame": "NO",
+    "is_domain": "NO",
+    "is_masala_takyif": "NO",
+    "blocked_domain_birth": "NONE",
+    "note": "no domain jump"
+  },
+  {
+    "token_id": "t006",
+    "surface": "فَأَرَادَ",
+    "signal_kind": "SURFACE_CUE_ONLY",
+    "is_frame": "NO",
+    "is_domain": "NO",
+    "is_masala_takyif": "NO",
+    "blocked_domain_birth": "NONE",
+    "note": "no domain jump"
+  },
+  {
+    "token_id": "t007",
+    "surface": "وَارِثُهُ",
+    "signal_kind": "SURFACE_CUE_ONLY",
+    "is_frame": "NO",
+    "is_domain": "NO",
+    "is_masala_takyif": "NO",
+    "blocked_domain_birth": "MIRATH_CANDIDATE",
+    "note": "this surface must NOT birth MIRATH_CANDIDATE"
+  },
+  {
+    "token_id": "t008",
+    "surface": "طَرْدَهَا،",
+    "signal_kind": "SURFACE_CUE_ONLY",
+    "is_frame": "NO",
+    "is_domain": "NO",
+    "is_masala_takyif": "NO",
+    "blocked_domain_birth": "NONE",
+    "note": "no domain jump"
+  },
+  {
+    "token_id": "t009",
+    "surface": "فَتَحَاكَمَا.",
+    "signal_kind": "SURFACE_CUE_ONLY",
+    "is_frame": "NO",
+    "is_domain": "NO",
+    "is_masala_takyif": "NO",
+    "blocked_domain_birth": "QADA_CANDIDATE",
+    "note": "this surface must NOT birth QADA_CANDIDATE"
+  }
+]

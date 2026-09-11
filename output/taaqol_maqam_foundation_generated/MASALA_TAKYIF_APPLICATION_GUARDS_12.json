@@ -1,0 +1,16 @@
+{
+  "WORD_PRESENT_DOES_NOT_BIRTH_DOMAIN": "YES",
+  "FRAME_DOES_NOT_BIRTH_DOMAIN": "YES",
+  "CANDIDATE_DOES_NOT_BIRTH_DOMAIN": "YES",
+  "NO_NORMATIVE_SOURCE_SELECTION": "YES",
+  "NO_HUKM": "YES",
+  "NO_MANAT": "YES",
+  "NO_TANZIL": "YES",
+  "NO_FINAL_ANSWER": "YES",
+  "examples": [
+    "وارثه does NOT birth MIRATH domain",
+    "فتحاكما does NOT birth QADA domain"
+  ],
+  "chain": "TEXT_SIGNAL != FRAME != MASALA_TAKYIF_CANDIDATE != DOMAIN_CLASSIFICATION != NORMATIVE_SOURCE != HUKM != MANAT != TANZIL != FINAL_ANSWER",
+  "producer_file": "scripts/taaqol_maqam_foundation/masala_takyif_candidate_application_12.py"
+}

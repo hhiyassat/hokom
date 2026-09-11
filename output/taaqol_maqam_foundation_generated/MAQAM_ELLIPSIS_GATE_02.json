@@ -1,0 +1,25 @@
+{
+  "gate": "MaqamAwareEllipsisGate",
+  "source_rule": "SOURCE_2#B (الحذف بدلالة المقام/الحال)",
+  "separations": [
+    "ELLIPSIS_CANDIDATE != ELLIPSIS_CERTIFICATE"
+  ],
+  "deletion_cause_present": false,
+  "context_support_present": false,
+  "minimal_reconstruction": null,
+  "no_equal_competing_reconstruction": null,
+  "trace_preserved": true,
+  "preventers": [
+    "NO_CONTEXT_OR_HAAL_EVIDENCE_FOR_DELETION"
+  ],
+  "gate_decision": "DEFER",
+  "ellipsis_decision": "DEFER",
+  "reconstructed_material": "NONE_NOT_AUTHORED",
+  "verdict": "ELLIPSIS_DEFER_NO_MAQAM_SUPPORT",
+  "residuals": [
+    "no licensed deletion site on this sentence without maqām/context evidence"
+  ],
+  "evidence_file": "output/taaqol_nazila_matrix_generated/HOKOM_NAZILA_LINGUISTIC_ANALYSIS_RESULT.csv",
+  "producer_file": "scripts/taaqol_maqam_foundation/deferred_consumers.py",
+  "measured": "MEASURED"
+}

@@ -1,0 +1,18 @@
+{
+  "node_name": "ANSWER_AUDIT_BIRTH",
+  "ANSWER_AUDIT_BIRTH_STATUS": "FORBIDDEN_ANCESTOR_UNBORN",
+  "FINAL_ANSWER_PRODUCED": "NO",
+  "FINAL_ANSWER_ALLOWED": "NO",
+  "FINAL_HUKM_ISSUED": "NO",
+  "cause": "tanzil not born",
+  "conditions": "tanzil born",
+  "preventers": [
+    "TANZIL_UNBORN"
+  ],
+  "verdict": "FORBIDDEN_ANCESTOR_UNBORN",
+  "evidence_files": [
+    "NAZILA_TANZIL_BIRTH_07.json"
+  ],
+  "producer_file": "scripts/taaqol_maqam_foundation/normative_source_birth_07.py",
+  "residuals": []
+}

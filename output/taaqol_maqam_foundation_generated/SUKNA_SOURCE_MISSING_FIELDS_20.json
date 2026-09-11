@@ -1,0 +1,15 @@
+{
+  "domain_candidate_id": "SUKNA_OR_POSSESSION_DOMAIN_CANDIDATE",
+  "missing_fields": [
+    "AUTHORITY",
+    "TEXT",
+    "SCOPE",
+    "EVIDENCE",
+    "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM",
+    "OWNER_RATIFICATION"
+  ],
+  "missing_count": 6,
+  "verdict": "NO_OWNER_SUPPLIED_SOURCE",
+  "sukna_source_fields_complete": "NO",
+  "producer_file": "scripts/taaqol_maqam_foundation/sukna_source_supply_completeness_20.py"
+}

@@ -1,0 +1,37 @@
+{
+  "candidate_form_only": "YES",
+  "allowed_verdicts": [
+    "ACCEPT_AS_MANAT_CANDIDATE_ONLY",
+    "BLOCK_MANAT_CANDIDATE",
+    "DEFER_MANAT_CANDIDATE"
+  ],
+  "forbidden_verdicts": [
+    "FINAL_ANSWER",
+    "FINAL_HUKM",
+    "FINAL_MANAT",
+    "TANZIL"
+  ],
+  "manat_candidate_fields": [
+    "manat_candidate_id",
+    "from_hukm_candidate_id",
+    "linked_domain_candidates",
+    "linked_sources",
+    "linked_masala_segments",
+    "candidate_manat_statement",
+    "candidate_scope",
+    "cause",
+    "conditions",
+    "preventers",
+    "verdict",
+    "evidence",
+    "residuals",
+    "final_manat_allowed",
+    "tanzil_allowed",
+    "final_hukm_allowed",
+    "final_answer_allowed",
+    "owner_ratification_required_for_final_manat"
+  ],
+  "candidate_statement_must_be_candidate_phrasing": "YES",
+  "candidate_statement_must_not_be_final_manat_or_answer": "YES",
+  "producer_file": "scripts/taaqol_maqam_foundation/manat_candidate_extraction_24.py"
+}

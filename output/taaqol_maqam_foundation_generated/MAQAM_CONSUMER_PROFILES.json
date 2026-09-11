@@ -1,0 +1,38 @@
+{
+  "label": "MAQAM_THEORY_FOUNDATION_IMPLEMENTATION_WITH_TRACEABILITY",
+  "consumers": [
+    {
+      "consumer": "EARLY_INTERPRETATION",
+      "required_scope": "ARABIC_UNDERSTANDING/EARLY_INTERPRETATION",
+      "note": "interpretive; may constrain/prefer candidates, never authors meaning"
+    },
+    {
+      "consumer": "PROPOSITION_INTERPRETATION",
+      "required_scope": "ARABIC_UNDERSTANDING/PROPOSITION_INTERPRETATION",
+      "note": "defers if a reference world is required and undeclared"
+    },
+    {
+      "consumer": "FACTUAL_CLAIM_BIRTH",
+      "required_scope": "ARABIC_UNDERSTANDING/FACTUAL_CLAIM_BIRTH",
+      "note": "requires owner-declared speaker/addressee/purpose/speech_act/commitment/reference_world"
+    }
+  ],
+  "scholarly_branches": [
+    "MAQAM_IN_LINGUISTS",
+    "MAQAM_IN_RHETORICIANS",
+    "MAQAM_IN_USULIYYIN",
+    "MAQAM_IN_TAFSIR"
+  ],
+  "maqam_forbidden_targets": [
+    "FACTUAL_CLAIM",
+    "FINAL_ANSWER",
+    "GENRE_ONLY",
+    "ILLAH",
+    "MANAT",
+    "NORMATIVE_HUKM",
+    "NORMATIVE_SOURCE",
+    "PROVEN_FACT",
+    "SPEECH_ACT_ONLY",
+    "TANZIL"
+  ]
+}

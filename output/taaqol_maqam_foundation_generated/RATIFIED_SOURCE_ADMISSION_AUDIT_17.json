@@ -1,0 +1,90 @@
+{
+  "ROUND": "RATIFIED_SOURCE_BIRTH_ADMISSION_AUDIT_17",
+  "audit_mode": "STRUCTURAL_ADMISSION_ONLY",
+  "agent_ratified_source": "NO",
+  "agent_selected_source": "NO",
+  "source_count_checked": 3,
+  "admitted_count": 3,
+  "audit": [
+    {
+      "source_id": "SOURCE_1",
+      "domain_link": [
+        "MIRATH_RELATED_DOMAIN_CANDIDATE"
+      ],
+      "authority_present": "YES",
+      "text_present": "YES",
+      "scope_present": "YES",
+      "evidence_present": "YES",
+      "link_license_present": "YES",
+      "owner_ratification_present": "YES",
+      "domain_link_coherent": "YES",
+      "scope_self_limits_hukm": "YES",
+      "evidence_is_citation_string": "YES",
+      "text_verbatim_status": "ASSERTED_BY_OWNER_NOT_VERIFIED_BY_AGENT",
+      "missing_fields": [],
+      "cause": "owner supplied + owner ratified source; owner licensed birth (ALLOW_NORMATIVE_SOURCE_BIRTH=YES)",
+      "conditions": "five fields present; LINK_LICENSE=YES; OWNER_RATIFICATION=YES; domain_link maps to round-13 candidate; SCOPE self-limits ruling; evidence is citation string",
+      "preventers": "any missing field; incoherent domain_link; SCOPE not self-limiting; live external link; agent self-ratification (forbidden)",
+      "verdict": "ADMITTED_AS_OWNER_SUPPLIED_SOURCE",
+      "source_born": "YES",
+      "source_ratified_by": "OWNER",
+      "source_selected_by_agent": "NO",
+      "evidence": "القرآن الكريم، سورة النساء، الآية 176",
+      "residuals": "no hukm/manat/tanzil/answer; text not agent-verified verbatim; awaits owner license for next gate"
+    },
+    {
+      "source_id": "SOURCE_2",
+      "domain_link": [
+        "MIRATH_RELATED_DOMAIN_CANDIDATE",
+        "TURKAH_RIGHTS_DOMAIN_CANDIDATE"
+      ],
+      "authority_present": "YES",
+      "text_present": "YES",
+      "scope_present": "YES",
+      "evidence_present": "YES",
+      "link_license_present": "YES",
+      "owner_ratification_present": "YES",
+      "domain_link_coherent": "YES",
+      "scope_self_limits_hukm": "YES",
+      "evidence_is_citation_string": "YES",
+      "text_verbatim_status": "ASSERTED_BY_OWNER_NOT_VERIFIED_BY_AGENT",
+      "missing_fields": [],
+      "cause": "owner supplied + owner ratified source; owner licensed birth (ALLOW_NORMATIVE_SOURCE_BIRTH=YES)",
+      "conditions": "five fields present; LINK_LICENSE=YES; OWNER_RATIFICATION=YES; domain_link maps to round-13 candidate; SCOPE self-limits ruling; evidence is citation string",
+      "preventers": "any missing field; incoherent domain_link; SCOPE not self-limiting; live external link; agent self-ratification (forbidden)",
+      "verdict": "ADMITTED_AS_OWNER_SUPPLIED_SOURCE",
+      "source_born": "YES",
+      "source_ratified_by": "OWNER",
+      "source_selected_by_agent": "NO",
+      "evidence": "صحيح البخاري، كتاب الفرائض، حديث 6737",
+      "residuals": "no hukm/manat/tanzil/answer; text not agent-verified verbatim; awaits owner license for next gate"
+    },
+    {
+      "source_id": "SOURCE_3",
+      "domain_link": [
+        "QADA_RELATED_DOMAIN_CANDIDATE"
+      ],
+      "authority_present": "YES",
+      "text_present": "YES",
+      "scope_present": "YES",
+      "evidence_present": "YES",
+      "link_license_present": "YES",
+      "owner_ratification_present": "YES",
+      "domain_link_coherent": "YES",
+      "scope_self_limits_hukm": "YES",
+      "evidence_is_citation_string": "YES",
+      "text_verbatim_status": "ASSERTED_BY_OWNER_NOT_VERIFIED_BY_AGENT",
+      "missing_fields": [],
+      "cause": "owner supplied + owner ratified source; owner licensed birth (ALLOW_NORMATIVE_SOURCE_BIRTH=YES)",
+      "conditions": "five fields present; LINK_LICENSE=YES; OWNER_RATIFICATION=YES; domain_link maps to round-13 candidate; SCOPE self-limits ruling; evidence is citation string",
+      "preventers": "any missing field; incoherent domain_link; SCOPE not self-limiting; live external link; agent self-ratification (forbidden)",
+      "verdict": "ADMITTED_AS_OWNER_SUPPLIED_SOURCE",
+      "source_born": "YES",
+      "source_ratified_by": "OWNER",
+      "source_selected_by_agent": "NO",
+      "evidence": "صحيح مسلم، كتاب الأقضية، حديث 1711a",
+      "residuals": "no hukm/manat/tanzil/answer; text not agent-verified verbatim; awaits owner license for next gate"
+    }
+  ],
+  "producer_file": "scripts/taaqol_maqam_foundation/ratified_source_birth_admission_audit_17.py"
+}

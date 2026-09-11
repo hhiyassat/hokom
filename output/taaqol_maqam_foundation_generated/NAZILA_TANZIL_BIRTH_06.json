@@ -1,0 +1,13 @@
+{
+  "NodeName": "TANZIL",
+  "TANZIL_BIRTH_STATUS": "FORBIDDEN_ANCESTOR_UNBORN",
+  "TANZIL_PRODUCED": "NO",
+  "CAUSE": "manāṭ not born / not certified; taḥqīq-al-manāṭ unavailable",
+  "CONDITIONS": "FACTUAL_CLAIM=CERTIFIED AND NORMATIVE_HUKM=CERTIFIED AND MANAT=CERTIFIED AND TAHQIQ_MANAT=CERTIFIED",
+  "PREVENTERS": "MANAT_UNBORN",
+  "VERDICT": "TANZIL_FORBIDDEN_ANCESTOR_UNBORN",
+  "EVIDENCE": "NAZILA_ILLAH_MANAT_BIRTH_06.json",
+  "PRODUCER_FILE": "scripts/taaqol_maqam_foundation/maqam6_reference_ratified_closure_06.py",
+  "RESIDUALS": "none",
+  "measured": "MEASURED"
+}

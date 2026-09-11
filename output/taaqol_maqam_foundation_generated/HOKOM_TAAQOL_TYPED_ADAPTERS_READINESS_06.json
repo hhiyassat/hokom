@@ -1,0 +1,23 @@
+{
+  "NodeName": "TYPED_ADAPTERS",
+  "TYPED_ADAPTERS_STATUS": "BLOCKED_WITH_CAUSE",
+  "hokom_required_fields": [
+    "token/surface/normalized",
+    "word_class",
+    "relation closure"
+  ],
+  "taaqol_consumed_fields": [
+    "scoped maqām certificate (dimension/scope/rank)"
+  ],
+  "each_field_has_contract": "NO",
+  "has_test": "NO",
+  "has_real_adapter": "NO",
+  "CAUSE": "no ratified typed adapter contract",
+  "CONDITIONS": "typed contract per field + tests + adapter",
+  "PREVENTERS": "NO_RATIFIED_ADAPTER_CONTRACT",
+  "VERDICT": "TYPED_ADAPTERS_BLOCKED_WITH_CAUSE",
+  "EVIDENCE": "docs/MAQAM_ARCHITECTURE_AND_OWNERSHIP.md",
+  "PRODUCER_FILE": "scripts/taaqol_maqam_foundation/maqam6_reference_ratified_closure_06.py",
+  "RESIDUALS": "readiness only; no runtime merge",
+  "measured": "MEASURED"
+}

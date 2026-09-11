@@ -1,0 +1,237 @@
+[
+  {
+    "rule_id": "MIRATH_TAKYIF_CANDIDATE_RULE",
+    "rule_name": "تكييف مواريث (مرشح)",
+    "source_status": "PROPOSED_NOT_CANONICAL",
+    "owner_ratified": "NO",
+    "scope": "UNSET_OWNER_DECIDES_THIS_NAZILA_ONLY_OR_GENERAL",
+    "input_text_signals_required": [
+      "وَارِثُهُ"
+    ],
+    "input_frame_candidates_required": [
+      "FC_DEATH_EVENT"
+    ],
+    "relations_required": [
+      "OWNER_RATIFIED_RELATION_SIGNALS_TO_CANDIDATE (absent)"
+    ],
+    "negative_preventers": [
+      "WORD_PRESENT_IS_NOT_DOMAIN",
+      "FRAME_CANDIDATE_IS_NOT_FINAL_TAKYIF"
+    ],
+    "minimum_evidence_required": "traceable artifact evidence (round-10 signals/frames)",
+    "rank_or_priority": "UNSET",
+    "confidence_status": "UNRATIFIED",
+    "BIRTH_STATUS": "CANDIDATE_ONLY",
+    "DOMAIN_BORN": "NO",
+    "NORMATIVE_SOURCE_ALLOWED": "NO",
+    "produces": "MASALA_TAKYIF_CANDIDATE_ONLY",
+    "does_not_produce": [
+      "DOMAIN_CLASSIFICATION",
+      "NORMATIVE_SOURCE",
+      "HUKM",
+      "MANAT",
+      "TANZIL",
+      "FINAL_ANSWER"
+    ],
+    "cause": "presence of round-10 text signals / frame candidates",
+    "conditions": [
+      "owner-ratified takyīf rule",
+      "ratified signals→candidate relation",
+      "ratified scope",
+      "traceable evidence from prior artifact"
+    ],
+    "preventers": [
+      "MISSING_OWNER_RATIFICATION",
+      "SIGNAL_TO_DOMAIN_CONFLATION",
+      "FRAME_TO_FINAL_TAKYIF_CONFLATION",
+      "NORMATIVE_SOURCE_BEFORE_TAKYIF",
+      "HUKM_OR_TANZIL_BEFORE_NORMATIVE_SOURCE"
+    ],
+    "verdict": "DEFER_UNTIL_OWNER_RATIFIES_TAKYIF_RULE",
+    "evidence": [
+      "output/taaqol_maqam_foundation_generated/HOKOM_TEXT_SIGNALS_10.json",
+      "output/taaqol_maqam_foundation_generated/HOKOM_FRAME_CANDIDATES_10.json"
+    ],
+    "residuals": [
+      "needs owner ratification of the layer + this rule + scope before any takyīf"
+    ],
+    "producer_file": "scripts/taaqol_maqam_foundation/masala_takyif_rules_11.py"
+  },
+  {
+    "rule_id": "QADA_TAKYIF_CANDIDATE_RULE",
+    "rule_name": "تكييف قضاء (مرشح)",
+    "source_status": "PROPOSED_NOT_CANONICAL",
+    "owner_ratified": "NO",
+    "scope": "UNSET_OWNER_DECIDES_THIS_NAZILA_ONLY_OR_GENERAL",
+    "input_text_signals_required": [
+      "فَتَحَاكَمَا"
+    ],
+    "input_frame_candidates_required": [
+      "FC_DISPUTE_EVENT"
+    ],
+    "relations_required": [
+      "OWNER_RATIFIED_RELATION_SIGNALS_TO_CANDIDATE (absent)"
+    ],
+    "negative_preventers": [
+      "WORD_PRESENT_IS_NOT_DOMAIN",
+      "FRAME_CANDIDATE_IS_NOT_FINAL_TAKYIF"
+    ],
+    "minimum_evidence_required": "traceable artifact evidence (round-10 signals/frames)",
+    "rank_or_priority": "UNSET",
+    "confidence_status": "UNRATIFIED",
+    "BIRTH_STATUS": "CANDIDATE_ONLY",
+    "DOMAIN_BORN": "NO",
+    "NORMATIVE_SOURCE_ALLOWED": "NO",
+    "produces": "MASALA_TAKYIF_CANDIDATE_ONLY",
+    "does_not_produce": [
+      "DOMAIN_CLASSIFICATION",
+      "NORMATIVE_SOURCE",
+      "HUKM",
+      "MANAT",
+      "TANZIL",
+      "FINAL_ANSWER"
+    ],
+    "cause": "presence of round-10 text signals / frame candidates",
+    "conditions": [
+      "owner-ratified takyīf rule",
+      "ratified signals→candidate relation",
+      "ratified scope",
+      "traceable evidence from prior artifact"
+    ],
+    "preventers": [
+      "MISSING_OWNER_RATIFICATION",
+      "SIGNAL_TO_DOMAIN_CONFLATION",
+      "FRAME_TO_FINAL_TAKYIF_CONFLATION",
+      "NORMATIVE_SOURCE_BEFORE_TAKYIF",
+      "HUKM_OR_TANZIL_BEFORE_NORMATIVE_SOURCE"
+    ],
+    "verdict": "DEFER_UNTIL_OWNER_RATIFIES_TAKYIF_RULE",
+    "evidence": [
+      "output/taaqol_maqam_foundation_generated/HOKOM_TEXT_SIGNALS_10.json",
+      "output/taaqol_maqam_foundation_generated/HOKOM_FRAME_CANDIDATES_10.json"
+    ],
+    "residuals": [
+      "needs owner ratification of the layer + this rule + scope before any takyīf"
+    ],
+    "producer_file": "scripts/taaqol_maqam_foundation/masala_takyif_rules_11.py"
+  },
+  {
+    "rule_id": "TURKAH_RIGHTS_TAKYIF_CANDIDATE_RULE",
+    "rule_name": "تكييف حقوق تركة (مرشح)",
+    "source_status": "PROPOSED_NOT_CANONICAL",
+    "owner_ratified": "NO",
+    "scope": "UNSET_OWNER_DECIDES_THIS_NAZILA_ONLY_OR_GENERAL",
+    "input_text_signals_required": [
+      "مَاتَ",
+      "وَارِثُهُ"
+    ],
+    "input_frame_candidates_required": [
+      "FC_DEATH_EVENT"
+    ],
+    "relations_required": [
+      "OWNER_RATIFIED_RELATION_SIGNALS_TO_CANDIDATE (absent)"
+    ],
+    "negative_preventers": [
+      "WORD_PRESENT_IS_NOT_DOMAIN",
+      "FRAME_CANDIDATE_IS_NOT_FINAL_TAKYIF"
+    ],
+    "minimum_evidence_required": "traceable artifact evidence (round-10 signals/frames)",
+    "rank_or_priority": "UNSET",
+    "confidence_status": "UNRATIFIED",
+    "BIRTH_STATUS": "CANDIDATE_ONLY",
+    "DOMAIN_BORN": "NO",
+    "NORMATIVE_SOURCE_ALLOWED": "NO",
+    "produces": "MASALA_TAKYIF_CANDIDATE_ONLY",
+    "does_not_produce": [
+      "DOMAIN_CLASSIFICATION",
+      "NORMATIVE_SOURCE",
+      "HUKM",
+      "MANAT",
+      "TANZIL",
+      "FINAL_ANSWER"
+    ],
+    "cause": "presence of round-10 text signals / frame candidates",
+    "conditions": [
+      "owner-ratified takyīf rule",
+      "ratified signals→candidate relation",
+      "ratified scope",
+      "traceable evidence from prior artifact"
+    ],
+    "preventers": [
+      "MISSING_OWNER_RATIFICATION",
+      "SIGNAL_TO_DOMAIN_CONFLATION",
+      "FRAME_TO_FINAL_TAKYIF_CONFLATION",
+      "NORMATIVE_SOURCE_BEFORE_TAKYIF",
+      "HUKM_OR_TANZIL_BEFORE_NORMATIVE_SOURCE"
+    ],
+    "verdict": "DEFER_UNTIL_OWNER_RATIFIES_TAKYIF_RULE",
+    "evidence": [
+      "output/taaqol_maqam_foundation_generated/HOKOM_TEXT_SIGNALS_10.json",
+      "output/taaqol_maqam_foundation_generated/HOKOM_FRAME_CANDIDATES_10.json"
+    ],
+    "residuals": [
+      "needs owner ratification of the layer + this rule + scope before any takyīf"
+    ],
+    "producer_file": "scripts/taaqol_maqam_foundation/masala_takyif_rules_11.py"
+  },
+  {
+    "rule_id": "SUKNA_OR_POSSESSION_TAKYIF_CANDIDATE_RULE",
+    "rule_name": "تكييف سكنى/حيازة (مرشح)",
+    "source_status": "PROPOSED_NOT_CANONICAL",
+    "owner_ratified": "NO",
+    "scope": "UNSET_OWNER_DECIDES_THIS_NAZILA_ONLY_OR_GENERAL",
+    "input_text_signals_required": [
+      "سَاكِنَةٍ",
+      "طَرْدَهَا"
+    ],
+    "input_frame_candidates_required": [
+      "FC_RESIDENCE_RELATION",
+      "FC_INTENT_ACTION"
+    ],
+    "relations_required": [
+      "OWNER_RATIFIED_RELATION_SIGNALS_TO_CANDIDATE (absent)"
+    ],
+    "negative_preventers": [
+      "WORD_PRESENT_IS_NOT_DOMAIN",
+      "FRAME_CANDIDATE_IS_NOT_FINAL_TAKYIF"
+    ],
+    "minimum_evidence_required": "traceable artifact evidence (round-10 signals/frames)",
+    "rank_or_priority": "UNSET",
+    "confidence_status": "UNRATIFIED",
+    "BIRTH_STATUS": "CANDIDATE_ONLY",
+    "DOMAIN_BORN": "NO",
+    "NORMATIVE_SOURCE_ALLOWED": "NO",
+    "produces": "MASALA_TAKYIF_CANDIDATE_ONLY",
+    "does_not_produce": [
+      "DOMAIN_CLASSIFICATION",
+      "NORMATIVE_SOURCE",
+      "HUKM",
+      "MANAT",
+      "TANZIL",
+      "FINAL_ANSWER"
+    ],
+    "cause": "presence of round-10 text signals / frame candidates",
+    "conditions": [
+      "owner-ratified takyīf rule",
+      "ratified signals→candidate relation",
+      "ratified scope",
+      "traceable evidence from prior artifact"
+    ],
+    "preventers": [
+      "MISSING_OWNER_RATIFICATION",
+      "SIGNAL_TO_DOMAIN_CONFLATION",
+      "FRAME_TO_FINAL_TAKYIF_CONFLATION",
+      "NORMATIVE_SOURCE_BEFORE_TAKYIF",
+      "HUKM_OR_TANZIL_BEFORE_NORMATIVE_SOURCE"
+    ],
+    "verdict": "DEFER_UNTIL_OWNER_RATIFIES_TAKYIF_RULE",
+    "evidence": [
+      "output/taaqol_maqam_foundation_generated/HOKOM_TEXT_SIGNALS_10.json",
+      "output/taaqol_maqam_foundation_generated/HOKOM_FRAME_CANDIDATES_10.json"
+    ],
+    "residuals": [
+      "needs owner ratification of the layer + this rule + scope before any takyīf"
+    ],
+    "producer_file": "scripts/taaqol_maqam_foundation/masala_takyif_rules_11.py"
+  }
+]

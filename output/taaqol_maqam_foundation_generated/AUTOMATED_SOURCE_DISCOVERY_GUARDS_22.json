@@ -1,0 +1,32 @@
+{
+  "TEXT_SIGNAL_IS_NOT_SOURCE_CANDIDATE": "YES",
+  "SOURCE_CANDIDATE_IS_NOT_NORMATIVE_SOURCE": "YES",
+  "NORMATIVE_SOURCE_IS_NOT_HUKM": "YES",
+  "SOURCE_DISCOVERY_IS_NOT_SOURCE_RATIFICATION": "YES",
+  "AGENT_CANNOT_RATIFY_SOURCE": "YES",
+  "OWNER_RATIFICATION_REQUIRED": "YES",
+  "AUTHORITY_LEAK_PREVENTED": "YES",
+  "PLANNING_ONLY_NOT_EXECUTION": "YES",
+  "NO_NEW_SOURCE_BORN": "YES",
+  "NO_SOURCE_CANDIDATE_PRODUCED_THIS_ROUND": "YES",
+  "NO_NORMATIVE_HUKM_CANDIDATE_OPENED": "YES",
+  "NO_LIVE_EXTERNAL_LINKS": "YES",
+  "NO_INTERNET_SEARCH": "YES",
+  "COMPOSITE_KEPT_NOT_COLLAPSED": "YES",
+  "POSSESSION_IS_NOT_FINAL_OWNERSHIP": "YES",
+  "NO_NORMATIVE_HUKM": "YES",
+  "NO_MANAT": "YES",
+  "NO_TANZIL": "YES",
+  "NO_FINAL_ANSWER": "YES",
+  "prohibition_rules": [
+    "لا رابط حي داخل artifacts إذا EXTERNAL_REFS = 0.",
+    "لا اعتماد نص ضعيف أو مختلف عليه دون علم مالك.",
+    "لا استعمال حديث فيه تضعيف كعماد إلا بتصديق مالك صريح.",
+    "لا نقل نص من باب إلى باب إلا برخصة تكييف.",
+    "لا استعمال آية/حديث خارج نطاقه إلا مع SCOPE ومانع واضح.",
+    "لا تحويل الحيازة إلى ملكية نهائية.",
+    "لا تحويل المصدر إلى حكم.",
+    "لا إغلاق المجال المركب دون قرار مالك."
+  ],
+  "producer_file": "scripts/taaqol_maqam_foundation/automated_source_discovery_planning_22.py"
+}

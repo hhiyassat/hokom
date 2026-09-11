@@ -1,0 +1,16 @@
+{
+  "node_name": "TANZIL_BIRTH",
+  "TANZIL_BIRTH_STATUS": "FORBIDDEN_ANCESTOR_UNBORN",
+  "TANZIL_PRODUCED": "NO",
+  "cause": "manat not born",
+  "conditions": "manat certified + tahqiq",
+  "preventers": [
+    "MANAT_UNBORN"
+  ],
+  "verdict": "FORBIDDEN_ANCESTOR_UNBORN",
+  "evidence_files": [
+    "NAZILA_ILLAH_MANAT_BIRTH_07.json"
+  ],
+  "producer_file": "scripts/taaqol_maqam_foundation/normative_source_birth_07.py",
+  "residuals": []
+}

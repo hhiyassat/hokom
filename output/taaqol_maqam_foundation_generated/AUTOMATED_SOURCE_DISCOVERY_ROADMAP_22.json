@@ -1,0 +1,80 @@
+{
+  "planning_only": "YES",
+  "prior_round_links": [
+    {
+      "round": "ROUND_10",
+      "produced": "reference matrix + FrameNet roadmap"
+    },
+    {
+      "round": "ROUND_11",
+      "produced": "دستور التكييف"
+    },
+    {
+      "round": "ROUND_12",
+      "produced": "تطبيق مرشحات التكييف"
+    },
+    {
+      "round": "ROUND_13",
+      "produced": "المجال المركب"
+    },
+    {
+      "round": "ROUND_14",
+      "produced": "متطلبات المصدر"
+    },
+    {
+      "round": "ROUND_15",
+      "produced": "قالب تزويد المصدر"
+    },
+    {
+      "round": "ROUND_16",
+      "produced": "completeness audit"
+    },
+    {
+      "round": "ROUND_17",
+      "produced": "ولادة المصادر الثلاثة"
+    },
+    {
+      "round": "ROUND_18",
+      "produced": "mapping المصدر للمسألة"
+    },
+    {
+      "round": "ROUND_19_20",
+      "produced": "ثغرة السكنى (متطلب + تدقيق اكتمال)"
+    },
+    {
+      "round": "ROUND_21",
+      "produced": "ولادة مصدر السكنى وتغطية جميع المرشحات"
+    }
+  ],
+  "future_roadmap": [
+    {
+      "future_round": "FUTURE_ROUND_A",
+      "title": "SOURCE_DISCOVERY_CONNECTOR_DESIGN"
+    },
+    {
+      "future_round": "FUTURE_ROUND_B",
+      "title": "SOURCE_CANDIDATE_RANKING_SCHEMA"
+    },
+    {
+      "future_round": "FUTURE_ROUND_C",
+      "title": "OWNER_RATIFICATION_UI_OR_TEMPLATE"
+    },
+    {
+      "future_round": "FUTURE_ROUND_D",
+      "title": "SOURCE_BIRTH_AFTER_OWNER_RATIFICATION"
+    },
+    {
+      "future_round": "FUTURE_ROUND_E",
+      "title": "HUKM_CANDIDATE_GATE_AFTER_SOURCE_COVERAGE"
+    }
+  ],
+  "current_state": {
+    "ROUND_21_COMPLETE": "YES",
+    "ALL_ROUND13_DOMAIN_CANDIDATES_COVERED": "YES",
+    "NORMATIVE_SOURCES_BORN": "YES",
+    "SOURCE_COUNT_TOTAL": 4,
+    "PRIMARY_DOMAIN_CANDIDATE": "KEEP_COMPOSITE",
+    "NORMATIVE_HUKM_CANDIDATE_OPENED": "NO"
+  },
+  "producer_file": "scripts/taaqol_maqam_foundation/automated_source_discovery_planning_22.py"
+}

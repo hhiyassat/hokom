@@ -1,0 +1,173 @@
+{
+  "composite": {
+    "classification_id": "NAZILA_MULTI_DOMAIN_COMPOSITE_13",
+    "mode": "MULTI_DOMAIN_CANDIDATE_CLASSIFICATION",
+    "primary_domain_candidate": "NOT_FORCED",
+    "domain_candidates": [
+      "MIRATH_RELATED_DOMAIN_CANDIDATE",
+      "QADA_RELATED_DOMAIN_CANDIDATE",
+      "TURKAH_RIGHTS_DOMAIN_CANDIDATE",
+      "SUKNA_OR_POSSESSION_DOMAIN_CANDIDATE"
+    ],
+    "composite_verdict": "NAZILA_HAS_A_COMPOSITE_MULTI_DOMAIN_CANDIDATE_CLASSIFICATION",
+    "is_final_single_domain": "NO",
+    "normative_source_selected": "NO",
+    "hukm_produced": "NO",
+    "cause": "the sentence carries more than one jihah; owner allowed multi-domain candidate birth",
+    "conditions": [
+      "owner ratification (this nazila only)"
+    ],
+    "preventers": [
+      "NO_FORCED_PRIMARY",
+      "NO_NORMATIVE_SOURCE_BEFORE_OWNER"
+    ],
+    "verdict": "COMPOSITE_MULTI_DOMAIN_CANDIDATE_ONLY",
+    "producer_file": "scripts/taaqol_maqam_foundation/domain_classification_multi_candidate_13.py"
+  },
+  "domain_candidates": [
+    {
+      "domain_candidate_id": "MIRATH_RELATED_DOMAIN_CANDIDATE",
+      "domain_candidate_label": "مجال متعلق بالمواريث (مرشح)",
+      "rank": 1,
+      "from_takyif_candidate": "MIRATH_RELATED_TAKYIF_CANDIDATE",
+      "domain_candidate_status": "ALLOWED_AS_DOMAIN_CANDIDATE",
+      "birth_status": "DOMAIN_CANDIDATE_BORN",
+      "is_final_closed_domain": "NO",
+      "is_primary_forced": "NO",
+      "normative_source_allowed": "NO",
+      "hukm_allowed": "NO",
+      "manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_answer_allowed": "NO",
+      "cause": "owner ratified multi-domain candidate classification (this nazila) + round-12 takyif candidate",
+      "conditions": [
+        "DOMAIN_CLASSIFICATION_BIRTH_ALLOWED=YES",
+        "MODE=MULTI_DOMAIN_CANDIDATE_CLASSIFICATION",
+        "traceable to round-12 takyif candidate",
+        "no single primary forced"
+      ],
+      "preventers": [
+        "NO_NORMATIVE_SOURCE_SELECTION_YET",
+        "NO_HUKM_MANAT_TANZIL_ANSWER_LICENSE",
+        "MUST_NOT_CLOSE_TO_A_SINGLE_FINAL_DOMAIN_THIS_ROUND"
+      ],
+      "verdict": "ACCEPT_AS_DOMAIN_CANDIDATE",
+      "evidence": [
+        "output/taaqol_maqam_foundation_generated/MASALA_TAKYIF_CANDIDATE_APPLICATION_12.json",
+        "output/taaqol_maqam_foundation_generated/MASALA_TAKYIF_LAYER_OWNER_RATIFICATION_12.json"
+      ],
+      "residuals": [
+        "composite classification; picking any domain as basis for a normative source needs owner ratification (round 14)"
+      ],
+      "producer_file": "scripts/taaqol_maqam_foundation/domain_classification_multi_candidate_13.py"
+    },
+    {
+      "domain_candidate_id": "QADA_RELATED_DOMAIN_CANDIDATE",
+      "domain_candidate_label": "مجال متعلق بالقضاء/النزاع (مرشح)",
+      "rank": 2,
+      "from_takyif_candidate": "QADA_RELATED_TAKYIF_CANDIDATE",
+      "domain_candidate_status": "ALLOWED_AS_DOMAIN_CANDIDATE",
+      "birth_status": "DOMAIN_CANDIDATE_BORN",
+      "is_final_closed_domain": "NO",
+      "is_primary_forced": "NO",
+      "normative_source_allowed": "NO",
+      "hukm_allowed": "NO",
+      "manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_answer_allowed": "NO",
+      "cause": "owner ratified multi-domain candidate classification (this nazila) + round-12 takyif candidate",
+      "conditions": [
+        "DOMAIN_CLASSIFICATION_BIRTH_ALLOWED=YES",
+        "MODE=MULTI_DOMAIN_CANDIDATE_CLASSIFICATION",
+        "traceable to round-12 takyif candidate",
+        "no single primary forced"
+      ],
+      "preventers": [
+        "NO_NORMATIVE_SOURCE_SELECTION_YET",
+        "NO_HUKM_MANAT_TANZIL_ANSWER_LICENSE",
+        "MUST_NOT_CLOSE_TO_A_SINGLE_FINAL_DOMAIN_THIS_ROUND"
+      ],
+      "verdict": "ACCEPT_AS_DOMAIN_CANDIDATE",
+      "evidence": [
+        "output/taaqol_maqam_foundation_generated/MASALA_TAKYIF_CANDIDATE_APPLICATION_12.json",
+        "output/taaqol_maqam_foundation_generated/MASALA_TAKYIF_LAYER_OWNER_RATIFICATION_12.json"
+      ],
+      "residuals": [
+        "composite classification; picking any domain as basis for a normative source needs owner ratification (round 14)"
+      ],
+      "producer_file": "scripts/taaqol_maqam_foundation/domain_classification_multi_candidate_13.py"
+    },
+    {
+      "domain_candidate_id": "TURKAH_RIGHTS_DOMAIN_CANDIDATE",
+      "domain_candidate_label": "مجال حقوق التركة (مرشح)",
+      "rank": 3,
+      "from_takyif_candidate": "TURKAH_RIGHTS_TAKYIF_CANDIDATE",
+      "domain_candidate_status": "ALLOWED_AS_DOMAIN_CANDIDATE",
+      "birth_status": "DOMAIN_CANDIDATE_BORN",
+      "is_final_closed_domain": "NO",
+      "is_primary_forced": "NO",
+      "normative_source_allowed": "NO",
+      "hukm_allowed": "NO",
+      "manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_answer_allowed": "NO",
+      "cause": "owner ratified multi-domain candidate classification (this nazila) + round-12 takyif candidate",
+      "conditions": [
+        "DOMAIN_CLASSIFICATION_BIRTH_ALLOWED=YES",
+        "MODE=MULTI_DOMAIN_CANDIDATE_CLASSIFICATION",
+        "traceable to round-12 takyif candidate",
+        "no single primary forced"
+      ],
+      "preventers": [
+        "NO_NORMATIVE_SOURCE_SELECTION_YET",
+        "NO_HUKM_MANAT_TANZIL_ANSWER_LICENSE",
+        "MUST_NOT_CLOSE_TO_A_SINGLE_FINAL_DOMAIN_THIS_ROUND"
+      ],
+      "verdict": "ACCEPT_AS_DOMAIN_CANDIDATE",
+      "evidence": [
+        "output/taaqol_maqam_foundation_generated/MASALA_TAKYIF_CANDIDATE_APPLICATION_12.json",
+        "output/taaqol_maqam_foundation_generated/MASALA_TAKYIF_LAYER_OWNER_RATIFICATION_12.json"
+      ],
+      "residuals": [
+        "composite classification; picking any domain as basis for a normative source needs owner ratification (round 14)"
+      ],
+      "producer_file": "scripts/taaqol_maqam_foundation/domain_classification_multi_candidate_13.py"
+    },
+    {
+      "domain_candidate_id": "SUKNA_OR_POSSESSION_DOMAIN_CANDIDATE",
+      "domain_candidate_label": "مجال سكنى/حيازة (مرشح)",
+      "rank": 4,
+      "from_takyif_candidate": "SUKNA_OR_POSSESSION_TAKYIF_CANDIDATE",
+      "domain_candidate_status": "ALLOWED_AS_DOMAIN_CANDIDATE",
+      "birth_status": "DOMAIN_CANDIDATE_BORN",
+      "is_final_closed_domain": "NO",
+      "is_primary_forced": "NO",
+      "normative_source_allowed": "NO",
+      "hukm_allowed": "NO",
+      "manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_answer_allowed": "NO",
+      "cause": "owner ratified multi-domain candidate classification (this nazila) + round-12 takyif candidate",
+      "conditions": [
+        "DOMAIN_CLASSIFICATION_BIRTH_ALLOWED=YES",
+        "MODE=MULTI_DOMAIN_CANDIDATE_CLASSIFICATION",
+        "traceable to round-12 takyif candidate",
+        "no single primary forced"
+      ],
+      "preventers": [
+        "NO_NORMATIVE_SOURCE_SELECTION_YET",
+        "NO_HUKM_MANAT_TANZIL_ANSWER_LICENSE",
+        "MUST_NOT_CLOSE_TO_A_SINGLE_FINAL_DOMAIN_THIS_ROUND"
+      ],
+      "verdict": "ACCEPT_AS_DOMAIN_CANDIDATE",
+      "evidence": [
+        "output/taaqol_maqam_foundation_generated/MASALA_TAKYIF_CANDIDATE_APPLICATION_12.json",
+        "output/taaqol_maqam_foundation_generated/MASALA_TAKYIF_LAYER_OWNER_RATIFICATION_12.json"
+      ],
+      "residuals": [
+        "composite classification; picking any domain as basis for a normative source needs owner ratification (round 14)"
+      ],
+      "producer_file": "scripts/taaqol_maqam_foundation/domain_classification_multi_candidate_13.py"
+    }
+  ]
+}

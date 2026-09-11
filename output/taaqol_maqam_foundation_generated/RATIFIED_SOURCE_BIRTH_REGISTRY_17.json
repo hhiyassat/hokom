@@ -1,0 +1,68 @@
+{
+  "ROUND": "RATIFIED_SOURCE_BIRTH_ADMISSION_AUDIT_17",
+  "ALLOW_NORMATIVE_SOURCE_BIRTH": "YES",
+  "PRIMARY_DOMAIN_CANDIDATE": "KEEP_COMPOSITE",
+  "NORMATIVE_SOURCE_SCOPE": "THIS_NAZILA_ONLY",
+  "EVIDENCE_POLICY": "CITATION_STRINGS_ONLY",
+  "LIVE_EXTERNAL_LINKS_IN_ARTIFACTS": "NO",
+  "normative_source_born": "YES",
+  "normative_source_ratified_by": "OWNER",
+  "normative_source_selected_by_agent": "NO",
+  "born_source_count": 3,
+  "owner_supplied_sources": [
+    {
+      "source_id": "SOURCE_1",
+      "domain_link": [
+        "MIRATH_RELATED_DOMAIN_CANDIDATE"
+      ],
+      "AUTHORITY": "القرآن الكريم، سورة النساء، الآية 176",
+      "TEXT": "يَسْتَفْتُونَكَ قُلِ اللَّهُ يُفْتِيكُمْ فِي الْكَلَالَةِ إِنِ امْرُؤٌ هَلَكَ لَيْسَ لَهُ وَلَدٌ وَلَهُ أُخْتٌ فَلَهَا نِصْفُ مَا تَرَكَ ... وَاللَّهُ بِكُلِّ شَيْءٍ عَلِيمٌ",
+      "SCOPE": "مرشح مصدر لمسألة وجود أخت مع تركة، بشرط فحص شروط الكلالة وعدم وجود ولد وسائر الورثة؛ لا ينتج الحكم وحده.",
+      "EVIDENCE": "القرآن الكريم، سورة النساء، الآية 176",
+      "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM": "YES",
+      "OWNER_RATIFICATION": "YES",
+      "text_verbatim_status": "ASSERTED_BY_OWNER_NOT_VERIFIED_BY_AGENT",
+      "source_born": "YES",
+      "source_ratified_by": "OWNER",
+      "source_selected_by_agent": "NO"
+    },
+    {
+      "source_id": "SOURCE_2",
+      "domain_link": [
+        "MIRATH_RELATED_DOMAIN_CANDIDATE",
+        "TURKAH_RIGHTS_DOMAIN_CANDIDATE"
+      ],
+      "AUTHORITY": "صحيح البخاري، كتاب الفرائض، حديث 6737",
+      "TEXT": "أَلْحِقُوا الْفَرَائِضَ بِأَهْلِهَا فَمَا بَقِيَ فَلِأَوْلَى رَجُلٍ ذَكَرٍ",
+      "SCOPE": "مرشح مصدر لترتيب أصحاب الفروض والباقي في التركة؛ لا يحدد وحده حق السكنى ولا واقعة الطرد.",
+      "EVIDENCE": "صحيح البخاري، كتاب الفرائض، حديث 6737",
+      "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM": "YES",
+      "OWNER_RATIFICATION": "YES",
+      "text_verbatim_status": "ASSERTED_BY_OWNER_NOT_VERIFIED_BY_AGENT",
+      "source_born": "YES",
+      "source_ratified_by": "OWNER",
+      "source_selected_by_agent": "NO"
+    },
+    {
+      "source_id": "SOURCE_3",
+      "domain_link": [
+        "QADA_RELATED_DOMAIN_CANDIDATE"
+      ],
+      "AUTHORITY": "صحيح مسلم، كتاب الأقضية، حديث 1711a",
+      "TEXT": "لَوْ يُعْطَى النَّاسُ بِدَعْوَاهُمْ لَادَّعَى نَاسٌ دِمَاءَ رِجَالٍ وَأَمْوَالَهُمْ وَلَكِنَّ الْيَمِينَ عَلَى الْمُدَّعَى عَلَيْهِ",
+      "SCOPE": "مرشح مصدر لجهة الدعوى والتحاكم وعبء الإثبات؛ لا يحسم وحده ملكية البيت أو حق السكنى.",
+      "EVIDENCE": "صحيح مسلم، كتاب الأقضية، حديث 1711a",
+      "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM": "YES",
+      "OWNER_RATIFICATION": "YES",
+      "text_verbatim_status": "ASSERTED_BY_OWNER_NOT_VERIFIED_BY_AGENT",
+      "source_born": "YES",
+      "source_ratified_by": "OWNER",
+      "source_selected_by_agent": "NO"
+    }
+  ],
+  "NORMATIVE_HUKM_PRODUCED": "NO",
+  "MANAT_PRODUCED": "NO",
+  "TANZIL_PRODUCED": "NO",
+  "FINAL_ANSWER_PRODUCED": "NO",
+  "producer_file": "scripts/taaqol_maqam_foundation/ratified_source_birth_admission_audit_17.py"
+}

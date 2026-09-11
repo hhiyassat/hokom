@@ -1,0 +1,19 @@
+{
+  "node_name": "FACTUAL_CLAIM_PASSAGE",
+  "parent_factual_claim_status": "BORN_BUT_DEFERRED",
+  "owner_passage_license_supplied": "NO",
+  "FACTUAL_CLAIM_PASSAGE_STATUS": "BLOCK",
+  "cause": "owner did not supply an explicit factual-claim passage license in this round",
+  "conditions": "explicit owner grant: BORN_BUT_DEFERRED -> BORN_BUT_DEFERRED_WITH_PASSAGE_LICENSE (this nazila only)",
+  "preventers": [
+    "FACTUAL_CLAIM_PASSAGE_LICENSE_MISSING"
+  ],
+  "verdict": "FACTUAL_CLAIM_PASSAGE_BLOCK",
+  "evidence_files": [
+    "output/taaqol_maqam_foundation_generated/NAZILA_IFADAH_AND_FACTUAL_CLAIM_PASSAGE_08.json"
+  ],
+  "producer_file": "scripts/taaqol_maqam_foundation/factual_claim_passage_normative_source_09.py",
+  "residuals": [
+    "awaits explicit owner passage license"
+  ]
+}

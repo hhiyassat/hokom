@@ -1,0 +1,17 @@
+{
+  "NodeName": "NORMATIVE_SOURCE",
+  "NORMATIVE_SOURCE_BIRTH_STATUS": "UNBORN",
+  "NORMATIVE_SOURCE_PRODUCED": "NO",
+  "NORMATIVE_SOURCE_BLOCKER": "NO_RATIFIED_NORMATIVE_SOURCE",
+  "NORMATIVE_AUTHORITY_PRESENT": "NO",
+  "NORMATIVE_SOURCE_SCOPE_PRESENT": "NO",
+  "NORMATIVE_EVIDENCE_PRESENT": "NO",
+  "CAUSE": "no ratified normative source/authority/scope/evidence for this nazila",
+  "CONDITIONS": "FACTUAL_CLAIM=CERTIFIED AND authority+scope+evidence present",
+  "PREVENTERS": "NO_RATIFIED_NORMATIVE_SOURCE;FACTUAL_CLAIM_NOT_CERTIFIED",
+  "VERDICT": "NORMATIVE_SOURCE_UNBORN",
+  "EVIDENCE": "absence recorded (no normative-source artifact); MANAT_RESULT preventers cite no written policy",
+  "PRODUCER_FILE": "scripts/taaqol_maqam_foundation/maqam6_reference_ratified_closure_06.py",
+  "RESIDUALS": "needs owner-ratified normative source",
+  "measured": "MEASURED"
+}

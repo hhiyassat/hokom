@@ -1,0 +1,43 @@
+{
+  "gate": "CANONICAL_INTEGRATION",
+  "canonical_integration_status": "BLOCKED_WITH_CAUSE",
+  "required_contracts": [
+    "RATIFIED canonical contract: how a scoped maqām certificate enters the runtime pipeline",
+    "typed contract for maqām-certificate -> consumer handoff (dimension/scope/rank bound)"
+  ],
+  "required_adapters": [
+    "typed adapter maqam_foundation -> Hokom analysis owner (no free dicts)",
+    "typed adapter maqam_foundation -> Taaqol canonical path"
+  ],
+  "required_tests": [
+    "adapter schema tests",
+    "scope/rank preservation across adapter",
+    "no-normative-leak across integration",
+    "determinism across integration"
+  ],
+  "forbidden_shortcuts": [
+    "opening canonical from a report",
+    "turning example context into owner decision",
+    "producing normative output from maqām",
+    "silent fallback"
+  ],
+  "owner_decisions_needed": [
+    "ratify the canonical maqām contract",
+    "ratify the typed adapters",
+    "declare which consumers may consume maqām certificates in canonical runtime"
+  ],
+  "cause_present": true,
+  "conditions_satisfied": false,
+  "preventers": [
+    "NO_RATIFIED_CANONICAL_CONTRACT",
+    "NO_RATIFIED_TYPED_ADAPTER"
+  ],
+  "gate_decision": "BLOCK",
+  "verdict": "CANONICAL_INTEGRATION_BLOCKED_WITH_CAUSE",
+  "residuals": [
+    "integration stays independent and typed until contracts+adapters are ratified"
+  ],
+  "evidence_file": "docs/MAQAM_ARCHITECTURE_AND_OWNERSHIP.md",
+  "producer_file": "scripts/taaqol_maqam_foundation/deferred_consumers.py",
+  "measured": "MEASURED"
+}

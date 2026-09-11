@@ -1,0 +1,299 @@
+{
+  "ROUND": "MANAT_APPLICATION_QUESTIONNAIRE_GATE_25",
+  "manat_application_opened": "YES",
+  "manat_application_gate_open": "YES",
+  "questionnaire_form_only": "YES",
+  "answers_provided": "NO",
+  "question_count": 11,
+  "questions": [
+    {
+      "question_id": "Q01_NO_CHILD",
+      "linked_manat_candidate_ids": [
+        "MC1_SISTER_EXISTENCE_AND_ENTITLEMENT_CONDITIONS"
+      ],
+      "linked_hukm_candidate_ids": [
+        "HC1_SISTER_SHARE"
+      ],
+      "question_text": "هل ثبت أن الميت لا ولد له؟",
+      "question_type": "FACT_EXISTENCE",
+      "required_evidence_type": "وثيقة وراثة/إقرار/بينة",
+      "expected_answer_type": "YES/NO/UNKNOWN",
+      "effect_if_yes": "ينفتح شرط الكلالة كمرشّح",
+      "effect_if_no": "يسقط مسار الكلالة ويحتاج مسارًا آخر",
+      "effect_if_unknown": "يبقى شرطًا معلّقًا (residual)",
+      "cause": "residual واقعي من الجولة 24؛ المالك رخّص أسئلة تحقيق المناط فقط.",
+      "conditions": "يجيب المالك/الجهة المختصة بالوقائع والبينة؛ لا يجيب الوكيل؛ بقاء المركّب.",
+      "preventers": "إجابة الوكيل من عنده؛ تحويل السؤال إلى مناط نهائي/حكم/تنزيل؛ اعتبار الحيازة ملكية؛ اختزال المركّب.",
+      "verdict": "ACCEPT_AS_MANAT_APPLICATION_QUESTION_ONLY",
+      "residuals": "السؤال مفتوح؛ الإجابة غير متوفرة؛ لا مناط نهائي حتى تُستوفى الأجوبة + تصديق المالك.",
+      "answer_provided": "NO",
+      "final_manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_hukm_allowed": "NO",
+      "final_answer_allowed": "NO"
+    },
+    {
+      "question_id": "Q02_OTHER_HEIRS",
+      "linked_manat_candidate_ids": [
+        "MC1_SISTER_EXISTENCE_AND_ENTITLEMENT_CONDITIONS"
+      ],
+      "linked_hukm_candidate_ids": [
+        "HC1_SISTER_SHARE"
+      ],
+      "question_text": "هل يوجد ورثة آخرون؟",
+      "question_type": "FACT_EXISTENCE",
+      "required_evidence_type": "حصر إرث/بينة",
+      "expected_answer_type": "LIST/NONE/UNKNOWN",
+      "effect_if_yes": "يعاد ترتيب الفروض والباقي",
+      "effect_if_no": "يتحدد نطاق استحقاق الأخت مبدئيًّا",
+      "effect_if_unknown": "يبقى حصر الورثة residual",
+      "cause": "residual واقعي من الجولة 24؛ المالك رخّص أسئلة تحقيق المناط فقط.",
+      "conditions": "يجيب المالك/الجهة المختصة بالوقائع والبينة؛ لا يجيب الوكيل؛ بقاء المركّب.",
+      "preventers": "إجابة الوكيل من عنده؛ تحويل السؤال إلى مناط نهائي/حكم/تنزيل؛ اعتبار الحيازة ملكية؛ اختزال المركّب.",
+      "verdict": "ACCEPT_AS_MANAT_APPLICATION_QUESTION_ONLY",
+      "residuals": "السؤال مفتوح؛ الإجابة غير متوفرة؛ لا مناط نهائي حتى تُستوفى الأجوبة + تصديق المالك.",
+      "answer_provided": "NO",
+      "final_manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_hukm_allowed": "NO",
+      "final_answer_allowed": "NO"
+    },
+    {
+      "question_id": "Q03_HEIR_CAPACITY",
+      "linked_manat_candidate_ids": [
+        "MC2_CLAIM_DISPUTE_AND_PROOF_BURDEN"
+      ],
+      "linked_hukm_candidate_ids": [
+        "HC2_CLAIM_BURDEN_OF_PROOF"
+      ],
+      "question_text": "ما صفة الوارث الذي يريد الطرد؟",
+      "question_type": "PARTY_IDENTITY",
+      "required_evidence_type": "بيان صفة/قرابة",
+      "expected_answer_type": "IDENTITY/UNKNOWN",
+      "effect_if_yes": "تتحدد جنبة الدعوى",
+      "effect_if_no": "—",
+      "effect_if_unknown": "تبقى صفة المدّعي residual",
+      "cause": "residual واقعي من الجولة 24؛ المالك رخّص أسئلة تحقيق المناط فقط.",
+      "conditions": "يجيب المالك/الجهة المختصة بالوقائع والبينة؛ لا يجيب الوكيل؛ بقاء المركّب.",
+      "preventers": "إجابة الوكيل من عنده؛ تحويل السؤال إلى مناط نهائي/حكم/تنزيل؛ اعتبار الحيازة ملكية؛ اختزال المركّب.",
+      "verdict": "ACCEPT_AS_MANAT_APPLICATION_QUESTION_ONLY",
+      "residuals": "السؤال مفتوح؛ الإجابة غير متوفرة؛ لا مناط نهائي حتى تُستوفى الأجوبة + تصديق المالك.",
+      "answer_provided": "NO",
+      "final_manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_hukm_allowed": "NO",
+      "final_answer_allowed": "NO"
+    },
+    {
+      "question_id": "Q04_HOUSE_STATUS",
+      "linked_manat_candidate_ids": [
+        "MC1_SISTER_EXISTENCE_AND_ENTITLEMENT_CONDITIONS",
+        "MC3_STANDING_HAND_STATE_BEFORE_EXPULSION"
+      ],
+      "linked_hukm_candidate_ids": [
+        "HC1_SISTER_SHARE",
+        "HC3_POSSESSION_STAYS_PENDING_EXAMINATION"
+      ],
+      "question_text": "هل البيت كله تركة، أم فيه حق/انتفاع/إذن سابق؟",
+      "question_type": "PROPERTY_STATUS",
+      "required_evidence_type": "سند ملكية/وقف/إذن",
+      "expected_answer_type": "ESTATE/RIGHT/PERMISSION/MIXED/UNKNOWN",
+      "effect_if_yes": "يدخل ضمن التركة",
+      "effect_if_no": "قد يخرج جزء عن قسمة التركة",
+      "effect_if_unknown": "تبقى صفة البيت residual",
+      "cause": "residual واقعي من الجولة 24؛ المالك رخّص أسئلة تحقيق المناط فقط.",
+      "conditions": "يجيب المالك/الجهة المختصة بالوقائع والبينة؛ لا يجيب الوكيل؛ بقاء المركّب.",
+      "preventers": "إجابة الوكيل من عنده؛ تحويل السؤال إلى مناط نهائي/حكم/تنزيل؛ اعتبار الحيازة ملكية؛ اختزال المركّب.",
+      "verdict": "ACCEPT_AS_MANAT_APPLICATION_QUESTION_ONLY",
+      "residuals": "السؤال مفتوح؛ الإجابة غير متوفرة؛ لا مناط نهائي حتى تُستوفى الأجوبة + تصديق المالك.",
+      "answer_provided": "NO",
+      "final_manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_hukm_allowed": "NO",
+      "final_answer_allowed": "NO"
+    },
+    {
+      "question_id": "Q05_PRIOR_PERMISSION",
+      "linked_manat_candidate_ids": [
+        "MC3_STANDING_HAND_STATE_BEFORE_EXPULSION"
+      ],
+      "linked_hukm_candidate_ids": [
+        "HC3_POSSESSION_STAYS_PENDING_EXAMINATION"
+      ],
+      "question_text": "هل كان سكن الأخت بإذن المالك قبل موته؟",
+      "question_type": "PRIOR_PERMISSION",
+      "required_evidence_type": "إقرار/بينة/قرينة",
+      "expected_answer_type": "YES/NO/UNKNOWN",
+      "effect_if_yes": "تقوى جنبة بقاء اليد",
+      "effect_if_no": "تضعف حجة الإذن",
+      "effect_if_unknown": "يبقى الإذن السابق residual",
+      "cause": "residual واقعي من الجولة 24؛ المالك رخّص أسئلة تحقيق المناط فقط.",
+      "conditions": "يجيب المالك/الجهة المختصة بالوقائع والبينة؛ لا يجيب الوكيل؛ بقاء المركّب.",
+      "preventers": "إجابة الوكيل من عنده؛ تحويل السؤال إلى مناط نهائي/حكم/تنزيل؛ اعتبار الحيازة ملكية؛ اختزال المركّب.",
+      "verdict": "ACCEPT_AS_MANAT_APPLICATION_QUESTION_ONLY",
+      "residuals": "السؤال مفتوح؛ الإجابة غير متوفرة؛ لا مناط نهائي حتى تُستوفى الأجوبة + تصديق المالك.",
+      "answer_provided": "NO",
+      "final_manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_hukm_allowed": "NO",
+      "final_answer_allowed": "NO"
+    },
+    {
+      "question_id": "Q06_HAND_CREDIBLE",
+      "linked_manat_candidate_ids": [
+        "MC3_STANDING_HAND_STATE_BEFORE_EXPULSION"
+      ],
+      "linked_hukm_candidate_ids": [
+        "HC3_POSSESSION_STAYS_PENDING_EXAMINATION"
+      ],
+      "question_text": "هل يد الأخت معتبرة، أم تكذبها قرائن ظاهرة؟",
+      "question_type": "POSSESSION_STATUS",
+      "required_evidence_type": "قرائن/بينة",
+      "expected_answer_type": "CREDIBLE/REBUTTED/UNKNOWN",
+      "effect_if_yes": "تبقى اليد ما لم تُكذَّب",
+      "effect_if_no": "تسقط حجية اليد",
+      "effect_if_unknown": "تبقى حجية اليد residual",
+      "cause": "residual واقعي من الجولة 24؛ المالك رخّص أسئلة تحقيق المناط فقط.",
+      "conditions": "يجيب المالك/الجهة المختصة بالوقائع والبينة؛ لا يجيب الوكيل؛ بقاء المركّب.",
+      "preventers": "إجابة الوكيل من عنده؛ تحويل السؤال إلى مناط نهائي/حكم/تنزيل؛ اعتبار الحيازة ملكية؛ اختزال المركّب.",
+      "verdict": "ACCEPT_AS_MANAT_APPLICATION_QUESTION_ONLY",
+      "residuals": "السؤال مفتوح؛ الإجابة غير متوفرة؛ لا مناط نهائي حتى تُستوفى الأجوبة + تصديق المالك.",
+      "answer_provided": "NO",
+      "final_manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_hukm_allowed": "NO",
+      "final_answer_allowed": "NO"
+    },
+    {
+      "question_id": "Q07_CLAIM_CONTENT",
+      "linked_manat_candidate_ids": [
+        "MC2_CLAIM_DISPUTE_AND_PROOF_BURDEN"
+      ],
+      "linked_hukm_candidate_ids": [
+        "HC2_CLAIM_BURDEN_OF_PROOF"
+      ],
+      "question_text": "ما الدعوى المحددة للوارث؟",
+      "question_type": "CLAIM_CONTENT",
+      "required_evidence_type": "صحيفة دعوى/إقرار",
+      "expected_answer_type": "CLAIM_TEXT/UNKNOWN",
+      "effect_if_yes": "يتحدد محل النزاع",
+      "effect_if_no": "—",
+      "effect_if_unknown": "يبقى محل الدعوى residual",
+      "cause": "residual واقعي من الجولة 24؛ المالك رخّص أسئلة تحقيق المناط فقط.",
+      "conditions": "يجيب المالك/الجهة المختصة بالوقائع والبينة؛ لا يجيب الوكيل؛ بقاء المركّب.",
+      "preventers": "إجابة الوكيل من عنده؛ تحويل السؤال إلى مناط نهائي/حكم/تنزيل؛ اعتبار الحيازة ملكية؛ اختزال المركّب.",
+      "verdict": "ACCEPT_AS_MANAT_APPLICATION_QUESTION_ONLY",
+      "residuals": "السؤال مفتوح؛ الإجابة غير متوفرة؛ لا مناط نهائي حتى تُستوفى الأجوبة + تصديق المالك.",
+      "answer_provided": "NO",
+      "final_manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_hukm_allowed": "NO",
+      "final_answer_allowed": "NO"
+    },
+    {
+      "question_id": "Q08_DEFENSE_CONTENT",
+      "linked_manat_candidate_ids": [
+        "MC2_CLAIM_DISPUTE_AND_PROOF_BURDEN"
+      ],
+      "linked_hukm_candidate_ids": [
+        "HC2_CLAIM_BURDEN_OF_PROOF"
+      ],
+      "question_text": "ما جواب الأخت؟",
+      "question_type": "DEFENSE_CONTENT",
+      "required_evidence_type": "جواب/إقرار/إنكار",
+      "expected_answer_type": "DEFENSE_TEXT/UNKNOWN",
+      "effect_if_yes": "يتحدد موقف المدّعى عليه",
+      "effect_if_no": "—",
+      "effect_if_unknown": "يبقى جواب الأخت residual",
+      "cause": "residual واقعي من الجولة 24؛ المالك رخّص أسئلة تحقيق المناط فقط.",
+      "conditions": "يجيب المالك/الجهة المختصة بالوقائع والبينة؛ لا يجيب الوكيل؛ بقاء المركّب.",
+      "preventers": "إجابة الوكيل من عنده؛ تحويل السؤال إلى مناط نهائي/حكم/تنزيل؛ اعتبار الحيازة ملكية؛ اختزال المركّب.",
+      "verdict": "ACCEPT_AS_MANAT_APPLICATION_QUESTION_ONLY",
+      "residuals": "السؤال مفتوح؛ الإجابة غير متوفرة؛ لا مناط نهائي حتى تُستوفى الأجوبة + تصديق المالك.",
+      "answer_provided": "NO",
+      "final_manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_hukm_allowed": "NO",
+      "final_answer_allowed": "NO"
+    },
+    {
+      "question_id": "Q09_EVIDENCE",
+      "linked_manat_candidate_ids": [
+        "MC2_CLAIM_DISPUTE_AND_PROOF_BURDEN"
+      ],
+      "linked_hukm_candidate_ids": [
+        "HC2_CLAIM_BURDEN_OF_PROOF"
+      ],
+      "question_text": "ما البينة المتاحة لكل طرف؟",
+      "question_type": "EVIDENCE_OR_BAYYINA",
+      "required_evidence_type": "بينة/شهود/وثائق",
+      "expected_answer_type": "EVIDENCE_LIST/NONE/UNKNOWN",
+      "effect_if_yes": "يتحدد عبء الإثبات عمليًّا",
+      "effect_if_no": "يرجع إلى اليمين على المدعى عليه",
+      "effect_if_unknown": "تبقى البينة residual",
+      "cause": "residual واقعي من الجولة 24؛ المالك رخّص أسئلة تحقيق المناط فقط.",
+      "conditions": "يجيب المالك/الجهة المختصة بالوقائع والبينة؛ لا يجيب الوكيل؛ بقاء المركّب.",
+      "preventers": "إجابة الوكيل من عنده؛ تحويل السؤال إلى مناط نهائي/حكم/تنزيل؛ اعتبار الحيازة ملكية؛ اختزال المركّب.",
+      "verdict": "ACCEPT_AS_MANAT_APPLICATION_QUESTION_ONLY",
+      "residuals": "السؤال مفتوح؛ الإجابة غير متوفرة؛ لا مناط نهائي حتى تُستوفى الأجوبة + تصديق المالك.",
+      "answer_provided": "NO",
+      "final_manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_hukm_allowed": "NO",
+      "final_answer_allowed": "NO"
+    },
+    {
+      "question_id": "Q10_QARINA_STRENGTH",
+      "linked_manat_candidate_ids": [
+        "MC3_STANDING_HAND_STATE_BEFORE_EXPULSION"
+      ],
+      "linked_hukm_candidate_ids": [
+        "HC3_POSSESSION_STAYS_PENDING_EXAMINATION"
+      ],
+      "question_text": "هل توجد قرائن أقوى من مجرد اليد؟",
+      "question_type": "QARINA_ASSESSMENT",
+      "required_evidence_type": "قرائن مقارنة",
+      "expected_answer_type": "YES/NO/UNKNOWN",
+      "effect_if_yes": "قد ترجّح خلاف اليد",
+      "effect_if_no": "تبقى اليد مرجّحة",
+      "effect_if_unknown": "تبقى موازنة القرائن residual",
+      "cause": "residual واقعي من الجولة 24؛ المالك رخّص أسئلة تحقيق المناط فقط.",
+      "conditions": "يجيب المالك/الجهة المختصة بالوقائع والبينة؛ لا يجيب الوكيل؛ بقاء المركّب.",
+      "preventers": "إجابة الوكيل من عنده؛ تحويل السؤال إلى مناط نهائي/حكم/تنزيل؛ اعتبار الحيازة ملكية؛ اختزال المركّب.",
+      "verdict": "ACCEPT_AS_MANAT_APPLICATION_QUESTION_ONLY",
+      "residuals": "السؤال مفتوح؛ الإجابة غير متوفرة؛ لا مناط نهائي حتى تُستوفى الأجوبة + تصديق المالك.",
+      "answer_provided": "NO",
+      "final_manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_hukm_allowed": "NO",
+      "final_answer_allowed": "NO"
+    },
+    {
+      "question_id": "Q11_COMPLETENESS",
+      "linked_manat_candidate_ids": [
+        "MC4_COMPOSITE_MANAT_LINK_NO_OUTCOME"
+      ],
+      "linked_hukm_candidate_ids": [
+        "HC4_COMPOSITE_LINK_NO_OUTCOME"
+      ],
+      "question_text": "هل اكتملت صورة الواقعة عبر الأجزاء الأربعة (ميراث/تركة/دعوى/سُكنى) دون تعارض؟",
+      "question_type": "RESIDUAL_COMPLETENESS",
+      "required_evidence_type": "مراجعة اكتمال الأجوبة أعلاه",
+      "expected_answer_type": "COMPLETE/INCOMPLETE/UNKNOWN",
+      "effect_if_yes": "يجوز عرض تحقيق المناط على المالك",
+      "effect_if_no": "يبقى ناقصًا حتى تُستوفى الأجوبة",
+      "effect_if_unknown": "تبقى اكتمال الصورة residual",
+      "cause": "residual واقعي من الجولة 24؛ المالك رخّص أسئلة تحقيق المناط فقط.",
+      "conditions": "يجيب المالك/الجهة المختصة بالوقائع والبينة؛ لا يجيب الوكيل؛ بقاء المركّب.",
+      "preventers": "إجابة الوكيل من عنده؛ تحويل السؤال إلى مناط نهائي/حكم/تنزيل؛ اعتبار الحيازة ملكية؛ اختزال المركّب.",
+      "verdict": "ACCEPT_AS_MANAT_APPLICATION_QUESTION_ONLY",
+      "residuals": "السؤال مفتوح؛ الإجابة غير متوفرة؛ لا مناط نهائي حتى تُستوفى الأجوبة + تصديق المالك.",
+      "answer_provided": "NO",
+      "final_manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_hukm_allowed": "NO",
+      "final_answer_allowed": "NO"
+    }
+  ],
+  "producer_file": "scripts/taaqol_maqam_foundation/manat_application_questionnaire_25.py"
+}

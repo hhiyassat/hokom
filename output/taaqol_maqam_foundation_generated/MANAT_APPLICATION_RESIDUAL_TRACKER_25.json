@@ -1,0 +1,66 @@
+{
+  "opening_questions_blocked": "NO",
+  "final_manat_blocked": "YES",
+  "answers_provided_count": 0,
+  "open_questions_count": 11,
+  "per_question_status": [
+    {
+      "question_id": "Q01_NO_CHILD",
+      "answer_provided": "NO",
+      "status": "OPEN_AWAITING_OWNER_FACT"
+    },
+    {
+      "question_id": "Q02_OTHER_HEIRS",
+      "answer_provided": "NO",
+      "status": "OPEN_AWAITING_OWNER_FACT"
+    },
+    {
+      "question_id": "Q03_HEIR_CAPACITY",
+      "answer_provided": "NO",
+      "status": "OPEN_AWAITING_OWNER_FACT"
+    },
+    {
+      "question_id": "Q04_HOUSE_STATUS",
+      "answer_provided": "NO",
+      "status": "OPEN_AWAITING_OWNER_FACT"
+    },
+    {
+      "question_id": "Q05_PRIOR_PERMISSION",
+      "answer_provided": "NO",
+      "status": "OPEN_AWAITING_OWNER_FACT"
+    },
+    {
+      "question_id": "Q06_HAND_CREDIBLE",
+      "answer_provided": "NO",
+      "status": "OPEN_AWAITING_OWNER_FACT"
+    },
+    {
+      "question_id": "Q07_CLAIM_CONTENT",
+      "answer_provided": "NO",
+      "status": "OPEN_AWAITING_OWNER_FACT"
+    },
+    {
+      "question_id": "Q08_DEFENSE_CONTENT",
+      "answer_provided": "NO",
+      "status": "OPEN_AWAITING_OWNER_FACT"
+    },
+    {
+      "question_id": "Q09_EVIDENCE",
+      "answer_provided": "NO",
+      "status": "OPEN_AWAITING_OWNER_FACT"
+    },
+    {
+      "question_id": "Q10_QARINA_STRENGTH",
+      "answer_provided": "NO",
+      "status": "OPEN_AWAITING_OWNER_FACT"
+    },
+    {
+      "question_id": "Q11_COMPLETENESS",
+      "answer_provided": "NO",
+      "status": "OPEN_AWAITING_OWNER_FACT"
+    }
+  ],
+  "all_answers_pending": "YES",
+  "unresolved_residuals_recorded": "YES",
+  "producer_file": "scripts/taaqol_maqam_foundation/manat_application_questionnaire_25.py"
+}

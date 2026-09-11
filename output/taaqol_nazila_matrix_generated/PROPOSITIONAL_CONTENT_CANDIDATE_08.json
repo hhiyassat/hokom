@@ -1,0 +1,14 @@
+{
+  "artifact": "PROPOSITIONAL_CONTENT_CANDIDATE_08",
+  "layer": "PROPOSITIONAL_CONTENT",
+  "implemented": "YES",
+  "birth_state": "BORN_BUT_DEFERRED",
+  "nisba_source": "REL-01 VERB_SUBJECT CLOSED (مَاتَ→مَلِكٌ)",
+  "meaning": "بنية بلغت نسبة تامة قابلة للتعامل العقلي — ليست دعوى",
+  "is_claim": "NO",
+  "authored_by_agent": "NO",
+  "source_artifacts": [
+    "TAAQOL_NAZILA_RELATION_CLOSURE_RESULT.csv",
+    "TAAQOL_NAZILA_IFADAH_CANDIDATE_07.json"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "node_name": "TANZIL_READINESS_AFTER_INFO_REQUEST",
+  "TANZIL_BIRTH_STATUS": "FORBIDDEN_MISSING_REQUIREMENTS",
+  "TANZIL_PRODUCED": "NO",
+  "missing_requirements": [
+    "FACTUAL_CLAIM_PASSAGE_LICENSE",
+    "RATIFIED_NORMATIVE_SOURCE",
+    "NORMATIVE_HUKM",
+    "CERTIFIED_MANAT",
+    "TAHQIQ_MANAT"
+  ],
+  "ADDITIONAL_INFORMATION_FOR_TANZIL_REQUIRED": "YES",
+  "cause": "ancestors not born (factual claim deferred; normative source unborn)",
+  "conditions": "FACTUAL_CLAIM=CERTIFIED AND NORMATIVE_HUKM=CERTIFIED AND MANAT=CERTIFIED AND TAHQIQ_MANAT=CERTIFIED",
+  "preventers": [
+    "FACTUAL_CLAIM_DEFERRED",
+    "NORMATIVE_SOURCE_UNBORN"
+  ],
+  "verdict": "TANZIL_FORBIDDEN_MISSING_REQUIREMENTS",
+  "evidence_files": [
+    "output/taaqol_maqam_foundation_generated/NAZILA_NORMATIVE_SOURCE_BIRTH_07.json"
+  ],
+  "producer_file": "scripts/taaqol_maqam_foundation/final_ifadah_targeted_info_request_08.py",
+  "residuals": [
+    "needs both info requests satisfied"
+  ]
+}

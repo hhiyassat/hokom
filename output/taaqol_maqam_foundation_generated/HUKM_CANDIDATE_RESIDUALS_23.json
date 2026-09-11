@@ -1,0 +1,31 @@
+{
+  "opening_candidate_blocked": "NO",
+  "final_hukm_blocked": "YES",
+  "open_residuals_before_final_hukm": [
+    "مقدار نصيب الأخت النهائي غير محسوم (يحتاج فحص شروط الكلالة وحصر الورثة).",
+    "نتيجة التحاكم وعبء الإثبات غير محسومة (تحتاج بينة/يمين وفحص قرائن).",
+    "حق السكنى النهائي والملكية غير محسومين (الحيازة ليست ملكية نهائية).",
+    "التكامل النهائي بين الأجزاء الثلاثة غير محسوم؛ لا مناط ولا تنزيل.",
+    "الحكم النهائي يحتاج تصديق المالك ورخصة مناط/تنزيل لاحقة."
+  ],
+  "per_candidate_residuals": [
+    {
+      "hukm_candidate_id": "HC1_SISTER_SHARE",
+      "residuals": "مقدار النصيب النهائي غير محسوم؛ الشروط الواقعية غير مفحوصة؛ يحتاج تصديق المالك للحكم النهائي."
+    },
+    {
+      "hukm_candidate_id": "HC2_CLAIM_BURDEN_OF_PROOF",
+      "residuals": "نتيجة التحاكم غير محسومة؛ القرائن الواقعية غير مفحوصة؛ يحتاج تصديق المالك للحكم النهائي."
+    },
+    {
+      "hukm_candidate_id": "HC3_POSSESSION_STAYS_PENDING_EXAMINATION",
+      "residuals": "حق السكنى النهائي والملكية غير محسومين؛ القرائن الواقعية غير مفحوصة؛ يحتاج تصديق المالك."
+    },
+    {
+      "hukm_candidate_id": "HC4_COMPOSITE_LINK_NO_OUTCOME",
+      "residuals": "التكامل النهائي بين الأجزاء غير محسوم؛ لا مناط ولا تنزيل؛ يحتاج تصديق المالك للحكم النهائي."
+    }
+  ],
+  "unresolved_residuals_recorded": "YES",
+  "producer_file": "scripts/taaqol_maqam_foundation/normative_hukm_candidate_gate_23.py"
+}

@@ -1,0 +1,162 @@
+[
+  {
+    "domain_candidate_id": "MIRATH_RELATED_DOMAIN_CANDIDATE",
+    "domain_candidate_rank": 1,
+    "source_requirement_status": "REQUIREMENT_RECORDED_NOT_SOURCE",
+    "required_authority_type": "RATIFIED_FIQH_MIRATH_AUTHORITY",
+    "required_text_type": "MIRATH_RULING_TEXT",
+    "required_scope": "INHERITANCE_SHARES_SCOPE",
+    "required_evidence_type": "AUTHENTICATED_SOURCE_EVIDENCE",
+    "required_link_license": "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM (owner-ratified, absent)",
+    "primary_domain_dependency": "NOT_FORCED (round 13)",
+    "composite_strategy_dependency": "COMPOSITE_ALLOWED_AS_CANDIDATE (round 14 owner)",
+    "normative_source_born": "NO",
+    "normative_source_ratified": "NO",
+    "normative_source_selected": "NO",
+    "cause": "round-13 DOMAIN_CANDIDATE present + owner allowed request-only source-requirement layer",
+    "conditions": [
+      "required authority type named",
+      "required text type named",
+      "required scope named",
+      "required evidence type named",
+      "required link license named",
+      "NO actual source selected this round"
+    ],
+    "preventers": [
+      "PRIMARY_DOMAIN_CANDIDATE_NOT_FORCED",
+      "FINAL_SINGLE_DOMAIN_CLOSED_NO",
+      "SOURCE_SELECTION_ALLOWED_NOW_NO",
+      "SOURCE_BIRTH_ALLOWED_NOW_NO",
+      "NO_OWNER_SUPPLIED_FIVE_COMPONENT_SOURCE"
+    ],
+    "verdict": "DEFER_SOURCE_BIRTH_REQUIREMENTS_RECORDED",
+    "evidence": [
+      "output/taaqol_maqam_foundation_generated/NAZILA_MULTI_DOMAIN_CANDIDATE_CLASSIFICATION_13.json",
+      "output/taaqol_maqam_foundation_generated/DOMAIN_CLASSIFICATION_OWNER_RATIFICATION_13.json"
+    ],
+    "residuals": [
+      "actual source birth needs owner: primary/composite decision + the five components (round 15)"
+    ],
+    "producer_file": "scripts/taaqol_maqam_foundation/normative_source_requirement_14.py"
+  },
+  {
+    "domain_candidate_id": "QADA_RELATED_DOMAIN_CANDIDATE",
+    "domain_candidate_rank": 2,
+    "source_requirement_status": "REQUIREMENT_RECORDED_NOT_SOURCE",
+    "required_authority_type": "RATIFIED_QADA_PROCEDURE_AUTHORITY",
+    "required_text_type": "QADA_PROCEDURE_TEXT",
+    "required_scope": "DISPUTE_ADJUDICATION_SCOPE",
+    "required_evidence_type": "AUTHENTICATED_SOURCE_EVIDENCE",
+    "required_link_license": "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM (owner-ratified, absent)",
+    "primary_domain_dependency": "NOT_FORCED (round 13)",
+    "composite_strategy_dependency": "COMPOSITE_ALLOWED_AS_CANDIDATE (round 14 owner)",
+    "normative_source_born": "NO",
+    "normative_source_ratified": "NO",
+    "normative_source_selected": "NO",
+    "cause": "round-13 DOMAIN_CANDIDATE present + owner allowed request-only source-requirement layer",
+    "conditions": [
+      "required authority type named",
+      "required text type named",
+      "required scope named",
+      "required evidence type named",
+      "required link license named",
+      "NO actual source selected this round"
+    ],
+    "preventers": [
+      "PRIMARY_DOMAIN_CANDIDATE_NOT_FORCED",
+      "FINAL_SINGLE_DOMAIN_CLOSED_NO",
+      "SOURCE_SELECTION_ALLOWED_NOW_NO",
+      "SOURCE_BIRTH_ALLOWED_NOW_NO",
+      "NO_OWNER_SUPPLIED_FIVE_COMPONENT_SOURCE"
+    ],
+    "verdict": "DEFER_SOURCE_BIRTH_REQUIREMENTS_RECORDED",
+    "evidence": [
+      "output/taaqol_maqam_foundation_generated/NAZILA_MULTI_DOMAIN_CANDIDATE_CLASSIFICATION_13.json",
+      "output/taaqol_maqam_foundation_generated/DOMAIN_CLASSIFICATION_OWNER_RATIFICATION_13.json"
+    ],
+    "residuals": [
+      "actual source birth needs owner: primary/composite decision + the five components (round 15)"
+    ],
+    "producer_file": "scripts/taaqol_maqam_foundation/normative_source_requirement_14.py"
+  },
+  {
+    "domain_candidate_id": "TURKAH_RIGHTS_DOMAIN_CANDIDATE",
+    "domain_candidate_rank": 3,
+    "source_requirement_status": "REQUIREMENT_RECORDED_NOT_SOURCE",
+    "required_authority_type": "RATIFIED_TURKAH_RIGHTS_AUTHORITY",
+    "required_text_type": "TURKAH_RIGHTS_TEXT",
+    "required_scope": "ESTATE_RIGHTS_SCOPE",
+    "required_evidence_type": "AUTHENTICATED_SOURCE_EVIDENCE",
+    "required_link_license": "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM (owner-ratified, absent)",
+    "primary_domain_dependency": "NOT_FORCED (round 13)",
+    "composite_strategy_dependency": "COMPOSITE_ALLOWED_AS_CANDIDATE (round 14 owner)",
+    "normative_source_born": "NO",
+    "normative_source_ratified": "NO",
+    "normative_source_selected": "NO",
+    "cause": "round-13 DOMAIN_CANDIDATE present + owner allowed request-only source-requirement layer",
+    "conditions": [
+      "required authority type named",
+      "required text type named",
+      "required scope named",
+      "required evidence type named",
+      "required link license named",
+      "NO actual source selected this round"
+    ],
+    "preventers": [
+      "PRIMARY_DOMAIN_CANDIDATE_NOT_FORCED",
+      "FINAL_SINGLE_DOMAIN_CLOSED_NO",
+      "SOURCE_SELECTION_ALLOWED_NOW_NO",
+      "SOURCE_BIRTH_ALLOWED_NOW_NO",
+      "NO_OWNER_SUPPLIED_FIVE_COMPONENT_SOURCE"
+    ],
+    "verdict": "DEFER_SOURCE_BIRTH_REQUIREMENTS_RECORDED",
+    "evidence": [
+      "output/taaqol_maqam_foundation_generated/NAZILA_MULTI_DOMAIN_CANDIDATE_CLASSIFICATION_13.json",
+      "output/taaqol_maqam_foundation_generated/DOMAIN_CLASSIFICATION_OWNER_RATIFICATION_13.json"
+    ],
+    "residuals": [
+      "actual source birth needs owner: primary/composite decision + the five components (round 15)"
+    ],
+    "producer_file": "scripts/taaqol_maqam_foundation/normative_source_requirement_14.py"
+  },
+  {
+    "domain_candidate_id": "SUKNA_OR_POSSESSION_DOMAIN_CANDIDATE",
+    "domain_candidate_rank": 4,
+    "source_requirement_status": "REQUIREMENT_RECORDED_NOT_SOURCE",
+    "required_authority_type": "RATIFIED_SUKNA_POSSESSION_AUTHORITY",
+    "required_text_type": "SUKNA_POSSESSION_TEXT",
+    "required_scope": "RESIDENCE_POSSESSION_SCOPE",
+    "required_evidence_type": "AUTHENTICATED_SOURCE_EVIDENCE",
+    "required_link_license": "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM (owner-ratified, absent)",
+    "primary_domain_dependency": "NOT_FORCED (round 13)",
+    "composite_strategy_dependency": "COMPOSITE_ALLOWED_AS_CANDIDATE (round 14 owner)",
+    "normative_source_born": "NO",
+    "normative_source_ratified": "NO",
+    "normative_source_selected": "NO",
+    "cause": "round-13 DOMAIN_CANDIDATE present + owner allowed request-only source-requirement layer",
+    "conditions": [
+      "required authority type named",
+      "required text type named",
+      "required scope named",
+      "required evidence type named",
+      "required link license named",
+      "NO actual source selected this round"
+    ],
+    "preventers": [
+      "PRIMARY_DOMAIN_CANDIDATE_NOT_FORCED",
+      "FINAL_SINGLE_DOMAIN_CLOSED_NO",
+      "SOURCE_SELECTION_ALLOWED_NOW_NO",
+      "SOURCE_BIRTH_ALLOWED_NOW_NO",
+      "NO_OWNER_SUPPLIED_FIVE_COMPONENT_SOURCE"
+    ],
+    "verdict": "DEFER_SOURCE_BIRTH_REQUIREMENTS_RECORDED",
+    "evidence": [
+      "output/taaqol_maqam_foundation_generated/NAZILA_MULTI_DOMAIN_CANDIDATE_CLASSIFICATION_13.json",
+      "output/taaqol_maqam_foundation_generated/DOMAIN_CLASSIFICATION_OWNER_RATIFICATION_13.json"
+    ],
+    "residuals": [
+      "actual source birth needs owner: primary/composite decision + the five components (round 15)"
+    ],
+    "producer_file": "scripts/taaqol_maqam_foundation/normative_source_requirement_14.py"
+  }
+]

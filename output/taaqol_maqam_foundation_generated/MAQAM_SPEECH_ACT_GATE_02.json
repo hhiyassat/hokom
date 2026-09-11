@@ -1,0 +1,97 @@
+{
+  "text_alone": {
+    "gate": "MaqamAwareSpeechActGate",
+    "run": "TEXT_ALONE",
+    "source_rule": "SOURCE_2#D (أسلوب القول/النغمة)",
+    "inputs": [
+      "textual_markers",
+      "punctuation"
+    ],
+    "candidate_space": [
+      "INFORMATIVE_REPORT",
+      "NARRATION",
+      "QUESTION",
+      "COMMAND",
+      "PROHIBITION",
+      "REQUEST",
+      "SUPPLICATION",
+      "WISH",
+      "HYPOTHETICAL_CASE_PRESENTATION",
+      "ISTIFTA_REQUEST",
+      "JUDICIAL_CLAIM",
+      "UNKNOWN_OR_DEFERRED"
+    ],
+    "candidates_open": [
+      "INFORMATIVE_REPORT",
+      "NARRATION",
+      "UNKNOWN_OR_DEFERRED"
+    ],
+    "istifta_certificate": "NONE",
+    "laws": [
+      "PUNCTUATION_ONLY != SPEECH_ACT_CERTIFICATE",
+      "TEXT_ALONE != ISTIFTA_CERTIFICATE"
+    ],
+    "cause_present": true,
+    "conditions_satisfied": false,
+    "preventers": [
+      "NO_MAQAM_OR_PROSODY_EVIDENCE",
+      "TEXT_ALONE_CANNOT_CERTIFY"
+    ],
+    "gate_decision": "DEFER",
+    "text_alone_infers_istifta": "NO",
+    "verdict": "SPEECH_ACT_DEFER_TEXT_ALONE",
+    "residuals": [
+      "needs prosody / maqām / owner evidence to certify a speech act"
+    ],
+    "evidence_file": "output/taaqol_nazila_matrix_generated/HOKOM_NAZILA_LINGUISTIC_ANALYSIS_RESULT.csv",
+    "producer_file": "scripts/taaqol_maqam_foundation/deferred_consumers.py",
+    "measured": "MEASURED"
+  },
+  "example_context": {
+    "gate": "MaqamAwareSpeechActGate",
+    "run": "EXAMPLE_CONTEXT",
+    "source_rule": "SOURCE_2#D",
+    "inputs": [
+      "textual_markers",
+      "maqam_evidence",
+      "speaker_purpose",
+      "reference_world",
+      "commitment_rank"
+    ],
+    "candidate_space": [
+      "INFORMATIVE_REPORT",
+      "NARRATION",
+      "QUESTION",
+      "COMMAND",
+      "PROHIBITION",
+      "REQUEST",
+      "SUPPLICATION",
+      "WISH",
+      "HYPOTHETICAL_CASE_PRESENTATION",
+      "ISTIFTA_REQUEST",
+      "JUDICIAL_CLAIM",
+      "UNKNOWN_OR_DEFERRED"
+    ],
+    "candidates_within_example_scope": [
+      "HYPOTHETICAL_CASE_PRESENTATION",
+      "ISTIFTA_REQUEST"
+    ],
+    "scope": "ARABIC_UNDERSTANDING/SPEECH_ACT/EXAMPLE",
+    "example_only_not_owner_decision": "YES",
+    "laws": [
+      "EXAMPLE_CONTEXT != OWNER_RATIFICATION"
+    ],
+    "cause_present": true,
+    "conditions_satisfied": true,
+    "preventers": [],
+    "gate_decision": "ACCEPT",
+    "example_context_owner_ratification": "NO",
+    "verdict": "SPEECH_ACT_HYPOTHETICAL_CANDIDATE_WITHIN_EXAMPLE_SCOPE",
+    "residuals": [
+      "remains a fixture; never an owner decision; produces no normative output"
+    ],
+    "evidence_file": "docs/maqam_theory_sources/المقام_والقرينة_الحالية__OWNER_QUOTED_EXCERPT.md",
+    "producer_file": "scripts/taaqol_maqam_foundation/deferred_consumers.py",
+    "measured": "MEASURED"
+  }
+}

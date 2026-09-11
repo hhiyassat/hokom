@@ -1,0 +1,27 @@
+{
+  "covered_domain_candidates": [
+    "MIRATH_RELATED_DOMAIN_CANDIDATE",
+    "QADA_RELATED_DOMAIN_CANDIDATE",
+    "TURKAH_RIGHTS_DOMAIN_CANDIDATE"
+  ],
+  "uncovered_domain_candidates": [
+    "SUKNA_OR_POSSESSION_DOMAIN_CANDIDATE"
+  ],
+  "sukna_or_possession_uncovered": "YES",
+  "per_uncovered": [
+    {
+      "domain_candidate_id": "SUKNA_OR_POSSESSION_DOMAIN_CANDIDATE",
+      "status": "UNCOVERED_BY_CURRENT_SOURCES",
+      "needs": "مصدر أو قاعدة لاحقة قبل أن يُشارك في بوابة الحكم",
+      "note": "SUKNA_OR_POSSESSION (السكنى/الحيازة) لا يغطيه أيٌّ من المصادر الثلاثة؛ حق السكنى/الطرد يتوقف على مصدر/قاعدة لم تُزوَّد بعد."
+    }
+  ],
+  "open_residuals_before_hukm_gate": [
+    "SUKNA_OR_POSSESSION_DOMAIN_CANDIDATE بلا مصدر → حق السكنى وواقعة الطرد غير محسومة مصدريًّا.",
+    "تحقّق شروط الكلالة (عدم وجود ولد/والد وسائر الورثة) لم يُفحص واقعيًّا بعد.",
+    "الدعوى وعبء الإثبات (SOURCE_3) ينظّم الإجراء لا موضوع الحق؛ نتيجة التحاكم غير محسومة.",
+    "لا رخصة عبور من الدعوى الواقعية إلى الحكم؛ بوابة الحكم (docs/43) لم تُفتح."
+  ],
+  "unresolved_residuals_recorded": "YES",
+  "producer_file": "scripts/taaqol_maqam_foundation/source_to_masala_mapping_18.py"
+}

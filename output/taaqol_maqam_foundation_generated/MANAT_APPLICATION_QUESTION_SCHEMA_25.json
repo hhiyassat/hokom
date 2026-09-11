@@ -1,0 +1,50 @@
+{
+  "questionnaire_form_only": "YES",
+  "answers_provided_by_agent": "NO",
+  "allowed_verdicts": [
+    "ACCEPT_AS_MANAT_APPLICATION_QUESTION_ONLY",
+    "BLOCK_MANAT_APPLICATION_QUESTION",
+    "DEFER_MANAT_APPLICATION_QUESTION"
+  ],
+  "forbidden_verdicts": [
+    "FINAL_ANSWER",
+    "FINAL_HUKM",
+    "FINAL_MANAT",
+    "TANZIL"
+  ],
+  "allowed_question_types": [
+    "FACT_EXISTENCE",
+    "PARTY_IDENTITY",
+    "PROPERTY_STATUS",
+    "PRIOR_PERMISSION",
+    "POSSESSION_STATUS",
+    "CLAIM_CONTENT",
+    "DEFENSE_CONTENT",
+    "EVIDENCE_OR_BAYYINA",
+    "QARINA_ASSESSMENT",
+    "RESIDUAL_COMPLETENESS"
+  ],
+  "question_fields": [
+    "question_id",
+    "linked_manat_candidate_ids",
+    "linked_hukm_candidate_ids",
+    "question_text",
+    "question_type",
+    "required_evidence_type",
+    "expected_answer_type",
+    "effect_if_yes",
+    "effect_if_no",
+    "effect_if_unknown",
+    "cause",
+    "conditions",
+    "preventers",
+    "verdict",
+    "residuals",
+    "answer_provided",
+    "final_manat_allowed",
+    "tanzil_allowed",
+    "final_hukm_allowed",
+    "final_answer_allowed"
+  ],
+  "producer_file": "scripts/taaqol_maqam_foundation/manat_application_questionnaire_25.py"
+}

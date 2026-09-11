@@ -1,0 +1,125 @@
+{
+  "ROUND": "MANAT_CANDIDATE_EXTRACTION_GATE_24",
+  "manat_candidate_opened": "YES",
+  "manat_candidate_gate_open": "YES",
+  "candidate_form_only": "YES",
+  "manat_candidate_count": 4,
+  "manat_candidates": [
+    {
+      "manat_candidate_id": "MC1_SISTER_EXISTENCE_AND_ENTITLEMENT_CONDITIONS",
+      "from_hukm_candidate_id": "HC1_SISTER_SHARE",
+      "linked_domain_candidates": [
+        "MIRATH_RELATED_DOMAIN_CANDIDATE",
+        "TURKAH_RIGHTS_DOMAIN_CANDIDATE"
+      ],
+      "linked_sources": [
+        "SOURCE_1",
+        "SOURCE_2"
+      ],
+      "linked_masala_segments": [
+        "موت مالك عن أخت (مَاتَ مَلِكٌ عَنْ أُخْتٍ)",
+        "التركة وترتيب الفروض والباقي"
+      ],
+      "candidate_manat_statement": "مرشح مناط أولي: موضع التأثير هو وجود أخت للميت وشروط استحقاقها في التركة؛ شروط الكلالة وسائر الورثة تبقى شرطًا/بقية لا حكمًا. لا يحدد استحقاقًا نهائيًا.",
+      "candidate_scope": "مرشح مناط لجهة الميراث/التركة فقط؛ لا يحسم مقدار النصيب ولا الاستحقاق النهائي.",
+      "cause": "مشتق من مرشح الحكم HC1_SISTER_SHARE (الجولة 23)؛ المالك رخّص مرشح المناط فقط.",
+      "conditions": "شروط الكلالة؛ عدم وجود ولد/والد؛ حصر سائر الورثة؛ بقاء المركّب؛ عدم حسم النتيجة.",
+      "preventers": "جعل موضع التأثير مناطًا نهائيًا؛ حسم مقدار/ملكية/سكنى نهائية؛ إلزام قضائي؛ اختزال المركّب؛ اعتبار المصدر وحده مناطًا/حكمًا.",
+      "verdict": "ACCEPT_AS_MANAT_CANDIDATE_ONLY",
+      "evidence": "NORMATIVE_HUKM_CANDIDATES_23.json; HUKM_CANDIDATE_RESIDUALS_23.json",
+      "residuals": "مواضع التأثير مرشّحة فقط؛ الشروط الواقعية غير مفحوصة؛ لا مناط نهائي ولا تنزيل؛ يحتاج تصديق المالك للمناط النهائي.",
+      "final_manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_hukm_allowed": "NO",
+      "final_answer_allowed": "NO",
+      "owner_ratification_required_for_final_manat": "YES"
+    },
+    {
+      "manat_candidate_id": "MC2_CLAIM_DISPUTE_AND_PROOF_BURDEN",
+      "from_hukm_candidate_id": "HC2_CLAIM_BURDEN_OF_PROOF",
+      "linked_domain_candidates": [
+        "QADA_RELATED_DOMAIN_CANDIDATE"
+      ],
+      "linked_sources": [
+        "SOURCE_3"
+      ],
+      "linked_masala_segments": [
+        "التحاكم والدعوى وعبء الإثبات (فَأَرَادَ وَارِثُهُ طَرْدَهَا، فَتَحَاكَمَا)"
+      ],
+      "candidate_manat_statement": "مرشح مناط أولي: موضع التأثير هو وجود دعوى من الوارث على عين/حق ووجود منازعة وعبء الإثبات؛ تنظيم الإثبات يبقى غير حاسم للحق. لا يفصل في موضوع الحق.",
+      "candidate_scope": "مرشح مناط لجهة القضاء/الإثبات فقط؛ ينظّم الإجراء لا موضوع الحق، ولا يُلزم قضائيًّا.",
+      "cause": "مشتق من مرشح الحكم HC2_CLAIM_BURDEN_OF_PROOF (الجولة 23)؛ المالك رخّص مرشح المناط فقط.",
+      "conditions": "تحديد الدعوى؛ توفر البينة/اليمين؛ فحص القرائن؛ بقاء المركّب؛ عدم حسم النتيجة.",
+      "preventers": "جعل موضع التأثير مناطًا نهائيًا؛ حسم مقدار/ملكية/سكنى نهائية؛ إلزام قضائي؛ اختزال المركّب؛ اعتبار المصدر وحده مناطًا/حكمًا.",
+      "verdict": "ACCEPT_AS_MANAT_CANDIDATE_ONLY",
+      "evidence": "NORMATIVE_HUKM_CANDIDATES_23.json; HUKM_CANDIDATE_RESIDUALS_23.json",
+      "residuals": "مواضع التأثير مرشّحة فقط؛ الشروط الواقعية غير مفحوصة؛ لا مناط نهائي ولا تنزيل؛ يحتاج تصديق المالك للمناط النهائي.",
+      "final_manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_hukm_allowed": "NO",
+      "final_answer_allowed": "NO",
+      "owner_ratification_required_for_final_manat": "YES"
+    },
+    {
+      "manat_candidate_id": "MC3_STANDING_HAND_STATE_BEFORE_EXPULSION",
+      "from_hukm_candidate_id": "HC3_POSSESSION_STAYS_PENDING_EXAMINATION",
+      "linked_domain_candidates": [
+        "SUKNA_OR_POSSESSION_DOMAIN_CANDIDATE"
+      ],
+      "linked_sources": [
+        "SUKNA_SOURCE_1"
+      ],
+      "linked_masala_segments": [
+        "كون الأخت ساكنة في البيت قبل الطرد (أُخْتٍ سَاكِنَةٍ مَعَهُ)"
+      ],
+      "candidate_manat_statement": "مرشح مناط أولي: موضع التأثير هو كون الأخت ساكنة/ذات يد أو حال قائم قبل الطرد مع فحص القرائن؛ تبقى القاعدة: الحيازة ليست ملكية نهائية. لا يثبت حق سكنى نهائيًا.",
+      "candidate_scope": "مرشح مناط لجهة الحيازة/اليد وبقاء الحال؛ الحيازة ليست ملكية نهائية.",
+      "cause": "مشتق من مرشح الحكم HC3_POSSESSION_STAYS_PENDING_EXAMINATION (الجولة 23)؛ المالك رخّص مرشح المناط فقط.",
+      "conditions": "اعتبار اليد؛ إذن السكنى السابق؛ عدم تكذيب القرائن لليد؛ بقاء المركّب؛ عدم حسم النتيجة.",
+      "preventers": "جعل موضع التأثير مناطًا نهائيًا؛ حسم مقدار/ملكية/سكنى نهائية؛ إلزام قضائي؛ اختزال المركّب؛ اعتبار المصدر وحده مناطًا/حكمًا.",
+      "verdict": "ACCEPT_AS_MANAT_CANDIDATE_ONLY",
+      "evidence": "NORMATIVE_HUKM_CANDIDATES_23.json; HUKM_CANDIDATE_RESIDUALS_23.json",
+      "residuals": "مواضع التأثير مرشّحة فقط؛ الشروط الواقعية غير مفحوصة؛ لا مناط نهائي ولا تنزيل؛ يحتاج تصديق المالك للمناط النهائي.",
+      "final_manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_hukm_allowed": "NO",
+      "final_answer_allowed": "NO",
+      "owner_ratification_required_for_final_manat": "YES"
+    },
+    {
+      "manat_candidate_id": "MC4_COMPOSITE_MANAT_LINK_NO_OUTCOME",
+      "from_hukm_candidate_id": "HC4_COMPOSITE_LINK_NO_OUTCOME",
+      "linked_domain_candidates": [
+        "MIRATH_RELATED_DOMAIN_CANDIDATE",
+        "QADA_RELATED_DOMAIN_CANDIDATE",
+        "SUKNA_OR_POSSESSION_DOMAIN_CANDIDATE",
+        "TURKAH_RIGHTS_DOMAIN_CANDIDATE"
+      ],
+      "linked_sources": [
+        "SOURCE_1",
+        "SOURCE_2",
+        "SOURCE_3",
+        "SUKNA_SOURCE_1"
+      ],
+      "linked_masala_segments": [
+        "الميراث/التركة",
+        "الدعوى وعبء الإثبات",
+        "الحيازة/السُّكنى قبل الطرد"
+      ],
+      "candidate_manat_statement": "مرشح مناط مركّب أولي يربط مواضع التأثير: الميراث + التركة + الدعوى + السكنى/الحيازة، دون حسم النتيجة ودون ترتيب أولوية نهائية. يحفظ تعدد المجال المركّب.",
+      "candidate_scope": "مرشح مناط مركّب فقط؛ لا يختزل المجال ولا يحسم النازلة ولا يرتّب أولوية نهائية.",
+      "cause": "مشتق من مرشح الحكم HC4_COMPOSITE_LINK_NO_OUTCOME (الجولة 23)؛ المالك رخّص مرشح المناط فقط.",
+      "conditions": "اتساق مواضع التأثير؛ عدم تعارض بنيوي؛ بقاء KEEP_COMPOSITE؛ بقاء المركّب؛ عدم حسم النتيجة.",
+      "preventers": "جعل موضع التأثير مناطًا نهائيًا؛ حسم مقدار/ملكية/سكنى نهائية؛ إلزام قضائي؛ اختزال المركّب؛ اعتبار المصدر وحده مناطًا/حكمًا.",
+      "verdict": "ACCEPT_AS_MANAT_CANDIDATE_ONLY",
+      "evidence": "NORMATIVE_HUKM_CANDIDATES_23.json; HUKM_CANDIDATE_RESIDUALS_23.json",
+      "residuals": "مواضع التأثير مرشّحة فقط؛ الشروط الواقعية غير مفحوصة؛ لا مناط نهائي ولا تنزيل؛ يحتاج تصديق المالك للمناط النهائي.",
+      "final_manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_hukm_allowed": "NO",
+      "final_answer_allowed": "NO",
+      "owner_ratification_required_for_final_manat": "YES"
+    }
+  ],
+  "producer_file": "scripts/taaqol_maqam_foundation/manat_candidate_extraction_24.py"
+}

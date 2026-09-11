@@ -1,0 +1,12 @@
+{
+  "DOMAIN_CANDIDATE_IS_NOT_NORMATIVE_SOURCE": "YES",
+  "SOURCE_REQUIREMENT_IS_NOT_SOURCE": "YES",
+  "SOURCE_CANDIDATE_IS_NOT_RATIFIED_SOURCE": "YES",
+  "NO_NORMATIVE_SOURCE_BIRTH": "YES",
+  "NO_HUKM": "YES",
+  "NO_MANAT": "YES",
+  "NO_TANZIL": "YES",
+  "NO_FINAL_ANSWER": "YES",
+  "chain": "DOMAIN_CANDIDATE != SOURCE_REQUIREMENT != NORMATIVE_SOURCE != HUKM != MANAT != TANZIL != FINAL_ANSWER",
+  "producer_file": "scripts/taaqol_maqam_foundation/normative_source_requirement_14.py"
+}

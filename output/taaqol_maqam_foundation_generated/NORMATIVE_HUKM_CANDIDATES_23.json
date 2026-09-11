@@ -1,0 +1,121 @@
+{
+  "ROUND": "NORMATIVE_HUKM_CANDIDATE_GATE_CONSTITUTION_23",
+  "normative_hukm_candidate_opened": "YES",
+  "hukm_candidate_gate_open": "YES",
+  "candidate_form_only": "YES",
+  "hukm_candidate_count": 4,
+  "hukm_candidates": [
+    {
+      "hukm_candidate_id": "HC1_SISTER_SHARE",
+      "linked_domain_candidates": [
+        "MIRATH_RELATED_DOMAIN_CANDIDATE",
+        "TURKAH_RIGHTS_DOMAIN_CANDIDATE"
+      ],
+      "linked_sources": [
+        "SOURCE_1",
+        "SOURCE_2"
+      ],
+      "linked_masala_segments": [
+        "موت مالك عن أخت (مَاتَ مَلِكٌ عَنْ أُخْتٍ)",
+        "التركة وترتيب الفروض والباقي"
+      ],
+      "candidate_statement": "مرشح حكم أولي يحتاج فحص الشروط والموانع في نصيب الأخت من التركة (شروط الكلالة، عدم وجود ولد وسائر الورثة، ترتيب الفروض والباقي)؛ لا يحدد مقدارًا نهائيًا.",
+      "candidate_scope": "مرشح فقط لجهة الميراث/التركة، لا يُنتج نصيبًا نهائيًا ولا يحسم التركة.",
+      "cause": "مصدرا الميراث/التركة مولودان ومصدَّقان من المالك، ومربوطان بجزء المسألة (الجولتان 17/18).",
+      "conditions": "فحص شروط الكلالة؛ التحقق من عدم وجود ولد/والد؛ حصر باقي الورثة؛ تحقق ترتيب الفروض.",
+      "preventers": "غياب فحص الشروط الواقعية؛ اعتبار المصدر وحده حكمًا؛ تحديد مقدار نهائي.",
+      "verdict": "ACCEPT_AS_NORMATIVE_HUKM_CANDIDATE_ONLY",
+      "evidence": "RATIFIED_SOURCE_BIRTH_REGISTRY_17.json; SOURCE_TO_MASALA_MAPPING_18.json",
+      "residuals": "مقدار النصيب النهائي غير محسوم؛ الشروط الواقعية غير مفحوصة؛ يحتاج تصديق المالك للحكم النهائي.",
+      "final_hukm_allowed": "NO",
+      "manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_answer_allowed": "NO",
+      "owner_ratification_required_for_final_hukm": "YES"
+    },
+    {
+      "hukm_candidate_id": "HC2_CLAIM_BURDEN_OF_PROOF",
+      "linked_domain_candidates": [
+        "QADA_RELATED_DOMAIN_CANDIDATE"
+      ],
+      "linked_sources": [
+        "SOURCE_3"
+      ],
+      "linked_masala_segments": [
+        "التحاكم والدعوى وعبء الإثبات (فَأَرَادَ وَارِثُهُ طَرْدَهَا، فَتَحَاكَمَا)"
+      ],
+      "candidate_statement": "مرشح حكم أولي يحتاج فحص الشروط والموانع في دعوى الوارث وعبء الإثبات (اليمين على المدعى عليه، وقوة جنبة أقوى المتداعيين)؛ لا يحسم نتيجة النزاع.",
+      "candidate_scope": "مرشح فقط لجهة القضاء/الإثبات، ينظّم الإجراء لا موضوع الحق، ولا يُنتج إلزامًا قضائيًا.",
+      "cause": "مصدر القضاء مولود ومصدَّق ومربوط بجزء التحاكم (الجولتان 17/18).",
+      "conditions": "تحديد المدعي والمدعى عليه؛ توفر البينة أو اليمين؛ فحص القرائن.",
+      "preventers": "قلب عبء الإثبات؛ اعتبار الدعوى وحدها كافية؛ إنتاج إلزام قضائي نهائي.",
+      "verdict": "ACCEPT_AS_NORMATIVE_HUKM_CANDIDATE_ONLY",
+      "evidence": "RATIFIED_SOURCE_BIRTH_REGISTRY_17.json; SOURCE_TO_MASALA_MAPPING_18.json",
+      "residuals": "نتيجة التحاكم غير محسومة؛ القرائن الواقعية غير مفحوصة؛ يحتاج تصديق المالك للحكم النهائي.",
+      "final_hukm_allowed": "NO",
+      "manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_answer_allowed": "NO",
+      "owner_ratification_required_for_final_hukm": "YES"
+    },
+    {
+      "hukm_candidate_id": "HC3_POSSESSION_STAYS_PENDING_EXAMINATION",
+      "linked_domain_candidates": [
+        "SUKNA_OR_POSSESSION_DOMAIN_CANDIDATE"
+      ],
+      "linked_sources": [
+        "SUKNA_SOURCE_1"
+      ],
+      "linked_masala_segments": [
+        "كون الأخت ساكنة في البيت قبل الطرد (أُخْتٍ سَاكِنَةٍ مَعَهُ)"
+      ],
+      "candidate_statement": "مرشح حكم أولي يحتاج فحص الشروط والموانع في بقاء الساكن/ذي اليد حتى تُفحص الدعوى والقرائن، وأن مجرد دعوى الوارث لا تكفي وحدها لإخراجه؛ لا يثبت حق سكنى نهائيًا ولا ملكية.",
+      "candidate_scope": "مرشح فقط لجهة الحيازة/اليد وبقاء الحال عند النزاع؛ الحيازة ليست ملكية نهائية.",
+      "cause": "مصدر اليد/الحيازة (ابن القيم) مولود ومصدَّق من المالك ويخدم residual السُّكنى (الجولة 21).",
+      "conditions": "ثبوت كون الأخت ذات يد/ساكنة قبل النزاع؛ عدم تكذيب القرائن الظاهرة لليد؛ فحص الدعوى.",
+      "preventers": "تحويل الحيازة إلى ملكية نهائية؛ إخراج ذي اليد بمجرد الدعوى؛ إنتاج حق سكنى نهائي.",
+      "verdict": "ACCEPT_AS_NORMATIVE_HUKM_CANDIDATE_ONLY",
+      "evidence": "SUKNA_RATIFIED_SOURCE_BIRTH_REGISTRY_21.json",
+      "residuals": "حق السكنى النهائي والملكية غير محسومين؛ القرائن الواقعية غير مفحوصة؛ يحتاج تصديق المالك.",
+      "final_hukm_allowed": "NO",
+      "manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_answer_allowed": "NO",
+      "owner_ratification_required_for_final_hukm": "YES"
+    },
+    {
+      "hukm_candidate_id": "HC4_COMPOSITE_LINK_NO_OUTCOME",
+      "linked_domain_candidates": [
+        "MIRATH_RELATED_DOMAIN_CANDIDATE",
+        "QADA_RELATED_DOMAIN_CANDIDATE",
+        "SUKNA_OR_POSSESSION_DOMAIN_CANDIDATE",
+        "TURKAH_RIGHTS_DOMAIN_CANDIDATE"
+      ],
+      "linked_sources": [
+        "SOURCE_1",
+        "SOURCE_2",
+        "SOURCE_3",
+        "SUKNA_SOURCE_1"
+      ],
+      "linked_masala_segments": [
+        "الميراث/التركة",
+        "الدعوى وعبء الإثبات",
+        "الحيازة/السُّكنى قبل الطرد"
+      ],
+      "candidate_statement": "مرشح حكم مركّب أولي يربط أجزاء المسألة الثلاثة (نصيب الأخت، عبء الإثبات، بقاء ذي اليد حتى الفحص) دون أن يحسم النتيجة؛ يحفظ تعدد المجال المركّب.",
+      "candidate_scope": "مرشح مركّب فقط، لا يختزل المجال ولا يحسم النازلة ولا يرتّب أولوية نهائية بين الأجزاء.",
+      "cause": "اكتملت تغطية مرشحات الجولة 13 بمصادر مولودة مصدَّقة مع بقاء المركّب (الجولة 21).",
+      "conditions": "اتساق المرشحات الثلاثة؛ عدم تعارض بنيوي؛ بقاء KEEP_COMPOSITE؛ فحص الشروط لكل جزء.",
+      "preventers": "اختزال المركّب إلى مجال واحد؛ حسم النتيجة؛ ترتيب أولوية نهائية دون تصديق المالك.",
+      "verdict": "ACCEPT_AS_NORMATIVE_HUKM_CANDIDATE_ONLY",
+      "evidence": "SOURCE_COVERAGE_AFTER_SUKNA_BIRTH_21.json; SOURCE_TO_MASALA_MAPPING_18.json",
+      "residuals": "التكامل النهائي بين الأجزاء غير محسوم؛ لا مناط ولا تنزيل؛ يحتاج تصديق المالك للحكم النهائي.",
+      "final_hukm_allowed": "NO",
+      "manat_allowed": "NO",
+      "tanzil_allowed": "NO",
+      "final_answer_allowed": "NO",
+      "owner_ratification_required_for_final_hukm": "YES"
+    }
+  ],
+  "producer_file": "scripts/taaqol_maqam_foundation/normative_hukm_candidate_gate_23.py"
+}

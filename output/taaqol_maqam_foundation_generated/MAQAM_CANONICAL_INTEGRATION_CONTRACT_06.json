@@ -1,0 +1,33 @@
+{
+  "NodeName": "CANONICAL_INTEGRATION",
+  "CANONICAL_INTEGRATION_STATUS": "BLOCKED_WITH_CAUSE",
+  "required_contracts": [
+    "ratified canonical maqām contract"
+  ],
+  "required_adapters": [
+    "typed adapter maqam->Hokom",
+    "typed adapter maqam->Taaqol"
+  ],
+  "required_tests": [
+    "adapter schema",
+    "scope/rank preservation",
+    "no-normative-leak"
+  ],
+  "owner_decisions_needed": [
+    "ratify canonical contract",
+    "ratify typed adapters"
+  ],
+  "forbidden_shortcuts": [
+    "open canonical from report",
+    "example->owner decision",
+    "normative from maqām"
+  ],
+  "CAUSE": "no ratified canonical contract/adapter",
+  "CONDITIONS": "contract+adapters+tests+owner approval",
+  "PREVENTERS": "NO_RATIFIED_CANONICAL_CONTRACT;NO_RATIFIED_TYPED_ADAPTER",
+  "VERDICT": "CANONICAL_BLOCKED_WITH_CAUSE",
+  "EVIDENCE": "docs/MAQAM_CANONICAL_INTEGRATION_BLOCKER_REPORT_02.md",
+  "PRODUCER_FILE": "scripts/taaqol_maqam_foundation/maqam6_reference_ratified_closure_06.py",
+  "RESIDUALS": "integration stays independent+typed",
+  "measured": "MEASURED"
+}

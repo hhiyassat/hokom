@@ -1,0 +1,44 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تقرير تنفيذي — فحص ولادة المصدر المعياري (07)</title>
+<style>body{font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:1.2rem;color:#1b1b1b;background:#fafafa}h1{font-size:1.32rem}h2{font-size:1.05rem;margin-top:1.3rem;border-bottom:2px solid #ddd;padding-bottom:.25rem}table{border-collapse:collapse;width:100%;margin:.5rem 0;background:#fff;font-size:.78rem}th,td{border:1px solid #ccc;padding:.3rem .45rem;text-align:right;vertical-align:top}th{background:#f0f0f0}td.y{background:#e6f4ea}td.n{background:#fdecec;color:#7a1f1f}td.d{background:#fff7e0}.sentbox{border:2px solid #6aa0e0;border-radius:.6rem;padding:.5rem .8rem;margin:.6rem 0;background:#fff}.sent{background:#eef6ff;border:1px solid #9cc3ef;border-radius:.4rem;padding:.5rem .8rem;font-weight:700;font-size:1rem}.note{background:#fff7e0;border:1px solid #e0c877;padding:.4rem .7rem;border-radius:.4rem;margin:.4rem 0;font-size:.82rem}code{background:#f2f2f2;padding:.05rem .3rem;border-radius:.25rem;font-size:.76rem}.foot{color:#444;font-size:.8rem;border-top:1px solid #ccc;margin-top:1rem;padding-top:.5rem}.wrap{overflow-x:auto}ul,ol{margin:.3rem 1.2rem}</style></head><body>
+<h1>تقرير تنفيذي — فحص ولادة المصدر المعياري (07)</h1>
+<div class="note">مولّد من الكود/artifacts فقط. MANAGER_REPORT_CANONICAL_FORMAT = MAQAM_AR_05_STYLE · REPORT_SOURCE = CODE_AND_ARTIFACTS_ONLY · ILLUSTRATIVE_DEMO = NO · LLM_FREE_TEXT_OUTPUT = NO. تقرير المدير 06 أُصلح قبل هذه الجولة.</div>
+<h2>1. ملخص للمدير</h2><ul><li>MAQAM_6 مصدّق وسياسة المرجع مصدّقة (لهذه النازلة)، والدعوى الواقعية وُلدت مؤجّلة.</li><li>سؤال الجولة: هل يوجد مصدر معياري مصدّق لولادة NORMATIVE_SOURCE؟ الجواب: لا.</li><li>توقفت السلسلة عند المصدر المعياري (UNBORN)؛ فلا حكم ولا مناط ولا تنزيل ولا جواب.</li></ul>
+<h2>2. الجملة محل التشغيل</h2><div class="sentbox"><div class="sent" id="nazila-sentence">مَاتَ مَلِكٌ عَنْ أُخْتٍ سَاكِنَةٍ مَعَهُ، فَأَرَادَ وَارِثُهُ طَرْدَهَا، فَتَحَاكَمَا.</div></div>
+<h2>3. ما أُغلق سابقًا: المقام والمرجع</h2><div class="note y" style="background:#e6f4ea">MAQAM_6_OWNER_RATIFIED = YES · MAQAM_CLASSIFICATION = ACCEPT/CERTIFIED · REFERENCE_POLICY_OWNER_RATIFIED = YES · ASSUMED_FACT_REFERENCE = HYPOTHETICAL_MARKED_REFERENCE.</div>
+<h2>4. حالة الإفادة والقضوي والدعوى الواقعية</h2><div class="note d" style="background:#fff7e0">IFADAH_PRODUCED_BY_CODE = YES · PROPOSITIONAL_CONTENT_ARTIFACT_EXISTS = YES · FACTUAL_CLAIM_BIRTH_STATUS = BORN_BUT_DEFERRED (دعوى واقعية فقط).</div>
+<h2>5. سؤال الجولة: هل وُلد المصدر المعياري؟</h2><div class="note n" style="background:#fdecec">NORMATIVE_SOURCE_BIRTH_STATUS = UNBORN — لم يوجد مصدر معياري مصدّق.</div>
+<h2>6. جدول شروط ولادة المصدر المعياري</h2><div class="wrap"><table><thead><tr><th>الشرط</th><th>حاضر؟</th></tr></thead><tbody><tr><td>NORMATIVE_AUTHORITY_PRESENT</td><td class="n">NO</td></tr><tr><td>NORMATIVE_SOURCE_TEXT_PRESENT</td><td class="n">NO</td></tr><tr><td>NORMATIVE_SOURCE_SCOPE_PRESENT</td><td class="n">NO</td></tr><tr><td>NORMATIVE_EVIDENCE_PRESENT</td><td class="n">NO</td></tr><tr><td>NORMATIVE_LINK_LICENSE_PRESENT</td><td class="n">NO</td></tr></tbody></table></div>
+<h3>جدول التتبع: القاعدة ← المصدر ← المنتج ← artifact ← الاختبار</h3>
+<div class="wrap"><table><thead><tr><th>requirement</th><th>المجال</th><th>source</th><th>producer_file</th><th>artifact</th><th>test</th><th>status</th></tr></thead><tbody>
+<tr><th>REQ-COREFERENCE</th><td>COREFERENCE</td><td>SOURCE_2#A</td><td>MaqamAwareCoreferenceGate</td><td>output/taaqol_maqam_foundation_generated/MAQAM_COREFERENCE_GATE_02.json</td><td>tests/test_taaqol_maqam_deferred_consumers_02.py</td><td class="y">TRACEABLE</td></tr>
+<tr><th>REQ-ELLIPSIS</th><td>ELLIPSIS</td><td>SOURCE_2#B</td><td>MaqamAwareEllipsisGate</td><td>output/taaqol_maqam_foundation_generated/MAQAM_ELLIPSIS_GATE_02.json</td><td>tests/test_taaqol_maqam_deferred_consumers_02.py</td><td class="y">TRACEABLE</td></tr>
+<tr><th>REQ-RANK</th><td>RANK</td><td>SOURCE_2#C</td><td>MaqamAwareRankGate</td><td>output/taaqol_maqam_foundation_generated/MAQAM_RANK_GATE_02.json</td><td>tests/test_taaqol_maqam_deferred_consumers_02.py</td><td class="y">TRACEABLE</td></tr>
+<tr><th>REQ-SPEECH-ACT</th><td>SPEECH_ACT</td><td>SOURCE_2#D</td><td>MaqamAwareSpeechActGate</td><td>output/taaqol_maqam_foundation_generated/MAQAM_SPEECH_ACT_GATE_02.json</td><td>tests/test_taaqol_maqam_deferred_consumers_02.py</td><td class="y">TRACEABLE</td></tr>
+<tr><th>REQ-CANONICAL-BLOCKER</th><td>INTEGRATION</td><td>QIYAS#16</td><td>CANONICAL_INTEGRATION</td><td>output/taaqol_maqam_foundation_generated/MAQAM_CANONICAL_BLOCKER_02.json</td><td>tests/test_taaqol_maqam_deferred_consumers_02.py</td><td class="y">TRACEABLE</td></tr>
+<tr><th>REQ-MAQAM6-RATIFIED</th><td>MAQAM_CLASSIFICATION</td><td>OWNER_DECISION_06</td><td>maqam6_reference_ratified_closure_06.py</td><td>output/taaqol_maqam_foundation_generated/NAZILA_MAQAM_CLASSIFICATION_06.json</td><td>tests/test_taaqol_maqam_source_full_maqam6_reference_ratified_closure_06.py</td><td class="y">TRACEABLE</td></tr>
+<tr><th>REQ-REFERENCE-POLICY-RATIFIED</th><td>REFERENCE_POLICY</td><td>OWNER_DECISION_06</td><td>maqam6_reference_ratified_closure_06.py</td><td>output/taaqol_maqam_foundation_generated/NAZILA_REFERENCE_POLICY_06.json</td><td>tests/test_taaqol_maqam_source_full_maqam6_reference_ratified_closure_06.py</td><td class="y">TRACEABLE</td></tr>
+<tr><th>REQ-FACTUAL-CLAIM-BIRTH</th><td>FACTUAL_CLAIM</td><td>OWNER_DECISION_06+PROP08</td><td>maqam6_reference_ratified_closure_06.py</td><td>output/taaqol_maqam_foundation_generated/NAZILA_FACTUAL_CLAIM_BIRTH_06.json</td><td>tests/test_taaqol_maqam_source_full_maqam6_reference_ratified_closure_06.py</td><td class="y">TRACEABLE</td></tr>
+<tr><th>REQ-NORMATIVE-SOURCE-BIRTH</th><td>NORMATIVE_SOURCE</td><td>ROUND_07_EXAM</td><td>normative_source_birth_07.py</td><td>output/taaqol_maqam_foundation_generated/NAZILA_NORMATIVE_SOURCE_BIRTH_07.json</td><td>tests/test_taaqol_normative_source_birth_07.py</td><td class="y">TRACEABLE</td></tr>
+</tbody></table></div>
+<h2>7. نتيجة الفحص</h2><div class="note n" style="background:#fdecec">GATE_DECISION = BLOCK · NORMATIVE_SOURCE_BLOCKER = NO_RATIFIED_NORMATIVE_SOURCE · لم تُفتح الولادة.</div>
+<h2>8. لماذا مصدر المقام لا يكفي كمصدر معياري؟</h2><div class="note">MAQAM_THEORY_SOURCE ≠ NORMATIVE_SOURCE — «أساسيات المقام» و«المقام والقرينة» مصادر نظرية مقام، لا تُنتج حكمًا معياريًّا ولا تصلح سلطةً معيارية.</div>
+<h2>9. أين توقفت سلسلة الولادة؟</h2><div class="note n" style="background:#fdecec">عند NORMATIVE_SOURCE (UNBORN). الدعوى الواقعية مولودة مؤجّلة، لكن لا مصدر معياري بعدها.</div>
+<h2>10. آثار ذلك على الحكم/المناط/التنزيل/الجواب</h2><div class="note n" style="background:#fdecec">NORMATIVE_HUKM = FORBIDDEN_PARENT_UNBORN · MANAT/TANZIL/ANSWER = FORBIDDEN_ANCESTOR_UNBORN · FINAL_ANSWER_PRODUCED = NO.</div>
+<h2>11. ما يلزم برمجته أو تزويده بعد ذلك</h2><ol><li>مصدر معياري مصدّق: سلطة + نص + نطاق + دليل + رخصة ربط بالدعوى الواقعية.</li><li>ترقية factual_claim من BORN_BUT_DEFERRED إلى رخصة عبور إن رغب المالك.</li><li>عندها فقط: normative_hukm ← illah/manat ← tanzil ← answer_audit.</li></ol>
+<h2>12. الاختبارات</h2><div class="note">tests/test_taaqol_normative_source_birth_07.py + tests/test_taaqol_maqam_manager_report_06_fixed.py.</div>
+<h2>13. إثبات سلسلة التوليد</h2><div class="note"><pre style="white-space:pre-wrap;margin:0">REPORT_07_CREATED = YES
+MANAGER_REPORT_06_FIXED = YES
+GENERATOR_FILE = scripts/taaqol_maqam_foundation/normative_source_birth_07.py
+PYTEST_FILE = tests/test_taaqol_normative_source_birth_07.py
+MATRIX_FILE = output/taaqol_maqam_foundation_generated/NORMATIVE_SOURCE_BIRTH_07_MATRIX.csv
+REPORT_SOURCE = CODE_AND_ARTIFACTS_ONLY
+ILLUSTRATIVE_DEMO = NO
+LLM_FREE_TEXT_OUTPUT = NO
+EXTERNAL_REFS = 0
+REPORT_REPRODUCIBLE_FROM_GENERATOR = YES
+COMMIT = NO</pre></div>
+<h2>14. الخلاصة التنفيذية</h2><div class="note">بعد تصديق المقام والمرجع وولادة الدعوى الواقعية المؤجّلة، لم يوجد مصدر معياري مصدّق، فبقي المصدر المعياري UNBORN وتوقفت السلسلة؛ لا حكم ولا مناط ولا تنزيل ولا جواب، ومصدر المقام ليس مصدرًا معياريًّا.</div>
+<div class="foot">NORMATIVE_SOURCE_BIRTH_STATUS = UNBORN · NORMATIVE_SOURCE_BLOCKER = NO_RATIFIED_NORMATIVE_SOURCE · MAQAM_THEORY_SOURCE_IS_NORMATIVE_SOURCE = NO · NORMATIVE_HUKM_PRODUCED = NO · MANAT_PRODUCED = NO · TANZIL_PRODUCED = NO · FINAL_ANSWER_PRODUCED = NO · COMMIT = NO · PROJECT_FINISHED = NO.</div>
+</body></html>

@@ -1,0 +1,18 @@
+{
+  "NodeName": "MAQAM_CLASSIFICATION",
+  "MAQAM_6_OWNER_RATIFIED": "YES",
+  "MAQAM_6": "MASALA_MUSAWWARA_LIL_ISTIFTA",
+  "MAQAM_CLASSIFICATION_GATE_DECISION": "ACCEPT",
+  "MAQAM_CLASSIFICATION_BIRTH_STATUS": "CERTIFIED",
+  "MAQAM_CLASSIFICATION_SCOPE": "THIS_NAZILA_ONLY",
+  "MAQAM_TEXT_ALONE_INFERS_ISTIFTA": "NO",
+  "MAQAM_ACCEPTED_BY_OWNER_DECISION_NOT_TEXT_ALONE": "YES",
+  "CAUSE": "OWNER_DECISION_IN_THIS_PROMPT ratifies MAQAM_6 for this nazila",
+  "CONDITIONS": "explicit owner ratification + scope THIS_NAZILA_ONLY",
+  "PREVENTERS": "none (text alone would NOT have inferred istiftāʾ)",
+  "VERDICT": "MAQAM_CLASSIFICATION_ACCEPT_CERTIFIED_BY_OWNER",
+  "EVIDENCE": "OWNER_DECISION_IN_THIS_PROMPT",
+  "PRODUCER_FILE": "scripts/taaqol_maqam_foundation/maqam6_reference_ratified_closure_06.py",
+  "RESIDUALS": "scope limited to this nazila; not a general maqām closure",
+  "measured": "MEASURED"
+}

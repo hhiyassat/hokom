@@ -1,0 +1,35 @@
+{
+  "node_name": "NORMATIVE_SOURCE_BIRTH",
+  "input_sources": [
+    "NAZILA_MAQAM_CLASSIFICATION_06.json",
+    "NAZILA_REFERENCE_POLICY_06.json",
+    "NAZILA_FACTUAL_CLAIM_BIRTH_06.json"
+  ],
+  "parent_factual_claim_status": "BORN_BUT_DEFERRED",
+  "cause": "no ratified normative source/authority/scope/evidence/link-license for this nazila",
+  "conditions": "factual_claim sufficient AND authority AND source_text AND scope AND evidence AND link_license AND no_preventer",
+  "preventers": [
+    "NO_RATIFIED_NORMATIVE_SOURCE",
+    "MAQAM_THEORY_SOURCE_IS_NOT_NORMATIVE_SOURCE",
+    "FACTUAL_CLAIM_BORN_BUT_DEFERRED_WITHOUT_CROSSING_LICENSE"
+  ],
+  "gate_decision": "BLOCK",
+  "birth_status": "UNBORN",
+  "closure_status": "NOT_APPLICABLE",
+  "normative_authority_present": "NO",
+  "normative_source_text_present": "NO",
+  "normative_source_scope_present": "NO",
+  "normative_evidence_present": "NO",
+  "normative_link_license_present": "NO",
+  "normative_source_blocker": "NO_RATIFIED_NORMATIVE_SOURCE",
+  "maqam_theory_source_is_normative_source": "NO",
+  "evidence_files": [
+    "output/taaqol_maqam_foundation_generated/NAZILA_FACTUAL_CLAIM_BIRTH_06.json",
+    "output/taaqol_nazila_matrix_generated/TAAQOL_NAZILA_MANAT_RESULT.csv"
+  ],
+  "producer_file": "scripts/taaqol_maqam_foundation/normative_source_birth_07.py",
+  "residuals": [
+    "needs an owner-ratified normative source (authority+text+scope+evidence+link license)"
+  ],
+  "verdict": "NORMATIVE_SOURCE_UNBORN_BLOCK"
+}
