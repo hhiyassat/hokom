@@ -1,0 +1,370 @@
+{
+  "ROUND": "TAAQOL_REQUIREMENT_REGISTRY_NORMALIZATION_AND_SKELETONS_34",
+  "registry_skeleton_count": 13,
+  "registry_skeletons": [
+    {
+      "registry_id": "factual_claim_registry",
+      "registry_name": "سجل الدعاوى الواقعية",
+      "purpose": "يسجّل الوقائع المزعومة كدعاوى تحتاج تزويدًا وتصديقًا، لا كوقائع مثبتة.",
+      "allowed_record_types": [
+        "FACTUAL_CLAIM_CANDIDATE"
+      ],
+      "minimum_required_fields": [
+        "claim_id",
+        "claim_text",
+        "source_ref",
+        "owner_ratification"
+      ],
+      "owner_ratification_required": "YES",
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "creates_hukm": "NO",
+      "creates_tanzil": "NO",
+      "creates_final_answer": "NO",
+      "gate_dependencies": [
+        "owner_supplied_fact_registry",
+        "owner_ratification_registry"
+      ],
+      "cause": "PHASE 0 يتطلب بناء السجلات قبل التوسع.",
+      "conditions": "يُملأ بسجلات مصدَّقة من المالك قبل أي قبول واقعة/مصدر.",
+      "preventers": "اعتبار الهيكل سجلًّا مأهولًا؛ إنشاء واقعة/مصدر/تصديق من الهيكل نفسه.",
+      "default_verdict_if_empty": "DEFER",
+      "expansion_blocker_if_empty": "YES",
+      "status": "SKELETON_ONLY_NOT_POPULATED"
+    },
+    {
+      "registry_id": "owner_supplied_fact_registry",
+      "registry_name": "سجل الوقائع المزوَّدة من المالك",
+      "purpose": "يستقبل وقائع يزوّدها المالك مع بينة؛ هو الوحيد الذي قد يُنشئ واقعة بعد التصديق.",
+      "allowed_record_types": [
+        "OWNER_SUPPLIED_FACT"
+      ],
+      "minimum_required_fields": [
+        "fact_id",
+        "fact_text",
+        "evidence_ref",
+        "owner_ratification"
+      ],
+      "owner_ratification_required": "YES",
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "creates_hukm": "NO",
+      "creates_tanzil": "NO",
+      "creates_final_answer": "NO",
+      "gate_dependencies": [
+        "owner_ratification_registry"
+      ],
+      "cause": "PHASE 0 يتطلب بناء السجلات قبل التوسع.",
+      "conditions": "يُملأ بسجلات مصدَّقة من المالك قبل أي قبول واقعة/مصدر.",
+      "preventers": "اعتبار الهيكل سجلًّا مأهولًا؛ إنشاء واقعة/مصدر/تصديق من الهيكل نفسه.",
+      "default_verdict_if_empty": "DEFER",
+      "expansion_blocker_if_empty": "YES",
+      "status": "SKELETON_ONLY_NOT_POPULATED"
+    },
+    {
+      "registry_id": "source_requirement_registry",
+      "registry_name": "سجل متطلبات المصادر",
+      "purpose": "يسجّل نوع المصدر المطلوب لكل بُعد؛ لا يُنشئ مصدرًا.",
+      "allowed_record_types": [
+        "SOURCE_REQUIREMENT"
+      ],
+      "minimum_required_fields": [
+        "req_id",
+        "required_source_type",
+        "linked_requirement"
+      ],
+      "owner_ratification_required": "YES",
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "creates_hukm": "NO",
+      "creates_tanzil": "NO",
+      "creates_final_answer": "NO",
+      "gate_dependencies": [
+        "normative_source_registry"
+      ],
+      "cause": "PHASE 0 يتطلب بناء السجلات قبل التوسع.",
+      "conditions": "يُملأ بسجلات مصدَّقة من المالك قبل أي قبول واقعة/مصدر.",
+      "preventers": "اعتبار الهيكل سجلًّا مأهولًا؛ إنشاء واقعة/مصدر/تصديق من الهيكل نفسه.",
+      "default_verdict_if_empty": "DEFER",
+      "expansion_blocker_if_empty": "YES",
+      "status": "SKELETON_ONLY_NOT_POPULATED"
+    },
+    {
+      "registry_id": "normative_source_registry",
+      "registry_name": "سجل المصادر المعيارية",
+      "purpose": "يسجّل المصادر المصدَّقة من المالك (مثل المولودة في الجولات 17/21)؛ لا يُصدّق من الوكيل.",
+      "allowed_record_types": [
+        "OWNER_RATIFIED_SOURCE"
+      ],
+      "minimum_required_fields": [
+        "source_id",
+        "authority",
+        "evidence",
+        "owner_ratification"
+      ],
+      "owner_ratification_required": "YES",
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "creates_hukm": "NO",
+      "creates_tanzil": "NO",
+      "creates_final_answer": "NO",
+      "gate_dependencies": [
+        "owner_ratification_registry"
+      ],
+      "cause": "PHASE 0 يتطلب بناء السجلات قبل التوسع.",
+      "conditions": "يُملأ بسجلات مصدَّقة من المالك قبل أي قبول واقعة/مصدر.",
+      "preventers": "اعتبار الهيكل سجلًّا مأهولًا؛ إنشاء واقعة/مصدر/تصديق من الهيكل نفسه.",
+      "default_verdict_if_empty": "DEFER",
+      "expansion_blocker_if_empty": "YES",
+      "status": "SKELETON_ONLY_NOT_POPULATED"
+    },
+    {
+      "registry_id": "domain_candidate_registry",
+      "registry_name": "سجل مرشحات المجال",
+      "purpose": "يسجّل مرشحات المجال (الجولة 13) دون إغلاق نهائي.",
+      "allowed_record_types": [
+        "DOMAIN_CANDIDATE"
+      ],
+      "minimum_required_fields": [
+        "domain_candidate_id",
+        "is_final_closed_domain"
+      ],
+      "owner_ratification_required": "NO",
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "creates_hukm": "NO",
+      "creates_tanzil": "NO",
+      "creates_final_answer": "NO",
+      "gate_dependencies": [],
+      "cause": "PHASE 0 يتطلب بناء السجلات قبل التوسع.",
+      "conditions": "يُملأ بسجلات مصدَّقة من المالك قبل أي قبول واقعة/مصدر.",
+      "preventers": "اعتبار الهيكل سجلًّا مأهولًا؛ إنشاء واقعة/مصدر/تصديق من الهيكل نفسه.",
+      "default_verdict_if_empty": "DEFER",
+      "expansion_blocker_if_empty": "YES",
+      "status": "SKELETON_ONLY_NOT_POPULATED"
+    },
+    {
+      "registry_id": "hukm_candidate_registry",
+      "registry_name": "سجل مرشحات الحكم",
+      "purpose": "يسجّل مرشحات الحكم (الجولة 23) كمرشحات فقط.",
+      "allowed_record_types": [
+        "HUKM_CANDIDATE"
+      ],
+      "minimum_required_fields": [
+        "hukm_candidate_id",
+        "verdict",
+        "final_hukm_allowed"
+      ],
+      "owner_ratification_required": "NO",
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "creates_hukm": "NO",
+      "creates_tanzil": "NO",
+      "creates_final_answer": "NO",
+      "gate_dependencies": [
+        "normative_source_registry"
+      ],
+      "cause": "PHASE 0 يتطلب بناء السجلات قبل التوسع.",
+      "conditions": "يُملأ بسجلات مصدَّقة من المالك قبل أي قبول واقعة/مصدر.",
+      "preventers": "اعتبار الهيكل سجلًّا مأهولًا؛ إنشاء واقعة/مصدر/تصديق من الهيكل نفسه.",
+      "default_verdict_if_empty": "DEFER",
+      "expansion_blocker_if_empty": "YES",
+      "status": "SKELETON_ONLY_NOT_POPULATED"
+    },
+    {
+      "registry_id": "manat_candidate_registry",
+      "registry_name": "سجل مرشحات المناط",
+      "purpose": "يسجّل مرشحات المناط (الجولة 24) كمرشحات فقط.",
+      "allowed_record_types": [
+        "MANAT_CANDIDATE"
+      ],
+      "minimum_required_fields": [
+        "manat_candidate_id",
+        "verdict",
+        "final_manat_allowed"
+      ],
+      "owner_ratification_required": "NO",
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "creates_hukm": "NO",
+      "creates_tanzil": "NO",
+      "creates_final_answer": "NO",
+      "gate_dependencies": [
+        "hukm_candidate_registry"
+      ],
+      "cause": "PHASE 0 يتطلب بناء السجلات قبل التوسع.",
+      "conditions": "يُملأ بسجلات مصدَّقة من المالك قبل أي قبول واقعة/مصدر.",
+      "preventers": "اعتبار الهيكل سجلًّا مأهولًا؛ إنشاء واقعة/مصدر/تصديق من الهيكل نفسه.",
+      "default_verdict_if_empty": "DEFER",
+      "expansion_blocker_if_empty": "YES",
+      "status": "SKELETON_ONLY_NOT_POPULATED"
+    },
+    {
+      "registry_id": "tanzil_requirement_registry",
+      "registry_name": "سجل متطلبات التنزيل",
+      "purpose": "يسجّل شروط التنزيل المطلوبة قبل أي تنزيل؛ لا يُنتج تنزيلًا.",
+      "allowed_record_types": [
+        "TANZIL_REQUIREMENT"
+      ],
+      "minimum_required_fields": [
+        "req_id",
+        "condition",
+        "owner_ratification"
+      ],
+      "owner_ratification_required": "YES",
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "creates_hukm": "NO",
+      "creates_tanzil": "NO",
+      "creates_final_answer": "NO",
+      "gate_dependencies": [
+        "manat_candidate_registry",
+        "owner_ratification_registry"
+      ],
+      "cause": "PHASE 0 يتطلب بناء السجلات قبل التوسع.",
+      "conditions": "يُملأ بسجلات مصدَّقة من المالك قبل أي قبول واقعة/مصدر.",
+      "preventers": "اعتبار الهيكل سجلًّا مأهولًا؛ إنشاء واقعة/مصدر/تصديق من الهيكل نفسه.",
+      "default_verdict_if_empty": "DEFER",
+      "expansion_blocker_if_empty": "YES",
+      "status": "SKELETON_ONLY_NOT_POPULATED"
+    },
+    {
+      "registry_id": "proof_burden_registry",
+      "registry_name": "سجل عبء الإثبات",
+      "purpose": "يسجّل بوابات البينة/اليمين؛ لا يقرّر الحق الموضوعي.",
+      "allowed_record_types": [
+        "PROOF_BURDEN_GATE"
+      ],
+      "minimum_required_fields": [
+        "gate_id",
+        "claimant",
+        "evidence_ref"
+      ],
+      "owner_ratification_required": "YES",
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "creates_hukm": "NO",
+      "creates_tanzil": "NO",
+      "creates_final_answer": "NO",
+      "gate_dependencies": [
+        "factual_claim_registry"
+      ],
+      "cause": "PHASE 0 يتطلب بناء السجلات قبل التوسع.",
+      "conditions": "يُملأ بسجلات مصدَّقة من المالك قبل أي قبول واقعة/مصدر.",
+      "preventers": "اعتبار الهيكل سجلًّا مأهولًا؛ إنشاء واقعة/مصدر/تصديق من الهيكل نفسه.",
+      "default_verdict_if_empty": "DEFER",
+      "expansion_blocker_if_empty": "YES",
+      "status": "SKELETON_ONLY_NOT_POPULATED"
+    },
+    {
+      "registry_id": "possession_yad_registry",
+      "registry_name": "سجل الحيازة/اليد",
+      "purpose": "يسجّل حالة اليد/الحيازة والقرائن؛ الحيازة ليست ملكية نهائية.",
+      "allowed_record_types": [
+        "POSSESSION_YAD_STATE"
+      ],
+      "minimum_required_fields": [
+        "state_id",
+        "hand_credible",
+        "qarina_ref"
+      ],
+      "owner_ratification_required": "YES",
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "creates_hukm": "NO",
+      "creates_tanzil": "NO",
+      "creates_final_answer": "NO",
+      "gate_dependencies": [
+        "factual_claim_registry"
+      ],
+      "cause": "PHASE 0 يتطلب بناء السجلات قبل التوسع.",
+      "conditions": "يُملأ بسجلات مصدَّقة من المالك قبل أي قبول واقعة/مصدر.",
+      "preventers": "اعتبار الهيكل سجلًّا مأهولًا؛ إنشاء واقعة/مصدر/تصديق من الهيكل نفسه.",
+      "default_verdict_if_empty": "DEFER",
+      "expansion_blocker_if_empty": "YES",
+      "status": "SKELETON_ONLY_NOT_POPULATED"
+    },
+    {
+      "registry_id": "inheritance_condition_registry",
+      "registry_name": "سجل شروط الإرث",
+      "purpose": "يسجّل شروط الكلالة/حصر الورثة كشروط تحتاج إثباتًا.",
+      "allowed_record_types": [
+        "INHERITANCE_CONDITION"
+      ],
+      "minimum_required_fields": [
+        "condition_id",
+        "condition_text",
+        "evidence_ref"
+      ],
+      "owner_ratification_required": "YES",
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "creates_hukm": "NO",
+      "creates_tanzil": "NO",
+      "creates_final_answer": "NO",
+      "gate_dependencies": [
+        "owner_supplied_fact_registry"
+      ],
+      "cause": "PHASE 0 يتطلب بناء السجلات قبل التوسع.",
+      "conditions": "يُملأ بسجلات مصدَّقة من المالك قبل أي قبول واقعة/مصدر.",
+      "preventers": "اعتبار الهيكل سجلًّا مأهولًا؛ إنشاء واقعة/مصدر/تصديق من الهيكل نفسه.",
+      "default_verdict_if_empty": "DEFER",
+      "expansion_blocker_if_empty": "YES",
+      "status": "SKELETON_ONLY_NOT_POPULATED"
+    },
+    {
+      "registry_id": "residual_registry",
+      "registry_name": "سجل البقايا",
+      "purpose": "يسجّل البقايا غير المحسومة عبر الجولات.",
+      "allowed_record_types": [
+        "RESIDUAL"
+      ],
+      "minimum_required_fields": [
+        "residual_id",
+        "residual_text",
+        "blocking"
+      ],
+      "owner_ratification_required": "NO",
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "creates_hukm": "NO",
+      "creates_tanzil": "NO",
+      "creates_final_answer": "NO",
+      "gate_dependencies": [],
+      "cause": "PHASE 0 يتطلب بناء السجلات قبل التوسع.",
+      "conditions": "يُملأ بسجلات مصدَّقة من المالك قبل أي قبول واقعة/مصدر.",
+      "preventers": "اعتبار الهيكل سجلًّا مأهولًا؛ إنشاء واقعة/مصدر/تصديق من الهيكل نفسه.",
+      "default_verdict_if_empty": "DEFER",
+      "expansion_blocker_if_empty": "YES",
+      "status": "SKELETON_ONLY_NOT_POPULATED"
+    },
+    {
+      "registry_id": "owner_ratification_registry",
+      "registry_name": "سجل تصديقات المالك",
+      "purpose": "يسجّل تصديقات المالك الصريحة؛ لا يُنشئ تصديقًا من الوكيل.",
+      "allowed_record_types": [
+        "OWNER_RATIFICATION"
+      ],
+      "minimum_required_fields": [
+        "ratification_id",
+        "subject",
+        "decision",
+        "scope"
+      ],
+      "owner_ratification_required": "YES",
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "creates_hukm": "NO",
+      "creates_tanzil": "NO",
+      "creates_final_answer": "NO",
+      "gate_dependencies": [],
+      "cause": "PHASE 0 يتطلب بناء السجلات قبل التوسع.",
+      "conditions": "يُملأ بسجلات مصدَّقة من المالك قبل أي قبول واقعة/مصدر.",
+      "preventers": "اعتبار الهيكل سجلًّا مأهولًا؛ إنشاء واقعة/مصدر/تصديق من الهيكل نفسه.",
+      "default_verdict_if_empty": "DEFER",
+      "expansion_blocker_if_empty": "YES",
+      "status": "SKELETON_ONLY_NOT_POPULATED"
+    }
+  ],
+  "producer_file": "scripts/taaqol_maqam_foundation/requirement_registry_normalization_and_skeletons_34.py"
+}

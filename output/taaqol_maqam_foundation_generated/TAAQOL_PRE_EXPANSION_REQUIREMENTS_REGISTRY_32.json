@@ -1,0 +1,299 @@
+{
+  "ROUND": "TAAQOL_PRE_EXPANSION_REQUIREMENTS_REGISTRY_32",
+  "nazila_scope": "مَاتَ مَلِكٌ عَنْ أُخْتٍ سَاكِنَةٍ مَعَهُ، فَأَرَادَ وَارِثُهُ طَرْدَهَا، فَتَحَاكَمَا.",
+  "questions_from_agent_knowledge_canonical": "NO",
+  "questions_converted_to_requirements": "YES",
+  "requirement_count": 10,
+  "requirement_type_counts": {
+    "FACT_REQUIREMENT": 5,
+    "SOURCE_REQUIREMENT": 0,
+    "DATABASE_REQUIREMENT": 2,
+    "OWNER_DECISION_REQUIREMENT": 0,
+    "GATE_REQUIREMENT": 3
+  },
+  "requirement_types_allowed": [
+    "FACT_REQUIREMENT",
+    "SOURCE_REQUIREMENT",
+    "DATABASE_REQUIREMENT",
+    "OWNER_DECISION_REQUIREMENT",
+    "GATE_REQUIREMENT"
+  ],
+  "requirements": [
+    {
+      "requirement_id": "REQ01_NO_CHILD",
+      "original_question": "هل ثبت أن الميت لا ولد له؟",
+      "requirement_type": "FACT_REQUIREMENT",
+      "why_needed": "شرط الكلالة يتوقف على انتفاء الولد؛ لا يُفترض من معرفة الوكيل.",
+      "required_database_or_registry": "factual_claim_registry",
+      "required_source_type": "OWNER_SUPPLIED_FACT | حصر إرث موثّق",
+      "required_owner_decision": "تصديق واقعة انتفاء الولد",
+      "cause": "سؤال ظهر في جولة المناط من معرفة الوكيل؛ يجب تسجيله كمتطلب قبل التوسع.",
+      "conditions": "توفّر سجل/مصدر/قرار مالك مطابق؛ عدم اشتقاق واقعة من معرفة الوكيل.",
+      "preventers": "اعتبار السؤال قاعدة كنسية؛ إنشاء واقعة/مصدر من الوكيل؛ التوسع قبل التسجيل؛ إنتاج مناط/تنزيل/حكم/جواب.",
+      "default_verdict_if_missing": "DEFER",
+      "residuals": "غير مستوفى حتى يُبنى السجل/يُزوَّد المصدر/يصدّق المالك.",
+      "expansion_blocker": "YES"
+    },
+    {
+      "requirement_id": "REQ02_OTHER_HEIRS",
+      "original_question": "هل يوجد ورثة آخرون؟",
+      "requirement_type": "DATABASE_REQUIREMENT",
+      "why_needed": "ترتيب الفروض والباقي يتوقف على حصر الورثة.",
+      "required_database_or_registry": "inheritance_condition_registry",
+      "required_source_type": "OWNER_SUPPLIED_FACT | حصر إرث",
+      "required_owner_decision": "اعتماد قائمة الورثة",
+      "cause": "سؤال ظهر في جولة المناط من معرفة الوكيل؛ يجب تسجيله كمتطلب قبل التوسع.",
+      "conditions": "توفّر سجل/مصدر/قرار مالك مطابق؛ عدم اشتقاق واقعة من معرفة الوكيل.",
+      "preventers": "اعتبار السؤال قاعدة كنسية؛ إنشاء واقعة/مصدر من الوكيل؛ التوسع قبل التسجيل؛ إنتاج مناط/تنزيل/حكم/جواب.",
+      "default_verdict_if_missing": "DEFER",
+      "residuals": "غير مستوفى حتى يُبنى السجل/يُزوَّد المصدر/يصدّق المالك.",
+      "expansion_blocker": "YES"
+    },
+    {
+      "requirement_id": "REQ03_HEIR_CAPACITY",
+      "original_question": "ما صفة الوارث الذي يريد الطرد؟",
+      "requirement_type": "FACT_REQUIREMENT",
+      "why_needed": "جنبة الدعوى وصفة المدّعي تحدّدان موقع عبء الإثبات.",
+      "required_database_or_registry": "factual_claim_registry",
+      "required_source_type": "OWNER_SUPPLIED_FACT",
+      "required_owner_decision": "تحديد صفة الوارث",
+      "cause": "سؤال ظهر في جولة المناط من معرفة الوكيل؛ يجب تسجيله كمتطلب قبل التوسع.",
+      "conditions": "توفّر سجل/مصدر/قرار مالك مطابق؛ عدم اشتقاق واقعة من معرفة الوكيل.",
+      "preventers": "اعتبار السؤال قاعدة كنسية؛ إنشاء واقعة/مصدر من الوكيل؛ التوسع قبل التسجيل؛ إنتاج مناط/تنزيل/حكم/جواب.",
+      "default_verdict_if_missing": "DEFER",
+      "residuals": "غير مستوفى حتى يُبنى السجل/يُزوَّد المصدر/يصدّق المالك.",
+      "expansion_blocker": "YES"
+    },
+    {
+      "requirement_id": "REQ04_HOUSE_STATUS",
+      "original_question": "هل البيت كله تركة أم فيه حق/انتفاع/إذن سابق؟",
+      "requirement_type": "DATABASE_REQUIREMENT",
+      "why_needed": "صفة المحل (تركة/حق/انتفاع) شرط لدخوله في القسمة أو خروجه.",
+      "required_database_or_registry": "possession_yad_registry",
+      "required_source_type": "سند ملكية/وقف/إذن (OWNER_SUPPLIED)",
+      "required_owner_decision": "تصديق صفة البيت",
+      "cause": "سؤال ظهر في جولة المناط من معرفة الوكيل؛ يجب تسجيله كمتطلب قبل التوسع.",
+      "conditions": "توفّر سجل/مصدر/قرار مالك مطابق؛ عدم اشتقاق واقعة من معرفة الوكيل.",
+      "preventers": "اعتبار السؤال قاعدة كنسية؛ إنشاء واقعة/مصدر من الوكيل؛ التوسع قبل التسجيل؛ إنتاج مناط/تنزيل/حكم/جواب.",
+      "default_verdict_if_missing": "DEFER",
+      "residuals": "غير مستوفى حتى يُبنى السجل/يُزوَّد المصدر/يصدّق المالك.",
+      "expansion_blocker": "YES"
+    },
+    {
+      "requirement_id": "REQ05_PRIOR_PERMISSION",
+      "original_question": "هل كان سكن الأخت بإذن المالك قبل موته؟",
+      "requirement_type": "FACT_REQUIREMENT",
+      "why_needed": "الإذن السابق يقوّي جنبة بقاء اليد؛ واقعة تحتاج إثباتًا.",
+      "required_database_or_registry": "possession_yad_registry",
+      "required_source_type": "إقرار/بينة/قرينة (OWNER_SUPPLIED)",
+      "required_owner_decision": "تصديق واقعة الإذن",
+      "cause": "سؤال ظهر في جولة المناط من معرفة الوكيل؛ يجب تسجيله كمتطلب قبل التوسع.",
+      "conditions": "توفّر سجل/مصدر/قرار مالك مطابق؛ عدم اشتقاق واقعة من معرفة الوكيل.",
+      "preventers": "اعتبار السؤال قاعدة كنسية؛ إنشاء واقعة/مصدر من الوكيل؛ التوسع قبل التسجيل؛ إنتاج مناط/تنزيل/حكم/جواب.",
+      "default_verdict_if_missing": "DEFER",
+      "residuals": "غير مستوفى حتى يُبنى السجل/يُزوَّد المصدر/يصدّق المالك.",
+      "expansion_blocker": "YES"
+    },
+    {
+      "requirement_id": "REQ06_HAND_CREDIBLE",
+      "original_question": "هل يد الأخت معتبرة أم تكذبها قرائن؟",
+      "requirement_type": "GATE_REQUIREMENT",
+      "why_needed": "اعتبار اليد بوابة سبب/شرط/مانع لا يقرّرها الوكيل من معرفته.",
+      "required_database_or_registry": "possession_yad_registry",
+      "required_source_type": "قرائن/بينة (OWNER_SUPPLIED)",
+      "required_owner_decision": "بوابة تقييم اليد مقابل القرائن",
+      "cause": "سؤال ظهر في جولة المناط من معرفة الوكيل؛ يجب تسجيله كمتطلب قبل التوسع.",
+      "conditions": "توفّر سجل/مصدر/قرار مالك مطابق؛ عدم اشتقاق واقعة من معرفة الوكيل.",
+      "preventers": "اعتبار السؤال قاعدة كنسية؛ إنشاء واقعة/مصدر من الوكيل؛ التوسع قبل التسجيل؛ إنتاج مناط/تنزيل/حكم/جواب.",
+      "default_verdict_if_missing": "DEFER",
+      "residuals": "غير مستوفى حتى يُبنى السجل/يُزوَّد المصدر/يصدّق المالك.",
+      "expansion_blocker": "YES"
+    },
+    {
+      "requirement_id": "REQ07_CLAIM_CONTENT",
+      "original_question": "ما الدعوى المحددة للوارث؟",
+      "requirement_type": "FACT_REQUIREMENT",
+      "why_needed": "محل النزاع لا يُنشأ من الوكيل بل يُزوَّد.",
+      "required_database_or_registry": "factual_claim_registry",
+      "required_source_type": "صحيفة دعوى/إقرار (OWNER_SUPPLIED)",
+      "required_owner_decision": "اعتماد نص الدعوى",
+      "cause": "سؤال ظهر في جولة المناط من معرفة الوكيل؛ يجب تسجيله كمتطلب قبل التوسع.",
+      "conditions": "توفّر سجل/مصدر/قرار مالك مطابق؛ عدم اشتقاق واقعة من معرفة الوكيل.",
+      "preventers": "اعتبار السؤال قاعدة كنسية؛ إنشاء واقعة/مصدر من الوكيل؛ التوسع قبل التسجيل؛ إنتاج مناط/تنزيل/حكم/جواب.",
+      "default_verdict_if_missing": "DEFER",
+      "residuals": "غير مستوفى حتى يُبنى السجل/يُزوَّد المصدر/يصدّق المالك.",
+      "expansion_blocker": "YES"
+    },
+    {
+      "requirement_id": "REQ08_DEFENSE_CONTENT",
+      "original_question": "ما جواب الأخت؟",
+      "requirement_type": "FACT_REQUIREMENT",
+      "why_needed": "موقف المدّعى عليه واقعة تُزوَّد لا تُفترض.",
+      "required_database_or_registry": "factual_claim_registry",
+      "required_source_type": "جواب/إقرار/إنكار (OWNER_SUPPLIED)",
+      "required_owner_decision": "اعتماد نص الجواب",
+      "cause": "سؤال ظهر في جولة المناط من معرفة الوكيل؛ يجب تسجيله كمتطلب قبل التوسع.",
+      "conditions": "توفّر سجل/مصدر/قرار مالك مطابق؛ عدم اشتقاق واقعة من معرفة الوكيل.",
+      "preventers": "اعتبار السؤال قاعدة كنسية؛ إنشاء واقعة/مصدر من الوكيل؛ التوسع قبل التسجيل؛ إنتاج مناط/تنزيل/حكم/جواب.",
+      "default_verdict_if_missing": "DEFER",
+      "residuals": "غير مستوفى حتى يُبنى السجل/يُزوَّد المصدر/يصدّق المالك.",
+      "expansion_blocker": "YES"
+    },
+    {
+      "requirement_id": "REQ09_EVIDENCE",
+      "original_question": "ما البينة؟",
+      "requirement_type": "GATE_REQUIREMENT",
+      "why_needed": "عبء الإثبات بوابة (بينة/يمين) لا يقرّرها الوكيل.",
+      "required_database_or_registry": "proof_burden_registry",
+      "required_source_type": "بينة/شهود/وثائق (OWNER_SUPPLIED)",
+      "required_owner_decision": "بوابة عبء الإثبات",
+      "cause": "سؤال ظهر في جولة المناط من معرفة الوكيل؛ يجب تسجيله كمتطلب قبل التوسع.",
+      "conditions": "توفّر سجل/مصدر/قرار مالك مطابق؛ عدم اشتقاق واقعة من معرفة الوكيل.",
+      "preventers": "اعتبار السؤال قاعدة كنسية؛ إنشاء واقعة/مصدر من الوكيل؛ التوسع قبل التسجيل؛ إنتاج مناط/تنزيل/حكم/جواب.",
+      "default_verdict_if_missing": "DEFER",
+      "residuals": "غير مستوفى حتى يُبنى السجل/يُزوَّد المصدر/يصدّق المالك.",
+      "expansion_blocker": "YES"
+    },
+    {
+      "requirement_id": "REQ10_QARINA_STRENGTH",
+      "original_question": "هل توجد قرائن أقوى من مجرد اليد؟",
+      "requirement_type": "GATE_REQUIREMENT",
+      "why_needed": "موازنة القرائن مقابل اليد بوابة مانع، لا معرفة وكيل.",
+      "required_database_or_registry": "possession_yad_registry",
+      "required_source_type": "قرائن مقارنة (OWNER_SUPPLIED)",
+      "required_owner_decision": "بوابة موازنة القرائن",
+      "cause": "سؤال ظهر في جولة المناط من معرفة الوكيل؛ يجب تسجيله كمتطلب قبل التوسع.",
+      "conditions": "توفّر سجل/مصدر/قرار مالك مطابق؛ عدم اشتقاق واقعة من معرفة الوكيل.",
+      "preventers": "اعتبار السؤال قاعدة كنسية؛ إنشاء واقعة/مصدر من الوكيل؛ التوسع قبل التسجيل؛ إنتاج مناط/تنزيل/حكم/جواب.",
+      "default_verdict_if_missing": "DEFER",
+      "residuals": "غير مستوفى حتى يُبنى السجل/يُزوَّد المصدر/يصدّق المالك.",
+      "expansion_blocker": "YES"
+    }
+  ],
+  "registries_to_build_before_expansion": [
+    {
+      "registry_id": "factual_claim_registry",
+      "status": "MUST_BE_BUILT_BEFORE_EXPANSION",
+      "fed_by_requirements": [
+        "REQ01_NO_CHILD",
+        "REQ03_HEIR_CAPACITY",
+        "REQ07_CLAIM_CONTENT",
+        "REQ08_DEFENSE_CONTENT"
+      ],
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "owner_ratification_required": "YES"
+    },
+    {
+      "registry_id": "owner_supplied_fact_registry",
+      "status": "MUST_BE_BUILT_BEFORE_EXPANSION",
+      "fed_by_requirements": [],
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "owner_ratification_required": "YES"
+    },
+    {
+      "registry_id": "source_requirement_registry",
+      "status": "MUST_BE_BUILT_BEFORE_EXPANSION",
+      "fed_by_requirements": [],
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "owner_ratification_required": "YES"
+    },
+    {
+      "registry_id": "normative_source_registry",
+      "status": "MUST_BE_BUILT_BEFORE_EXPANSION",
+      "fed_by_requirements": [],
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "owner_ratification_required": "YES"
+    },
+    {
+      "registry_id": "domain_candidate_registry",
+      "status": "MUST_BE_BUILT_BEFORE_EXPANSION",
+      "fed_by_requirements": [],
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "owner_ratification_required": "YES"
+    },
+    {
+      "registry_id": "hukm_candidate_registry",
+      "status": "MUST_BE_BUILT_BEFORE_EXPANSION",
+      "fed_by_requirements": [],
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "owner_ratification_required": "YES"
+    },
+    {
+      "registry_id": "manat_candidate_registry",
+      "status": "MUST_BE_BUILT_BEFORE_EXPANSION",
+      "fed_by_requirements": [],
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "owner_ratification_required": "YES"
+    },
+    {
+      "registry_id": "tanzil_requirement_registry",
+      "status": "MUST_BE_BUILT_BEFORE_EXPANSION",
+      "fed_by_requirements": [],
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "owner_ratification_required": "YES"
+    },
+    {
+      "registry_id": "proof_burden_registry",
+      "status": "MUST_BE_BUILT_BEFORE_EXPANSION",
+      "fed_by_requirements": [
+        "REQ09_EVIDENCE"
+      ],
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "owner_ratification_required": "YES"
+    },
+    {
+      "registry_id": "possession_yad_registry",
+      "status": "MUST_BE_BUILT_BEFORE_EXPANSION",
+      "fed_by_requirements": [
+        "REQ04_HOUSE_STATUS",
+        "REQ05_PRIOR_PERMISSION",
+        "REQ06_HAND_CREDIBLE",
+        "REQ10_QARINA_STRENGTH"
+      ],
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "owner_ratification_required": "YES"
+    },
+    {
+      "registry_id": "inheritance_condition_registry",
+      "status": "MUST_BE_BUILT_BEFORE_EXPANSION",
+      "fed_by_requirements": [
+        "REQ02_OTHER_HEIRS"
+      ],
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "owner_ratification_required": "YES"
+    },
+    {
+      "registry_id": "residual_registry",
+      "status": "MUST_BE_BUILT_BEFORE_EXPANSION",
+      "fed_by_requirements": [],
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "owner_ratification_required": "YES"
+    },
+    {
+      "registry_id": "owner_ratification_registry",
+      "status": "MUST_BE_BUILT_BEFORE_EXPANSION",
+      "fed_by_requirements": [],
+      "creates_fact": "NO",
+      "creates_source": "NO",
+      "owner_ratification_required": "YES"
+    }
+  ],
+  "ready_for_expansion": "NO",
+  "NO_FINAL_MANAT": "YES",
+  "NO_TANZIL": "YES",
+  "NO_FINAL_HUKM": "YES",
+  "NO_FINAL_ANSWER": "YES",
+  "producer_file": "scripts/taaqol_maqam_foundation/pre_expansion_requirements_registry_32.py"
+}

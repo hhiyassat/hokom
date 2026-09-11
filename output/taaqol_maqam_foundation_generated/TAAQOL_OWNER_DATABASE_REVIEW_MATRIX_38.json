@@ -1,0 +1,29 @@
+{
+  "ROUND": "TAAQOL_OWNER_DATABASE_REVIEW_PREP_38",
+  "section_counts": {
+    "NAZILA_TEXT": 1,
+    "NAZILA_TOKEN": 10,
+    "NORMATIVE_SOURCE_TEXT": 8,
+    "OWNER_RULE_TEXT": 10,
+    "DOMAIN_TERM": 12,
+    "REQUIREMENT_TEXT": 50,
+    "FACT_CANDIDATE_TEXT": 5,
+    "MISSING_FACT_REQUIREMENT_TEXT": 9,
+    "HUKM_CANDIDATE_TEXT": 4,
+    "MANAT_CANDIDATE_TEXT": 4,
+    "GUARD_TEXT": 10,
+    "EXTERNAL_REFERENCE_LAYER_CANDIDATES": 11
+  },
+  "total_rows": 134,
+  "allowed_decisions": [
+    "ACCEPT_AS_DATABASE_RECORD",
+    "DEFER",
+    "REJECT",
+    "NEEDS_SOURCE",
+    "NEEDS_FORMAT_FIX",
+    "NEEDS_OWNER_DEFINITION",
+    "NEEDS_EXTERNAL_VERIFICATION"
+  ],
+  "default_decision": "DEFER",
+  "producer_file": "scripts/taaqol_maqam_foundation/owner_database_review_prep_38.py"
+}

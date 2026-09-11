@@ -1,0 +1,88 @@
+{
+  "ROUND": "TAAQOL_FACT_REGISTRY_POPULATION_35",
+  "missing_fact_requirement_count": 9,
+  "missing_facts": [
+    {
+      "missing_fact_id": "MF1_NO_CHILD",
+      "description": "عدم وجود ولد للميت",
+      "reason_not_extracted": "غير منطوق في نص الجملة؛ لا يجوز اشتقاقه من معرفة الوكيل.",
+      "status": "REQUIRED_FACT_MISSING",
+      "default_verdict": "DEFER",
+      "expansion_blocker": "YES",
+      "residuals": "يحتاج تزويد مالك + مصدر/بينة قبل أي اعتماد."
+    },
+    {
+      "missing_fact_id": "MF2_NO_OTHER_HEIRS",
+      "description": "عدم وجود ورثة آخرين",
+      "reason_not_extracted": "غير منطوق في نص الجملة؛ لا يجوز اشتقاقه من معرفة الوكيل.",
+      "status": "REQUIRED_FACT_MISSING",
+      "default_verdict": "DEFER",
+      "expansion_blocker": "YES",
+      "residuals": "يحتاج تزويد مالك + مصدر/بينة قبل أي اعتماد."
+    },
+    {
+      "missing_fact_id": "MF3_HEIR_CAPACITY",
+      "description": "صفة الوارث",
+      "reason_not_extracted": "غير منطوق في نص الجملة؛ لا يجوز اشتقاقه من معرفة الوكيل.",
+      "status": "REQUIRED_FACT_MISSING",
+      "default_verdict": "DEFER",
+      "expansion_blocker": "YES",
+      "residuals": "يحتاج تزويد مالك + مصدر/بينة قبل أي اعتماد."
+    },
+    {
+      "missing_fact_id": "MF4_HOUSE_FINAL_OWNERSHIP",
+      "description": "ملكية البيت النهائية",
+      "reason_not_extracted": "غير منطوق في نص الجملة؛ لا يجوز اشتقاقه من معرفة الوكيل.",
+      "status": "REQUIRED_FACT_MISSING",
+      "default_verdict": "DEFER",
+      "expansion_blocker": "YES",
+      "residuals": "يحتاج تزويد مالك + مصدر/بينة قبل أي اعتماد."
+    },
+    {
+      "missing_fact_id": "MF5_HOUSE_ALL_ESTATE",
+      "description": "كون البيت تركة كلها",
+      "reason_not_extracted": "غير منطوق في نص الجملة؛ لا يجوز اشتقاقه من معرفة الوكيل.",
+      "status": "REQUIRED_FACT_MISSING",
+      "default_verdict": "DEFER",
+      "expansion_blocker": "YES",
+      "residuals": "يحتاج تزويد مالك + مصدر/بينة قبل أي اعتماد."
+    },
+    {
+      "missing_fact_id": "MF6_PRIOR_RESIDENCE_PERMISSION",
+      "description": "إذن السكن السابق",
+      "reason_not_extracted": "غير منطوق في نص الجملة؛ لا يجوز اشتقاقه من معرفة الوكيل.",
+      "status": "REQUIRED_FACT_MISSING",
+      "default_verdict": "DEFER",
+      "expansion_blocker": "YES",
+      "residuals": "يحتاج تزويد مالك + مصدر/بينة قبل أي اعتماد."
+    },
+    {
+      "missing_fact_id": "MF7_SISTER_HAND_VALIDITY",
+      "description": "صحة يد الأخت",
+      "reason_not_extracted": "غير منطوق في نص الجملة؛ لا يجوز اشتقاقه من معرفة الوكيل.",
+      "status": "REQUIRED_FACT_MISSING",
+      "default_verdict": "DEFER",
+      "expansion_blocker": "YES",
+      "residuals": "يحتاج تزويد مالك + مصدر/بينة قبل أي اعتماد."
+    },
+    {
+      "missing_fact_id": "MF8_EVIDENCE_PRESENT",
+      "description": "وجود بينة",
+      "reason_not_extracted": "غير منطوق في نص الجملة؛ لا يجوز اشتقاقه من معرفة الوكيل.",
+      "status": "REQUIRED_FACT_MISSING",
+      "default_verdict": "DEFER",
+      "expansion_blocker": "YES",
+      "residuals": "يحتاج تزويد مالك + مصدر/بينة قبل أي اعتماد."
+    },
+    {
+      "missing_fact_id": "MF9_LITIGATION_OUTCOME",
+      "description": "نتيجة التحاكم",
+      "reason_not_extracted": "غير منطوق في نص الجملة؛ لا يجوز اشتقاقه من معرفة الوكيل.",
+      "status": "REQUIRED_FACT_MISSING",
+      "default_verdict": "DEFER",
+      "expansion_blocker": "YES",
+      "residuals": "يحتاج تزويد مالك + مصدر/بينة قبل أي اعتماد."
+    }
+  ],
+  "producer_file": "scripts/taaqol_maqam_foundation/fact_registry_population_35.py"
+}

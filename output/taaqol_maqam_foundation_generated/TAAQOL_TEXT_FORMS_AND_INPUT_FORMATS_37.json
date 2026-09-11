@@ -1,0 +1,79 @@
+{
+  "text_types_closed_vocab": [
+    "NAZILA_TEXT",
+    "NAZILA_TOKEN",
+    "OWNER_RULE_TEXT",
+    "NORMATIVE_SOURCE_TEXT",
+    "DOMAIN_TERM",
+    "REQUIREMENT_TEXT",
+    "FACT_CANDIDATE_TEXT",
+    "MISSING_FACT_REQUIREMENT_TEXT",
+    "HUKM_CANDIDATE_TEXT",
+    "MANAT_CANDIDATE_TEXT",
+    "GUARD_TEXT"
+  ],
+  "source_kinds_closed_vocab": [
+    "OWNER_SUPPLIED_TEXT",
+    "NAZILA_TEXT",
+    "QURAN",
+    "HADITH",
+    "FIQH_SOURCE",
+    "GENERATED_REQUIREMENT",
+    "GENERATED_CANDIDATE",
+    "TEST_FIXTURE",
+    "GUARD",
+    "UNKNOWN_ARTIFACT_DERIVED"
+  ],
+  "input_forms_closed_vocab": [
+    "FULL_TEXT",
+    "TOKEN",
+    "NORMALIZED_TOKEN",
+    "JSON_FIELD",
+    "MD_SECTION",
+    "HTML_REPORT_FIELD",
+    "PYTHON_LITERAL",
+    "TEST_EXPECTATION",
+    "CSV_ROW"
+  ],
+  "used_as_closed_vocab": [
+    "TEXT_INPUT",
+    "EVIDENCE",
+    "SOURCE",
+    "DOMAIN_LABEL",
+    "FACT_CANDIDATE",
+    "MISSING_FACT_REQUIREMENT",
+    "REQUIREMENT",
+    "HUKM_CANDIDATE",
+    "MANAT_CANDIDATE",
+    "GUARD",
+    "REPORT_ONLY"
+  ],
+  "input_form_counts": {
+    "FULL_TEXT": 1,
+    "JSON_FIELD": 112,
+    "TOKEN": 10
+  },
+  "used_as_counts": {
+    "TEXT_INPUT": 11,
+    "SOURCE": 8,
+    "DOMAIN_LABEL": 12,
+    "GUARD": 20,
+    "REQUIREMENT": 50,
+    "FACT_CANDIDATE": 5,
+    "MISSING_FACT_REQUIREMENT": 9,
+    "HUKM_CANDIDATE": 4,
+    "MANAT_CANDIDATE": 4
+  },
+  "source_kind_counts": {
+    "NAZILA_TEXT": 11,
+    "UNKNOWN_ARTIFACT_DERIVED": 4,
+    "QURAN": 1,
+    "HADITH": 2,
+    "FIQH_SOURCE": 1,
+    "GENERATED_CANDIDATE": 25,
+    "OWNER_SUPPLIED_TEXT": 10,
+    "GENERATED_REQUIREMENT": 59,
+    "GUARD": 10
+  },
+  "producer_file": "scripts/taaqol_maqam_foundation/arabic_data_provenance_catalog_37.py"
+}
