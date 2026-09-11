@@ -1,0 +1,174 @@
+[
+  {
+    "candidate_id": "MIRATH_RELATED_TAKYIF_CANDIDATE",
+    "candidate_label": "مرشح تكييف متعلق بالمواريث",
+    "rank": 1,
+    "text_signals_used": [
+      "وَارِثُهُ",
+      "مَاتَ"
+    ],
+    "frame_candidates_used": [
+      "FC_DEATH_EVENT"
+    ],
+    "birth_status": "CANDIDATE_ONLY",
+    "owner_ratified_as_final_domain": "NO",
+    "domain_born": "NO",
+    "normative_source_allowed": "NO",
+    "hukm_allowed": "NO",
+    "manat_allowed": "NO",
+    "tanzil_allowed": "NO",
+    "final_answer_allowed": "NO",
+    "cause": "round-10/11 text signals + frame candidates present",
+    "conditions": [
+      "takyīf layer owner-ratified THIS_NAZILA_ONLY",
+      "license limited to producing MASALA_TAKYIF_CANDIDATE",
+      "trace to a prior artifact present",
+      "no domain classification produced"
+    ],
+    "preventers": [
+      "NO_OWNER_RATIFICATION_OF_FINAL_DOMAIN",
+      "NO_DOMAIN_BIRTH_RULE",
+      "NO_RATIFIED_NORMATIVE_SOURCE",
+      "NO_HUKM_MANAT_TANZIL_ANSWER_LICENSE"
+    ],
+    "verdict": "ACCEPT_AS_CANDIDATE_ONLY",
+    "evidence": [
+      "output/taaqol_maqam_foundation_generated/HOKOM_TEXT_SIGNALS_10.json",
+      "output/taaqol_maqam_foundation_generated/HOKOM_FRAME_CANDIDATES_10.json",
+      "output/taaqol_maqam_foundation_generated/MASALA_TAKYIF_CANDIDATES_11.json"
+    ],
+    "residuals": [
+      "remains a candidate; final domain classification needs a separate owner ratification"
+    ],
+    "producer_file": "scripts/taaqol_maqam_foundation/masala_takyif_candidate_application_12.py"
+  },
+  {
+    "candidate_id": "QADA_RELATED_TAKYIF_CANDIDATE",
+    "candidate_label": "مرشح تكييف متعلق بالقضاء/النزاع",
+    "rank": 2,
+    "text_signals_used": [
+      "فَتَحَاكَمَا"
+    ],
+    "frame_candidates_used": [
+      "FC_DISPUTE_EVENT"
+    ],
+    "birth_status": "CANDIDATE_ONLY",
+    "owner_ratified_as_final_domain": "NO",
+    "domain_born": "NO",
+    "normative_source_allowed": "NO",
+    "hukm_allowed": "NO",
+    "manat_allowed": "NO",
+    "tanzil_allowed": "NO",
+    "final_answer_allowed": "NO",
+    "cause": "round-10/11 text signals + frame candidates present",
+    "conditions": [
+      "takyīf layer owner-ratified THIS_NAZILA_ONLY",
+      "license limited to producing MASALA_TAKYIF_CANDIDATE",
+      "trace to a prior artifact present",
+      "no domain classification produced"
+    ],
+    "preventers": [
+      "NO_OWNER_RATIFICATION_OF_FINAL_DOMAIN",
+      "NO_DOMAIN_BIRTH_RULE",
+      "NO_RATIFIED_NORMATIVE_SOURCE",
+      "NO_HUKM_MANAT_TANZIL_ANSWER_LICENSE"
+    ],
+    "verdict": "ACCEPT_AS_CANDIDATE_ONLY",
+    "evidence": [
+      "output/taaqol_maqam_foundation_generated/HOKOM_TEXT_SIGNALS_10.json",
+      "output/taaqol_maqam_foundation_generated/HOKOM_FRAME_CANDIDATES_10.json",
+      "output/taaqol_maqam_foundation_generated/MASALA_TAKYIF_CANDIDATES_11.json"
+    ],
+    "residuals": [
+      "remains a candidate; final domain classification needs a separate owner ratification"
+    ],
+    "producer_file": "scripts/taaqol_maqam_foundation/masala_takyif_candidate_application_12.py"
+  },
+  {
+    "candidate_id": "TURKAH_RIGHTS_TAKYIF_CANDIDATE",
+    "candidate_label": "مرشح تكييف حقوق تركة",
+    "rank": 3,
+    "text_signals_used": [
+      "مَاتَ",
+      "وَارِثُهُ"
+    ],
+    "frame_candidates_used": [
+      "FC_DEATH_EVENT"
+    ],
+    "birth_status": "CANDIDATE_ONLY",
+    "owner_ratified_as_final_domain": "NO",
+    "domain_born": "NO",
+    "normative_source_allowed": "NO",
+    "hukm_allowed": "NO",
+    "manat_allowed": "NO",
+    "tanzil_allowed": "NO",
+    "final_answer_allowed": "NO",
+    "cause": "round-10/11 text signals + frame candidates present",
+    "conditions": [
+      "takyīf layer owner-ratified THIS_NAZILA_ONLY",
+      "license limited to producing MASALA_TAKYIF_CANDIDATE",
+      "trace to a prior artifact present",
+      "no domain classification produced"
+    ],
+    "preventers": [
+      "NO_OWNER_RATIFICATION_OF_FINAL_DOMAIN",
+      "NO_DOMAIN_BIRTH_RULE",
+      "NO_RATIFIED_NORMATIVE_SOURCE",
+      "NO_HUKM_MANAT_TANZIL_ANSWER_LICENSE"
+    ],
+    "verdict": "DEFER_AS_CANDIDATE_ONLY",
+    "evidence": [
+      "output/taaqol_maqam_foundation_generated/HOKOM_TEXT_SIGNALS_10.json",
+      "output/taaqol_maqam_foundation_generated/HOKOM_FRAME_CANDIDATES_10.json",
+      "output/taaqol_maqam_foundation_generated/MASALA_TAKYIF_CANDIDATES_11.json"
+    ],
+    "residuals": [
+      "remains a candidate; final domain classification needs a separate owner ratification"
+    ],
+    "producer_file": "scripts/taaqol_maqam_foundation/masala_takyif_candidate_application_12.py"
+  },
+  {
+    "candidate_id": "SUKNA_OR_POSSESSION_TAKYIF_CANDIDATE",
+    "candidate_label": "مرشح تكييف سكنى/حيازة",
+    "rank": 4,
+    "text_signals_used": [
+      "سَاكِنَةٍ",
+      "طَرْدَهَا"
+    ],
+    "frame_candidates_used": [
+      "FC_RESIDENCE_RELATION",
+      "FC_INTENT_ACTION"
+    ],
+    "birth_status": "CANDIDATE_ONLY",
+    "owner_ratified_as_final_domain": "NO",
+    "domain_born": "NO",
+    "normative_source_allowed": "NO",
+    "hukm_allowed": "NO",
+    "manat_allowed": "NO",
+    "tanzil_allowed": "NO",
+    "final_answer_allowed": "NO",
+    "cause": "round-10/11 text signals + frame candidates present",
+    "conditions": [
+      "takyīf layer owner-ratified THIS_NAZILA_ONLY",
+      "license limited to producing MASALA_TAKYIF_CANDIDATE",
+      "trace to a prior artifact present",
+      "no domain classification produced"
+    ],
+    "preventers": [
+      "NO_OWNER_RATIFICATION_OF_FINAL_DOMAIN",
+      "NO_DOMAIN_BIRTH_RULE",
+      "NO_RATIFIED_NORMATIVE_SOURCE",
+      "NO_HUKM_MANAT_TANZIL_ANSWER_LICENSE"
+    ],
+    "verdict": "DEFER_AS_CANDIDATE_ONLY",
+    "evidence": [
+      "output/taaqol_maqam_foundation_generated/HOKOM_TEXT_SIGNALS_10.json",
+      "output/taaqol_maqam_foundation_generated/HOKOM_FRAME_CANDIDATES_10.json",
+      "output/taaqol_maqam_foundation_generated/MASALA_TAKYIF_CANDIDATES_11.json"
+    ],
+    "residuals": [
+      "remains a candidate; final domain classification needs a separate owner ratification"
+    ],
+    "producer_file": "scripts/taaqol_maqam_foundation/masala_takyif_candidate_application_12.py"
+  }
+]

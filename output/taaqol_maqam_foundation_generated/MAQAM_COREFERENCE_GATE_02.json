@@ -1,0 +1,74 @@
+{
+  "gate": "MaqamAwareCoreferenceGate",
+  "source_rule": "SOURCE_2#A (ربط/حال/مطابقة)",
+  "supports": [
+    "ضمير غائب",
+    "مخاطب/متكلم",
+    "بارز/مستتر",
+    "صاحب الحال",
+    "تعدد مرشحين",
+    "عدم تعيين",
+    "مطابقة شخص/عدد/نوع/تعيين",
+    "rank"
+  ],
+  "pronouns": [
+    {
+      "pronoun": "ه",
+      "host": "t005 مَعَهُ",
+      "candidates": [
+        "مَلِكٌ",
+        "?external"
+      ],
+      "agreement": "masc.sing (matches مَلِكٌ but also any masc referent)"
+    },
+    {
+      "pronoun": "ه",
+      "host": "t007 وَارِثُهُ",
+      "candidates": [
+        "مَلِكٌ",
+        "?external"
+      ],
+      "agreement": "masc.sing (underdetermined)"
+    },
+    {
+      "pronoun": "ها",
+      "host": "t008 طَرْدَهَا",
+      "candidates": [
+        "أُخْتٍ",
+        "?external fem"
+      ],
+      "agreement": "fem.sing (matches أُخْتٍ but not decisive)"
+    },
+    {
+      "pronoun": "ألف الاثنين",
+      "host": "t009 فَتَحَاكَمَا",
+      "candidates": [
+        "الوارث+الأخت",
+        "?two males"
+      ],
+      "agreement": "dual (underdetermined)"
+    }
+  ],
+  "cause_present": true,
+  "conditions_satisfied": false,
+  "preventers": [
+    "NO_AGREEMENT_DECISIVE_SINGLE_ANTECEDENT",
+    "NO_OWNER_OR_DISCOURSE_EVIDENCE"
+  ],
+  "gate_decision": "DEFER",
+  "coreference_decision": "DEFER",
+  "asserted_bindings": [],
+  "forbidden_assertions": [
+    "ه(معه)=الملك",
+    "ه(وارثه)=الملك",
+    "ها(طردها)=الأخت",
+    "ألف(تحاكما)=الوارث+الأخت"
+  ],
+  "verdict": "COREFERENCE_DEFER_INSUFFICIENT_EVIDENCE",
+  "residuals": [
+    "needs discourse/owner evidence or a decisive agreement constraint"
+  ],
+  "evidence_file": "output/taaqol_nazila_matrix_generated/HOKOM_NAZILA_LINGUISTIC_ANALYSIS_RESULT.csv",
+  "producer_file": "scripts/taaqol_maqam_foundation/deferred_consumers.py",
+  "measured": "MEASURED"
+}

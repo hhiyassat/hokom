@@ -1,0 +1,11 @@
+{
+  "SOURCE_TEMPLATE_IS_NOT_SOURCE": "YES",
+  "SOURCE_REQUIREMENT_IS_NOT_RATIFICATION": "YES",
+  "COMPOSITE_DOMAIN_IS_NOT_NORMATIVE_SOURCE": "YES",
+  "NO_NORMATIVE_SOURCE_BIRTH": "YES",
+  "NO_HUKM": "YES",
+  "NO_MANAT": "YES",
+  "NO_TANZIL": "YES",
+  "NO_FINAL_ANSWER": "YES",
+  "producer_file": "scripts/taaqol_maqam_foundation/normative_source_supply_template_15.py"
+}

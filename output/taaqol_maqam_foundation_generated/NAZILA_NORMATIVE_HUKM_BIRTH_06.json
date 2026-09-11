@@ -1,0 +1,15 @@
+{
+  "NodeName": "NORMATIVE_HUKM",
+  "NORMATIVE_HUKM_CHILD_CANDIDATE": "UNBORN",
+  "NORMATIVE_HUKM_PRODUCED": "NO",
+  "BIRTH_LICENSE": "DENIED_PARENT_UNBORN",
+  "NORMATIVE_HUKM_BIRTH_STATUS": "FORBIDDEN_ANCESTOR_UNBORN",
+  "CAUSE": "parent normative_source is UNBORN",
+  "CONDITIONS": "normative_source born+certified",
+  "PREVENTERS": "NORMATIVE_SOURCE_UNBORN",
+  "VERDICT": "NORMATIVE_HUKM_FORBIDDEN_ANCESTOR_UNBORN",
+  "EVIDENCE": "NAZILA_NORMATIVE_SOURCE_BIRTH_06.json",
+  "PRODUCER_FILE": "scripts/taaqol_maqam_foundation/maqam6_reference_ratified_closure_06.py",
+  "RESIDUALS": "no HARAM/WAJIB/RIGHT/LIABILITY produced",
+  "measured": "MEASURED"
+}

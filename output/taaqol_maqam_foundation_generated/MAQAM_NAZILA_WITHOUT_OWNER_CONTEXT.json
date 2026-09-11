@@ -1,0 +1,59 @@
+{
+  "run_label": "RUN_A_NO_OWNER_CONTEXT",
+  "sentence_ref": "sha256:1a7f8b76d719bc019fe200ea952cce211a7a4283814d9cee0d04a39251d8b3e2",
+  "early_interpretation": {
+    "decision": "ACCEPT",
+    "implementation_status": "IMPLEMENTED",
+    "gate_evaluation_birth": "BORN",
+    "maqam_certificate_birth": "BORN",
+    "maqam_certificate_closure": "CERTIFIED",
+    "missing_dimensions": [],
+    "reason_codes": []
+  },
+  "proposition_interpretation": {
+    "decision": "DEFER",
+    "implementation_status": "IMPLEMENTED",
+    "gate_evaluation_birth": "BORN",
+    "maqam_certificate_birth": "UNBORN_PENDING",
+    "maqam_certificate_closure": "NOT_APPLICABLE",
+    "missing_dimensions": [
+      "REFERENCE_WORLD"
+    ],
+    "reason_codes": [
+      "MISSING:REFERENCE_WORLD"
+    ]
+  },
+  "factual_claim_birth": {
+    "decision": "DEFER",
+    "implementation_status": "IMPLEMENTED",
+    "gate_evaluation_birth": "BORN",
+    "maqam_certificate_birth": "UNBORN_PENDING",
+    "maqam_certificate_closure": "NOT_APPLICABLE",
+    "missing_dimensions": [
+      "SPEAKER",
+      "ADDRESSEE",
+      "PURPOSE",
+      "SPEECH_ACT",
+      "COMMITMENT",
+      "REFERENCE_WORLD"
+    ],
+    "reason_codes": [
+      "MISSING:ADDRESSEE",
+      "MISSING:COMMITMENT",
+      "MISSING:PURPOSE",
+      "MISSING:REFERENCE_WORLD",
+      "MISSING:SPEAKER",
+      "MISSING:SPEECH_ACT"
+    ]
+  },
+  "normative_source_birth": "UNBORN_NO_NORMATIVE_SOURCE_INPUT",
+  "normative_hukm_birth": "FORBIDDEN_MISSING_NORMATIVE_SOURCE_PARENT",
+  "manat_birth": "FORBIDDEN_MISSING_FACTUAL_AND_NORMATIVE_PARENTS",
+  "tanzil_birth": "FORBIDDEN_MISSING_TAHQIQ_MANAT_PARENT",
+  "final_answer_birth": "FORBIDDEN_ANCESTOR_UNBORN",
+  "MAQAM_PRODUCES_NORMATIVE": "NO",
+  "authored_by_agent": "NO",
+  "OWNER_MAQAM_DECLARATION": "ABSENT",
+  "REFERENCE_WORLD_DECLARATION": "ABSENT",
+  "ISTIFTA_INFERRED_FROM_TEXT_ALONE": "NO"
+}

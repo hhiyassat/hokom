@@ -1,0 +1,88 @@
+{
+  "ROUND": "SOURCE_TO_MASALA_MAPPING_GATE_18",
+  "SOURCE_TO_MASALA_MAPPING_ALLOWED": "YES",
+  "mapping_mode": "STRUCTURAL_ONLY",
+  "PRIMARY_DOMAIN_CANDIDATE": "KEEP_COMPOSITE",
+  "SCOPE": "THIS_NAZILA_ONLY",
+  "EVIDENCE_POLICY": "CITATION_STRINGS_ONLY",
+  "LIVE_EXTERNAL_LINKS_IN_ARTIFACTS": "NO",
+  "normative_source_born": "YES",
+  "normative_source_ratified_by": "OWNER",
+  "normative_source_selected_by_agent": "NO",
+  "agent_ratified_source": "NO",
+  "source_count_mapped": 3,
+  "mapping_nodes": [
+    {
+      "source_id": "SOURCE_1",
+      "authority": "القرآن الكريم، سورة النساء، الآية 176",
+      "evidence": "القرآن الكريم، سورة النساء، الآية 176",
+      "domain_link": [
+        "MIRATH_RELATED_DOMAIN_CANDIDATE"
+      ],
+      "masala_segment_link": "موت مالك عن أخت (مَاتَ مَلِكٌ عَنْ أُخْتٍ)",
+      "serves_what": "يربط ركن وجود أخت مع تركة بمسألة الكلالة ونصيب الأخت بشرطه.",
+      "does_not_serve": "لا يكفي وحده: يتوقف على فحص شروط الكلالة وعدم وجود ولد وسائر الورثة؛ ولا يحسم السكنى ولا واقعة الطرد ولا جهة التحاكم.",
+      "cause": "source born + owner-ratified (round 17); owner licensed structural mapping (round 18)",
+      "conditions": "domain_link coherent with round-13 candidate; segment link is structural; composite kept",
+      "preventers": "source alone producing the ruling; collapsing composite; agent ratifying/selecting; adding a source",
+      "verdict": "MAPPED_TO_MASALA_SEGMENT_STRUCTURAL_ONLY",
+      "evidence_citation_string": "YES",
+      "text_verbatim_status": "ASSERTED_BY_OWNER_NOT_VERIFIED_BY_AGENT",
+      "residuals": "no hukm/manat/tanzil/answer; source not sufficient alone; awaits owner hukm-gate license",
+      "hukm_birth_allowed": "NO",
+      "manat_birth_allowed": "NO",
+      "tanzil_birth_allowed": "NO",
+      "final_answer_allowed": "NO"
+    },
+    {
+      "source_id": "SOURCE_2",
+      "authority": "صحيح البخاري، كتاب الفرائض، حديث 6737",
+      "evidence": "صحيح البخاري، كتاب الفرائض، حديث 6737",
+      "domain_link": [
+        "MIRATH_RELATED_DOMAIN_CANDIDATE",
+        "TURKAH_RIGHTS_DOMAIN_CANDIDATE"
+      ],
+      "masala_segment_link": "التركة وترتيب الفروض والباقي (تركة المالك بعد موته)",
+      "serves_what": "يربط ترتيب أصحاب الفروض ثم الباقي لأولى رجل ذكر في التركة.",
+      "does_not_serve": "لا يحسم وحده حق السكنى ولا واقعة الطرد؛ ولا يثبت شروط استحقاق الأخت دون آية الكلالة؛ ولا يفصل في الدعوى.",
+      "cause": "source born + owner-ratified (round 17); owner licensed structural mapping (round 18)",
+      "conditions": "domain_link coherent with round-13 candidate; segment link is structural; composite kept",
+      "preventers": "source alone producing the ruling; collapsing composite; agent ratifying/selecting; adding a source",
+      "verdict": "MAPPED_TO_MASALA_SEGMENT_STRUCTURAL_ONLY",
+      "evidence_citation_string": "YES",
+      "text_verbatim_status": "ASSERTED_BY_OWNER_NOT_VERIFIED_BY_AGENT",
+      "residuals": "no hukm/manat/tanzil/answer; source not sufficient alone; awaits owner hukm-gate license",
+      "hukm_birth_allowed": "NO",
+      "manat_birth_allowed": "NO",
+      "tanzil_birth_allowed": "NO",
+      "final_answer_allowed": "NO"
+    },
+    {
+      "source_id": "SOURCE_3",
+      "authority": "صحيح مسلم، كتاب الأقضية، حديث 1711a",
+      "evidence": "صحيح مسلم، كتاب الأقضية، حديث 1711a",
+      "domain_link": [
+        "QADA_RELATED_DOMAIN_CANDIDATE"
+      ],
+      "masala_segment_link": "التحاكم والدعوى وعبء الإثبات (فَأَرَادَ وَارِثُهُ طَرْدَهَا، فَتَحَاكَمَا)",
+      "serves_what": "يربط جهة الدعوى والتحاكم وعبء الإثبات (اليمين على المدعى عليه).",
+      "does_not_serve": "لا يحسم وحده ملكية البيت ولا حق السكنى ولا نصيب الميراث؛ إنما ينظّم إجراء الإثبات لا موضوع الحق.",
+      "cause": "source born + owner-ratified (round 17); owner licensed structural mapping (round 18)",
+      "conditions": "domain_link coherent with round-13 candidate; segment link is structural; composite kept",
+      "preventers": "source alone producing the ruling; collapsing composite; agent ratifying/selecting; adding a source",
+      "verdict": "MAPPED_TO_MASALA_SEGMENT_STRUCTURAL_ONLY",
+      "evidence_citation_string": "YES",
+      "text_verbatim_status": "ASSERTED_BY_OWNER_NOT_VERIFIED_BY_AGENT",
+      "residuals": "no hukm/manat/tanzil/answer; source not sufficient alone; awaits owner hukm-gate license",
+      "hukm_birth_allowed": "NO",
+      "manat_birth_allowed": "NO",
+      "tanzil_birth_allowed": "NO",
+      "final_answer_allowed": "NO"
+    }
+  ],
+  "NORMATIVE_HUKM_PRODUCED": "NO",
+  "MANAT_PRODUCED": "NO",
+  "TANZIL_PRODUCED": "NO",
+  "FINAL_ANSWER_PRODUCED": "NO",
+  "producer_file": "scripts/taaqol_maqam_foundation/source_to_masala_mapping_18.py"
+}

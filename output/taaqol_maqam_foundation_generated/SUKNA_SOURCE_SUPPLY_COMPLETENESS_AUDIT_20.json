@@ -1,0 +1,53 @@
+{
+  "ROUND": "SUKNA_SOURCE_SUPPLY_COMPLETENESS_GATE_20",
+  "ALLOW_SUKNA_SOURCE_BIRTH": "NO",
+  "SUKNA_SOURCE_FIELDS_COMPLETE": "NO",
+  "ALLOW_NORMATIVE_HUKM_CANDIDATE": "NO",
+  "PRIMARY_DOMAIN_CANDIDATE": "KEEP_COMPOSITE",
+  "SCOPE": "THIS_NAZILA_ONLY",
+  "audit_mode": "COMPLETENESS_ONLY",
+  "agent_ratified_source": "NO",
+  "agent_selected_source": "NO",
+  "required_fields": [
+    "AUTHORITY",
+    "TEXT",
+    "SCOPE",
+    "EVIDENCE",
+    "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM",
+    "OWNER_RATIFICATION"
+  ],
+  "audit": {
+    "domain_candidate_id": "SUKNA_OR_POSSESSION_DOMAIN_CANDIDATE",
+    "supply_request_ref": "OWNER_SOURCE_SUPPLY_REQUEST_FOR_SUKNA_OR_POSSESSION_19.md",
+    "source_entry_present": "NO",
+    "authority_present": "NO",
+    "text_present": "NO",
+    "scope_present": "NO",
+    "evidence_present": "NO",
+    "link_license_present": "NO",
+    "owner_ratification_present": "NO",
+    "complete": "NO",
+    "missing_fields": [
+      "AUTHORITY",
+      "TEXT",
+      "SCOPE",
+      "EVIDENCE",
+      "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM",
+      "OWNER_RATIFICATION"
+    ],
+    "cause": "round-19 supply request exists; owner allowed completeness audit only (ALLOW_SUKNA_SOURCE_BIRTH=NO)",
+    "conditions": "AUTHORITY & TEXT & SCOPE & EVIDENCE & LINK_LICENSE & OWNER_RATIFICATION present; source not born this round",
+    "preventers": "any missing field; OWNER_RATIFICATION not YES; birth/selection/ratification not allowed; hukm candidate not opened",
+    "verdict": "NO_OWNER_SUPPLIED_SOURCE",
+    "sukna_source_born": "NO",
+    "sukna_source_fields_complete": "NO",
+    "evidence": "SUKNA_OR_POSSESSION_SOURCE_REQUIREMENT_19.json",
+    "residuals": "sukna/possession source not supplied; hukm gate closed; awaits owner supply + explicit birth license"
+  },
+  "sukna_source_born": "NO",
+  "NORMATIVE_HUKM_PRODUCED": "NO",
+  "MANAT_PRODUCED": "NO",
+  "TANZIL_PRODUCED": "NO",
+  "FINAL_ANSWER_PRODUCED": "NO",
+  "producer_file": "scripts/taaqol_maqam_foundation/sukna_source_supply_completeness_20.py"
+}

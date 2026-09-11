@@ -1,0 +1,156 @@
+{
+  "ROUND": "FINAL_IFADAH_MAQAM_AND_TARGETED_INFORMATION_REQUEST_FOR_TANZIL_08",
+  "FINAL_CLOSURE_MODE": "TARGETED_INFORMATION_REQUEST_PRODUCED",
+  "ifadah": {
+    "node_name": "IFADAH_AND_FACTUAL_CLAIM_PASSAGE",
+    "IFADAH_PRODUCED_BY_CODE": "YES",
+    "IFADAH_MISSING": "NO",
+    "IFADAH_DOES_NOT_DIRECTLY_BIRTH_CLAIM": "YES",
+    "IFADAH_COMPLETION_STATUS": "PARTIAL_OR_DEFERRED",
+    "PROPOSITIONAL_CONTENT_ARTIFACT_EXISTS": "YES",
+    "MAQAM_6_OWNER_RATIFIED": "YES",
+    "MAQAM_6": "MASALA_MUSAWWARA_LIL_ISTIFTA",
+    "MAQAM_6_SCOPE": "THIS_NAZILA_ONLY",
+    "REFERENCE_POLICY_OWNER_RATIFIED": "YES",
+    "ASSUMED_FACT_REFERENCE": "HYPOTHETICAL_MARKED_REFERENCE",
+    "REFERENCE_POLICY_DECISION_REQUIRED": "NO",
+    "FACTUAL_CLAIM_BIRTH_STATUS": "BORN_BUT_DEFERRED",
+    "FACTUAL_CLAIM_PASSAGE_LICENSE": "MISSING_OWNER_DECISION",
+    "ADDITIONAL_INFORMATION_FOR_FACTUAL_CLAIM_REQUIRED": "YES",
+    "cause": "ifādah produced + maqam/reference ratified + proposition partial",
+    "conditions": "owner passage-license to move factual_claim beyond BORN_BUT_DEFERRED",
+    "preventers": [
+      "FACTUAL_CLAIM_PASSAGE_LICENSE_MISSING"
+    ],
+    "verdict": "IFADAH_PRESENT_FACTUAL_CLAIM_BORN_BUT_DEFERRED",
+    "evidence_files": [
+      "output/taaqol_nazila_matrix_generated/PROPOSITIONAL_CONTENT_CANDIDATE_08.json",
+      "output/taaqol_maqam_foundation_generated/NAZILA_FACTUAL_CLAIM_BIRTH_06.json"
+    ],
+    "producer_file": "scripts/taaqol_maqam_foundation/final_ifadah_targeted_info_request_08.py",
+    "residuals": [
+      "factual_claim awaits an explicit owner passage license (this nazila only)"
+    ]
+  },
+  "tanzil_readiness": {
+    "node_name": "TANZIL_READINESS_AFTER_INFO_REQUEST",
+    "TANZIL_BIRTH_STATUS": "FORBIDDEN_MISSING_REQUIREMENTS",
+    "TANZIL_PRODUCED": "NO",
+    "missing_requirements": [
+      "FACTUAL_CLAIM_PASSAGE_LICENSE",
+      "RATIFIED_NORMATIVE_SOURCE",
+      "NORMATIVE_HUKM",
+      "CERTIFIED_MANAT",
+      "TAHQIQ_MANAT"
+    ],
+    "ADDITIONAL_INFORMATION_FOR_TANZIL_REQUIRED": "YES",
+    "cause": "ancestors not born (factual claim deferred; normative source unborn)",
+    "conditions": "FACTUAL_CLAIM=CERTIFIED AND NORMATIVE_HUKM=CERTIFIED AND MANAT=CERTIFIED AND TAHQIQ_MANAT=CERTIFIED",
+    "preventers": [
+      "FACTUAL_CLAIM_DEFERRED",
+      "NORMATIVE_SOURCE_UNBORN"
+    ],
+    "verdict": "TANZIL_FORBIDDEN_MISSING_REQUIREMENTS",
+    "evidence_files": [
+      "output/taaqol_maqam_foundation_generated/NAZILA_NORMATIVE_SOURCE_BIRTH_07.json"
+    ],
+    "producer_file": "scripts/taaqol_maqam_foundation/final_ifadah_targeted_info_request_08.py",
+    "residuals": [
+      "needs both info requests satisfied"
+    ]
+  },
+  "traceability": [
+    {
+      "req": "REQ-COREFERENCE",
+      "domain": "COREFERENCE",
+      "source": "SOURCE_2#A",
+      "producer": "MaqamAwareCoreferenceGate",
+      "artifact": "output/taaqol_maqam_foundation_generated/MAQAM_COREFERENCE_GATE_02.json",
+      "test": "tests/test_taaqol_maqam_deferred_consumers_02.py",
+      "status": "TRACEABLE"
+    },
+    {
+      "req": "REQ-ELLIPSIS",
+      "domain": "ELLIPSIS",
+      "source": "SOURCE_2#B",
+      "producer": "MaqamAwareEllipsisGate",
+      "artifact": "output/taaqol_maqam_foundation_generated/MAQAM_ELLIPSIS_GATE_02.json",
+      "test": "tests/test_taaqol_maqam_deferred_consumers_02.py",
+      "status": "TRACEABLE"
+    },
+    {
+      "req": "REQ-RANK",
+      "domain": "RANK",
+      "source": "SOURCE_2#C",
+      "producer": "MaqamAwareRankGate",
+      "artifact": "output/taaqol_maqam_foundation_generated/MAQAM_RANK_GATE_02.json",
+      "test": "tests/test_taaqol_maqam_deferred_consumers_02.py",
+      "status": "TRACEABLE"
+    },
+    {
+      "req": "REQ-SPEECH-ACT",
+      "domain": "SPEECH_ACT",
+      "source": "SOURCE_2#D",
+      "producer": "MaqamAwareSpeechActGate",
+      "artifact": "output/taaqol_maqam_foundation_generated/MAQAM_SPEECH_ACT_GATE_02.json",
+      "test": "tests/test_taaqol_maqam_deferred_consumers_02.py",
+      "status": "TRACEABLE"
+    },
+    {
+      "req": "REQ-MAQAM6-RATIFIED",
+      "domain": "MAQAM_CLASSIFICATION",
+      "source": "OWNER_DECISION_06",
+      "producer": "maqam6_reference_ratified_closure_06.py",
+      "artifact": "output/taaqol_maqam_foundation_generated/NAZILA_MAQAM_CLASSIFICATION_06.json",
+      "test": "tests/test_taaqol_maqam_source_full_maqam6_reference_ratified_closure_06.py",
+      "status": "TRACEABLE"
+    },
+    {
+      "req": "REQ-REFERENCE-POLICY-RATIFIED",
+      "domain": "REFERENCE_POLICY",
+      "source": "OWNER_DECISION_06",
+      "producer": "maqam6_reference_ratified_closure_06.py",
+      "artifact": "output/taaqol_maqam_foundation_generated/NAZILA_REFERENCE_POLICY_06.json",
+      "test": "tests/test_taaqol_maqam_source_full_maqam6_reference_ratified_closure_06.py",
+      "status": "TRACEABLE"
+    },
+    {
+      "req": "REQ-FACTUAL-CLAIM-BIRTH",
+      "domain": "FACTUAL_CLAIM",
+      "source": "OWNER_DECISION_06+PROP08",
+      "producer": "maqam6_reference_ratified_closure_06.py",
+      "artifact": "output/taaqol_maqam_foundation_generated/NAZILA_FACTUAL_CLAIM_BIRTH_06.json",
+      "test": "tests/test_taaqol_maqam_source_full_maqam6_reference_ratified_closure_06.py",
+      "status": "TRACEABLE"
+    },
+    {
+      "req": "REQ-IFADAH-PASSAGE",
+      "domain": "IFADAH",
+      "source": "ROUND_08",
+      "producer": "final_ifadah_targeted_info_request_08.py",
+      "artifact": "output/taaqol_maqam_foundation_generated/NAZILA_IFADAH_AND_FACTUAL_CLAIM_PASSAGE_08.json",
+      "test": "tests/test_taaqol_final_ifadah_maqam_targeted_info_request_08.py",
+      "status": "TRACEABLE"
+    },
+    {
+      "req": "REQ-NORMATIVE-SOURCE-BIRTH",
+      "domain": "NORMATIVE_SOURCE",
+      "source": "ROUND_07_EXAM",
+      "producer": "normative_source_birth_07.py",
+      "artifact": "output/taaqol_maqam_foundation_generated/NAZILA_NORMATIVE_SOURCE_BIRTH_07.json",
+      "test": "tests/test_taaqol_normative_source_birth_07.py",
+      "status": "TRACEABLE"
+    },
+    {
+      "req": "REQ-TANZIL-READINESS",
+      "domain": "TANZIL",
+      "source": "ROUND_08",
+      "producer": "final_ifadah_targeted_info_request_08.py",
+      "artifact": "output/taaqol_maqam_foundation_generated/NAZILA_TANZIL_READINESS_AFTER_INFO_REQUEST_08.json",
+      "test": "tests/test_taaqol_final_ifadah_maqam_targeted_info_request_08.py",
+      "status": "TRACEABLE"
+    }
+  ],
+  "ASSERTED_NOT_MEASURED_COUNT": 0,
+  "producer_file": "scripts/taaqol_maqam_foundation/final_ifadah_targeted_info_request_08.py"
+}

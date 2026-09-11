@@ -1,0 +1,31 @@
+{
+  "node_name": "IFADAH_AND_FACTUAL_CLAIM_PASSAGE",
+  "IFADAH_PRODUCED_BY_CODE": "YES",
+  "IFADAH_MISSING": "NO",
+  "IFADAH_DOES_NOT_DIRECTLY_BIRTH_CLAIM": "YES",
+  "IFADAH_COMPLETION_STATUS": "PARTIAL_OR_DEFERRED",
+  "PROPOSITIONAL_CONTENT_ARTIFACT_EXISTS": "YES",
+  "MAQAM_6_OWNER_RATIFIED": "YES",
+  "MAQAM_6": "MASALA_MUSAWWARA_LIL_ISTIFTA",
+  "MAQAM_6_SCOPE": "THIS_NAZILA_ONLY",
+  "REFERENCE_POLICY_OWNER_RATIFIED": "YES",
+  "ASSUMED_FACT_REFERENCE": "HYPOTHETICAL_MARKED_REFERENCE",
+  "REFERENCE_POLICY_DECISION_REQUIRED": "NO",
+  "FACTUAL_CLAIM_BIRTH_STATUS": "BORN_BUT_DEFERRED",
+  "FACTUAL_CLAIM_PASSAGE_LICENSE": "MISSING_OWNER_DECISION",
+  "ADDITIONAL_INFORMATION_FOR_FACTUAL_CLAIM_REQUIRED": "YES",
+  "cause": "ifādah produced + maqam/reference ratified + proposition partial",
+  "conditions": "owner passage-license to move factual_claim beyond BORN_BUT_DEFERRED",
+  "preventers": [
+    "FACTUAL_CLAIM_PASSAGE_LICENSE_MISSING"
+  ],
+  "verdict": "IFADAH_PRESENT_FACTUAL_CLAIM_BORN_BUT_DEFERRED",
+  "evidence_files": [
+    "output/taaqol_nazila_matrix_generated/PROPOSITIONAL_CONTENT_CANDIDATE_08.json",
+    "output/taaqol_maqam_foundation_generated/NAZILA_FACTUAL_CLAIM_BIRTH_06.json"
+  ],
+  "producer_file": "scripts/taaqol_maqam_foundation/final_ifadah_targeted_info_request_08.py",
+  "residuals": [
+    "factual_claim awaits an explicit owner passage license (this nazila only)"
+  ]
+}

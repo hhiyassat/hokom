@@ -1,0 +1,93 @@
+{
+  "manifest_id": "CL16_ROOT_WAZN_PHASE1_ARTIFACT_BINDING_V1",
+  "purpose": "Frozen, sha256-pinned evidence artifacts for the CL-16 root/baab/wazn law. Hokom-side evidence binding ONLY. Not wired to Taaqol weigh()/WeightReadinessCandidate. CL-16 remains OPEN.",
+  "created": "2026-09-02",
+  "cl16_status": "OWNER_ROOT_WAZN_LAW_FOUND_PENDING_INTEGRATION",
+  "cl16_closed": false,
+  "integration_path": "HOKOM_SIDE_FROZEN_ARTIFACT_EVIDENCE_ADAPTER",
+  "boundaries": {
+    "taaqol_vendor_changed": false,
+    "weigh_changed": false,
+    "weight_readiness_wired": false,
+    "masaq_rule_authority": false,
+    "model_used_as_authority": false,
+    "submodule_added": false,
+    "full_repo_copied": false
+  },
+  "runtime_read_rule": "The adapter reads ONLY the pinned artifacts below, and MUST verify sha256 before use. It performs NO git/network operation and does NOT read the external repository's live state at runtime. A missing artifact or a sha256 mismatch is a hard BLOCK.",
+  "sources": {
+    "ROOT_BAAB_CERTIFICATION_SOURCE": {
+      "path": "/Users/husseinhiyassat/arabic-net/Arabic-Mother-language-net",
+      "commit": "dfddf1ae0a61cd23e34faf806efc9e3d6d43de04"
+    },
+    "WAZN_SOURCE": {
+      "path": "/Users/husseinhiyassat/arabic-net/Arabic-Mother-language-wazn-net",
+      "commit": "6198805"
+    }
+  },
+  "artifacts": [
+    {
+      "role": "ROOT_PROOF_TABLE",
+      "path": "/Users/husseinhiyassat/arabic-net/Arabic-Mother-language-net/word_tree/audited_roots.csv",
+      "size_bytes": 516114,
+      "sha256": "3dd82bd225022b84c8a56b5e2257f6850b700a3d69b1928236c3d92ccae1020c",
+      "role_note": "columns: الجذر, باب الصرفي, تم تدقيقه, تم إعادة تدقيقه, صحيح (الجذر حقيقي), المرجع, المصدر"
+    },
+    {
+      "role": "MAQAYIS_LEXICON_DB",
+      "path": "/Users/husseinhiyassat/arabic-net/Arabic-Mother-language-net/word_tree/maqayis.db",
+      "size_bytes": 9506816,
+      "sha256": "35c7062dd5edf40304670d18e1c6527dad04c7f13d2b2212b95519e19997897f",
+      "role_note": "Ibn-Faris maqayis root lexicon (reference only; not a rule authority)"
+    },
+    {
+      "role": "ROOT_WAZN_CERTIFICATION_LAW",
+      "path": "/Users/husseinhiyassat/arabic-net/Arabic-Mother-language-net/word_tree/fi3l_engine.py",
+      "size_bytes": 37095,
+      "sha256": "be0062303fd3d3c4b1605b8d0d5797f7da719d7a6569618e2f092028b196840e",
+      "role_note": "compose_vfv_from_certified_root: CertificationLevel + UNLICENSED_ROOT_TO_FEATURE_PROMOTION=0"
+    },
+    {
+      "role": "WORD_IDENTITY_ANALYZER",
+      "path": "/Users/husseinhiyassat/arabic-net/Arabic-Mother-language-net/word_tree/word_identity_analyzer.py",
+      "size_bytes": 31555,
+      "sha256": "0ed368d98cc7a5b52f5d5aa41da20ed9ae7bbad40fa43dfedd93d05ece1dc5c0"
+    },
+    {
+      "role": "WORD_IDENTITY_TYPES",
+      "path": "/Users/husseinhiyassat/arabic-net/Arabic-Mother-language-net/word_tree/word_identity_types.py",
+      "size_bytes": 30711,
+      "sha256": "2eb38eeb1b5ab69937ab891a212fd72ec8d24a19568a8156f562b9b171ced86a"
+    },
+    {
+      "role": "ROOT_DERIVATION_LAW",
+      "path": "/Users/husseinhiyassat/arabic-net/Arabic-Mother-language-net/engines/noun_root_corrector.py",
+      "size_bytes": 33884,
+      "sha256": "0a8c06e45100efee57ceedabe40ddb00d73c054d83804f9ca22e7bb94d15bcbc"
+    },
+    {
+      "role": "WAZN_DERIVATION_ENGINE",
+      "path": "/Users/husseinhiyassat/arabic-net/Arabic-Mother-language-wazn-net/engines/derivation_engine.py",
+      "size_bytes": 21100,
+      "sha256": "559132cdca4ddf43042450cff2592cc770640ba8714019f7ba7dc33a55715f88"
+    },
+    {
+      "role": "WAZN_MORPHOLOGICAL_ENGINE",
+      "path": "/Users/husseinhiyassat/arabic-net/Arabic-Mother-language-wazn-net/engines/morphological_engine.py",
+      "size_bytes": 36639,
+      "sha256": "1f821b46d7bc12bf9059607978a10bd7fb6fc380853a8b1faa35ec74b2db3458"
+    },
+    {
+      "role": "WAZN_TYPES",
+      "path": "/Users/husseinhiyassat/arabic-net/Arabic-Mother-language-wazn-net/core/types.py",
+      "size_bytes": 6723,
+      "sha256": "8ee9a77d08c8d6af5358972f6cd13db9a1e05ba47d013b467f5061ec951079b7"
+    },
+    {
+      "role": "WAZN_ROOT_NUCLEUS",
+      "path": "/Users/husseinhiyassat/arabic-net/Arabic-Mother-language-wazn-net/core/root.py",
+      "size_bytes": 6639,
+      "sha256": "682c0e33871ef4554f9159d4540703f9d82561c6885d4f8641627d9eab088986"
+    }
+  ]
+}

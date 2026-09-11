@@ -1,0 +1,25 @@
+{
+  "node_name": "NORMATIVE_SOURCE_BIRTH",
+  "NORMATIVE_SOURCE_BIRTH_STATUS": "UNBORN",
+  "NORMATIVE_SOURCE_BLOCKER": "FACTUAL_CLAIM_PASSAGE_BLOCKED",
+  "normative_authority_present": "NO",
+  "normative_source_text_present": "NO",
+  "normative_source_scope_present": "NO",
+  "normative_evidence_present": "NO",
+  "normative_link_license_present": "NO",
+  "maqam_theory_source_is_normative_source": "NO",
+  "cause": "no ratified normative source; and factual-claim passage is blocked",
+  "conditions": "passage ACCEPT AND authority AND text AND scope AND evidence AND link_license",
+  "preventers": [
+    "FACTUAL_CLAIM_PASSAGE_BLOCKED",
+    "MAQAM_THEORY_SOURCE_IS_NOT_NORMATIVE_SOURCE"
+  ],
+  "verdict": "NORMATIVE_SOURCE_UNBORN",
+  "evidence_files": [
+    "output/taaqol_maqam_foundation_generated/NAZILA_FACTUAL_CLAIM_PASSAGE_09.json"
+  ],
+  "producer_file": "scripts/taaqol_maqam_foundation/factual_claim_passage_normative_source_09.py",
+  "residuals": [
+    "needs owner-ratified normative source (5 components)"
+  ]
+}

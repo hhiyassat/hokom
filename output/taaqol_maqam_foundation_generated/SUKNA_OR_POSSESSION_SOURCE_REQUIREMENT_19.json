@@ -1,0 +1,68 @@
+{
+  "ROUND": "SUKNA_OR_POSSESSION_SOURCE_REQUIREMENT_AND_SUPPLY_GATE_19",
+  "PROVIDE_SUKNA_SOURCE": "YES",
+  "ALLOW_NORMATIVE_HUKM_CANDIDATE": "NO",
+  "PRIMARY_DOMAIN_CANDIDATE": "KEEP_COMPOSITE",
+  "SCOPE": "THIS_NAZILA_ONLY",
+  "domain_candidate_id": "SUKNA_OR_POSSESSION_DOMAIN_CANDIDATE",
+  "residual_ref": "SOURCE_TO_MASALA_MAPPING_RESIDUALS_18.json#sukna_or_possession_uncovered",
+  "residual_status_from_round_18": "YES",
+  "served_needs": [
+    {
+      "need_id": "SUKNA_RIGHT",
+      "need_ar": "حق السكنى"
+    },
+    {
+      "need_id": "POSSESSION_OR_YAD",
+      "need_ar": "الحيازة أو اليد"
+    },
+    {
+      "need_id": "PREVENT_EXPULSION",
+      "need_ar": "منع الطرد"
+    },
+    {
+      "need_id": "DARAR",
+      "need_ar": "الضرر"
+    },
+    {
+      "need_id": "USUFRUCT_RIGHT",
+      "need_ar": "حق الانتفاع"
+    },
+    {
+      "need_id": "SISTER_RESIDENCE_RELATION_POST_DEATH",
+      "need_ar": "علاقة الأخت الساكنة بالبيت بعد موت المالك"
+    }
+  ],
+  "required_fields": [
+    "AUTHORITY",
+    "TEXT",
+    "SCOPE",
+    "EVIDENCE",
+    "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM",
+    "OWNER_RATIFICATION"
+  ],
+  "supply_template": {
+    "AUTHORITY": "",
+    "TEXT": "",
+    "SCOPE": "",
+    "EVIDENCE": "",
+    "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM": "",
+    "OWNER_RATIFICATION": "NO",
+    "NOTES": "owner-fill; empty until supplied"
+  },
+  "requirement_status": "REQUIREMENT_RECORDED_NOT_SOURCE",
+  "sukna_source_born": "NO",
+  "normative_source_selected": "NO",
+  "la_darar_admissibility": "ONLY_IF_OWNER_SUPPLIED_AND_OWNER_RATIFIED",
+  "cause": "round-18 residual: SUKNA_OR_POSSESSION uncovered by the three born sources; owner set PROVIDE_SUKNA_SOURCE=YES",
+  "conditions": "owner supplies AUTHORITY+TEXT+SCOPE+EVIDENCE+LINK_LICENSE+OWNER_RATIFICATION; scope self-limits ruling; evidence citation string",
+  "preventers": "birth without owner supply; agent ratifying/selecting; opening hukm candidate; collapsing composite; live external link",
+  "verdict": "DEFER_SUKNA_SOURCE_BIRTH_REQUIREMENT_RECORDED",
+  "evidence": "SOURCE_TO_MASALA_MAPPING_RESIDUALS_18.json",
+  "residuals": "sukna/possession still without a source; awaits owner supply + explicit birth license (round 20)",
+  "NORMATIVE_HUKM_PRODUCED": "NO",
+  "MANAT_PRODUCED": "NO",
+  "TANZIL_PRODUCED": "NO",
+  "FINAL_ANSWER_PRODUCED": "NO",
+  "producer_file": "scripts/taaqol_maqam_foundation/sukna_or_possession_source_requirement_19.py"
+}

@@ -1,0 +1,31 @@
+{
+  "candidate_form_only": "YES",
+  "allowed_verdicts": [
+    "ACCEPT_AS_NORMATIVE_HUKM_CANDIDATE_ONLY",
+    "BLOCK_HUKM_CANDIDATE",
+    "DEFER_HUKM_CANDIDATE"
+  ],
+  "forbidden_verdict": "FINAL_HUKM",
+  "candidate_fields": [
+    "hukm_candidate_id",
+    "linked_domain_candidates",
+    "linked_sources",
+    "linked_masala_segments",
+    "candidate_statement",
+    "candidate_scope",
+    "cause",
+    "conditions",
+    "preventers",
+    "verdict",
+    "evidence",
+    "residuals",
+    "final_hukm_allowed",
+    "manat_allowed",
+    "tanzil_allowed",
+    "final_answer_allowed",
+    "owner_ratification_required_for_final_hukm"
+  ],
+  "candidate_statement_must_be_candidate_phrasing": "YES",
+  "candidate_statement_must_not_be_fatwa_or_final_answer": "YES",
+  "producer_file": "scripts/taaqol_maqam_foundation/normative_hukm_candidate_gate_23.py"
+}

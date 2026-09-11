@@ -1,0 +1,35 @@
+{
+  "ROUND": "OWNER_SUPPLIED_SUKNA_SOURCE_BIRTH_ADMISSION_AUDIT_21",
+  "ALLOW_SUKNA_SOURCE_BIRTH": "YES",
+  "SUKNA_SOURCE_FIELDS_COMPLETE": "YES",
+  "ALLOW_NORMATIVE_HUKM_CANDIDATE": "NO",
+  "PRIMARY_DOMAIN_CANDIDATE": "KEEP_COMPOSITE",
+  "SCOPE": "THIS_NAZILA_ONLY",
+  "EVIDENCE_POLICY": "CITATION_STRINGS_ONLY",
+  "LIVE_EXTERNAL_LINKS_IN_ARTIFACTS": "NO",
+  "sukna_source_born": "YES",
+  "sukna_source_ratified_by": "OWNER",
+  "sukna_source_selected_by_agent": "NO",
+  "born_source": {
+    "source_id": "SUKNA_SOURCE_1",
+    "domain_link": [
+      "SUKNA_OR_POSSESSION_DOMAIN_CANDIDATE"
+    ],
+    "AUTHORITY": "ابن القيم، الطرق الحكمية، فصل الطريق الثالث في الحكم باليد مع يمين صاحبها",
+    "TEXT": "كما إذا ادعى عليه عينا في يده، فأنكر، فسأل إحلافه، فإنه يحلف، وتترك في يده لترجح جانب صاحب اليد. ولهذا شرعت اليمين في جهته، فإن اليمين تشرع في جنبة أقوى المتداعيين، هذا إذا لم تكذب اليد القرائن الظاهرة.",
+    "SCOPE": "مرشح مصدر لجهة الحيازة/اليد وبقاء الحال عند النزاع، يخدم فحص كون الأخت ساكنة في البيت قبل الطرد، وأن مجرد دعوى الوارث لا تكفي وحدها لإخراج ذي اليد أو الساكن حتى تفحص الدعوى والقرائن. لا يحسم وحده ملكية البيت، ولا يثبت حق السكنى النهائي، ولا ينتج حكمًا أو مناطًا أو تنزيلًا.",
+    "EVIDENCE": "ابن القيم، الطرق الحكمية، فصل الطريق الثالث في الحكم باليد مع يمين صاحبها",
+    "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM": "YES",
+    "OWNER_RATIFICATION": "YES",
+    "text_verbatim_status": "ASSERTED_BY_OWNER_NOT_VERIFIED_BY_AGENT",
+    "source_born": "YES",
+    "source_ratified_by": "OWNER",
+    "source_selected_by_agent": "NO",
+    "possession_is_not_final_ownership": "YES"
+  },
+  "NORMATIVE_HUKM_PRODUCED": "NO",
+  "MANAT_PRODUCED": "NO",
+  "TANZIL_PRODUCED": "NO",
+  "FINAL_ANSWER_PRODUCED": "NO",
+  "producer_file": "scripts/taaqol_maqam_foundation/sukna_ratified_source_birth_admission_audit_21.py"
+}

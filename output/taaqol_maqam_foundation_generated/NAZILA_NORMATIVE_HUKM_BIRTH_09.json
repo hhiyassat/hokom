@@ -1,0 +1,17 @@
+{
+  "node_name": "NORMATIVE_HUKM_BIRTH",
+  "NORMATIVE_HUKM_BIRTH_STATUS": "FORBIDDEN_PARENT_UNBORN",
+  "NORMATIVE_HUKM_PRODUCED": "NO",
+  "cause": "normative_source not born",
+  "preventers": [
+    "NORMATIVE_SOURCE_UNBORN"
+  ],
+  "verdict": "FORBIDDEN_PARENT_UNBORN",
+  "evidence_files": [
+    "NAZILA_NORMATIVE_SOURCE_BIRTH_09.json"
+  ],
+  "producer_file": "scripts/taaqol_maqam_foundation/factual_claim_passage_normative_source_09.py",
+  "residuals": [
+    "no HARAM/WAJIB/RIGHT/LIABILITY"
+  ]
+}

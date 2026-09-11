@@ -1,0 +1,43 @@
+{
+  "guards": [
+    {
+      "guard": "WORD_PRESENT_NOT_DOMAIN",
+      "example": "وارثه NOT -> MIRATH domain",
+      "enforced": "YES"
+    },
+    {
+      "guard": "WORD_PRESENT_NOT_DOMAIN",
+      "example": "فتحاكما NOT -> QADA domain",
+      "enforced": "YES"
+    },
+    {
+      "guard": "TEXT_SIGNAL_NOT_FRAME",
+      "enforced": "YES"
+    },
+    {
+      "guard": "FRAME_NOT_MASALA_TAKYIF",
+      "enforced": "YES"
+    },
+    {
+      "guard": "MASALA_TAKYIF_NOT_NORMATIVE_SOURCE",
+      "enforced": "YES"
+    },
+    {
+      "guard": "DOMAIN_CANDIDATE_NOT_NORMATIVE_SOURCE",
+      "enforced": "YES"
+    },
+    {
+      "guard": "SOURCE_CANDIDATE_NOT_SOURCE_RATIFICATION",
+      "enforced": "YES"
+    },
+    {
+      "guard": "NO_HUKM_MANAT_TANZIL_ANSWER_THIS_ROUND",
+      "enforced": "YES"
+    }
+  ],
+  "MIRATH_CANDIDATE_BORN": "NO",
+  "QADA_CANDIDATE_BORN": "NO",
+  "DOMAIN_CLASSIFICATION_BORN": "NO",
+  "NORMATIVE_SOURCE_BIRTH_STATUS": "NOT_OPENED",
+  "producer_file": "scripts/taaqol_maqam_foundation/masala_takyif_rules_11.py"
+}

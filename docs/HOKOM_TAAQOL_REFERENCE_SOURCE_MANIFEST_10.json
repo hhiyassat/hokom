@@ -1,0 +1,20 @@
+{
+  "ROUND": "HOKOM_TAAQOL_REFERENCE_MATRIX_AND_HOKOM_FRAMENET_ROADMAP_10",
+  "manifest_note": "Reference-only manifest. Availability/license fields are documentary; none is used to produce a hukm/manat/tanzil/final answer. Verify licenses before any code adoption.",
+  "references": [
+    {"id": "UD_ENGLISH", "layer": "Tokenization/Segmentation/POS/Dep", "arabic_counterpart": "UD Arabic / Arabic-PUD", "hokom_taaqol": "Hokom segmentation/clitics/surface/normalization", "open_source_available": "YES", "usage_verdict": "TECHNICAL_REFERENCE_LINK_ONLY"},
+    {"id": "PENN_TREEBANK", "layer": "POS Tagging", "arabic_counterpart": "UD Arabic + Arabic grammar", "hokom_taaqol": "Hokom word_class/mabni/operators", "open_source_available": "UD_YES_PENN_MOSTLY_RESTRICTED", "usage_verdict": "HOKOM_OWNS_CLASS_LOCALLY"},
+    {"id": "WORDNET", "layer": "Lexical Semantics", "arabic_counterpart": "Arabic WordNet", "hokom_taaqol": "Hokom candidate lexical sense", "open_source_available": "WORDNET_YES; ARABIC_WORDNET_V4_PER_GITHUB_CC_BY", "usage_verdict": "CANDIDATE_ONLY"},
+    {"id": "VERBNET", "layer": "Verb Classes", "arabic_counterpart": "NOT_ASSUMED_INSIDE_ARABIC_WORDNET_WITHOUT_FILE_EVIDENCE", "hokom_taaqol": "Hokom verb/subject/object relations (later)", "open_source_available": "VERBNET_YES; ARABIC_LINK_UNSETTLED", "usage_verdict": "CANDIDATE_ONLY"},
+    {"id": "PROPBANK", "layer": "Predicate-Argument", "arabic_counterpart": "Arabic PropBank (research)", "hokom_taaqol": "Hokom/Taaqol propositional/ifadah", "open_source_available": "PARTIAL_SOME_CORPORA_RESTRICTED", "usage_verdict": "NO_HUKM"},
+    {"id": "FRAMENET", "layer": "Frame Semantics", "arabic_counterpart": "OWNER_TO_BUILD_ARABIC_HOKOM_FRAMENET", "hokom_taaqol": "Hokom licensed frame layer", "open_source_available": "ENGLISH_FRAMENET_PARTIAL", "usage_verdict": "STRUCTURE_ONLY_NOW"},
+    {"id": "WORDFRAMENET", "layer": "WordNet<->FrameNet Bridge", "arabic_counterpart": "DESIGN_REUSE_ONLY", "hokom_taaqol": "Hokom lexical sense -> frame candidate", "open_source_available": "CC_BY_3_0_PER_PAGE", "usage_verdict": "DESIGN_REFERENCE_NOT_RULING_AUTHORITY"},
+    {"id": "LEGALBENCH", "layer": "Legal Issue Spotting", "arabic_counterpart": "fiqh: tasawwur->takyif->tanzil", "hokom_taaqol": "Taaqol masala takyif", "open_source_available": "RESEARCH_AVAILABLE", "usage_verdict": "METHOD_ANALOGY_ONLY"},
+    {"id": "LEARNED_HANDS", "layer": "Legal Issue Dataset", "arabic_counterpart": "NONE_READY", "hokom_taaqol": "NOT_ADOPTED_AS_SOURCE", "open_source_available": "YES", "usage_verdict": "NOT_USED_FOR_SHARI_TAKYIF"},
+    {"id": "LEXGLUE", "layer": "Legal NLU Benchmark", "arabic_counterpart": "ArabLegalEval (partial)", "hokom_taaqol": "benchmark_not_source", "open_source_available": "RESEARCH_AVAILABLE", "usage_verdict": "EVAL_NOT_HUKM"},
+    {"id": "FIQH_NAZILA_TAKYIF", "layer": "Fiqh/Nazila Takyif", "arabic_counterpart": "tasawwur->takyif->tanzil", "hokom_taaqol": "Taaqol MASALA_TAKYIF_LAYER (PROPOSED_NOT_CANONICAL)", "open_source_available": "OWNER_BUILD_REQUIRED", "usage_verdict": "NO_OUTPUT_BEFORE_OWNER_RATIFICATION"}
+  ],
+  "MASALA_TAKYIF_LAYER_STATUS": "PROPOSED_NOT_CANONICAL",
+  "DOMAIN_ROUTING_LAYER_CANONICAL": "NO",
+  "OWNER_RATIFICATION_REQUIRED": "YES"
+}

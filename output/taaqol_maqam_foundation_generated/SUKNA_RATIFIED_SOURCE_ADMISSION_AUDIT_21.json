@@ -1,0 +1,37 @@
+{
+  "ROUND": "OWNER_SUPPLIED_SUKNA_SOURCE_BIRTH_ADMISSION_AUDIT_21",
+  "audit_mode": "STRUCTURAL_ADMISSION_ONLY",
+  "agent_ratified_source": "NO",
+  "agent_selected_source": "NO",
+  "source_count_checked": 1,
+  "admitted_count": 1,
+  "audit": {
+    "source_id": "SUKNA_SOURCE_1",
+    "domain_link": [
+      "SUKNA_OR_POSSESSION_DOMAIN_CANDIDATE"
+    ],
+    "authority_present": "YES",
+    "text_present": "YES",
+    "scope_present": "YES",
+    "evidence_present": "YES",
+    "link_license_present": "YES",
+    "owner_ratification_present": "YES",
+    "domain_link_coherent": "YES",
+    "scope_has_explicit_preventers": "YES",
+    "evidence_is_citation_string": "YES",
+    "serves_sukna_or_possession_residual": "YES",
+    "text_verbatim_status": "ASSERTED_BY_OWNER_NOT_VERIFIED_BY_AGENT",
+    "missing_fields": [],
+    "cause": "owner supplied + owner ratified sukna source; owner licensed birth (ALLOW_SUKNA_SOURCE_BIRTH=YES)",
+    "conditions": "six fields present; LINK_LICENSE=YES; OWNER_RATIFICATION=YES; domain_link=SUKNA_OR_POSSESSION; SCOPE self-limits (no hukm/manat/tanzil/final-ownership); evidence citation string",
+    "preventers": "any missing field; incoherent domain_link; SCOPE not self-limiting; source alone as ruling; possession as final ownership; agent self-ratification (forbidden); live external link",
+    "verdict": "ADMITTED_AS_OWNER_SUPPLIED_SOURCE",
+    "sukna_source_born": "YES",
+    "source_ratified_by": "OWNER",
+    "source_selected_by_agent": "NO",
+    "possession_is_not_final_ownership": "YES",
+    "evidence": "ابن القيم، الطرق الحكمية، فصل الطريق الثالث في الحكم باليد مع يمين صاحبها",
+    "residuals": "no hukm/manat/tanzil/answer; possession ≠ final ownership; text not agent-verified; awaits owner hukm-gate license"
+  },
+  "producer_file": "scripts/taaqol_maqam_foundation/sukna_ratified_source_birth_admission_audit_21.py"
+}

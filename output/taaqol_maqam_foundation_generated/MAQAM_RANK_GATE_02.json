@@ -1,0 +1,48 @@
+{
+  "gate": "MaqamAwareRankGate",
+  "source_rule": "SOURCE_2#C (رتبة محفوظة/غير محفوظة/لازمة لأمن اللبس)",
+  "fixtures": [
+    {
+      "surface": "ضرب موسى عيسى",
+      "rank_type": "CONTEXTUALLY_LOCKED",
+      "ambiguity_present": "YES",
+      "rank_required_to_avoid_ambiguity": "YES",
+      "reason": "indeclinable nouns; word order carries agent/object -> order locked by amn al-labs"
+    },
+    {
+      "surface": "أخي صديقي",
+      "rank_type": "CONTEXTUALLY_LOCKED",
+      "ambiguity_present": "YES",
+      "rank_required_to_avoid_ambiguity": "YES",
+      "reason": "mubtadaʾ/khabar both definite; order disambiguates"
+    },
+    {
+      "surface": "مَاتَ مَلِكٌ (نازلة: فعل+فاعل)",
+      "rank_type": "PRESERVED",
+      "ambiguity_present": "NO",
+      "rank_required_to_avoid_ambiguity": "NO",
+      "reason": "verb-subject preserved rank (REL-01 CLOSED); breaking it breaks structure"
+    }
+  ],
+  "rank_type_values": [
+    "PRESERVED",
+    "NON_PRESERVED",
+    "CONTEXTUALLY_LOCKED"
+  ],
+  "cause_present": true,
+  "conditions_satisfied": true,
+  "preventers": [],
+  "gate_decision": "ACCEPT",
+  "constraints": [
+    "NOT_EVERY_FRONTING_IS_RHETORIC",
+    "NOT_EVERY_RANK_BREAKABLE",
+    "RANK_ALONE_DOES_NOT_PROVE_RELATION"
+  ],
+  "verdict": "RANK_CLASSIFIED",
+  "residuals": [
+    "nazila deeper rank analysis needs full relation closure (beyond this round)"
+  ],
+  "evidence_file": "output/taaqol_nazila_matrix_generated/HOKOM_NAZILA_LINGUISTIC_ANALYSIS_RESULT.csv",
+  "producer_file": "scripts/taaqol_maqam_foundation/deferred_consumers.py",
+  "measured": "MEASURED"
+}

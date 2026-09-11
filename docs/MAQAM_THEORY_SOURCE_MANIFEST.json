@@ -1,0 +1,23 @@
+{
+  "source_title": "أصول ودلالات السياق المقامي في التراث العربي",
+  "author": "صورية جغبوب",
+  "stated_original_file_path": "/Users/husseinhiyassat/hokom/taaqol_maqam_theory_implementation_01/اساسيات المقام.pdf",
+  "actual_source_file_path_found": "/Users/husseinhiyassat/hokom/docs/اساسيات المقام.pdf",
+  "stored_file_path": "docs/maqam_theory_sources/اساسيات_المقام.pdf",
+  "sha256": "5b828cceb092dfce4eabe1900393f3e029c45a876dbf1e1c3157963c59db935d",
+  "page_count": 33,
+  "declared_page_count": 33,
+  "page_count_matches_declared": true,
+  "source_type": "OWNER_PROVIDED_THEORY_SOURCE",
+  "rewritten_by_agent": "NO",
+  "summary_is_not_source": "YES",
+  "full_traceability_required": "YES",
+  "text_extraction_engine": "pymupdf(fitz)+pdftotext",
+  "text_extraction_quality": "SOURCE_TEXT_EXTRACTION_UNCERTAIN",
+  "text_extraction_note": "Body text extracts as Arabic Presentation-Forms-B glyphs with disordered layout; title/author verified but body wording is unreliable. Rules must NOT be built from corrupted body text (DEFERRED_SOURCE_TEXT_CORRUPTION).",
+  "title_verified_from_extraction": true,
+  "phrase_correction": {
+    "from": "COMPLETE_MAQAM_THEORY_IMPLEMENTATION",
+    "to": "MAQAM_THEORY_FOUNDATION_IMPLEMENTATION_WITH_TRACEABILITY"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "label": "MAQAM_THEORY_FOUNDATION_IMPLEMENTATION_WITH_TRACEABILITY",
+  "rank_ladder": [
+    "GENERATED",
+    "TEXTUAL_INFERENCE",
+    "OBSERVED",
+    "EXTERNALLY_SUPPLIED",
+    "OWNER_DECLARED",
+    "RATIFIED"
+  ],
+  "required_fields": [
+    "evidence_id",
+    "dimension_key",
+    "value",
+    "source_ref",
+    "producer",
+    "evidence_type",
+    "rank",
+    "scope",
+    "reference_world",
+    "valid_from",
+    "valid_to",
+    "trace_ref",
+    "confidence_rank",
+    "owner_approval_status",
+    "residuals"
+  ],
+  "rank_separation_rule": "TEXTUAL_INFERENCE < EXTERNALLY_SUPPLIED < OWNER_DECLARED < RATIFIED",
+  "text_cue_is_not_owner_decision": "YES"
+}

@@ -1,0 +1,36 @@
+{
+  "opening_manat_candidate_blocked": "NO",
+  "final_manat_blocked": "YES",
+  "global_fact_residuals": [
+    "هل ثبت أن الميت لا ولد له؟",
+    "هل يوجد ورثة آخرون؟",
+    "ما صفة الوارث الذي يريد الطرد؟",
+    "هل البيت كله تركة أم فيه حق/انتفاع/إذن سابق؟",
+    "هل سكن الأخت كان بإذن المالك قبل موته؟",
+    "هل يد الأخت يد معتبرة أو تكذبها قرائن؟",
+    "ما الدعوى المحددة للوارث؟",
+    "ما جواب الأخت؟",
+    "ما البينة؟",
+    "هل توجد قرائن أقوى من مجرد اليد؟"
+  ],
+  "per_candidate_residuals": [
+    {
+      "manat_candidate_id": "MC1_SISTER_EXISTENCE_AND_ENTITLEMENT_CONDITIONS",
+      "residuals": "مواضع التأثير مرشّحة فقط؛ الشروط الواقعية غير مفحوصة؛ لا مناط نهائي ولا تنزيل؛ يحتاج تصديق المالك للمناط النهائي."
+    },
+    {
+      "manat_candidate_id": "MC2_CLAIM_DISPUTE_AND_PROOF_BURDEN",
+      "residuals": "مواضع التأثير مرشّحة فقط؛ الشروط الواقعية غير مفحوصة؛ لا مناط نهائي ولا تنزيل؛ يحتاج تصديق المالك للمناط النهائي."
+    },
+    {
+      "manat_candidate_id": "MC3_STANDING_HAND_STATE_BEFORE_EXPULSION",
+      "residuals": "مواضع التأثير مرشّحة فقط؛ الشروط الواقعية غير مفحوصة؛ لا مناط نهائي ولا تنزيل؛ يحتاج تصديق المالك للمناط النهائي."
+    },
+    {
+      "manat_candidate_id": "MC4_COMPOSITE_MANAT_LINK_NO_OUTCOME",
+      "residuals": "مواضع التأثير مرشّحة فقط؛ الشروط الواقعية غير مفحوصة؛ لا مناط نهائي ولا تنزيل؛ يحتاج تصديق المالك للمناط النهائي."
+    }
+  ],
+  "unresolved_residuals_recorded": "YES",
+  "producer_file": "scripts/taaqol_maqam_foundation/manat_candidate_extraction_24.py"
+}

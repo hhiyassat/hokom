@@ -1,0 +1,16 @@
+{
+  "NodeName": "REFERENCE_POLICY",
+  "REFERENCE_POLICY_OWNER_RATIFIED": "YES",
+  "ASSUMED_FACT_REFERENCE": "HYPOTHETICAL_MARKED_REFERENCE",
+  "REFERENCE_POLICY_DECISION_REQUIRED": "NO",
+  "REFERENCE_POLICY_SCOPE": "THIS_NAZILA_ONLY",
+  "REFERENCE_POLICY_ACCEPTED_BY_OWNER_DECISION": "YES",
+  "CAUSE": "OWNER_DECISION_IN_THIS_PROMPT ratifies the hypothetical reference policy",
+  "CONDITIONS": "explicit owner ratification + scope THIS_NAZILA_ONLY",
+  "PREVENTERS": "none",
+  "VERDICT": "REFERENCE_POLICY_RATIFIED",
+  "EVIDENCE": "OWNER_DECISION_IN_THIS_PROMPT",
+  "PRODUCER_FILE": "scripts/taaqol_maqam_foundation/maqam6_reference_ratified_closure_06.py",
+  "RESIDUALS": "scope limited to this nazila",
+  "measured": "MEASURED"
+}

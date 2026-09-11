@@ -1,0 +1,73 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تقرير تنفيذي — النازلة والمقام والإفادة بعد حفظ مصدر المقام الثاني (05)</title>
+<style> body{font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:1.2rem;color:#1b1b1b;background:#fafafa} h1{font-size:1.32rem} h2{font-size:1.05rem;margin-top:1.3rem;border-bottom:2px solid #ddd;padding-bottom:.25rem} table{border-collapse:collapse;width:100%;margin:.5rem 0;background:#fff;font-size:.78rem} th,td{border:1px solid #ccc;padding:.3rem .45rem;text-align:right;vertical-align:top} th{background:#f0f0f0} td.y{background:#e6f4ea} td.n{background:#fdecec;color:#7a1f1f} td.d{background:#fff7e0} .sentbox{border:2px solid #6aa0e0;border-radius:.6rem;padding:.5rem .8rem;margin:.6rem 0;background:#fff} .sent{background:#eef6ff;border:1px solid #9cc3ef;border-radius:.4rem;padding:.5rem .8rem;font-weight:700;font-size:1rem} .note{background:#fff7e0;border:1px solid #e0c877;padding:.4rem .7rem;border-radius:.4rem;margin:.4rem 0;font-size:.82rem} code{background:#f2f2f2;padding:.05rem .3rem;border-radius:.25rem;font-size:.76rem} .foot{color:#444;font-size:.8rem;border-top:1px solid #ccc;margin-top:1rem;padding-top:.5rem} .wrap{overflow-x:auto} ul,ol{margin:.3rem 1.2rem}</style>
+</head><body>
+<h1>تقرير تنفيذي — النازلة والمقام والإفادة بعد حفظ مصدر المقام الثاني (05)</h1>
+<div class="note">هذا التقرير مولّد من الكود/artifacts فقط. REPORT_SOURCE = CODE_AND_ARTIFACTS_ONLY · ILLUSTRATIVE_DEMO = NO · LLM_FREE_TEXT_OUTPUT = NO · MANAGER_REPORT_LAYOUT_REFERENCE = TAAQOL_NAZILA_CODE_EXECUTED_MANAGER_REPORT_AR_07.html.</div>
+<div class="note">هذا تقرير إغلاق إداري مطلوب للمدير بعد تأخر تقرير الإغلاق من أمس؛ وهو لا يفتح canonical ولا ينتج حكمًا أو مناطًا أو تنزيلًا أو جوابًا.</div>
+<h2>1. ملخص للمدير</h2><ul><li>هذا تقرير نازلة كامل: الجملة + الكلمات العشر + الإفادة + القضوي + المقام، لا تقرير مصدر مجرد.</li><li>الإفادة منتجة بالكود لكنها لا تلد الدعوى مباشرة؛ والقضوي موجود artifact لكنه ينتظر المقام وسياسة المرجع.</li><li>بوابات المقام (إحالة/حذف/رتبة/خبر-إنشاء) IMPLEMENTED وتُؤجّل على النازلة؛ canonical محجوب؛ لا حكم/مناط/تنزيل/جواب.</li></ul>
+<h2>2. الجملة محل التشغيل</h2>
+<div class="sentbox"><div class="sent" id="nazila-sentence">مَاتَ مَلِكٌ عَنْ أُخْتٍ سَاكِنَةٍ مَعَهُ، فَأَرَادَ وَارِثُهُ طَرْدَهَا، فَتَحَاكَمَا.</div></div>
+<h2>3. مخرجات الكود الموجودة فعلًا لكل مرحلة</h2><div class="wrap"><table><thead><tr><th>#</th><th>المرحلة</th><th>أنتجها الكود؟</th><th>الحالة</th></tr></thead><tbody>
+<tr><td>1</td><td>LINGUISTIC_ANALYSIS</td><td class="y">YES</td><td>tokenization/surface/normalization/word_class produced by code</td></tr>
+<tr><td>2</td><td>MADLUL_RECORD_AND_BINDING</td><td class="y">YES</td><td>TOKENS_WITH_MADLUL_RECORD = 10 ؛ LEXICAL_DAL_MADLUL_BINDING_COUNT = 9 ؛ ARABIC_TEXT_MADLUL_LICENSED_COUNT = 1 ؛ ARABIC_TEXT_MADLUL_BOUND_COUNT = 0</td></tr>
+<tr><td>3</td><td>SCORE</td><td class="y">YES</td><td>DOCUMENT = 80.0 ؛ DAL_MADLUL = 90.0 ؛ SCORE_CHANGED = NO</td></tr>
+<tr><td>4</td><td>IFADAH</td><td class="y">YES</td><td>IFADAH_PRODUCED_BY_CODE = YES ؛ IFADAH_DOES_NOT_DIRECTLY_BIRTH_CLAIM = YES</td></tr>
+<tr><td>5</td><td>PROPOSITIONAL_CONTENT</td><td class="y">YES</td><td>PROPOSITIONAL_CONTENT_ARTIFACT_EXISTS = YES</td></tr>
+<tr><td>6</td><td>SOURCE_2_PRESERVATION</td><td class="y">YES</td><td>SOURCE_2_FULL_PDF_AVAILABLE = NO ؛ SOURCE_2_PRESERVATION_STATUS = OWNER_PASTED_MARKDOWN_OR_EXCERPT_PRESERVED</td></tr>
+<tr><td>7</td><td>MAQAM_GATES</td><td class="d">YES/DEFER</td><td>COREFERENCE/ELLIPSIS/RANK/SPEECH_ACT implemented; nazila decisions defer where evidence missing</td></tr>
+<tr><td>8</td><td>MAQAM_CLASSIFICATION</td><td class="d">DEFER</td><td>MAQAM_6_OWNER_RATIFIED = NO ؛ TEXT_ALONE_INFERS_ISTIFTA = NO</td></tr>
+<tr><td>9</td><td>FACTUAL_CLAIM</td><td class="n">FORBIDDEN</td><td>FACTUAL_CLAIM_BIRTH_STATUS = FORBIDDEN_PARENT_DEFERRED</td></tr>
+<tr><td>10</td><td>CANONICAL_INTEGRATION</td><td class="n">BLOCKED</td><td>CANONICAL_INTEGRATION_STATUS = BLOCKED_WITH_CAUSE</td></tr>
+<tr><td>11</td><td>NORMATIVE_HUKM</td><td class="n">UNBORN/FORBIDDEN</td><td>NORMATIVE_HUKM_PRODUCED = NO</td></tr>
+<tr><td>12</td><td>MANAT</td><td class="n">FORBIDDEN</td><td>MANAT_PRODUCED = NO</td></tr>
+<tr><td>13</td><td>TANZIL</td><td class="n">FORBIDDEN</td><td>TANZIL_PRODUCED = NO</td></tr>
+<tr><td>14</td><td>FINAL_ANSWER</td><td class="n">FORBIDDEN</td><td>FINAL_ANSWER_PRODUCED = NO ؛ FINAL_ANSWER_ALLOWED = NO</td></tr>
+</tbody></table></div>
+<h2>4. جدول الكلمات العشر وسجلاتها</h2>
+<div class="wrap"><table><thead><tr><th>token</th><th>السطح</th><th>التطبيع</th><th>الفئة</th><th>عامل/مبني</th><th>dal↔madlul</th><th>مصدر المدلول</th><th>نص عربي</th></tr></thead><tbody>
+<tr><th>t000</th><td>مَاتَ</td><td>مَاتَ</td><td>FI3L_CANDIDATE</td><td>—</td><td class="y">BOUND</td><td>LEXICAL_ENTRY</td><td>—</td></tr>
+<tr><th>t001</th><td>مَلِكٌ</td><td>مَلِكٌ</td><td>ISM/ISM_ZAMAN_MAKAN</td><td>—</td><td class="y">BOUND</td><td>LEXICAL_ENTRY</td><td>—</td></tr>
+<tr><th>t002</th><td>عَنْ</td><td>عَنْ</td><td>HARF/CLOSED_FUNCTION_WORD</td><td>عَنْ</td><td class="y">BOUND</td><td>GRAMMATICAL_FUNCTION</td><td>—</td></tr>
+<tr><th>t003</th><td>أُخْتٍ</td><td>ءُخْتٍ</td><td>ISM/LEXICAL_NOUN</td><td>—</td><td class="d">DEFERRED</td><td>APPROVED_MADLUL_SOURCE_MISSING_OWNER_PENDING</td><td>«الأنثى التي تشارك الشخص في الأبوين أو في أحدهما.»</td></tr>
+<tr><th>t004</th><td>سَاكِنَةٍ</td><td>سَاكِنَةٍ</td><td>ISM/LEXICAL_NOUN</td><td>—</td><td class="y">BOUND</td><td>LEXICAL_ENTRY</td><td>—</td></tr>
+<tr><th>t005</th><td>مَعَهُ،</td><td>مَعَهُ،</td><td>ISM/ظرف_ملازم_للإضافة_اسم_مبني</td><td>ZARF_MABNI:ظرف_ملازم_للإضافة,CARRIES_PRONOUN:هُ</td><td class="y">BOUND</td><td>GRAMMATICAL_FUNCTION</td><td>—</td></tr>
+<tr><th>t006</th><td>فَأَرَادَ</td><td>فَءَرَادَ</td><td>FI3L_CANDIDATE</td><td>فَ</td><td class="y">BOUND</td><td>LEXICAL_ENTRY</td><td>—</td></tr>
+<tr><th>t007</th><td>وَارِثُهُ</td><td>وَارِثُهُ</td><td>ISM/LEXICAL_NOUN</td><td>CARRIES_PRONOUN:هُ</td><td class="y">BOUND</td><td>LEXICAL_ENTRY</td><td>—</td></tr>
+<tr><th>t008</th><td>طَرْدَهَا،</td><td>طَرْدَهَا،</td><td>ISM_CANDIDATE</td><td>CARRIES_PRONOUN:هَا</td><td class="y">BOUND</td><td>LEXICAL_ENTRY</td><td>—</td></tr>
+<tr><th>t009</th><td>فَتَحَاكَمَا.</td><td>فَتَحَاكَمَا.</td><td>FI3L/VERBAL_IMPERFECT</td><td>فَ</td><td class="y">BOUND</td><td>LEXICAL_ENTRY</td><td>—</td></tr>
+</tbody></table></div>
+<h2>5. حالة الإفادة: منتجة بالكود أم لا؟</h2><div class="note">الإفادة منتجة بالكود، لكنها لا تولد الدعوى مباشرة. IFADAH_PRODUCED_BY_CODE = YES ؛ IFADAH_DOES_NOT_DIRECTLY_BIRTH_CLAIM = YES. القضوي موجود كأثر بنيوي/artifact، لكنه يحتاج المقام وسياسة المرجع حتى يولد factual_claim. لا يجوز تحويل الإفادة إلى حكم معياري.</div>
+<h2>6. حالة القضوي والدعوى الواقعية</h2><table><tbody><tr><th>PROPOSITIONAL_CONTENT_ARTIFACT_EXISTS</th><td class="y">YES</td></tr><tr><th>MAQAM_CLASSIFICATION_GATE_DECISION</th><td class="d">DEFER</td></tr><tr><th>REFERENCE_POLICY_DECISION_REQUIRED</th><td class="d">YES</td></tr><tr><th>FACTUAL_CLAIM_BIRTH_STATUS</th><td class="n">FORBIDDEN_PARENT_DEFERRED</td></tr></tbody></table>
+<h2>7. حالة مصدر المقام الثاني</h2><div class="note d" style="background:#fff7e0">المقام والقرينة الحالية — صالحة حاج يعقوب · SOURCE_2_FULL_PDF_AVAILABLE = NO · SOURCE_2_PRESERVATION_STATUS = OWNER_PASTED_MARKDOWN_OR_EXCERPT_PRESERVED · SOURCE_2_SHA256_RECORDED = YES.</div>
+<h2>8. حالة بوابات المقام: الإحالة والحذف والرتبة والخبر/الإنشاء</h2><div class="note">الإحالة IMPLEMENTED (نازلة: DEFER — الضمائر في مَعَهُ/وَارِثُهُ/طَرْدَهَا/فَتَحَاكَمَا غير مثبتة) · الحذف IMPLEMENTED (reconstructed_material = NONE_NOT_AUTHORED) · الرتبة IMPLEMENTED (PRESERVED/NON_PRESERVED/CONTEXTUALLY_LOCKED) · الخبر/الإنشاء IMPLEMENTED (TEXT_ALONE_INFERS_ISTIFTA = NO · EXAMPLE_CONTEXT_OWNER_RATIFICATION = NO).</div>
+<h2>9. جدول التتبع: القاعدة ← المصدر ← المنتج ← artifact ← الاختبار</h2><div class="wrap"><table><thead><tr><th>requirement</th><th>المجال</th><th>source</th><th>producer_file</th><th>artifact</th><th>test</th><th>status</th></tr></thead><tbody>
+<tr><th>REQ-COREFERENCE</th><td>COREFERENCE</td><td>SOURCE_2#A</td><td>MaqamAwareCoreferenceGate</td><td>output/taaqol_maqam_foundation_generated/MAQAM_COREFERENCE_GATE_02.json</td><td>tests/test_taaqol_maqam_deferred_consumers_02.py</td><td class="y">TRACEABLE</td></tr>
+<tr><th>REQ-ELLIPSIS</th><td>ELLIPSIS</td><td>SOURCE_2#B</td><td>MaqamAwareEllipsisGate</td><td>output/taaqol_maqam_foundation_generated/MAQAM_ELLIPSIS_GATE_02.json</td><td>tests/test_taaqol_maqam_deferred_consumers_02.py</td><td class="y">TRACEABLE</td></tr>
+<tr><th>REQ-RANK</th><td>RANK</td><td>SOURCE_2#C</td><td>MaqamAwareRankGate</td><td>output/taaqol_maqam_foundation_generated/MAQAM_RANK_GATE_02.json</td><td>tests/test_taaqol_maqam_deferred_consumers_02.py</td><td class="y">TRACEABLE</td></tr>
+<tr><th>REQ-SPEECH-ACT</th><td>SPEECH_ACT</td><td>SOURCE_2#D</td><td>MaqamAwareSpeechActGate</td><td>output/taaqol_maqam_foundation_generated/MAQAM_SPEECH_ACT_GATE_02.json</td><td>tests/test_taaqol_maqam_deferred_consumers_02.py</td><td class="y">TRACEABLE</td></tr>
+<tr><th>REQ-CANONICAL-BLOCKER</th><td>INTEGRATION</td><td>QIYAS#16</td><td>CANONICAL_INTEGRATION</td><td>output/taaqol_maqam_foundation_generated/MAQAM_CANONICAL_BLOCKER_02.json</td><td>tests/test_taaqol_maqam_deferred_consumers_02.py</td><td class="y">TRACEABLE</td></tr>
+</tbody></table></div>
+<h2>10. حالة التكامل canonical</h2><div class="note n" style="background:#fdecec">CANONICAL_INTEGRATION_STATUS = BLOCKED_WITH_CAUSE — لا عقد canonical مصدّق ولا adapters typed بين Hokom/Taaqol ولا اختبارات فتح ولا قرار مالك.</div>
+<h2>11. حالة الحكم المعياري</h2><div class="note n" style="background:#fdecec">NORMATIVE_HUKM_PRODUCED = NO — لا مصدر معياري مرخّص، والمقام لا يُنتج معياريًّا.</div>
+<h2>12. حالة المناط</h2><div class="note n" style="background:#fdecec">MANAT_PRODUCED = NO — أصله (الحكم المعياري) غير مولود.</div>
+<h2>13. حالة التنزيل</h2><div class="note n" style="background:#fdecec">TANZIL_PRODUCED = NO — أصله (المناط المحقق) غير مولود.</div>
+<h2>14. حالة الجواب النهائي</h2><div class="note n" style="background:#fdecec">FINAL_ANSWER_PRODUCED = NO · FINAL_ANSWER_ALLOWED = NO — الأصول غير مولودة، ولا جواب فقهي.</div>
+<h2>15. ما يلزم برمجته بعد ذلك</h2><ol><li>اعتماد/توفير PDF كامل للمصدر الثاني إن أراد المالك إغلاقه كمصدر كامل.</li><li>حسم مقام النازلة: MAQAM_6 = MASALA_MUSAWWARA_LIL_ISTIFTA؟</li><li>حسم سياسة المرجع المفترض / النكرة.</li><li>canonical integration contract + typed adapters بين Hokom وTaaqol.</li><li>factual_claim_birth ← ثم normative_source ← normative_hukm ← illah/manat ← tanzil ← answer_audit.</li></ol>
+<h2>16. الاختبارات</h2><div class="note">tests/test_taaqol_maqam_manager_report_literal_nazila_07_parity_fix_05.py — تتحقّق من parity الحرفي: 18 قسمًا + الجملة + جدول الكلمات + صف/قسم الإفادة + القضوي/الدعوى + جدول تتبّع بأعمدة artifact/test مملوءة، وعدم إنتاج أي حكم/جواب.</div>
+<h2>17. إثبات سلسلة التوليد</h2><div class="note"><pre style="white-space:pre-wrap;margin:0">REPORT_05_CREATED = YES
+GENERATOR_FILE = scripts/taaqol_maqam_foundation/manager_report_parity_nazila07_05.py
+PYTEST_FILE = tests/test_taaqol_maqam_manager_report_literal_nazila_07_parity_fix_05.py
+MATRIX_FILE = output/taaqol_maqam_foundation_generated/MAQAM_MANAGER_REPORT_LITERAL_NAZILA_07_PARITY_FIX_05_MATRIX.csv
+TOKEN_TABLE_SOURCE = output/taaqol_nazila_matrix_generated/HOKOM_NAZILA_LINGUISTIC_ANALYSIS_RESULT.csv + TAAQOL_NAZILA_DAL_MADLUL_RESULT.csv
+TRACEABILITY_FILE = docs/MAQAM_REQUIREMENTS_TRACEABILITY.csv
+REPORT_SOURCE = CODE_AND_ARTIFACTS_ONLY
+ILLUSTRATIVE_DEMO = NO
+LLM_FREE_TEXT_OUTPUT = NO
+EXTERNAL_REFS = 0
+REPORT_REPRODUCIBLE_FROM_GENERATOR = YES
+COMMIT = NO</pre></div>
+<h2>18. الخلاصة التنفيذية</h2><div class="note">تقرير المقام صار على parity حرفي مع تقرير النازلة 07: الجملة والكلمات العشر والإفادة والقضوي حاضرة، وجدول التتبّع ممتلئ بالمصادر والاختبارات؛ canonical محجوب بسبب معلوم؛ ولم يولد حكم أو مناط أو تنزيل أو جواب.</div>
+<div class="foot">MANAGER_REPORT_05_MATCHES_NAZILA_07_FUNCTIONAL_LAYOUT = YES · HAS_NAZILA_SENTENCE_SECTION = YES · HAS_TOKEN_TABLE = YES · HAS_IFADAH_SECTION = YES · CANONICAL_INTEGRATION_STATUS = BLOCKED_WITH_CAUSE · NORMATIVE_HUKM_PRODUCED = NO · MANAT_PRODUCED = NO · TANZIL_PRODUCED = NO · FINAL_ANSWER_PRODUCED = NO · COMMIT = NO · PROJECT_FINISHED = NO.</div>
+</body></html>

@@ -1,0 +1,18 @@
+{
+  "NodeName": "FACTUAL_CLAIM",
+  "PROPOSITIONAL_CONTENT_ARTIFACT_EXISTS": "YES",
+  "propositional_content_state": "BORN_BUT_DEFERRED",
+  "FACTUAL_CLAIM_BIRTH_STATUS": "BORN_BUT_DEFERRED",
+  "FACTUAL_CLAIM_BLOCKER": "NONE_PROPOSITION_PARTIAL_ONLY",
+  "FACTUAL_CLAIM_SCOPE": "THIS_NAZILA_ONLY",
+  "is_normative": "NO",
+  "kind": "FACTUAL_NAZILA_PICTURE_CLAIM_ONLY",
+  "CAUSE": "maqam ACCEPT + reference ratified + propositional_content artifact present",
+  "CONDITIONS": "MAQAM=ACCEPT AND REFERENCE_POLICY_DECISION_REQUIRED=NO AND PROPOSITIONAL_CONTENT_ARTIFACT_EXISTS=YES",
+  "PREVENTERS": "proposition is only BORN_BUT_DEFERRED (partial nisba) -> claim deferred, not certified",
+  "VERDICT": "FACTUAL_CLAIM_BORN_BUT_DEFERRED",
+  "EVIDENCE": "PROPOSITIONAL_CONTENT_CANDIDATE_08.json + MAQAM_OWNER_DECISION + REFERENCE_POLICY_OWNER_DECISION",
+  "PRODUCER_FILE": "scripts/taaqol_maqam_foundation/maqam6_reference_ratified_closure_06.py",
+  "RESIDUALS": "claim is a factual/nazila-picture claim only; NEVER a normative ḥukm",
+  "measured": "MEASURED"
+}

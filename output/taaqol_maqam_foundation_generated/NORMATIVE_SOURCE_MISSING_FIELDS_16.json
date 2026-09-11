@@ -1,0 +1,59 @@
+{
+  "missing_fields_by_candidate": [
+    {
+      "domain_candidate_id": "MIRATH_RELATED_DOMAIN_CANDIDATE",
+      "missing_fields": [
+        "AUTHORITY",
+        "TEXT",
+        "SCOPE",
+        "EVIDENCE",
+        "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM",
+        "OWNER_RATIFICATION"
+      ],
+      "missing_count": 6,
+      "verdict": "NO_OWNER_SUPPLIED_SOURCE"
+    },
+    {
+      "domain_candidate_id": "QADA_RELATED_DOMAIN_CANDIDATE",
+      "missing_fields": [
+        "AUTHORITY",
+        "TEXT",
+        "SCOPE",
+        "EVIDENCE",
+        "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM",
+        "OWNER_RATIFICATION"
+      ],
+      "missing_count": 6,
+      "verdict": "NO_OWNER_SUPPLIED_SOURCE"
+    },
+    {
+      "domain_candidate_id": "TURKAH_RIGHTS_DOMAIN_CANDIDATE",
+      "missing_fields": [
+        "AUTHORITY",
+        "TEXT",
+        "SCOPE",
+        "EVIDENCE",
+        "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM",
+        "OWNER_RATIFICATION"
+      ],
+      "missing_count": 6,
+      "verdict": "NO_OWNER_SUPPLIED_SOURCE"
+    },
+    {
+      "domain_candidate_id": "SUKNA_OR_POSSESSION_DOMAIN_CANDIDATE",
+      "missing_fields": [
+        "AUTHORITY",
+        "TEXT",
+        "SCOPE",
+        "EVIDENCE",
+        "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM",
+        "OWNER_RATIFICATION"
+      ],
+      "missing_count": 6,
+      "verdict": "NO_OWNER_SUPPLIED_SOURCE"
+    }
+  ],
+  "missing_fields_total": 24,
+  "candidates_incomplete": 4,
+  "producer_file": "scripts/taaqol_maqam_foundation/normative_source_completeness_audit_16.py"
+}

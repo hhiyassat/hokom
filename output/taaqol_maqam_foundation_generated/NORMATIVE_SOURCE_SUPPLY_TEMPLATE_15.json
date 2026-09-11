@@ -1,0 +1,62 @@
+{
+  "PRIMARY_DOMAIN_CANDIDATE": "KEEP_COMPOSITE",
+  "SOURCE_BIRTH_ALLOWED": "NO",
+  "SOURCE_REQUEST_REFINED_ALLOWED": "YES",
+  "SOURCE_SCOPE": "THIS_NAZILA_ONLY",
+  "required_fields": [
+    "AUTHORITY",
+    "TEXT",
+    "SCOPE",
+    "EVIDENCE",
+    "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM"
+  ],
+  "normative_source_born": "NO",
+  "normative_source_ratified": "NO",
+  "per_domain_supply_template": [
+    {
+      "domain_candidate_id": "MIRATH_RELATED_DOMAIN_CANDIDATE",
+      "domain_candidate_rank": 1,
+      "AUTHORITY": "",
+      "TEXT": "",
+      "SCOPE": "",
+      "EVIDENCE": "",
+      "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM": "",
+      "OWNER_RATIFICATION": "NO",
+      "NOTES": "owner-fill; empty until supplied"
+    },
+    {
+      "domain_candidate_id": "QADA_RELATED_DOMAIN_CANDIDATE",
+      "domain_candidate_rank": 2,
+      "AUTHORITY": "",
+      "TEXT": "",
+      "SCOPE": "",
+      "EVIDENCE": "",
+      "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM": "",
+      "OWNER_RATIFICATION": "NO",
+      "NOTES": "owner-fill; empty until supplied"
+    },
+    {
+      "domain_candidate_id": "TURKAH_RIGHTS_DOMAIN_CANDIDATE",
+      "domain_candidate_rank": 3,
+      "AUTHORITY": "",
+      "TEXT": "",
+      "SCOPE": "",
+      "EVIDENCE": "",
+      "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM": "",
+      "OWNER_RATIFICATION": "NO",
+      "NOTES": "owner-fill; empty until supplied"
+    },
+    {
+      "domain_candidate_id": "SUKNA_OR_POSSESSION_DOMAIN_CANDIDATE",
+      "domain_candidate_rank": 4,
+      "AUTHORITY": "",
+      "TEXT": "",
+      "SCOPE": "",
+      "EVIDENCE": "",
+      "LINK_LICENSE_TO_DOMAIN_OR_FACTUAL_CLAIM": "",
+      "OWNER_RATIFICATION": "NO",
+      "NOTES": "owner-fill; empty until supplied"
+    }
+  ],
+  "producer_file": "scripts/taaqol_maqam_foundation/normative_source_supply_template_15.py"
+}

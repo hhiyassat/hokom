@@ -1,0 +1,100 @@
+{
+  "task_id": "HOKOM_TAAQOL_ARABIC_NET_RECORD_AND_CLOSURE_ROADMAP_01",
+  "authority": "DOCUMENTATION_AND_ROADMAP_ONLY",
+  "project_finished": "NO",
+  "boundaries": {
+    "no_commit": true,
+    "no_push": true,
+    "no_git_add": true,
+    "no_gate_open": true,
+    "no_score_change": true,
+    "no_madlul_text_authoring": true,
+    "runtime_changed": false,
+    "tests_changed": false
+  },
+  "current_state": {
+    "arabic_net": {
+      "semantic_api": "present_and_working",
+      "lemmas": 65544,
+      "relation_types": 17,
+      "families": 5553,
+      "no_gloss_field_in_synsets": true,
+      "synset_fields": ["id", "pos", "words_ar", "roots"],
+      "gives": ["madlul_position", "synset_position"],
+      "does_not_give": ["madlul_text_ar_licensed_text"]
+    },
+    "t003": {
+      "token_id": "t003",
+      "surface": "أُخْتٍ",
+      "live_position_reflection_only": "YES",
+      "madlul_position": "sibling.n.01;family.n.02;relative.n.01",
+      "position_source": "ARABIC_NET",
+      "position_status": "POSITION_DERIVED_TEXT_DEFERRED",
+      "binding_status": "DEFERRED",
+      "verdict": "MADLUL_OWNER_PENDING",
+      "dal_madlul_bound": "NO",
+      "madlul_text_ar": "NOT_LICENSED_NO_GLOSS"
+    },
+    "closure_invariants": {
+      "document_percent": 80.0,
+      "dal_madlul_score_percent": 90.0,
+      "dal_madlul_bound_count": 9,
+      "owner_pending_madlul_entries_count": 1,
+      "registry_sha": "d3c7b60939b5",
+      "manat_status": "DEFERRED_WITH_CAUSE",
+      "tanzil_status": "NOT_OPENED",
+      "answer_audit_status": "NOT_OPENED",
+      "ifadah_hukm_source_tokens": ["t000", "t001"],
+      "text_licensed_madlul_count": 0
+    },
+    "measurements": {
+      "kinship_role_aligned_governing": "4/16",
+      "kinship_with_role_layer": "10/16",
+      "index_noise": "present_faithfully_reflected",
+      "depth_only_failure": true,
+      "closed_taxonomy_classes": ["B", "C", "D", "E"]
+    },
+    "side_state": {
+      "r2_a": "surface_for_syllables + surface_for_peeling; stem cleanness only; NOT for Axis4 front-boundary block (294 blocks unfixed)",
+      "t2": "canonical view 117 operators + 43 mabniyat; 22 KEY_MISSING; poison flip must be explicit; سَوِيًّا EXPECTED_NON_CHANGE/P3_PENDING",
+      "t1": "LIVE_POSITION_REFLECTION_ONLY; bridge-only; not Axis4 peeling; not meaning evidence",
+      "r3_b_poss_obj": "requires owner/source decision",
+      "b2": "remaining classes not globally ruled",
+      "c_path": "DEFER until real connection counterfactual; 89.3% only as SUPERSEDED_PROJECTION",
+      "gloss_source": "unresolved"
+    }
+  },
+  "roadmap": [
+    {"phase": "A", "title": "Stabilize current governed round", "items": ["commit_or_report_only_decision", "ensure_LIVE_POSITION_REFLECTION_ONLY_naming", "ensure_t003_remains_DEFERRED"]},
+    {"phase": "B", "title": "Finish Hokom-side bridge path", "items": ["T2_audit_closure", "T1_bridge_only_finalize", "no_axis4_peeling"]},
+    {"phase": "C", "title": "Resolve dal_registry blockers", "items": ["R3_b_POSS_OBJ_source_decision", "B2_class_by_class_decision", "old_queue_B3_B5_B6_B7_B15_B17_boundary_kind_azl_qaida12_madda6"]},
+    {"phase": "D", "title": "Resolve madlul_registry blocker", "items": ["choose_licensed_gloss_source", "arabic_wordnet_4_0_or_owner_dictionary_or_owner_authored", "keep_arabic_net_position_only_unless_gloss_added"]},
+    {"phase": "E", "title": "Resolve C_PATH / sonaiso", "items": ["keep_DEFER_until_real_connection_counterfactual", "do_not_reuse_89_3_except_SUPERSEDED_PROJECTION", "decide_sonaiso_notify_or_connect"]},
+    {"phase": "F", "title": "Only after both registries", "items": ["DAL_MADLUL_BINDING_review", "then_possible_MANAT", "then_TANZIL", "then_ANSWER_AUDIT"]}
+  ],
+  "guardrails": [
+    "POSITION != MEANING",
+    "BRIDGE != AXIS4_PEELING",
+    "CANDIDATE != PROVEN",
+    "DEPTH_IS_NOT_CORRECTNESS",
+    "BREADTH_IS_NOT_BENEFIT",
+    "NOT_MEASURABLE_HERE != NOT_MEASURED_YET",
+    "NO_TOOL_PARAPHRASE_AS_EVIDENCE"
+  ],
+  "final_status_block": {
+    "PROJECT_FINISHED": "NO",
+    "DOCUMENT": 80.0,
+    "DAL_MADLUL": 90.0,
+    "TEXT_LICENSED_MADLUL_COUNT": 0,
+    "T003": "DEFERRED_POSITION_ONLY",
+    "LIVE_POSITION_REFLECTION_ONLY": "YES",
+    "GATES_OPENED": "NO"
+  },
+  "outputs": [
+    "HOKOM_TAAQOL_ARABIC_NET_WORK_RECORD_AND_CLOSURE_ROADMAP.md",
+    "HOKOM_TAAQOL_CLOSURE_TWO_COLUMN_MATRIX.csv",
+    "HOKOM_TAAQOL_ARABIC_NET_ROADMAP_DASHBOARD.html",
+    "HOKOM_TAAQOL_ARABIC_NET_ROADMAP_SUMMARY.json"
+  ],
+  "output_scope": "output/taaqol_nazila_matrix_generated/roadmap/"
+}

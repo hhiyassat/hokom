@@ -1,0 +1,7 @@
+{
+  "label": "MAQAM_THEORY_FOUNDATION_IMPLEMENTATION_WITH_TRACEABILITY",
+  "extension_policy": "OPEN_UNDER_GOVERNANCE",
+  "unknown_dimension_policy": "DEFER_OR_REGISTER",
+  "silent_dimension_drop": "FORBIDDEN",
+  "seed_extensions": []
+}

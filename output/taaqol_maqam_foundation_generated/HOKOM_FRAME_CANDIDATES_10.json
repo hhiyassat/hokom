@@ -1,0 +1,102 @@
+[
+  {
+    "frame_id": "FC_DEATH_EVENT",
+    "frame_label": "Death_event (candidate)",
+    "evoked_by_text_signal": {
+      "token_id": "t000",
+      "surface": "مَاتَ"
+    },
+    "birth_status": "CANDIDATE",
+    "owner_ratified": "NO",
+    "is_domain_classification": "NO",
+    "wordframenet_bridge_ref": "DESIGN_REFERENCE_ONLY",
+    "cause": "text signal present",
+    "conditions": "owner ratification + WordNet sense binding (later)",
+    "preventers": [
+      "TEXT_SIGNAL_IS_NOT_A_FRAME",
+      "FRAME_IS_NOT_A_DOMAIN"
+    ],
+    "verdict": "FRAME_CANDIDATE_UNRATIFIED",
+    "evidence": [
+      "output/taaqol_nazila_matrix_generated/HOKOM_NAZILA_LINGUISTIC_ANALYSIS_RESULT.csv"
+    ],
+    "residuals": [
+      "needs owner ratification + lexical-sense binding before any bound frame"
+    ]
+  },
+  {
+    "frame_id": "FC_RESIDENCE_RELATION",
+    "frame_label": "Residence_relation (candidate)",
+    "evoked_by_text_signal": {
+      "token_id": "t004",
+      "surface": "سَاكِنَةٍ"
+    },
+    "birth_status": "CANDIDATE",
+    "owner_ratified": "NO",
+    "is_domain_classification": "NO",
+    "wordframenet_bridge_ref": "DESIGN_REFERENCE_ONLY",
+    "cause": "text signal present",
+    "conditions": "owner ratification + WordNet sense binding (later)",
+    "preventers": [
+      "TEXT_SIGNAL_IS_NOT_A_FRAME",
+      "FRAME_IS_NOT_A_DOMAIN"
+    ],
+    "verdict": "FRAME_CANDIDATE_UNRATIFIED",
+    "evidence": [
+      "output/taaqol_nazila_matrix_generated/HOKOM_NAZILA_LINGUISTIC_ANALYSIS_RESULT.csv"
+    ],
+    "residuals": [
+      "needs owner ratification + lexical-sense binding before any bound frame"
+    ]
+  },
+  {
+    "frame_id": "FC_INTENT_ACTION",
+    "frame_label": "Intent_to_act (candidate)",
+    "evoked_by_text_signal": {
+      "token_id": "t006",
+      "surface": "فَأَرَادَ"
+    },
+    "birth_status": "CANDIDATE",
+    "owner_ratified": "NO",
+    "is_domain_classification": "NO",
+    "wordframenet_bridge_ref": "DESIGN_REFERENCE_ONLY",
+    "cause": "text signal present",
+    "conditions": "owner ratification + WordNet sense binding (later)",
+    "preventers": [
+      "TEXT_SIGNAL_IS_NOT_A_FRAME",
+      "FRAME_IS_NOT_A_DOMAIN"
+    ],
+    "verdict": "FRAME_CANDIDATE_UNRATIFIED",
+    "evidence": [
+      "output/taaqol_nazila_matrix_generated/HOKOM_NAZILA_LINGUISTIC_ANALYSIS_RESULT.csv"
+    ],
+    "residuals": [
+      "needs owner ratification + lexical-sense binding before any bound frame"
+    ]
+  },
+  {
+    "frame_id": "FC_DISPUTE_EVENT",
+    "frame_label": "Dispute_event (candidate; NOT a qaḍāʾ domain)",
+    "evoked_by_text_signal": {
+      "token_id": "t009",
+      "surface": "فَتَحَاكَمَا"
+    },
+    "birth_status": "CANDIDATE",
+    "owner_ratified": "NO",
+    "is_domain_classification": "NO",
+    "wordframenet_bridge_ref": "DESIGN_REFERENCE_ONLY",
+    "cause": "text signal present",
+    "conditions": "owner ratification + WordNet sense binding (later)",
+    "preventers": [
+      "TEXT_SIGNAL_IS_NOT_A_FRAME",
+      "FRAME_IS_NOT_A_DOMAIN"
+    ],
+    "verdict": "FRAME_CANDIDATE_UNRATIFIED",
+    "evidence": [
+      "output/taaqol_nazila_matrix_generated/HOKOM_NAZILA_LINGUISTIC_ANALYSIS_RESULT.csv"
+    ],
+    "residuals": [
+      "needs owner ratification + lexical-sense binding before any bound frame"
+    ]
+  }
+]

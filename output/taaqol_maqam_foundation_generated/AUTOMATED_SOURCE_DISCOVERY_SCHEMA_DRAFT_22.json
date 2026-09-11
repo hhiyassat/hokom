@@ -1,0 +1,62 @@
+{
+  "planning_only": "YES",
+  "automated_source_discovery_executed": "NO",
+  "future_search_sources": [
+    "القرآن الكريم",
+    "كتب الحديث",
+    "كتب الفقه",
+    "كتب القضاء والسياسة الشرعية",
+    "كتب القواعد الفقهية",
+    "الموسوعات الفقهية",
+    "قواعد بيانات حديثية أو فقهية إن وُجدت",
+    "مصادر يزوّدها المالك فقط"
+  ],
+  "source_types": [
+    "QURAN_AYAH",
+    "HADITH",
+    "FIQH_TEXT",
+    "QADA_TEXT",
+    "QAIDA_FIQHIYYA",
+    "USUL_TEXT",
+    "OWNER_SUPPLIED_TEXT"
+  ],
+  "candidacy_stage_output": "SOURCE_CANDIDATE_ONLY",
+  "source_candidate_fields": [
+    "source_candidate_id",
+    "source_type",
+    "authority_candidate",
+    "text_candidate",
+    "scope_candidate",
+    "evidence_candidate",
+    "domain_candidate_links",
+    "served_needs",
+    "not_served_needs",
+    "confidence_basis",
+    "risk_flags",
+    "cause",
+    "conditions",
+    "preventers",
+    "verdict",
+    "residuals"
+  ],
+  "ranking_criteria": [
+    "قرب النص من residual",
+    "نوع المصدر",
+    "وضوح السلطة",
+    "وضوح النص",
+    "سلامة النطاق",
+    "وجود مانع يمنع الحكم المباشر",
+    "حاجة المالك للتصديق"
+  ],
+  "evidence_policy_default": "CITATION_STRINGS_ONLY",
+  "live_external_links_default": "NO",
+  "external_refs_default": 0,
+  "links_allowed_only_by_owner_decision": "YES",
+  "text_verbatim_status_allowed": [
+    "ASSERTED_BY_OWNER_NOT_VERIFIED_BY_AGENT",
+    "VERIFIED_BY_AUTHORIZED_SOURCE_TOOL",
+    "NOT_VERIFIED"
+  ],
+  "agent_may_not_assert_scripture_verbatim_from_memory": "YES",
+  "producer_file": "scripts/taaqol_maqam_foundation/automated_source_discovery_planning_22.py"
+}

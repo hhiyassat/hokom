@@ -1,0 +1,104 @@
+{
+  "manifest_id": "CL16_ROOT_WAZN_PHASE3_ROOT_CANDIDATE_CHAIN_V1",
+  "purpose": "Frozen, sha256-pinned evidence artifacts for the CL-16 ROOT CANDIDATE stage — the link that stands BEFORE Phase 1. Phase 1 is keyed by a root; nothing produced a candidate root from a surface. This manifest binds the two sources the owner named for that stage: the candidate-root law (abo-fareed) and the Ibn-Faris root lexicon (maqayis_v2). Evidence binding ONLY. CL-16 remains OPEN.",
+  "created": "2026-09-02",
+  "cl16_status": "OWNER_ROOT_WAZN_LAW_FOUND_PENDING_INTEGRATION",
+  "cl16_closed": false,
+  "integration_path": "HOKOM_SIDE_FROZEN_ARTIFACT_EVIDENCE_ADAPTER",
+  "host_root": "/Users/husseinhiyassat/",
+  "host_root_note": "Artifact paths are pinned as absolute HOST paths — a pin that moves is not a pin. To verify the same frozen artifacts from another mount, set CL16_SOURCE_ROOT explicitly; the sha256 of every artifact is still verified, so a wrong root is a hard ARTIFACT_MISSING, never a quiet substitution.",
+  "owner_architecture": "لا نَنقل هذه المشاريع داخل Hokom، ولا نغيّر Taaqol. نجعلها مصادر أدلة مجمّدة: نثبت ملفاتها المهمة بالبصمة، ثم يقرأها Hokom عبر وسيط صغير، ويمنع أي ترقية غير مأذونة.",
+  "boundaries": {
+    "taaqol_vendor_changed": false,
+    "weigh_changed": false,
+    "weight_readiness_wired": false,
+    "masaq_rule_authority": false,
+    "model_used_as_authority": false,
+    "submodule_added": false,
+    "full_repo_copied": false,
+    "source_repo_imported": false
+  },
+  "runtime_read_rule": "The adapter reads ONLY the pinned artifacts below plus the Phase-1 pinned artifacts (via the Phase-1 adapter), and MUST verify sha256 before use. It performs NO git/network operation and does NOT read any source repository's live state at runtime. A missing artifact or a sha256 mismatch is a hard BLOCK. FAIL-CLOSED: this adapter never degrades to an empty answer on error — contrast MAQAYIS_V2_ADAPTER below, whose own contract is fail-open and is therefore NOT imported.",
+  "rank_rule": "The chain's rank is the MINIMUM rank across its links, never the maximum. A CANDIDATE link caps the whole chain at CANDIDATE. No link may be read beyond its declared limit.",
+  "sources": {
+    "ROOT_CANDIDATE_SOURCE": {
+      "name": "abo-fareed-8-2026",
+      "path": "/Users/husseinhiyassat/abo-fareed-8-2026",
+      "role": "قانون مرشح للجذر — استخراج مرشحات جذور قابل للتكرار",
+      "limit": "لا يثبت الجذر ولا يعطي وزنًا",
+      "limit_code": "CANDIDATE_ONLY_NO_PROOF_NO_WAZN"
+    },
+    "MAQAYIS_LEXICON_SOURCE": {
+      "name": "maqayis_v2",
+      "path": "/Users/husseinhiyassat/arabic-net/Maqaiys-roots/maqayis_v2",
+      "db_pinned_as": "MAQAYIS_LEXICON_DB (Phase-1 manifest)",
+      "role": "معجم جذور — وجود الجذر في مقاييس ابن فارس ومحاوره",
+      "limit": "ليس قانون وزن",
+      "limit_code": "PRESENCE_ONLY_NOT_A_WAZN_LAW",
+      "known_defect": "maqayis_v2_adapter.py declares a fail-open contract ('خطأ في المعجم لا يوقف الـ pipeline أبداً') and resolves its DB at ~/maqayis/maqayis.db, a path outside this binding. It is pinned here as law-of-record and is NOT imported; the Phase-3 adapter reads the pinned DB read-only and fails closed."
+    }
+  },
+  "artifacts": [
+    {
+      "role": "ROOT_CANDIDATE_TABLE",
+      "path": "/Users/husseinhiyassat/abo-fareed-8-2026/root_candidate_output/ROOT_CANDIDATES.csv",
+      "size_bytes": 100732,
+      "sha256": "28f79d0212018ac81eca48bd1b52fe07d9110b95e75d7b991725942de797e988",
+      "role_note": "columns: candidate, length, verdict, reasons, standalone_mark_profiles, train_container_support, augmentation_profiles, holdout_unseen_support, holdout_occurrence_count, every_letter_contributes. 700 rows: 369 ROOT_CANDIDATE, 331 DEFER_ROOT_CANDIDATE. Every row carries NOT_A_PROVEN_ROOT in its own reasons."
+    },
+    {
+      "role": "ROOT_CANDIDATE_RUN_SUMMARY",
+      "path": "/Users/husseinhiyassat/abo-fareed-8-2026/root_candidate_output/EXTRACTION_SUMMARY.json",
+      "size_bytes": 1862,
+      "sha256": "6515137aaa98e9125b985aa5788e1c3f880f4d65146e08be04489716adfc9b5a",
+      "role_note": "analysis_status = EXPLORATORY_ROOT_CANDIDATES_NOT_PROVEN_ROOTS. Declares the corpus sha256, the thresholds, and the null model (z=19.98, empirical_p=0.0050). Self-declares the sha256 of ROOT_CANDIDATES.csv — cross-checked by the adapter."
+    },
+    {
+      "role": "ROOT_CANDIDATE_CONFLICTS",
+      "path": "/Users/husseinhiyassat/abo-fareed-8-2026/root_candidate_output/ROOT_CONFLICTS.csv",
+      "size_bytes": 59,
+      "sha256": "e2aada2a4b0e31194d7c131e8dc8736a9dee22c9c7b5abc22acf8094355531cc",
+      "role_note": "0 conflict rows in this run — header only. Pinned so that a future non-empty conflicts file is a visible change, not a silent one."
+    },
+    {
+      "role": "ROOT_CANDIDATE_LAW",
+      "path": "/Users/husseinhiyassat/abo-fareed-8-2026/preweight_root_candidate_extractor.py",
+      "size_bytes": 20090,
+      "sha256": "472223db824672a1f0911bc89627038732e01a02e3e9f0318e5e2d90f90572fa",
+      "role_note": "PREWEIGHT_ROOT_CANDIDATE_EXTRACTOR_V1 — law of record. Pinned, NOT imported: the adapter consumes its frozen output, never re-runs it."
+    },
+    {
+      "role": "MAQAYIS_V2_API",
+      "path": "/Users/husseinhiyassat/arabic-net/Maqaiys-roots/maqayis_v2/maqayis_api.py",
+      "size_bytes": 39431,
+      "sha256": "02c26a6f7fa77c8fb2d0f59c4d8f00d9d44152ceded46de4111ddcb37f1a6746",
+      "role_note": "Law of record for the lexicon's own query contract. Pinned, NOT imported."
+    },
+    {
+      "role": "MAQAYIS_V2_ADAPTER",
+      "path": "/Users/husseinhiyassat/arabic-net/Maqaiys-roots/maqayis_v2/maqayis_v2_adapter.py",
+      "size_bytes": 7668,
+      "sha256": "da1e3f483616ae16ee56c8fdc86402e0ff13d14be3f5016266cdb9bb14f45cfe",
+      "role_note": "Pinned as law-of-record ONLY. Explicitly NOT imported: its declared contract is fail-open, which contradicts this binding's fail-closed rule."
+    }
+  ],
+  "inherited_from_phase1": [
+    "ROOT_PROOF_TABLE  (audited_roots.csv — certification + باب صرفي)",
+    "MAQAYIS_LEXICON_DB (maqayis.db — root presence)"
+  ],
+  "measured_at_binding_time": {
+    "note": "MEASURED_NOT_PRESET — every number below is from a real read of the pinned artifacts on 2026-09-02.",
+    "licensed_candidates": 369,
+    "deferred_candidates": 331,
+    "candidates_present_in_maqayis": 157,
+    "candidates_present_in_audited_roots": 75,
+    "candidates_present_in_both": 71,
+    "audited_cert_certified": 21,
+    "audited_cert_evidence_supported": 9,
+    "audited_cert_candidate_only": 45,
+    "single_baab": 39,
+    "multi_baab_defer": 36,
+    "survive_all_phase1_guards": 14,
+    "known_homograph_defect": "لكم ، لكن — the extractor's consonantal skeleton collides with the real verbs لَكَمَ and لَكِنَ. Both survive every existing guard. Handled by SKELETON_MATCH_IS_NOT_A_ROOT_PROOF."
+  }
+}

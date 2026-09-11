@@ -1,0 +1,17 @@
+{
+  "node_name": "ILLAH_MANAT_BIRTH",
+  "ILLAH_BIRTH_STATUS": "FORBIDDEN_ANCESTOR_UNBORN",
+  "MANAT_BIRTH_STATUS": "FORBIDDEN_ANCESTOR_UNBORN",
+  "ILLAH_PRODUCED": "NO",
+  "MANAT_PRODUCED": "NO",
+  "preventers": [
+    "NORMATIVE_HUKM_UNBORN"
+  ],
+  "verdict": "FORBIDDEN_ANCESTOR_UNBORN",
+  "cause": "normative_hukm not born",
+  "evidence_files": [
+    "NAZILA_NORMATIVE_HUKM_BIRTH_09.json"
+  ],
+  "producer_file": "scripts/taaqol_maqam_foundation/factual_claim_passage_normative_source_09.py",
+  "residuals": []
+}

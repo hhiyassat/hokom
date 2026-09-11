@@ -1,0 +1,68 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تقرير تنفيذي — مصفوفة المراجع وخارطة Hokom-FrameNet (10)</title>
+<style>body{font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:1.2rem;color:#1b1b1b;background:#fafafa}h1{font-size:1.32rem}h2{font-size:1.05rem;margin-top:1.3rem;border-bottom:2px solid #ddd;padding-bottom:.25rem}table{border-collapse:collapse;width:100%;margin:.5rem 0;background:#fff;font-size:.76rem}th,td{border:1px solid #ccc;padding:.3rem .45rem;text-align:right;vertical-align:top}th{background:#f0f0f0}td.y{background:#e6f4ea}td.n{background:#fdecec;color:#7a1f1f}td.d{background:#fff7e0}.sentbox{border:2px solid #6aa0e0;border-radius:.6rem;padding:.5rem .8rem;margin:.6rem 0;background:#fff}.sent{background:#eef6ff;border:1px solid #9cc3ef;border-radius:.4rem;padding:.5rem .8rem;font-weight:700;font-size:1rem}.note{background:#fff7e0;border:1px solid #e0c877;padding:.4rem .7rem;border-radius:.4rem;margin:.4rem 0;font-size:.82rem}.foot{color:#444;font-size:.8rem;border-top:1px solid #ccc;margin-top:1rem;padding-top:.5rem}.wrap{overflow-x:auto}ul,ol{margin:.3rem 1.2rem}</style></head><body>
+<h1>تقرير تنفيذي — مصفوفة المراجع وخارطة Hokom-FrameNet (10)</h1>
+<div class="note">مولّد من الكود/artifacts فقط. MODE = CODE_AND_DOCUMENTATION_ONLY · REPORT_SOURCE = CODE_AND_ARTIFACTS_ONLY · ILLUSTRATIVE_DEMO = NO · LLM_FREE_TEXT_OUTPUT = NO. لا تكييف مجال، ولا مصدر معياري، ولا حكم/مناط/تنزيل/جواب.</div>
+<h2>1. الجملة محل التشغيل</h2><div class="sentbox"><div class="sent" id="nazila-sentence">مَاتَ مَلِكٌ عَنْ أُخْتٍ سَاكِنَةٍ مَعَهُ، فَأَرَادَ وَارِثُهُ طَرْدَهَا، فَتَحَاكَمَا.</div></div>
+<h2>2. جدول الكلمات (من artifact سابق)</h2>
+<div class="wrap"><table><thead><tr><th>token</th><th>السطح</th><th>الفئة</th></tr></thead><tbody>
+<tr><th>t000</th><td>مَاتَ</td><td>FI3L_CANDIDATE</td></tr>
+<tr><th>t001</th><td>مَلِكٌ</td><td>ISM/ISM_ZAMAN_MAKAN</td></tr>
+<tr><th>t002</th><td>عَنْ</td><td>HARF/CLOSED_FUNCTION_WORD</td></tr>
+<tr><th>t003</th><td>أُخْتٍ</td><td>ISM/LEXICAL_NOUN</td></tr>
+<tr><th>t004</th><td>سَاكِنَةٍ</td><td>ISM/LEXICAL_NOUN</td></tr>
+<tr><th>t005</th><td>مَعَهُ،</td><td>ISM/ظرف_ملازم_للإضافة_اسم_مبني</td></tr>
+<tr><th>t006</th><td>فَأَرَادَ</td><td>FI3L_CANDIDATE</td></tr>
+<tr><th>t007</th><td>وَارِثُهُ</td><td>ISM/LEXICAL_NOUN</td></tr>
+<tr><th>t008</th><td>طَرْدَهَا،</td><td>ISM_CANDIDATE</td></tr>
+<tr><th>t009</th><td>فَتَحَاكَمَا.</td><td>FI3L/VERBAL_IMPERFECT</td></tr>
+</tbody></table></div>
+<h2>3. المراجع الإنجليزية/العربية ومقابلها في Hokom/Taaqol</h2><div class="wrap"><table><thead><tr><th>#</th><th>الطبقة</th><th>المرجع الإنجليزي</th><th>المقابل العربي</th><th>Hokom/Taaqol</th><th>Open Source</th><th>حكم الاستخدام</th></tr></thead><tbody>
+<tr><td>1</td><td>Tokenization/Segmentation</td><td>Universal Dependencies English</td><td>UD Arabic / Arabic-PUD</td><td>Hokom segmentation/clitics/surface/normalization</td><td>YES</td><td>TECHNICAL_REFERENCE_LINK_ONLY</td></tr>
+<tr><td>2</td><td>POS Tagging</td><td>Penn Treebank / UD</td><td>UD Arabic + Arabic grammar</td><td>Hokom word_class/mabni/operators</td><td>UD_YES;PENN_MOSTLY_RESTRICTED</td><td>HOKOM_OWNS_CLASS_LOCALLY</td></tr>
+<tr><td>3</td><td>Lexical Semantics</td><td>WordNet</td><td>Arabic WordNet</td><td>Hokom candidate lexical sense</td><td>WORDNET_YES;ARABIC_WORDNET_V4_CC_BY</td><td>CANDIDATE_ONLY</td></tr>
+<tr><td>4</td><td>Verb Classes</td><td>VerbNet</td><td>not-assumed-in-Arabic-WordNet-without-file-evidence</td><td>Hokom verb/subject/object (later)</td><td>VERBNET_YES;ARABIC_LINK_UNSETTLED</td><td>CANDIDATE_ONLY</td></tr>
+<tr><td>5</td><td>Predicate-Argument</td><td>PropBank</td><td>Arabic PropBank (research)</td><td>Hokom/Taaqol propositional+ifadah</td><td>PARTIAL</td><td>NO_HUKM</td></tr>
+<tr><td>6</td><td>Frame Semantics</td><td>FrameNet</td><td>owner-to-build Arabic/Hokom FrameNet</td><td>Hokom licensed frame layer</td><td>ENGLISH_FRAMENET_PARTIAL</td><td>STRUCTURE_ONLY_NOW</td></tr>
+<tr><td>7</td><td>WordNet&lt;-&gt;FrameNet Bridge</td><td>WordFrameNet</td><td>design reuse only</td><td>Hokom lexical sense -&gt; frame candidate</td><td>CC_BY_3_0_PER_PAGE</td><td>DESIGN_REFERENCE_NOT_RULING_AUTHORITY</td></tr>
+<tr><td>8</td><td>Legal Issue Spotting</td><td>LegalBench</td><td>fiqh tasawwur-&gt;takyif-&gt;tanzil</td><td>Taaqol masala takyif</td><td>RESEARCH_AVAILABLE</td><td>METHOD_ANALOGY_ONLY</td></tr>
+<tr><td>9</td><td>Legal Issue Dataset</td><td>Learned Hands</td><td>none-ready</td><td>NOT_ADOPTED_AS_SOURCE</td><td>YES</td><td>NOT_USED_FOR_SHARI_TAKYIF</td></tr>
+<tr><td>10</td><td>Legal NLU Benchmark</td><td>LexGLUE</td><td>ArabLegalEval (partial)</td><td>benchmark_not_source</td><td>RESEARCH_AVAILABLE</td><td>EVAL_NOT_HUKM</td></tr>
+<tr><td>11</td><td>Fiqh/Nazila Takyif</td><td>no-single-NLP-source</td><td>tasawwur-&gt;takyif-&gt;tanzil</td><td>Taaqol MASALA_TAKYIF_LAYER (PROPOSED_NOT_CANONICAL)</td><td>OWNER_BUILD_REQUIRED</td><td>NO_OUTPUT_BEFORE_OWNER_RATIFICATION</td></tr>
+</tbody></table></div>
+<h2>4. Hokom/Taaqol mapping</h2><div class="note">Hokom يملك الفئة والتقطيع والتطبيع محليًّا؛ WordNet/VerbNet/PropBank/FrameNet مراجع candidate/بنية فقط؛ WordFrameNet مرجع تصميم لا سلطة حكم؛ Taaqol هو موضع MASALA_TAKYIF_LAYER (مقترح غير كنسي).</div>
+<h2>5. إشارات النص (candidate) وحُرّاس منع القفز من اللفظ إلى المجال</h2><div class="wrap"><table><thead><tr><th>token</th><th>السطح</th><th>نوع الإشارة</th><th>frame?</th><th>domain?</th><th>ولادة مجال ممنوعة</th></tr></thead><tbody>
+<tr><th>t000</th><td>مَاتَ</td><td>SURFACE_CUE_ONLY</td><td>NO</td><td>NO</td><td class="">NONE</td></tr>
+<tr><th>t001</th><td>مَلِكٌ</td><td>SURFACE_CUE_ONLY</td><td>NO</td><td>NO</td><td class="">NONE</td></tr>
+<tr><th>t002</th><td>عَنْ</td><td>SURFACE_CUE_ONLY</td><td>NO</td><td>NO</td><td class="">NONE</td></tr>
+<tr><th>t003</th><td>أُخْتٍ</td><td>SURFACE_CUE_ONLY</td><td>NO</td><td>NO</td><td class="">NONE</td></tr>
+<tr><th>t004</th><td>سَاكِنَةٍ</td><td>SURFACE_CUE_ONLY</td><td>NO</td><td>NO</td><td class="">NONE</td></tr>
+<tr><th>t005</th><td>مَعَهُ،</td><td>SURFACE_CUE_ONLY</td><td>NO</td><td>NO</td><td class="">NONE</td></tr>
+<tr><th>t006</th><td>فَأَرَادَ</td><td>SURFACE_CUE_ONLY</td><td>NO</td><td>NO</td><td class="">NONE</td></tr>
+<tr><th>t007</th><td>وَارِثُهُ</td><td>SURFACE_CUE_ONLY</td><td>NO</td><td>NO</td><td class="n">MIRATH_CANDIDATE</td></tr>
+<tr><th>t008</th><td>طَرْدَهَا،</td><td>SURFACE_CUE_ONLY</td><td>NO</td><td>NO</td><td class="">NONE</td></tr>
+<tr><th>t009</th><td>فَتَحَاكَمَا.</td><td>SURFACE_CUE_ONLY</td><td>NO</td><td>NO</td><td class="n">QADA_CANDIDATE</td></tr>
+</tbody></table></div><div class="note">«وارثه» لا تلد مجال مواريث · «فتحاكما» لا تلد مجال قضاء — TEXT_SIGNAL ≠ FRAME ≠ MASALA_TAKYIF.</div>
+<h2>6. مرشّحات الأطر (FRAME_CANDIDATES — لا أطر مثبتة ولا مجالات)</h2><div class="wrap"><table><thead><tr><th>frame_id</th><th>label</th><th>أثارها</th><th>birth</th><th>owner_ratified</th><th>domain?</th></tr></thead><tbody>
+<tr><th>FC_DEATH_EVENT</th><td>Death_event (candidate)</td><td>مَاتَ</td><td class="d">CANDIDATE</td><td class="n">NO</td><td>NO</td></tr>
+<tr><th>FC_RESIDENCE_RELATION</th><td>Residence_relation (candidate)</td><td>سَاكِنَةٍ</td><td class="d">CANDIDATE</td><td class="n">NO</td><td>NO</td></tr>
+<tr><th>FC_INTENT_ACTION</th><td>Intent_to_act (candidate)</td><td>فَأَرَادَ</td><td class="d">CANDIDATE</td><td class="n">NO</td><td>NO</td></tr>
+<tr><th>FC_DISPUTE_EVENT</th><td>Dispute_event (candidate; NOT a qaḍāʾ domain)</td><td>فَتَحَاكَمَا</td><td class="d">CANDIDATE</td><td class="n">NO</td><td>NO</td></tr>
+</tbody></table></div>
+<h2>7. ما يستطيع الوكيل فعله وحده</h2><ul><li>وثيقة الخارطة + manifest المراجع + schema Hokom-FrameNet + adapter skeleton.</li><li>FRAME_CANDIDATES وTEXT_SIGNALS كمرشحات + حُرّاس منع القفز + تقرير مدير + matrix + اختبارات.</li></ul>
+<h2>8. ما يحتاج تصديق المالك</h2><ul><li>تسمية/تفعيل MASALA_TAKYIF_LAYER (PROPOSED_NOT_CANONICAL).</li><li>اختيار أي مصدر معياري.</li><li>ترقية أي FRAME_CANDIDATE إلى إطار مثبت.</li></ul>
+<h2>9. منع القفز من اللفظ إلى التكييف</h2><div class="note n" style="background:#fdecec">DOMAIN_CLASSIFICATION_PRODUCED = NO · MIRATH_CANDIDATE_BORN = NO · QADA_CANDIDATE_BORN = NO · NORMATIVE_SOURCE_PRODUCED = NO · HUKM/MANAT/TANZIL/FINAL_ANSWER = NO.</div>
+<h2>10. إثبات سلسلة التوليد</h2><div class="note"><pre style="white-space:pre-wrap;margin:0">REPORT_10_CREATED = YES
+GENERATOR_FILE = scripts/taaqol_maqam_foundation/hokom_framenet_roadmap_10.py
+ROADMAP = docs/HOKOM_TAAQOL_REFERENCE_MATRIX_AND_FRAMENET_ROADMAP_10.md
+SOURCE_MANIFEST = docs/HOKOM_TAAQOL_REFERENCE_SOURCE_MANIFEST_10.json
+SCHEMA = schemas/hokom_framenet_schema_10.json
+PYTEST_FILE = tests/test_hokom_taaqol_reference_matrix_and_framenet_roadmap_10.py
+REPORT_SOURCE = CODE_AND_ARTIFACTS_ONLY
+ILLUSTRATIVE_DEMO = NO
+LLM_FREE_TEXT_OUTPUT = NO
+EXTERNAL_REFS = 0
+COMMIT = NO</pre></div>
+<div class="foot">ASSERTED_NOT_MEASURED_COUNT = 0 · SILENT_FALLBACK_COUNT = 0 · EXTERNAL_REFS = 0 · DOMAIN_CLASSIFICATION_PRODUCED = NO · NORMATIVE_SOURCE_PRODUCED = NO · HUKM_PRODUCED = NO · MANAT_PRODUCED = NO · TANZIL_PRODUCED = NO · FINAL_ANSWER_PRODUCED = NO · TESTS_PASS = YES · COMMIT = NO · PROJECT_FINISHED = NO.</div>
+</body></html>
