@@ -63,3 +63,12 @@ reports/taaqol_full_integration/*_runtime_output/
 _to_delete/
 _p3stage/
 _stage/
+
+# قاعدةُ المقاييس — مولَّدةٌ من مصدرها، ولا تدخل التاريخ  (B12)
+# والملفُّ يبقى على القرص: الاستثناءُ من git ليس حذفًا.
+maqayis.db
+*.db
+
+# ضجيجُ نظام الملفات (macOS Finder) — لا يدخل التاريخ
+.DS_Store
+**/.DS_Store
