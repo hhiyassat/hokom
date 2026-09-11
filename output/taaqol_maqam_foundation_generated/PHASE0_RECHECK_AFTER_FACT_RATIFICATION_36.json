@@ -1,0 +1,24 @@
+{
+  "ROUND": "TAAQOL_OWNER_FACT_RATIFICATION_AND_MISSING_FACT_SUPPLY_36",
+  "TASK_PHASE": "PHASE0_RECHECK_AFTER_FACT_RATIFICATION",
+  "fact_candidates_reviewed": 5,
+  "owner_ratified_fact_count": 0,
+  "missing_fact_requirements_reviewed": 9,
+  "missing_facts_supplied_count": 0,
+  "factual_facts_complete": "NO",
+  "phase0_gate_pass": "NO",
+  "ready_for_expansion": "NO",
+  "FINAL_MANAT": "NO",
+  "TANZIL": "NO",
+  "FINAL_HUKM": "NO",
+  "FINAL_ANSWER": "NO",
+  "FULL_TAAQOL_PROJECT_CLOSED": "NO",
+  "decision": {
+    "cause": "presented 5 fact candidates + 9 missing-fact template for owner",
+    "conditions": "all 5 ratified (OWNER_RATIFY=YES) AND all 9 supplied+ratified",
+    "preventers": "no owner ratification values entered this round",
+    "verdict": "STILL_BLOCKED_AT_PHASE_0_FACTS_NOT_RATIFIED",
+    "residuals": "owner must ratify 5 candidates and supply+ratify 9 missing facts"
+  },
+  "producer_file": "scripts/taaqol_maqam_foundation/owner_fact_ratification_36.py"
+}

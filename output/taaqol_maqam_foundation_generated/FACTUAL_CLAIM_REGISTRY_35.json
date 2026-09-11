@@ -1,0 +1,79 @@
+{
+  "ROUND": "TAAQOL_FACT_REGISTRY_POPULATION_35",
+  "registry_id": "factual_claim_registry",
+  "scope": "THIS_NAZILA_ONLY",
+  "fact_candidate_count": 5,
+  "fact_candidates": [
+    {
+      "fact_id": "FC1_KING_DIED",
+      "source_text_span": "مَاتَ مَلِكٌ",
+      "extracted_surface": "مَاتَ مَلِكٌ",
+      "normalized_fact_statement": "مات مالك (شخص).",
+      "registry": "factual_claim_registry",
+      "owner_supplied_status": "ASSERTED_BY_NAZILA_TEXT_ONLY",
+      "owner_ratification_status": "NOT_YET_RATIFIED",
+      "cause": "واقعة ظاهرة من منطوق الجملة (لا من معرفة الوكيل).",
+      "conditions": "تُعتمد فقط إن صدّقها المالك؛ لا تتجاوز منطوق النص.",
+      "preventers": "جعلها حقيقة نهائية بلا تصديق؛ اشتقاق واقعة غير منطوقة؛ إنتاج مناط/تنزيل/حكم/جواب.",
+      "verdict": "FACT_CANDIDATE_ONLY",
+      "residuals": "غير مقبولة نهائيًّا حتى تصديق المالك؛ لا تفيد إلا بمنطوقها المحدود."
+    },
+    {
+      "fact_id": "FC2_HAS_SISTER",
+      "source_text_span": "عَنْ أُخْتٍ",
+      "extracted_surface": "عَنْ أُخْتٍ",
+      "normalized_fact_statement": "للميت أخت.",
+      "registry": "factual_claim_registry",
+      "owner_supplied_status": "ASSERTED_BY_NAZILA_TEXT_ONLY",
+      "owner_ratification_status": "NOT_YET_RATIFIED",
+      "cause": "واقعة ظاهرة من منطوق الجملة (لا من معرفة الوكيل).",
+      "conditions": "تُعتمد فقط إن صدّقها المالك؛ لا تتجاوز منطوق النص.",
+      "preventers": "جعلها حقيقة نهائية بلا تصديق؛ اشتقاق واقعة غير منطوقة؛ إنتاج مناط/تنزيل/حكم/جواب.",
+      "verdict": "FACT_CANDIDATE_ONLY",
+      "residuals": "غير مقبولة نهائيًّا حتى تصديق المالك؛ لا تفيد إلا بمنطوقها المحدود."
+    },
+    {
+      "fact_id": "FC3_SISTER_RESIDING_WITH_HIM",
+      "source_text_span": "سَاكِنَةٍ مَعَهُ",
+      "extracted_surface": "سَاكِنَةٍ مَعَهُ",
+      "normalized_fact_statement": "الأخت ساكنة معه.",
+      "registry": "factual_claim_registry",
+      "owner_supplied_status": "ASSERTED_BY_NAZILA_TEXT_ONLY",
+      "owner_ratification_status": "NOT_YET_RATIFIED",
+      "cause": "واقعة ظاهرة من منطوق الجملة (لا من معرفة الوكيل).",
+      "conditions": "تُعتمد فقط إن صدّقها المالك؛ لا تتجاوز منطوق النص.",
+      "preventers": "جعلها حقيقة نهائية بلا تصديق؛ اشتقاق واقعة غير منطوقة؛ إنتاج مناط/تنزيل/حكم/جواب.",
+      "verdict": "FACT_CANDIDATE_ONLY",
+      "residuals": "غير مقبولة نهائيًّا حتى تصديق المالك؛ لا تفيد إلا بمنطوقها المحدود."
+    },
+    {
+      "fact_id": "FC4_HEIR_WANTED_EXPULSION",
+      "source_text_span": "فَأَرَادَ وَارِثُهُ طَرْدَهَا",
+      "extracted_surface": "فَأَرَادَ وَارِثُهُ طَرْدَهَا",
+      "normalized_fact_statement": "وارثه أراد طردها.",
+      "registry": "factual_claim_registry",
+      "owner_supplied_status": "ASSERTED_BY_NAZILA_TEXT_ONLY",
+      "owner_ratification_status": "NOT_YET_RATIFIED",
+      "cause": "واقعة ظاهرة من منطوق الجملة (لا من معرفة الوكيل).",
+      "conditions": "تُعتمد فقط إن صدّقها المالك؛ لا تتجاوز منطوق النص.",
+      "preventers": "جعلها حقيقة نهائية بلا تصديق؛ اشتقاق واقعة غير منطوقة؛ إنتاج مناط/تنزيل/حكم/جواب.",
+      "verdict": "FACT_CANDIDATE_ONLY",
+      "residuals": "غير مقبولة نهائيًّا حتى تصديق المالك؛ لا تفيد إلا بمنطوقها المحدود."
+    },
+    {
+      "fact_id": "FC5_LITIGATION_OCCURRED",
+      "source_text_span": "فَتَحَاكَمَا",
+      "extracted_surface": "فَتَحَاكَمَا",
+      "normalized_fact_statement": "وقع تحاكم بينهما.",
+      "registry": "factual_claim_registry",
+      "owner_supplied_status": "ASSERTED_BY_NAZILA_TEXT_ONLY",
+      "owner_ratification_status": "NOT_YET_RATIFIED",
+      "cause": "واقعة ظاهرة من منطوق الجملة (لا من معرفة الوكيل).",
+      "conditions": "تُعتمد فقط إن صدّقها المالك؛ لا تتجاوز منطوق النص.",
+      "preventers": "جعلها حقيقة نهائية بلا تصديق؛ اشتقاق واقعة غير منطوقة؛ إنتاج مناط/تنزيل/حكم/جواب.",
+      "verdict": "FACT_CANDIDATE_ONLY",
+      "residuals": "غير مقبولة نهائيًّا حتى تصديق المالك؛ لا تفيد إلا بمنطوقها المحدود."
+    }
+  ],
+  "producer_file": "scripts/taaqol_maqam_foundation/fact_registry_population_35.py"
+}

@@ -1,0 +1,80 @@
+{
+  "ROUND": "TAAQOL_FACT_REGISTRY_POPULATION_35",
+  "registry_id": "owner_supplied_fact_registry",
+  "scope": "THIS_NAZILA_ONLY",
+  "owner_supplied_fact_count": 0,
+  "owner_ratified_fact_count": 0,
+  "records": [
+    {
+      "owner_fact_id": "OSF_FC1_KING_DIED",
+      "linked_fact_candidate": "FC1_KING_DIED",
+      "normalized_fact_statement": "مات مالك (شخص).",
+      "registry": "owner_supplied_fact_registry",
+      "OWNER_SUPPLIED_FACT": "NO",
+      "OWNER_RATIFICATION_REQUIRED": "YES",
+      "FACT_ACCEPTED": "NO",
+      "cause": "مرشح واقعة نصية بانتظار تزويد/تصديق المالك.",
+      "conditions": "OWNER_SUPPLIED_FACT=YES + تصديق صريح.",
+      "preventers": "قبول الواقعة دون تزويد وتصديق المالك.",
+      "verdict": "AWAITING_OWNER_SUPPLY_AND_RATIFICATION",
+      "residuals": "لا واقعة مقبولة بعد."
+    },
+    {
+      "owner_fact_id": "OSF_FC2_HAS_SISTER",
+      "linked_fact_candidate": "FC2_HAS_SISTER",
+      "normalized_fact_statement": "للميت أخت.",
+      "registry": "owner_supplied_fact_registry",
+      "OWNER_SUPPLIED_FACT": "NO",
+      "OWNER_RATIFICATION_REQUIRED": "YES",
+      "FACT_ACCEPTED": "NO",
+      "cause": "مرشح واقعة نصية بانتظار تزويد/تصديق المالك.",
+      "conditions": "OWNER_SUPPLIED_FACT=YES + تصديق صريح.",
+      "preventers": "قبول الواقعة دون تزويد وتصديق المالك.",
+      "verdict": "AWAITING_OWNER_SUPPLY_AND_RATIFICATION",
+      "residuals": "لا واقعة مقبولة بعد."
+    },
+    {
+      "owner_fact_id": "OSF_FC3_SISTER_RESIDING_WITH_HIM",
+      "linked_fact_candidate": "FC3_SISTER_RESIDING_WITH_HIM",
+      "normalized_fact_statement": "الأخت ساكنة معه.",
+      "registry": "owner_supplied_fact_registry",
+      "OWNER_SUPPLIED_FACT": "NO",
+      "OWNER_RATIFICATION_REQUIRED": "YES",
+      "FACT_ACCEPTED": "NO",
+      "cause": "مرشح واقعة نصية بانتظار تزويد/تصديق المالك.",
+      "conditions": "OWNER_SUPPLIED_FACT=YES + تصديق صريح.",
+      "preventers": "قبول الواقعة دون تزويد وتصديق المالك.",
+      "verdict": "AWAITING_OWNER_SUPPLY_AND_RATIFICATION",
+      "residuals": "لا واقعة مقبولة بعد."
+    },
+    {
+      "owner_fact_id": "OSF_FC4_HEIR_WANTED_EXPULSION",
+      "linked_fact_candidate": "FC4_HEIR_WANTED_EXPULSION",
+      "normalized_fact_statement": "وارثه أراد طردها.",
+      "registry": "owner_supplied_fact_registry",
+      "OWNER_SUPPLIED_FACT": "NO",
+      "OWNER_RATIFICATION_REQUIRED": "YES",
+      "FACT_ACCEPTED": "NO",
+      "cause": "مرشح واقعة نصية بانتظار تزويد/تصديق المالك.",
+      "conditions": "OWNER_SUPPLIED_FACT=YES + تصديق صريح.",
+      "preventers": "قبول الواقعة دون تزويد وتصديق المالك.",
+      "verdict": "AWAITING_OWNER_SUPPLY_AND_RATIFICATION",
+      "residuals": "لا واقعة مقبولة بعد."
+    },
+    {
+      "owner_fact_id": "OSF_FC5_LITIGATION_OCCURRED",
+      "linked_fact_candidate": "FC5_LITIGATION_OCCURRED",
+      "normalized_fact_statement": "وقع تحاكم بينهما.",
+      "registry": "owner_supplied_fact_registry",
+      "OWNER_SUPPLIED_FACT": "NO",
+      "OWNER_RATIFICATION_REQUIRED": "YES",
+      "FACT_ACCEPTED": "NO",
+      "cause": "مرشح واقعة نصية بانتظار تزويد/تصديق المالك.",
+      "conditions": "OWNER_SUPPLIED_FACT=YES + تصديق صريح.",
+      "preventers": "قبول الواقعة دون تزويد وتصديق المالك.",
+      "verdict": "AWAITING_OWNER_SUPPLY_AND_RATIFICATION",
+      "residuals": "لا واقعة مقبولة بعد."
+    }
+  ],
+  "producer_file": "scripts/taaqol_maqam_foundation/fact_registry_population_35.py"
+}

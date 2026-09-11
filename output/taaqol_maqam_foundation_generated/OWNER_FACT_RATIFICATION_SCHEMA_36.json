@@ -1,0 +1,22 @@
+{
+  "decision_fields": [
+    "decision_id",
+    "fact_id",
+    "normalized_fact_statement",
+    "OWNER_RATIFY",
+    "FACT_ACCEPTED",
+    "cause",
+    "conditions",
+    "preventers",
+    "verdict",
+    "residuals"
+  ],
+  "OWNER_RATIFY_allowed_values": [
+    "YES",
+    "NO",
+    "DEFER"
+  ],
+  "FACT_ACCEPTED_rule": "YES only if OWNER_RATIFY==YES",
+  "default_if_absent": "DEFER",
+  "producer_file": "scripts/taaqol_maqam_foundation/owner_fact_ratification_36.py"
+}

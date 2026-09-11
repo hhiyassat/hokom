@@ -1,0 +1,14 @@
+{
+  "OWNER_REVIEW_PREP_IS_NOT_RATIFICATION": "YES",
+  "NO_RECORD_AUTO_ACCEPTED": "YES",
+  "ALL_DEFAULT_TO_DEFER": "YES",
+  "EXTERNAL_REFERENCE_IS_NOT_AUTHORITY": "YES",
+  "ACCEPT_AS_DATABASE_RECORD_DOES_NOT_CREATE_HUKM": "YES",
+  "GENERALIZATION_READY": "NO",
+  "FINAL_MANAT": "NO",
+  "TANZIL": "NO",
+  "FINAL_HUKM": "NO",
+  "FINAL_ANSWER": "NO",
+  "FULL_TAAQOL_PROJECT_CLOSED": "NO",
+  "producer_file": "scripts/taaqol_maqam_foundation/owner_database_review_prep_38.py"
+}

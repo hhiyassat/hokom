@@ -1,0 +1,13 @@
+{
+  "AGENT_QUESTION_IS_NOT_CANONICAL_RULE": "YES",
+  "QUESTION_DOES_NOT_CREATE_FACT": "YES",
+  "REQUIREMENT_DOES_NOT_CREATE_FACT": "YES",
+  "SOURCE_REQUIREMENT_DOES_NOT_CREATE_SOURCE": "YES",
+  "OWNER_RATIFICATION_REQUIRED": "YES",
+  "NO_FINAL_MANAT": "YES",
+  "NO_TANZIL": "YES",
+  "NO_FINAL_HUKM": "YES",
+  "NO_FINAL_ANSWER": "YES",
+  "READY_FOR_EXPANSION": "NO",
+  "producer_file": "scripts/taaqol_maqam_foundation/pre_expansion_requirements_registry_32.py"
+}

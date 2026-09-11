@@ -1,0 +1,74 @@
+{
+  "ROUND": "TAAQOL_POST_MERGE_REGISTRY_BACKED_FINALIZATION_CHAIN",
+  "TASK_PHASE": "VERIFY_REQUIREMENTS_REGISTRY_BEFORE_FINALIZATION",
+  "STOPPED_AT_PHASE": "PHASE_0",
+  "STOP_REASON": "REQUIREMENTS_REGISTRY_OR_NORMALIZATION_REQUIRED",
+  "nazila_scope": "مَاتَ مَلِكٌ عَنْ أُخْتٍ سَاكِنَةٍ مَعَهُ، فَأَرَادَ وَارِثُهُ طَرْدَهَا، فَتَحَاكَمَا.",
+  "requirements_registry_verified": "YES",
+  "requirements_normalized": "NO",
+  "registries_built": 0,
+  "registries_required": 13,
+  "owner_supplied_facts_present": "NO",
+  "ready_for_expansion": "NO",
+  "phase0_gate_pass": "NO",
+  "phase0_checks": [
+    {
+      "check_id": "C1_QUESTIONS_ARE_REQUIREMENTS_NOT_FACTS",
+      "cause": "round-32 converted the ten manāṭ questions into requirements",
+      "conditions": "requirement_count=10; questions_from_agent_knowledge_canonical=NO",
+      "preventers": "treating a question as a fact/rule",
+      "verdict": "PASS",
+      "residuals": "none for this check"
+    },
+    {
+      "check_id": "C2_NOT_CANONICAL_FROM_AGENT_KNOWLEDGE",
+      "cause": "owner rule: agent questions are not canonical rules",
+      "conditions": "questions_from_agent_knowledge_canonical=NO",
+      "preventers": "canonizing agent knowledge",
+      "verdict": "PASS",
+      "residuals": "none"
+    },
+    {
+      "check_id": "C3_EACH_REQUIREMENT_FULL_SHAPE",
+      "cause": "requirements must carry cause/conditions/preventers/default DEFER/registry/source/owner",
+      "conditions": "all 10 requirements complete + default_verdict_if_missing=DEFER",
+      "preventers": "a requirement lacking a field",
+      "verdict": "PASS",
+      "residuals": "none"
+    },
+    {
+      "check_id": "C4_READY_FOR_EXPANSION_ONLY_IF_REGISTRIES_EXIST_AND_RATIFIED",
+      "cause": "expansion requires all 13 registries built AND owner-ratified",
+      "conditions": "registries_built==13 and owner_ratified",
+      "preventers": "expanding before registries exist",
+      "verdict": "FAIL",
+      "residuals": "registries_built=0/13; owner_facts_present=NO"
+    },
+    {
+      "check_id": "C5_NORMALIZED_REGISTRY_33_PRESENT",
+      "cause": "PHASE 0 requires normalized requirement registry (round 33) before final manāṭ",
+      "conditions": "TAAQOL_REQUIREMENT_REGISTRY_NORMALIZED_33.json exists",
+      "preventers": "proceeding to final manāṭ without normalization",
+      "verdict": "FAIL",
+      "residuals": "normalization round 33 not yet produced"
+    }
+  ],
+  "decision": {
+    "cause": "finalization chain requires registry-backed + normalized requirements",
+    "conditions": "normalized registry 33 present AND all 13 registries built+ratified AND facts accepted",
+    "preventers": "normalized 33 absent; 0/13 registries built; no owner-supplied facts",
+    "verdict": "STOP_AT_PHASE_0_DEFER_FINALIZATION",
+    "residuals": "build+ratify 13 registries; produce normalized round 33; supply+ratify facts"
+  },
+  "LOCAL_SYNC_DONE": "NO",
+  "SYNC_MODE": "SKIPPED",
+  "FACTUAL_MANAT_APPLICATION_DONE": "NO",
+  "FACTUAL_FACTS_COMPLETE": "NO",
+  "FINAL_MANAT": "NO",
+  "TANZIL": "NO",
+  "FINAL_HUKM": "NO",
+  "FINAL_ANSWER": "NO",
+  "TAAQOL_NAZILA_PIPELINE_CLOSED": "NO",
+  "FULL_TAAQOL_PROJECT_CLOSED": "NO",
+  "producer_file": "scripts/taaqol_maqam_foundation/finalization_phase0_blocker_33.py"
+}

@@ -1,0 +1,88 @@
+{
+  "generalization_ready": "NO",
+  "blocker_count": 9,
+  "blockers": [
+    {
+      "blocker_id": "GB1",
+      "description": "السجلات الثلاثة عشر غير مكتملة/غير مأهولة",
+      "cause": "شرط تعميم غير مستوفى.",
+      "conditions": "إشغال السجلات + تصديق المالك + إغلاق مدقَّق.",
+      "preventers": "التعميم قبل استيفاء الشرط.",
+      "verdict": "BLOCK_GENERALIZATION",
+      "residuals": "معلّق حتى قرار المالك."
+    },
+    {
+      "blocker_id": "GB2",
+      "description": "الوقائع غير مصدَّقة من المالك",
+      "cause": "شرط تعميم غير مستوفى.",
+      "conditions": "إشغال السجلات + تصديق المالك + إغلاق مدقَّق.",
+      "preventers": "التعميم قبل استيفاء الشرط.",
+      "verdict": "BLOCK_GENERALIZATION",
+      "residuals": "معلّق حتى قرار المالك."
+    },
+    {
+      "blocker_id": "GB3",
+      "description": "الأسئلة ليست قواعد كنسية",
+      "cause": "شرط تعميم غير مستوفى.",
+      "conditions": "إشغال السجلات + تصديق المالك + إغلاق مدقَّق.",
+      "preventers": "التعميم قبل استيفاء الشرط.",
+      "verdict": "BLOCK_GENERALIZATION",
+      "residuals": "معلّق حتى قرار المالك."
+    },
+    {
+      "blocker_id": "GB4",
+      "description": "لا قاعدة بيانات كنسية بعد",
+      "cause": "شرط تعميم غير مستوفى.",
+      "conditions": "إشغال السجلات + تصديق المالك + إغلاق مدقَّق.",
+      "preventers": "التعميم قبل استيفاء الشرط.",
+      "verdict": "BLOCK_GENERALIZATION",
+      "residuals": "معلّق حتى قرار المالك."
+    },
+    {
+      "blocker_id": "GB5",
+      "description": "لا مناط نهائي",
+      "cause": "شرط تعميم غير مستوفى.",
+      "conditions": "إشغال السجلات + تصديق المالك + إغلاق مدقَّق.",
+      "preventers": "التعميم قبل استيفاء الشرط.",
+      "verdict": "BLOCK_GENERALIZATION",
+      "residuals": "معلّق حتى قرار المالك."
+    },
+    {
+      "blocker_id": "GB6",
+      "description": "لا تنزيل",
+      "cause": "شرط تعميم غير مستوفى.",
+      "conditions": "إشغال السجلات + تصديق المالك + إغلاق مدقَّق.",
+      "preventers": "التعميم قبل استيفاء الشرط.",
+      "verdict": "BLOCK_GENERALIZATION",
+      "residuals": "معلّق حتى قرار المالك."
+    },
+    {
+      "blocker_id": "GB7",
+      "description": "لا حكم نهائي",
+      "cause": "شرط تعميم غير مستوفى.",
+      "conditions": "إشغال السجلات + تصديق المالك + إغلاق مدقَّق.",
+      "preventers": "التعميم قبل استيفاء الشرط.",
+      "verdict": "BLOCK_GENERALIZATION",
+      "residuals": "معلّق حتى قرار المالك."
+    },
+    {
+      "blocker_id": "GB8",
+      "description": "لا جواب نهائي",
+      "cause": "شرط تعميم غير مستوفى.",
+      "conditions": "إشغال السجلات + تصديق المالك + إغلاق مدقَّق.",
+      "preventers": "التعميم قبل استيفاء الشرط.",
+      "verdict": "BLOCK_GENERALIZATION",
+      "residuals": "معلّق حتى قرار المالك."
+    },
+    {
+      "blocker_id": "GB9",
+      "description": "لا closure audit نهائي",
+      "cause": "شرط تعميم غير مستوفى.",
+      "conditions": "إشغال السجلات + تصديق المالك + إغلاق مدقَّق.",
+      "preventers": "التعميم قبل استيفاء الشرط.",
+      "verdict": "BLOCK_GENERALIZATION",
+      "residuals": "معلّق حتى قرار المالك."
+    }
+  ],
+  "producer_file": "scripts/taaqol_maqam_foundation/supplied_language_data_inventory_36.py"
+}

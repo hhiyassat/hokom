@@ -1,0 +1,10 @@
+{
+  "generalization_ready": "NO",
+  "total_records": 123,
+  "records_owner_ratified_source": 8,
+  "records_pending_ratification": 123,
+  "rule": "SOURCE_RATIFIED_IS_NOT_GENERALIZED_RULE",
+  "blockers_ref": "TAAQOL_GENERALIZATION_BLOCKERS_36.json",
+  "owner_database_ratification_required": "YES",
+  "producer_file": "scripts/taaqol_maqam_foundation/arabic_data_provenance_catalog_37.py"
+}

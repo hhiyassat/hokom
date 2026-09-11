@@ -1,0 +1,30 @@
+{
+  "database_target_tables": [
+    "arabic_text_registry",
+    "lexical_item_registry",
+    "normative_source_registry",
+    "domain_candidate_registry",
+    "owner_rule_registry",
+    "requirement_registry",
+    "factual_claim_registry",
+    "missing_fact_requirement_registry",
+    "hukm_candidate_registry",
+    "manat_candidate_registry",
+    "guard_and_gate_registry"
+  ],
+  "table_record_counts": {
+    "arabic_text_registry": 1,
+    "lexical_item_registry": 10,
+    "normative_source_registry": 8,
+    "domain_candidate_registry": 12,
+    "owner_rule_registry": 10,
+    "requirement_registry": 50,
+    "factual_claim_registry": 5,
+    "missing_fact_requirement_registry": 9,
+    "hukm_candidate_registry": 4,
+    "manat_candidate_registry": 4,
+    "guard_and_gate_registry": 10
+  },
+  "all_tables_candidate_only": "YES",
+  "producer_file": "scripts/taaqol_maqam_foundation/arabic_data_provenance_catalog_37.py"
+}
