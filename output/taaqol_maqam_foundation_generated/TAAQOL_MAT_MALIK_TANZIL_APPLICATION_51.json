@@ -1,0 +1,135 @@
+{
+  "ROUND": "TAAQOL_MAT_MALIK_TANZIL_APPLICATION_51",
+  "nazila": "مَاتَ مَلِكٌ عَنْ أُخْتٍ سَاكِنَةٍ مَعَهُ، فَأَرَادَ وَارِثُهُ طَرْدَهَا، فَتَحَاكَمَا.",
+  "purpose": "APPLY_NS1_TO_FNM1_PRODUCE_TANZIL_ONLY_NO_HUKM_NO_ANSWER",
+  "final_manat_id": "FNM1_MAT_MALIK_SISTER_RESIDENCE_ESTATE_EXPULSION_DISPUTE",
+  "normative_source_id": "NS1_OWNER_RATIFIED_NO_EXPULSION_BEFORE_ADJUDICATION_RULE",
+  "normative_source_text": "لا يُخرج ساكنٌ من عينٍ متنازعٍ عليها أو داخلةٍ في تركة، إذا كانت يده على السكن قائمةً بإذنٍ سابقٍ معتبر، ولم توجد بينةٌ فوريةٌ كافية لطالب الإخراج، حتى يُنظر النزاع في مجلس الحكم المختص.",
+  "binding_elements": [
+    {
+      "element_id": "BE1_EIN_IN_ESTATE",
+      "label": "عين داخلة في التركة",
+      "required_fact_ids": [
+        "MF4_HOUSE_OWNERSHIP",
+        "MF5_HOUSE_IS_ESTATE"
+      ],
+      "missing_fact_ids": [],
+      "present": "YES"
+    },
+    {
+      "element_id": "BE2_RESIDING_IN_EIN",
+      "label": "ساكنة في العين",
+      "required_fact_ids": [
+        "FC3_SISTER_RESIDING_WITH_HIM"
+      ],
+      "missing_fact_ids": [],
+      "present": "YES"
+    },
+    {
+      "element_id": "BE3_PRIOR_PERMISSION",
+      "label": "السكن بإذن سابق معتبر",
+      "required_fact_ids": [
+        "MF6_PRIOR_RESIDENCE_PERMISSION"
+      ],
+      "missing_fact_ids": [],
+      "present": "YES"
+    },
+    {
+      "element_id": "BE4_YAD_STANDING",
+      "label": "يد الساكنة قائمة ظاهرًا",
+      "required_fact_ids": [
+        "MF7_SISTER_YAD_STATUS"
+      ],
+      "missing_fact_ids": [],
+      "present": "YES"
+    },
+    {
+      "element_id": "BE5_EXPELLER_IS_HEIR",
+      "label": "طالب الإخراج وارث ذو صفة",
+      "required_fact_ids": [
+        "MF3_HEIR_IDENTITY_AND_STATUS",
+        "FC4_HEIR_WANTED_EXPULSION"
+      ],
+      "missing_fact_ids": [],
+      "present": "YES"
+    },
+    {
+      "element_id": "BE6_NO_IMMEDIATE_BAYYINAH",
+      "label": "لا توجد بينة فورية كافية لطالب الإخراج",
+      "required_fact_ids": [
+        "MF8_EVIDENCE_OR_BAYYINA"
+      ],
+      "missing_fact_ids": [],
+      "present": "YES"
+    },
+    {
+      "element_id": "BE7_DISPUTE_UNDER_ADJUDICATION",
+      "label": "النزاع منظور أو محله التحاكم",
+      "required_fact_ids": [
+        "FC5_LITIGATION_OCCURRED",
+        "MF9_LITIGATION_OUTCOME"
+      ],
+      "missing_fact_ids": [],
+      "present": "YES"
+    },
+    {
+      "element_id": "BE8_REQUEST_EXPULSION_BEFORE_RULING",
+      "label": "المطلوب الإخراج من السكن قبل نظر الحكم المختص",
+      "required_fact_ids": [
+        "FC4_HEIR_WANTED_EXPULSION",
+        "MF9_LITIGATION_OUTCOME"
+      ],
+      "missing_fact_ids": [],
+      "present": "YES"
+    }
+  ],
+  "NS1_APPLIES_TO_FNM1": "YES",
+  "tanzil_result": {
+    "SOURCE_APPLIED": "YES",
+    "TANZIL": "YES",
+    "TANZIL_STATUS": "ACCEPTED",
+    "verdict": "ACCEPT_TANZIL_ONLY",
+    "cause": "NORMATIVE_SOURCE_ACCEPTED_AND_BOUND_TO_FNM1",
+    "conditions": [
+      "FINAL_MANAT_ACCEPTED",
+      "NORMATIVE_SOURCE_ACCEPTED",
+      "BINDING_LICENSE_TO_FNM1_PRESENT",
+      "ALL_NS1_BINDING_ELEMENTS_PRESENT_IN_FNM1"
+    ],
+    "preventers": [
+      "NONE_FOR_TANZIL_ONLY"
+    ],
+    "residuals": [
+      "FINAL_HUKM_NOT_OPENED",
+      "FINAL_ANSWER_NOT_OPENED",
+      "JUDICIAL_OUTCOME_NOT_PRODUCED"
+    ]
+  },
+  "recheck": {
+    "FINAL_MANAT": "YES",
+    "NORMATIVE_SOURCE_ACCEPTED": "YES",
+    "NORMATIVE_SOURCE_ID": "NS1_OWNER_RATIFIED_NO_EXPULSION_BEFORE_ADJUDICATION_RULE",
+    "NS1_APPLIES_TO_FNM1": "YES",
+    "SOURCE_APPLIED": "YES",
+    "TANZIL": "YES",
+    "TANZIL_STATUS": "ACCEPTED",
+    "FINAL_HUKM": "NO",
+    "FINAL_ANSWER": "NO",
+    "JUDICIAL_OUTCOME_PRODUCED": "NO",
+    "FULL_TAAQOL_PROJECT_CLOSED": "NO"
+  },
+  "guards": {
+    "FINAL_MANAT_REQUIRED": "YES",
+    "NORMATIVE_SOURCE_ACCEPTED_REQUIRED": "YES",
+    "SOURCE_BOUND_TO_FNM1_REQUIRED": "YES",
+    "TANZIL_ONLY_AUTHORIZED": "YES",
+    "SOURCE_APPLICATION_IS_NOT_FINAL_HUKM": "YES",
+    "SOURCE_APPLICATION_IS_NOT_FINAL_ANSWER": "YES",
+    "NO_JUDICIAL_OUTCOME_PRODUCED": "YES",
+    "NO_PERMISSIBILITY_LANGUAGE": "YES",
+    "NO_EXTERNAL_REFERENCE_USED": "YES",
+    "NO_FRAMENET": "YES",
+    "producer_file": "scripts/taaqol_maqam_foundation/mat_malik_tanzil_application_51.py"
+  },
+  "producer_file": "scripts/taaqol_maqam_foundation/mat_malik_tanzil_application_51.py"
+}

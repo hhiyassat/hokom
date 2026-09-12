@@ -1,0 +1,220 @@
+{
+  "ROUND": "CLOSE_MAT_MALIK_SCENARIO_MANAT_PACKAGE_45",
+  "nazila": "مات ملك عن أخت ساكنة معه فتحاكما",
+  "purpose": "CLOSE_MANAT_PACKAGE_ONLY_NO_HUKM_NO_TANZIL_NO_FINAL_ANSWER",
+  "what_closed": {
+    "MAT_MALIK_TEXT_BOUND_MANAT": "CLOSED",
+    "MAT_MALIK_OWNER_SCENARIO_MANAT": "CLOSED_FOR_SCENARIO_ONLY"
+  },
+  "what_not_closed": {
+    "MAT_MALIK_REAL_WORLD_FULL_MANAT": "NO",
+    "FINAL_MANAT": "NO",
+    "TANZIL": "NO",
+    "FINAL_HUKM": "NO",
+    "FINAL_ANSWER": "NO",
+    "FULL_REAL_CASE_CLOSURE": "NO"
+  },
+  "sources_verified": {
+    "neutral_report": {
+      "path": "/Users/husseinhiyassat/hokom/output/neutral_sentence_reports/neutral_sentence_report_ae3a4a1556.json",
+      "hash": "ae3a4a1556",
+      "role": "STRUCTURAL_NEUTRAL_REPORT"
+    },
+    "round44_report": {
+      "path": "/Users/husseinhiyassat/hokom/output/taaqol_maqam_foundation_generated/TAAQOL_OWNER_SUPPLIED_SCENARIO_FULL_MANAT_44.json",
+      "full_scenario_manat_id": "FSM1_SISTER_RESIDENCE_IN_ESTATE_WITH_PERMISSION_AND_EXPULSION_DISPUTE",
+      "role": "OWNER_SUPPLIED_SCENARIO_FULL_MANAT_PACKAGE"
+    }
+  },
+  "verification_A_neutral": [
+    {
+      "check": "NEUTRAL_REFLECTS_SENTENCE_ONLY",
+      "PASS": true,
+      "expected": "مات ملك عن أخت ساكنة معه فتحاكما",
+      "actual": "مات ملك عن أخت ساكنة معه فتحاكما"
+    },
+    {
+      "check": "NEUTRAL_FACT_ACCEPTED_COUNT_ZERO",
+      "PASS": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "check": "NEUTRAL_ACCEPTS_NO_FACTS",
+      "PASS": true,
+      "expected": "all NO",
+      "actual": "all NO"
+    },
+    {
+      "check": "NEUTRAL_ADDS_NO_SCENARIO_FACTS",
+      "PASS": true,
+      "expected": "none",
+      "actual": "none"
+    },
+    {
+      "check": "NEUTRAL_NO_FULL_MANAT",
+      "PASS": true,
+      "expected": "absent",
+      "actual": "absent"
+    },
+    {
+      "check": "NEUTRAL_NO_HUKM_NO_ANSWER",
+      "PASS": true,
+      "expected": "HUKM=NO,FINAL_ANSWER=NO,DOMAIN_DECISION=NO",
+      "actual": "HUKM=NO,FINAL_ANSWER=NO,DOMAIN_DECISION=NO"
+    },
+    {
+      "check": "NEUTRAL_ROLE_STRUCTURAL_ONLY",
+      "PASS": true,
+      "expected": "NEUTRAL_SENTENCE_STRUCTURAL_REPORT",
+      "actual": "NEUTRAL_SENTENCE_STRUCTURAL_REPORT"
+    }
+  ],
+  "verification_B_round44": [
+    {
+      "check": "R44_REUSES_5_TEXT_FACTS",
+      "PASS": true,
+      "expected": "5 from NAZILA_TEXT",
+      "actual": "5 facts"
+    },
+    {
+      "check": "R44_ADDS_9_AS_OWNER_SCENARIO",
+      "PASS": true,
+      "expected": "9 OWNER_SUPPLIED_SCENARIO",
+      "actual": "9 scenario facts"
+    },
+    {
+      "check": "R44_SCENARIO_NOT_FROM_TEXT",
+      "PASS": true,
+      "expected": "all NOT_ORIGINAL_TEXT_FACT=YES",
+      "actual": "ok"
+    },
+    {
+      "check": "R44_MANAT_NOT_CODE_OPINION",
+      "PASS": true,
+      "expected": "owner rendering, not code opinion/inference/text-fact",
+      "actual": "OWNER_SUPPLIED_SCENARIO_RENDERING"
+    },
+    {
+      "check": "R44_PRODUCES_FULL_SCENARIO_MANAT_ONLY",
+      "PASS": true,
+      "expected": "ACCEPTED_FOR_SCENARIO_ONLY & FINAL_MANAT=NO",
+      "actual": "ACCEPTED_FOR_SCENARIO_ONLY / FINAL_MANAT=NO"
+    },
+    {
+      "check": "R44_NO_TANZIL_HUKM_ANSWER_NO_REAL_GATE",
+      "PASS": true,
+      "expected": "TANZIL/FINAL_HUKM/FINAL_ANSWER=NO & ORIGINAL_TEXT_FULL_GATE=NO",
+      "actual": "TANZIL=NO,FINAL_HUKM=NO,FINAL_ANSWER=NO,ORIG_GATE=NO"
+    }
+  ],
+  "ALL_VERIFICATION_CHECKS_PASS": true,
+  "text_facts": [
+    {
+      "fact_id": "FC1_KING_DIED",
+      "fact_text": "مات مالك",
+      "source": "NAZILA_TEXT"
+    },
+    {
+      "fact_id": "FC2_HAS_SISTER",
+      "fact_text": "له أخت",
+      "source": "NAZILA_TEXT"
+    },
+    {
+      "fact_id": "FC3_SISTER_RESIDING_WITH_HIM",
+      "fact_text": "الأخت ساكنة معه",
+      "source": "NAZILA_TEXT"
+    },
+    {
+      "fact_id": "FC4_HEIR_WANTED_EXPULSION",
+      "fact_text": "وارثه أراد طردها",
+      "source": "NAZILA_TEXT"
+    },
+    {
+      "fact_id": "FC5_LITIGATION_OCCURRED",
+      "fact_text": "وقع تحاكم بينهما",
+      "source": "NAZILA_TEXT"
+    }
+  ],
+  "scenario_facts": [
+    {
+      "scenario_fact_id": "MF1_NO_CHILD",
+      "owner_value": "YES",
+      "NOT_ORIGINAL_TEXT_FACT": "YES"
+    },
+    {
+      "scenario_fact_id": "MF2_NO_OTHER_HEIRS",
+      "owner_value": "YES",
+      "NOT_ORIGINAL_TEXT_FACT": "YES"
+    },
+    {
+      "scenario_fact_id": "MF3_HEIR_IDENTITY_AND_STATUS",
+      "owner_value": "الوارث المذكور وارث عصبة أو صاحب حق في التركة، دون تعيين تفصيلي",
+      "NOT_ORIGINAL_TEXT_FACT": "YES"
+    },
+    {
+      "scenario_fact_id": "MF4_HOUSE_OWNERSHIP",
+      "owner_value": "YES",
+      "NOT_ORIGINAL_TEXT_FACT": "YES"
+    },
+    {
+      "scenario_fact_id": "MF5_HOUSE_IS_ESTATE",
+      "owner_value": "YES",
+      "NOT_ORIGINAL_TEXT_FACT": "YES"
+    },
+    {
+      "scenario_fact_id": "MF6_PRIOR_RESIDENCE_PERMISSION",
+      "owner_value": "YES",
+      "NOT_ORIGINAL_TEXT_FACT": "YES"
+    },
+    {
+      "scenario_fact_id": "MF7_SISTER_YAD_STATUS",
+      "owner_value": "VALID_YAD_PENDING_JUDICIAL_REVIEW",
+      "NOT_ORIGINAL_TEXT_FACT": "YES"
+    },
+    {
+      "scenario_fact_id": "MF8_EVIDENCE_OR_BAYYINA",
+      "owner_value": "NO_EVIDENCE_FOR_EXPULSION",
+      "NOT_ORIGINAL_TEXT_FACT": "YES"
+    },
+    {
+      "scenario_fact_id": "MF9_LITIGATION_OUTCOME",
+      "owner_value": "REQUEST_EXPULSION_DISPUTE",
+      "NOT_ORIGINAL_TEXT_FACT": "YES"
+    }
+  ],
+  "attribution_guards": {
+    "RENDERING_ATTRIBUTION": "OWNER_SUPPLIED_SCENARIO_RENDERING",
+    "NOT_CODE_OPINION": "YES",
+    "NOT_INFERRED_BY_ENGINE": "YES",
+    "NOT_TEXT_BOUND_FACT": "YES",
+    "IS_STRUCTURED_RECORD_ONLY": "YES"
+  },
+  "residuals_blocking_hukm": [
+    "NINE_FACTS_ARE_SCENARIO_NOT_REALITY",
+    "REAL_WORLD_FACTS_NOT_PROVEN",
+    "OWNER_RATIFICATION_FOR_REAL_CASE_ABSENT",
+    "TANZIL_NOT_OPENED",
+    "FINAL_HUKM_NOT_OPENED",
+    "FINAL_ANSWER_NOT_OPENED"
+  ],
+  "guards": {
+    "TEXT_ONLY_FULL_MANAT": "NO",
+    "SCENARIO_FULL_MANAT": "YES",
+    "SCENARIO_FULL_MANAT_IS_NOT_FINAL_MANAT": "YES",
+    "OWNER_SUPPLIED_SCENARIO_FACTS_ARE_NOT_TEXT_FACTS": "YES",
+    "CODE_DID_NOT_INFER_SCENARIO_FACTS": "YES",
+    "CODE_DID_NOT_OPINE_ON_YAD": "YES",
+    "CODE_DID_NOT_OPINE_ON_BAYYINA": "YES",
+    "NEUTRAL_REPORT_ACCEPTS_NO_FACTS": "YES",
+    "NO_FRAMENET_WORD_TO_FRAME": "YES",
+    "NO_EXTERNAL_REFERENCE_USED": "YES",
+    "NO_TANZIL": "YES",
+    "NO_FINAL_HUKM": "YES",
+    "NO_FINAL_ANSWER": "YES",
+    "FULL_REAL_CASE_CLOSURE": "NO",
+    "ROUND44_ARTIFACTS_MODIFIED": "NO",
+    "producer_file": "scripts/taaqol_maqam_foundation/mat_malik_scenario_manat_closure_45.py"
+  },
+  "producer_file": "scripts/taaqol_maqam_foundation/mat_malik_scenario_manat_closure_45.py"
+}

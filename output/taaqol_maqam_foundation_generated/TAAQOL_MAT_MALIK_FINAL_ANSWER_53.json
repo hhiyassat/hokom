@@ -1,0 +1,158 @@
+{
+  "ROUND": "TAAQOL_MAT_MALIK_FINAL_ANSWER_53",
+  "nazila": "مَاتَ مَلِكٌ عَنْ أُخْتٍ سَاكِنَةٍ مَعَهُ، فَأَرَادَ وَارِثُهُ طَرْدَهَا، فَتَحَاكَمَا.",
+  "purpose": "PRODUCE_FINAL_ANSWER_ONLY_FROM_ROUND52_FINAL_HUKM_BOUNDED_TO_FNM1",
+  "final_manat_id": "FNM1_MAT_MALIK_SISTER_RESIDENCE_ESTATE_EXPULSION_DISPUTE",
+  "normative_source_id": "NS1_OWNER_RATIFIED_NO_EXPULSION_BEFORE_ADJUDICATION_RULE",
+  "final_hukm_id": "FHK1_MAT_MALIK_NO_EXPULSION_BEFORE_ADJUDICATION_UNDER_NS1",
+  "hukm_source_round": "ROUND_52",
+  "preconditions": [
+    {
+      "precondition": "FINAL_MANAT",
+      "round52_block": "recheck",
+      "round52_key": "FINAL_MANAT",
+      "expected": "YES",
+      "actual": "YES",
+      "met": true
+    },
+    {
+      "precondition": "TANZIL",
+      "round52_block": "recheck",
+      "round52_key": "TANZIL",
+      "expected": "YES",
+      "actual": "YES",
+      "met": true
+    },
+    {
+      "precondition": "FINAL_HUKM",
+      "round52_block": "final_hukm",
+      "round52_key": "FINAL_HUKM",
+      "expected": "YES",
+      "actual": "YES",
+      "met": true
+    },
+    {
+      "precondition": "FINAL_HUKM_STATUS",
+      "round52_block": "final_hukm",
+      "round52_key": "FINAL_HUKM_STATUS",
+      "expected": "ACCEPTED",
+      "actual": "ACCEPTED",
+      "met": true
+    },
+    {
+      "precondition": "FINAL_HUKM_ID",
+      "round52_block": "final_hukm",
+      "round52_key": "FINAL_HUKM_ID",
+      "expected": "FHK1_MAT_MALIK_NO_EXPULSION_BEFORE_ADJUDICATION_UNDER_NS1",
+      "actual": "FHK1_MAT_MALIK_NO_EXPULSION_BEFORE_ADJUDICATION_UNDER_NS1",
+      "met": true
+    },
+    {
+      "precondition": "ROUND52_FINAL_ANSWER",
+      "round52_block": "recheck",
+      "round52_key": "FINAL_ANSWER",
+      "expected": "NO",
+      "actual": "NO",
+      "met": true
+    },
+    {
+      "precondition": "ROUND52_JUDICIAL_OUTCOME_PRODUCED",
+      "round52_block": "recheck",
+      "round52_key": "JUDICIAL_OUTCOME_PRODUCED",
+      "expected": "NO",
+      "actual": "NO",
+      "met": true
+    }
+  ],
+  "final_answer": {
+    "FINAL_ANSWER_ID": "FAN1_MAT_MALIK_NO_EXPULSION_EFFECT_BEFORE_ADJUDICATION_FNM1",
+    "FINAL_ANSWER": "YES",
+    "FINAL_ANSWER_TEXT": "بناءً على المناط النهائي المصدّق، وعلى المصدر المعياري NS1 بعد تطبيقه، وعلى الحكم الداخلي FHK1: لا يُنتَج أثر إخراج الأخت الساكنة من العين قبل نظر النزاع في مجلس الحكم المختص، ضمن حدود هذه الحالة فقط.",
+    "FINAL_ANSWER_STATUS": "ACCEPTED",
+    "SOURCE": [
+      "FHK1_ROUND52",
+      "FNM1",
+      "NS1"
+    ],
+    "SCOPE": "FNM1_ONLY",
+    "answer_type": "BOUNDED_CASE_ANSWER",
+    "IS_GENERAL_FATWA": "NO",
+    "IS_JUDICIAL_ORDER": "NO",
+    "JUDICIAL_OUTCOME_PRODUCED": "NO",
+    "DECIDES_OWNERSHIP": "NO",
+    "DECIDES_ESTATE_DIVISION": "NO",
+    "DECIDES_SISTER_FINAL_RIGHT": "NO",
+    "GENERALIZES_BEYOND_FNM1": "NO",
+    "cause": "FINAL_HUKM_ACCEPTED_ROUND52",
+    "conditions": [
+      "FINAL_MANAT=YES",
+      "TANZIL=YES",
+      "FINAL_HUKM=YES",
+      "FINAL_HUKM_STATUS=ACCEPTED",
+      "FINAL_HUKM_ID=FHK1_MAT_MALIK_NO_EXPULSION_BEFORE_ADJUDICATION_UNDER_NS1",
+      "ROUND52_FINAL_ANSWER=NO",
+      "ROUND52_JUDICIAL_OUTCOME_PRODUCED=NO"
+    ],
+    "preventers": [
+      "NONE_FOR_FINAL_ANSWER"
+    ],
+    "verdict": "ACCEPT_FINAL_ANSWER_ONLY",
+    "residuals": [
+      "SCOPE_LIMITED_TO_FNM1",
+      "NO_GENERALIZATION",
+      "NO_JUDICIAL_EXECUTION",
+      "FULL_PROJECT_NOT_CLOSED"
+    ]
+  },
+  "recheck": {
+    "FINAL_MANAT": "YES",
+    "TANZIL": "YES",
+    "FINAL_HUKM": "YES",
+    "FINAL_ANSWER": "YES",
+    "FINAL_ANSWER_STATUS": "ACCEPTED",
+    "JUDICIAL_OUTCOME_PRODUCED": "NO",
+    "FULL_TAAQOL_PROJECT_CLOSED": "NO",
+    "decision": {
+      "cause": "FINAL_HUKM_ACCEPTED_ROUND52",
+      "conditions": [
+        "FINAL_MANAT=YES",
+        "TANZIL=YES",
+        "FINAL_HUKM=YES",
+        "FINAL_HUKM_STATUS=ACCEPTED",
+        "FINAL_HUKM_ID=FHK1_MAT_MALIK_NO_EXPULSION_BEFORE_ADJUDICATION_UNDER_NS1",
+        "ROUND52_FINAL_ANSWER=NO",
+        "ROUND52_JUDICIAL_OUTCOME_PRODUCED=NO"
+      ],
+      "preventers": [
+        "NONE_FOR_FINAL_ANSWER"
+      ],
+      "verdict": "ACCEPT_FINAL_ANSWER_ONLY",
+      "residuals": [
+        "SCOPE_LIMITED_TO_FNM1",
+        "NO_GENERALIZATION",
+        "NO_JUDICIAL_EXECUTION",
+        "FULL_PROJECT_NOT_CLOSED"
+      ]
+    }
+  },
+  "guards": {
+    "FINAL_HUKM_ACCEPTED_REQUIRED": "YES",
+    "FINAL_ANSWER_ONLY_AUTHORIZED": "YES",
+    "FINAL_ANSWER_BOUND_TO_FNM1_NS1_FHK1": "YES",
+    "FINAL_ANSWER_IS_NOT_GENERAL_FATWA": "YES",
+    "FINAL_ANSWER_IS_NOT_JUDICIAL_ORDER": "YES",
+    "NO_JUDICIAL_OUTCOME_PRODUCED": "YES",
+    "NO_OWNERSHIP_DECISION": "YES",
+    "NO_ESTATE_DIVISION_DECISION": "YES",
+    "NO_SISTER_FINAL_RIGHT_DECISION": "YES",
+    "NO_GENERALIZATION_BEYOND_FNM1": "YES",
+    "NO_NEW_SOURCE_ADDED": "YES",
+    "NO_NEW_FACT_ADDED": "YES",
+    "NO_EXTERNAL_REFERENCE_USED": "YES",
+    "NO_FRAMENET": "YES",
+    "ROUNDS_47_52_UNCHANGED": "YES",
+    "FINAL_ANSWER_BOOLEAN_SEPARATED_FROM_TEXT": "YES",
+    "producer_file": "scripts/taaqol_maqam_foundation/mat_malik_final_answer_53.py"
+  },
+  "producer_file": "scripts/taaqol_maqam_foundation/mat_malik_final_answer_53.py"
+}

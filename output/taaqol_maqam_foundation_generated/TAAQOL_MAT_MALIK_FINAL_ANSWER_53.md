@@ -1,0 +1,37 @@
+# الجواب النهائي «مات ملك» (TAAQOL_MAT_MALIK_FINAL_ANSWER_53)
+
+**إنتاج FINAL_ANSWER فقط بناءً على FHK1 — جواب محدود بالحالة FNM1، ليس فتوى عامة ولا أمرًا قضائيًّا.**
+
+> النازلة: مَاتَ مَلِكٌ عَنْ أُخْتٍ سَاكِنَةٍ مَعَهُ، فَأَرَادَ وَارِثُهُ طَرْدَهَا، فَتَحَاكَمَا.
+> المناط: FNM1_MAT_MALIK_SISTER_RESIDENCE_ESTATE_EXPULSION_DISPUTE · المصدر: NS1_OWNER_RATIFIED_NO_EXPULSION_BEFORE_ADJUDICATION_RULE · الحكم: FHK1_MAT_MALIK_NO_EXPULSION_BEFORE_ADJUDICATION_UNDER_NS1 (من ROUND_52)
+
+## شروط فتح الجواب النهائي (من الجولة 52)
+- FINAL_MANAT = YES (متوقع YES) → MET
+- TANZIL = YES (متوقع YES) → MET
+- FINAL_HUKM = YES (متوقع YES) → MET
+- FINAL_HUKM_STATUS = ACCEPTED (متوقع ACCEPTED) → MET
+- FINAL_HUKM_ID = FHK1_MAT_MALIK_NO_EXPULSION_BEFORE_ADJUDICATION_UNDER_NS1 (متوقع FHK1_MAT_MALIK_NO_EXPULSION_BEFORE_ADJUDICATION_UNDER_NS1) → MET
+- ROUND52_FINAL_ANSWER = NO (متوقع NO) → MET
+- ROUND52_JUDICIAL_OUTCOME_PRODUCED = NO (متوقع NO) → MET
+
+## الجواب النهائي
+- FINAL_ANSWER_ID = FAN1_MAT_MALIK_NO_EXPULSION_EFFECT_BEFORE_ADJUDICATION_FNM1
+- FINAL_ANSWER = YES · STATUS = ACCEPTED
+- SOURCE = FHK1_ROUND52 + FNM1 + NS1 · SCOPE = FNM1_ONLY · النوع = BOUNDED_CASE_ANSWER
+- FINAL_ANSWER_TEXT: «بناءً على المناط النهائي المصدّق، وعلى المصدر المعياري NS1 بعد تطبيقه، وعلى الحكم الداخلي FHK1: لا يُنتَج أثر إخراج الأخت الساكنة من العين قبل نظر النزاع في مجلس الحكم المختص، ضمن حدود هذه الحالة فقط.»
+- VERDICT = ACCEPT_FINAL_ANSWER_ONLY
+- IS_GENERAL_FATWA = NO · IS_JUDICIAL_ORDER = NO · JUDICIAL_OUTCOME_PRODUCED = NO · DECIDES_OWNERSHIP = NO · DECIDES_ESTATE_DIVISION = NO · DECIDES_SISTER_FINAL_RIGHT = NO · GENERALIZES_BEYOND_FNM1 = NO
+
+## السبب/الشرط/المانع
+- CAUSE = FINAL_HUKM_ACCEPTED_ROUND52
+- CONDITIONS = FINAL_MANAT=YES، TANZIL=YES، FINAL_HUKM=YES، FINAL_HUKM_STATUS=ACCEPTED، FINAL_HUKM_ID=FHK1_MAT_MALIK_NO_EXPULSION_BEFORE_ADJUDICATION_UNDER_NS1، ROUND52_FINAL_ANSWER=NO، ROUND52_JUDICIAL_OUTCOME_PRODUCED=NO
+- PREVENTERS = NONE_FOR_FINAL_ANSWER
+
+## البقايا
+- SCOPE_LIMITED_TO_FNM1
+- NO_GENERALIZATION
+- NO_JUDICIAL_EXECUTION
+- FULL_PROJECT_NOT_CLOSED
+
+---
+*جواب محدود بالحالة FNM1 فقط؛ ليس فتوى عامة ولا أمرًا قضائيًّا ولا تعميمًا، ولا يفصل في الملكية أو قسمة التركة أو الحق النهائي. المشروع ككل غير مغلق بهذا الجواب.*
