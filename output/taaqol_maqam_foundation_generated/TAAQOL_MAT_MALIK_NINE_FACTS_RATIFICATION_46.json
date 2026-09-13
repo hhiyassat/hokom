@@ -1,0 +1,264 @@
+{
+  "ROUND": "TAAQOL_MAT_MALIK_NINE_FACTS_RATIFICATION_46",
+  "nazila": "مَاتَ مَلِكٌ عَنْ أُخْتٍ سَاكِنَةٍ مَعَهُ، فَأَرَادَ وَارِثُهُ طَرْدَهَا، فَتَحَاكَمَا.",
+  "purpose": "RATIFY_NINE_FACTS_AS_REAL_CASE_FACTS_ONLY_NO_HUKM_NO_TANZIL",
+  "decision_rules": {
+    "ACCEPT_REAL_CASE_FACT": "owner_value AND source_or_evidence AND owner_ratification==YES",
+    "BLOCK_OWNER_REJECTED_FACT": "owner_ratification==NO",
+    "DEFER_FACT_NOT_YET_PROVEN": "value or evidence or ratification missing"
+  },
+  "facts": [
+    {
+      "fact_id": "MF1_NO_CHILD",
+      "fact_label": "هل ثبت أن الميت لا ولد له؟",
+      "owner_value": "EMPTY",
+      "source_or_evidence": "EMPTY",
+      "owner_ratification": "PENDING_OWNER_DECISION",
+      "fact_accepted": "NO",
+      "cause": "REQUIRED_FOR_REAL_WORLD_FULL_MANAT",
+      "conditions": [
+        "OWNER_VALUE_REQUIRED",
+        "SOURCE_OR_EVIDENCE_REQUIRED",
+        "OWNER_RATIFICATION_REQUIRED"
+      ],
+      "preventers": [
+        "OWNER_VALUE_ABSENT",
+        "EVIDENCE_ABSENT",
+        "RATIFICATION_ABSENT"
+      ],
+      "verdict": "DEFER_FACT_NOT_YET_PROVEN",
+      "residuals": [
+        "BLOCKS_REAL_WORLD_FULL_MANAT",
+        "SCENARIO_VALUE_IS_NOT_REAL_CASE_PROOF"
+      ]
+    },
+    {
+      "fact_id": "MF2_NO_OTHER_HEIRS",
+      "fact_label": "هل ثبت عدم وجود ورثة آخرين مؤثرين في المسألة؟",
+      "owner_value": "EMPTY",
+      "source_or_evidence": "EMPTY",
+      "owner_ratification": "PENDING_OWNER_DECISION",
+      "fact_accepted": "NO",
+      "cause": "REQUIRED_FOR_REAL_WORLD_FULL_MANAT",
+      "conditions": [
+        "OWNER_VALUE_REQUIRED",
+        "SOURCE_OR_EVIDENCE_REQUIRED",
+        "OWNER_RATIFICATION_REQUIRED"
+      ],
+      "preventers": [
+        "OWNER_VALUE_ABSENT",
+        "EVIDENCE_ABSENT",
+        "RATIFICATION_ABSENT"
+      ],
+      "verdict": "DEFER_FACT_NOT_YET_PROVEN",
+      "residuals": [
+        "BLOCKS_REAL_WORLD_FULL_MANAT",
+        "SCENARIO_VALUE_IS_NOT_REAL_CASE_PROOF"
+      ]
+    },
+    {
+      "fact_id": "MF3_HEIR_IDENTITY_AND_STATUS",
+      "fact_label": "هل ثبتت هوية الوارث الطالب للطرد وصفته الإرثية؟",
+      "owner_value": "EMPTY",
+      "source_or_evidence": "EMPTY",
+      "owner_ratification": "PENDING_OWNER_DECISION",
+      "fact_accepted": "NO",
+      "cause": "REQUIRED_FOR_REAL_WORLD_FULL_MANAT",
+      "conditions": [
+        "OWNER_VALUE_REQUIRED",
+        "SOURCE_OR_EVIDENCE_REQUIRED",
+        "OWNER_RATIFICATION_REQUIRED"
+      ],
+      "preventers": [
+        "OWNER_VALUE_ABSENT",
+        "EVIDENCE_ABSENT",
+        "RATIFICATION_ABSENT"
+      ],
+      "verdict": "DEFER_FACT_NOT_YET_PROVEN",
+      "residuals": [
+        "BLOCKS_REAL_WORLD_FULL_MANAT",
+        "SCENARIO_VALUE_IS_NOT_REAL_CASE_PROOF"
+      ]
+    },
+    {
+      "fact_id": "MF4_HOUSE_OWNERSHIP",
+      "fact_label": "هل ثبت أن البيت ملك للميت؟",
+      "owner_value": "EMPTY",
+      "source_or_evidence": "EMPTY",
+      "owner_ratification": "PENDING_OWNER_DECISION",
+      "fact_accepted": "NO",
+      "cause": "REQUIRED_FOR_REAL_WORLD_FULL_MANAT",
+      "conditions": [
+        "OWNER_VALUE_REQUIRED",
+        "SOURCE_OR_EVIDENCE_REQUIRED",
+        "OWNER_RATIFICATION_REQUIRED"
+      ],
+      "preventers": [
+        "OWNER_VALUE_ABSENT",
+        "EVIDENCE_ABSENT",
+        "RATIFICATION_ABSENT"
+      ],
+      "verdict": "DEFER_FACT_NOT_YET_PROVEN",
+      "residuals": [
+        "BLOCKS_REAL_WORLD_FULL_MANAT",
+        "SCENARIO_VALUE_IS_NOT_REAL_CASE_PROOF"
+      ]
+    },
+    {
+      "fact_id": "MF5_HOUSE_IS_ESTATE",
+      "fact_label": "هل ثبت أن البيت داخل في التركة؟",
+      "owner_value": "EMPTY",
+      "source_or_evidence": "EMPTY",
+      "owner_ratification": "PENDING_OWNER_DECISION",
+      "fact_accepted": "NO",
+      "cause": "REQUIRED_FOR_REAL_WORLD_FULL_MANAT",
+      "conditions": [
+        "OWNER_VALUE_REQUIRED",
+        "SOURCE_OR_EVIDENCE_REQUIRED",
+        "OWNER_RATIFICATION_REQUIRED"
+      ],
+      "preventers": [
+        "OWNER_VALUE_ABSENT",
+        "EVIDENCE_ABSENT",
+        "RATIFICATION_ABSENT"
+      ],
+      "verdict": "DEFER_FACT_NOT_YET_PROVEN",
+      "residuals": [
+        "BLOCKS_REAL_WORLD_FULL_MANAT",
+        "SCENARIO_VALUE_IS_NOT_REAL_CASE_PROOF"
+      ]
+    },
+    {
+      "fact_id": "MF6_PRIOR_RESIDENCE_PERMISSION",
+      "fact_label": "هل ثبت أن سكن الأخت كان بإذن سابق معتبر؟",
+      "owner_value": "EMPTY",
+      "source_or_evidence": "EMPTY",
+      "owner_ratification": "PENDING_OWNER_DECISION",
+      "fact_accepted": "NO",
+      "cause": "REQUIRED_FOR_REAL_WORLD_FULL_MANAT",
+      "conditions": [
+        "OWNER_VALUE_REQUIRED",
+        "SOURCE_OR_EVIDENCE_REQUIRED",
+        "OWNER_RATIFICATION_REQUIRED"
+      ],
+      "preventers": [
+        "OWNER_VALUE_ABSENT",
+        "EVIDENCE_ABSENT",
+        "RATIFICATION_ABSENT"
+      ],
+      "verdict": "DEFER_FACT_NOT_YET_PROVEN",
+      "residuals": [
+        "BLOCKS_REAL_WORLD_FULL_MANAT",
+        "SCENARIO_VALUE_IS_NOT_REAL_CASE_PROOF"
+      ]
+    },
+    {
+      "fact_id": "MF7_SISTER_YAD_STATUS",
+      "fact_label": "هل ثبتت يد الأخت على السكن ظاهراً؟",
+      "owner_value": "EMPTY",
+      "source_or_evidence": "EMPTY",
+      "owner_ratification": "PENDING_OWNER_DECISION",
+      "fact_accepted": "NO",
+      "cause": "REQUIRED_FOR_REAL_WORLD_FULL_MANAT",
+      "conditions": [
+        "OWNER_VALUE_REQUIRED",
+        "SOURCE_OR_EVIDENCE_REQUIRED",
+        "OWNER_RATIFICATION_REQUIRED"
+      ],
+      "preventers": [
+        "OWNER_VALUE_ABSENT",
+        "EVIDENCE_ABSENT",
+        "RATIFICATION_ABSENT"
+      ],
+      "verdict": "DEFER_FACT_NOT_YET_PROVEN",
+      "residuals": [
+        "BLOCKS_REAL_WORLD_FULL_MANAT",
+        "SCENARIO_VALUE_IS_NOT_REAL_CASE_PROOF"
+      ]
+    },
+    {
+      "fact_id": "MF8_EVIDENCE_OR_BAYYINA",
+      "fact_label": "هل ثبت وجود أو عدم وجود بينة فورية كافية لطالب الطرد؟",
+      "owner_value": "EMPTY",
+      "source_or_evidence": "EMPTY",
+      "owner_ratification": "PENDING_OWNER_DECISION",
+      "fact_accepted": "NO",
+      "cause": "REQUIRED_FOR_REAL_WORLD_FULL_MANAT",
+      "conditions": [
+        "OWNER_VALUE_REQUIRED",
+        "SOURCE_OR_EVIDENCE_REQUIRED",
+        "OWNER_RATIFICATION_REQUIRED"
+      ],
+      "preventers": [
+        "OWNER_VALUE_ABSENT",
+        "EVIDENCE_ABSENT",
+        "RATIFICATION_ABSENT"
+      ],
+      "verdict": "DEFER_FACT_NOT_YET_PROVEN",
+      "residuals": [
+        "BLOCKS_REAL_WORLD_FULL_MANAT",
+        "SCENARIO_VALUE_IS_NOT_REAL_CASE_PROOF"
+      ]
+    },
+    {
+      "fact_id": "MF9_LITIGATION_OUTCOME",
+      "fact_label": "هل ثبت محل التحاكم أو نتيجته الإجرائية أو القضائية؟",
+      "owner_value": "EMPTY",
+      "source_or_evidence": "EMPTY",
+      "owner_ratification": "PENDING_OWNER_DECISION",
+      "fact_accepted": "NO",
+      "cause": "REQUIRED_FOR_REAL_WORLD_FULL_MANAT",
+      "conditions": [
+        "OWNER_VALUE_REQUIRED",
+        "SOURCE_OR_EVIDENCE_REQUIRED",
+        "OWNER_RATIFICATION_REQUIRED"
+      ],
+      "preventers": [
+        "OWNER_VALUE_ABSENT",
+        "EVIDENCE_ABSENT",
+        "RATIFICATION_ABSENT"
+      ],
+      "verdict": "DEFER_FACT_NOT_YET_PROVEN",
+      "residuals": [
+        "BLOCKS_REAL_WORLD_FULL_MANAT",
+        "SCENARIO_VALUE_IS_NOT_REAL_CASE_PROOF"
+      ]
+    }
+  ],
+  "recheck": {
+    "NINE_FACTS_REVIEWED": 9,
+    "NINE_FACTS_ACCEPTED_COUNT": 0,
+    "NINE_FACTS_DEFER_COUNT": 9,
+    "NINE_FACTS_BLOCK_COUNT": 0,
+    "REAL_WORLD_FULL_MANAT_GATE_PASS": "NO",
+    "REAL_WORLD_FULL_MANAT_READY": "NO",
+    "STOP_BEFORE_TANZIL": "YES",
+    "FINAL_MANAT": "NO",
+    "TANZIL": "NO",
+    "FINAL_HUKM": "NO",
+    "FINAL_ANSWER": "NO",
+    "decision": {
+      "verdict": "REAL_WORLD_FULL_MANAT_BLOCKED_FACTS_NOT_PROVEN",
+      "cause": "NINE_FACT_RATIFICATION_REVIEW",
+      "conditions": "ALL_NINE_MUST_BE_OWNER_RATIFIED_WITH_VALUE_AND_EVIDENCE",
+      "preventers": "REAL_CASE_VALUES_EVIDENCE_RATIFICATION_ABSENT",
+      "residuals": "TANZIL_HUKM_ANSWER_NEED_SEPARATE_PERMISSION"
+    }
+  },
+  "guards": {
+    "NINE_FACTS_REVIEWED": "YES",
+    "FACT_ACCEPTANCE_REQUIRES_OWNER_VALUE": "YES",
+    "FACT_ACCEPTANCE_REQUIRES_EVIDENCE": "YES",
+    "FACT_ACCEPTANCE_REQUIRES_OWNER_RATIFICATION": "YES",
+    "AGENT_KNOWLEDGE_CREATES_FACT": "NO",
+    "SCENARIO_FACT_IS_NOT_REAL_CASE_FACT": "YES",
+    "REAL_CASE_FACT_REQUIRES_RATIFICATION": "YES",
+    "NO_TANZIL_WITHOUT_SEPARATE_PERMISSION": "YES",
+    "NO_FINAL_HUKM": "YES",
+    "NO_FINAL_ANSWER": "YES",
+    "NO_FRAMENET": "YES",
+    "NO_EXTERNAL_REFERENCE_UNLESS_OWNER_SUPPLIED": "YES",
+    "producer_file": "scripts/taaqol_maqam_foundation/mat_malik_nine_facts_ratification_46.py"
+  },
+  "producer_file": "scripts/taaqol_maqam_foundation/mat_malik_nine_facts_ratification_46.py"
+}

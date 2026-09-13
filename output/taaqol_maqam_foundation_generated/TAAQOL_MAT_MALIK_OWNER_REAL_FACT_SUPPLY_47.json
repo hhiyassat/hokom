@@ -1,0 +1,264 @@
+{
+  "ROUND": "TAAQOL_MAT_MALIK_OWNER_REAL_FACT_SUPPLY_47",
+  "nazila": "مَاتَ مَلِكٌ عَنْ أُخْتٍ سَاكِنَةٍ مَعَهُ، فَأَرَادَ وَارِثُهُ طَرْدَهَا، فَتَحَاكَمَا.",
+  "source": "OWNER_SUPPLIED_REAL_CASE_FACTS_ROUND_47",
+  "purpose": "OWNER_SUPPLY_AND_RATIFY_NINE_REAL_CASE_FACTS_AND_OPEN_MANAT_READINESS_ONLY",
+  "mechanism_reused_from": "ROUND_46 decide() + recheck()",
+  "facts": [
+    {
+      "fact_id": "MF1_NO_CHILD",
+      "fact_label": "هل ثبت أن الميت لا ولد له؟",
+      "owner_value": "لا ولد للميت.",
+      "source_or_evidence": "تصريح المالك لهذه الجولة.",
+      "owner_ratification": "YES",
+      "SOURCE": "OWNER_SUPPLIED_REAL_CASE_FACTS_ROUND_47",
+      "NOT_FROM_TEXT_INFERENCE": "YES",
+      "NOT_FROM_ROUND44_SCENARIO": "YES",
+      "fact_accepted": "YES",
+      "cause": "OWNER_SUPPLIED_AND_RATIFIED_REAL_CASE_VALUE",
+      "conditions": [
+        "OWNER_VALUE_PRESENT",
+        "SOURCE_OR_EVIDENCE_PRESENT",
+        "OWNER_RATIFICATION_YES"
+      ],
+      "preventers": [
+        "NONE"
+      ],
+      "verdict": "ACCEPT_REAL_CASE_FACT",
+      "residuals": [
+        "REAL_CASE_FACT_ACCEPTED_STILL_NO_TANZIL_WITHOUT_PERMISSION"
+      ]
+    },
+    {
+      "fact_id": "MF2_NO_OTHER_HEIRS",
+      "fact_label": "هل ثبت عدم وجود ورثة آخرين مؤثرين في المسألة؟",
+      "owner_value": "لا ورثة آخرون مؤثرون في هذه المسألة غير المذكورين في الواقعة.",
+      "source_or_evidence": "تصريح المالك لهذه الجولة.",
+      "owner_ratification": "YES",
+      "SOURCE": "OWNER_SUPPLIED_REAL_CASE_FACTS_ROUND_47",
+      "NOT_FROM_TEXT_INFERENCE": "YES",
+      "NOT_FROM_ROUND44_SCENARIO": "YES",
+      "fact_accepted": "YES",
+      "cause": "OWNER_SUPPLIED_AND_RATIFIED_REAL_CASE_VALUE",
+      "conditions": [
+        "OWNER_VALUE_PRESENT",
+        "SOURCE_OR_EVIDENCE_PRESENT",
+        "OWNER_RATIFICATION_YES"
+      ],
+      "preventers": [
+        "NONE"
+      ],
+      "verdict": "ACCEPT_REAL_CASE_FACT",
+      "residuals": [
+        "REAL_CASE_FACT_ACCEPTED_STILL_NO_TANZIL_WITHOUT_PERMISSION"
+      ]
+    },
+    {
+      "fact_id": "MF3_HEIR_IDENTITY_AND_STATUS",
+      "fact_label": "هل ثبتت هوية الوارث الطالب للطرد وصفته الإرثية؟",
+      "owner_value": "طالب الطرد وارث ذو صفة إرثية في الواقعة.",
+      "source_or_evidence": "تصريح المالك لهذه الجولة.",
+      "owner_ratification": "YES",
+      "SOURCE": "OWNER_SUPPLIED_REAL_CASE_FACTS_ROUND_47",
+      "NOT_FROM_TEXT_INFERENCE": "YES",
+      "NOT_FROM_ROUND44_SCENARIO": "YES",
+      "fact_accepted": "YES",
+      "cause": "OWNER_SUPPLIED_AND_RATIFIED_REAL_CASE_VALUE",
+      "conditions": [
+        "OWNER_VALUE_PRESENT",
+        "SOURCE_OR_EVIDENCE_PRESENT",
+        "OWNER_RATIFICATION_YES"
+      ],
+      "preventers": [
+        "NONE"
+      ],
+      "verdict": "ACCEPT_REAL_CASE_FACT",
+      "residuals": [
+        "REAL_CASE_FACT_ACCEPTED_STILL_NO_TANZIL_WITHOUT_PERMISSION"
+      ]
+    },
+    {
+      "fact_id": "MF4_HOUSE_OWNERSHIP",
+      "fact_label": "هل ثبت أن البيت ملك للميت؟",
+      "owner_value": "البيت ملك للميت.",
+      "source_or_evidence": "تصريح المالك لهذه الجولة.",
+      "owner_ratification": "YES",
+      "SOURCE": "OWNER_SUPPLIED_REAL_CASE_FACTS_ROUND_47",
+      "NOT_FROM_TEXT_INFERENCE": "YES",
+      "NOT_FROM_ROUND44_SCENARIO": "YES",
+      "fact_accepted": "YES",
+      "cause": "OWNER_SUPPLIED_AND_RATIFIED_REAL_CASE_VALUE",
+      "conditions": [
+        "OWNER_VALUE_PRESENT",
+        "SOURCE_OR_EVIDENCE_PRESENT",
+        "OWNER_RATIFICATION_YES"
+      ],
+      "preventers": [
+        "NONE"
+      ],
+      "verdict": "ACCEPT_REAL_CASE_FACT",
+      "residuals": [
+        "REAL_CASE_FACT_ACCEPTED_STILL_NO_TANZIL_WITHOUT_PERMISSION"
+      ]
+    },
+    {
+      "fact_id": "MF5_HOUSE_IS_ESTATE",
+      "fact_label": "هل ثبت أن البيت داخل في التركة؟",
+      "owner_value": "البيت داخل في التركة.",
+      "source_or_evidence": "تصريح المالك لهذه الجولة.",
+      "owner_ratification": "YES",
+      "SOURCE": "OWNER_SUPPLIED_REAL_CASE_FACTS_ROUND_47",
+      "NOT_FROM_TEXT_INFERENCE": "YES",
+      "NOT_FROM_ROUND44_SCENARIO": "YES",
+      "fact_accepted": "YES",
+      "cause": "OWNER_SUPPLIED_AND_RATIFIED_REAL_CASE_VALUE",
+      "conditions": [
+        "OWNER_VALUE_PRESENT",
+        "SOURCE_OR_EVIDENCE_PRESENT",
+        "OWNER_RATIFICATION_YES"
+      ],
+      "preventers": [
+        "NONE"
+      ],
+      "verdict": "ACCEPT_REAL_CASE_FACT",
+      "residuals": [
+        "REAL_CASE_FACT_ACCEPTED_STILL_NO_TANZIL_WITHOUT_PERMISSION"
+      ]
+    },
+    {
+      "fact_id": "MF6_PRIOR_RESIDENCE_PERMISSION",
+      "fact_label": "هل ثبت أن سكن الأخت كان بإذن سابق معتبر؟",
+      "owner_value": "سكن الأخت كان بإذن سابق معتبر.",
+      "source_or_evidence": "تصريح المالك لهذه الجولة.",
+      "owner_ratification": "YES",
+      "SOURCE": "OWNER_SUPPLIED_REAL_CASE_FACTS_ROUND_47",
+      "NOT_FROM_TEXT_INFERENCE": "YES",
+      "NOT_FROM_ROUND44_SCENARIO": "YES",
+      "fact_accepted": "YES",
+      "cause": "OWNER_SUPPLIED_AND_RATIFIED_REAL_CASE_VALUE",
+      "conditions": [
+        "OWNER_VALUE_PRESENT",
+        "SOURCE_OR_EVIDENCE_PRESENT",
+        "OWNER_RATIFICATION_YES"
+      ],
+      "preventers": [
+        "NONE"
+      ],
+      "verdict": "ACCEPT_REAL_CASE_FACT",
+      "residuals": [
+        "REAL_CASE_FACT_ACCEPTED_STILL_NO_TANZIL_WITHOUT_PERMISSION"
+      ]
+    },
+    {
+      "fact_id": "MF7_SISTER_YAD_STATUS",
+      "fact_label": "هل ثبتت يد الأخت على السكن ظاهراً؟",
+      "owner_value": "يد الأخت على السكن قائمة ظاهراً إلى حين نظر القضاء.",
+      "source_or_evidence": "تصريح المالك لهذه الجولة.",
+      "owner_ratification": "YES",
+      "SOURCE": "OWNER_SUPPLIED_REAL_CASE_FACTS_ROUND_47",
+      "NOT_FROM_TEXT_INFERENCE": "YES",
+      "NOT_FROM_ROUND44_SCENARIO": "YES",
+      "fact_accepted": "YES",
+      "cause": "OWNER_SUPPLIED_AND_RATIFIED_REAL_CASE_VALUE",
+      "conditions": [
+        "OWNER_VALUE_PRESENT",
+        "SOURCE_OR_EVIDENCE_PRESENT",
+        "OWNER_RATIFICATION_YES"
+      ],
+      "preventers": [
+        "NONE"
+      ],
+      "verdict": "ACCEPT_REAL_CASE_FACT",
+      "residuals": [
+        "REAL_CASE_FACT_ACCEPTED_STILL_NO_TANZIL_WITHOUT_PERMISSION"
+      ]
+    },
+    {
+      "fact_id": "MF8_EVIDENCE_OR_BAYYINA",
+      "fact_label": "هل ثبت وجود أو عدم وجود بينة فورية كافية لطالب الطرد؟",
+      "owner_value": "لا توجد بينة فورية كافية لطالب الطرد توجب إخراجها قبل نظر القضاء.",
+      "source_or_evidence": "تصريح المالك لهذه الجولة.",
+      "owner_ratification": "YES",
+      "SOURCE": "OWNER_SUPPLIED_REAL_CASE_FACTS_ROUND_47",
+      "NOT_FROM_TEXT_INFERENCE": "YES",
+      "NOT_FROM_ROUND44_SCENARIO": "YES",
+      "fact_accepted": "YES",
+      "cause": "OWNER_SUPPLIED_AND_RATIFIED_REAL_CASE_VALUE",
+      "conditions": [
+        "OWNER_VALUE_PRESENT",
+        "SOURCE_OR_EVIDENCE_PRESENT",
+        "OWNER_RATIFICATION_YES"
+      ],
+      "preventers": [
+        "NONE"
+      ],
+      "verdict": "ACCEPT_REAL_CASE_FACT",
+      "residuals": [
+        "REAL_CASE_FACT_ACCEPTED_STILL_NO_TANZIL_WITHOUT_PERMISSION"
+      ]
+    },
+    {
+      "fact_id": "MF9_LITIGATION_OUTCOME",
+      "fact_label": "هل ثبت محل التحاكم أو نتيجته الإجرائية أو القضائية؟",
+      "owner_value": "محل التحاكم هو طلب طرد الأخت من السكن.",
+      "source_or_evidence": "تصريح المالك لهذه الجولة.",
+      "owner_ratification": "YES",
+      "SOURCE": "OWNER_SUPPLIED_REAL_CASE_FACTS_ROUND_47",
+      "NOT_FROM_TEXT_INFERENCE": "YES",
+      "NOT_FROM_ROUND44_SCENARIO": "YES",
+      "fact_accepted": "YES",
+      "cause": "OWNER_SUPPLIED_AND_RATIFIED_REAL_CASE_VALUE",
+      "conditions": [
+        "OWNER_VALUE_PRESENT",
+        "SOURCE_OR_EVIDENCE_PRESENT",
+        "OWNER_RATIFICATION_YES"
+      ],
+      "preventers": [
+        "NONE"
+      ],
+      "verdict": "ACCEPT_REAL_CASE_FACT",
+      "residuals": [
+        "REAL_CASE_FACT_ACCEPTED_STILL_NO_TANZIL_WITHOUT_PERMISSION"
+      ]
+    }
+  ],
+  "recheck": {
+    "NINE_FACTS_REVIEWED": 9,
+    "NINE_FACTS_ACCEPTED_COUNT": 9,
+    "NINE_FACTS_DEFER_COUNT": 0,
+    "NINE_FACTS_BLOCK_COUNT": 0,
+    "REAL_WORLD_FULL_MANAT_GATE_PASS": "YES",
+    "REAL_WORLD_FULL_MANAT_READY": "YES",
+    "STOP_BEFORE_TANZIL": "NO",
+    "FINAL_MANAT": "NO",
+    "TANZIL": "NO",
+    "FINAL_HUKM": "NO",
+    "FINAL_ANSWER": "NO",
+    "decision": {
+      "verdict": "REAL_WORLD_FULL_MANAT_READY_TANZIL_STILL_GATED",
+      "cause": "NINE_FACT_RATIFICATION_REVIEW",
+      "conditions": "ALL_NINE_MUST_BE_OWNER_RATIFIED_WITH_VALUE_AND_EVIDENCE",
+      "preventers": "NONE",
+      "residuals": "TANZIL_HUKM_ANSWER_NEED_SEPARATE_PERMISSION"
+    }
+  },
+  "guards": {
+    "NINE_FACTS_REVIEWED": "YES",
+    "FACT_ACCEPTANCE_REQUIRES_OWNER_VALUE": "YES",
+    "FACT_ACCEPTANCE_REQUIRES_EVIDENCE": "YES",
+    "FACT_ACCEPTANCE_REQUIRES_OWNER_RATIFICATION": "YES",
+    "AGENT_KNOWLEDGE_CREATES_FACT": "NO",
+    "OWNER_SUPPLIED_REAL_CASE_FACTS": "YES",
+    "SCENARIO_FACT_IS_NOT_REAL_CASE_FACT": "YES",
+    "REAL_CASE_FACTS_NOT_FROM_TEXT_INFERENCE": "YES",
+    "REAL_CASE_FACTS_NOT_FROM_ROUND44_SCENARIO": "YES",
+    "REAL_WORLD_FULL_MANAT_READY_DOES_NOT_OPEN_TANZIL": "YES",
+    "NO_TANZIL_WITHOUT_SEPARATE_PERMISSION": "YES",
+    "NO_FINAL_HUKM": "YES",
+    "NO_FINAL_ANSWER": "YES",
+    "NO_FRAMENET": "YES",
+    "NO_EXTERNAL_REFERENCE_UNLESS_OWNER_SUPPLIED": "YES",
+    "producer_file": "scripts/taaqol_maqam_foundation/mat_malik_owner_real_fact_supply_47.py"
+  },
+  "producer_file": "scripts/taaqol_maqam_foundation/mat_malik_owner_real_fact_supply_47.py"
+}
